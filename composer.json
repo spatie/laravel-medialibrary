@@ -5,7 +5,8 @@
         "spatie",
         "laravel-medialibrary",
         "media",
-        "cms"
+        "cms",
+        "laravel"
     ],
     "homepage": "https://github.com/freekmurze/laravel-medialibrary",
     "license": "MIT",
@@ -24,7 +25,8 @@
         }
     ],
     "require": {
-        "php" : ">=5.4.0"
+        "php" : ">=5.4.0",
+        "illuminate/support": "~5.0"
     },
     "require-dev": {
         "phpunit/phpunit" : "4.*",
@@ -39,5 +41,6 @@
         "psr-4": {
             "Spatie\\MediaLibrary\\Test\\": "tests"
         }
-    }
+    },
+    "license": "MIT"
 }
