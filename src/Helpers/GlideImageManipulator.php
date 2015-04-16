@@ -1,18 +1,6 @@
 <?php namespace Spatie\MediaLibrary\Helpers;
 
-use Intervention\Image\ImageManager;
-use League\Glide\Api\Api;
-use League\Glide\Api\Manipulator\Blur;
-use League\Glide\Api\Manipulator\Brightness;
-use League\Glide\Api\Manipulator\Contrast;
-use League\Glide\Api\Manipulator\Filter;
-use League\Glide\Api\Manipulator\Gamma;
-use League\Glide\Api\Manipulator\Orientation;
-use League\Glide\Api\Manipulator\Output;
-use League\Glide\Api\Manipulator\Pixelate;
-use League\Glide\Api\Manipulator\Rectangle;
-use League\Glide\Api\Manipulator\Sharpen;
-use League\Glide\Api\Manipulator\Size;
+use Spatie\Glide\GlideImage;
 
 use Spatie\MediaLibrary\Interfaces\ImageManipulatorInterface;
 use Spatie\MediaLibrary\Models\Media;
@@ -48,7 +36,10 @@ class GlideImageManipulator implements ImageManipulatorInterface
     {
         $conversionParameters = $this->forceJpgFormat($conversionParameters);
 
-        $this->renderImage($this->prepareGlideApi(), $conversionParameters, $sourceFile, $outputFile);
+        //$this->renderImage($this->prepareGlideApi(), $conversionParameters, $sourceFile, $outputFile);
+
+        GlideImage::load($sourceFile, $conversionParameters)
+            ->save($outputFile);
     }
 
     /**
@@ -104,20 +95,6 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Create the Image-manipulation API with Manipulators
-     *
-     * @return Api
-     */
-    private function prepareGlideApi()
-    {
-        $manipulators = $this->setGlideManipulators();
-
-        $api = new Api(new ImageManager(), $manipulators);
-
-        return $api;
-    }
-
-    /**
      * Force the .jpg extension for output files
      *
      * @param $conversionParameters
@@ -130,6 +107,52 @@ class GlideImageManipulator implements ImageManipulatorInterface
         }
 
         return $conversionParameters;
+    }
+
+    /**
+     * Determine if the job should be queued
+     *
+     * @param $conversionParameters
+     * @return bool
+     */
+    private function determineShouldBeQueued($conversionParameters)
+    {
+        if(array_key_exists('shouldBeQueued', $conversionParameters))
+        {
+            return $conversionParameters['shouldBeQueued'];
+        }
+
+        return true;
+    }
+
+    /**
+     * Delete the Queue-key from the conversionParameters
+     *
+     * @param $conversionParameters
+     * @return mixed
+     */
+    private function unsetQueueKey($conversionParameters)
+    {
+        if(array_key_exists('shouldBeQueued', $conversionParameters))
+        {
+            unset($conversionParameters['shouldBeQueued']);
+        }
+
+        return $conversionParameters;
+    }
+
+    /**
+     * Create the Image-manipulation API with Manipulators
+     *
+     * @return Api
+     */
+    private function prepareGlideApi()
+    {
+        $manipulators = $this->setGlideManipulators();
+
+        $api = new Api(new ImageManager(), $manipulators);
+
+        return $api;
     }
 
     /**
@@ -167,37 +190,5 @@ class GlideImageManipulator implements ImageManipulatorInterface
         $imageData = $api->run(Request::create(null, null, $conversionParameters), file_get_contents($sourceFile));
 
         file_put_contents($outputFile, $imageData);
-    }
-
-    /**
-     * Determine if the job should be queued
-     *
-     * @param $conversionParameters
-     * @return bool
-     */
-    private function determineShouldBeQueued($conversionParameters)
-    {
-        if(array_key_exists('shouldBeQueued', $conversionParameters))
-        {
-            return $conversionParameters['shouldBeQueued'];
-        }
-
-        return true;
-    }
-
-    /**
-     * Delete the Queue-key from the conversionParameters
-     *
-     * @param $conversionParameters
-     * @return mixed
-     */
-    private function unsetQueueKey($conversionParameters)
-    {
-        if(array_key_exists('shouldBeQueued', $conversionParameters))
-        {
-            unset($conversionParameters['shouldBeQueued']);
-        }
-
-        return $conversionParameters;
     }
 }

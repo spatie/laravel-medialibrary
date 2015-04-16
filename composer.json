@@ -27,7 +27,7 @@
     "require": {
         "php" : ">=5.4.0",
         "illuminate/support": "~5.0",
-        "league/glide": "0.3.*"
+        "spatie/laravel-glide": "~2.2"
     },
     "require-dev": {
         "phpunit/phpunit" : "4.*",
