@@ -6,9 +6,11 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
+This packages makes it easy to add and manage media associated with models.
+
 ## Install
 
-Via Composer
+Require the package through Composer
 
 ``` bash
 $ composer require spatie/laravel-medialibrary
@@ -16,15 +18,97 @@ $ composer require spatie/laravel-medialibrary
 
 ## Usage
 
+Start by registering the service provider and the MediaLibrary facade.
+
 ``` php
-// coming soon
+// config/app.php
+'providers' => [
+    ...
+    'Spatie\MediaLibrary\MediaLibraryServiceProvider',
+];
 ```
 
-## Testing
+``` php
+// config/app.php
+'aliases' => [
+    ...
+    'MediaLibrary' => 'Spatie\MediaLibrary\MediaLibraryFacade',
+];
+```
+
+Next publish the configuration
 
 ``` bash
-$ phpunit
+$ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
 ```
+
+You can separately publish the config or the migration using the ```config``` or ```migrations``` tag.
+
+Next run the migration for the Media table
+
+```bash
+$ php artisan migrate
+```
+
+The ```publicPath``` key in the configuration is where the generated images are stored. This is set to a sensible default already.
+
+The models which should utilize the MediaLibrary should implement the MediaModelInterface ( to enforce the getImageProfileProperties method)
+and use the MediaLibraryModelTrait to gain access to the needed methods.
+
+### Overview of methods
+
+All examples will use $user.
+ ( assume ```$user = User::find(1);```)
+
+#### getMedia
+
+Return all media from a certain collection belonging to a $user.
+
+```php
+$user->getMedia('images');
+```
+
+getMedia has an optionals $filters argument.
+
+#### getFirstMedia
+
+Returns only the first media-record from a certain collection belonging to a $user.
+
+```php
+$user->getFirstMedia('images');
+```
+
+#### addMedia
+
+Add a media-record using a file and a collectionName.
+
+```php
+$user->addMedia('testImage.jpg', 'images');
+```
+
+addMedia has optional $preserveOriginal and $addAsTemporary arguments.
+
+#### removeMedia
+
+Remove a media-records ( and generated files) by its id
+
+```php
+$user->removeMedia(1);
+```
+
+#### updateMedia
+
+Update the media-records with given information ( and automatically reorder them).
+
+```php
+$user->updateMedia([
+    ['id' => 1, 'name' => 'updatedName'],
+], 'images');
+```
+
+### In-depth example
+
+Coming soon
 
 ## Contributing
 

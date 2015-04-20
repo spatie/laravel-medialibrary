@@ -83,7 +83,7 @@ class LocalFileSystem implements FileSystemInterface{
     {
         $filePaths = [];
 
-        foreach(File::alFiles($this->getBaseDirectoryForMedia($media)) as $file)
+        foreach(File::allFiles($this->getBaseDirectoryForMedia($media)) as $file)
         {
             $profileName = explode('_', $file->getFileName())[0];
 

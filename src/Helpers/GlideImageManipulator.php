@@ -36,9 +36,9 @@ class GlideImageManipulator implements ImageManipulatorInterface
     {
         $conversionParameters = $this->forceJpgFormat($conversionParameters);
 
-        //$this->renderImage($this->prepareGlideApi(), $conversionParameters, $sourceFile, $outputFile);
+        $glideImage = new GlideImage();
 
-        GlideImage::load($sourceFile, $conversionParameters)
+        $glideImage->load($sourceFile, $conversionParameters)
             ->save($outputFile);
     }
 
@@ -139,56 +139,5 @@ class GlideImageManipulator implements ImageManipulatorInterface
         }
 
         return $conversionParameters;
-    }
-
-    /**
-     * Create the Image-manipulation API with Manipulators
-     *
-     * @return Api
-     */
-    private function prepareGlideApi()
-    {
-        $manipulators = $this->setGlideManipulators();
-
-        $api = new Api(new ImageManager(), $manipulators);
-
-        return $api;
-    }
-
-    /**
-     * Insantiate all Glide-manipulators
-     *
-     * @return array
-     */
-    private function setGlideManipulators()
-    {
-        return [
-            new Orientation(),
-            new Rectangle(),
-            new Size(2000 * 2000),
-            new Brightness(),
-            new Contrast(),
-            new Gamma(),
-            new Sharpen(),
-            new Filter(),
-            new Blur(),
-            new Pixelate(),
-            new Output(),
-        ];
-    }
-
-    /**
-     * Render the image using the API
-     *
-     * @param Api $api
-     * @param $conversionParameters
-     * @param $sourceFile
-     * @param $outputFile
-     */
-    private function renderImage(Api $api, $conversionParameters, $sourceFile, $outputFile)
-    {
-        $imageData = $api->run(Request::create(null, null, $conversionParameters), file_get_contents($sourceFile));
-
-        file_put_contents($outputFile, $imageData);
     }
 }
