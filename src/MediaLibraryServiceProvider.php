@@ -53,6 +53,8 @@ class MediaLibraryServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-
+        return [
+            'command.medialibrary:regenerate',
+        ];
     }
 }
