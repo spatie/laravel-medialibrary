@@ -3,7 +3,7 @@
 use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\Models\Media;
 use Queue;
-use Symfony\Component\HttpFoundation\Request;
+use Spatie\MediaLibrary\QueueHandlers\GlideQueueHandler;
 
 class GlideImageManipulator implements ImageManipulatorInterface
 {
@@ -65,7 +65,9 @@ class GlideImageManipulator implements ImageManipulatorInterface
     {
         $className = $media->content_type;
 
-        foreach ($className::getImageProfileProperties() as $profileName => $conversionParameters) {
+        $imageProfiles = $this->getMergedImageProfiles($className);
+
+        foreach ($imageProfiles as $profileName => $conversionParameters) {
 
             $shouldBeQueued = $this->determineShouldBeQueued($conversionParameters);
 
@@ -138,4 +140,39 @@ class GlideImageManipulator implements ImageManipulatorInterface
 
         return $conversionParameters;
     }
+
+    /**
+     * Merge globalImageProfiles and modelImageProfiles, modelImageProfiles override config
+     *
+     * @param $className
+     * @return array
+     */
+    private function getMergedImageProfiles($className)
+    {
+        $modelImageProfiles = $this->getModelImageProfiles($className);
+
+        $globalImageProfiles = config('laravel-medialibrary.globalImageProfiles');
+
+        return array_merge($globalImageProfiles, $modelImageProfiles);
+    }
+
+    /**
+     * Get the models imageProfiles
+     *
+     * @param $className
+     * @return array
+     */
+    private function getModelImageProfiles($className)
+    {
+        $model = new $className();
+
+        if( ! isset($model->imageProfiles))
+        {
+           return [];
+
+        }
+
+        return $model->imageProfiles;
+    }
+
 }

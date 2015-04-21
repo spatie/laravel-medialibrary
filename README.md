@@ -50,10 +50,11 @@ $ php artisan migrate
 
 The ```publicPath``` key in the configuration is where the generated images are stored. This is set to a sensible default already.
 
+The ```globalImageProfiles``` is a way to set global image profiles. (These can be overwritten by a models image profiles).
+
 ## Usage
 
-The models which should utilize the MediaLibrary should implement the MediaModelInterface ( to enforce the getImageProfileProperties method)
-and use the MediaLibraryModelTrait to gain access to the needed methods.
+Models have to use the MediaLibraryModelTrait to gain access to the needed methods.
 
 ### Overview of methods
 
@@ -75,6 +76,14 @@ Returns only the first media-record from a certain collection belonging to a $us
 
 ```php
 $user->getFirstMedia('images');
+```
+
+#### getFirstMediaURL
+
+Returns the URL of the first media-item with given collectionName and profile
+
+```php
+$user->getFirstMediaURL('images', 'small');
 ```
 
 #### addMedia
@@ -115,11 +124,14 @@ You can also opt to use the MediaLibrary-facade directly (which the trait uses).
 MediaLibrary::add($file, MediaModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
 ```
 
+The same as addMedia but the model is an argument.
+
 ##### remove();
 
 ```php
 MediaLibrary::remove($id);
 ```
+The same as removeMedia but without a bit of validation.
 
 ##### order();
 
@@ -127,11 +139,16 @@ MediaLibrary::remove($id);
 MediaLibrary::order($orderArray, MediaModelInterface $model);
 ```
 
+Reorders media-records (order_column) for a given model by the $orderArray.
+$orderArray should look like ```[1 => 4, 2 => 3, ... ]``` where the key is the media-records id and the value is what value order_column should get.
+
 ##### getCollection();
 
 ```php
 MediaLibrary::getCollection(MediaModelInterface $model, $collectionName, $filters);
 ```
+
+Same as getMedia without the default $filters set to 'temp' => 1
 
 ##### cleanUp();
 
@@ -139,15 +156,125 @@ MediaLibrary::getCollection(MediaModelInterface $model, $collectionName, $filter
 MediaLibrary::cleanUp();
 ```
 
+Deletes all temporary media-records and associated files older than a day.
+
 ##### regenerateDerivedFiles();
 
 ```php
 MediaLibrary::regenerateDerivedFiles($media);
 ```
 
+Removes all derived files for a media-record and regenerates them.
+
 ### In-depth example
 
-Coming soon
+#### Preparation
+
+Let's say we have a Users that needs to have images associated with it.
+
+After installing the package (_migration, config, facade, service provider_)
+we add the MediaLibraryModelTrait to our User model.
+
+This gives you access to all needed methods.
+
+```php
+class User extends Model {
+    
+    use MediaLibraryModelTrait;
+    ...
+}
+```
+
+If you use this package for images ( _like this example_) the model should have the public $imageProfiles member.
+
+_Example:_
+
+```php
+public $imageProfiles = [
+        'small'  => ['w' => '150', 'h' => '150', 'filt' => 'greyscale', 'shouldBeQueued' => false],
+        'medium' => ['w' => '450', 'h' => '450'],
+        'large'  => ['w' => '750', 'h' => '750' , 'shouldBeQueued' => true],
+    ];
+```
+
+The shouldBeQueued-key is optional and will default to true if absent.
+
+The MediaLibrary utilizes Glide so take a look at Glide's [image api](http://glide.thephpleague.com/).
+
+#### Adding media
+
+Say our user uploads an image to the application that needs to have the versions specified in the User-model.
+
+Firstly 'get' the user.
+
+```php
+$user = User::find(1);
+``` 
+
+Then, use the trait to 'add the media'.
+
+```php
+$pathToUploadedImage = storage_path('uploadedImage.jpg');
+$user->addMedia($pathToUploadedImage, 'images');
+```
+
+This will generate all images specified in getImageProfileProperties and insert a record into the Media-table.
+The images will be placed in the path set in the publicPath in the config.
+
+
+#### Updating media
+
+Say we want to update some media records.
+
+We need to give an array containing an array for each record that needs to be updated.
+
+```php
+$updatedMedia = [
+    ['id' => 1, 'name' => 'newName'],
+    ['id' => 2, 'collection_name' => 'newCollectionName'],
+];
+
+$user->updateMedia($updatedMedia, 'images');
+```
+If the given collectionName doesn't check out an exception will be thrown.
+Media-record with id 1 will have its name updated and media-records with id 2 will have its collection_name updated.
+
+#### Removing media
+
+```php
+$user->removeMedia(1);
+```
+
+Remove a media-record and its associated files with removeMedia() and the id of the media-records as a parameter.
+
+#### Displaying Media
+
+Displaying media by passing 'media' to a view:
+
+```php
+// In controller
+$user = User::find(1);
+
+$media = $user->getMedia('images');
+
+return view('a_view')
+    ->with(compact('media');
+
+```
+
+In your view, this would display all media from the images collection for a certain $user
+
+```php
+@foreach($media as $mediaItem)
+
+    @foreach($mediaItem->getAllProfileURLs() as $profileName => $imageURL)
+    
+        <img src="{{ url($imageURL) }}">
+    
+    @endforeach
+
+@endforeach
+```
 
 ## Contributing
 
@@ -155,7 +282,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email :author_email instead of using the issue tracker.
+If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
 ## Credits
 

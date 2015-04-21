@@ -70,8 +70,9 @@ class Media extends Eloquent {
             case 'pdf':
                 $type = self::TYPE_PDF;
                 break;
-            case 'file':
+            default:
                 $type = self::TYPE_FILE;
+                break;
         }
 
         return $type;
