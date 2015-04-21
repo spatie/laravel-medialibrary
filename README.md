@@ -57,8 +57,7 @@ and use the MediaLibraryModelTrait to gain access to the needed methods.
 
 ### Overview of methods
 
-All examples will use $user.
- ( assume ```$user = User::find(1);```)
+All examples  assume ```$user = User::find(1);```
 
 #### getMedia
 
@@ -90,7 +89,7 @@ addMedia has optional $preserveOriginal and $addAsTemporary arguments.
 
 #### removeMedia
 
-Remove a media-records ( and generated files) by its id
+Remove a media-record ( and associated generated files) by its id
 
 ```php
 $user->removeMedia(1);
