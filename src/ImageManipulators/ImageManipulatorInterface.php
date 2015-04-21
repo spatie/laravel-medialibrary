@@ -1,4 +1,4 @@
-<?php namespace Spatie\MediaLibrary\Interfaces;
+<?php namespace Spatie\MediaLibrary\ImageManipulators;
 
 use Spatie\MediaLibrary\Models\Media;
 

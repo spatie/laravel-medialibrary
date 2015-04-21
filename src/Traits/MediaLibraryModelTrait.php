@@ -100,7 +100,11 @@ trait MediaLibraryModelTrait {
 
         foreach($newMediaArray as $newMediaItem)
         {
+            var_dump($newMediaItem['id']);
+
             $currentMedia = Media::findOrFail($newMediaItem['id']);
+
+            var_dump($currentMedia);
 
             if($currentMedia->collection_name != $collectionName)
             {

@@ -1,10 +1,10 @@
 <?php namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\MediaLibrary\Helpers\GlideImageManipulator;
-use Spatie\MediaLibrary\Helpers\LocalFileSystem;
-use Spatie\MediaLibrary\Interfaces\FileSystemInterface;
-use Spatie\MediaLibrary\Interfaces\ImageManipulatorInterface;
+use Spatie\MediaLibrary\ImageManipulators\GlideImageManipulator;
+use Spatie\MediaLibrary\FileSystems\LocalFileSystem;
+use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
+use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
 use Spatie\MediaLibrary\Repositories\MediaLibraryRepository;
 
 class MediaLibraryServiceProvider extends ServiceProvider {
@@ -23,14 +23,14 @@ class MediaLibraryServiceProvider extends ServiceProvider {
     {
         // Publish the config file
         $this->publishes([
-            __DIR__ . '/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php')
+            __DIR__ . '/ToPublish/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php')
         ], 'config');
 
         // Publish the migration
         $timestamp = date('Y_m_d_His', time());
 
         $this->publishes([
-            __DIR__ . '/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php')
+            __DIR__ . '/ToPublish/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php')
         ], 'migrations');
     }
 

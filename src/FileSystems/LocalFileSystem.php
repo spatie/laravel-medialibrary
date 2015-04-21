@@ -1,8 +1,7 @@
-<?php namespace Spatie\MediaLibrary\Helpers;
+<?php namespace Spatie\MediaLibrary\FileSystems;
 
 use File;
-use Spatie\MediaLibrary\Interfaces\FileSystemInterface;
-use Spatie\MediaLibrary\Interfaces\ImageManipulatorInterface;
+use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
 use Spatie\MediaLibrary\Models\Media;
 
 class LocalFileSystem implements FileSystemInterface{
@@ -45,7 +44,7 @@ class LocalFileSystem implements FileSystemInterface{
     }
 
     /**
-     * Delete the directory for a media
+     * Recursively delete the directory for a media
      *
      * @param Media $media
      */

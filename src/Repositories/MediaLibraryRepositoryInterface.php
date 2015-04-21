@@ -1,4 +1,6 @@
-<?php namespace Spatie\MediaLibrary\Interfaces;
+<?php namespace Spatie\MediaLibrary\Repositories;
+
+use Spatie\MediaLibrary\Models\MediaModelInterface;
 
 interface MediaLibraryRepositoryInterface {
 

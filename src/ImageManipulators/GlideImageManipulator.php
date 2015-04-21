@@ -1,8 +1,6 @@
-<?php namespace Spatie\MediaLibrary\Helpers;
+<?php namespace Spatie\MediaLibrary\ImageManipulators;
 
 use Spatie\Glide\GlideImage;
-
-use Spatie\MediaLibrary\Interfaces\ImageManipulatorInterface;
 use Spatie\MediaLibrary\Models\Media;
 use Queue;
 use Symfony\Component\HttpFoundation\Request;

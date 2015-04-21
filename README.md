@@ -16,9 +16,7 @@ Require the package through Composer
 $ composer require spatie/laravel-medialibrary
 ```
 
-## Usage
-
-Start by registering the service provider and the MediaLibrary facade.
+Register the service provider and the MediaLibrary facade.
 
 ``` php
 // config/app.php
@@ -51,6 +49,8 @@ $ php artisan migrate
 ```
 
 The ```publicPath``` key in the configuration is where the generated images are stored. This is set to a sensible default already.
+
+## Usage
 
 The models which should utilize the MediaLibrary should implement the MediaModelInterface ( to enforce the getImageProfileProperties method)
 and use the MediaLibraryModelTrait to gain access to the needed methods.
@@ -103,6 +103,46 @@ Update the media-records with given information ( and automatically reorder them
 $user->updateMedia([
     ['id' => 1, 'name' => 'updatedName'],
 ], 'images');
+```
+
+#### Facade
+
+You can also opt to use the MediaLibrary-facade directly (which the trait uses).
+
+##### add();
+
+```php
+MediaLibrary::add($file, MediaModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
+```
+
+##### remove();
+
+```php
+MediaLibrary::remove($id);
+```
+
+##### order();
+
+```php
+MediaLibrary::order($orderArray, MediaModelInterface $model);
+```
+
+##### getCollection();
+
+```php
+MediaLibrary::getCollection(MediaModelInterface $model, $collectionName, $filters);
+```
+
+##### cleanUp();
+
+```php
+MediaLibrary::cleanUp();
+```
+
+##### regenerateDerivedFiles();
+
+```php
+MediaLibrary::regenerateDerivedFiles($media);
 ```
 
 ### In-depth example

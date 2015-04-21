@@ -1,4 +1,4 @@
-<?php namespace Spatie\MediaLibrary\Interfaces;
+<?php namespace Spatie\MediaLibrary\Models;
 
 
 interface MediaModelInterface {

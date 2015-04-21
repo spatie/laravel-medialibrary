@@ -1,9 +1,7 @@
 <?php namespace Spatie\MediaLibrary\Repositories;
 
-use Spatie\MediaLibrary\Interfaces\FileSystemInterface;
-use Spatie\MediaLibrary\Interfaces\MediaLibraryRepositoryInterface;
-use Spatie\MediaLibrary\Interfaces\MediaModelInterface;
-
+use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
+use Spatie\MediaLibrary\Models\MediaModelInterface;
 use Spatie\MediaLibrary\Models\Media;
 use Carbon\Carbon;
 
@@ -17,7 +15,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Add a new media to a models mediaCollection
+     * Add a new media to a Models mediaCollection
      *
      * @param $file
      * @param MediaModelInterface $model
