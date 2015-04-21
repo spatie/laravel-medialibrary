@@ -1,4 +1,4 @@
-<?php namespace App\Services\MediaLibrary\Commands;
+<?php namespace Spatie\MediaLibrary\Commands;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
