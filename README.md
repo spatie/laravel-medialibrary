@@ -166,11 +166,66 @@ MediaLibrary::regenerateDerivedFiles($media);
 
 Removes all derived files for a media-record and regenerates them.
 
+### Simple example
+
+We have a User-model. A user must be able to have pdf files associated with them.
+
+
+Firstly, make use of the MediaLibraryModelTrait in your model.
+
+```php
+class User extends Model {
+    
+    use MediaLibraryModelTrait;
+    ...
+}
+```
+
+Next you can add the files to the user like this:
+
+```php
+$user->addMedia($pathToFile, 'pdfs');
+```
+
+Remove it like this:
+
+```php
+$user->removeMedia($id);
+//$id is the media-records id.
+```
+This will also delete the file so use with care.
+
+Update it like this:
+
+```php
+$updatedMedia = [
+    ['id' => 1, 'name' => 'newName'],
+];
+
+$user->updateMedia($updatedMedia, 'pdfs');
+```
+
+Get media-records like this:
+
+```php
+$media = $user->getMedia('pdfs');
+```
+Now you can loop over these to get the url's to the files.
+
+```php
+foreach($media as $profileName => $mediaItem)
+{
+    $fileURL = $mediaItem->getAllProfileURLs();
+}
+
+// $fileURL will be ['original' => '/path/to/file.pdf]
+```
+
 ### In-depth example
 
 #### Preparation
 
-Let's say we have a Users that needs to have images associated with it.
+Let's say we have a User-model that needs to have images associated with it.
 
 After installing the package (_migration, config, facade, service provider_)
 we add the MediaLibraryModelTrait to our User model.
