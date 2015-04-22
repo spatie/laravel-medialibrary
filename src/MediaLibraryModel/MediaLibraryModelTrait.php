@@ -1,4 +1,4 @@
-<?php namespace Spatie\MediaLibraryModel;
+<?php namespace Spatie\MediaLibrary\MediaLibraryModel;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
