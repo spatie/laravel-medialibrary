@@ -11,7 +11,7 @@ trait MediaLibraryModelTrait
     {
         parent::boot();
 
-        self::deleting(function ($subject) {
+        self::deleting(function(MediaLibraryModelInterface $subject) {
 
             foreach ($subject->media()->get() as $media) {
                 MediaLibrary::remove($media->id);

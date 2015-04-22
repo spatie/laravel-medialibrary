@@ -1,5 +1,6 @@
 <?php namespace Spatie\MediaLibrary;
 
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
 use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
 use Spatie\MediaLibrary\Models\Media;
@@ -168,7 +169,7 @@ class MediaLibraryRepository
      *
      * @return mixed
      */
-    private function applyFiltersToMedia($media, $filters)
+    private function applyFiltersToMedia(Collection $media, $filters)
     {
         foreach ($filters as $filterProperty => $filterValue) {
             $media = $media->filter(function ($media) use ($filterProperty, $filterValue) {
@@ -182,11 +183,11 @@ class MediaLibraryRepository
     /**
      * Add URL to profile-image media.
      *
-     * @param $media
+     * @param array $media
      *
      * @return mixed
      */
-    private function addURLsToMediaProfile($media)
+    private function addURLsToMediaProfile(array $media)
     {
         foreach ($media as $mediaKey => $mediaItem) {
             $media[$mediaKey] = $this->addURLsToMediaItem($mediaItem);
@@ -222,9 +223,9 @@ class MediaLibraryRepository
     private function loadMedia(MediaLibraryModelInterface $model, $collectionName)
     {
         if ($this->mediaIsPreloaded($model)) {
-            $media = $model->media->filter(function ($mediaItem) use ($collectionName) {
+            $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
                 return $mediaItem->collection_name == $collectionName;
-            })->sortBy(function ($media) {
+            })->sortBy(function (Media $media) {
                 return $media->order_column;
             })->values();
 
