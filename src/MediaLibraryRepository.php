@@ -1,33 +1,36 @@
-<?php namespace Spatie\MediaLibrary\Repositories;
+<?php namespace Spatie\MediaLibrary;
 
 use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
 use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
 use Spatie\MediaLibrary\Models\Media;
 use Carbon\Carbon;
 
-class MediaLibraryRepository implements MediaLibraryRepositoryInterface
+class MediaLibraryRepository
 {
     protected $fileSystem;
 
+    /**
+     * @param FileSystemInterface $fileSystem
+     */
     public function __construct(FileSystemInterface $fileSystem)
     {
         $this->fileSystem = $fileSystem;
     }
 
     /**
-     * Add a new media to a Models mediaCollection.
+     * Add a file to the media collection of the given model
      *
      * @param $file
      * @param MediaLibraryModelInterface $model
      * @param $collectionName
-     * @param bool                       $preserveOriginal
-     * @param bool                       $addAsTemporary
+     * @param bool $preserveOriginal if this is set to true the file will be removed from it's original location
+     * @param bool $addAsTemporary
      *
      * @return Media
      */
     public function add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
     {
-        $media = $this->createMediaFromFile($file, $collectionName, $addAsTemporary);
+        $media = $this->createMediaForFile($file, $collectionName, $addAsTemporary);
 
         $model->media()->save($media);
 
@@ -88,9 +91,9 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
      */
     public function getCollection(MediaLibraryModelInterface $model, $collectionName, $filters)
     {
-        $media = $this->loadMedia($model, $collectionName);
+        $mediaItems = $this->loadMedia($model, $collectionName);
 
-        $media = $this->addURLToMediaProfile($media);
+        $media = $this->addURLsToMediaProfile($mediaItems);
 
         $media = $this->applyFiltersToMedia($media, $filters);
 
@@ -131,7 +134,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Create a new media-records from a filepath and collectionName.
+     * Create a new media-record for a file.
      *
      * @param $file
      * @param $collectionName
@@ -139,7 +142,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
      *
      * @return Media
      */
-    private function createMediaFromFile($file, $collectionName, $addAsTemporary)
+    private function createMediaForFile($file, $collectionName, $addAsTemporary)
     {
         $pathParts = pathinfo($file);
 
@@ -155,6 +158,57 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
         $media->order_column = Media::getHighestNumberOrder();
 
         return $media;
+    }
+
+    /**
+     * Apply given filters on media.
+     *
+     * @param $media
+     * @param $filters
+     *
+     * @return mixed
+     */
+    private function applyFiltersToMedia($media, $filters)
+    {
+        foreach ($filters as $filterProperty => $filterValue) {
+            $media = $media->filter(function ($media) use ($filterProperty, $filterValue) {
+                return $media->$filterProperty == $filterValue;
+            });
+        }
+
+        return $media;
+    }
+
+    /**
+     * Add URL to profile-image media.
+     *
+     * @param $media
+     *
+     * @return mixed
+     */
+    private function addURLsToMediaProfile($media)
+    {
+        foreach ($media as $mediaKey => $mediaItem) {
+            $media[$mediaKey] = $this->addURLsToMediaItem($mediaItem);
+        }
+
+        return $media;
+    }
+
+    /**
+     * Add URL to a single media item.
+     *
+     * @param $mediaItem
+     *
+     * @return mixed
+     */
+    private function addURLsToMediaItem($mediaItem)
+    {
+        foreach ($this->fileSystem->getFilePathsForMedia($mediaItem) as $profileName => $filePath) {
+            $mediaItem->addImageProfileURL($profileName, str_replace(public_path(), '', $filePath));
+        }
+
+        return $mediaItem;
     }
 
     /**
@@ -200,54 +254,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
         return false;
     }
 
-    /**
-     * Add URL to profile-image media.
-     *
-     * @param $media
-     *
-     * @return mixed
-     */
-    private function addURLToMediaProfile($media)
-    {
-        foreach ($media as $mediaKey => $mediaItem) {
-            $media[$mediaKey] = $this->addURLsToMediaItem($mediaItem);
-        }
 
-        return $media;
-    }
 
-    /**
-     * Add URL to a single media item.
-     *
-     * @param $mediaItem
-     *
-     * @return mixed
-     */
-    private function addURLsToMediaItem($mediaItem)
-    {
-        foreach ($this->fileSystem->getFilePathsForMedia($mediaItem) as $profileName => $filePath) {
-            $mediaItem->addImageProfileURL($profileName, str_replace(public_path(), '', $filePath));
-        }
 
-        return $mediaItem;
-    }
-
-    /**
-     * Apply given filters on media.
-     *
-     * @param $media
-     * @param $filters
-     *
-     * @return mixed
-     */
-    private function applyFiltersToMedia($media, $filters)
-    {
-        foreach ($filters as $filterProperty => $filterValue) {
-            $media = $media->filter(function ($media) use ($filterProperty, $filterValue) {
-                return $media->$filterProperty == $filterValue;
-            });
-        }
-
-        return $media;
-    }
 }

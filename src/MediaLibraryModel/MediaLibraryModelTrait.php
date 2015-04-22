@@ -20,6 +20,17 @@ trait MediaLibraryModelTrait
     }
 
     /**
+     * Set the polymorphic relation.
+     *
+     * @return mixed
+     */
+    public function media()
+    {
+        return $this->morphMany('Spatie\MediaLibrary\Models\Media', 'content');
+    }
+
+
+    /**
      * Get media collection by its collectionName.
      *
      * @param $collectionName
@@ -45,6 +56,26 @@ trait MediaLibraryModelTrait
         $media = $this->getMedia($collectionName, $filters);
 
         return (count($media) ? $media[0] : false);
+    }
+
+    /**
+     * Get the url of the image for the given profileName
+     * for first media for the given collectionName
+     *
+     * @param $collectionName
+     * @param $profileName
+     * @return bool
+     */
+    public function getFirstMediaURL($collectionName, $profileName)
+    {
+        $media = $this->getFirstMedia($collectionName);
+
+        if ($media)
+        {
+            return $media->getURL($profileName);
+        }
+
+        return false;
     }
 
     /**
@@ -82,19 +113,13 @@ trait MediaLibraryModelTrait
      * Update a media collection by deleting and inserting again with new values.
      *
      * @param array $newMediaArray
-     * @param $collectionName
+     * @param string $collectionName
      *
      * @throws Exception
      */
     public function updateMedia(array $newMediaArray, $collectionName)
     {
-        $mediaItems = new Collection($newMediaArray);
-
-        foreach ($this->getMedia($collectionName, []) as $currentMedia) {
-            if (! in_array($currentMedia->id, $mediaItems->lists('id'))) {
-                $this->removeMedia($currentMedia->id);
-            }
-        }
+        $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
         $orderCounter = 0;
 
@@ -117,13 +142,21 @@ trait MediaLibraryModelTrait
         }
     }
 
+
     /**
-     * Set the polymorphic relation.
-     *
+     * @param array $newMediaArray
+     * @param $collectionName
      * @return mixed
      */
-    public function media()
+    private function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName)
     {
-        return $this->morphMany('Spatie\MediaLibrary\Models\Media', 'content');
+        $newMediaItems = new Collection($newMediaArray);
+
+        foreach ($this->getMedia($collectionName, []) as $currentMedia) {
+            if (!in_array($currentMedia->id, $newMediaItems->lists('id'))) {
+                $this->removeMedia($currentMedia->id);
+            }
+        }
+        return $currentMedia;
     }
 }

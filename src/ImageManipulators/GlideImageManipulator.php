@@ -72,23 +72,27 @@ class GlideImageManipulator implements ImageManipulatorInterface
         foreach ($imageProfiles as $profileName => $conversionParameters) {
             $shouldBeQueued = $this->determineShouldBeQueued($conversionParameters);
 
-            $conversionParameters = $this->unsetQueueKey($conversionParameters);
+            $imageConversionParameters = $this->unsetQueueKey($conversionParameters);
 
-            if (! $shouldBeQueued) {
-                $outputFile = $this->determineOutputFileName($media, $originalPath, $profileName, $conversionParameters);
+            $outputFile = $this->determineOutputFileName($media, $originalPath, $profileName, $imageConversionParameters);
 
-                $this->convertImage($originalFile, $conversionParameters, $outputFile);
-            } else {
+            if ($shouldBeQueued) {
+
                 Queue::push(
                     GlideQueueHandler::class,
                     [
                         'sourceFile' => $originalFile,
-                        'conversionParameters' => $conversionParameters,
-                        'outputFile' => $this->determineOutputFileName($media, $originalPath, $profileName, $conversionParameters),
+                        'conversionParameters' => $imageConversionParameters,
+                        'outputFile' => $outputFile,
                     ],
                     'media_queue'
                 );
+
+                return;
             }
+
+            $this->convertImage($originalFile, $imageConversionParameters, $outputFile);
+
         }
     }
 
