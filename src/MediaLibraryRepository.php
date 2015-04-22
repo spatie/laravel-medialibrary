@@ -172,7 +172,7 @@ class MediaLibraryRepository
     private function applyFiltersToMedia(Collection $media, $filters)
     {
         foreach ($filters as $filterProperty => $filterValue) {
-            $media = $media->filter(function ($media) use ($filterProperty, $filterValue) {
+            $media = $media->filter(function (Media $media) use ($filterProperty, $filterValue) {
                 return $media->$filterProperty == $filterValue;
             });
         }
@@ -203,7 +203,7 @@ class MediaLibraryRepository
      *
      * @return mixed
      */
-    private function addURLsToMediaItem($mediaItem)
+    private function addURLsToMediaItem(Media $mediaItem)
     {
         foreach ($this->fileSystem->getFilePathsForMedia($mediaItem) as $profileName => $filePath) {
             $mediaItem->addImageProfileURL($profileName, str_replace(public_path(), '', $filePath));
