@@ -5,6 +5,8 @@ use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
 
 class GlideQueueHandler {
 
+    protected $imageManipulator;
+
     public function __construct(ImageManipulatorInterface $imageManipulator)
     {
         $this->imageManipulator = $imageManipulator;

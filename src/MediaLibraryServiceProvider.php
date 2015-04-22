@@ -46,7 +46,7 @@ class MediaLibraryServiceProvider extends ServiceProvider {
         $this->app->bind(ImageManipulatorInterface::class, GlideImageManipulator::class);
 
         $this->app['command.medialibrary:regenerate'] = $this->app->share(
-            function ($app) {
+            function () {
                 return new Commands\RegenerateCommand();
             }
         );
