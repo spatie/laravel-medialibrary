@@ -27,7 +27,7 @@ trait MediaLibraryModelTrait {
      * @param array $filters
      * @return mixed
      */
-    public function getMedia($collectionName, $filters = ['temp' => 1])
+    public function getMedia($collectionName, $filters = ['temp' => 0])
     {
         return MediaLibrary::getCollection($this, $collectionName, $filters);
     }
