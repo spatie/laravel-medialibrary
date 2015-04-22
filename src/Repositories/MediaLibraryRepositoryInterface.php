@@ -4,19 +4,27 @@ use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
 
 interface MediaLibraryRepositoryInterface {
 
+    /**
+     * Get a collection of media by its collectionName
+     *
+     * @param MediaLibraryModelInterface $model
+     * @param $collectionName
+     * @param $filters
+     * @return mixed
+     */
     public function getCollection(MediaLibraryModelInterface $model, $collectionName, $filters);
 
     /**
      * Add a new media to a Models mediaCollection
      *
      * @param $file
-     * @param MediaModelInterface $model
+     * @param MediaLibraryModelInterface $model
      * @param $collectionName
      * @param bool $preserveOriginal
      * @param bool $addAsTemporary
      * @return Media
      */
-    public function add($file, MediaModelInterface $model, $collectionName, $preserveOriginal, $addAsTemporary);
+    public function add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal, $addAsTemporary);
 
     /**
      * Remove a media record and it's associated files
@@ -31,9 +39,9 @@ interface MediaLibraryRepositoryInterface {
      * Reorder media-records
      *
      * @param $orderArray
-     * @param MediaModelInterface $model
+     * @param MediaLibraryModelInterface $model
      */
-    public function order($orderArray, MediaModelInterface $model);
+    public function order($orderArray, MediaLibraryModelInterface $model);
 
     /**
      *
