@@ -183,11 +183,11 @@ class MediaLibraryRepository
     /**
      * Add URL to profile-image media.
      *
-     * @param array $media
+     * @param  $media
      *
      * @return mixed
      */
-    private function addURLsToMediaProfile(array $media)
+    private function addURLsToMediaProfile($media)
     {
         foreach ($media as $mediaKey => $mediaItem) {
             $media[$mediaKey] = $this->addURLsToMediaItem($mediaItem);
