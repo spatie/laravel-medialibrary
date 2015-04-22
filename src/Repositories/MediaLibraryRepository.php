@@ -75,12 +75,12 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     /**
      * Get a collection of media by its collectionName
      *
-     * @param MediaModelInterface $model
+     * @param MediaLibraryModelInterface $model
      * @param $collectionName
      * @param $filters
      * @return mixed
      */
-    public function getCollection(MediaModelInterface $model, $collectionName, $filters)
+    public function getCollection(MediaLibraryModelInterface $model, $collectionName, $filters)
     {
         $media = $this->loadMedia($model, $collectionName);
 

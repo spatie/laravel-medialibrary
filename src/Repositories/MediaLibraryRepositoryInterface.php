@@ -4,7 +4,7 @@ use Spatie\MediaLibrary\Models\MediaModelInterface;
 
 interface MediaLibraryRepositoryInterface {
 
-    public function getCollection(MediaModelInterface $model, $collectionName, $filters);
+    public function getCollection(MediaLibraryModelInterface $model, $collectionName, $filters);
 
     /**
      * Add a new media to a Models mediaCollection
