@@ -32,6 +32,8 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
 
         $this->fileSystem->addFileForMedia($file, $media, $preserveOriginal);
 
+        $this->addURLsToMediaItem($media);
+
         return $media;
     }
 
@@ -201,7 +203,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     {
         foreach($media as $mediaKey => $mediaItem)
         {
-            $media[$mediaKey] = $this->addURLToMediaItem($mediaItem);
+            $media[$mediaKey] = $this->addURLsToMediaItem($mediaItem);
         }
 
         return $media;
@@ -213,7 +215,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
      * @param $mediaItem
      * @return mixed
      */
-    private function addURLToMediaItem($mediaItem)
+    private function addURLsToMediaItem($mediaItem)
     {
         foreach ($this->fileSystem->getFilePathsForMedia($mediaItem) as $profileName => $filePath) {
             $mediaItem->addImageProfileURL($profileName, str_replace(public_path(), '', $filePath));
