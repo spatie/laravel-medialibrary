@@ -152,11 +152,11 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     /**
      * Load media by collectionName
      *
-     * @param MediaModelInterface $model
+     * @param MediaLibraryModelInterface $model
      * @param $collectionName
      * @return mixed
      */
-    private function loadMedia(MediaModelInterface $model, $collectionName)
+    private function loadMedia(MediaLibraryModelInterface $model, $collectionName)
     {
         if ($this->mediaIsPreloaded($model)) {
 
@@ -179,10 +179,10 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     /**
      * Check if the media is preloaded
      *
-     * @param MediaModelInterface $model
+     * @param MediaLibraryModelInterface $model
      * @return bool
      */
-    private function mediaIsPreloaded(MediaModelInterface $model)
+    private function mediaIsPreloaded(MediaLibraryModelInterface $model)
     {
         if (isset($model->media)) {
             return true;
