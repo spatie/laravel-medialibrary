@@ -273,7 +273,7 @@ $pathToUploadedImage = storage_path('uploadedImage.jpg');
 $user->addMedia($pathToUploadedImage, 'images');
 ```
 
-This will generate all images specified in getImageProfileProperties and insert a record into the Media-table.
+This will generate all images specified in the imageProfiles and insert a record into the Media-table.
 The images will be placed in the path set in the publicPath in the config.
 
 
