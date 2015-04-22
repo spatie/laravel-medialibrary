@@ -1,5 +1,6 @@
 <?php namespace Spatie\MediaLibrary\QueueHandlers;
 
+use Illuminate\Queue\Jobs\Job;
 use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
 
 class GlideQueueHandler
@@ -14,10 +15,10 @@ class GlideQueueHandler
     /**
      * Fire the queue job.
      *
-     * @param $job
+     * @param Job $job
      * @param $data
      */
-    public function fire($job, $data)
+    public function fire(Job $job, $data)
     {
         $this->imageManipulator->convertImage(
             $data['sourceFile'],
