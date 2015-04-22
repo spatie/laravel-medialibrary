@@ -157,6 +157,5 @@ trait MediaLibraryModelTrait
                 $this->removeMedia($currentMedia->id);
             }
         }
-        return $currentMedia;
     }
 }
