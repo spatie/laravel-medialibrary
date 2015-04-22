@@ -1,7 +1,7 @@
 <?php namespace Spatie\MediaLibrary\Repositories;
 
 use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
-use Spatie\MediaLibrary\Models\MediaModelInterface;
+use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
 use Spatie\MediaLibrary\Models\Media;
 use Carbon\Carbon;
 
@@ -18,13 +18,13 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
      * Add a new media to a Models mediaCollection
      *
      * @param $file
-     * @param MediaModelInterface $model
+     * @param MediaLibraryModelInterface $model
      * @param $collectionName
      * @param bool $preserveOriginal
      * @param bool $addAsTemporary
      * @return Media
      */
-    public function add($file, MediaModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
+    public function add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
     {
         $media = $this->createMediaFromFile($file, $collectionName, $addAsTemporary);
 
@@ -57,9 +57,9 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
      * Reorder media-records
      *
      * @param $orderArray
-     * @param MediaModelInterface $model
+     * @param MediaLibraryModelInterface $model
      */
-    public function order($orderArray, MediaModelInterface $model)
+    public function order($orderArray, MediaLibraryModelInterface $model)
     {
         $orderCounter = 0;
         foreach ($orderArray as $id => $order) {
