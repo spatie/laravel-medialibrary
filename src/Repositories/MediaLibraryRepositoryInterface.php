@@ -6,7 +6,7 @@ interface MediaLibraryRepositoryInterface {
 
     public function getCollection(MediaModelInterface $model, $collectionName, $filters);
 
-    public function add($file, MediaModelInterface $model, $collectionName, $preserveOriginal, $addAsTemporary);
+    public function add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal, $addAsTemporary);
 
     public function remove($id);
 
