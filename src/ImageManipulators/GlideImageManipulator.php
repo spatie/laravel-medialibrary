@@ -37,6 +37,7 @@ class GlideImageManipulator implements ImageManipulatorInterface
         $glideImage = new GlideImage();
 
         $glideImage->load($sourceFile, $conversionParameters)
+            ->useAbsoluteSourceFilePath()
             ->save($outputFile);
     }
 
