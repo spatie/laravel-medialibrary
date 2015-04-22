@@ -52,6 +52,16 @@ The ```publicPath``` key in the configuration is where the generated images are 
 
 The ```globalImageProfiles``` is a way to set global image profiles. (These can be overwritten by a models image profiles).
 
+Example of globalImageProfiles:
+
+```php
+...
+'globalImageProfiles' => [
+    'small' => ['w' => '150', 'h' => '150'],
+    'grey' => ['filt' => 'greyscale],
+],
+```
+
 ## Usage
 
 Models have to use the MediaLibraryModelTrait to gain access to the needed methods.
