@@ -1,28 +1,28 @@
-# laavel-medialibay
+# laravel-medialibrary
 
-[![Latest Vesion](https://img.shields.io/github/elease/feekmuze/laavel-medialibay.svg?style=flat-squae)](https://github.com/feekmuze/laavel-medialibay/eleases)
-[![Softwae License](https://img.shields.io/badge/license-MIT-bightgeen.svg?style=flat-squae)](LICENSE.md)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/27cf455a-0555-4bcf-abae-16b5f7860d09.svg)](https://insight.sensiolabs.com/pojects/27cf455a-0555-4bcf-abae-16b5f7860d09)
-[![Quality Scoe](https://img.shields.io/scutinize/g/feekmuze/laavel-medialibay.svg?style=flat-squae)](https://scutinize-ci.com/g/feekmuze/laavel-medialibay)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laavel-medialibay.svg?style=flat-squae)](https://packagist.og/packages/spatie/:laavel-medialibay)
+[![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://github.com/freekmurze/laravel-medialibrary/releases)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/27cf455a-0555-4bcf-abae-16b5f7860d09.svg)](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09)
+[![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
+[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
 This packages makes it easy to add and manage media associated with models.
 
 ## Install
 
-Requie the package though Compose
+Require the package through Composer
 
 ``` bash
-$ compose equie spatie/laavel-medialibay
+$ composer require spatie/laravel-medialibrary
 ```
 
-Registe the sevice povide and the MediaLibay facade.
+Register the service provider and the MediaLibrary facade.
 
 ``` php
 // config/app.php
-'povides' => [
+'providers' => [
     ...
-    'Spatie\MediaLibay\MediaLibaySevicePovide',
+    'Spatie\MediaLibrary\MediaLibraryServiceProvider',
 ];
 ```
 
@@ -30,180 +30,180 @@ Registe the sevice povide and the MediaLibay facade.
 // config/app.php
 'aliases' => [
     ...
-    'MediaLibay' => 'Spatie\MediaLibay\MediaLibayFacade',
+    'MediaLibrary' => 'Spatie\MediaLibrary\MediaLibraryFacade',
 ];
 ```
 
-Next publish the configuation
+Next publish the configuration
 
 ``` bash
-$ php atisan vendo:publish --povide="Spatie\MediaLibay\MediaLibaySevicePovide"
+$ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
 ```
 
-You can sepaately publish the config o the migation using the ```config``` o ```migations``` tag.
+You can separately publish the config or the migration using the ```config``` or ```migrations``` tag.
 
-Next un the migation fo the Media table
+Next run the migration for the Media table
 
 ```bash
-$ php atisan migate
+$ php artisan migrate
 ```
 
-The ```publicPath``` key in the configuation is whee the geneated images ae stoed. This is set to a sensible default aleady.
+The ```publicPath``` key in the configuration is where the generated images are stored. This is set to a sensible default already.
 
-The ```globalImagePofiles``` is a way to set global image pofiles. (These can be ovewitten by a models image pofiles).
+The ```globalImageProfiles``` is a way to set global image profiles. (These can be overwritten by a models image profiles).
 
-Example of globalImagePofiles:
+Example of globalImageProfiles:
 
 ```php
 ...
-'globalImagePofiles' => [
+'globalImageProfiles' => [
     'small' => ['w' => '150', 'h' => '150'],
-    'gey' => ['filt' => 'geyscale],
+    'grey' => ['filt' => 'greyscale],
 ],
 ```
 
 ## Usage
 
-Models have to use the MediaLibayModelTait to gain access to the needed methods.
+Models have to use the MediaLibraryModelTrait to gain access to the needed methods.
 
-### Oveview of methods
+### Overview of methods
 
-All examples  assume ```$use = Use::find(1);```
+All examples  assume ```$user = User::find(1);```
 
 #### getMedia
 
-Retun all media fom a cetain collection belonging to a $use.
+Return all media from a certain collection belonging to a $user.
 
 ```php
-$use->getMedia('images');
+$user->getMedia('images');
 ```
 
-getMedia has an optionals $filtes agument.
+getMedia has an optionals $filters argument.
 
-#### getFistMedia
+#### getFirstMedia
 
-Retuns only the fist media-ecod fom a cetain collection belonging to a $use.
+Returns only the first media-record from a certain collection belonging to a $user.
 
 ```php
-$use->getFistMedia('images');
+$user->getFirstMedia('images');
 ```
 
-#### getFistMediaURL
+#### getFirstMediaURL
 
-Retuns the URL of the fist media-item with given collectionName and pofile
+Returns the URL of the first media-item with given collectionName and profile
 
 ```php
-$use->getFistMediaURL('images', 'small');
+$user->getFirstMediaURL('images', 'small');
 ```
 
 #### addMedia
 
-Add a media-ecod using a file and a collectionName.
+Add a media-record using a file and a collectionName.
 
 ```php
-$use->addMedia('testImage.jpg', 'images');
+$user->addMedia('testImage.jpg', 'images');
 ```
 
-addMedia has optional $peseveOiginal and $addAsTempoay aguments.
+addMedia has optional $preserveOriginal and $addAsTemporary arguments.
 
-#### emoveMedia
+#### removeMedia
 
-Remove a media-ecod ( and associated geneated files) by its id
+Remove a media-record ( and associated generated files) by its id
 
 ```php
-$use->emoveMedia(1);
+$user->removeMedia(1);
 ```
 
 #### updateMedia
 
-Update the media-ecods with given infomation ( and automatically eode them).
+Update the media-records with given information ( and automatically reorder them).
 
 ```php
-$use->updateMedia([
+$user->updateMedia([
     ['id' => 1, 'name' => 'updatedName'],
 ], 'images');
 ```
 
 #### Facade
 
-You can also opt to use the MediaLibay-facade diectly (which the tait uses).
+You can also opt to use the MediaLibrary-facade directly (which the trait uses).
 
 ##### add();
 
 ```php
-MediaLibay::add($file, MediaLibayModelInteface $model, $collectionName, $peseveOiginal = false, $addAsTempoay = false);
+MediaLibrary::add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
 ```
 
-The same as addMedia but the model is an agument.
+The same as addMedia but the model is an argument.
 
-##### emove();
+##### remove();
 
 ```php
-MediaLibay::emove($id);
+MediaLibrary::remove($id);
 ```
-The same as emoveMedia but without a bit of validation.
+The same as removeMedia but without a bit of validation.
 
-##### ode();
+##### order();
 
 ```php
-MediaLibay::ode($odeAay, MediaLibayModelInteface $model);
+MediaLibrary::order($orderArray, MediaLibraryModelInterface $model);
 ```
 
-Reodes media-ecods (ode_column) fo a given model by the $odeAay.
-$odeAay should look like ```[1 => 4, 2 => 3, ... ]``` whee the key is the media-ecods id and the value is what value ode_column should get.
+Reorders media-records (order_column) for a given model by the $orderArray.
+$orderArray should look like ```[1 => 4, 2 => 3, ... ]``` where the key is the media-records id and the value is what value order_column should get.
 
 ##### getCollection();
 
 ```php
-MediaLibay::getCollection(MediaLibayModelInteface $model, $collectionName, $filtes);
+MediaLibrary::getCollection(MediaLibraryModelInterface $model, $collectionName, $filters);
 ```
 
-Same as getMedia without the default $filtes set to 'temp' => 1
+Same as getMedia without the default $filters set to 'temp' => 1
 
 ##### cleanUp();
 
 ```php
-MediaLibay::cleanUp();
+MediaLibrary::cleanUp();
 ```
 
-Deletes all tempoay media-ecods and associated files olde than a day.
+Deletes all temporary media-records and associated files older than a day.
 
-##### egeneateDeivedFiles();
+##### regenerateDerivedFiles();
 
 ```php
-MediaLibay::egeneateDeivedFiles($media);
+MediaLibrary::regenerateDerivedFiles($media);
 ```
 
-Removes all deived files fo a media-ecod and egeneates them.
+Removes all derived files for a media-record and regenerates them.
 
 ### Simple example
 
-We have a Use-model. A use must be able to have pdf files associated with them.
+We have a User-model. A user must be able to have pdf files associated with them.
 
 
-Fistly, make use of the MediaLibayModelTait in you model.
+Firstly, make use of the MediaLibraryModelTrait in your model.
 
 ```php
-class Use extends Model {
+class User extends Model {
     
-    use MediaLibayModelTait;
+    use MediaLibraryModelTrait;
     ...
 }
 ```
 
-Next you can add the files to the use like this:
+Next you can add the files to the user like this:
 
 ```php
-$use->addMedia($pathToFile, 'pdfs');
+$user->addMedia($pathToFile, 'pdfs');
 ```
 
 Remove it like this:
 
 ```php
-$use->emoveMedia($id);
-//$id is the media-ecods id.
+$user->removeMedia($id);
+//$id is the media-records id.
 ```
-This will also delete the file so use with cae.
+This will also delete the file so use with care.
 
 Update it like this:
 
@@ -212,86 +212,86 @@ $updatedMedia = [
     ['id' => 1, 'name' => 'newName'],
 ];
 
-$use->updateMedia($updatedMedia, 'pdfs');
+$user->updateMedia($updatedMedia, 'pdfs');
 ```
 
-Get media-ecods like this:
+Get media-records like this:
 
 ```php
-$media = $use->getMedia('pdfs');
+$media = $user->getMedia('pdfs');
 ```
-Now you can loop ove these to get the ul's to the files.
+Now you can loop over these to get the url's to the files.
 
 ```php
-foeach($media as $pofileName => $mediaItem)
+foreach($media as $profileName => $mediaItem)
 {
-    $fileURL = $mediaItem->getAllPofileURLs();
+    $fileURL = $mediaItem->getAllProfileURLs();
 }
 
-// $fileURL will be ['oiginal' => '/path/to/file.pdf]
+// $fileURL will be ['original' => '/path/to/file.pdf]
 ```
 
 ### In-depth example
 
-#### Pepaation
+#### Preparation
 
-Let's say we have a Use-model that needs to have images associated with it.
+Let's say we have a User-model that needs to have images associated with it.
 
-Afte installing the package (_migation, config, facade, sevice povide_)
-we add the MediaLibayModelTait to ou Use model.
+After installing the package (_migration, config, facade, service provider_)
+we add the MediaLibraryModelTrait to our User model.
 
 This gives you access to all needed methods.
 
 ```php
-class Use extends Model {
+class User extends Model {
     
-    use MediaLibayModelTait;
+    use MediaLibraryModelTrait;
     ...
 }
 ```
 
-If you use this package fo images ( _like this example_) the model should have the public $imagePofiles membe.
+If you use this package for images ( _like this example_) the model should have the public $imageProfiles member.
 
 _Example:_
 
 ```php
-public $imagePofiles = [
-        'small'  => ['w' => '150', 'h' => '150', 'filt' => 'geyscale', 'shouldBeQueued' => false],
+public $imageProfiles = [
+        'small'  => ['w' => '150', 'h' => '150', 'filt' => 'greyscale', 'shouldBeQueued' => false],
         'medium' => ['w' => '450', 'h' => '450'],
-        'lage'  => ['w' => '750', 'h' => '750' , 'shouldBeQueued' => tue],
+        'large'  => ['w' => '750', 'h' => '750' , 'shouldBeQueued' => true],
     ];
 ```
 
-The shouldBeQueued-key is optional and will default to tue if absent.
+The shouldBeQueued-key is optional and will default to true if absent.
 
-The MediaLibay utilizes Glide so take a look at Glide's [image api](http://glide.thephpleague.com/).
+The MediaLibrary utilizes Glide so take a look at Glide's [image api](http://glide.thephpleague.com/).
 
 #### Adding media
 
-Say ou use uploads an image to the application that needs to have the vesions specified in the Use-model.
+Say our user uploads an image to the application that needs to have the versions specified in the User-model.
 
-Fistly 'get' the use.
+Firstly 'get' the user.
 
 ```php
-$use = Use::find(1);
+$user = User::find(1);
 ``` 
 
-Then, use the tait to 'add the media'.
+Then, use the trait to 'add the media'.
 
 ```php
-$pathToUploadedImage = stoage_path('uploadedImage.jpg');
-$use->addMedia($pathToUploadedImage, 'images');
+$pathToUploadedImage = storage_path('uploadedImage.jpg');
+$user->addMedia($pathToUploadedImage, 'images');
 ```
 
-This will geneate all images specified in the imagePofiles and inset a ecod into the Media-table.
+This will generate all images specified in the imageProfiles and insert a record into the Media-table.
 The images will be placed in the path set in the publicPath in the config.
 
 
 #### Updating media
 
-Say we want to update some media ecods.
+Say we want to update some media records.
 
-We need to give an aay containing an aay fo each ecod that needs to be updated.
+We need to give an array containing an array for each record that needs to be updated.
 
 ```php
 $updatedMedia = [
@@ -299,62 +299,62 @@ $updatedMedia = [
     ['id' => 2, 'collection_name' => 'newCollectionName'],
 ];
 
-$use->updateMedia($updatedMedia, 'images');
+$user->updateMedia($updatedMedia, 'images');
 ```
-If the given collectionName doesn't check out an exception will be thown.
-Media-ecod with id 1 will have its name updated and media-ecods with id 2 will have its collection_name updated.
+If the given collectionName doesn't check out an exception will be thrown.
+Media-record with id 1 will have its name updated and media-records with id 2 will have its collection_name updated.
 
 #### Removing media
 
 ```php
-$use->emoveMedia(1);
+$user->removeMedia(1);
 ```
 
-Remove a media-ecod and its associated files with emoveMedia() and the id of the media-ecods as a paamete.
+Remove a media-record and its associated files with removeMedia() and the id of the media-records as a parameter.
 
 #### Displaying Media
 
 Displaying media by passing 'media' to a view:
 
 ```php
-// In contolle
-$use = Use::find(1);
+// In controller
+$user = User::find(1);
 
-$media = $use->getMedia('images');
+$media = $user->getMedia('images');
 
-etun view('a_view')
+return view('a_view')
     ->with(compact('media');
 
 ```
 
-In you view, this would display all media fom the images collection fo a cetain $use
+In your view, this would display all media from the images collection for a certain $user
 
 ```php
-@foeach($media as $mediaItem)
+@foreach($media as $mediaItem)
 
-    @foeach($mediaItem->getAllPofileURLs() as $pofileName => $imageURL)
+    @foreach($mediaItem->getAllProfileURLs() as $profileName => $imageURL)
     
-        <img sc="{{ ul($imageURL) }}">
+        <img src="{{ url($imageURL) }}">
     
-    @endfoeach
+    @endforeach
 
-@endfoeach
+@endforeach
 ```
 
-## Contibuting
+## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) fo details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-## Secuity
+## Security
 
-If you discove any secuity elated issues, please email feek@spatie.be instead of using the issue tacke.
+If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
-## Cedits
+## Credits
 
-- [Feek Van de Heten](https://github.com/feekmuze)
-- [Matthias De Winte](https://github.com/MatthiasDeWinte)
-- [All Contibutos](../../contibutos)
+- [Freek Van der Herten](https://github.com/freekmurze)
+- [Matthias De Winter](https://github.com/MatthiasDeWinter)
+- [All Contributors](../../contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) fo moe infomation.
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

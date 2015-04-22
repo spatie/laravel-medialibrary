@@ -1,4 +1,4 @@
 build
-compose.lock
+composer.lock
 docs
-vendo
+vendor

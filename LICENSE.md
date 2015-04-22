@@ -1,16 +1,16 @@
 # The MIT License (MIT)
 
-Copyight (c) 2015 Feek van De Heten <feek@spatie.be>
+Copyright (c) 2015 Freek van Der Herten <freek@spatie.be>
 
-> Pemission is heeby ganted, fee of chage, to any peson obtaining a copy
-> of this softwae and associated documentation files (the "Softwae"), to deal
-> in the Softwae without estiction, including without limitation the ights
-> to use, copy, modify, mege, publish, distibute, sublicense, and/o sell
-> copies of the Softwae, and to pemit pesons to whom the Softwae is
-> funished to do so, subject to the following conditions:
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, including without limitation the rights
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the Software is
+> furnished to do so, subject to the following conditions:
 >
-> The above copyight notice and this pemission notice shall be included in
-> all copies o substantial potions of the Softwae.
+> The above copyright notice and this permission notice shall be included in
+> all copies or substantial portions of the Software.
 >
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 > IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

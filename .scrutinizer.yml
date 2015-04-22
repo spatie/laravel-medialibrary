@@ -1,33 +1,33 @@
-filte:
+filter:
     excluded_paths: [tests/*]
 checks:
     php:
-        code_ating: tue
-        emove_exta_empty_lines: tue
-        emove_php_closing_tag: tue
-        emove_tailing_whitespace: tue
+        code_rating: true
+        remove_extra_empty_lines: true
+        remove_php_closing_tag: true
+        remove_trailing_whitespace: true
         fix_use_statements:
-            emove_unused: tue
-            peseve_multiple: false
-            peseve_blanklines: tue
-            ode_alphabetically: tue
-        fix_php_opening_tag: tue
-        fix_linefeed: tue
-        fix_line_ending: tue
-        fix_identation_4spaces: tue
-        fix_doc_comments: tue
+            remove_unused: true
+            preserve_multiple: false
+            preserve_blanklines: true
+            order_alphabetically: true
+        fix_php_opening_tag: true
+        fix_linefeed: true
+        fix_line_ending: true
+        fix_identation_4spaces: true
+        fix_doc_comments: true
 tools:
-    extenal_code_coveage: false
-    php_analyze: tue
-    php_code_coveage: false
-    php_code_sniffe:
+    external_code_coverage: false
+    php_analyzer: true
+    php_code_coverage: false
+    php_code_sniffer:
         config:
-            standad: PSR2
-        filte:
-            paths: ['sc']
+            standard: PSR2
+        filter:
+            paths: ['src']
     php_loc:
-        enabled: tue
-        excluded_dis: [vendo, tests]
+        enabled: true
+        excluded_dirs: [vendor, tests]
     php_cpd:
-        enabled: tue
-        excluded_dis: [vendo, tests]
+        enabled: true
+        excluded_dirs: [vendor, tests]

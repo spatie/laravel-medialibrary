@@ -1,47 +1,47 @@
 {
-    "name": "spatie/laavel-medialibay",
-    "desciption": "coming soon",
-    "keywods": [
-        "spatie",
-        "laavel-medialibay",
-        "media",
-        "cms",
-        "laavel"
-    ],
-    "homepage": "https://github.com/feekmuze/laavel-medialibay",
-    "license": "MIT",
-    "authos": [
-        {
-            "name": "Feek Van de Heten",
-            "email": "feek@spatie.be",
-            "homepage": "https://github.com/feekmuze",
-            "ole": "Develope"
-        },
-        {
-            "name": "Matthias De Winte",
-            "email": "dewinte.matthias@gmail.com",
-            "homepage": "https://github.com/MatthiasDeWinte",
-            "ole": "Develope"
-        }
-    ],
-    "equie": {
-        "php" : ">=5.4.0",
-        "illuminate/suppot": "~5.0",
-        "spatie/laavel-glide": "~2.2.2"
+  "name": "spatie/laravel-medialibrary",
+  "description": "coming soon",
+  "keywords": [
+    "spatie",
+    "laravel-medialibrary",
+    "media",
+    "cms",
+    "laravel"
+  ],
+  "homepage": "https://github.com/freekmurze/laravel-medialibrary",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Freek Van der Herten",
+      "email": "freek@spatie.be",
+      "homepage": "https://github.com/freekmurze",
+      "role": "Developer"
     },
-    "equie-dev": {
-        "phpunit/phpunit" : "4.*",
-        "scutinize/ocula": "~1.1"
-    },
-    "autoload": {
-        "ps-4": {
-            "Spatie\\MediaLibay\\": "sc"
-        }
-    },
-    "autoload-dev": {
-        "ps-4": {
-            "Spatie\\MediaLibay\\Test\\": "tests"
-        }
-    },
-    "license": "MIT"
+    {
+      "name": "Matthias De Winter",
+      "email": "dewinter.matthias@gmail.com",
+      "homepage": "https://github.com/MatthiasDeWinter",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php" : ">=5.4.0",
+    "illuminate/support": "~5.0",
+    "spatie/laravel-glide": "~2.2.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit" : "4.*",
+    "scrutinizer/ocular": "~1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Spatie\\MediaLibrary\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spatie\\MediaLibrary\\Test\\": "tests"
+    }
+  },
+  "license": "MIT"
 }
