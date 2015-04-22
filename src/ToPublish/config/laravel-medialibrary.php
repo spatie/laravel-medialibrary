@@ -5,7 +5,7 @@ return [
     /*
      * publicPath is the path where the saved media-items will be stored.
      */
-    'publicPath' => public_path() . '/medialibrary',
+    'publicPath' => public_path().'/medialibrary',
 
     /*
      * Maximum allowed filesize

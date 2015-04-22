@@ -1,10 +1,9 @@
 <?php namespace Spatie\MediaLibrary\QueueHandlers;
 
-
 use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
 
-class GlideQueueHandler {
-
+class GlideQueueHandler
+{
     protected $imageManipulator;
 
     public function __construct(ImageManipulatorInterface $imageManipulator)
@@ -13,7 +12,7 @@ class GlideQueueHandler {
     }
 
     /**
-     * Fire the queue job
+     * Fire the queue job.
      *
      * @param $job
      * @param $data

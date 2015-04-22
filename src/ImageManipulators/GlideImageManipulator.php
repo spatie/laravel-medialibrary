@@ -24,7 +24,7 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Convert an image using conversionParameters
+     * Convert an image using conversionParameters.
      *
      * @param $sourceFile
      * @param $conversionParameters
@@ -42,17 +42,18 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Generate a path and name for the output file
+     * Generate a path and name for the output file.
      *
      * @param Media $media
      * @param $originalPath
      * @param $profileName
      * @param $conversionParameters
+     *
      * @return string
      */
     private function determineOutputFileName(Media $media, $originalPath, $profileName, $conversionParameters)
     {
-        return $originalPath . '/' . $profileName . '_' . $media->collection_name . '_' . str_replace('=', '_', http_build_query($conversionParameters, null, '_')) . '.jpg';
+        return $originalPath.'/'.$profileName.'_'.$media->collection_name.'_'.str_replace('=', '_', http_build_query($conversionParameters, null, '_')).'.jpg';
     }
 
     /**
@@ -69,19 +70,15 @@ class GlideImageManipulator implements ImageManipulatorInterface
         $imageProfiles = $this->getMergedImageProfiles($className);
 
         foreach ($imageProfiles as $profileName => $conversionParameters) {
-
             $shouldBeQueued = $this->determineShouldBeQueued($conversionParameters);
 
             $conversionParameters = $this->unsetQueueKey($conversionParameters);
 
-            if( ! $shouldBeQueued)
-            {
+            if (! $shouldBeQueued) {
                 $outputFile = $this->determineOutputFileName($media, $originalPath, $profileName, $conversionParameters);
 
                 $this->convertImage($originalFile, $conversionParameters, $outputFile);
-
             } else {
-
                 Queue::push(
                     GlideQueueHandler::class,
                     [
@@ -96,9 +93,10 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Force the .jpg extension for output files
+     * Force the .jpg extension for output files.
      *
      * @param $conversionParameters
+     *
      * @return mixed
      */
     private function forceJpgFormat($conversionParameters)
@@ -111,15 +109,15 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Determine if the job should be queued
+     * Determine if the job should be queued.
      *
      * @param $conversionParameters
+     *
      * @return bool
      */
     private function determineShouldBeQueued($conversionParameters)
     {
-        if(array_key_exists('shouldBeQueued', $conversionParameters))
-        {
+        if (array_key_exists('shouldBeQueued', $conversionParameters)) {
             return $conversionParameters['shouldBeQueued'];
         }
 
@@ -127,15 +125,15 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Delete the Queue-key from the conversionParameters
+     * Delete the Queue-key from the conversionParameters.
      *
      * @param $conversionParameters
+     *
      * @return mixed
      */
     private function unsetQueueKey($conversionParameters)
     {
-        if(array_key_exists('shouldBeQueued', $conversionParameters))
-        {
+        if (array_key_exists('shouldBeQueued', $conversionParameters)) {
             unset($conversionParameters['shouldBeQueued']);
         }
 
@@ -143,9 +141,10 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Merge globalImageProfiles and modelImageProfiles, modelImageProfiles override config
+     * Merge globalImageProfiles and modelImageProfiles, modelImageProfiles override config.
      *
      * @param $className
+     *
      * @return array
      */
     private function getMergedImageProfiles($className)
@@ -158,22 +157,20 @@ class GlideImageManipulator implements ImageManipulatorInterface
     }
 
     /**
-     * Get the models imageProfiles
+     * Get the models imageProfiles.
      *
      * @param $className
+     *
      * @return array
      */
     private function getModelImageProfiles($className)
     {
         $model = new $className();
 
-        if( ! isset($model->imageProfiles))
-        {
-           return [];
-
+        if (! isset($model->imageProfiles)) {
+            return [];
         }
 
         return $model->imageProfiles;
     }
-
 }

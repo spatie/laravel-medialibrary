@@ -3,8 +3,8 @@
 use Eloquent;
 use GlideImage;
 
-class Media extends Eloquent {
-
+class Media extends Eloquent
+{
     const TYPE_FILE = 'file';
     const TYPE_IMAGE = 'image';
     const TYPE_PDF = 'pdf';
@@ -14,7 +14,7 @@ class Media extends Eloquent {
     public $imageProfileURLs = [];
 
     /**
-     * Create the polymorphic relation
+     * Create the polymorphic relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
@@ -24,27 +24,27 @@ class Media extends Eloquent {
     }
 
     /**
-     * Get the original path for a media-file
+     * Get the original path for a media-file.
      *
      * @return string
      */
     public function getOriginalPath()
     {
-        return config('laravel-medialibrary.publicPath') . '/' . $this->id . '/' . $this->path;
+        return config('laravel-medialibrary.publicPath').'/'.$this->id.'/'.$this->path;
     }
 
     /**
-     * Get the original URL to a media-file
+     * Get the original URL to a media-file.
      *
      * @return string
      */
     public function getOriginalURL()
     {
-        return '/' . $this->id . '/' . $this->path;
+        return '/'.$this->id.'/'.$this->path;
     }
 
     /**
-     * Get the next integer for sorting
+     * Get the next integer for sorting.
      *
      * @return int
      */
@@ -54,14 +54,13 @@ class Media extends Eloquent {
     }
 
     /**
-     * Determine the type of a file
+     * Determine the type of a file.
      *
      * @return string
      */
     public function getType()
     {
-        switch($this->extension)
-        {
+        switch ($this->extension) {
             case 'png';
             case 'jpg':
             case 'jpeg':
@@ -79,22 +78,22 @@ class Media extends Eloquent {
     }
 
     /**
-     * Generate a URL to the image-profile
+     * Generate a URL to the image-profile.
      *
      * @param $profileName
      * @param $path
+     *
      * @return $this
      */
     public function addImageProfileURL($profileName, $path)
     {
-
         $this->imageProfileURLs[$profileName] = $path;
 
         return $this;
     }
 
     /**
-     * Get all URL's for an image-profile
+     * Get all URL's for an image-profile.
      *
      * @return array
      */
@@ -104,15 +103,15 @@ class Media extends Eloquent {
     }
 
     /**
-     * Get the URL to a generated Glide-image
+     * Get the URL to a generated Glide-image.
      *
      * @param $profile
+     *
      * @return bool
      */
     public function getURL($profile)
     {
-        if(is_array($profile))
-        {
+        if (is_array($profile)) {
             return $this->createGlideImageURL($profile);
         }
 
@@ -120,9 +119,10 @@ class Media extends Eloquent {
     }
 
     /**
-     * Create a URL for a generated Glide-image
+     * Create a URL for a generated Glide-image.
      *
      * @param $profile
+     *
      * @return mixed
      */
     public function createGlideImageURL($profile)

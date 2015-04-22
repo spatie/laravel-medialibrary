@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Facade;
 
-class MediaLibraryFacade extends Facade {
-
+class MediaLibraryFacade extends Facade
+{
     /**
      * Get the registered name of the component.
      *

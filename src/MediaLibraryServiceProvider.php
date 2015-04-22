@@ -7,8 +7,8 @@ use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
 use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
 use Spatie\MediaLibrary\Repositories\MediaLibraryRepository;
 
-class MediaLibraryServiceProvider extends ServiceProvider {
-
+class MediaLibraryServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -23,21 +23,19 @@ class MediaLibraryServiceProvider extends ServiceProvider {
     {
         // Publish the config file
         $this->publishes([
-            __DIR__ . '/ToPublish/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php')
+            __DIR__.'/ToPublish/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
         // Publish the migration
         $timestamp = date('Y_m_d_His', time());
 
         $this->publishes([
-            __DIR__ . '/ToPublish/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php')
+            __DIR__.'/ToPublish/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php'),
         ], 'migrations');
     }
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {

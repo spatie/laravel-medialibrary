@@ -5,26 +5,26 @@ use Spatie\MediaLibrary\Models\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 
-trait MediaLibraryModelTrait {
-
+trait MediaLibraryModelTrait
+{
     public static function boot()
     {
         parent::boot();
 
-        self::deleting(function($subject) {
+        self::deleting(function ($subject) {
 
-            foreach($subject->media()->get() as $media)
-            {
+            foreach ($subject->media()->get() as $media) {
                 MediaLibrary::remove($media->id);
             }
         });
     }
 
     /**
-     * Get media collection by its collectionName
+     * Get media collection by its collectionName.
      *
      * @param $collectionName
      * @param array $filters
+     *
      * @return mixed
      */
     public function getMedia($collectionName, $filters = ['temp' => 0])
@@ -33,10 +33,11 @@ trait MediaLibraryModelTrait {
     }
 
     /**
-     * Get the first media item of a media collection
+     * Get the first media item of a media collection.
      *
      * @param $collectionName
      * @param array $filters
+     *
      * @return bool
      */
     public function getFirstMedia($collectionName, $filters = [])
@@ -47,12 +48,13 @@ trait MediaLibraryModelTrait {
     }
 
     /**
-     * Add media to media collection from a given file
+     * Add media to media collection from a given file.
      *
      * @param $file
      * @param $collectionName
      * @param bool $preserveOriginal
      * @param bool $addAsTemporary
+     *
      * @return mixed
      */
     public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = true)
@@ -63,7 +65,7 @@ trait MediaLibraryModelTrait {
     }
 
     /**
-     * Remove a media item by its id
+     * Remove a media item by its id.
      *
      * @param $id
      */
@@ -71,44 +73,39 @@ trait MediaLibraryModelTrait {
     {
         $media = Media::findOrFail($id);
 
-        if($media->content_type == get_class($this) && $media->content_id == $this->id)
-        {
+        if ($media->content_type == get_class($this) && $media->content_id == $this->id) {
             MediaLibrary::remove($id);
         }
     }
 
     /**
-     * Update a media collection by deleting and inserting again with new values
+     * Update a media collection by deleting and inserting again with new values.
      *
      * @param array $newMediaArray
      * @param $collectionName
+     *
      * @throws Exception
      */
     public function updateMedia(array $newMediaArray, $collectionName)
     {
         $mediaItems = new Collection($newMediaArray);
 
-        foreach($this->getMedia($collectionName, []) as $currentMedia)
-        {
-            if( ! in_array($currentMedia->id, $mediaItems->lists('id')))
-            {
+        foreach ($this->getMedia($collectionName, []) as $currentMedia) {
+            if (! in_array($currentMedia->id, $mediaItems->lists('id'))) {
                 $this->removeMedia($currentMedia->id);
             }
         }
 
         $orderCounter = 0;
 
-        foreach($newMediaArray as $newMediaItem)
-        {
+        foreach ($newMediaArray as $newMediaItem) {
             $currentMedia = Media::findOrFail($newMediaItem['id']);
 
-            if($currentMedia->collection_name != $collectionName)
-            {
-                throw new Exception('Media id: ' . $currentMedia->id . ' error: Updating the wrong collection. Expected: "' . $collectionName . '" - got: "'. $currentMedia->collection_name);
+            if ($currentMedia->collection_name != $collectionName) {
+                throw new Exception('Media id: '.$currentMedia->id.' error: Updating the wrong collection. Expected: "'.$collectionName.'" - got: "'.$currentMedia->collection_name);
             }
 
-            if(array_key_exists('name', $newMediaItem))
-            {
+            if (array_key_exists('name', $newMediaItem)) {
                 $currentMedia->name = $newMediaItem['name'];
             }
 
@@ -121,7 +118,7 @@ trait MediaLibraryModelTrait {
     }
 
     /**
-     * Set the polymorphic relation
+     * Set the polymorphic relation.
      *
      * @return mixed
      */

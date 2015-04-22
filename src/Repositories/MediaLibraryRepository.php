@@ -15,13 +15,14 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Add a new media to a Models mediaCollection
+     * Add a new media to a Models mediaCollection.
      *
      * @param $file
      * @param MediaLibraryModelInterface $model
      * @param $collectionName
-     * @param bool $preserveOriginal
-     * @param bool $addAsTemporary
+     * @param bool                       $preserveOriginal
+     * @param bool                       $addAsTemporary
+     *
      * @return Media
      */
     public function add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
@@ -38,10 +39,12 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Remove a media record and it's associated files
+     * Remove a media record and it's associated files.
      *
      * @param $id
+     *
      * @return bool
+     *
      * @throws \Exception
      */
     public function remove($id)
@@ -56,7 +59,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Reorder media-records
+     * Reorder media-records.
      *
      * @param $orderArray
      * @param MediaLibraryModelInterface $model
@@ -75,11 +78,12 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Get a collection of media by its collectionName
+     * Get a collection of media by its collectionName.
      *
      * @param MediaLibraryModelInterface $model
      * @param $collectionName
      * @param $filters
+     *
      * @return mixed
      */
     public function getCollection(MediaLibraryModelInterface $model, $collectionName, $filters)
@@ -94,7 +98,7 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Clean up temporary media records
+     * Clean up temporary media records.
      *
      * @return int
      */
@@ -112,9 +116,10 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Regenerate the derived media files
+     * Regenerate the derived media files.
      *
      * @param $media
+     *
      * @return $this
      */
     public function regenerateDerivedFiles($media)
@@ -126,11 +131,12 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Create a new media-records from a filepath and collectionName
+     * Create a new media-records from a filepath and collectionName.
      *
      * @param $file
      * @param $collectionName
      * @param $addAsTemporary
+     *
      * @return Media
      */
     private function createMediaFromFile($file, $collectionName, $addAsTemporary)
@@ -152,16 +158,16 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Load media by collectionName
+     * Load media by collectionName.
      *
      * @param MediaLibraryModelInterface $model
      * @param $collectionName
+     *
      * @return mixed
      */
     private function loadMedia(MediaLibraryModelInterface $model, $collectionName)
     {
         if ($this->mediaIsPreloaded($model)) {
-
             $media = $model->media->filter(function ($mediaItem) use ($collectionName) {
                 return $mediaItem->collection_name == $collectionName;
             })->sortBy(function ($media) {
@@ -179,9 +185,10 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Check if the media is preloaded
+     * Check if the media is preloaded.
      *
      * @param MediaLibraryModelInterface $model
+     *
      * @return bool
      */
     private function mediaIsPreloaded(MediaLibraryModelInterface $model)
@@ -194,15 +201,15 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Add URL to profile-image media
+     * Add URL to profile-image media.
      *
      * @param $media
+     *
      * @return mixed
      */
     private function addURLToMediaProfile($media)
     {
-        foreach($media as $mediaKey => $mediaItem)
-        {
+        foreach ($media as $mediaKey => $mediaItem) {
             $media[$mediaKey] = $this->addURLsToMediaItem($mediaItem);
         }
 
@@ -210,9 +217,10 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Add URL to a single media item
+     * Add URL to a single media item.
      *
      * @param $mediaItem
+     *
      * @return mixed
      */
     private function addURLsToMediaItem($mediaItem)
@@ -225,16 +233,16 @@ class MediaLibraryRepository implements MediaLibraryRepositoryInterface
     }
 
     /**
-     * Apply given filters on media
+     * Apply given filters on media.
      *
      * @param $media
      * @param $filters
+     *
      * @return mixed
      */
     private function applyFiltersToMedia($media, $filters)
     {
         foreach ($filters as $filterProperty => $filterValue) {
-
             $media = $media->filter(function ($media) use ($filterProperty, $filterValue) {
                 return $media->$filterProperty == $filterValue;
             });
