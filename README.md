@@ -121,7 +121,7 @@ You can also opt to use the MediaLibrary-facade directly (which the trait uses).
 ##### add();
 
 ```php
-MediaLibrary::add($file, MediaModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
+MediaLibrary::add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
 ```
 
 The same as addMedia but the model is an argument.
@@ -136,7 +136,7 @@ The same as removeMedia but without a bit of validation.
 ##### order();
 
 ```php
-MediaLibrary::order($orderArray, MediaModelInterface $model);
+MediaLibrary::order($orderArray, MediaLibraryModelInterface $model);
 ```
 
 Reorders media-records (order_column) for a given model by the $orderArray.
@@ -145,7 +145,7 @@ $orderArray should look like ```[1 => 4, 2 => 3, ... ]``` where the key is the m
 ##### getCollection();
 
 ```php
-MediaLibrary::getCollection(MediaModelInterface $model, $collectionName, $filters);
+MediaLibrary::getCollection(MediaLibraryModelInterface $model, $collectionName, $filters);
 ```
 
 Same as getMedia without the default $filters set to 'temp' => 1

@@ -18,7 +18,10 @@ interface MediaLibraryRepositoryInterface {
      * Add a new media to a Models mediaCollection
      *
      * @param $file
+    <<<<<<< Updated upstream
      * @param MediaLibraryModelInterface $model
+
+    >>>>>>> Stashed changes
      * @param $collectionName
      * @param bool $preserveOriginal
      * @param bool $addAsTemporary
@@ -39,7 +42,12 @@ interface MediaLibraryRepositoryInterface {
      * Reorder media-records
      *
      * @param $orderArray
+<<<<<<< Updated upstream
      * @param MediaLibraryModelInterface $model
+=======
+     * @param MediaLibraryModelInterface|MediaModelInterface $model
+     * @return
+>>>>>>> Stashed changes
      */
     public function order($orderArray, MediaLibraryModelInterface $model);
 
