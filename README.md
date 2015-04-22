@@ -1,4 +1,4 @@
-# laravel-medialibrary
+# A media library back end for Laravel 5 applications
 
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://github.com/freekmurze/laravel-medialibrary/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -6,17 +6,17 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
-This packages makes it easy to add and manage media associated with models.
+This package provides an easy way to associate all sorts of files with Eloquent models. For example you can create an "images"-collections for an article with 
 
 ## Install
 
-Require the package through Composer
+You can install this package via composer using:
 
 ``` bash
-$ composer require spatie/laravel-medialibrary
+composer require spatie/laravel-medialibrary
 ```
 
-Register the service provider and the MediaLibrary facade.
+You must also install this service provider and the facade.
 
 ``` php
 // config/app.php
@@ -34,7 +34,7 @@ Register the service provider and the MediaLibrary facade.
 ];
 ```
 
-Next publish the configuration
+To publish the config file to app/config/laravel-backup.php run:
 
 ``` bash
 $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
