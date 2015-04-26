@@ -254,8 +254,5 @@ class MediaLibraryRepository
 
         return false;
     }
-
-
-
-
 }
+

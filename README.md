@@ -116,17 +116,17 @@ The method returns an array with `Media`-objects that are in the collection for 
 
 You can retrieve the url to the file associated with `Media`-object with:
 ```php
-$publicURL = $mediaItems[0]->getOriginalURL();
+$publicURL = $mediaItems[0]->getURL('original');
 ```
 
 You can remove someting from the library by passing the a media id to the remove method of the facade:
-```
+```php
 MediaLibrary::remove($mediaItems[0]->id)
 ```
 
 ###Using the model
 All the methods above are also available on the model itself.
-```
+```php
 $newsItem = News::find(2);
 $collectionName = 'anotherFineCollection';
 $newsItem->addMedia($pathToAFile, $collectionName);
@@ -187,7 +187,8 @@ $urlToDetailImage = $mediaItems[0]->getURL('detail');
 
 ###Generate a derived image without defining a profile
 You can also generate a derived image on the fly by passing an array with parameters from the Glide API into the `getURL`-function:
-```
+
+```php
 $mediaItem->getURL(['w'=>450, 'h'=> 200, 'filt' => 'greyscale']);
 ```
 This call will generated an url that, when hit, will generate the derived image.
