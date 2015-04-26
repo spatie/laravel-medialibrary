@@ -6,7 +6,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
-This Laravel 5 package provides an easy way to associate all sorts of files with Eloquent models. Additionally it can create manipulations on images that have been added to the medialibrary.
+This Laravel 5 package provides an easy way to associate all sorts of files with Eloquent models. Additionally it can create image manipulations on images that have been added in the medialibrary.
 
 ## Installation
 
