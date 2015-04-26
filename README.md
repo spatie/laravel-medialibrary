@@ -10,7 +10,7 @@
 
 This package provides an easy way to associate all sorts of files with Eloquent models. Additionally it can create manipulations on images that have been added to the medialibrary.
 
-## Install
+## Installation
 
 You can install this package via composer using:
 
@@ -50,8 +50,8 @@ After the migration has been published you can create the media-table you by run
 $ php artisan migrate
 ```
 
-This is the contens of the published config file:
-```
+This is the contents of the published config file:
+```php
 return [
 
     /*
@@ -80,9 +80,9 @@ return [
 ## Basic usage
 
 
-In essence the medialibrary is very simple. All files added to the library is associated with a record in the db. All examples in the readme assume that you have already have a news model setup (the package will work with any model).
+In essence the medialibrary is very simple. All files added to the library are associated a record in the db. All examples in the readme assume that you have already have a news model set up. Of course this package will work with any Eloquent model.
 
-First you should let the model that you want to relate to media implement this interface and trait:
+To relate media to a model, the model must implement this interface and trait:
 
 ```
 namespace App\Models;
@@ -103,7 +103,7 @@ Using the facade you can add items to the library like this:
 ```php
 $collectionName = 'myFirstCollection'
 $newsItem = News::find(1);
-Medialibrary::add($pathToAFile, News::find(1), $collectionName);
+Medialibrary::add($pathToAFile, $newsItem, $collectionName);
 ```
 Adding a file will move your file to a directory managed by the medialibrary.
 
