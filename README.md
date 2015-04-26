@@ -138,6 +138,7 @@ $newsItem->removeMedia($mediaItems[0]->id);
 ```
 
 ## Working with images
+###Defining profiles
 Image you are making a site with a list of all news-items. Wouldn't it be nice to show the user a thumb of image associated with the news-item? When adding images to the medialibrary, it can create these derived images for you.
 
 You can let the medialibrary know that it should make a derived image by implementing the `getImageProfileProperties()`-method on the model.
@@ -152,18 +153,39 @@ public static function getImageProfileProperties()
     ];
 }
 ```
-When associating a jpg-file or png-file to the library it will, besides storing the original image, create a derived image for every key in the array. Of course "list" and "detail" are only examples. You can use any string you like as a key. The example above uses a width and height manipulation. Internally the medialibrary uses [Glide](http://glide.thephpleague.com) to manipulate images. You can use any parameter you find in [their image API](http://glide.thephpleague.com/api/size/).
+When associating a jpg-file or png-file to the library it will, besides storing the original image, create a derived image for every key in the array. Of course "list" and "detail" are only examples. You can use any string you like as a key. The example above uses a width and height manipulation.
+
+Internally the medialibrary uses [Glide](http://glide.thephpleague.com) to manipulate images. You can use any parameter you find in [their image API](http://glide.thephpleague.com/api/size/).
+
+If your Laravel app is configured to use queues, the derived images will be generated in a queued job. If you don't want this you can specify use the `shouldBeQueued`-option like this:
+
+```php
+//in your news model
+public static function getImageProfileProperties()
+{
+    return [
+        'list'=> ['w'=>200, 'h'=>200, 'shouldBeQueued' => false],
+        'detail'=> ['w'=>1600, 'h'=>800, 'shouldBeQueued' => false],
+    ];
+}
+```
 
 
+###Retrieving derived images
 Here's example that shows you how to get the url's to the derived images:
 
 ```php
+$newsItem = News::find(3);
+$collectionName = 'anotherFineCollection';
+$newsItem->addMedia($pathToAFile, $collectionName);
+
 $mediaItems = $newsItem->getCollection($collectionName)
-$firstMediaItem = $mediaItems[0];
-$urlToOrignalUploadedImage = $firstMediaItem->getOriginalURL();
-$urlToListImage = $firstMediaItem->getURL('list');
-$urlToDetailImage = $firstMediaItem->getURL('detail');
+$urlToOriginalUploadedImage = $mediaItems[0]->getOriginalURL();
+$urlToListImage = $mediaItems[0]->getURL('list');
+$urlToDetailImage = $mediaItems[0]->getURL('detail');
 ```
+
+###Reg
 
 
 
