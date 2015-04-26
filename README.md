@@ -1,3 +1,5 @@
+## This package is still under construction. Unless you have uncontrollable urge to use it, please have a little patience until we finish it
+
 # A media library back end for Laravel 5 applications
 
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://github.com/freekmurze/laravel-medialibrary/releases)
@@ -6,7 +8,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
-This package provides an easy way to associate all sorts of files with Eloquent models. For example you can create an "images"-collections for an article with 
+This package provides an easy way to associate all sorts of files with Eloquent models. Additionally it can create manipulations on images that have been added to the medialibrary.
 
 ## Install
 
@@ -16,7 +18,7 @@ You can install this package via composer using:
 composer require spatie/laravel-medialibrary
 ```
 
-You must also install this service provider and the facade.
+Next, you must install the service provider and the facade.
 
 ``` php
 // config/app.php
@@ -42,17 +44,17 @@ $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryService
 
 You can separately publish the config or the migration using the ```config``` or ```migrations``` tag.
 
-Next run the migration for the Media table
+After the migration has been published you can create the media-table you by running the migrations.
 
 ```bash
 $ php artisan migrate
 ```
 
-The ```publicPath``` key in the configuration is where the generated images are stored. This is set to a sensible default already.
+The ```publicPath``` key in the configuration is where the medialibrary will upload files. 
 
-The ```globalImageProfiles``` is a way to set global image profiles. (These can be overwritten by a models image profiles).
+The ```globalImageProfiles``` is a way to set global image profiles. More on that when we'll talk about generating images.
 
-Example of globalImageProfiles:
+An example of how this option could be used.
 
 ```php
 ...
@@ -62,283 +64,92 @@ Example of globalImageProfiles:
 ],
 ```
 
-## Usage
+## Basic usage
 
-Models have to use the MediaLibraryModelTrait to gain access to the needed methods.
 
-### Overview of methods
+In essence the medialibrary is very simple. All files added to the library is associated with a record in the db. All examples in the readme assume that you have already have a news model setup (the package will work with any model).
 
-All examples  assume ```$user = User::find(1);```
+First you should let the model that you want to relate to media implement this interface and trait:
 
-#### getMedia
-
-Return all media from a certain collection belonging to a $user.
-
-```php
-$user->getMedia('images');
 ```
+namespace App\Models;
 
-getMedia has an optionals $filters argument.
+use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
+use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelTrait;
 
-#### getFirstMedia
-
-Returns only the first media-record from a certain collection belonging to a $user.
-
-```php
-$user->getFirstMedia('images');
-```
-
-#### getFirstMediaURL
-
-Returns the URL of the first media-item with given collectionName and profile
-
-```php
-$user->getFirstMediaURL('images', 'small');
-```
-
-#### addMedia
-
-Add a media-record using a file and a collectionName.
-
-```php
-$user->addMedia('testImage.jpg', 'images');
-```
-
-addMedia has optional $preserveOriginal and $addAsTemporary arguments.
-
-#### removeMedia
-
-Remove a media-record ( and associated generated files) by its id
-
-```php
-$user->removeMedia(1);
-```
-
-#### updateMedia
-
-Update the media-records with given information ( and automatically reorder them).
-
-```php
-$user->updateMedia([
-    ['id' => 1, 'name' => 'updatedName'],
-], 'images');
-```
-
-#### Facade
-
-You can also opt to use the MediaLibrary-facade directly (which the trait uses).
-
-##### add();
-
-```php
-MediaLibrary::add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
-```
-
-The same as addMedia but the model is an argument.
-
-##### remove();
-
-```php
-MediaLibrary::remove($id);
-```
-The same as removeMedia but without a bit of validation.
-
-##### order();
-
-```php
-MediaLibrary::order($orderArray, MediaLibraryModelInterface $model);
-```
-
-Reorders media-records (order_column) for a given model by the $orderArray.
-$orderArray should look like ```[1 => 4, 2 => 3, ... ]``` where the key is the media-records id and the value is what value order_column should get.
-
-##### getCollection();
-
-```php
-MediaLibrary::getCollection(MediaLibraryModelInterface $model, $collectionName, $filters);
-```
-
-Same as getMedia without the default $filters set to 'temp' => 1
-
-##### cleanUp();
-
-```php
-MediaLibrary::cleanUp();
-```
-
-Deletes all temporary media-records and associated files older than a day.
-
-##### regenerateDerivedFiles();
-
-```php
-MediaLibrary::regenerateDerivedFiles($media);
-```
-
-Removes all derived files for a media-record and regenerates them.
-
-### Simple example
-
-We have a User-model. A user must be able to have pdf files associated with them.
-
-
-Firstly, make use of the MediaLibraryModelTrait in your model.
-
-```php
-class User extends Model {
-    
-    use MediaLibraryModelTrait;
-    ...
-}
-```
-
-Next you can add the files to the user like this:
-
-```php
-$user->addMedia($pathToFile, 'pdfs');
-```
-
-Remove it like this:
-
-```php
-$user->removeMedia($id);
-//$id is the media-records id.
-```
-This will also delete the file so use with care.
-
-Update it like this:
-
-```php
-$updatedMedia = [
-    ['id' => 1, 'name' => 'newName'],
-];
-
-$user->updateMedia($updatedMedia, 'pdfs');
-```
-
-Get media-records like this:
-
-```php
-$media = $user->getMedia('pdfs');
-```
-Now you can loop over these to get the url's to the files.
-
-```php
-foreach($media as $profileName => $mediaItem)
+class News extends implements MediaLibraryModelInterface
 {
-    $fileURL = $mediaItem->getAllProfileURLs();
-}
 
-// $fileURL will be ['original' => '/path/to/file.pdf]
-```
-
-### In-depth example
-
-#### Preparation
-
-Let's say we have a User-model that needs to have images associated with it.
-
-After installing the package (_migration, config, facade, service provider_)
-we add the MediaLibraryModelTrait to our User model.
-
-This gives you access to all needed methods.
-
-```php
-class User extends Model {
-    
-    use MediaLibraryModelTrait;
-    ...
+	use MediaLibraryModelTrait
+   ...
 }
 ```
 
-If you use this package for images ( _like this example_) the model should have the public $imageProfiles member.
+###Using the facade
+Using the facade you can add items to the library like this:
+```php
+$collectionName = 'myFirstCollection'
+$newsItem = News::find(1);
+Medialibrary::add($pathToAFile, News::find(1), $collectionName);
+```
+Adding a file will move your file to a directory managed by the medialibrary.
 
-_Example:_
+To retrieve files you can use the ```getCollection```-method:
+```php
+$mediaItems = MediaLibrary::getCollection($newsItem, $collectionName);
+```
+
+The method returns an array with `Media`-objects that are in the collection for the given model.
+
+You can retrieve the url to the file associated with `Media`-object with:
+```php
+$publicURL = $mediaItems[0]->getOriginalURL();
+```
+
+You can remove someting from the library by passing the a media id to the remove method of the facade:
+```
+MediaLibrary::remove($mediaItems[0]->id)
+```
+
+###Using the model
+All the methods above are also available on the model itself.
+```
+$newsItem = News::find(2);
+$collectionName = 'anotherFineCollection';
+$newsItem->addMedia($pathToAFile, $collectionName);
+
+$mediaItems = $newsMedia->getCollection($collectionName);
+$publicURL = $mediaItems[0]->getOriginalURL();
+
+$newsItem->removeMedia($mediaItems[0]->id);
+```
+
+## Working with images
+Image you are making a site with a list of all news-items. Wouldn't it be nice to show the user a thumb of image associated with the news-item? When adding images to the medialibrary, it can create these derived images for you.
+
+You can let the medialibrary know that it should make a derived image by implementing the `getImageProfileProperties()`-method on the model.
 
 ```php
-public $imageProfiles = [
-        'small'  => ['w' => '150', 'h' => '150', 'filt' => 'greyscale', 'shouldBeQueued' => false],
-        'medium' => ['w' => '450', 'h' => '450'],
-        'large'  => ['w' => '750', 'h' => '750' , 'shouldBeQueued' => true],
+//in your news model
+public static function getImageProfileProperties()
+{
+    return [
+        'list'=> ['w'=>200, 'h'=>200],
+        'detail'=> ['w'=>1600, 'h'=>800],
     ];
+}
 ```
+When associating a jpg-file or png-file to the library it will, besides storing the original image, create a derived image for every key in the array. Of course "list" and "detail" are only examples. You can use any string you like as a key. The example above uses a width and height manipulation. Internally the medialibrary uses [Glide](http://glide.thephpleague.com) to manipulate images. You can use any parameter you find in [their image API](http://glide.thephpleague.com/api/size/).
 
-The shouldBeQueued-key is optional and will default to true if absent.
 
-The MediaLibrary utilizes Glide so take a look at Glide's [image api](http://glide.thephpleague.com/).
-
-#### Adding media
-
-Say our user uploads an image to the application that needs to have the versions specified in the User-model.
-
-Firstly 'get' the user.
+Here's example that shows you how to get the url's to the derived images:
 
 ```php
-$user = User::find(1);
-``` 
-
-Then, use the trait to 'add the media'.
-
-```php
-$pathToUploadedImage = storage_path('uploadedImage.jpg');
-$user->addMedia($pathToUploadedImage, 'images');
-```
-
-This will generate all images specified in the imageProfiles and insert a record into the Media-table.
-The images will be placed in the path set in the publicPath in the config.
-
-
-#### Updating media
-
-Say we want to update some media records.
-
-We need to give an array containing an array for each record that needs to be updated.
-
-```php
-$updatedMedia = [
-    ['id' => 1, 'name' => 'newName'],
-    ['id' => 2, 'collection_name' => 'newCollectionName'],
-];
-
-$user->updateMedia($updatedMedia, 'images');
-```
-If the given collectionName doesn't check out an exception will be thrown.
-Media-record with id 1 will have its name updated and media-records with id 2 will have its collection_name updated.
-
-#### Removing media
-
-```php
-$user->removeMedia(1);
-```
-
-Remove a media-record and its associated files with removeMedia() and the id of the media-records as a parameter.
-
-#### Displaying Media
-
-Displaying media by passing 'media' to a view:
-
-```php
-// In controller
-$user = User::find(1);
-
-$media = $user->getMedia('images');
-
-return view('a_view')
-    ->with(compact('media');
-
-```
-
-In your view, this would display all media from the images collection for a certain $user
-
-```php
-@foreach($media as $mediaItem)
-
-    @foreach($mediaItem->getAllProfileURLs() as $profileName => $imageURL)
-    
-        <img src="{{ url($imageURL) }}">
-    
-    @endforeach
-
-@endforeach
+$mediaItems = $newsItem->getCollection($collectionName)
+$firstMediaItem = $mediaItems[0];
+$urlToOrignalUploadedImage = $firstMediaItem->getOriginalURL();
+$urlToListImage = $firstMediaItem->getURL('list');
+$urlToDetailImage = $firstMediaItem->getURL('detail');
 ```
 
 ## Contributing
