@@ -18,7 +18,7 @@ You can install this package via composer using:
 composer require spatie/laravel-medialibrary
 ```
 
-Next, you must install the service provider and the facade.
+Next, you must install the service provider and the facade. 
 
 ``` php
 // config/app.php
@@ -42,8 +42,6 @@ To publish the config file to app/config/laravel-backup.php run:
 $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
 ```
 
-You can separately publish the config or the migration using the ```config``` or ```migrations``` tag.
-
 After the migration has been published you can create the media-table you by running the migrations.
 
 ```bash
@@ -51,6 +49,7 @@ $ php artisan migrate
 ```
 
 This is the contents of the published config file:
+
 ```php
 return [
 
@@ -115,17 +114,26 @@ $mediaItems = MediaLibrary::getCollection($newsItem, $collectionName);
 The method returns an array with `Media`-objects that are in the collection for the given model.
 
 You can retrieve the url to the file associated with `Media`-object with:
+
 ```php
 $publicURL = $mediaItems[0]->getURL('original');
 ```
 
 You can remove someting from the library by passing the a media id to the remove method of the facade:
+
 ```php
 MediaLibrary::remove($mediaItems[0]->id)
 ```
 
+If you delete the newsItem itself all related files will be removed from the filesystem.
+
+```php
+$newsItem->delete(); //all associated files will be deleted as well
+```
+
 ###Using the model
 All the methods above are also available on the model itself.
+
 ```php
 $newsItem = News::find(2);
 $collectionName = 'anotherFineCollection';
@@ -153,6 +161,7 @@ public static function getImageProfileProperties()
     ];
 }
 ```
+
 When associating a jpg-file or png-file to the library it will, besides storing the original image, create a derived image for every key in the array. Of course "list" and "detail" are only examples. You can use any string you like as a key. The example above uses a width and height manipulation.
 
 Internally the medialibrary uses [Glide](http://glide.thephpleague.com) to manipulate images. You can use any parameter you find in [their image API](http://glide.thephpleague.com/api/size/).
@@ -170,7 +179,6 @@ public static function getImageProfileProperties()
 }
 ```
 
-
 ###Retrieving derived images
 Here's example that shows you how to get the url's to the derived images:
 
@@ -186,6 +194,7 @@ $urlToDetailImage = $mediaItems[0]->getURL('detail');
 ```
 
 Because getting an url to the first mediaItem in a collection is such a common scenario this convenience-method is provided:
+
 ```php
 $urlToFirstListImage = $newsItem->getFirstMediaURL('list');
 ```
@@ -197,6 +206,7 @@ You can also generate a derived image on the fly by passing an array with parame
 ```php
 $mediaItem->getURL(['w'=>450, 'h'=> 200, 'filt' => 'greyscale']);
 ```
+
 This call will generated an url that, when hit, will generate the derived image.
 
 ## Contributing
@@ -205,7 +215,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
+If you discover any security related issues, please email [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
 
 ## Credits
 
