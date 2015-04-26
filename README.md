@@ -90,7 +90,7 @@ use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelTrait;
 class News extends implements MediaLibraryModelInterface
 {
 
-	use MediaLibraryModelTrait
+	use MediaLibraryModelTrait;
    ...
 }
 ```
@@ -117,20 +117,20 @@ You can retrieve the url to the file associated with `Media`-object with:
 $publicURL = $mediaItems[0]->getURL('original');
 ```
 
-You can remove someting from the library by passing the a media id to the remove method of the facade:
+You can remove something from the library by passing the a media id to the remove method of the facade:
 
 ```php
 MediaLibrary::remove($mediaItems[0]->id)
 ```
 
-If you delete the newsItem itself all related files will be removed from the filesystem.
+If you delete a record all related files will be removed from the filesystem.
 
 ```php
 $newsItem->delete(); //all associated files will be deleted as well
 ```
 
 ###Using the model
-All the methods above are also available on the model itself.
+All the methods of the facade are also available on the model itself.
 
 ```php
 $newsItem = News::find(2);
@@ -199,7 +199,7 @@ $urlToFirstListImage = $newsItem->getFirstMediaURL('list');
 
 
 ###Generate a derived image without defining a profile
-You can also generate a derived image on the fly by passing an array with parameters from the Glide API into the `getURL`-function:
+You can also generate a derived image on the fly by passing an array with parameters from the [Glide API](http://glide.thephpleague.com/api/size/) into the `getURL`-function:
 
 ```php
 $mediaItem->getURL(['w' => 450, 'h' => 200, 'filt' => 'greyscale']);
