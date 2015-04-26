@@ -185,7 +185,12 @@ $urlToListImage = $mediaItems[0]->getURL('list');
 $urlToDetailImage = $mediaItems[0]->getURL('detail');
 ```
 
-###Reg
+###Generate a derived image without defining a profile
+You can also generate a derived image on the fly by passing an array with parameters from the Glide API into the `getURL`-function:
+```
+$mediaItem->getURL(['w'=>450, 'h'=> 200, 'filt' => 'greyscale']);
+```
+This call will generated an url that, when hit, will generate the derived image.
 
 
 
