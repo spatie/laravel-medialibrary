@@ -11,7 +11,7 @@ trait MediaLibraryModelTrait
     {
         parent::boot();
 
-        self::deleting(function(MediaLibraryModelInterface $subject) {
+        self::deleting(function (MediaLibraryModelInterface $subject) {
 
             foreach ($subject->media()->get() as $media) {
                 MediaLibrary::remove($media->id);
@@ -28,7 +28,6 @@ trait MediaLibraryModelTrait
     {
         return $this->morphMany('Spatie\MediaLibrary\Models\Media', 'content');
     }
-
 
     /**
      * Get media collection by its collectionName.
@@ -60,18 +59,18 @@ trait MediaLibraryModelTrait
 
     /**
      * Get the url of the image for the given profileName
-     * for first media for the given collectionName
+     * for first media for the given collectionName.
      *
      * @param $collectionName
      * @param $profileName
+     *
      * @return bool
      */
     public function getFirstMediaURL($collectionName, $profileName)
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if ($media)
-        {
+        if ($media) {
             return $media->getURL($profileName);
         }
 
@@ -112,7 +111,7 @@ trait MediaLibraryModelTrait
     /**
      * Update a media collection by deleting and inserting again with new values.
      *
-     * @param array $newMediaArray
+     * @param array  $newMediaArray
      * @param string $collectionName
      *
      * @throws Exception
@@ -142,10 +141,10 @@ trait MediaLibraryModelTrait
         }
     }
 
-
     /**
      * @param array $newMediaArray
      * @param $collectionName
+     *
      * @return mixed
      */
     private function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName)

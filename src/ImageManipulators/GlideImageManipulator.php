@@ -77,7 +77,6 @@ class GlideImageManipulator implements ImageManipulatorInterface
             $outputFile = $this->determineOutputFileName($media, $originalPath, $profileName, $imageConversionParameters);
 
             if ($shouldBeQueued) {
-
                 Queue::push(
                     GlideQueueHandler::class,
                     [
@@ -92,7 +91,6 @@ class GlideImageManipulator implements ImageManipulatorInterface
             }
 
             $this->convertImage($originalFile, $imageConversionParameters, $outputFile);
-
         }
     }
 

@@ -1,6 +1,7 @@
 <?php namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
 use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
 use Spatie\MediaLibrary\Models\Media;
@@ -19,13 +20,13 @@ class MediaLibraryRepository
     }
 
     /**
-     * Add a file to the media collection of the given model
+     * Add a file to the media collection of the given model.
      *
      * @param $file
      * @param MediaLibraryModelInterface $model
      * @param $collectionName
-     * @param bool $preserveOriginal if this is set to true the file will be removed from it's original location
-     * @param bool $addAsTemporary
+     * @param bool                       $preserveOriginal if this is set to true the file will be removed from it's original location
+     * @param bool                       $addAsTemporary
      *
      * @return Media
      */
@@ -256,17 +257,17 @@ class MediaLibraryRepository
 
         return false;
     }
+
     /**
-     * Copy the gitignore stub to medialibrary directory
+     * Copy the gitignore stub to medialibrary directory.
      */
     private function addIgnoreFileToMediaLibraryDirectory()
     {
         $destinationDirectory = config('laravel-medialibrary.publicPath');
 
-        $destinationFile = $destinationDirectory . '/.gitignore';
+        $destinationFile = $destinationDirectory.'/.gitignore';
         if (!file_exists($destinationFile)) {
-            $this->app['files']->copy(__DIR__ . '/../../stubs/gitignore.txt', $destinationFile);
+            File::copy(__DIR__.'/../../stubs/gitignore.txt', $destinationFile);
         }
     }
 }
-

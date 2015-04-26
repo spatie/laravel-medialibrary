@@ -5,7 +5,6 @@ use Spatie\MediaLibrary\ImageManipulators\GlideImageManipulator;
 use Spatie\MediaLibrary\FileSystems\LocalFileSystem;
 use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
 use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
-use Spatie\MediaLibrary\MediaLibraryRepository;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
