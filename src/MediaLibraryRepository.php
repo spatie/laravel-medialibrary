@@ -31,6 +31,8 @@ class MediaLibraryRepository
      */
     public function add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
     {
+        $this->addIgnoreFileToMediaLibraryDirectory();
+
         $media = $this->createMediaForFile($file, $collectionName, $addAsTemporary);
 
         $model->media()->save($media);
@@ -253,6 +255,18 @@ class MediaLibraryRepository
         }
 
         return false;
+    }
+    /**
+     * Copy the gitignore stub to medialibrary directory
+     */
+    private function addIgnoreFileToMediaLibraryDirectory()
+    {
+        $destinationDirectory = $this->writeIgnoreFile(config('laravel-medialibrary.publicPath'));
+
+        $destinationFile = $destinationDirectory . '/.gitignore';
+        if (!file_exists($destinationFile)) {
+            $this->app['files']->copy(__DIR__ . '/../../stubs/gitignore.txt', $destinationFile);
+        }
     }
 }
 

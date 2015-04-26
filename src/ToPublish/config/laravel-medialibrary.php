@@ -6,6 +6,9 @@ return [
      * The medialibrary will use this directory to store added files and derived images.
      * If you are planning on using the url to the derived images, make sure
      * you specify a directory inside Laravel's public path.
+     *
+     * The package will automatically add a .gitignore file to this directory
+     * so you don't end of committing these files in your repo.
      */
     'publicPath' => public_path().'/media',
 

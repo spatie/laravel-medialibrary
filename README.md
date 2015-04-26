@@ -55,6 +55,9 @@ return [
      * The medialibrary will use this directory to store added files and derived images.
      * If you are planning on using the url to the derived images, make sure
      * you specify a directory inside Laravel's public path.
+     * 
+     * The package will automatically add a .gitignore file to this directory
+     * so you don't end of committing these files in your repo.
      */
     'publicPath' => public_path().'/media',
 
@@ -68,7 +71,7 @@ return [
      * These image profiles will applied on all used that implement
      * the MediaLibraryModelTrait.
      *
-     * See the README of this package for an example.
+     * See the README of the package for an example.
      */
     'globalImageProfiles' => [],
 ];
@@ -130,14 +133,14 @@ $newsItem->delete(); //all associated files will be deleted as well
 ```
 
 ###Using the model
-All the methods of the facade are also available on the model itself.
+Nearly all the methods of the facade are also available on the model itself.
 
 ```php
 $newsItem = News::find(2);
 $collectionName = 'anotherFineCollection';
 $newsItem->addMedia($pathToAFile, $collectionName);
 
-$mediaItems = $newsMedia->getCollection($collectionName);
+$mediaItems = $newsMedia->getMedia($collectionName);
 $publicURL = $mediaItems[0]->getURL('original');
 
 $newsItem->removeMedia($mediaItems[0]->id);
@@ -185,7 +188,7 @@ $newsItem = News::find(3);
 $collectionName = 'anotherFineCollection';
 $newsItem->addMedia($pathToAFile, $collectionName);
 
-$mediaItems = $newsItem->getCollection($collectionName)
+$mediaItems = $newsItem->getMedia($collectionName)
 $urlToOriginalUploadedImage = $mediaItems[0]->getOriginalURL();
 $urlToListImage = $mediaItems[0]->getURL('list');
 $urlToDetailImage = $mediaItems[0]->getURL('detail');
