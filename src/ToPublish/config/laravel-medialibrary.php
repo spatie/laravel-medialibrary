@@ -3,21 +3,23 @@
 return [
 
     /*
-     * publicPath is the path where the saved media-items will be stored.
+     * The medialibrary will use this directory to store added files and derived images.
+     * If you are planning on using the url to the derived images, make sure
+     * you specify a directory inside Laravel's public path.
      */
-    'publicPath' => public_path().'/medialibrary',
+    'publicPath' => public_path().'/media',
 
     /*
-     * Maximum allowed filesize
+     * The maximum file size of an item in bytes. If you try to add a file
+     * that is larger to the medialibrary it will result in an exception.
      */
     'maxFileSize' => 1024 * 1024 * 10,
 
     /*
-     * Standard image profiles applied on all used models.
-     * If a model contains a profile with same key as one defined here,
-     *  the models profile will overwrite this one
+     * These image profiles will applied on all used that implement
+     * the MediaLibraryModelTrait.
      *
-     * See Readme for an example
+     * See the README of the package for an example.
      */
     'globalImageProfiles' => [],
 ];

@@ -50,18 +50,31 @@ After the migration has been published you can create the media-table you by run
 $ php artisan migrate
 ```
 
-The ```publicPath``` key in the configuration is where the medialibrary will upload files. 
+This is the contens of the published config file:
+```
+return [
 
-The ```globalImageProfiles``` is a way to set global image profiles. More on that when we'll talk about generating images.
+    /*
+     * The medialibrary will use this directory to store added files and derived images.
+     * If you are planning on using the url to the derived images, make sure
+     * you specify a directory inside Laravel's public path.
+     */
+    'publicPath' => public_path().'/media',
 
-An example of how this option could be used.
+    /*
+     * The maximum file size of an item in bytes. If you try to add a file
+     * that is larger to the medialibrary it will result in an exception.
+     */
+    'maxFileSize' => 1024 * 1024 * 10,
 
-```php
-...
-'globalImageProfiles' => [
-    'small' => ['w' => '150', 'h' => '150'],
-    'grey' => ['filt' => 'greyscale],
-],
+    /*
+     * These image profiles will applied on all used that implement
+     * the MediaLibraryModelTrait.
+     *
+     * See the README of this package for an example.
+     */
+    'globalImageProfiles' => [],
+];
 ```
 
 ## Basic usage
@@ -151,6 +164,8 @@ $urlToOrignalUploadedImage = $firstMediaItem->getOriginalURL();
 $urlToListImage = $firstMediaItem->getURL('list');
 $urlToDetailImage = $firstMediaItem->getURL('detail');
 ```
+
+
 
 ## Contributing
 
