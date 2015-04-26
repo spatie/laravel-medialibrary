@@ -132,7 +132,7 @@ $collectionName = 'anotherFineCollection';
 $newsItem->addMedia($pathToAFile, $collectionName);
 
 $mediaItems = $newsMedia->getCollection($collectionName);
-$publicURL = $mediaItems[0]->getOriginalURL();
+$publicURL = $mediaItems[0]->getURL('original');
 
 $newsItem->removeMedia($mediaItems[0]->id);
 ```
@@ -185,6 +185,12 @@ $urlToListImage = $mediaItems[0]->getURL('list');
 $urlToDetailImage = $mediaItems[0]->getURL('detail');
 ```
 
+Because getting an url to the first mediaItem in a collection is such a common scenario this convenience-method is provided:
+```php
+$urlToFirstListImage = $newsItem->getFirstMediaURL('list');
+```
+
+
 ###Generate a derived image without defining a profile
 You can also generate a derived image on the fly by passing an array with parameters from the Glide API into the `getURL`-function:
 
@@ -192,8 +198,6 @@ You can also generate a derived image on the fly by passing an array with parame
 $mediaItem->getURL(['w'=>450, 'h'=> 200, 'filt' => 'greyscale']);
 ```
 This call will generated an url that, when hit, will generate the derived image.
-
-
 
 ## Contributing
 
