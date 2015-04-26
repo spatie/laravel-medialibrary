@@ -37,13 +37,13 @@ Next, you must install the service provider and the facade.
 To publish the config file to app/config/laravel-backup.php run:
 
 ```bash
-$ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
 ```
 
 After the migration has been published you can create the media-table you by running the migrations.
 
 ```bash
-$ php artisan migrate
+php artisan migrate
 ```
 
 This is the contents of the published config file:
