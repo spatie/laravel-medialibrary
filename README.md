@@ -145,7 +145,7 @@ $newsItem->removeMedia($mediaItems[0]->id);
 
 ## Working with images
 ###Defining profiles
-Image you are making a site with a list of all news-items. Wouldn't it be nice to show the user a thumb of image associated with the news-item? When adding images to the medialibrary, it can create these derived images for you.
+Imagine you are making a site with a list of all news-items. Wouldn't it be nice to show the user a thumb of image associated with the news-item? When adding images to the medialibrary, it can create these derived images for you.
 
 You can let the medialibrary know that it should make a derived image by implementing the `getImageProfileProperties()`-method on the model.
 
