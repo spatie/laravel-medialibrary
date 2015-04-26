@@ -87,7 +87,7 @@ trait MediaLibraryModelTrait
      *
      * @return mixed
      */
-    public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = true)
+    public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
     {
         $media = MediaLibrary::add($file, $this, $collectionName, $preserveOriginal, $addAsTemporary);
 
