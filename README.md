@@ -14,13 +14,13 @@ This package provides an easy way to associate all sorts of files with Eloquent 
 
 You can install this package via composer using:
 
-``` bash
+```bash
 composer require spatie/laravel-medialibrary
 ```
 
 Next, you must install the service provider and the facade. 
 
-``` php
+```php
 // config/app.php
 'providers' => [
     ...
@@ -28,7 +28,7 @@ Next, you must install the service provider and the facade.
 ];
 ```
 
-``` php
+```php
 // config/app.php
 'aliases' => [
     ...
@@ -38,7 +38,7 @@ Next, you must install the service provider and the facade.
 
 To publish the config file to app/config/laravel-backup.php run:
 
-``` bash
+```bash
 $ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
 ```
 
@@ -83,7 +83,7 @@ In essence the medialibrary is very simple. All files added to the library are a
 
 To relate media to a model, the model must implement this interface and trait:
 
-```
+```php
 namespace App\Models;
 
 use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
