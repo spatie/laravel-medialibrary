@@ -208,7 +208,7 @@ You can also generate a derived image on the fly by passing an array with parame
 $mediaItem->getURL(['w' => 450, 'h' => 200, 'filt' => 'greyscale']);
 ```
 
-This call will generated an url that, when hit, will generate the derived image.
+This call will generate an url that, when hit, will generate the derived image.
 
 ## Contributing
 
