@@ -261,7 +261,7 @@ class MediaLibraryRepository
      */
     private function addIgnoreFileToMediaLibraryDirectory()
     {
-        $destinationDirectory = $this->writeIgnoreFile(config('laravel-medialibrary.publicPath'));
+        $destinationDirectory = config('laravel-medialibrary.publicPath');
 
         $destinationFile = $destinationDirectory . '/.gitignore';
         if (!file_exists($destinationFile)) {
