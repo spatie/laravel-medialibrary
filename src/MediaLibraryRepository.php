@@ -267,7 +267,7 @@ class MediaLibraryRepository
 
         $destinationFile = $destinationDirectory.'/.gitignore';
         if (!file_exists($destinationFile)) {
-            File::copy(__DIR__.'/../../stubs/gitignore.txt', $destinationFile);
+            File::copy(__DIR__.'/stubs/gitignore.txt', $destinationFile);
         }
     }
 }
