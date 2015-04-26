@@ -1,6 +1,4 @@
-## This package is still under construction. Unless you have uncontrollable urge to use it, please have a little patience until we finish it
-
-# A media library back end for Laravel 5 applications
+# Associate files with Eloquent models
 
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://github.com/freekmurze/laravel-medialibrary/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -8,7 +6,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
-This package provides an easy way to associate all sorts of files with Eloquent models. Additionally it can create manipulations on images that have been added to the medialibrary.
+This Laravel 5 package provides an easy way to associate all sorts of files with Eloquent models. Additionally it can create manipulations on images that have been added to the medialibrary.
 
 ## Installation
 
@@ -79,7 +77,7 @@ return [
 ## Basic usage
 
 
-In essence the medialibrary is very simple. All files added to the library are associated a record in the db. All examples in the readme assume that you have already have a news model set up. Of course this package will work with any Eloquent model.
+In essence the medialibrary is very simple. All files added to the library are associated a record in the db. All examples in this readme assume that you have already have a news model set up. Of course this package will work with any Eloquent model.
 
 To relate media to a model, the model must implement this interface and trait:
 
@@ -204,7 +202,7 @@ $urlToFirstListImage = $newsItem->getFirstMediaURL('list');
 You can also generate a derived image on the fly by passing an array with parameters from the Glide API into the `getURL`-function:
 
 ```php
-$mediaItem->getURL(['w'=>450, 'h'=> 200, 'filt' => 'greyscale']);
+$mediaItem->getURL(['w' => 450, 'h' => 200, 'filt' => 'greyscale']);
 ```
 
 This call will generated an url that, when hit, will generate the derived image.
