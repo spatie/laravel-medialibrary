@@ -76,9 +76,9 @@ return [
     'globalImageProfiles' => [],
     
     /*
-    * The medialibrary will used this queue to generate derived images.
-    * Leave empty to use the default queue.
-    */
+     * The medialibrary will used this queue to generate derived images.
+     * Leave empty to use the default queue.
+     */
 
     'queueName' => 'media_queue',
 ];
