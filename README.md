@@ -79,7 +79,6 @@ return [
      * The medialibrary will used this queue to generate derived images.
      * Leave empty to use the default queue.
      */
-
     'queueName' => 'media_queue',
 ];
 ```
