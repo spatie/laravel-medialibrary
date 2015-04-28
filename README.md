@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://github.com/freekmurze/laravel-medialibrary/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/27cf455a-0555-4bcf-abae-16b5f7860d09.svg)](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09/mini.png)](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09)
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
@@ -74,8 +74,16 @@ return [
      * See the README of the package for an example.
      */
     'globalImageProfiles' => [],
+    
+    /*
+     * The medialibrary will used this queue to generate derived images.
+     * Leave empty to use the default queue.
+     */
+    'queueName' => 'media_queue',
 ];
 ```
+
+If you are planning on working with the image manipulations you should configure a queue on your service with the name specified in the config file.
 
 ## Basic usage
 
@@ -103,7 +111,7 @@ Using the facade you can add items to the library like this:
 ```php
 $collectionName = 'myFirstCollection'
 $newsItem = News::find(1);
-Medialibrary::add($pathToAFile, $newsItem, $collectionName);
+MediaLibrary::add($pathToAFile, $newsItem, $collectionName);
 ```
 Adding a file will move your file to a directory managed by the medialibrary.
 
@@ -208,7 +216,7 @@ You can also generate a derived image on the fly by passing an array with parame
 $mediaItem->getURL(['w' => 450, 'h' => 200, 'filt' => 'greyscale']);
 ```
 
-This call will generated an url that, when hit, will generate the derived image.
+This call will generate an url that, when hit, will generate the derived image.
 
 ## Contributing
 
