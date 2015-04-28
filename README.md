@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/github/release/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://github.com/freekmurze/laravel-medialibrary/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/27cf455a-0555-4bcf-abae-16b5f7860d09.svg)](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09.svg)](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09)
 [![Quality Score](https://img.shields.io/scrutinizer/g/freekmurze/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/freekmurze/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/:laravel-medialibrary)
 
