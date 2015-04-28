@@ -112,7 +112,7 @@ Using the facade you can add items to the library like this:
 ```php
 $collectionName = 'myFirstCollection'
 $newsItem = News::find(1);
-Medialibrary::add($pathToAFile, $newsItem, $collectionName);
+MediaLibrary::add($pathToAFile, $newsItem, $collectionName);
 ```
 Adding a file will move your file to a directory managed by the medialibrary.
 
