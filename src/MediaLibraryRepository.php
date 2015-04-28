@@ -1,5 +1,6 @@
 <?php namespace Spatie\MediaLibrary;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
@@ -29,9 +30,15 @@ class MediaLibraryRepository
      * @param bool                       $addAsTemporary
      *
      * @return Media
+     *
+     * @throws Exception
      */
     public function add($file, MediaLibraryModelInterface $model, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
     {
+        if (! file_exists($file)) {
+            throw new Exception('File '.$file.' does not exist');
+        }
+
         $this->addIgnoreFileToMediaLibraryDirectory();
 
         $media = $this->createMediaForFile($file, $collectionName, $addAsTemporary);
