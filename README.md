@@ -74,8 +74,17 @@ return [
      * See the README of the package for an example.
      */
     'globalImageProfiles' => [],
+    
+    /*
+    * The medialibrary will used this queue to generate derived images.
+    * Leave empty to use the default queue.
+    */
+
+    'queueName' => 'media_queue',
 ];
 ```
+
+If you are planning on working with the image manipulations you should configure a queue on your service with the name specified in the config file.
 
 ## Basic usage
 

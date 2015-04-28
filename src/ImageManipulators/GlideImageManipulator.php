@@ -84,7 +84,7 @@ class GlideImageManipulator implements ImageManipulatorInterface
                         'conversionParameters' => $imageConversionParameters,
                         'outputFile' => $outputFile,
                     ],
-                    'media_queue'
+                    $this->getQueueName()
                 );
 
                 return;
@@ -174,5 +174,18 @@ class GlideImageManipulator implements ImageManipulatorInterface
         }
 
         return $model->imageProfiles;
+    }
+
+    /**
+     * @return string
+     */
+    private function getQueueName()
+    {
+        if (config('laravel-medialibrary.queueName') == '')
+        {
+            return null;
+        }
+
+        return config('laravel-medialibrary.queueName');
     }
 }
