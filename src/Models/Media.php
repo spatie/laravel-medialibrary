@@ -119,6 +119,19 @@ class Media extends Eloquent
     }
 
     /**
+     * Get the path to the file of the given profile
+     *
+     * @param $profile
+     * @return bool|string
+     */
+    public function getPath($profile)
+    {
+        $paths = app()->make('Spatie\MediaLibrary\FileSystems\FileSystemInterface')->getFilePathsForMedia($this);
+
+        return array_key_exists($profile, $paths) ? $this->$paths[$profile] : false;
+    }
+
+    /**
      * Create a URL for a generated Glide-image.
      *
      * @param $profile
