@@ -162,7 +162,7 @@ class MediaLibraryRepository
         $media->name = $pathParts['filename'];
         $media->url = $pathParts['basename'];
         $media->path = $pathParts['basename'];
-        $media->extension = strtolower($pathParts['extension']);
+        $media->extension = isset($pathParts['extension']) ? strtolower($pathParts['extension']) : '';
         $media->size = filesize($file);
         $media->temp = $addAsTemporary;
         $media->collection_name = $collectionName;
