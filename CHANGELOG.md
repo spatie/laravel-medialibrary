@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##1.1.3
+- Create the medialibrary directory if it does not exist
+
 ##1.1.2
 - Files without extensions are now allowed
 
