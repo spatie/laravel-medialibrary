@@ -39,7 +39,7 @@ class MediaLibraryRepository
             throw new Exception('File '.$file.' does not exist');
         }
 
-        $this->addIgnoreFileToMediaLibraryDirectory();
+        $this->createMediaLibraryBaseDirectory();
 
         $media = $this->createMediaForFile($file, $collectionName, $addAsTemporary);
 
@@ -266,13 +266,27 @@ class MediaLibraryRepository
     }
 
     /**
-     * Copy the gitignore stub to medialibrary directory.
+     * Create the base medialibrary directory if it does not exist.
      */
-    private function addIgnoreFileToMediaLibraryDirectory()
+    private function createMediaLibraryBaseDirectory()
     {
-        $destinationDirectory = config('laravel-medialibrary.publicPath');
+        $mediaLibraryBaseDirectory = config('laravel-medialibrary.publicPath');
 
-        $destinationFile = $destinationDirectory.'/.gitignore';
+        if (!File::exists($mediaLibraryBaseDirectory))
+        {
+            File::makeDirectory($mediaLibraryBaseDirectory, '493', true, true);
+        }
+
+        $this->addIgnoreFileToDirectory($mediaLibraryBaseDirectory);
+    }
+
+    /**
+     * Copy the gitignore stub to medialibrary directory.
+     * @param string $directory
+     */
+    private function addIgnoreFileToDirectory($directory)
+    {
+        $destinationFile = $directory.'/.gitignore';
         if (!file_exists($destinationFile)) {
             File::copy(__DIR__.'/stubs/gitignore.txt', $destinationFile);
         }
