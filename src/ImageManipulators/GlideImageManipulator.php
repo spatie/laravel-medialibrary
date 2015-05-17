@@ -86,11 +86,10 @@ class GlideImageManipulator implements ImageManipulatorInterface
                     ],
                     $this->getQueueName()
                 );
-
-                return;
             }
-
-            $this->convertImage($originalFile, $imageConversionParameters, $outputFile);
+            else {
+                $this->convertImage($originalFile, $imageConversionParameters, $outputFile);
+            }
         }
     }
 
