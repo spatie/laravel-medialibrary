@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##1.1.4
+- Fixed a bug where not all image profiles would be processed
+- Added `getImageProfileProperties()`to interface
+
 ##1.1.3
 - Create the medialibrary directory if it does not exist
 
