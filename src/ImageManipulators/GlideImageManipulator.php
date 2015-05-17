@@ -169,11 +169,7 @@ class GlideImageManipulator implements ImageManipulatorInterface
     {
         $model = new $className();
 
-        if (! isset($model->imageProfiles)) {
-            return [];
-        }
-
-        return $model->imageProfiles;
+        return $model->getImageProfileProperties();
     }
 
     /**

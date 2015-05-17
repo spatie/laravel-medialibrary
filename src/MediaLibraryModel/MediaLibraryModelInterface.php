@@ -37,4 +37,11 @@ interface MediaLibraryModelInterface
      * @return mixed
      */
     public static function media();
+
+    /**
+     * Get an array with the properties of the derived images.
+     *
+     * @return array
+     */
+    public function getImageProfileProperties();
 }
