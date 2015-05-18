@@ -34,7 +34,7 @@ Next, you must install the service provider and the facade.
 ];
 ```
 
-To publish the config file to app/config/laravel-backup.php run:
+To publish the config file to app/config/laravel-medialibrary.php run:
 
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider"
