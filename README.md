@@ -188,6 +188,18 @@ public static function getImageProfileProperties()
 }
 ```
 
+By default the derived images will be stored as `jpg`'s. If you want another image format you can specify `png`or `gif` using the `fm`-key in an an imageprofile. For example:
+```php
+//in your news model
+public static function getImageProfileProperties()
+{
+    return [
+        'list'=> ['w'=>200, 'h'=>200, 'shouldBeQueued' => false, 'fm' => 'png'],
+        'detail'=> ['w'=>1600, 'h'=>800, 'shouldBeQueued' => false, 'fm' => 'png'],
+    ];
+}
+```
+
 ###Retrieving derived images
 Here's example that shows you how to get the url's to the derived images:
 
