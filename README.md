@@ -195,7 +195,7 @@ public static function getImageProfileProperties()
 {
     return [
         'list'=> ['w'=>200, 'h'=>200, 'shouldBeQueued' => false, 'fm' => 'png'],
-        'detail'=> ['w'=>1600, 'h'=>800, 'shouldBeQueued' => false, 'fm' => 'png'],
+        'detail'=> ['w'=>1600, 'h'=>800, 'shouldBeQueued' => false, 'fm' => 'gif'],
     ];
 }
 ```
