@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+
+##1.5.0
+- Added a method to remove all media in a collection.
+
 ##1.1.4
 - Fixed a bug where not all image profiles would be processed
 - Added `getImageProfileProperties()`to interface

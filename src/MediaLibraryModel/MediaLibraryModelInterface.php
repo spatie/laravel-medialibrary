@@ -44,4 +44,12 @@ interface MediaLibraryModelInterface
      * @return array
      */
     public function getImageProfileProperties();
+
+    /**
+     * Remove all media in the given collection.
+     *
+     * @param $collectionName
+     * @return void
+     */
+    public function removeMediaCollection($collectionName);
 }

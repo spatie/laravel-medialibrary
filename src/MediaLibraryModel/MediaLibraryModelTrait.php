@@ -142,6 +142,21 @@ trait MediaLibraryModelTrait
     }
 
     /**
+     * Remove all media in the given collection.
+     *
+     * @param $collectionName
+     * @return void
+     */
+    public function removeMediaCollection($collectionName){
+        $media = $this->getMedia($collectionName);
+
+        foreach($media as $mediaItem)
+        {
+            MediaLibrary::remove($mediaItem->id);
+        }
+    }
+
+    /**
      * @param array $newMediaArray
      * @param $collectionName
      *
