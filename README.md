@@ -163,7 +163,7 @@ $newsItem->addMedia($pathToAnotherFile, $collectionName);
 $newsItem->addMedia($pathToYetAnotherFile, $collectionName);
 //all media in the collection will be removed
 $newsItem->removeMediaCollection($collectionName);
-``
+```
 
 ## Working with images
 ###Defining profiles
