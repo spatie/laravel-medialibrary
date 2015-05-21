@@ -148,11 +148,22 @@ $newsItem = News::find(2);
 $collectionName = 'anotherFineCollection';
 $newsItem->addMedia($pathToAFile, $collectionName);
 
+
 $mediaItems = $newsMedia->getMedia($collectionName);
 $publicURL = $mediaItems[0]->getURL('original');
 
+//remove a single mediaItem
 $newsItem->removeMedia($mediaItems[0]->id);
 ```
+
+You can also remove all items in a collection.
+```php
+$newsItem->addMedia($pathToAFile, $collectionName);
+$newsItem->addMedia($pathToAnotherFile, $collectionName);
+$newsItem->addMedia($pathToYetAnotherFile, $collectionName);
+//all media in the collection will be removed
+$newsItem->removeMediaCollection($collectionName);
+``
 
 ## Working with images
 ###Defining profiles
