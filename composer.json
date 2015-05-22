@@ -1,6 +1,6 @@
 {
   "name": "spatie/laravel-medialibrary",
-  "description": "coming soon",
+  "description": "Associate files with Eloquent models",
   "keywords": [
     "spatie",
     "laravel-medialibrary",
