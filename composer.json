@@ -8,13 +8,13 @@
     "cms",
     "laravel"
   ],
-  "homepage": "https://github.com/freekmurze/laravel-medialibrary",
+  "homepage": "https://github.com/spatie/laravel-medialibrary",
   "license": "MIT",
   "authors": [
     {
       "name": "Freek Van der Herten",
       "email": "freek@spatie.be",
-      "homepage": "https://github.com/freekmurze",
+      "homepage": "https://murze.be",
       "role": "Developer"
     },
     {
