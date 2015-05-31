@@ -173,7 +173,7 @@ You can let the medialibrary know that it should make a derived image by impleme
 
 ```php
 //in your news model
-public static function getImageProfileProperties()
+public function getImageProfileProperties()
 {
     return [
         'list'=> ['w'=>200, 'h'=>200],
@@ -190,7 +190,7 @@ If your Laravel app is configured to use queues, the derived images will be gene
 
 ```php
 //in your news model
-public static function getImageProfileProperties()
+public function getImageProfileProperties()
 {
     return [
         'list'=> ['w'=>200, 'h'=>200, 'shouldBeQueued' => false],
@@ -202,7 +202,7 @@ public static function getImageProfileProperties()
 By default the derived images will be stored as `jpg`'s. If you want another image format you can specify `png`or `gif` using the `fm`-key in an an imageprofile. For example:
 ```php
 //in your news model
-public static function getImageProfileProperties()
+public function getImageProfileProperties()
 {
     return [
         'list'=> ['w'=>200, 'h'=>200, 'shouldBeQueued' => false, 'fm' => 'png'],
