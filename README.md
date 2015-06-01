@@ -182,7 +182,7 @@ public function getImageProfileProperties()
 }
 ```
 
-When associating a jpg-file or png-file to the library it will, besides storing the original image, create a derived image for every key in the array. Of course "list" and "detail" are only examples. You can use any string you like as a key. The example above uses a width and height manipulation.
+When associating a jpg-file or png-file to the library it will, besides storing the original image, create a derived image for every key in the array. Of course "list" and "detail" are only examples. You can use any string you like as a key as long as it doesn't contain underscores (future versions of this package will remove this limitation). The example above uses a width and height manipulation.
 
 Internally the medialibrary uses [Glide](http://glide.thephpleague.com) to manipulate images. You can use any parameter you find in [their image API](http://glide.thephpleague.com/api/size/).
 
