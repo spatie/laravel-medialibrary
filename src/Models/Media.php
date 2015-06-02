@@ -40,7 +40,7 @@ class Media extends Eloquent
      */
     public function getOriginalURL()
     {
-        return '/'.$this->id.'/'.$this->path;
+        return substr($this->getOriginalPath(), strlen(public_path()));
     }
 
     /**
