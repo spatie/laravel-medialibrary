@@ -1,7 +1,9 @@
-# Changelog
+#Changelog
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##1.5.3
+- Bugfix: Removed unnecessary static methods from `MediaLibraryModelInterface`
 
 ##1.5.0
 - Added a method to remove all media in a collection.
