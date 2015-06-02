@@ -22,21 +22,21 @@ interface MediaLibraryModelInterface
      *
      * @return mixed
      */
-    public static function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
+    public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
 
     /**
      * Remove a media item by its id.
      *
      * @param $id
      */
-    public static function removeMedia($id);
+    public function removeMedia($id);
 
     /**
      * Set the polymorphic relation.
      *
      * @return mixed
      */
-    public static function media();
+    public function media();
 
     /**
      * Get an array with the properties of the derived images.
