@@ -60,21 +60,26 @@ trait MediaLibraryModelTrait
     /**
      * Get the url of the image for the given profileName
      * for first media for the given collectionName.
+     * If no profile is given, return the source's url.
      *
-     * @param $collectionName
-     * @param $profileName
+     * @param string $collectionName
+     * @param string|null $profileName
      *
      * @return bool
      */
-    public function getFirstMediaURL($collectionName, $profileName)
+    public function getFirstMediaURL($collectionName, $profileName = null)
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if ($media) {
-            return $media->getURL($profileName);
+        if (! $media) {
+            return false;
         }
 
-        return false;
+        if (! $profileName) {
+            return $media->getOriginalUrl();
+        }
+
+        return $media->getURL($profileName);
     }
 
     /**
