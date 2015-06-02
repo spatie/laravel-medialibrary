@@ -103,14 +103,18 @@ class Media extends Eloquent
     }
 
     /**
-     * Get the URL to a generated Glide-image.
+     * Get the URL to the original file or the generated Glide-image.
      *
-     * @param $profile
+     * @param $profile|null
      *
      * @return bool
      */
-    public function getURL($profile)
+    public function getURL($profile = null)
     {
+        if (! $profile) {
+            return $this->getOriginalURL();
+        }
+        
         if (is_array($profile)) {
             return $this->createGlideImageURL($profile);
         }
