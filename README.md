@@ -125,8 +125,10 @@ The method returns an array with `Media`-objects that are in the collection for 
 You can retrieve the url to the file associated with `Media`-object with:
 
 ```php
-$publicURL = $mediaItems[0]->getURL('original');
+$publicURL = $mediaItems[0]->getURL('detail');
 ```
+
+*`getURL()` also accepts a second parameter to retrieve the url for a certain profile.*
 
 You can remove something from the library by passing the a media id to the remove method of the facade:
 
