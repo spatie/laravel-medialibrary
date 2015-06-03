@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##1.5.5
+- Bugfix: Renamed the boot method of MedialibraryModeltrait so it plays nice with the boot method of 
+other traits and the base model.
+
 ##1.5.4
 - Feature: The `profile` parameter in `Media::getUrl()` and `MediaLibraryModelTrait::getURL()` is now optional. On null, it retrieves the original file's url.
 - Bugfix: `Media::getOriginalURL()` now returns the correct url.

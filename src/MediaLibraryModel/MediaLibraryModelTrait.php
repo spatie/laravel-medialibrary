@@ -7,10 +7,8 @@ use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 
 trait MediaLibraryModelTrait
 {
-    public static function boot()
+    public static function bootMediaLibraryModelTrait()
     {
-        parent::boot();
-
         self::deleting(function (MediaLibraryModelInterface $subject) {
 
             foreach ($subject->media()->get() as $media) {
