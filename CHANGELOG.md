@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##1.5.6
+- Bugfix: make compatible with Laravel 5.1
+
 ##1.5.5
 - Bugfix: Renamed the boot method of MedialibraryModeltrait so it plays nice with the boot method of 
 other traits and the base model.
