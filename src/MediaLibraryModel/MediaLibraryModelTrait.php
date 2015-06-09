@@ -170,7 +170,7 @@ trait MediaLibraryModelTrait
         $newMediaItems = new Collection($newMediaArray);
 
         foreach ($this->getMedia($collectionName, []) as $currentMedia) {
-            if (!in_array($currentMedia->id, $newMediaItems->lists('id'))) {
+            if (!in_array($currentMedia->id, Collection::make($newMediaItems->lists('id'))->toArray())) {
                 $this->removeMedia($currentMedia->id);
             }
         }
