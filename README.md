@@ -98,7 +98,7 @@ namespace App\Models;
 use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelInterface;
 use Spatie\MediaLibrary\MediaLibraryModel\MediaLibraryModelTrait;
 
-class News extends implements MediaLibraryModelInterface
+class News extends Model implements MediaLibraryModelInterface
 {
 
 	use MediaLibraryModelTrait;
@@ -151,7 +151,7 @@ $collectionName = 'anotherFineCollection';
 $newsItem->addMedia($pathToAFile, $collectionName);
 
 
-$mediaItems = $newsMedia->getMedia($collectionName);
+$mediaItems = $newsItem->getMedia($collectionName);
 $publicURL = $mediaItems[0]->getURL('original');
 
 //remove a single mediaItem
