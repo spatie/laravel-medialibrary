@@ -227,11 +227,12 @@ $urlToListImage = $mediaItems[0]->getURL('list');
 $urlToDetailImage = $mediaItems[0]->getURL('detail');
 ```
 
-Because getting an url to the first mediaItem in a collection is such a common scenario this convenience-method is provided:
+Because getting an url to the first mediaItem in a collection is such a common scenario the `getFirstMediaURL`- convenience-method is provided. The first parameter is the name of the collection, the second the name of an imageprofile.
 
 ```php
-$urlToFirstListImage = $newsItem->getFirstMediaURL('list');
+$urlToFirstListImage = $newsItem->getFirstMediaURL('myFirstCollection', 'list');
 ```
+
 
 
 ###Generate a derived image without defining a profile
