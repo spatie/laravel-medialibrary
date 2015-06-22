@@ -2,6 +2,7 @@
 
 use Eloquent;
 use GlideImage;
+use Spatie\MediaLibrary\Utility\FIle;
 
 class Media extends Eloquent
 {
@@ -147,5 +148,10 @@ class Media extends Eloquent
         return GlideImage::setImagePath($this->getOriginalURL())
             ->setConversionParameters($profile)
             ->getURL();
+    }
+
+    public function getHumanReadableFileSize()
+    {
+        return File::getHumanReadableFileSize($this->size);
     }
 }
