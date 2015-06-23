@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+#1.6.1
+- Bugfix: Fixed wrong case in a class import
+
 #1.6.0
 - Added: `Spatie\MediaLibrary\Models\Media::getHumanReadableFileSize()`
 

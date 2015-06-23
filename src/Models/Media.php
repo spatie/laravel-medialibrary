@@ -2,7 +2,7 @@
 
 use Eloquent;
 use GlideImage;
-use Spatie\MediaLibrary\Utility\FIle;
+use Spatie\MediaLibrary\Utility\File;
 
 class Media extends Eloquent
 {
