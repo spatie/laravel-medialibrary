@@ -1,4 +1,4 @@
-<?php namespace Spatie\MediaLibrary\Models;
+<?php namespace Spatie\MediaLibrary;
 
 use Eloquent;
 use GlideImage;

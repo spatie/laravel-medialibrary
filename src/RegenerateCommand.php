@@ -1,9 +1,8 @@
-<?php namespace Spatie\MediaLibrary\Commands;
+<?php namespace Spatie\MediaLibrary;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
-use Spatie\MediaLibrary\Models\Media;
 
 class RegenerateCommand extends Command
 {

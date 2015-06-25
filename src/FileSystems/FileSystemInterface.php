@@ -1,6 +1,6 @@
 <?php namespace Spatie\MediaLibrary\FileSystems;
 
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Media;
 
 interface FileSystemInterface
 {

@@ -1,7 +1,7 @@
 <?php namespace Spatie\MediaLibrary\ImageManipulators;
 
 use Spatie\Glide\GlideImage;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Media;
 use Queue;
 use Spatie\MediaLibrary\QueueHandlers\GlideQueueHandler;
 

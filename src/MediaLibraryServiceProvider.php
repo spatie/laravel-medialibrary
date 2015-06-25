@@ -35,7 +35,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
     {
         $this->app['command.medialibrary:regenerate'] = $this->app->share(
             function () {
-                return new Commands\RegenerateCommand();
+                return new RegenerateCommand();
             }
         );
 

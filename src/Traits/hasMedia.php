@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaLibraryRepository;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 

@@ -2,14 +2,14 @@
 
 namespace Spatie\MediaLibrary;
 
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Traits\HasMediaInterface;
 
 class MediaLibraryRepository
 {
 
     /**
-     * @var \Spatie\MediaLibrary\Models\Media
+     * @var \Spatie\MediaLibrary\Media
      */
     protected $model;
 

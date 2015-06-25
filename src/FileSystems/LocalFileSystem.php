@@ -2,7 +2,7 @@
 
 use File;
 use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Media;
 
 class LocalFileSystem implements FileSystemInterface
 {

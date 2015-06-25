@@ -1,9 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollection;
+namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Models\Media;
 
 class MediaCollection extends Collection
 {
