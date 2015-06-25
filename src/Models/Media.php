@@ -2,10 +2,14 @@
 
 use Eloquent;
 use GlideImage;
-use Spatie\MediaLibrary\Utility\FIle;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableInterface;
+use Spatie\MediaLibrary\Utility\File;
 
-class Media extends Eloquent
+class Media extends Eloquent implements SortableInterface
 {
+    use Sortable;
+
     const TYPE_FILE = 'file';
     const TYPE_IMAGE = 'image';
     const TYPE_PDF = 'pdf';

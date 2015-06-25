@@ -1,19 +1,18 @@
-<?php namespace Spatie\MediaLibrary\MediaLibraryModel;
+<?php namespace Spatie\MediaLibrary\Traits;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 
-trait MediaLibraryModelTrait
+trait hasMedia
 {
     public static function bootMediaLibraryModelTrait()
     {
         self::deleting(function (MediaLibraryModelInterface $subject) {
-
-            foreach ($subject->media()->get() as $media) {
-                MediaLibrary::remove($media->id);
-            }
+            $subject->media()->get()->map(function(Media $media) {
+                $media->delete();
+            });
         });
     }
 
@@ -24,7 +23,7 @@ trait MediaLibraryModelTrait
      */
     public function media()
     {
-        return $this->morphMany('Spatie\MediaLibrary\Models\Media', 'content');
+        return $this->morphMany(Media::class, 'content');
     }
 
     /**

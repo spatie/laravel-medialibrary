@@ -1,16 +1,13 @@
-<?php namespace Spatie\MediaLibrary\MediaLibraryModel;
+<?php namespace Spatie\MediaLibrary\Traits;
 
-interface MediaLibraryModelInterface
+interface HasMediaInterface
 {
     /**
-     * Get media collection by its collectionName.
-     *
-     * @param $collectionName
-     * @param array $filters
+     * Set the polymorphic relation.
      *
      * @return mixed
      */
-    public function getMedia($collectionName, $filters = []);
+    public function media();
 
     /**
      * Add media to media collection from a given file.
@@ -25,18 +22,21 @@ interface MediaLibraryModelInterface
     public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
 
     /**
+     * Get media collection by its collectionName.
+     *
+     * @param $collectionName
+     * @param array $filters
+     *
+     * @return mixed
+     */
+    public function getMedia($collectionName, $filters = []);
+
+    /**
      * Remove a media item by its id.
      *
      * @param $id
      */
     public function removeMedia($id);
-
-    /**
-     * Set the polymorphic relation.
-     *
-     * @return mixed
-     */
-    public function media();
 
     /**
      * Get an array with the properties of the derived images.
@@ -51,5 +51,5 @@ interface MediaLibraryModelInterface
      * @param $collectionName
      * @return void
      */
-    public function removeMediaCollection($collectionName);
+    public function emptyCollection($collectionName);
 }
