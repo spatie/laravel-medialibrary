@@ -39,11 +39,11 @@ interface HasMediaInterface
     public function removeMedia($id);
 
     /**
-     * Get an array with the properties of the derived images.
+     * Get an array with the properties of the derived files.
      *
      * @return array
      */
-    public function getImageProfileProperties();
+    public function getProfileProperties();
 
     /**
      * Remove all media in the given collection.

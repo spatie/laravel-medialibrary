@@ -1,6 +1,8 @@
 <?php namespace Spatie\MediaLibrary\Traits;
 
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Exceptions\FileDoesNotExistException;
+use Spatie\MediaLibrary\Exceptions\FileTooBigException;
 use Spatie\MediaLibrary\MediaLibraryRepository;
 use Spatie\MediaLibrary\Media;
 use Exception;
@@ -87,12 +89,34 @@ trait hasMedia
      * @param $collectionName
      * @param bool $preserveOriginal
      * @param bool $addAsTemporary
-     *
      * @return mixed
+     * @throws FileDoesNotExistException
+     * @throws FileTooBigException
      */
     public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
     {
-        $media = MediaLibrary::add($file, $this, $collectionName, $preserveOriginal, $addAsTemporary);
+        if (! is_file($file)) {
+            throw new FileDoesNotExistException;
+        }
+
+        if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
+            throw new FileTooBigException;
+        }
+
+        $media = new Media();
+        $media->collection_name = $collectionName;
+        $media->file = pathinfo($file, PATHINFO_BASENAME);
+        $media->extension = pathinfo($file, PATHINFO_EXTENSION);
+        $media->size = filesize($file);
+        $media->temp = $addAsTemporary;
+
+        $media->save();
+
+        app('MediaLibraryFileSystem')->addFileForMedia($file, $media);
+
+        if (! $preserveOriginal) {
+            unlink($file);
+        }
 
         return $media;
     }

@@ -2,7 +2,9 @@
 
 namespace Spatie\MediaLibrary\Exceptions;
 
-class FileDoesNotExistsException extends Exception
+use Exception;
+
+class FileDoesNotExistException extends Exception
 {
 
 }

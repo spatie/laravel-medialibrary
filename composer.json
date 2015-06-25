@@ -22,7 +22,8 @@
     "php" : ">=5.5.0",
     "illuminate/support": "^5.1",
     "spatie/laravel-glide": "^2.2.4",
-    "spatie/eloquent-sortable": "^1.1.2"
+    "spatie/eloquent-sortable": "^1.1.2",
+    "spatie/string": "^1.8"
   },
   "require-dev": {
     "phpunit/phpunit" : "4.*",

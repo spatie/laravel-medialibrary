@@ -14,9 +14,16 @@ class Media extends Eloquent implements SortableInterface
     const TYPE_IMAGE = 'image';
     const TYPE_PDF = 'pdf';
 
-    protected $table = 'media';
-
     public $imageProfileUrls = [];
+
+    public function boot()
+    {
+        static::deleted(function(Media $media) {
+            app('mediaLibraryFileSystem')->removeFiles($media);
+        });
+
+        parent::boot();
+    }
 
     /**
      * Create the polymorphic relation.
@@ -29,11 +36,12 @@ class Media extends Eloquent implements SortableInterface
     }
 
     /**
-     * Get the original path for a media-file.
+     * Get the path for a media-file.
      *
+     * @param string $profileName
      * @return string
      */
-    public function getOriginalPath()
+    public function getPath($profileName = '')
     {
         return config('laravel-medialibrary.publicPath').'/'.$this->id.'/'.$this->path;
     }
@@ -41,22 +49,14 @@ class Media extends Eloquent implements SortableInterface
     /**
      * Get the original Url to a media-file.
      *
+     * @param string $profileName
      * @return string
      */
-    public function getOriginalUrl()
+    public function getUrl($profileName = '')
     {
-        return substr($this->getOriginalPath(), strlen(public_path()));
+        return MediaLibraryUrlGenerator::getUrl($this, $profileName, app('MediaLibraryFileSystem')->getDriverType());
     }
 
-    /**
-     * Get the next integer for sorting.
-     *
-     * @return int
-     */
-    public static function getHighestNumberOrder()
-    {
-        return ((int) self::max('order_column')) + 1;
-    }
 
     /**
      * Determine the type of a file.
@@ -82,77 +82,7 @@ class Media extends Eloquent implements SortableInterface
         return $type;
     }
 
-    /**
-     * Generate a Url to the image-profile.
-     *
-     * @param $profileName
-     * @param $path
-     *
-     * @return $this
-     */
-    public function addImageProfileUrl($profileName, $path)
-    {
-        $this->imageProfileUrls[$profileName] = $path;
 
-        return $this;
-    }
-
-    /**
-     * Get all Url's for an image-profile.
-     *
-     * @return array
-     */
-    public function getAllProfileUrls()
-    {
-        return $this->imageProfileUrls;
-    }
-
-    /**
-     * Get the Url to the original file or the generated Glide-image.
-     *
-     * @param $profile|null
-     *
-     * @return bool
-     */
-    public function getUrl($profile = null)
-    {
-        if (! $profile) {
-            return $this->getOriginalUrl();
-        }
-        
-        if (is_array($profile)) {
-            return $this->createGlideImageUrl($profile);
-        }
-
-        return array_key_exists($profile, $this->imageProfileUrls) ? $this->imageProfileUrls[$profile] : false;
-    }
-
-    /**
-     * Get the path to the file of the given profile
-     *
-     * @param $profile
-     * @return bool|string
-     */
-    public function getPath($profile)
-    {
-        $paths = app()->make('Spatie\MediaLibrary\FileSystems\FileSystemInterface')->getFilePathsForMedia($this);
-
-        return array_key_exists($profile, $paths) ? $this->$paths[$profile] : false;
-    }
-
-    /**
-     * Create a Url for a generated Glide-image.
-     *
-     * @param $profile
-     *
-     * @return mixed
-     */
-    public function createGlideImageUrl($profile)
-    {
-        return GlideImage::setImagePath($this->getOriginalUrl())
-            ->setConversionParameters($profile)
-            ->getUrl();
-    }
 
     public function getHumanReadableFileSize()
     {

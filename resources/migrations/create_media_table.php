@@ -14,13 +14,13 @@ class CreateMediaTable extends Migration
             $table->increments('id');
             $table->string('model_name');
             $table->integer('model_id');
+            $table->string('collection_name');
             $table->string('name');
-            $table->string('url');
-            $table->string('path');
+            $table->string('file');
             $table->string('extension');
             $table->integer('size');
+            $table->text('profile_properties');
             $table->boolean('temp');
-            $table->string('collection_name');
             $table->integer('order_column');
             $table->timestamps();
         });
