@@ -65,7 +65,7 @@ trait hasMedia
      *
      * @return bool
      */
-    public function getFirstMediaURL($collectionName, $profileName = null)
+    public function getFirstMediaUrl($collectionName, $profileName = null)
     {
         $media = $this->getFirstMedia($collectionName);
 
@@ -77,7 +77,7 @@ trait hasMedia
             return $media->getOriginalUrl();
         }
 
-        return $media->getURL($profileName);
+        return $media->getUrl($profileName);
     }
 
     /**

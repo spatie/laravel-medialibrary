@@ -29,7 +29,7 @@ class MediaLibraryRepository
     {
         $mediaItems = $this->loadMedia($model, $collectionName);
 
-        $media = $this->addURLsToMediaProfile($mediaItems);
+        $media = $this->addUrlsToMediaProfile($mediaItems);
 
         $media = $this->applyFiltersToMedia($media, $filters);
 

@@ -125,10 +125,10 @@ The method returns an array with `Media`-objects that are in the collection for 
 You can retrieve the url to the file associated with `Media`-object with:
 
 ```php
-$publicURL = $mediaItems[0]->getURL('detail');
+$publicUrl = $mediaItems[0]->getUrl('detail');
 ```
 
-*`getURL()` also accepts a second parameter to retrieve the url for a certain profile.*
+*`getUrl()` also accepts a second parameter to retrieve the url for a certain profile.*
 
 You can remove something from the library by passing the a media id to the remove method of the facade:
 
@@ -152,7 +152,7 @@ $newsItem->addMedia($pathToAFile, $collectionName);
 
 
 $mediaItems = $newsItem->getMedia($collectionName);
-$publicURL = $mediaItems[0]->getURL('original');
+$publicUrl = $mediaItems[0]->getUrl('original');
 
 //remove a single mediaItem
 $newsItem->removeMedia($mediaItems[0]->id);
@@ -222,24 +222,24 @@ $collectionName = 'anotherFineCollection';
 $newsItem->addMedia($pathToAFile, $collectionName);
 
 $mediaItems = $newsItem->getMedia($collectionName)
-$urlToOriginalUploadedImage = $mediaItems[0]->getOriginalURL();
-$urlToListImage = $mediaItems[0]->getURL('list');
-$urlToDetailImage = $mediaItems[0]->getURL('detail');
+$urlToOriginalUploadedImage = $mediaItems[0]->getOriginalUrl();
+$urlToListImage = $mediaItems[0]->getUrl('list');
+$urlToDetailImage = $mediaItems[0]->getUrl('detail');
 ```
 
-Because getting an url to the first mediaItem in a collection is such a common scenario the `getFirstMediaURL`- convenience-method is provided. The first parameter is the name of the collection, the second the name of an imageprofile.
+Because getting an url to the first mediaItem in a collection is such a common scenario the `getFirstMediaUrl`- convenience-method is provided. The first parameter is the name of the collection, the second the name of an imageprofile.
 
 ```php
-$urlToFirstListImage = $newsItem->getFirstMediaURL('myFirstCollection', 'list');
+$urlToFirstListImage = $newsItem->getFirstMediaUrl('myFirstCollection', 'list');
 ```
 
 
 
 ###Generate a derived image without defining a profile
-You can also generate a derived image on the fly by passing an array with parameters from the [Glide API](http://glide.thephpleague.com/api/size/) into the `getURL`-function:
+You can also generate a derived image on the fly by passing an array with parameters from the [Glide API](http://glide.thephpleague.com/api/size/) into the `getUrl`-function:
 
 ```php
-$mediaItem->getURL(['w' => 450, 'h' => 200, 'filt' => 'greyscale']);
+$mediaItem->getUrl(['w' => 450, 'h' => 200, 'filt' => 'greyscale']);
 ```
 
 This call will generate an url that, when hit, will generate the derived image.

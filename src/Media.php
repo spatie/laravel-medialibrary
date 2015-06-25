@@ -16,7 +16,7 @@ class Media extends Eloquent implements SortableInterface
 
     protected $table = 'media';
 
-    public $imageProfileURLs = [];
+    public $imageProfileUrls = [];
 
     /**
      * Create the polymorphic relation.
@@ -39,11 +39,11 @@ class Media extends Eloquent implements SortableInterface
     }
 
     /**
-     * Get the original URL to a media-file.
+     * Get the original Url to a media-file.
      *
      * @return string
      */
-    public function getOriginalURL()
+    public function getOriginalUrl()
     {
         return substr($this->getOriginalPath(), strlen(public_path()));
     }
@@ -83,48 +83,48 @@ class Media extends Eloquent implements SortableInterface
     }
 
     /**
-     * Generate a URL to the image-profile.
+     * Generate a Url to the image-profile.
      *
      * @param $profileName
      * @param $path
      *
      * @return $this
      */
-    public function addImageProfileURL($profileName, $path)
+    public function addImageProfileUrl($profileName, $path)
     {
-        $this->imageProfileURLs[$profileName] = $path;
+        $this->imageProfileUrls[$profileName] = $path;
 
         return $this;
     }
 
     /**
-     * Get all URL's for an image-profile.
+     * Get all Url's for an image-profile.
      *
      * @return array
      */
-    public function getAllProfileURLs()
+    public function getAllProfileUrls()
     {
-        return $this->imageProfileURLs;
+        return $this->imageProfileUrls;
     }
 
     /**
-     * Get the URL to the original file or the generated Glide-image.
+     * Get the Url to the original file or the generated Glide-image.
      *
      * @param $profile|null
      *
      * @return bool
      */
-    public function getURL($profile = null)
+    public function getUrl($profile = null)
     {
         if (! $profile) {
-            return $this->getOriginalURL();
+            return $this->getOriginalUrl();
         }
         
         if (is_array($profile)) {
-            return $this->createGlideImageURL($profile);
+            return $this->createGlideImageUrl($profile);
         }
 
-        return array_key_exists($profile, $this->imageProfileURLs) ? $this->imageProfileURLs[$profile] : false;
+        return array_key_exists($profile, $this->imageProfileUrls) ? $this->imageProfileUrls[$profile] : false;
     }
 
     /**
@@ -141,17 +141,17 @@ class Media extends Eloquent implements SortableInterface
     }
 
     /**
-     * Create a URL for a generated Glide-image.
+     * Create a Url for a generated Glide-image.
      *
      * @param $profile
      *
      * @return mixed
      */
-    public function createGlideImageURL($profile)
+    public function createGlideImageUrl($profile)
     {
-        return GlideImage::setImagePath($this->getOriginalURL())
+        return GlideImage::setImagePath($this->getOriginalUrl())
             ->setConversionParameters($profile)
-            ->getURL();
+            ->getUrl();
     }
 
     public function getHumanReadableFileSize()
