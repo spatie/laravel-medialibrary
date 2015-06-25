@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Traits\HasMediaInterface;
 
 class MediaLibraryRepository
 {
@@ -17,5 +18,23 @@ class MediaLibraryRepository
         $this->model = $model;
     }
 
-    public function getCollection($collectionName)
+    /**
+     * Get all media in the collection
+     *
+     * @param \Spatie\MediaLibrary\Traits\HasMediaInterface $model
+     * @param string $collectionName
+     * @param array $filters
+     */
+    public function getCollection(HasMediaInterface $model, $collectionName, $filters = [])
+    {
+        $mediaItems = $this->loadMedia($model, $collectionName);
+
+        $media = $this->addURLsToMediaProfile($mediaItems);
+
+        $media = $this->applyFiltersToMedia($media, $filters);
+
+        return $media;
+    }
+
+
 }

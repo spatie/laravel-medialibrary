@@ -33,8 +33,6 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('mediaLibrary', MediaLibraryRepository::class);
-
         $this->app['command.medialibrary:regenerate'] = $this->app->share(
             function () {
                 return new Commands\RegenerateCommand();

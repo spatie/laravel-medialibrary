@@ -1,6 +1,7 @@
 <?php namespace Spatie\MediaLibrary\Traits;
 
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaLibraryRepository;
 use Spatie\MediaLibrary\Models\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
@@ -36,7 +37,7 @@ trait hasMedia
      */
     public function getMedia($collectionName, $filters = ['temp' => 0])
     {
-        return MediaLibrary::getCollection($this, $collectionName, $filters);
+        return app(MediaLibraryRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
     /**
