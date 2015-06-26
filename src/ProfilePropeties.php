@@ -2,7 +2,9 @@
 
 namespace Spatie\MediaLibrary;
 
-class ProfileProperties
+use Illuminate\Support\Collection;
+
+class ProfileCollection extends Collection
 {
     public static function getForMedia(Media $media)
     {

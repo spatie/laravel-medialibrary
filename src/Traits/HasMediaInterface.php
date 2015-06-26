@@ -43,7 +43,22 @@ interface HasMediaInterface
      *
      * @return array
      */
-    public function getProfileProperties();
+    public function getMediaProfileProperties();
+
+    /**
+     * Determine which profiles should be executed for the give $mediaCollection
+     *
+     * @param string $mediaCollectionName
+     * @return array
+     */
+    public function getMediaProfileNames($mediaCollectionName);
+
+    /**
+     * Get an array with the properties of the derived files.
+     *
+     * @return array
+     */
+    public function get();
 
     /**
      * Remove all media in the given collection.

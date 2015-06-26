@@ -16,7 +16,16 @@ class Media extends Eloquent implements SortableInterface
 
     public $imageProfileUrls = [];
 
-    public function boot()
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'profile_properties' => 'array',
+    ];
+
+    public static function boot()
     {
         static::deleted(function(Media $media) {
             app('mediaLibraryFileSystem')->removeFiles($media);
