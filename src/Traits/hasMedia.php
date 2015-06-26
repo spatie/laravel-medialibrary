@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 
-trait hasMedia
+trait HasMedia
 {
     public static function bootMediaLibraryModelTrait()
     {
@@ -198,5 +198,16 @@ trait hasMedia
                 $this->removeMedia($currentMedia->id);
             }
         }
+    }
+
+    /**
+     * Remove all media in the given collection.
+     *
+     * @param $collectionName
+     * @return void
+     */
+    public function emptyCollection($collectionName)
+    {
+
     }
 }
