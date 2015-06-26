@@ -26,7 +26,7 @@ class MediaLibraryFileSystem
     {
         $this->copyFileToMediaLibraryForMedia($file, $media);
 
-        app('MediaLibraryFileManipulator')->createDerivedFiles($media);
+        app(MediaLibraryFileManipulator::class)->createDerivedFiles($media);
     }
 
     public function copyFileToMediaLibraryForMedia($file, $media)

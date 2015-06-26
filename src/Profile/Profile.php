@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Spatie\MediaLibrary\Profile;
@@ -23,7 +22,7 @@ class Profile
 
     public function __construct(array $profileArray)
     {
-        $this->name = array_key($profileArray);
+        $this->name = array_keys($profileArray)[0];
         $this->shouldBeQueued = $this->determineIfShouldBeQueued($profileArray);
         $this->conversions = $this->determineConversions($profileArray);
     }
@@ -72,7 +71,7 @@ class Profile
 
     protected function determineConversions($profileArray)
     {
-        if (! isset($profileArray['conversion'])) {
+        if (isset($profileArray['conversion'])) {
             return $profileArray['conversion'];
         }
 

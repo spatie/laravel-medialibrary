@@ -12,7 +12,7 @@ class CreateMediaTable extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('model_name');
+            $table->string('model_type');
             $table->integer('model_id');
             $table->string('collection_name');
             $table->string('name');

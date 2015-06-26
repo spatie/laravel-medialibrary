@@ -22,11 +22,13 @@ class ProfileCollection extends Collection
 
         $this->items = [];
 
-        foreach ($this->media->content()->getProfileProperties as $profileArray)
+        foreach ($this->media->model->getMediaProfileProperties() as $profileArray)
         {
+
             $this->items[] = new Profile($profileArray);
         }
 
+var_dump($media->profile_properties);
         foreach($media->profile_properties as $profileName => $conversion)
         {
             $this->getProfile($profileName)->addAsFirstConversion($media->profile_properties);

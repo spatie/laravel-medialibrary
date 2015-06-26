@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Profile\ProfileCollectionFactory;
 
 class MediaLibraryFileManipulator
 {
-    public function createDerivedFilesForMedia(Media $media)
+    public function createDerivedFiles(Media $media)
     {
 
         $profileCollection = ProfileCollectionFactory::createForMedia($media);
@@ -30,7 +30,7 @@ class MediaLibraryFileManipulator
             }
 
 
-            app('MediaLibraryFileSystem')->copyFileToMediaLibraryForMedia($tempFile, $media);
+            app(MediaLibraryFileSystem::class)->copyFileToMediaLibraryForMedia($tempFile, $media);
 
             unlink($tempFile);
 

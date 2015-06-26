@@ -28,7 +28,7 @@ class Media extends Eloquent implements SortableInterface
     public static function boot()
     {
         static::deleted(function(Media $media) {
-            app('mediaLibraryFileSystem')->removeFiles($media);
+            app(MediaLibraryFileSystem::class)->removeFiles($media);
         });
 
         parent::boot();
@@ -39,7 +39,7 @@ class Media extends Eloquent implements SortableInterface
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
-    public function content()
+    public function model()
     {
         return $this->morphTo();
     }
@@ -63,7 +63,7 @@ class Media extends Eloquent implements SortableInterface
      */
     public function getUrl($profileName = '')
     {
-        return MediaLibraryUrlGenerator::getUrl($this, $profileName, app('MediaLibraryFileSystem')->getDriverType());
+        return MediaLibraryUrlGenerator::getUrl($this, $profileName, app(MediaLibraryFileSystem::class)->getDriverType());
     }
 
 

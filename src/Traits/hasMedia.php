@@ -3,6 +3,7 @@
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExistException;
 use Spatie\MediaLibrary\Exceptions\FileTooBigException;
+use Spatie\MediaLibrary\MediaLibraryFileSystem;
 use Spatie\MediaLibrary\MediaLibraryRepository;
 use Spatie\MediaLibrary\Media;
 use Exception;
@@ -26,7 +27,7 @@ trait HasMedia
      */
     public function media()
     {
-        return $this->morphMany(Media::class, 'content');
+        return $this->morphMany(Media::class, 'model');
     }
 
     /**
@@ -87,13 +88,14 @@ trait HasMedia
      *
      * @param $file
      * @param $collectionName
-     * @param bool $preserveOriginal
+     * @param bool $removeOriginal
      * @param bool $addAsTemporary
      * @return mixed
-     * @throws FileDoesNotExistException
-     * @throws FileTooBigException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExistException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBigException
+     * @internal param bool $preserveOriginal
      */
-    public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false)
+    public function addMedia($file, $collectionName, $removeOriginal = true, $addAsTemporary = false)
     {
         if (! is_file($file)) {
             throw new FileDoesNotExistException;
@@ -109,12 +111,15 @@ trait HasMedia
         $media->extension = pathinfo($file, PATHINFO_EXTENSION);
         $media->size = filesize($file);
         $media->temp = $addAsTemporary;
+        $media->profile_properties = [];
 
         $media->save();
 
-        app('MediaLibraryFileSystem')->addFileForMedia($file, $media);
+        $this->media()->save($media);
 
-        if (! $preserveOriginal) {
+        app(MediaLibraryFileSystem::class)->addFileForMedia($file, $media);
+
+        if (! $removeOriginal) {
             unlink($file);
         }
 
