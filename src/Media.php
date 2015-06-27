@@ -45,17 +45,6 @@ class Media extends Eloquent implements SortableInterface
     }
 
     /**
-     * Get the path for a media-file.
-     *
-     * @param string $profileName
-     * @return string
-     */
-    public function getPath($profileName = '')
-    {
-        return config('laravel-medialibrary.publicPath').'/'.$this->id.'/'.$this->path;
-    }
-
-    /**
      * Get the original Url to a media-file.
      *
      * @param string $profileName
@@ -91,10 +80,18 @@ class Media extends Eloquent implements SortableInterface
         return $type;
     }
 
-
-
     public function getHumanReadableFileSize()
     {
-        return File::getHumanReadableFileSize($this->size);
+        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+        if ($this->size == 0) {
+            return '0' . ' ' . $units[1];
+        }
+
+        for ($i = 0; $this->size > 1024; $i++) {
+            $this->size /= 1024;
+        }
+
+        return round($this->size, 2) . ' ' . $units[$i];
     }
 }
