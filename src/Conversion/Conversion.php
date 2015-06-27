@@ -24,8 +24,6 @@ class Conversion
      */
     protected $shouldBeQueued = true;
 
-
-
     public function __construct($name)
     {
         $this->name = $name;
@@ -83,10 +81,7 @@ class Conversion
         $this->queued = false;
     }
 
-
-
-
-    protected function shouldBeQueued()
+    public function shouldBeQueued()
     {
         return $this->shouldBeQueued;
     }

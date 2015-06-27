@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Spatie\Glide\GlideImage;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Profile\ProfileCollectionFactory;
 
 class MediaLibraryFileManipulator
@@ -11,7 +12,17 @@ class MediaLibraryFileManipulator
     {
         $profileCollection = ProfileCollectionFactory::createForMedia($media);
 
-        foreach ($profileCollection->getConversionsForCollection($media->collection_name) as $conversion) {
+        $conversions = $profileCollection->getConversionsForCollection($media->collection_name);
+
+        $nonQueuedConversions = $conversions->filter(function(Conversion $conversion) {
+            return ! $conversion->shouldBeQueued();
+        });
+
+        $queuedConversions = $conversions->filter(function(Conversion $conversion) {
+            return $conversion->shouldBeQueued();
+        });
+
+        foreach ($nonQueuedConversions as $conversion) {
 
             $tempFile = storage_path('media-library/temp/' . $media->id .'-' . $conversion->getName() . '.jpg');
 
