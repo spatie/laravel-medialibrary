@@ -48,14 +48,6 @@ class ConversionCollection extends Collection
         }
     }
 
-
-    public function getConversionsForCollection($collectionName)
-    {
-        return $this->filter(function(Conversion $conversion) use ($collectionName) {
-            return $conversion->shouldBePerformedOn($collectionName);
-        });
-    }
-
     public function getConversions($collectionName = '')
     {
         if ($collectionName == '') {
@@ -66,6 +58,21 @@ class ConversionCollection extends Collection
             return $conversion->shouldBePerformedOn($collectionName);
         });
     }
+
+    public function getQueuedConversions($collectionName = '')
+    {
+        return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
+            return $conversion->shouldBeQueued();
+        });
+    }
+
+    public function getNonQueuedConversions($collectionName = '')
+    {
+        return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
+            return ! $conversion->shouldBeQueued();
+        });
+    }
+
 
 
 

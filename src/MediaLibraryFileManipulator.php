@@ -2,9 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
-use Spatie\Glide\GlideImage;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Profile\ProfileCollectionFactory;
+use DispatchesJobs;
 
 class MediaLibraryFileManipulator
 {
@@ -12,27 +10,24 @@ class MediaLibraryFileManipulator
     {
         $profileCollection = ProfileCollectionFactory::createForMedia($media);
 
-        $conversions = $profileCollection->getConversionsForCollection($media->collection_name);
+        $this->performConversions($profileCollection->getNonQueuedConversions($media->collection_name), $media);
 
-        $nonQueuedConversions = $conversions->filter(function(Conversion $conversion) {
-            return ! $conversion->shouldBeQueued();
-        });
+        $this->queue($profileCollection->getNonQueuedConversions($media->collection_name), $media);
 
-        $queuedConversions = $conversions->filter(function(Conversion $conversion) {
-            return $conversion->shouldBeQueued();
-        });
+    }
 
-        foreach ($nonQueuedConversions as $conversion) {
+    public function performConversions($conversions, $media)
+    {
+        foreach ($conversions as $conversion) {
 
-            $tempFile = storage_path('media-library/temp/' . $media->id .'-' . $conversion->getName() . '.jpg');
+            $tempFile = storage_path('media-library/temp/' . $media->id . '-' . $conversion->getName() . '.jpg');
 
             /*
              * @todo make this working with cloud systems
              */
             copy($media->getPath(), $tempFile);
 
-            foreach($conversion->getManipulations() as $manipulation)
-            {
+            foreach ($conversion->getManipulations() as $manipulation) {
                 (new GlideImage())
                     ->load($tempFile, $manipulation)
                     ->useAbsoluteSourceFilePath()
@@ -42,9 +37,8 @@ class MediaLibraryFileManipulator
             app(MediaLibraryFileSystem::class)->copyFileToMediaLibraryForMedia($tempFile, $media);
 
             unlink($tempFile);
-
-
         }
-
     }
+
+
 }
