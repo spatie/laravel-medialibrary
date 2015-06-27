@@ -9,26 +9,24 @@ class MediaLibraryFileManipulator
 {
     public function createDerivedFiles(Media $media)
     {
-
         $profileCollection = ProfileCollectionFactory::createForMedia($media);
 
-        foreach ($profileCollection->getProfilesForCollection($media->collection_name) as $profile) {
+        foreach ($profileCollection->getConversionsForCollection($media->collection_name) as $conversion) {
 
-            $tempFile = storage_path('media-library/temp/' . $media->id .'-' . $profile->name . '.jpg');
+            $tempFile = storage_path('media-library/temp/' . $media->id .'-' . $conversion->getName() . '.jpg');
 
             /*
              * @todo make this working with cloud systems
              */
             copy($media->getPath(), $tempFile);
 
-            foreach($profile->getConversion as $conversion)
+            foreach($conversion->getManipulations() as $manipulation)
             {
                 (new GlideImage())
-                    ->load($tempFile, $conversion)
+                    ->load($tempFile, $manipulation)
                     ->useAbsoluteSourceFilePath()
                     ->save($tempFile);
             }
-
 
             app(MediaLibraryFileSystem::class)->copyFileToMediaLibraryForMedia($tempFile, $media);
 

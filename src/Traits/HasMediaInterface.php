@@ -39,19 +39,12 @@ interface HasMediaInterface
     public function removeMedia($id);
 
     /**
-     * Get an array with the properties of the derived files.
+     * Get the conversions that should be performed.
      *
      * @return array
      */
-    public function getMediaProfileProperties();
+    public function getMediaConversions();
 
-    /**
-     * Determine which profiles should be executed for the give $mediaCollection
-     *
-     * @param string $mediaCollectionName
-     * @return array
-     */
-    public function getMediaProfileNames($mediaCollectionName);
 
     /**
      * Remove all media in the given collection.
