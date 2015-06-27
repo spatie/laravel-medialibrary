@@ -19,7 +19,7 @@ class MediaLibraryFileManipulator
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
         if (count($queuedConversions)) {
-            $this->dispatch(new PerformConversions($queuedConversions, $media))->onQueue(config('laravel-medialibrary.queue_name'));
+            $this->dispatch(new PerformConversions($queuedConversions, $media));
         }
     }
 

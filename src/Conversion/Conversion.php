@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\Conversion;
 
 class Conversion
 {
-
     /**
      * @var string name
      */
