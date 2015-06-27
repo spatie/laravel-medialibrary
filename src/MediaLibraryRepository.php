@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary;
 
-use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Traits\HasMediaInterface;
 
 class MediaLibraryRepository

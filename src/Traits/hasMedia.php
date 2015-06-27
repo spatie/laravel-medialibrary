@@ -117,7 +117,7 @@ trait HasMedia
 
         $this->media()->save($media);
 
-        app(MediaLibraryFileSystem::class)->addFileForMedia($file, $media);
+        app(MediaLibraryFileSystem::class)->addFile($file, $media);
 
         if (! $removeOriginal) {
             unlink($file);

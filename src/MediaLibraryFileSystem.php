@@ -22,21 +22,28 @@ class MediaLibraryFileSystem
         $this->config = $config;
     }
 
-    public function addFileForMedia($file, $media)
+    public function add($file, Media $media)
     {
         $this->copyFileToMediaLibraryForMedia($file, $media);
 
         app(MediaLibraryFileManipulator::class)->createDerivedFiles($media);
     }
 
-    public function copyFileToMediaLibraryForMedia($file, $media)
+    public function copyToMediaLibrary($file, $media)
     {
-        $destination = $this->getMediaDirectory($media) . '/' . pathinfo($file, PATHINFO_BASENAME);
+        $destination = $this->getMediaDirectory($media) . '/' . $media->file_name;
 
         $this->disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
     }
 
-    public function removeFiles(Media $media)
+    public function copyFromMediaLibrary($media, $targetFile)
+    {
+        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+
+        //$this->disk->getDriver()->readStream($sourceFile) // write to targetFile//
+    }
+
+    public function remove(Media $media)
     {
         $this->disk->deleteDirectory($this->getMediaDirectory($media));
     }

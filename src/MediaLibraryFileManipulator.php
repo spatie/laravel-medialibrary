@@ -29,10 +29,7 @@ class MediaLibraryFileManipulator
 
             $tempFile = storage_path('media-library/temp/' . $media->id . '-' . $conversion->getName() . '.jpg');
 
-            /*
-             * @todo make this working with cloud systems
-             */
-            copy($media->getPath(), $tempFile);
+            app(MediaLibraryFileSystem::class)->copyOriginalFile($media, $tempFile);
 
             foreach ($conversion->getManipulations() as $manipulation) {
                 (new GlideImage())
