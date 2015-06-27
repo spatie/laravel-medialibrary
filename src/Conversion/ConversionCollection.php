@@ -8,51 +8,41 @@ use Spatie\MediaLibrary\Media;
 class ConversionCollection extends Collection
 {
     /**
-     * @var \Spatie\MediaLibrary\Conversion\Media
-     */
-    protected $media;
-
-    /**
      * @param Media $media
      * @return $this
      */
     public function setMedia(Media $media)
     {
-
-        $this->media = $media;
-
         $this->items = [];
 
-        $this->addConversionsFromModel();
+        $this->addConversionsFromModel($media);
 
-        $this->addManipulationsFromDb();
+        $this->addManipulationsFromDb($media);
 
         return $this;
     }
 
-    protected function getConversionsFromModel()
+    protected function getConversionsFromModel($media)
     {
-        $this->items = $this->media->model->getMediaConversions();
+        $this->items = $media->model->getMediaConversions();
     }
 
-    protected function addManipulationsFromDb()
+    protected function addManipulationsFromDb($media)
     {
-        foreach ($this->media->manipulations as $collectionName => $manipulation) {
+        foreach ($media->manipulations as $collectionName => $manipulation) {
 
             $this->filter(function (Conversion $conversion) use ($collectionName) {
                 return $conversion->shouldBePerformedOn($collectionName);
             })
-                ->map(function (Conversion $conversion) use ($manipulation) {
-                    $conversion->addAsFirstManipulation($manipulation);
-                });
+            ->map(function (Conversion $conversion) use ($manipulation) {
+                $conversion->addAsFirstManipulation($manipulation);
+            });
         }
     }
 
     public function getConversions($collectionName = '')
     {
-        if ($collectionName == '') {
-            return $this;
-        }
+        if ($collectionName == '') return $this;
 
         return $this->filter(function(Conversion $conversion) use($collectionName) {
             return $conversion->shouldBePerformedOn($collectionName);

@@ -2,18 +2,25 @@
 
 namespace Spatie\MediaLibrary;
 
-use DispatchesJobs;
+use GlideImage;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 
 class MediaLibraryFileManipulator
 {
+    use DispatchesJobs;
+
     public function createDerivedFiles(Media $media)
     {
-        $profileCollection = ProfileCollectionFactory::createForMedia($media);
+        $profileCollection = ConversionCollectionFactory::createForMedia($media);
 
         $this->performConversions($profileCollection->getNonQueuedConversions($media->collection_name), $media);
 
-        $this->queue($profileCollection->getNonQueuedConversions($media->collection_name), $media);
+        $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
+        if (count($queuedConversions)) {
+            $this->dispatch(new PerformConversions($queuedConversions, $media))->onQueue(config('laravel-medialibrary.queue_name'));
+        }
     }
 
     public function performConversions($conversions, $media)
