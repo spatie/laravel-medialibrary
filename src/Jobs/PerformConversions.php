@@ -27,7 +27,6 @@ class SendReminderEmail extends Job implements SelfHandling, ShouldQueue
         $this->media = $media;
     }
 
-
     public function handle()
     {
         app(MediaLibraryFileManipulator::class)
