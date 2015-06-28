@@ -2,8 +2,11 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
-#1.6.1
+#1.6.2
 - Bugfix: prevent migration from being published multiple times
+
+#1.6.1
+- Small bugfixes
 
 #1.6.0
 - Added: `Spatie\MediaLibrary\Models\Media::getHumanReadableFileSize()`
