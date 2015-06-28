@@ -89,7 +89,7 @@ class Media extends Eloquent implements SortableInterface
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
         if ($this->size == 0) {
-            return '0' . ' ' . $units[1];
+            return '0 ' . $units[1];
         }
 
         for ($i = 0; $this->size > 1024; $i++) {

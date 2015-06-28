@@ -13,7 +13,7 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGeneratorInterfac
         {
             return $baseDirectory . '/' . $this->media->file;
         }
-        
+
         return  '/media/' . $this->media->id . '/' . $this->profileName . '.jpg';
     }
 }
