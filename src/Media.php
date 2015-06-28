@@ -5,6 +5,7 @@ use GlideImage;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Utility\File;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Media extends Eloquent implements SortableInterface
 {
@@ -52,7 +53,10 @@ class Media extends Eloquent implements SortableInterface
      */
     public function getUrl($profileName = '')
     {
-        return MediaLibraryUrlGenerator::getUrl($this, $profileName, app(MediaLibraryFileSystem::class)->getDriverType());
+        return app(UrlGeneratorInterface::class)
+            ->setMedia($this)
+            ->setProfileName($profileName)
+            ->getUrl();
     }
 
 

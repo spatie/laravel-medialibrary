@@ -7,6 +7,13 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGeneratorInterfac
 {
     public function getUrl()
     {
-        // TODO: Implement getUrl() method.
+        $baseDirectory = '/media/' . $this->media->id;
+
+        if ($this->profileName == '')
+        {
+            return $baseDirectory . '/' . $this->media->file;
+        }
+        
+        return  '/media/' . $this->media->id . '/' . $this->profileName . '.jpg';
     }
 }
