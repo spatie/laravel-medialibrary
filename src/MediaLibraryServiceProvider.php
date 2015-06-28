@@ -20,11 +20,16 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../resources/config/config.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
-        $timestamp = date('Y_m_d_His', time());
 
-        $this->publishes([
-            __DIR__.'/../resources/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php'),
-        ], 'migrations');
+        if (! class_exists('CreateMediaTable')) {
+
+            $timestamp = date('Y_m_d_His', time());
+
+            $this->publishes([
+                __DIR__.'/../resources/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php'),
+            ], 'migrations');
+
+        }
 
     }
 
