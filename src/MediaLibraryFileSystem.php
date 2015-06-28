@@ -40,7 +40,9 @@ class MediaLibraryFileSystem
     {
         $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
 
-        //$this->disk->getDriver()->readStream($sourceFile) // write to targetFile//
+        $stream = $this->disk->getDriver()->readStream($sourceFile);
+        file_put_contents($targetFile, stream_get_contents($stream), FILE_APPEND);
+        fclose($stream);
     }
 
     public function remove(Media $media)
