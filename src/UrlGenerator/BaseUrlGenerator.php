@@ -8,7 +8,16 @@ abstract class BaseUrlGenerator
 
     protected $profileName;
 
-    protected $filesystemConfig;
+    /**
+     * @var \Illuminate\Contracts\Config\Repository
+     */
+    protected $config;
+
+
+    public function __construct(\Illuminate\Contracts\Config\Repository $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * @param mixed $media
@@ -31,14 +40,4 @@ abstract class BaseUrlGenerator
 
         return $this;
     }
-
-    /**
-     * @param mixed $filesystemConfig
-     */
-    public function setFilesystemConfig($filesystemConfig)
-    {
-        $this->filesystemConfig = $filesystemConfig;
-    }
-
-
 }

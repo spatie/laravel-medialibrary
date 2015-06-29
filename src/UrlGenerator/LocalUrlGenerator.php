@@ -2,18 +2,29 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
+use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException;
 
 class LocalUrlGenerator extends BaseUrlGenerator implements UrlGeneratorInterface
 {
     public function getUrl()
     {
-        $baseDirectory = '/media/' . $this->media->id;
-
-        if ($this->profileName == '')
-        {
-            return $baseDirectory . '/' . $this->media->file;
+        if (!string($this->config->get('laravel-medialibrary.storage_path'))->startsWith(public_path())) {
+            throw new UrlCouldNotBeDeterminedException('The storage path is not part of the public path');
         }
 
-        return  '/media/' . $this->media->id . '/' . $this->profileName . '.jpg';
+        if ($this->profileName == '') {
+            return $this->getBaseDirectory() . '/' . $this->media->file;
+        }
+
+        return $this->getBaseDirectory() . '/' . $this->profileName . '.jpg';
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBaseDirectory()
+    {
+        $baseDirectory = string($this->config->get('laravel-medialibrary.storage_path'))->replace(public_path(), '') . '/media/' . $this->media->id;
+        return $baseDirectory;
     }
 }
