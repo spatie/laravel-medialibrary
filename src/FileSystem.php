@@ -3,9 +3,9 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Contracts\Filesystem\Filesystem as LaravelFileSystem;
 
-class MediaLibraryFileSystem
+class FileSystem
 {
     /**
      * @var Filesystem
@@ -16,7 +16,7 @@ class MediaLibraryFileSystem
      */
     private $config;
 
-    public function __construct(Filesystem $disk, Repository $config)
+    public function __construct(LaravelFileSystem $disk, Repository $config)
     {
         $this->disk = $disk;
         $this->config = $config;
@@ -24,9 +24,15 @@ class MediaLibraryFileSystem
 
     public function add($file, Media $media)
     {
-        $this->copyFileToMediaLibraryForMedia($file, $media);
+        echo 'start add';
 
-        app(MediaLibraryFileManipulator::class)->createDerivedFiles($media);
+        $this->copyToMediaLibrary($file, $media);
+
+        echo 'copied';
+
+        app(FileManipulator::class)->createDerivedFiles($media);
+
+        echo 'derived generated';
     }
 
     public function copyToMediaLibrary($file, $media)
@@ -75,10 +81,14 @@ class MediaLibraryFileSystem
 
     public function getMediaDirectory(Media $media)
     {
+        $directory = $media->id;
+
         if ($this->config['storage_path'] != '')  {
-            return $this->config->get('laravel-medialibrary.storage_path') . '/' . $media->id;
+            $directory = $this->config->get('laravel-medialibrary.storage_path') . '/' . $media->id;
         }
 
-        return $media->id;
+        $this->disk->makeDirectory($directory);
+
+        return $directory;
     }
 }

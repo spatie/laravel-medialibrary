@@ -22,21 +22,24 @@ class ConversionCollection extends Collection
         return $this;
     }
 
-    protected function getConversionsFromModel($media)
+    protected function addConversionsFromModel($media)
     {
-        $this->items = $media->model->getMediaConversions();
+        $media->model->registerMediaConversions();
+
+        $this->items = $media->model->mediaConversions;
     }
 
     protected function addManipulationsFromDb($media)
     {
+
         foreach ($media->manipulations as $collectionName => $manipulation) {
 
             $this->filter(function (Conversion $conversion) use ($collectionName) {
                 return $conversion->shouldBePerformedOn($collectionName);
             })
-            ->map(function (Conversion $conversion) use ($manipulation) {
-                $conversion->addAsFirstManipulation($manipulation);
-            });
+                ->map(function (Conversion $conversion) use ($manipulation) {
+                    $conversion->addAsFirstManipulation($manipulation);
+                });
         }
     }
 
@@ -51,6 +54,7 @@ class ConversionCollection extends Collection
 
     public function getQueuedConversions($collectionName = '')
     {
+
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
             return $conversion->shouldBeQueued();
         });

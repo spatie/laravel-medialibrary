@@ -39,12 +39,12 @@ class Conversion
     }
 
     /**
-     * @param array $manipulations
+     * @param string $manipulations,...
      * @return $this
      */
     public function setManipulations($manipulations)
     {
-        $this->manipulations = $manipulations;
+        $this->manipulations = func_get_args();
 
         return $this;
     }
@@ -62,11 +62,7 @@ class Conversion
 
     public function performOnCollections($collectionNames)
     {
-        if (! is_array($collectionNames)) {
-            $collectionNames = [$collectionNames];
-        }
-
-        $this->performOn = $collectionNames;
+        $this->performOn = func_get_args();
     }
 
     public function shouldBePerformedOn($collectionName)
@@ -78,11 +74,15 @@ class Conversion
     public function queued()
     {
         $this->queued = true;
+
+        return $this;
     }
 
     public function nonQueued()
     {
         $this->queued = false;
+
+        return $this;
     }
 
     public function shouldBeQueued()

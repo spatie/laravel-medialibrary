@@ -39,11 +39,18 @@ interface HasMediaInterface
     public function removeMedia($id);
 
     /**
-     * Get the conversions that should be performed.
+     * Register the conversions that should be performed.
      *
      * @return array
      */
-    public function getMediaConversions();
+    public function registerMediaConversions();
+
+    /**
+     *
+     *
+     * @return Conversion
+     */
+    public function addMediaConversion($name);
 
 
     /**

@@ -10,7 +10,7 @@ return [
 
     /*
      * The medialibrary will use this directory to store added files and derived images.
-     * This path is relatid to the root you configured on the chosen filesystem.
+     * This path is relative to the root you configured on the chosen filesystem.
      *
      */
     'storage_path' => '',

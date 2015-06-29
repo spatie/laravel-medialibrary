@@ -1,16 +1,19 @@
 <?php namespace Spatie\MediaLibrary\Traits;
 
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExistException;
 use Spatie\MediaLibrary\Exceptions\FileTooBigException;
-use Spatie\MediaLibrary\MediaLibraryFileSystem;
-use Spatie\MediaLibrary\MediaLibraryRepository;
+use Spatie\MediaLibrary\FileSystem;
+use Spatie\MediaLibrary\Repository;
 use Spatie\MediaLibrary\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 
 trait HasMedia
 {
+    public $mediaConversions = [];
+
     public static function bootMediaLibraryModelTrait()
     {
         self::deleting(function (MediaLibraryModelInterface $subject) {
@@ -28,6 +31,49 @@ trait HasMedia
     public function media()
     {
         return $this->morphMany(Media::class, 'model');
+    }
+
+    /**
+     * Add media to media collection from a given file.
+     *
+     * @param $file
+     * @param $collectionName
+     * @param bool $removeOriginal
+     * @param bool $addAsTemporary
+     * @return mixed
+     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExistException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBigException
+     * @internal param bool $preserveOriginal
+     */
+    public function addMedia($file, $collectionName, $removeOriginal = true, $addAsTemporary = false)
+    {
+        if (! is_file($file)) {
+            throw new FileDoesNotExistException;
+        }
+
+        if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
+            throw new FileTooBigException;
+        }
+
+        $media = new Media();
+        $media->collection_name = $collectionName;
+        $media->file_name = pathinfo($file, PATHINFO_BASENAME);
+        $media->extension = pathinfo($file, PATHINFO_EXTENSION);
+        $media->size = filesize($file);
+        $media->temp = $addAsTemporary;
+        $media->manipulations = [];
+
+        $media->save();
+
+        $this->media()->save($media);
+
+        app(FileSystem::class)->add($file, $media);
+
+        if (! $removeOriginal) {
+            unlink($file);
+        }
+
+        return $media;
     }
 
     /**
@@ -83,48 +129,7 @@ trait HasMedia
         return $media->getUrl($profileName);
     }
 
-    /**
-     * Add media to media collection from a given file.
-     *
-     * @param $file
-     * @param $collectionName
-     * @param bool $removeOriginal
-     * @param bool $addAsTemporary
-     * @return mixed
-     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExistException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBigException
-     * @internal param bool $preserveOriginal
-     */
-    public function addMedia($file, $collectionName, $removeOriginal = true, $addAsTemporary = false)
-    {
-        if (! is_file($file)) {
-            throw new FileDoesNotExistException;
-        }
 
-        if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
-            throw new FileTooBigException;
-        }
-
-        $media = new Media();
-        $media->collection_name = $collectionName;
-        $media->file = pathinfo($file, PATHINFO_BASENAME);
-        $media->extension = pathinfo($file, PATHINFO_EXTENSION);
-        $media->size = filesize($file);
-        $media->temp = $addAsTemporary;
-        $media->profile_properties = [];
-
-        $media->save();
-
-        $this->media()->save($media);
-
-        app(MediaLibraryFileSystem::class)->addFile($file, $media);
-
-        if (! $removeOriginal) {
-            unlink($file);
-        }
-
-        return $media;
-    }
 
     /**
      * Remove a media item by its id.
@@ -214,5 +219,16 @@ trait HasMedia
     public function emptyCollection($collectionName)
     {
 
+    }
+
+    public function addMediaConversion($name)
+    {
+        $conversion = Conversion::create($name);
+
+        $this->mediaConversions[] = $conversion;
+
+        echo 'added media conversion';
+
+        return $conversion;
     }
 }

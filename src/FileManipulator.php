@@ -7,7 +7,7 @@ use GlideImage;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 
-class MediaLibraryFileManipulator
+class FileManipulator
 {
     use DispatchesJobs;
 
@@ -15,7 +15,11 @@ class MediaLibraryFileManipulator
     {
         $profileCollection = ConversionCollectionFactory::createForMedia($media);
 
+        echo 'profile collection created';
+
         $this->performConversions($profileCollection->getNonQueuedConversions($media->collection_name), $media);
+
+        echo 'non queued ready';
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
@@ -26,17 +30,17 @@ class MediaLibraryFileManipulator
 
     public function performConversions($conversions, $media)
     {
-        $tempDirectory = storage_path('media-library/temp/' . string()->random(16));
+        $tempDirectory = storage_path('media-library/temp/' . str_random(16));
 
-        $copiedOriginalFile = storage_path('media-library/temp/' . string()->random(16) . '.' . pathinfo($media->file), PATHINFO_EXTENSION);
+        $copiedOriginalFile = storage_path('media-library/temp/' . str_random(16) . '.' . pathinfo($media->file, PATHINFO_EXTENSION));
 
-        app(MediaLibraryFileSystem::class)->copyOriginalFile($media, $copiedOriginalFile);
+        app(FileSystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         foreach ($conversions as $conversion) {
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            app(MediaLibraryFileSystem::class)->copyFileToMediaLibraryForMedia($conversionResult, $media);
+            app(FileSystem::class)->copyToMediaLibrary($conversionResult, $media);
 
         }
 

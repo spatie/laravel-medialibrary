@@ -1,6 +1,7 @@
 <?php namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
+use Storage;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(FileSystem::class, function($app) {
+           return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
+        });
+
         $this->app['command.medialibrary:regenerate'] = $this->app->share(
             function () {
                 return new RegenerateCommand();

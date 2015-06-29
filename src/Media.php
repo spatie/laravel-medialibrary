@@ -23,13 +23,13 @@ class Media extends Eloquent implements SortableInterface
      * @var array
      */
     protected $casts = [
-        'profile_properties' => 'array',
+        'manipulations' => 'array',
     ];
 
     public static function boot()
     {
         static::deleted(function(Media $media) {
-            app(MediaLibraryFileSystem::class)->removeFiles($media);
+            app(FileSystem::class)->removeFiles($media);
         });
 
         parent::boot();
