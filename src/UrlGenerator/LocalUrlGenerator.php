@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\UrlGenerator;
 
 use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException;
 
-class LocalUrlGenerator extends BaseUrlGenerator implements UrlGeneratorInterface
+class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
     public function getUrl()
     {

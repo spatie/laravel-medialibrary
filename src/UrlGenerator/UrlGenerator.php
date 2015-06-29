@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-interface UrlGeneratorInterface
+interface UrlGenerator
 {
     public function getUrl();
 }

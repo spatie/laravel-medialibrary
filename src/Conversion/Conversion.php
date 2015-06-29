@@ -28,6 +28,11 @@ class Conversion
         $this->name = $name;
     }
 
+    public static function create($name)
+    {
+        return new static($name);
+    }
+
     public function getManipulations()
     {
         return $this->manipulations;
@@ -55,7 +60,7 @@ class Conversion
         return $this;
     }
 
-    public function performOn($collectionNames)
+    public function performOnCollections($collectionNames)
     {
         if (! is_array($collectionNames)) {
             $collectionNames = [$collectionNames];
