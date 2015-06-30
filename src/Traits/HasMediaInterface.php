@@ -46,9 +46,9 @@ interface HasMediaInterface
     public function registerMediaConversions();
 
     /**
+     * Add a conversion
      *
-     *
-     * @return Conversion
+     * @return \Spatie\MediaLibrary\Conversion\Conversion;
      */
     public function addMediaConversion($name);
 

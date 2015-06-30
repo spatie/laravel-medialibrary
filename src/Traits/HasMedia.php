@@ -221,6 +221,11 @@ trait HasMedia
 
     }
 
+    /**
+     * Add a conversion
+     *
+     * @return \Spatie\MediaLibrary\Conversion\Conversion;
+     */
     public function addMediaConversion($name)
     {
         $conversion = Conversion::create($name);

@@ -60,17 +60,37 @@ class Conversion
         return $this;
     }
 
+    /**
+     * Set the collection names on which this conversion must be performed.
+     *
+     * @param $collectionNames
+     * @return $this
+     */
     public function performOnCollections($collectionNames)
     {
         $this->performOn = func_get_args();
+
+        return $this;
     }
 
+    /**
+     * Determine if this conversion should be performed on the given
+     * collection.
+     *
+     * @param $collectionName
+     * @return bool
+     */
     public function shouldBePerformedOn($collectionName)
     {
         return in_array($collectionName, $this->performOn);
     }
 
 
+    /**
+     * This conversion should be queued.
+     *
+     * @return $this
+     */
     public function queued()
     {
         $this->queued = true;
@@ -78,6 +98,11 @@ class Conversion
         return $this;
     }
 
+    /**
+     * This conversion should not be queued.
+     *
+     * @return $this
+     */
     public function nonQueued()
     {
         $this->queued = false;
@@ -85,6 +110,11 @@ class Conversion
         return $this;
     }
 
+    /**
+     * Determine if the conversion should be queued.
+     *
+     * @return bool
+     */
     public function shouldBeQueued()
     {
         return $this->shouldBeQueued;
