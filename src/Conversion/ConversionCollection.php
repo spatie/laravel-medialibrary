@@ -24,6 +24,25 @@ class ConversionCollection extends Collection
     }
 
     /**
+     *  Get a conversion by it's name;
+     * @param $name
+     * @return Conversion
+     * @throws UnknownConversionException
+     */
+    public function getByName($name)
+    {
+        $conversion = $this->first(function(Conversion $conversion) use ($name) {
+            return $conversion->getName() == $name;
+        });
+
+        if (! $conversion) {
+            throw new UnknownConversionException;
+        }
+
+        return $conversion;
+    }
+
+    /**
      * Add the conversion that are defined on the related model of
      * the given media.
      *

@@ -22,11 +22,11 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
             throw new UrlCouldNotBeDeterminedException('The storage path is not part of the public path');
         }
 
-        if ($this->profileName == '') {
+        if (is_null($this->conversion)) {
             return $this->getBaseMediaDirectory().'/'.$this->media->file_name;
         }
 
-        return $this->getBaseMediaDirectory().'/conversions/'.$this->profileName.'.jpg';
+        return $this->getBaseMediaDirectory().'/conversions/'.$this->conversion->getName().'.'.$this->conversion->getResultExtension();
     }
 
     /**

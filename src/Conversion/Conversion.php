@@ -147,4 +147,14 @@ class Conversion
     {
         return $this->performOnQueue;
     }
+
+    /**
+     * Get the extension that the result of this conversion must have.
+     *
+     * @return string
+     */
+    public function getResultExtension()
+    {
+        return 'jpg';
+    }
 }

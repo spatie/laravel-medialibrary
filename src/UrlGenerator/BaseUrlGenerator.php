@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
+use Spatie\MediaLibrary\Conversion\Conversion;
+
 abstract class BaseUrlGenerator
 {
     /**
@@ -10,9 +12,9 @@ abstract class BaseUrlGenerator
     protected $media;
 
     /**
-     * @var string
+     * @var Conversion
      */
-    protected $profileName;
+    protected $conversion;
 
     /**
      * @var \Illuminate\Contracts\Config\Repository
@@ -37,13 +39,13 @@ abstract class BaseUrlGenerator
     }
 
     /**
-     * @param string $profileName
+     * @param Conversion|null $conversion
      *
      * @return $this
      */
-    public function setProfileName($profileName)
+    public function setConversion(Conversion $conversion)
     {
-        $this->profileName = $profileName;
+        $this->conversion = $conversion;
 
         return $this;
     }

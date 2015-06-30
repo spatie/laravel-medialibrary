@@ -3,6 +3,8 @@
 use Eloquent;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
+use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
+use Spatie\MediaLibrary\Exceptions\UnknownConversionException;
 use Spatie\MediaLibrary\Utility\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -47,16 +49,22 @@ class Media extends Eloquent implements SortableInterface
     /**
      * Get the original Url to a media-file.
      *
-     * @param string $profileName
-     *
+     * @param string $conversionName
      * @return string
+     * @throws UnknownConversionException
      */
-    public function getUrl($profileName = '')
+    public function getUrl($conversionName = '')
     {
-        return app(UrlGeneratorInterface::class)
+        $urlGenerator = app(UrlGeneratorInterface::class)
             ->setMedia($this)
-            ->setProfileName($profileName)
             ->getUrl();
+
+        if ($conversionName != '') {
+
+            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
+        }
+
+        return $urlGenerator;
     }
 
     /**

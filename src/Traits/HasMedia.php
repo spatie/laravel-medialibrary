@@ -108,16 +108,16 @@ trait HasMedia
     }
 
     /**
-     * Get the url of the image for the given profileName
+     * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      *
      * @param string $collectionName
-     * @param string $profileName
+     * @param string $conversionName
      *
      * @return string
      */
-    public function getFirstMediaUrl($collectionName, $profileName = '')
+    public function getFirstMediaUrl($collectionName, $conversionName = '')
     {
         $media = $this->getFirstMedia($collectionName);
 
@@ -125,7 +125,7 @@ trait HasMedia
             return false;
         }
 
-        if (! $profileName) {
+        if (! $conversionName) {
             return $media->getOriginalUrl();
         }
 
@@ -229,8 +229,6 @@ trait HasMedia
         $conversion = Conversion::create($name);
 
         $this->mediaConversions[] = $conversion;
-
-        echo 'added media conversion';
 
         return $conversion;
     }

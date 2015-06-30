@@ -51,7 +51,7 @@ class FileManipulator
         foreach ($conversions as $conversion) {
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.jpg');
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.$conversion->getResultExtension());
 
             app(FileSystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
         }
