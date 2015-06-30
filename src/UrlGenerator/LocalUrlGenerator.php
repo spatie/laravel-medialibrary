@@ -6,6 +6,13 @@ use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException;
 
 class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
+    /**
+     * Get the url for the profile of a media item.
+     *
+     * @return string
+     *
+     * @throws UrlCouldNotBeDeterminedException
+     */
     public function getUrl()
     {
 
@@ -16,28 +23,33 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
         }
 
         if ($this->profileName == '') {
-            return $this->getBaseMediaDirectory() . '/' . $this->media->file_name;
+            return $this->getBaseMediaDirectory().'/'.$this->media->file_name;
         }
 
-        return $this->getBaseMediaDirectory() . '/conversions/' . $this->profileName . '.jpg';
+        return $this->getBaseMediaDirectory().'/conversions/'.$this->profileName.'.jpg';
     }
 
     /**
+     * Get the directory where all files of the media item are stored.
+     *
      * @return string
      */
     protected function getBaseMediaDirectory()
     {
-        $baseDirectory = string($this->getStoragePath())->replace(public_path(), '') . '/' . $this->media->id;
+        $baseDirectory = string($this->getStoragePath())->replace(public_path(), '').'/'.$this->media->id;
 
         return $baseDirectory;
     }
 
+    /**
+     * Get the path where the whole medialibrary is stored.
+     *
+     * @return string
+     */
     protected function getStoragePath()
     {
-        $diskRootPath = $this->config->get('filesystems.disks.' . $this->config->get('laravel-medialibrary.filesystem') . '.root');
+        $diskRootPath = $this->config->get('filesystems.disks.'.$this->config->get('laravel-medialibrary.filesystem').'.root');
 
-        $configuredPath = $this->config->get('laravel-medialibrary.storage_path');
-
-        return realpath($diskRootPath . '/' . $configuredPath);
+        return realpath($diskRootPath);
     }
 }

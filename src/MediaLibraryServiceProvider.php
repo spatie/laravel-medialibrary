@@ -22,18 +22,13 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../resources/config/config.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
-
-
         if (! class_exists('CreateMediaTable')) {
-
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([
                 __DIR__.'/../resources/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php'),
             ], 'migrations');
-
         }
-
     }
 
     /**
@@ -41,11 +36,11 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(FileSystem::class, function($app) {
+        $this->app->bind(FileSystem::class, function ($app) {
            return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
         });
 
-        $this->app->bind(UrlGeneratorInterface::class, 'Spatie\MediaLibrary\UrlGenerator\\' .  ucfirst($this->getDriverType()) . 'UrlGenerator');
+        $this->app->bind(UrlGeneratorInterface::class, 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($this->getDriverType()).'UrlGenerator');
 
         $this->app['command.medialibrary:regenerate'] = $this->app->share(
             function () {
@@ -70,6 +65,6 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
     public function getDriverType()
     {
-        return $this->app->config->get('filesystems.disks.' . $this->app->config->get('laravel-medialibrary.filesystem') . '.driver');
+        return $this->app->config->get('filesystems.disks.'.$this->app->config->get('laravel-medialibrary.filesystem').'.driver');
     }
 }

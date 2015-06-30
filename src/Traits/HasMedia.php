@@ -5,7 +5,6 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExistException;
 use Spatie\MediaLibrary\Exceptions\FileTooBigException;
 use Spatie\MediaLibrary\FileSystem;
-use Spatie\MediaLibrary\Repository;
 use Spatie\MediaLibrary\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
@@ -17,7 +16,7 @@ trait HasMedia
     public static function bootMediaLibraryModelTrait()
     {
         self::deleting(function (MediaLibraryModelInterface $subject) {
-            $subject->media()->get()->map(function(Media $media) {
+            $subject->media()->get()->map(function (Media $media) {
                 $media->delete();
             });
         });
@@ -36,23 +35,24 @@ trait HasMedia
     /**
      * Add media to media collection from a given file.
      *
-     * @param $file
-     * @param $collectionName
-     * @param bool $removeOriginal
-     * @param bool $addAsTemporary
-     * @return mixed
+     * @param string $file
+     * @param string $collectionName
+     * @param bool   $removeOriginal
+     * @param bool   $addAsTemporary
+     *
+     * @return Media
+     *
      * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExistException
      * @throws \Spatie\MediaLibrary\Exceptions\FileTooBigException
-     * @internal param bool $preserveOriginal
      */
     public function addMedia($file, $collectionName, $removeOriginal = true, $addAsTemporary = false)
     {
         if (! is_file($file)) {
-            throw new FileDoesNotExistException;
+            throw new FileDoesNotExistException();
         }
 
         if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
-            throw new FileTooBigException;
+            throw new FileTooBigException();
         }
 
         $media = new Media();
@@ -64,7 +64,7 @@ trait HasMedia
 
         $media->size = filesize($file);
         $media->temp = $addAsTemporary;
-        $media->manipulations = [];
+        $media->manipulations = ['list' => ['or' => '90']];
 
         $media->save();
 
@@ -76,16 +76,14 @@ trait HasMedia
             unlink($file);
         }
 
-        echo 'all done!!!';
-
         return $media;
     }
 
     /**
      * Get media collection by its collectionName.
      *
-     * @param $collectionName
-     * @param array $filters
+     * @param string $collectionName
+     * @param array  $filters
      *
      * @return mixed
      */
@@ -100,7 +98,7 @@ trait HasMedia
      * @param $collectionName
      * @param array $filters
      *
-     * @return bool
+     * @return bool|Media
      */
     public function getFirstMedia($collectionName, $filters = [])
     {
@@ -115,11 +113,11 @@ trait HasMedia
      * If no profile is given, return the source's url.
      *
      * @param string $collectionName
-     * @param string|null $profileName
+     * @param string $profileName
      *
-     * @return bool
+     * @return string
      */
-    public function getFirstMediaUrl($collectionName, $profileName = null)
+    public function getFirstMediaUrl($collectionName, $profileName = '')
     {
         $media = $this->getFirstMedia($collectionName);
 
@@ -131,10 +129,8 @@ trait HasMedia
             return $media->getOriginalUrl();
         }
 
-        return $media->getUrl($profileName);
+        return $media->getUrl('');
     }
-
-
 
     /**
      * Remove a media item by its id.
@@ -187,13 +183,12 @@ trait HasMedia
      * Remove all media in the given collection.
      *
      * @param $collectionName
-     * @return void
      */
-    public function removeMediaCollection($collectionName){
+    public function removeMediaCollection($collectionName)
+    {
         $media = $this->getMedia($collectionName);
 
-        foreach($media as $mediaItem)
-        {
+        foreach ($media as $mediaItem) {
             MediaLibrary::remove($mediaItem->id);
         }
     }
@@ -219,15 +214,13 @@ trait HasMedia
      * Remove all media in the given collection.
      *
      * @param $collectionName
-     * @return void
      */
     public function emptyCollection($collectionName)
     {
-
     }
 
     /**
-     * Add a conversion
+     * Add a conversion.
      *
      * @return \Spatie\MediaLibrary\Conversion\Conversion;
      */

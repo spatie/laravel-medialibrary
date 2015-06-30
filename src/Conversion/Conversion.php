@@ -16,36 +16,54 @@ class Conversion
     /**
      * @var array
      */
-    protected $performOn = [];
+    protected $performOnCollections = [];
 
     /**
      * @var bool
      */
     protected $performOnQueue = true;
 
-
+    /**
+     * @param string $name
+     */
     public function __construct($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * @param string $name
+     *
+     * @return static
+     */
     public static function create($name)
     {
         return new static($name);
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Get the manipulations of this conversion.
+     *
+     * @return array
+     */
     public function getManipulations()
     {
         return $this->manipulations;
     }
 
     /**
+     * Set the manipulations for this conversion.
+     *
      * @param string $manipulations,...
+     *
      * @return $this
      */
     public function setManipulations($manipulations)
@@ -56,7 +74,10 @@ class Conversion
     }
 
     /**
+     * Add the given manipulation as the first manipulation.
+     *
      * @param array $manipulation
+     *
      * @return $this
      */
     public function addAsFirstManipulation(array $manipulation)
@@ -69,12 +90,13 @@ class Conversion
     /**
      * Set the collection names on which this conversion must be performed.
      *
-     * @param $collectionNames
+     * @param string $collectionNames,...
+     *
      * @return $this
      */
     public function performOnCollections($collectionNames)
     {
-        $this->performOn = func_get_args();
+        $this->performOnCollections = func_get_args();
 
         return $this;
     }
@@ -83,17 +105,17 @@ class Conversion
      * Determine if this conversion should be performed on the given
      * collection.
      *
-     * @param $collectionName
+     * @param string $collectionName
+     *
      * @return bool
      */
     public function shouldBePerformedOn($collectionName)
     {
-        return in_array($collectionName, $this->performOn);
+        return in_array($collectionName, $this->performOnCollections);
     }
 
-
     /**
-     * This conversion should be queued.
+     * Mark this conversion as one that should be queued.
      *
      * @return $this
      */
@@ -105,7 +127,7 @@ class Conversion
     }
 
     /**
-     * This conversion should not be queued.
+     * Mark this conversion as one that should not be queued.
      *
      * @return $this
      */
@@ -125,8 +147,4 @@ class Conversion
     {
         return $this->performOnQueue;
     }
-
-
-
-
 }

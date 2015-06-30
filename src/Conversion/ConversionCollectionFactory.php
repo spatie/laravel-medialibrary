@@ -8,6 +8,7 @@ class ConversionCollectionFactory
 {
     /**
      * @param \Spatie\MediaLibrary\Media $media
+     *
      * @return ConversionCollection
      */
     public static function createForMedia(Media $media)

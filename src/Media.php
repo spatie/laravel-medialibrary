@@ -1,7 +1,6 @@
 <?php namespace Spatie\MediaLibrary;
 
 use Eloquent;
-use GlideImage;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Utility\File;
@@ -28,7 +27,7 @@ class Media extends Eloquent implements SortableInterface
 
     public static function boot()
     {
-        static::deleted(function(Media $media) {
+        static::deleted(function (Media $media) {
             app(FileSystem::class)->removeFiles($media);
         });
 
@@ -49,6 +48,7 @@ class Media extends Eloquent implements SortableInterface
      * Get the original Url to a media-file.
      *
      * @param string $profileName
+     *
      * @return string
      */
     public function getUrl($profileName = '')
@@ -59,7 +59,6 @@ class Media extends Eloquent implements SortableInterface
             ->getUrl();
     }
 
-
     /**
      * Determine the type of a file.
      *
@@ -67,41 +66,40 @@ class Media extends Eloquent implements SortableInterface
      */
     public function getType()
     {
-        
-        switch ($this->extension) {
-            case 'png';
-            case 'jpg':
-            case 'jpeg':
-                $type = self::TYPE_IMAGE;
-                break;
-            case 'pdf':
-                $type = self::TYPE_PDF;
-                break;
-            default:
-                $type = self::TYPE_FILE;
-                break;
+        if (in_array($this->getExtension(), ['png', 'jpg', 'jpeg'])) {
+            return self::TYPE_IMAGE;
         }
 
-        return $type;
+        if ($this->getExtension() == 'pdf') {
+            return self::TYPE_PDF;
+        }
+
+        return self::TYPE_FILE;
     }
 
+    /**
+     * @return string
+     */
     public function getExtension()
     {
         return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
+    /**
+     * @return string
+     */
     public function getHumanReadableFileSize()
     {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
         if ($this->size == 0) {
-            return '0 ' . $units[1];
+            return '0 '.$units[1];
         }
 
         for ($i = 0; $this->size > 1024; $i++) {
             $this->size /= 1024;
         }
 
-        return round($this->size, 2) . ' ' . $units[$i];
+        return round($this->size, 2).' '.$units[$i];
     }
 }

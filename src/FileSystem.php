@@ -22,31 +22,42 @@ class FileSystem
         $this->config = $config;
     }
 
+    /**
+     * Add a file to the mediaLibrary for the given media.
+     *
+     * @param $file
+     * @param Media $media
+     */
     public function add($file, Media $media)
     {
-        echo 'start add';
-
         $this->copyToMediaLibrary($file, $media);
 
-        echo 'copied';
-
         app(FileManipulator::class)->createDerivedFiles($media);
-
-        echo 'derived generated';
     }
 
+    /**
+     * Copy a file to the mediaLibrary for the given $media.
+     *
+     * @param $file
+     * @param $media
+     * @param string $subDirectory
+     */
     public function copyToMediaLibrary($file, $media, $subDirectory = '')
     {
-        $destination = $this->getMediaDirectory($media) . '/' .( $subDirectory != '' ? $subDirectory . '/' : '') . pathinfo($file, PATHINFO_BASENAME);
+        $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').pathinfo($file, PATHINFO_BASENAME);
 
-       var_dump($file);
-        echo PHP_EOL;
         $this->disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
     }
 
-    public function copyFromMediaLibrary($media, $targetFile)
+    /**
+     * Copy a file from the mediaLibrary to the given targetFile.
+     *
+     * @param Media  $media
+     * @param string $targetFile
+     */
+    public function copyFromMediaLibrary(Media $media, $targetFile)
     {
-        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         touch($targetFile);
 
@@ -55,39 +66,29 @@ class FileSystem
         fclose($stream);
     }
 
-    public function remove(Media $media)
+    /**
+     * Remove all files for the given media.
+     *
+     * @param Media $media
+     */
+    public function removeFiles(Media $media)
     {
         $this->disk->deleteDirectory($this->getMediaDirectory($media));
     }
 
-    public function getPaths(Media $media)
-    {
-        $result = [];
-
-        $paths = $this->disk->allFiles($this->getMediaDirectory($media));
-
-        foreach($paths as $path) {
-            $result[$this->getProfileName($path)] = $path;
-        }
-
-        return $result;
-    }
-
-    protected function getProfileName($path)
-    {
-        return string($path)->between('', '_');
-    }
-
+    /**
+     * Return the directory where all files of the given media are stored.
+     *
+     * @param Media $media
+     *
+     * @return string
+     */
     public function getMediaDirectory(Media $media)
     {
         $directory = $media->id;
 
-        if ($this->config['storage_path'] != '')  {
-            $directory = $this->config->get('laravel-medialibrary.storage_path') . '/' . $media->id;
-        }
-
         $this->disk->makeDirectory($directory);
-        $this->disk->makeDirectory($directory . '/conversions');
+        $this->disk->makeDirectory($directory.'/conversions');
 
         return $directory;
     }

@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 
 class MediaCollection extends Collection
 {
-
     /**
      *  Delete all media in this collection.
      *
@@ -14,7 +13,7 @@ class MediaCollection extends Collection
      */
     public function flush()
     {
-        $this->map(function(Media $media) {
+        $this->map(function (Media $media) {
             $media->delete();
         });
 
@@ -27,7 +26,9 @@ class MediaCollection extends Collection
      * Re order the media in the collection.
      *
      * @param array $mediaIds
+     *
      * @return $this
+     *
      * @throws \Spatie\EloquentSortable\SortableException
      */
     public function saveOrder(array $mediaIds)

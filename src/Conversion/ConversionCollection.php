@@ -9,70 +9,105 @@ class ConversionCollection extends Collection
 {
     /**
      * @param Media $media
+     *
      * @return $this
      */
     public function setMedia(Media $media)
     {
         $this->items = [];
 
-        $this->addConversionsFromModel($media);
+        $this->addConversionsFromRelatedModel($media);
 
         $this->addManipulationsFromDb($media);
 
         return $this;
     }
 
-    protected function addConversionsFromModel($media)
+    /**
+     * Add the conversion that are defined on the related model of
+     * the given media.
+     *
+     * @param Media $media
+     */
+    protected function addConversionsFromRelatedModel(Media $media)
     {
         $media->model->registerMediaConversions();
 
         $this->items = $media->model->mediaConversions;
     }
 
-    protected function addManipulationsFromDb($media)
+    /**
+     * Add the extra manipulations that are defined on the given media.
+     *
+     * @param $media
+     */
+    protected function addManipulationsFromDb(Media $media)
     {
-
-        foreach ($media->manipulations as $collectionName => $manipulation) {
-
-            $this->filter(function (Conversion $conversion) use ($collectionName) {
-                return $conversion->shouldBePerformedOn($collectionName);
-            })
-                ->map(function (Conversion $conversion) use ($manipulation) {
-                    $conversion->addAsFirstManipulation($manipulation);
-                });
+        foreach ($media->manipulations as $conversionName => $manipulation) {
+            $this->addManipulationToConversion($manipulation, $conversionName);
         }
     }
 
+    /**
+     * Get all the conversions in the collection.
+     *
+     * @param string $collectionName
+     *
+     * @return $this
+     */
     public function getConversions($collectionName = '')
     {
-        if ($collectionName == '') return $this;
+        if ($collectionName == '') {
+            return $this;
+        }
 
-        return $this->filter(function(Conversion $conversion) use($collectionName) {
+        return $this->filter(function (Conversion $conversion) use ($collectionName) {
             return $conversion->shouldBePerformedOn($collectionName);
         });
     }
 
+    /**
+     * Get all the conversions in the collection that should be queued.
+     *
+     * @param string $collectionName
+     *
+     * @return ConversionCollection
+     */
     public function getQueuedConversions($collectionName = '')
     {
-
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
             return $conversion->shouldBeQueued();
         });
     }
 
+    /**
+     * Add the given manipulation to the conversion with the given name.
+     *
+     * @param array  $manipulation
+     * @param string $conversionName
+     */
+    protected function addManipulationToConversion($manipulation, $conversionName)
+    {
+        foreach ($this as $conversion) {
+            if ($conversion->getName() == $conversionName) {
+                $conversion->addAsFirstManipulation($manipulation);
+
+                return;
+            }
+        }
+    }
+
+    /**
+     * Get all the conversions in the collection that should not be queued.
+     *
+     * @param string $collectionName
+     *
+     * @return ConversionCollection
+     */
     public function getNonQueuedConversions($collectionName = '')
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
             return ! $conversion->shouldBeQueued();
         });
     }
-
-
-
-
-
-
-
-
-
 }

@@ -17,7 +17,7 @@ interface HasMediaInterface
      * @param bool $preserveOriginal
      * @param bool $addAsTemporary
      *
-     * @return mixed
+     * @return Media
      */
     public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
 
@@ -27,14 +27,14 @@ interface HasMediaInterface
      * @param $collectionName
      * @param array $filters
      *
-     * @return mixed
+     * @return \Spatie\MediaLibrary\Media
      */
     public function getMedia($collectionName, $filters = []);
 
     /**
      * Remove a media item by its id.
      *
-     * @param $id
+     * @param int $id
      */
     public function removeMedia($id);
 
@@ -46,18 +46,16 @@ interface HasMediaInterface
     public function registerMediaConversions();
 
     /**
-     * Add a conversion
+     * Add a conversion.
      *
      * @return \Spatie\MediaLibrary\Conversion\Conversion;
      */
     public function addMediaConversion($name);
 
-
     /**
      * Remove all media in the given collection.
      *
      * @param $collectionName
-     * @return void
      */
     public function emptyCollection($collectionName);
 }

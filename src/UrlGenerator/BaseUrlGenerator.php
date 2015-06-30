@@ -4,8 +4,14 @@ namespace Spatie\MediaLibrary\UrlGenerator;
 
 abstract class BaseUrlGenerator
 {
+    /**
+     * @var \Spatie\MediaLibrary\Media
+     */
     protected $media;
 
+    /**
+     * @var string
+     */
     protected $profileName;
 
     /**
@@ -13,14 +19,14 @@ abstract class BaseUrlGenerator
      */
     protected $config;
 
-
     public function __construct(\Illuminate\Contracts\Config\Repository $config)
     {
         $this->config = $config;
     }
 
     /**
-     * @param mixed $media
+     * @param \Spatie\MediaLibrary\Media $media
+     *
      * @return $this
      */
     public function setMedia($media)
@@ -31,7 +37,8 @@ abstract class BaseUrlGenerator
     }
 
     /**
-     * @param mixed $profileName
+     * @param string $profileName
+     *
      * @return $this
      */
     public function setProfileName($profileName)

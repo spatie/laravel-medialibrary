@@ -4,9 +4,8 @@ namespace Spatie\MediaLibrary;
 
 use Spatie\MediaLibrary\Traits\HasMediaInterface;
 
-class MediaLibraryRepository
+class Repository
 {
-
     /**
      * @var \Spatie\MediaLibrary\Media
      */
@@ -18,36 +17,34 @@ class MediaLibraryRepository
     }
 
     /**
-     * Get all media in the collection
+     * Get all media in the collection.
      *
      * @param \Spatie\MediaLibrary\Traits\HasMediaInterface $model
-     * @param string $collectionName
-     * @param array $filters
+     * @param string                                        $collectionName
+     * @param array                                         $filters
      *
-     * @return mixed
+     * @return Media[]
      */
     public function getCollection(HasMediaInterface $model, $collectionName, $filters = [])
     {
-        $mediaItems = $this->loadMedia($model, $collectionName);
+        $mediaCollection = $this->loadMedia($model, $collectionName);
 
-        $media = $this->addUrlsToMedia($mediaItems);
+        $mediaCollection = $this->applyFiltersToMediaCollection($mediaCollection, $filters);
 
-        $media = $this->applyFiltersToMedia($media, $filters);
-
-        return $media;
+        return $mediaCollection;
     }
 
     /**
      * Load media by collectionName.
      *
      * @param HasMediaInterface $model
-     * @param string $collectionName
+     * @param string            $collectionName
+     *
      * @return mixed
      */
     private function loadMedia(HasMediaInterface $model, $collectionName)
     {
         if ($this->mediaIsPreloaded($model)) {
-
             $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
                 return $mediaItem->collection_name == $collectionName;
             })->sortBy(function (Media $media) {
@@ -66,32 +63,21 @@ class MediaLibraryRepository
     }
 
     /**
-     * Check if the media is preloaded.
+     * Apply given filters on media.
      *
-     * @param HasMediaInterface $model
-     *
-     * @return bool
-     */
-    private function mediaIsPreloaded(HasMediaInterface $model)
-    {
-        return isset($model->media);
-    }
-
-
-    /**
-     * Add URL to a single media item.
-     *
-     * @param $mediaItem
+     * @param $media
+     * @param $filters
      *
      * @return mixed
      */
-    private function addUrlsToMedia(Media $mediaItem)
+    protected function applyFiltersToMediaCollection(Collection $media, $filters)
     {
-        foreach ($this->fileSystem->getFilePathsForMedia($mediaItem) as $profileName => $filePath) {
-            $mediaItem->addImageProfileURL($profileName, str_replace(public_path(), '', $filePath));
+        foreach ($filters as $filterProperty => $filterValue) {
+            $media = $media->filter(function (Media $media) use ($filterProperty, $filterValue) {
+                return $media->$filterProperty == $filterValue;
+            });
         }
-        return $mediaItem;
+
+        return $media;
     }
-
-
 }
