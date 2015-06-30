@@ -35,10 +35,10 @@ class FileSystem
         echo 'derived generated';
     }
 
-    public function copyToMediaLibrary($file, $media)
+    public function copyToMediaLibrary($file, $media, $subDirectory = '')
     {
-        $destination = $this->getMediaDirectory($media) . '/' . pathinfo($file, PATHINFO_BASENAME);
-echo 'insdie copy to media lib';
+        $destination = $this->getMediaDirectory($media) . '/' .( $subDirectory != '' ? $subDirectory . '/' : '') . pathinfo($file, PATHINFO_BASENAME);
+
        var_dump($file);
         echo PHP_EOL;
         $this->disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
@@ -73,11 +73,6 @@ echo 'insdie copy to media lib';
         return $result;
     }
 
-    public function getDriverType()
-    {
-        return $this->config->get('filesystems.' . $this->config('laravel-medialibrary.filesystem') . '.name');
-    }
-
     protected function getProfileName($path)
     {
         return string($path)->between('', '_');
@@ -92,6 +87,7 @@ echo 'insdie copy to media lib';
         }
 
         $this->disk->makeDirectory($directory);
+        $this->disk->makeDirectory($directory . '/conversions');
 
         return $directory;
     }

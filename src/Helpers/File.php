@@ -8,9 +8,7 @@ class File
     {
         $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME) . '/' . $newFileNameWithoutDirectory;
 
-        dd($targetFile);
-
-        rename($fileNameWithDirectory, pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME) . '/' . $newFileNameWithoutDirectory);
+        rename($fileNameWithDirectory, $targetFile);
 
         return $targetFile;
     }

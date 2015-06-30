@@ -43,10 +43,10 @@ class FileManipulator
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, 'conversions/' . $conversion->getName() . '.jpg');
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName() . '.jpg');
 
             echo 'conversion done, copy to medialib starting';
-            app(FileSystem::class)->copyToMediaLibrary($renamedFile, $media);
+            app(FileSystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
             echo 'copy done';
 
         }

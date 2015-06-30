@@ -8,6 +8,10 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
     public function getUrl()
     {
+
+        //nog disk path voor storage path zetten
+        dd(public_path(), $this->config->get('laravel-medialibrary.storage_path'));
+
         if (!string($this->config->get('laravel-medialibrary.storage_path'))->startsWith(public_path())) {
             throw new UrlCouldNotBeDeterminedException('The storage path is not part of the public path');
         }

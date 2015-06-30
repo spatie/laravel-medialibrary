@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Storage;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -20,6 +21,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/config/config.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
+
 
 
         if (! class_exists('CreateMediaTable')) {
@@ -43,6 +45,8 @@ class MediaLibraryServiceProvider extends ServiceProvider
            return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
         });
 
+        $this->app->bind(UrlGeneratorInterface::class, 'Spatie\MediaLibrary\UrlGenerator\\' .  ucfirst($this->getDriverType()) . 'UrlGenerator');
+
         $this->app['command.medialibrary:regenerate'] = $this->app->share(
             function () {
                 return new RegenerateCommand();
@@ -62,5 +66,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
         return [
             'command.medialibrary:regenerate',
         ];
+    }
+
+    public function getDriverType()
+    {
+        return $this->app->config->get('filesystems.disks.' . $this->app->config->get('laravel-medialibrary.filesystem') . '.driver');
     }
 }
