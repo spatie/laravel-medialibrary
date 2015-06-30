@@ -5,6 +5,8 @@ namespace Spatie\MediaLibrary;
 use File;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Spatie\Glide\GlideImage;
+use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
 use Spatie\MediaLibrary\Helpers\Gitignore;
@@ -31,11 +33,11 @@ class FileManipulator
         }
     }
 
-    public function performConversions($conversions, $media)
+    public function performConversions(ConversionCollection $conversions, Media $media)
     {
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = storage_path('media-library/temp/' . str_random(16) . '.' . pathinfo($media->file_name, PATHINFO_EXTENSION));
+        $copiedOriginalFile = storage_path('media-library/temp/' . str_random(16) . '.' . $media->getExtension());
 
         app(FileSystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
@@ -60,9 +62,9 @@ class FileManipulator
      * @param $copiedOriginalFile
      * @return string
      */
-    public function performConversion($media, $conversion, $copiedOriginalFile)
+    public function performConversion(Media $media, Conversion $conversion, $copiedOriginalFile)
     {
-        $conversionTempFile = storage_path('media-library/temp/' . string()->random(16) . $conversion->getName() . '.' . pathinfo($media->file_name, PATHINFO_EXTENSION));
+        $conversionTempFile = storage_path('media-library/temp/' . string()->random(16) . $conversion->getName() . '.' . $media->getExtension());
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 

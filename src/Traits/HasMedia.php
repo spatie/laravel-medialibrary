@@ -56,9 +56,12 @@ trait HasMedia
         }
 
         $media = new Media();
-        $media->collection_name = $collectionName;
+
+        $media->name = pathinfo($file, PATHINFO_FILENAME);
         $media->file_name = pathinfo($file, PATHINFO_BASENAME);
-        $media->extension = pathinfo($file, PATHINFO_EXTENSION);
+
+        $media->collection_name = $collectionName;
+
         $media->size = filesize($file);
         $media->temp = $addAsTemporary;
         $media->manipulations = [];

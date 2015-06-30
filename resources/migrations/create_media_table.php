@@ -17,7 +17,6 @@ class CreateMediaTable extends Migration
             $table->string('collection_name');
             $table->string('name');
             $table->string('file_name');
-            $table->string('extension');
             $table->integer('size');
             $table->text('manipulations');
             $table->boolean('temp');

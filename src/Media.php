@@ -67,6 +67,7 @@ class Media extends Eloquent implements SortableInterface
      */
     public function getType()
     {
+        
         switch ($this->extension) {
             case 'png';
             case 'jpg':
@@ -82,6 +83,11 @@ class Media extends Eloquent implements SortableInterface
         }
 
         return $type;
+    }
+
+    public function getExtension()
+    {
+        return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
     public function getHumanReadableFileSize()
