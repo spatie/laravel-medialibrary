@@ -21,7 +21,8 @@ class Conversion
     /**
      * @var bool
      */
-    protected $shouldBeQueued = true;
+    protected $performOnQueue = true;
+
 
     public function __construct($name)
     {
@@ -31,6 +32,11 @@ class Conversion
     public static function create($name)
     {
         return new static($name);
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getManipulations()
@@ -93,7 +99,7 @@ class Conversion
      */
     public function queued()
     {
-        $this->queued = true;
+        $this->performOnQueue = true;
 
         return $this;
     }
@@ -105,7 +111,7 @@ class Conversion
      */
     public function nonQueued()
     {
-        $this->queued = false;
+        $this->performOnQueue = false;
 
         return $this;
     }
@@ -117,7 +123,7 @@ class Conversion
      */
     public function shouldBeQueued()
     {
-        return $this->shouldBeQueued;
+        return $this->performOnQueue;
     }
 
 

@@ -9,10 +9,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Bus\SelfHandling;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaLibraryFileManipulator;
 
-class SendReminderEmail extends Job implements SelfHandling, ShouldQueue
+class PerformConversions extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

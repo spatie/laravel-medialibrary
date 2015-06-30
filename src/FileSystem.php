@@ -37,14 +37,18 @@ class FileSystem
 
     public function copyToMediaLibrary($file, $media)
     {
-        $destination = $this->getMediaDirectory($media) . '/' . $media->file_name;
-
+        $destination = $this->getMediaDirectory($media) . '/' . pathinfo($file, PATHINFO_BASENAME);
+echo 'insdie copy to media lib';
+       var_dump($file);
+        echo PHP_EOL;
         $this->disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
     }
 
     public function copyFromMediaLibrary($media, $targetFile)
     {
         $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+
+        touch($targetFile);
 
         $stream = $this->disk->getDriver()->readStream($sourceFile);
         file_put_contents($targetFile, stream_get_contents($stream), FILE_APPEND);

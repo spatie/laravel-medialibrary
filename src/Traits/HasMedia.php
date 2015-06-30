@@ -73,6 +73,8 @@ trait HasMedia
             unlink($file);
         }
 
+        echo 'all done!!!';
+
         return $media;
     }
 

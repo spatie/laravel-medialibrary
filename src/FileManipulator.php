@@ -3,9 +3,12 @@
 namespace Spatie\MediaLibrary;
 
 use File;
-use GlideImage;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
+use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
+use Spatie\MediaLibrary\Helpers\Gitignore;
+use Spatie\MediaLibrary\Jobs\PerformConversions;
 
 class FileManipulator
 {
@@ -30,9 +33,9 @@ class FileManipulator
 
     public function performConversions($conversions, $media)
     {
-        $tempDirectory = storage_path('media-library/temp/' . str_random(16));
+        $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = storage_path('media-library/temp/' . str_random(16) . '.' . pathinfo($media->file, PATHINFO_EXTENSION));
+        $copiedOriginalFile = storage_path('media-library/temp/' . str_random(16) . '.' . pathinfo($media->file_name, PATHINFO_EXTENSION));
 
         app(FileSystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
@@ -40,11 +43,15 @@ class FileManipulator
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            app(FileSystem::class)->copyToMediaLibrary($conversionResult, $media);
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, 'conversions/' . $conversion->getName() . '.jpg');
+
+            echo 'conversion done, copy to medialib starting';
+            app(FileSystem::class)->copyToMediaLibrary($renamedFile, $media);
+            echo 'copy done';
 
         }
 
-        File::delete($tempDirectory);
+        File::deleteDirectory($tempDirectory);
     }
 
     /**
@@ -55,7 +62,7 @@ class FileManipulator
      */
     public function performConversion($media, $conversion, $copiedOriginalFile)
     {
-        $conversionTempFile = storage_path('media-library/temp/' . string()->random(16) . $conversion->getName() . '.' . pathinfo($media->file), PATHINFO_EXTENSION);
+        $conversionTempFile = storage_path('media-library/temp/' . string()->random(16) . $conversion->getName() . '.' . pathinfo($media->file_name, PATHINFO_EXTENSION));
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
@@ -66,5 +73,19 @@ class FileManipulator
                 ->save($conversionTempFile);
         }
         return $conversionTempFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function createTempDirectory()
+    {
+        $tempDirectory = storage_path('media-library/temp/' . str_random(16));
+
+        File::makeDirectory($tempDirectory, 493, true);
+
+        Gitignore::createIn(storage_path('media-library'));
+
+        return $tempDirectory;
     }
 }
