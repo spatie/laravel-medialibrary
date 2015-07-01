@@ -19,7 +19,7 @@ class FileManipulator
     /**
      * Create all derived files for the given media.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      */
     public function createDerivedFiles(Media $media)
     {
@@ -38,20 +38,20 @@ class FileManipulator
      * Perform the given conversions for the given media.
      *
      * @param ConversionCollection $conversions
-     * @param Media                $media
+     * @param \Spatie\MediaLibrary\Media                $media
      */
     public function performConversions(ConversionCollection $conversions, Media $media)
     {
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = storage_path('media-library/temp/'.str_random(16).'.'.$media->getExtension());
+        $copiedOriginalFile = $tempDirectory.str_random(16).'.'.$media->getExtension();
 
         app(FileSystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         foreach ($conversions as $conversion) {
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.$conversion->getResultExtension());
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.$conversion->getResultExtension($media->getExtension()));
 
             app(FileSystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
         }
@@ -62,7 +62,7 @@ class FileManipulator
     /**
      * Perform the conversion.
      *
-     * @param Media      $media
+     * @param \Spatie\MediaLibrary\Media      $media
      * @param Conversion $conversion
      * @param string     $copiedOriginalFile
      *

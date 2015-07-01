@@ -57,5 +57,5 @@ interface HasMediaInterface
      *
      * @param $collectionName
      */
-    public function emptyCollection($collectionName);
+    public function emptyMediaCollection($collectionName);
 }

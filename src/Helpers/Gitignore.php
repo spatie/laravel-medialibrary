@@ -12,4 +12,9 @@ class Gitignore
             copy(__DIR__.'/../../resources/stubs/gitignore.txt', $targetFile);
         }
     }
+
+    public static function getContents()
+    {
+        return file_get_contents(__DIR__.'/../../resources/stubs/gitignore.txt');
+    }
 }

@@ -8,14 +8,16 @@ use Spatie\MediaLibrary\FileSystem;
 use Spatie\MediaLibrary\Media;
 use Exception;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
+use Spatie\MediaLibrary\Repository;
 
 trait HasMedia
 {
     public $mediaConversions = [];
 
-    public static function bootMediaLibraryModelTrait()
+    public static function bootHasMedia()
     {
-        self::deleting(function (MediaLibraryModelInterface $subject) {
+
+        self::deleting(function (HasMediaInterface $subject) {
             $subject->media()->get()->map(function (Media $media) {
                 $media->delete();
             });
@@ -72,7 +74,7 @@ trait HasMedia
 
         app(FileSystem::class)->add($file, $media);
 
-        if (! $removeOriginal) {
+        if ($removeOriginal) {
             unlink($file);
         }
 
@@ -89,7 +91,7 @@ trait HasMedia
      */
     public function getMedia($collectionName, $filters = ['temp' => 0])
     {
-        return app(MediaLibraryRepository::class)->getCollection($this, $collectionName, $filters);
+        return app(Repository::class)->getCollection($this, $collectionName, $filters);
     }
 
     /**
@@ -125,11 +127,7 @@ trait HasMedia
             return false;
         }
 
-        if (! $conversionName) {
-            return $media->getOriginalUrl();
-        }
-
-        return $media->getUrl('');
+        return $media->getUrl($conversionName);
     }
 
     /**
@@ -180,20 +178,6 @@ trait HasMedia
     }
 
     /**
-     * Remove all media in the given collection.
-     *
-     * @param $collectionName
-     */
-    public function removeMediaCollection($collectionName)
-    {
-        $media = $this->getMedia($collectionName);
-
-        foreach ($media as $mediaItem) {
-            MediaLibrary::remove($mediaItem->id);
-        }
-    }
-
-    /**
      * @param array $newMediaArray
      * @param $collectionName
      *
@@ -215,8 +199,11 @@ trait HasMedia
      *
      * @param $collectionName
      */
-    public function emptyCollection($collectionName)
+    public function emptyMediaCollection($collectionName)
     {
+        $this->getMedia($collectionName)->map(function(Media $media) {
+            $media->delete();
+        });
     }
 
     /**

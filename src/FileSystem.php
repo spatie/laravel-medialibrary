@@ -2,21 +2,22 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Filesystem\Filesystem as LaravelFileSystem;
+use Spatie\MediaLibrary\Helpers\Gitignore;
 
 class FileSystem
 {
     /**
      * @var Filesystem
      */
-    private $disk;
+    protected $disk;
     /**
      * @var Repository
      */
-    private $config;
+    protected $config;
 
-    public function __construct(LaravelFileSystem $disk, Repository $config)
+    public function __construct(LaravelFileSystem $disk, ConfigRepository $config)
     {
         $this->disk = $disk;
         $this->config = $config;
@@ -26,7 +27,7 @@ class FileSystem
      * Add a file to the mediaLibrary for the given media.
      *
      * @param $file
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      */
     public function add($file, Media $media)
     {
@@ -46,13 +47,13 @@ class FileSystem
     {
         $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').pathinfo($file, PATHINFO_BASENAME);
 
-        $this->disk->getDriver()->writeStream($destination, fopen($file, 'r+'));
+        $this->disk->getDriver()->putStream($destination, fopen($file, 'r+'));
     }
 
     /**
      * Copy a file from the mediaLibrary to the given targetFile.
      *
-     * @param Media  $media
+     * @param \Spatie\MediaLibrary\Media  $media
      * @param string $targetFile
      */
     public function copyFromMediaLibrary(Media $media, $targetFile)
@@ -69,7 +70,7 @@ class FileSystem
     /**
      * Remove all files for the given media.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      */
     public function removeFiles(Media $media)
     {
@@ -79,14 +80,15 @@ class FileSystem
     /**
      * Return the directory where all files of the given media are stored.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      *
      * @return string
      */
     public function getMediaDirectory(Media $media)
     {
-        $directory = $media->id;
+        $this->disk->put('.gitignore', Gitignore::getContents());
 
+        $directory = $media->id;
         $this->disk->makeDirectory($directory);
         $this->disk->makeDirectory($directory.'/conversions');
 

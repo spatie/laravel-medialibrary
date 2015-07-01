@@ -151,10 +151,15 @@ class Conversion
     /**
      * Get the extension that the result of this conversion must have.
      *
+     * @param string $originalFileExtension
      * @return string
      */
-    public function getResultExtension()
+    public function getResultExtension($originalFileExtension)
     {
-        return 'jpg';
+        return array_reduce($this->manipulations, function($carry, array $manipulation) {
+
+            return isset($manipulation['fm']) ? $manipulation['fm'] : $carry;
+
+        }, $originalFileExtension);
     }
 }

@@ -3,12 +3,13 @@
 namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Exceptions\UnknownConversionException;
 use Spatie\MediaLibrary\Media;
 
 class ConversionCollection extends Collection
 {
     /**
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      *
      * @return $this
      */
@@ -23,15 +24,17 @@ class ConversionCollection extends Collection
         return $this;
     }
 
+
     /**
      *  Get a conversion by it's name;
+     *
      * @param $name
-     * @return Conversion
-     * @throws UnknownConversionException
+     * @return mixed
+     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversionException
      */
     public function getByName($name)
     {
-        $conversion = $this->first(function(Conversion $conversion) use ($name) {
+        $conversion = $this->first(function($key, Conversion $conversion) use ($name) {
             return $conversion->getName() == $name;
         });
 
@@ -46,7 +49,7 @@ class ConversionCollection extends Collection
      * Add the conversion that are defined on the related model of
      * the given media.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      */
     protected function addConversionsFromRelatedModel(Media $media)
     {

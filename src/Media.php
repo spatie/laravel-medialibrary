@@ -18,6 +18,8 @@ class Media extends Eloquent implements SortableInterface
 
     public $imageProfileUrls = [];
 
+    public $previousManipulations = [];
+
     /**
      * The attributes that should be casted to native types.
      *
@@ -29,6 +31,18 @@ class Media extends Eloquent implements SortableInterface
 
     public static function boot()
     {
+        static::updating(function (Media $media) {
+            $media->previousManipulations = $media->getOriginal('manipulations');
+        });
+
+        static::updated(function (Media $media) {
+            echo 'updated';
+            if ($media->manipulations != $media->previousManipulations)
+            {
+                app(FileManipulator::class)->createDerivedFiles($media);
+            }
+        });
+
         static::deleted(function (Media $media) {
             app(FileSystem::class)->removeFiles($media);
         });
@@ -55,16 +69,13 @@ class Media extends Eloquent implements SortableInterface
      */
     public function getUrl($conversionName = '')
     {
-        $urlGenerator = app(UrlGeneratorInterface::class)
-            ->setMedia($this)
-            ->getUrl();
+        $urlGenerator = app(UrlGeneratorInterface::class)->setMedia($this);
 
         if ($conversionName != '') {
-
             $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
         }
 
-        return $urlGenerator;
+        return $urlGenerator->getUrl();
     }
 
     /**

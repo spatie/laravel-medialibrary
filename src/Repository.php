@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Traits\HasMediaInterface;
 
 class Repository
@@ -42,7 +43,7 @@ class Repository
      *
      * @return mixed
      */
-    private function loadMedia(HasMediaInterface $model, $collectionName)
+    protected function loadMedia(HasMediaInterface $model, $collectionName)
     {
         if ($this->mediaIsPreloaded($model)) {
             $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
@@ -63,6 +64,17 @@ class Repository
     }
 
     /**
+     * Determine if media is already preloaded on this model.
+     *
+     * @param $model
+     * @return bool
+     */
+    protected function mediaIsPreloaded($model)
+    {
+        return isset($model->media);
+    }
+
+    /**
      * Apply given filters on media.
      *
      * @param $media
@@ -80,4 +92,26 @@ class Repository
 
         return $media;
     }
+
+    /**
+     * Get all media.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function all()
+    {
+        return $this->model->all();
+    }
+
+    /**
+     * Get all media for the given type
+     *
+     * @param string $modelType
+     */
+    public function getByModelType($modelType)
+    {
+        $this->model->where('model_type', $modelType)->get();
+    }
+
+
 }
