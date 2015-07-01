@@ -26,7 +26,7 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
             return $this->getBaseMediaDirectory().'/'.$this->media->file_name;
         }
 
-        return $this->getBaseMediaDirectory().'/conversions/'.$this->conversion->getName().'.'.$this->conversion->getResultExtension();
+        return $this->getBaseMediaDirectory().'/conversions/'.$this->conversion->getName().'.'.$this->conversion->getResultExtension($this->media->getExtension());
     }
 
     /**

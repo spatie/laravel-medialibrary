@@ -154,7 +154,7 @@ class Conversion
      * @param string $originalFileExtension
      * @return string
      */
-    public function getResultExtension($originalFileExtension)
+    public function getResultExtension($originalFileExtension = '')
     {
         return array_reduce($this->manipulations, function($carry, array $manipulation) {
 
