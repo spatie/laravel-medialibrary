@@ -19,7 +19,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../resources/config/config.php' => config_path('laravel-medialibrary.php'),
+            __DIR__.'/../resources/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
         if (! class_exists('CreateMediaTable')) {
@@ -36,17 +36,15 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../resources/config/laravel-medialibrary.php', 'laravel-medialibrary');
+
         $this->app->bind(FileSystem::class, function ($app) {
            return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
         });
 
         $this->app->bind(UrlGeneratorInterface::class, 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($this->getDriverType()).'UrlGenerator');
 
-        $this->app['command.medialibrary:regenerate'] = $this->app->share(
-            function () {
-                return new RegenerateCommand();
-            }
-        );
+        $this->app['command.medialibrary:regenerate'] = app(RegenerateCommand::class);
 
         $this->commands(['command.medialibrary:regenerate']);
     }

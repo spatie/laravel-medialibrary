@@ -44,7 +44,7 @@ class FileManipulator
     {
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = $tempDirectory.str_random(16).'.'.$media->getExtension();
+        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->getExtension();
 
         app(FileSystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
@@ -70,7 +70,7 @@ class FileManipulator
      */
     public function performConversion(Media $media, Conversion $conversion, $copiedOriginalFile)
     {
-        $conversionTempFile = storage_path('media-library/temp/'.string()->random(16).$conversion->getName().'.'.$media->getExtension());
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME) .'/'.string()->random(16).$conversion->getName().'.'.$media->getExtension();
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
@@ -91,11 +91,11 @@ class FileManipulator
      */
     public function createTempDirectory()
     {
-        $tempDirectory = storage_path('media-library/temp/'.str_random(16));
+        $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
 
         File::makeDirectory($tempDirectory, 493, true);
 
-        Gitignore::createIn(storage_path('media-library'));
+        Gitignore::createIn(storage_path('medialibrary'));
 
         return $tempDirectory;
     }

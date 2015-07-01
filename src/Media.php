@@ -36,7 +36,6 @@ class Media extends Eloquent implements SortableInterface
         });
 
         static::updated(function (Media $media) {
-            echo 'updated';
             if ($media->manipulations != $media->previousManipulations)
             {
                 app(FileManipulator::class)->createDerivedFiles($media);

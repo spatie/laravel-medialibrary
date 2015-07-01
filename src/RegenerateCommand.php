@@ -10,7 +10,7 @@ class RegenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'medialibrary:regenerate {modelType}';
+    protected $signature = 'medialibrary:regenerate {modelType?}';
 
     /**
      * The console command description.
