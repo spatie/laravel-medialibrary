@@ -15,7 +15,7 @@ return [
     'max_file_size' => 1024 * 1024 * 10,
 
     /*
-    * The medialibrary will used this queue to generate derived images.
+    * This queue will used to generate derived images.
     * Leave empty to use the default queue.
     */
     'queue_name' => 'media_queue',
