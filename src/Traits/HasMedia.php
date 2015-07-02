@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Exceptions\FileDoesNotExistException;
-use Spatie\MediaLibrary\Exceptions\FileTooBigException;
+use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\FileSystem;
 use Spatie\MediaLibrary\Media;
 use Exception;
@@ -44,17 +44,17 @@ trait HasMedia
      *
      * @return Media
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExistException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBigException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
      */
     public function addMedia($file, $collectionName, $removeOriginal = true, $addAsTemporary = false)
     {
         if (! is_file($file)) {
-            throw new FileDoesNotExistException();
+            throw new FileDoesNotExist();
         }
 
         if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
-            throw new FileTooBigException();
+            throw new FileTooBig();
         }
 
         $media = new Media();
@@ -130,19 +130,6 @@ trait HasMedia
         return $media->getUrl($conversionName);
     }
 
-    /**
-     * Remove a media item by its id.
-     *
-     * @param $id
-     */
-    public function removeMedia($id)
-    {
-        $media = Media::findOrFail($id);
-
-        if ($media->content_type == get_class($this) && $media->content_id == $this->id) {
-            MediaLibrary::remove($id);
-        }
-    }
 
     /**
      * Update a media collection by deleting and inserting again with new values.
@@ -199,7 +186,7 @@ trait HasMedia
      *
      * @param $collectionName
      */
-    public function emptyMediaCollection($collectionName)
+    public function clearMediaCollection($collectionName)
     {
         $this->getMedia($collectionName)->map(function(Media $media) {
             $media->delete();

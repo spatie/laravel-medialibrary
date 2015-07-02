@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Traits\HasMediaInterface;
 
-class Repository
+class MediaRepository
 {
     /**
      * @var \Spatie\MediaLibrary\Media

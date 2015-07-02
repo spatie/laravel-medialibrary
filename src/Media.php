@@ -4,7 +4,7 @@ use Eloquent;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
-use Spatie\MediaLibrary\Exceptions\UnknownConversionException;
+use Spatie\MediaLibrary\Exceptions\UnknownConversion;
 use Spatie\MediaLibrary\Utility\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -64,7 +64,7 @@ class Media extends Eloquent implements SortableInterface
      *
      * @param string $conversionName
      * @return string
-     * @throws UnknownConversionException
+     * @throws UnknownConversion
      */
     public function getUrl($conversionName = '')
     {
@@ -104,9 +104,19 @@ class Media extends Eloquent implements SortableInterface
     }
 
     /**
+     * Get the size of the file in bytes
+     *
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
      * @return string
      */
-    public function getHumanReadableFileSize()
+    public function getHumanReadableSize()
     {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 

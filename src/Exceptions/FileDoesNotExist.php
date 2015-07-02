@@ -4,6 +4,6 @@ namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
 
-class UrlCouldNotBeDeterminedException extends Exception
+class FileDoesNotExist extends Exception
 {
 }

@@ -4,6 +4,6 @@ namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
 
-class FileDoesNotExistException extends Exception
+class FileTooBig extends Exception
 {
 }

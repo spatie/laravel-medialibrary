@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Exceptions\UnknownConversionException;
+use Spatie\MediaLibrary\Exceptions\UnknownConversion;
 use Spatie\MediaLibrary\Media;
 
 class ConversionCollection extends Collection
@@ -30,7 +30,7 @@ class ConversionCollection extends Collection
      *
      * @param $name
      * @return mixed
-     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversionException
+     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
      */
     public function getByName($name)
     {
@@ -39,7 +39,7 @@ class ConversionCollection extends Collection
         });
 
         if (! $conversion) {
-            throw new UnknownConversionException;
+            throw new UnknownConversion;
         }
 
         return $conversion;

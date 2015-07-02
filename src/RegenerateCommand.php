@@ -21,17 +21,17 @@ class RegenerateCommand extends Command
     /**
      * @var \Spatie\MediaLibrary\Repository
      */
-    protected $mediaLibraryRepository;
+    protected $mediaRepository;
     /**
      * @var \Spatie\MediaLibrary\FileManipulator
      */
     protected $fileManipulator;
 
-    public function __construct(Repository $mediaLibraryRepository, FileManipulator $fileManipulator)
+    public function __construct(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
     {
         parent::__construct();
 
-        $this->mediaLibraryRepository = $mediaLibraryRepository;
+        $this->mediaLibraryRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
     }
 

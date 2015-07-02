@@ -52,7 +52,7 @@ class FileManipulator
         app(FileSystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         if ($media->getType() == Media::TYPE_PDF) {
-            $copiedOriginalFile = $this->converToImage($copiedOriginalFile);
+            $copiedOriginalFile = $this->convertToImage($copiedOriginalFile);
         }
 
         foreach ($conversions as $conversion) {
@@ -111,7 +111,7 @@ class FileManipulator
      * @param $pdfFile
      * @return string
      */
-    protected function converToImage($pdfFile)
+    protected function convertToImage($pdfFile)
     {
         $imageFile = string($pdfFile)->pop('.') . '.jpg';
 

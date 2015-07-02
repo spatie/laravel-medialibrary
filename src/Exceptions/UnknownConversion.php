@@ -4,6 +4,6 @@ namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
 
-class UnknownConversionException extends Exception
+class UnknownConversion extends Exception
 {
 }
