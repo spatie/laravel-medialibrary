@@ -1,10 +1,8 @@
 <?php namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\MediaLibrary\ImageManipulators\GlideImageManipulator;
-use Spatie\MediaLibrary\FileSystems\LocalFileSystem;
-use Spatie\MediaLibrary\FileSystems\FileSystemInterface;
-use Spatie\MediaLibrary\ImageManipulators\ImageManipulatorInterface;
+use Storage;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -20,17 +18,18 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Publish the config file
         $this->publishes([
-            __DIR__.'/ToPublish/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
+            __DIR__.'/../resources/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
         if (! class_exists('CreateMediaTable')) {
+
             // Publish the migration
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([
                 __DIR__ . '/ToPublish/migrations/create_media_table.php' => base_path('database/migrations/' . $timestamp . '_create_media_table.php'),
+
             ], 'migrations');
         }
     }
@@ -40,15 +39,15 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('mediaLibrary', MediaLibraryRepository::class);
-        $this->app->bind(FileSystemInterface::class, LocalFileSystem::class);
-        $this->app->bind(ImageManipulatorInterface::class, GlideImageManipulator::class);
+        $this->mergeConfigFrom(__DIR__.'/../resources/config/laravel-medialibrary.php', 'laravel-medialibrary');
 
-        $this->app['command.medialibrary:regenerate'] = $this->app->share(
-            function () {
-                return new Commands\RegenerateCommand();
-            }
-        );
+        $this->app->bind(FileSystem::class, function ($app) {
+           return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
+        });
+
+        $this->app->bind(UrlGeneratorInterface::class, 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($this->getDriverType()).'UrlGenerator');
+
+        $this->app['command.medialibrary:regenerate'] = app(RegenerateCommand::class);
 
         $this->commands(['command.medialibrary:regenerate']);
     }
@@ -63,5 +62,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
         return [
             'command.medialibrary:regenerate',
         ];
+    }
+
+    public function getDriverType()
+    {
+        return $this->app->config->get('filesystems.disks.'.$this->app->config->get('laravel-medialibrary.filesystem').'.driver');
     }
 }
