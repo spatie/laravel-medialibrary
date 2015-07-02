@@ -73,15 +73,14 @@ return [
 And finally you should add a disk  to `app/config/filesystems.php`. This would be a typical configuration.:
 
 ```php
-    
     ...
-
 	'disks' => [
 
         'media' => [
             'driver' => 'local',
             'root'   => public_path().'/media',
         ],
+    ...    
 ```
 
 
@@ -207,7 +206,7 @@ Here's an example where some of these options are demonstrated.
 public function registerMediaConversions()
 {
     $this->addMediaConversion('thumb')
-        ->setManipulations(['w' => 368, 'h' => 232','filt' => 'greyscale', 'fm' => 'png'])
+        ->setManipulations(['w' => 368, 'h' => 232,'filt' => 'greyscale', 'fm' => 'png'])
         ->performOnCollections('images', 'anotherCollection'); // performing conversion on multiple collections
         ->nonQueued(); //this conversion will not be queued
 }
