@@ -207,13 +207,13 @@ public function registerMediaConversions()
 {
     $this->addMediaConversion('thumb')
         ->setManipulations(['w' => 368, 'h' => 232,'filt' => 'greyscale', 'fm' => 'png'])
-        ->performOnCollections('images', 'anotherCollection'); // performing conversion on multiple collections
-        ->nonQueued(); //this conversion will not be queued
+        ->performOnCollections('images', 'anotherCollection'); // the conversion will be performed on multiple collections
+        ->nonQueued(); // this conversion will not be queued
         
     //a second media conversion    
     $this->addMediaConversion('adminThumb')
         ->setManipulations(['w' => 50, 'h' => 50, 'sharp'=> 15])
-        ->performOnCollections('*'); // performing conversion on every collection
+        ->performOnCollections('*'); // perform the conversion on every collection
 }
 ```
 
