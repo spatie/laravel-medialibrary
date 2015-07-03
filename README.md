@@ -95,7 +95,6 @@ with the name specified in the config file.
 
 ## Basic usage
 
-
 In essence the medialibrary is very simple. All files added to the library are associated with record in the db.
 All examples in this readme assume that you have already have a news model set up. 
 Of course this package will work with any Eloquent model.
@@ -120,7 +119,7 @@ class News extends Model implements HasMediaInterface
 Using the facade you can add items to the library like this:
 ```php
 $newsItem = News::find(1);
-$news->addMedia($pathToFile, 'images')
+$news->addMedia($pathToFile, 'images');
 ```
 The file will now be associated with the `newsItem`. Adding a file will move your file to a configured disk.
 In the above example the file was added to the `images`-collection of the `newsItem`. You can give a collection
@@ -143,32 +142,32 @@ $publicUrl = $mediaItems[0]->getUrl();
 
 A media-object also has a name. By default it is the name of the file.
 ```php
-echo $mediaItems[0]->name //display the name
+echo $mediaItems[0]->name // display the name
 $mediaItems[0]->name = 'newName'
-$mediaItems[0]->save(); //the new name gets saved. Activerecord ftw!
+$mediaItems[0]->save(); // the new name gets saved. Activerecord ftw!
 ```
 
 You can also get the size of the file:
 ```php
 $mediaItems[0]->getSize() // returns the size in bytes
-$mediaItems[0]->getHumanReadableSize() //returns the size in a human readable form (eg. 1,5 MB)
+$mediaItems[0]->getHumanReadableSize() // returns the size in a human readable form (eg. 1,5 MB)
 ```
 
 You can remove something from the library simply calling `delete` on the media-object:
 ```php
-$mediaItems[0]->delete()
+$mediaItems[0]->delete();
 ```
 
-If you delete a media item all related files will be removed from the filesystem.
+When a media item gets deleted all related files will be removed from the filesystem.
 
 Deleting a model with associated media will also delete all associated files.
 ```php
-$newsItem->delete(); //all associated files will be deleted as well
+$newsItem->delete(); // all associated files will be deleted as well
 ```
 
 If you want to remove all associated media in a specific collection you can use this method:
 ```
-$newsItem->clearMediaCollection('images') // all media in the images-collection will be deleted
+$newsItem->clearMediaCollection('images'); // all media in the images-collection will be deleted
 ```
 
 ## Working with images
