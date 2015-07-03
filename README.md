@@ -197,7 +197,7 @@ in [their image API](http://glide.thephpleague.com/api/size/). So if you want to
 By default, a conversion will be performed on the queue that you specified 
 in the configuration. You can also avoid the usage of the queue by calling `nonQueued()` on a conversion.
 
-You can add as many conversions on a model as you want. Media conversion can also be performed on multiple collections. If you pass
+You can add as many conversions on a model as you want. Conversion can also be performed on multiple collections. If you pass
 `*` to  `performOnCollections` the conversion will be applied to every collection.
 
 Here's an example where some of these options are demonstrated.
@@ -226,7 +226,9 @@ $mediaItems = $news->getMedia('images');
 $mediaItems[0]->getUrl('thumb');
 ```
 
-Because getting an url to the first mediaItem in a collection is such a common scenario the `getFirstMediaUrl`- convenience-method is provided. The first parameter is the name of the collection, the second the name of an imageprofile.
+Because getting an url to the first mediaItem in a collection is such a common scenario
+the `getFirstMediaUrl`- convenience-method is provided. The first parameter is the name
+of the collection, the second the name of a conversion.
 
 ```php
 $urlToFirstListImage = $newsItem->getFirstMediaUrl('images', 'thumb');
