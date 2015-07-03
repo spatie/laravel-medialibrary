@@ -289,7 +289,7 @@ public function registerMediaConversions()
 }
 ```
 ```php
-// somewhere in your project and assuming you've already added some images in myCollection.
+// somewhere in your project and assuming you've already added some images to myCollection.
 $mediaItems = $news->getMedia('images');
 $mediaItems[0] = $news->manipulations = ['thumb' => ['mode' => 'filt' => 'greyscale']]
 $mediaItems[0]->save(); // this will cause the thumb conversion to be regenerated. The
