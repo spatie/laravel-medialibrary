@@ -295,7 +295,7 @@ $mediaItems[0] = $news->manipulations = ['thumb' => ['mode' => 'filt' => 'greysc
 $mediaItems[0]->save(); // this will cause the thumb conversion to be regenerated. The
 ```
 Calling `save()` in this example will regenerate the thumb-image. The output will be a
-greyscale image that has a width and height of 500 pixels.
+greyscale image that has a both width and height of 500 pixels.
 
 ## Contributing
 
