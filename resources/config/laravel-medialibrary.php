@@ -18,5 +18,13 @@ return [
     * This queue will used to generate derived images.
     * Leave empty to use the default queue.
     */
-    'queue_name' => 'media_queue',
+    'queue_name' => '',
+
+
+    's3' => [
+        /*
+         * The domain that should be prepended when generating urls.
+         */
+        'domain' => 'https://xxxxxxx.s3.amazonaws.com',
+    ],
 ];
