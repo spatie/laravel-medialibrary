@@ -287,8 +287,8 @@ public function registerMediaConversions()
         ->setManipulations(['w' => 500, 'h'=>500])
         ->performOnCollections('myCollection');
 }
-...
-
+```
+```php
 // somewhere in your project and assuming you've already added some images in myCollection.
 $mediaItems = $news->getMedia('images');
 $mediaItems[0] = $news->manipulations = ['thumb' => ['mode' => 'filt' => 'greyscale']]
