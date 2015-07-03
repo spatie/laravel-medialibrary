@@ -166,7 +166,7 @@ $newsItem->delete(); // all associated files will be deleted as well
 ```
 
 If you want to remove all associated media in a specific collection you can use this method:
-```
+```php
 $newsItem->clearMediaCollection('images'); // all media in the images-collection will be deleted
 ```
 
