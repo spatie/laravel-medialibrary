@@ -8,7 +8,7 @@ class Gitignore
     {
         $targetFile = $directory.'/.gitignore';
 
-        if (! file_exists($targetFile)) {
+        if (!file_exists($targetFile)) {
             copy(__DIR__.'/../../resources/stubs/gitignore.txt', $targetFile);
         }
     }

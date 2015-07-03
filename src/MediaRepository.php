@@ -67,6 +67,7 @@ class MediaRepository
      * Determine if media is already preloaded on this model.
      *
      * @param $model
+     *
      * @return bool
      */
     protected function mediaIsPreloaded($model)
@@ -104,7 +105,7 @@ class MediaRepository
     }
 
     /**
-     * Get all media for the given type
+     * Get all media for the given type.
      *
      * @param string $modelType
      */
@@ -112,6 +113,4 @@ class MediaRepository
     {
         $this->model->where('model_type', $modelType)->get();
     }
-
-
 }

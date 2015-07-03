@@ -1,8 +1,10 @@
-<?php namespace Spatie\MediaLibrary;
+<?php
+
+namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
+use Spatie\MediaLibrary\UrlGenerator\UrlGenerator;
 use Storage;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -22,13 +24,13 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../resources/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
-        if (! class_exists('CreateMediaTable')) {
+        if (!class_exists('CreateMediaTable')) {
 
             // Publish the migration
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([
-                __DIR__ . '/ToPublish/migrations/create_media_table.php' => base_path('database/migrations/' . $timestamp . '_create_media_table.php'),
+                __DIR__.'/ToPublish/migrations/create_media_table.php' => base_path('database/migrations/'.$timestamp.'_create_media_table.php'),
 
             ], 'migrations');
         }
@@ -42,10 +44,19 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../resources/config/laravel-medialibrary.php', 'laravel-medialibrary');
 
         $this->app->bind(FileSystem::class, function ($app) {
-           return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
+            return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
         });
 
-        $this->app->bind(UrlGeneratorInterface::class, 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($this->getDriverType()).'UrlGenerator');
+        $this->app->bind(UrlGeneratorInterface::class, function ($app) {
+            $urlGeneratorClass = 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($this->getDriverType()).'UrlGenerator';
+
+            $customClass = $app->config->get('laravel-medialibrary.custom_url_generator_class');
+
+            if ($customClass != '' && class_exists($customClass) && $customClass instanceof UrlGenerator) {
+            }
+
+            return new $urlGeneratorClass();
+        });
 
         $this->app['command.medialibrary:regenerate'] = app(RegenerateCommand::class);
 

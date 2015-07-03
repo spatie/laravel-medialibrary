@@ -53,8 +53,8 @@ class FileSystem
     /**
      * Copy a file from the mediaLibrary to the given targetFile.
      *
-     * @param \Spatie\MediaLibrary\Media  $media
-     * @param string $targetFile
+     * @param \Spatie\MediaLibrary\Media $media
+     * @param string                     $targetFile
      */
     public function copyFromMediaLibrary(Media $media, $targetFile)
     {

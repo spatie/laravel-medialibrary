@@ -1,4 +1,6 @@
-<?php namespace Spatie\MediaLibrary;
+<?php
+
+namespace Spatie\MediaLibrary;
 
 use Eloquent;
 use Spatie\EloquentSortable\Sortable;
@@ -36,8 +38,7 @@ class Media extends Eloquent implements SortableInterface
         });
 
         static::updated(function (Media $media) {
-            if ($media->manipulations != $media->previousManipulations)
-            {
+            if ($media->manipulations != $media->previousManipulations) {
                 app(FileManipulator::class)->createDerivedFiles($media);
             }
         });
@@ -63,7 +64,9 @@ class Media extends Eloquent implements SortableInterface
      * Get the original Url to a media-file.
      *
      * @param string $conversionName
+     *
      * @return string
+     *
      * @throws UnknownConversion
      */
     public function getUrl($conversionName = '')
@@ -104,7 +107,7 @@ class Media extends Eloquent implements SortableInterface
     }
 
     /**
-     * Get the size of the file in bytes
+     * Get the size of the file in bytes.
      *
      * @return int
      */

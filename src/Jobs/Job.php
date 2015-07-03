@@ -1,4 +1,5 @@
 <?php
+
 namespace Spatie\MediaLibrary\Jobs;
 
 use Illuminate\Bus\Queueable;

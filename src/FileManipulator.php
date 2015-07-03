@@ -24,7 +24,9 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
-        if ($media->getType() == Media::TYPE_OTHER) { return; }
+        if ($media->getType() == Media::TYPE_OTHER) {
+            return;
+        }
 
         $profileCollection = ConversionCollectionFactory::createForMedia($media);
 
@@ -40,8 +42,8 @@ class FileManipulator
     /**
      * Perform the given conversions for the given media.
      *
-     * @param ConversionCollection $conversions
-     * @param \Spatie\MediaLibrary\Media                $media
+     * @param ConversionCollection       $conversions
+     * @param \Spatie\MediaLibrary\Media $media
      */
     public function performConversions(ConversionCollection $conversions, Media $media)
     {
@@ -69,15 +71,15 @@ class FileManipulator
     /**
      * Perform the conversion.
      *
-     * @param \Spatie\MediaLibrary\Media      $media
-     * @param Conversion $conversion
-     * @param string     $copiedOriginalFile
+     * @param \Spatie\MediaLibrary\Media $media
+     * @param Conversion                 $conversion
+     * @param string                     $copiedOriginalFile
      *
      * @return string
      */
     public function performConversion(Media $media, Conversion $conversion, $copiedOriginalFile)
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME) .'/'.string()->random(16).$conversion->getName().'.'.$media->getExtension();
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).$conversion->getName().'.'.$media->getExtension();
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
@@ -109,15 +111,15 @@ class FileManipulator
 
     /**
      * @param $pdfFile
+     *
      * @return string
      */
     protected function convertToImage($pdfFile)
     {
-        $imageFile = string($pdfFile)->pop('.') . '.jpg';
+        $imageFile = string($pdfFile)->pop('.').'.jpg';
 
         (new Pdf($pdfFile))->saveImage($imageFile);
 
         return $imageFile;
-
     }
 }

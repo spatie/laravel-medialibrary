@@ -58,8 +58,7 @@ abstract class BaseUrlGenerator
         $path = $this->media->id;
 
         if (is_null($this->conversion)) {
-
-            return $path . '/' . $this->media->file_name;
+            return $path.'/'.$this->media->file_name;
         }
 
         return $path.'/conversions/'.$this->conversion->getName().'.'.$this->conversion->getResultExtension($this->media->getExtension());

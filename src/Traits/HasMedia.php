@@ -1,4 +1,6 @@
-<?php namespace Spatie\MediaLibrary\Traits;
+<?php
+
+namespace Spatie\MediaLibrary\Traits;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
@@ -16,7 +18,6 @@ trait HasMedia
 
     public static function bootHasMedia()
     {
-
         self::deleting(function (HasMediaInterface $subject) {
             $subject->media()->get()->map(function (Media $media) {
                 $media->delete();
@@ -49,7 +50,7 @@ trait HasMedia
      */
     public function addMedia($file, $collectionName, $removeOriginal = true, $addAsTemporary = false)
     {
-        if (! is_file($file)) {
+        if (!is_file($file)) {
             throw new FileDoesNotExist();
         }
 
@@ -123,13 +124,12 @@ trait HasMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return false;
         }
 
         return $media->getUrl($conversionName);
     }
-
 
     /**
      * Update a media collection by deleting and inserting again with new values.
@@ -188,7 +188,7 @@ trait HasMedia
      */
     public function clearMediaCollection($collectionName)
     {
-        $this->getMedia($collectionName)->map(function(Media $media) {
+        $this->getMedia($collectionName)->map(function (Media $media) {
             $media->delete();
         });
     }

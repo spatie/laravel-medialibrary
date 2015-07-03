@@ -1,4 +1,6 @@
-<?php namespace Spatie\MediaLibrary;
+<?php
+
+namespace Spatie\MediaLibrary;
 
 use Illuminate\Console\Command;
 use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
@@ -37,7 +39,7 @@ class RegenerateCommand extends Command
 
     public function handle()
     {
-        $this->getMediaToBeRegenerated()->map(function(Media $media) {
+        $this->getMediaToBeRegenerated()->map(function (Media $media) {
             $this->fileManipulator->createDerivedFiles($media);
             $this->info(sprintf('Media %s regenerated', $media->id));
         });
@@ -47,13 +49,10 @@ class RegenerateCommand extends Command
 
     public function getMediaToBeRegenerated()
     {
-        if ($this->argument('modelType') == '')
-        {
+        if ($this->argument('modelType') == '') {
             return $this->mediaLibraryRepository->all();
         }
 
         return $this->mediaLibraryRepository->getByModelType($this->argument('modelType'));
-
     }
-
 }

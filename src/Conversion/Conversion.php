@@ -111,7 +111,9 @@ class Conversion
      */
     public function shouldBePerformedOn($collectionName)
     {
-        if (in_array('*', $this->performOnCollections)) return true;
+        if (in_array('*', $this->performOnCollections)) {
+            return true;
+        }
 
         return in_array($collectionName, $this->performOnCollections);
     }
@@ -154,11 +156,12 @@ class Conversion
      * Get the extension that the result of this conversion must have.
      *
      * @param string $originalFileExtension
+     *
      * @return string
      */
     public function getResultExtension($originalFileExtension = '')
     {
-        return array_reduce($this->manipulations, function($carry, array $manipulation) {
+        return array_reduce($this->manipulations, function ($carry, array $manipulation) {
 
             return isset($manipulation['fm']) ? $manipulation['fm'] : $carry;
 

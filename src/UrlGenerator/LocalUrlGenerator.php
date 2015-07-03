@@ -15,11 +15,11 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
      */
     public function getUrl()
     {
-        if (! string($this->getStoragePath())->startsWith(public_path())) {
+        if (!string($this->getStoragePath())->startsWith(public_path())) {
             throw new UrlCouldNotBeDeterminedException('The storage path is not part of the public path');
         }
 
-        return $this->getBaseMediaDirectory().'/' . $this->getPathRelativeToRoot();
+        return $this->getBaseMediaDirectory().'/'.$this->getPathRelativeToRoot();
     }
 
     /**

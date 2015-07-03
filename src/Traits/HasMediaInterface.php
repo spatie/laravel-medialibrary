@@ -1,4 +1,6 @@
-<?php namespace Spatie\MediaLibrary\Traits;
+<?php
+
+namespace Spatie\MediaLibrary\Traits;
 
 interface HasMediaInterface
 {
@@ -30,7 +32,6 @@ interface HasMediaInterface
      * @return \Spatie\MediaLibrary\Media
      */
     public function getMedia($collectionName, $filters = []);
-
 
     /**
      * Register the conversions that should be performed.

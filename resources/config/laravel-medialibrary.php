@@ -20,6 +20,12 @@ return [
     */
     'queue_name' => '',
 
+    /*
+     * When urls to files get generated this class will be called. Leave empty
+     * if your files are stored locally above the site root or on s3.
+     */
+    'custom_url_generator_class' => '',
+
 
     's3' => [
         /*

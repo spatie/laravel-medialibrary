@@ -2,14 +2,12 @@
 
 namespace Spatie\MediaLibrary\Conversion;
 
-use Illuminate\Config\Repository;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
 use Spatie\MediaLibrary\Media;
 
 class ConversionCollection extends Collection
 {
-
     /**
      * @param \Spatie\MediaLibrary\Media $media
      *
@@ -26,22 +24,23 @@ class ConversionCollection extends Collection
         return $this;
     }
 
-
     /**
-     *  Get a conversion by it's name;
+     *  Get a conversion by it's name;.
      *
      * @param $name
+     *
      * @return mixed
+     *
      * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
      */
     public function getByName($name)
     {
-        $conversion = $this->first(function($key, Conversion $conversion) use ($name) {
+        $conversion = $this->first(function ($key, Conversion $conversion) use ($name) {
             return $conversion->getName() == $name;
         });
 
-        if (! $conversion) {
-            throw new UnknownConversion;
+        if (!$conversion) {
+            throw new UnknownConversion();
         }
 
         return $conversion;
@@ -131,7 +130,7 @@ class ConversionCollection extends Collection
     public function getNonQueuedConversions($collectionName = '')
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return ! $conversion->shouldBeQueued();
+            return !$conversion->shouldBeQueued();
         });
     }
 }
