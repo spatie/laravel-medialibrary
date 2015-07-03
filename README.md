@@ -273,7 +273,7 @@ The code of the included `S3UrlGenerator` should help make things more clear:
 When you change a conversion on your model, all images that were previously generated will not
 updated automatically. To regenerate all images related to the News model you can 
 issue this artisan command:
-```php
+```bash
 php artisan medialibrary:regenerate news
 ```
 Leaving of `news` will regenerate all images.
