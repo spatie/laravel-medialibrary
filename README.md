@@ -283,7 +283,7 @@ Leaving of `news` will regenerate all images.
 A media object has a property `manipulations`. You can set it to an array of 
 which the keys must be conversion names and the values manipulation arrays. 
 
-When saving the media object, the package will regenerate all files an use the saved manipulation
+When saving the media object, the package will regenerate all files and use the saved manipulation
 as the first manipulation when creating a derived image.
 
 For example:
