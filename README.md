@@ -6,23 +6,24 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
 
-This Laravel 5.1 package provides an easy way to associate all sorts of files with Eloquent models. Storage of the files
-is handled by [Laravel's Filesystem](http://laravel.com/docs/5.1/filesystem), 
-so you can easily use something like S3. Additionally the package can create image manipulations on images that have been added in the medialibrary.
+This Laravel 5.1 package provides an easy way to associate all sorts of files with Eloquent models. 
+Storage of the filesis handled by [Laravel's Filesystem](http://laravel.com/docs/5.1/filesystem), 
+so you can easily use something like S3. Additionally the package can create image manipulations 
+on images and pdfs that have been added in the medialibrary.
 
 ## Requirements
-To create derived images [GD](http://php.net/manual/en/book.image.php) should be installed on your server. If you want to create
-thumbnails of pdf's you should also install [Imagick](http://php.net/manual/en/imagick.setresolution.php).
+To create derived images [GD](http://php.net/manual/en/book.image.php) should be installed on your server.
+For the creation of thumbnails of pdf's you should also install [Imagick](http://php.net/manual/en/imagick.setresolution.php).
 
 ## Installation
 
-You can install this package via composer using:
+You can install this package via composer using this command:
 
 ```bash
 composer require spatie/laravel-medialibrary
 ```
 
-Next, you must install the service provider. 
+Next, you must install the service provider:
 
 ```php
 // config/app.php
@@ -37,7 +38,7 @@ You can publish the migration with:
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
 ```
 
-After the migration has been published you can create the media-table you by running the migrations.
+After the migration has been published you can create the media-table you by running the migrations:
 
 ```bash
 php artisan migrate
@@ -76,12 +77,11 @@ return [
 ];
 ```
 
-And finally you should add a disk  to `app/config/filesystems.php`. This would be a typical configuration:
+And finally you should add a disk to `app/config/filesystems.php`. This would be a typical configuration:
 
 ```php
     ...
 	'disks' => [
-
         'media' => [
             'driver' => 'local',
             'root'   => public_path().'/media',
@@ -89,16 +89,14 @@ And finally you should add a disk  to `app/config/filesystems.php`. This would b
     ...    
 ```
 
-
-        
-All files of the medialibrary will be stored on that disk.        
-
-If you are planning on working with the image manipulations you should configure a queue on your service with the name specified in the config file.
+All files of the medialibrary will be stored on that disk. If you are planning on
+working with the image manipulations you should configure a queue on your service 
+with the name specified in the config file.
 
 ## Basic usage
 
 
-In essence the medialibrary is very simple. All files added to the library are associated a record in the db.
+In essence the medialibrary is very simple. All files added to the library are associated with record in the db.
 All examples in this readme assume that you have already have a news model set up. 
 Of course this package will work with any Eloquent model.
 
@@ -112,7 +110,6 @@ use Spatie\MediaLibrary\Traits\HasMediaInterface;
 
 class News extends Model implements HasMediaInterface
 {
-
 	use HasMedia;
    ...
 }
@@ -296,23 +293,10 @@ public function registerMediaConversions()
 //somewhere in your project and assuming you've already added some images in myCollection.
 $mediaItems = $news->getMedia('images');
 $mediaItems[0] = $news->manipulations = ['thumb' => ['mode' => 'filt' => 'greyscale']]
-$mediaItems[0]->save(); //this will cause the thumb conversion to be regenerated. The
+$mediaItems[0]->save(); // this will cause the thumb conversion to be regenerated. The
 ```
 Calling `save()` in this example will regenerate the thumb-image. The output will be a
 greyscale image that has a width and height of 500 pixels.
-
-
-
- 
- 
-
-
-
-
-
-
-
-
 
 ## Contributing
 
