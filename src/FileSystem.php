@@ -9,11 +9,11 @@ use Spatie\MediaLibrary\Helpers\Gitignore;
 class FileSystem
 {
     /**
-     * @var Filesystem
+     * @var \Illuminate\Contracts\Filesystem\Filesystem
      */
     protected $disk;
     /**
-     * @var Repository
+     * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
 

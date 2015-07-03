@@ -9,7 +9,6 @@ use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\FileSystem;
 use Spatie\MediaLibrary\Media;
 use Exception;
-use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 use Spatie\MediaLibrary\Repository;
 
 trait HasMedia

@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\UrlGenerator\UrlGenerator;
 use Storage;
@@ -43,11 +44,11 @@ class MediaLibraryServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../resources/config/laravel-medialibrary.php', 'laravel-medialibrary');
 
-        $this->app->bind(FileSystem::class, function ($app) {
+        $this->app->bind(FileSystem::class, function (Application $app) {
             return new FileSystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
         });
 
-        $this->app->bind(UrlGeneratorInterface::class, function ($app) {
+        $this->app->bind(UrlGenerator::class, function (Application $app) {
             $urlGeneratorClass = 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($this->getDriverType()).'UrlGenerator';
 
             $customClass = $app->config->get('laravel-medialibrary.custom_url_generator_class');

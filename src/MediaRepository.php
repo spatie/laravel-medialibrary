@@ -70,7 +70,7 @@ class MediaRepository
      *
      * @return bool
      */
-    protected function mediaIsPreloaded($model)
+    protected function mediaIsPreloaded(HasMediaInterface $model)
     {
         return isset($model->media);
     }

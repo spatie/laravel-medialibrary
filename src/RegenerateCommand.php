@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Console\Command;
-use Spatie\MediaLibrary\MediaLibraryFacade as MediaLibrary;
 
 class RegenerateCommand extends Command
 {
