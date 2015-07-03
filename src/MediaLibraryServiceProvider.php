@@ -54,6 +54,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             $customClass = $app->config->get('laravel-medialibrary.custom_url_generator_class');
 
             if ($customClass != '' && class_exists($customClass) && $customClass instanceof UrlGenerator) {
+                $urlGeneratorClass = $customClass;
             }
 
             return new $urlGeneratorClass();
