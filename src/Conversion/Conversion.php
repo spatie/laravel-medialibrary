@@ -111,6 +111,8 @@ class Conversion
      */
     public function shouldBePerformedOn($collectionName)
     {
+        if (in_array('*', $this->performOnCollections)) return true;
+
         return in_array($collectionName, $this->performOnCollections);
     }
 

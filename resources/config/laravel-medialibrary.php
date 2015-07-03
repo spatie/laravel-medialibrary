@@ -19,5 +19,4 @@ return [
     * Leave empty to use the default queue.
     */
     'queue_name' => 'media_queue',
-
 ];

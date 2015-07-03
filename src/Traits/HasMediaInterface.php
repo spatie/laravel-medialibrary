@@ -31,12 +31,6 @@ interface HasMediaInterface
      */
     public function getMedia($collectionName, $filters = []);
 
-    /**
-     * Remove a media item by its id.
-     *
-     * @param int $id
-     */
-    public function removeMedia($id);
 
     /**
      * Register the conversions that should be performed.
@@ -57,5 +51,5 @@ interface HasMediaInterface
      *
      * @param $collectionName
      */
-    public function emptyMediaCollection($collectionName);
+    public function clearMediaCollection($collectionName);
 }

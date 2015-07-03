@@ -196,7 +196,8 @@ in the configuration.
 Internally [Glide](http://glide.thephpleague.com) is used to manipulate images. You can use any parameter you find 
 in [their image API](http://glide.thephpleague.com/api/size/).
 
-You can add as many conversions on a model as you want. Media conversion can also be performed on multiple collections.
+You can add as many conversions on a model as you want. Media conversion can also be performed on multiple collections. If you pass
+`*` to  `performOnCollections` the conversion will be applied to every collection.
 
 Here's an example where some of these options are demonstrated.
 
@@ -208,6 +209,11 @@ public function registerMediaConversions()
         ->setManipulations(['w' => 368, 'h' => 232,'filt' => 'greyscale', 'fm' => 'png'])
         ->performOnCollections('images', 'anotherCollection'); // performing conversion on multiple collections
         ->nonQueued(); //this conversion will not be queued
+        
+    //a second media conversion    
+    $this->addMediaConversion('adminThumb')
+        ->setManipulations(['w' => 50, 'h' => 50, 'sharp'=> 15])
+        ->performOnCollections('*'); // performing conversion on every collection
 }
 ```
 
