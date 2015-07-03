@@ -289,6 +289,7 @@ public function registerMediaConversions()
     $this->addMediaConversion('thumb')
         ->setManipulations(['w' => 500, 'h'=>500])
         ->performOnCollections('myCollection');
+}
 ...
 //assuming you've already added some images in myCollection.
 $mediaItems = $news->getMedia('images');
