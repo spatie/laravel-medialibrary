@@ -268,7 +268,16 @@ The code of the included `S3UrlGenerator` should help make things more clear:
      }
  }
  ```
- 
+
+###Regenerating images
+When you change a conversion on your model, all images that were previously generated will not
+updated automatically. To regenerate all images related to the News model you can 
+issue this artisan command:
+```php
+php artisan medialibrary:regenerate news
+```
+Leaving of `news` will regenerate all images.
+
 ###Storing manipulations on a media object
  
 A media object has a property `manipulations`. You can set it to an array of 
