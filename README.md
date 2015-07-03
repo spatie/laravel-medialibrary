@@ -191,13 +191,11 @@ public function registerMediaConversions()
 When associating a jpg-, png-, or pdf-file, to the model the package will, besides storing the original image, 
 create a derived image for every media conversion that was added. By default, the output will be a jpg-file. 
 
-If you want another image format you can specify `png`or `gif` using the `fm`-key in an an imageprofile.
+Internally [Glide](http://glide.thephpleague.com) is used to manipulate images. You can use any parameter you find 
+in [their image API](http://glide.thephpleague.com/api/size/). So if you want to output another image format you can specify `png`or `gif` using the `fm`-key in an an imageprofile.
 
 By default, a conversion will be performed on the queue that you specified 
-in the configuration.  
-
-Internally [Glide](http://glide.thephpleague.com) is used to manipulate images. You can use any parameter you find 
-in [their image API](http://glide.thephpleague.com/api/size/).
+in the configuration. You can also avoid the usage of the queue by calling `nonQueued()` on a conversion.
 
 You can add as many conversions on a model as you want. Media conversion can also be performed on multiple collections. If you pass
 `*` to  `performOnCollections` the conversion will be applied to every collection.
