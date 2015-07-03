@@ -274,7 +274,7 @@ When you change a conversion on your model, all images that were previously gene
 updated automatically. To regenerate all images related to the News model you can 
 issue this artisan command:
 ```bash
-php artisan medialibrary:regenerate news
+$ php artisan medialibrary:regenerate news
 ```
 Leaving of `news` will regenerate all images.
 
