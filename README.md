@@ -273,7 +273,8 @@ The code of the included `S3UrlGenerator` should help make things more clear:
  }
  ```
  
- ###Storing manipulations on a media object
+###Storing manipulations on a media object
+ 
 A media object has a property `manipulations`. You can set it to an array of 
 which the keys must be conversion names and the values manipulation arrays. 
 
