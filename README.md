@@ -116,7 +116,7 @@ class News extends Model implements HasMediaInterface
 
 
 ###Associating a file
-Using the facade you can add items to the library like this:
+You can add associate a file with a model like this:
 ```php
 $newsItem = News::find(1);
 $news->addMedia($pathToFile, 'images');
