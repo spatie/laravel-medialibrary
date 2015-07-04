@@ -183,7 +183,7 @@ You can let the package know that it should create a derived by registering a me
 public function registerMediaConversions()
 {
     $this->addMediaConversion('thumb')
-        ->setManipulations(['w' => 368, 'h' => 232'])
+        ->setManipulations(['w' => 368, 'h' => 232])
         ->performOnCollections('images');
 }
 ```
