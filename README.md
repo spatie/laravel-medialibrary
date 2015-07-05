@@ -44,6 +44,11 @@ After the migration has been published you can create the media-table you by run
 php artisan migrate
 ```
 
+You can publish the config-file with:
+```bash
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
+```
+
 This is the contents of the published config file:
 
 ```php
