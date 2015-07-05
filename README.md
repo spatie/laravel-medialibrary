@@ -208,7 +208,7 @@ public function registerMediaConversions()
 {
     $this->addMediaConversion('thumb')
         ->setManipulations(['w' => 368, 'h' => 232,'filt' => 'greyscale', 'fm' => 'png'])
-        ->performOnCollections('images', 'anotherCollection'); // the conversion will be performed on multiple collections
+        ->performOnCollections('images', 'anotherCollection') // the conversion will be performed on multiple collections
         ->nonQueued(); // this conversion will not be queued
         
     //a second media conversion    
