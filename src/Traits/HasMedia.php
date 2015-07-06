@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\FileSystem;
 use Spatie\MediaLibrary\Media;
 use Exception;
-use Spatie\MediaLibrary\Repository;
+use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMedia
 {
@@ -91,7 +91,7 @@ trait HasMedia
      */
     public function getMedia($collectionName, $filters = ['temp' => 0])
     {
-        return app(Repository::class)->getCollection($this, $collectionName, $filters);
+        return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
     /**
