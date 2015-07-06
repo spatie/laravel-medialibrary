@@ -2,8 +2,6 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException;
-
 class S3UrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
     /**

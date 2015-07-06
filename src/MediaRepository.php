@@ -24,7 +24,7 @@ class MediaRepository
      * @param string                                        $collectionName
      * @param array                                         $filters
      *
-     * @return Media[]
+     * @return Collection
      */
     public function getCollection(HasMediaInterface $model, $collectionName, $filters = [])
     {
@@ -32,7 +32,7 @@ class MediaRepository
 
         $mediaCollection = $this->applyFiltersToMediaCollection($mediaCollection, $filters);
 
-        return $mediaCollection;
+        return Collection::make($mediaCollection);
     }
 
     /**

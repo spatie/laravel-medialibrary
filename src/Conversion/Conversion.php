@@ -71,7 +71,7 @@ class Conversion
         $this->manipulations = func_get_args();
 
         //if format not is specified, create a jpg
-        if (count($this->manipulations) && ! $this->containsFormatManipulation($this->manipulations)) {
+        if (count($this->manipulations) && !$this->containsFormatManipulation($this->manipulations)) {
             $this->manipulations[0]['fm'] = 'jpg';
         };
 
@@ -177,6 +177,7 @@ class Conversion
      * Determine if the given manipulations contain a format manipulation.
      *
      * @param array $manipulations
+     *
      * @return mixed
      */
     protected function containsFormatManipulation(array $manipulations)

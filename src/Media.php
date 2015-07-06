@@ -7,7 +7,6 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
-use Spatie\MediaLibrary\Utility\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Media extends Eloquent implements SortableInterface

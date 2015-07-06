@@ -2,13 +2,13 @@
 
 namespace Spatie\MediaLibrary\Traits;
 
-use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
+use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
+use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
 use Spatie\MediaLibrary\FileSystem;
 use Spatie\MediaLibrary\Media;
-use Exception;
 use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMedia
@@ -87,7 +87,7 @@ trait HasMedia
      * @param string $collectionName
      * @param array  $filters
      *
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
     public function getMedia($collectionName, $filters = ['temp' => 0])
     {
@@ -136,54 +136,51 @@ trait HasMedia
      * @param array  $newMediaArray
      * @param string $collectionName
      *
-     * @throws Exception
+     * @throws \Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection
      */
     public function updateMedia(array $newMediaArray, $collectionName)
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
-        $orderCounter = 0;
+        $orderColumn = 0;
 
         foreach ($newMediaArray as $newMediaItem) {
             $currentMedia = Media::findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {
-                throw new Exception('Media id: '.$currentMedia->id.' error: Updating the wrong collection. Expected: "'.$collectionName.'" - got: "'.$currentMedia->collection_name);
+                throw new MediaIsNotPartOfCollection(sprintf('Media id %s is not part of collection %s', $currentMedia->id, $collectionName));
             }
 
             if (array_key_exists('name', $newMediaItem)) {
                 $currentMedia->name = $newMediaItem['name'];
             }
 
-            $currentMedia->order_column = $orderCounter++;
-
             $currentMedia->temp = 0;
+            $currentMedia->order_column = $orderColumn++;
 
             $currentMedia->save();
         }
     }
 
     /**
-     * @param array $newMediaArray
-     * @param $collectionName
-     *
-     * @return mixed
+     * @param array  $newMediaArray
+     * @param string $collectionName
      */
-    private function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName)
+    protected function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName)
     {
-        $newMediaItems = new Collection($newMediaArray);
-
-        foreach ($this->getMedia($collectionName, []) as $currentMedia) {
-            if (!in_array($currentMedia->id, Collection::make($newMediaItems->lists('id'))->toArray())) {
-                $this->removeMedia($currentMedia->id);
-            }
-        }
+        $this->getMedia($collectionName, [])
+            ->filter(function ($currentMediaItem) use ($newMediaArray) {
+                return !in_array($currentMediaItem->id, collect($newMediaArray)->lists('id')->toArray());
+            })
+            ->map(function ($media) {
+                $media->delete();
+            });
     }
 
     /**
      * Remove all media in the given collection.
      *
-     * @param $collectionName
+     * @param string $collectionName
      */
     public function clearMediaCollection($collectionName)
     {
@@ -193,9 +190,34 @@ trait HasMedia
     }
 
     /**
+     * Delete the associated media with the given id.
+     * You may also pass a media object.
+     *
+     * @param int | \Spatie\MediaLibrary\Media $mediaId
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel
+     */
+    public function deleteMedia($mediaId)
+    {
+        if ($mediaId instanceof Media) {
+            $mediaId = $mediaId->id;
+        }
+
+        $media = $this->media->find($mediaId);
+
+        if (!$media) {
+            throw new MediaDoesNotBelongToModel('Media id '.$mediaId.' does not belong to this model');
+        }
+
+        $media->delete();
+    }
+
+    /**
      * Add a conversion.
      *
-     * @return \Spatie\MediaLibrary\Conversion\Conversion;
+     * @param string $name
+     *
+     * @return \Spatie\MediaLibrary\Conversion\Conversion ;
      */
     public function addMediaConversion($name)
     {
