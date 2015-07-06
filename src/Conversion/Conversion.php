@@ -70,6 +70,11 @@ class Conversion
     {
         $this->manipulations = func_get_args();
 
+        //if format not is specified, create a jpg
+        if (count($this->manipulations) && ! $this->containsFormatManipulation($this->manipulations)) {
+            $this->manipulations[0]['fm'] = 'jpg';
+        };
+
         return $this;
     }
 
@@ -166,5 +171,18 @@ class Conversion
             return isset($manipulation['fm']) ? $manipulation['fm'] : $carry;
 
         }, $originalFileExtension);
+    }
+
+    /**
+     * Determine if the given manipulations contain a format manipulation.
+     *
+     * @param array $manipulations
+     * @return mixed
+     */
+    protected function containsFormatManipulation(array $manipulations)
+    {
+        return array_reduce($manipulations, function ($carry, array $manipulation) {
+            return array_key_exists('fm', $manipulation) ? true : $carry;
+        }, false);
     }
 }

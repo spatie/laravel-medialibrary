@@ -239,6 +239,15 @@ of the collection, the second the name of a conversion.
 $urlToFirstListImage = $newsItem->getFirstMediaUrl('images', 'thumb');
 ```
 
+###Regenerating images
+When you change a conversion on your model, all images that were previously generated will not
+updated automatically. To regenerate all images related to the News model you can 
+issue this artisan command:
+```bash
+$ php artisan medialibrary:regenerate news
+```
+Leaving of `news` will regenerate all images.
+
 ##Advanced usage
 ###Generating custom urls
 When `getUrl()` is called the task of generating that url is passed to an implementation of `Spatie\MediaLibraryUrlGenerator`. 
@@ -274,14 +283,7 @@ The code of the included `S3UrlGenerator` should help make things more clear:
  }
  ```
 
-###Regenerating images
-When you change a conversion on your model, all images that were previously generated will not
-updated automatically. To regenerate all images related to the News model you can 
-issue this artisan command:
-```bash
-$ php artisan medialibrary:regenerate news
-```
-Leaving of `news` will regenerate all images.
+
 
 ###Storing manipulations on a media object
  
