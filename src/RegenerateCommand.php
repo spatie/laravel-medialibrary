@@ -20,7 +20,7 @@ class RegenerateCommand extends Command
      */
     protected $description = 'Regenerate the derived images of media';
     /**
-     * @var \Spatie\MediaLibrary\Repository
+     * @var \Spatie\MediaLibrary\MediaRepository
      */
     protected $mediaRepository;
     /**
