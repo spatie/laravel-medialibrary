@@ -86,11 +86,11 @@ class Media extends Eloquent implements SortableInterface
      */
     public function getType()
     {
-        if (in_array($this->getExtension(), ['png', 'jpg', 'jpeg'])) {
+        if (in_array($this->extension, ['png', 'jpg', 'jpeg'])) {
             return self::TYPE_IMAGE;
         }
 
-        if ($this->getExtension() == 'pdf') {
+        if ($this->extension == 'pdf') {
             return self::TYPE_PDF;
         }
 
@@ -100,7 +100,7 @@ class Media extends Eloquent implements SortableInterface
     /**
      * @return string
      */
-    public function getExtension()
+    public function getExtensionAttribute()
     {
         return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }

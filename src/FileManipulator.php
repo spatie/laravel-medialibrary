@@ -49,7 +49,7 @@ class FileManipulator
     {
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->getExtension();
+        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
 
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
@@ -81,7 +81,7 @@ class FileManipulator
     public function performConversion(Media $media, Conversion $conversion, $copiedOriginalFile)
     {
         $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).
-            $conversion->getName().'.'.$media->getExtension();
+            $conversion->getName().'.'.$media->extension;
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 

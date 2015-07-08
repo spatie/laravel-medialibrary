@@ -68,6 +68,6 @@ abstract class BaseUrlGenerator
         }
 
         return $path.'/conversions/'.$this->conversion->getName().'.'.
-            $this->conversion->getResultExtension($this->media->getExtension());
+            $this->conversion->getResultExtension($this->media->extension);
     }
 }
