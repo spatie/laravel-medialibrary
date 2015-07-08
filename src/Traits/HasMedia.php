@@ -98,7 +98,7 @@ trait HasMedia
      * Get the first media item of a media collection.
      *
      * @param string $collectionName
-     * @param array $filters
+     * @param array  $filters
      *
      * @return bool|Media
      */

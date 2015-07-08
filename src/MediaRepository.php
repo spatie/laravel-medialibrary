@@ -82,7 +82,7 @@ class MediaRepository
      * Apply given filters on media.
      *
      * @param \Illuminate\Support\Collection $media
-     * @param array $filters
+     * @param array                          $filters
      *
      * @return mixed
      */

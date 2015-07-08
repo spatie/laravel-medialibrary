@@ -19,7 +19,7 @@ class Filesystem
 
     /**
      * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
-     * @param \Illuminate\Contracts\Config\Repository $config
+     * @param \Illuminate\Contracts\Config\Repository     $config
      */
     public function __construct(LaravelFilesystem $disk, ConfigRepository $config)
     {
@@ -30,7 +30,7 @@ class Filesystem
     /**
      * Add a file to the mediaLibrary for the given media.
      *
-     * @param string $file
+     * @param string                     $file
      * @param \Spatie\MediaLibrary\Media $media
      */
     public function add($file, Media $media)
@@ -43,9 +43,9 @@ class Filesystem
     /**
      * Copy a file to the mediaLibrary for the given $media.
      *
-     * @param string $file
+     * @param string                     $file
      * @param \Spatie\MediaLibrary\Media $media
-     * @param string $subDirectory
+     * @param string                     $subDirectory
      */
     public function copyToMediaLibrary($file, Media $media, $subDirectory = '')
     {

@@ -23,6 +23,7 @@ class File
 
     /**
      * @param int $sizeInBytes
+     *
      * @return string
      */
     public static function getHumanReadableSize($sizeInBytes)

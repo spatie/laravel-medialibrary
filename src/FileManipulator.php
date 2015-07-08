@@ -43,7 +43,7 @@ class FileManipulator
      * Perform the given conversions for the given media.
      *
      * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Media                           $media
      */
     public function performConversions(ConversionCollection $conversions, Media $media)
     {

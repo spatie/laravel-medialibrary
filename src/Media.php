@@ -106,7 +106,6 @@ class Media extends Eloquent implements SortableInterface
         return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
-
     /**
      * @return string
      */
