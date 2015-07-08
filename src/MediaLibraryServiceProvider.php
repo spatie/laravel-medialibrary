@@ -6,7 +6,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\UrlGenerator\UrlGenerator;
-use Storage;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
