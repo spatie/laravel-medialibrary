@@ -7,6 +7,7 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
+use Spatie\MediaLibrary\Helpers\File;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Media extends Eloquent implements SortableInterface
@@ -111,16 +112,6 @@ class Media extends Eloquent implements SortableInterface
      */
     public function getHumanReadableSizeAttribute()
     {
-        $units = array('B', 'KB', 'MB', 'GB', 'TB');
-
-        if ($this->size == 0) {
-            return '0 '.$units[1];
-        }
-
-        for ($i = 0; $this->size > 1024; $i++) {
-            $this->size /= 1024;
-        }
-
-        return round($this->size, 2).' '.$units[$i];
+        return File::getHumanReadableSize($this->size);
     }
 }
