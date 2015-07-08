@@ -43,7 +43,7 @@ class Media extends Eloquent implements SortableInterface
         });
 
         static::deleted(function (Media $media) {
-            app(FileSystem::class)->removeFiles($media);
+            app(Filesystem::class)->removeFiles($media);
         });
 
         parent::boot();

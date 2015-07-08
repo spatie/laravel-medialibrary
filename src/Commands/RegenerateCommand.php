@@ -1,8 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\Commands;
 
 use Illuminate\Console\Command;
+use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\MediaRepository;
 
 class RegenerateCommand extends Command
 {

@@ -51,7 +51,7 @@ class FileManipulator
 
         $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->getExtension();
 
-        app(FileSystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
+        app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         if ($media->getType() == Media::TYPE_PDF) {
             $copiedOriginalFile = $this->convertToImage($copiedOriginalFile);
@@ -63,7 +63,7 @@ class FileManipulator
             $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
                 $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
 
-            app(FileSystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
+            app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
         }
 
         File::deleteDirectory($tempDirectory);

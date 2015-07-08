@@ -3,10 +3,10 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
-use Illuminate\Contracts\Filesystem\Filesystem as LaravelFileSystem;
+use Illuminate\Contracts\Filesystem\Filesystem as LaravelFilesystem;
 use Spatie\MediaLibrary\Helpers\Gitignore;
 
-class FileSystem
+class Filesystem
 {
     /**
      * @var \Illuminate\Contracts\Filesystem\Filesystem
@@ -21,7 +21,7 @@ class FileSystem
      * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
      * @param \Illuminate\Contracts\Config\Repository $config
      */
-    public function __construct(LaravelFileSystem $disk, ConfigRepository $config)
+    public function __construct(LaravelFilesystem $disk, ConfigRepository $config)
     {
         $this->disk = $disk;
         $this->config = $config;

@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
 use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
-use Spatie\MediaLibrary\FileSystem;
+use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
 
@@ -72,7 +72,7 @@ trait HasMedia
 
         $this->media()->save($media);
 
-        app(FileSystem::class)->add($file, $media);
+        app(Filesystem::class)->add($file, $media);
 
         if ($removeOriginal) {
             unlink($file);
