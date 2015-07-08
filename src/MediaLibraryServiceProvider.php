@@ -45,7 +45,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../resources/config/laravel-medialibrary.php', 'laravel-medialibrary');
 
         $this->app->bind(Filesystem::class, function (Application $app) {
-            return new Filesystem(Storage::disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
+            return new Filesystem($this->app->filesystem->disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
         });
 
         $this->app->bind(UrlGenerator::class, function (Application $app) {
