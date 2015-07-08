@@ -84,7 +84,7 @@ class Media extends Eloquent implements SortableInterface
      *
      * @return string
      */
-    public function getType()
+    public function getTypeAttribute()
     {
         if (in_array($this->extension, ['png', 'jpg', 'jpeg'])) {
             return self::TYPE_IMAGE;
@@ -105,20 +105,11 @@ class Media extends Eloquent implements SortableInterface
         return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
-    /**
-     * Get the size of the file in bytes.
-     *
-     * @return int
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
 
     /**
      * @return string
      */
-    public function getHumanReadableSize()
+    public function getHumanReadableSizeAttribute()
     {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 

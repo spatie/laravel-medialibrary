@@ -24,7 +24,7 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
-        if ($media->getType() == Media::TYPE_OTHER) {
+        if ($media->type == Media::TYPE_OTHER) {
             return;
         }
 
@@ -53,7 +53,7 @@ class FileManipulator
 
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
-        if ($media->getType() == Media::TYPE_PDF) {
+        if ($media->type == Media::TYPE_PDF) {
             $copiedOriginalFile = $this->convertToImage($copiedOriginalFile);
         }
 

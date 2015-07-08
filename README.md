@@ -154,8 +154,8 @@ $mediaItems[0]->save(); // the new name gets saved. Activerecord ftw!
 
 You can also get the size of the file:
 ```php
-$mediaItems[0]->getSize() // returns the size in bytes
-$mediaItems[0]->getHumanReadableSize() // returns the size in a human readable form (eg. 1,5 MB)
+$mediaItems[0]->size // returns the size in bytes
+$mediaItems[0]->humanReadableSize // returns the size in a human readable form (eg. 1,5 MB)
 ```
 
 You can remove something from the library simply calling `delete` on the media-object:
