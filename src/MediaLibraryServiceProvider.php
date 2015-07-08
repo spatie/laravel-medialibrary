@@ -61,7 +61,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $this->app->singleton(MediaRepository::class);
 
-        $this->app['command.medialibrary:regenerate'] = $this->app(RegenerateCommand::class);
+        $this->app['command.medialibrary:regenerate'] = $this->app->make(RegenerateCommand::class);
 
         $this->commands(['command.medialibrary:regenerate']);
     }
