@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException;
+use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined;
 
 class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
@@ -11,12 +11,12 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
      *
      * @return string
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined
      */
     public function getUrl()
     {
         if (!string($this->getStoragePath())->startsWith(public_path())) {
-            throw new UrlCouldNotBeDeterminedException('The storage path is not part of the public path');
+            throw new UrlCouldNotBeDetermined('The storage path is not part of the public path');
         }
 
         return $this->getBaseMediaDirectory().'/'.$this->getPathRelativeToRoot();
@@ -41,7 +41,9 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
      */
     protected function getStoragePath()
     {
-        $diskRootPath = $this->config->get('filesystems.disks.'.$this->config->get('laravel-medialibrary.filesystem').'.root');
+        $filesystem = $this->config->get('laravel-medialibrary.filesystem');
+
+        $diskRootPath = $this->config->get('filesystems.disks.'.$filesystem.'.root');
 
         return realpath($diskRootPath);
     }

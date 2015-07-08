@@ -14,10 +14,10 @@ interface HasMediaInterface
     /**
      * Add media to media collection from a given file.
      *
-     * @param $file
-     * @param $collectionName
-     * @param bool $preserveOriginal
-     * @param bool $addAsTemporary
+     * @param string $file
+     * @param string $collectionName
+     * @param bool   $preserveOriginal
+     * @param bool   $addAsTemporary
      *
      * @return Media
      */
@@ -26,8 +26,8 @@ interface HasMediaInterface
     /**
      * Get media collection by its collectionName.
      *
-     * @param $collectionName
-     * @param array $filters
+     * @param string $collectionName
+     * @param array  $filters
      *
      * @return \Spatie\MediaLibrary\Media
      */
@@ -43,14 +43,16 @@ interface HasMediaInterface
     /**
      * Add a conversion.
      *
-     * @return \Spatie\MediaLibrary\Conversion\Conversion;
+     * @param string $name
+     *
+     * @return \Spatie\MediaLibrary\Conversion\Conversion ;
      */
     public function addMediaConversion($name);
 
     /**
      * Remove all media in the given collection.
      *
-     * @param $collectionName
+     * @param strng $collectionName
      */
     public function clearMediaCollection($collectionName);
 }

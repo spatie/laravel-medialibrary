@@ -8,6 +8,7 @@ class Conversion
      * @var string name
      */
     protected $name = '';
+
     /**
      * @var array
      */

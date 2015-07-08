@@ -14,17 +14,25 @@ class PerformConversions extends Job implements SelfHandling, ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    /**
+     * @var \Spatie\MediaLibrary\Conversion\ConversionCollection
+     */
     protected $conversions;
 
+    /**
+     * @var \Spatie\MediaLibrary\Media
+     */
     protected $media;
 
     public function __construct(ConversionCollection $conversions, Media $media)
     {
         $this->conversions = $conversions;
-
         $this->media = $media;
     }
 
+    /**
+     * @return bool
+     */
     public function handle()
     {
         app(FileManipulator::class)->performConversions($this->conversions, $this->media);

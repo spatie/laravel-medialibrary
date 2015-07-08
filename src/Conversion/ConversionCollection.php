@@ -27,7 +27,7 @@ class ConversionCollection extends Collection
     /**
      *  Get a conversion by it's name;.
      *
-     * @param $name
+     * @param string $name
      *
      * @return mixed
      *
@@ -62,7 +62,7 @@ class ConversionCollection extends Collection
     /**
      * Add the extra manipulations that are defined on the given media.
      *
-     * @param $media
+     * @param \Spatie\MediaLibrary\Media $media
      */
     protected function addManipulationsFromDb(Media $media)
     {
@@ -94,7 +94,7 @@ class ConversionCollection extends Collection
      *
      * @param string $collectionName
      *
-     * @return ConversionCollection
+     * @return \Spatie\MediaLibrary\Conversion\ConversionCollection
      */
     public function getQueuedConversions($collectionName = '')
     {

@@ -17,6 +17,10 @@ class FileSystem
      */
     protected $config;
 
+    /**
+     * @param \Illuminate\Contracts\Filesystem\Filesystem $disk
+     * @param \Illuminate\Contracts\Config\Repository $config
+     */
     public function __construct(LaravelFileSystem $disk, ConfigRepository $config)
     {
         $this->disk = $disk;
@@ -26,7 +30,7 @@ class FileSystem
     /**
      * Add a file to the mediaLibrary for the given media.
      *
-     * @param $file
+     * @param string $file
      * @param \Spatie\MediaLibrary\Media $media
      */
     public function add($file, Media $media)
@@ -39,13 +43,14 @@ class FileSystem
     /**
      * Copy a file to the mediaLibrary for the given $media.
      *
-     * @param $file
-     * @param $media
+     * @param string $file
+     * @param \Spatie\MediaLibrary\Media $media
      * @param string $subDirectory
      */
-    public function copyToMediaLibrary($file, $media, $subDirectory = '')
+    public function copyToMediaLibrary($file, Media $media, $subDirectory = '')
     {
-        $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').pathinfo($file, PATHINFO_BASENAME);
+        $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').
+            pathinfo($file, PATHINFO_BASENAME);
 
         $this->disk->getDriver()->putStream($destination, fopen($file, 'r+'));
     }

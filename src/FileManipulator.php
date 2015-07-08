@@ -42,7 +42,7 @@ class FileManipulator
     /**
      * Perform the given conversions for the given media.
      *
-     * @param ConversionCollection       $conversions
+     * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
      * @param \Spatie\MediaLibrary\Media $media
      */
     public function performConversions(ConversionCollection $conversions, Media $media)
@@ -60,7 +60,8 @@ class FileManipulator
         foreach ($conversions as $conversion) {
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
+                $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
 
             app(FileSystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
         }
@@ -79,7 +80,8 @@ class FileManipulator
      */
     public function performConversion(Media $media, Conversion $conversion, $copiedOriginalFile)
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).$conversion->getName().'.'.$media->getExtension();
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).
+            $conversion->getName().'.'.$media->getExtension();
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 

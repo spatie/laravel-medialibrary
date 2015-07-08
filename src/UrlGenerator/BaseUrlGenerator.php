@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
+use Illuminate\Contracts\Config\Repository as Config;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
 abstract class BaseUrlGenerator
@@ -12,7 +13,7 @@ abstract class BaseUrlGenerator
     protected $media;
 
     /**
-     * @var Conversion
+     * @var \Spatie\MediaLibrary\Conversion\Conversion
      */
     protected $conversion;
 
@@ -21,7 +22,10 @@ abstract class BaseUrlGenerator
      */
     protected $config;
 
-    public function __construct(\Illuminate\Contracts\Config\Repository $config)
+    /**
+     * @param \Illuminate\Contracts\Config\Repository $config
+     */
+    public function __construct(Config $config)
     {
         $this->config = $config;
     }
@@ -39,7 +43,7 @@ abstract class BaseUrlGenerator
     }
 
     /**
-     * @param Conversion|null $conversion
+     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
      *
      * @return $this
      */
@@ -51,7 +55,9 @@ abstract class BaseUrlGenerator
     }
 
     /**
-     *  Get the path to the requested file relative to the root of the media directory.
+     * Get the path to the requested file relative to the root of the media directory.
+     *
+     * @return string
      */
     public function getPathRelativeToRoot()
     {
@@ -61,6 +67,7 @@ abstract class BaseUrlGenerator
             return $path.'/'.$this->media->file_name;
         }
 
-        return $path.'/conversions/'.$this->conversion->getName().'.'.$this->conversion->getResultExtension($this->media->getExtension());
+        return $path.'/conversions/'.$this->conversion->getName().'.'.
+            $this->conversion->getResultExtension($this->media->getExtension());
     }
 }

@@ -17,7 +17,7 @@ trait HasMedia
 
     public static function bootHasMedia()
     {
-        self::deleting(function (HasMediaInterface $subject) {
+        static::deleting(function (HasMediaInterface $subject) {
             $subject->media()->get()->map(function (Media $media) {
                 $media->delete();
             });
@@ -97,7 +97,7 @@ trait HasMedia
     /**
      * Get the first media item of a media collection.
      *
-     * @param $collectionName
+     * @param string $collectionName
      * @param array $filters
      *
      * @return bool|Media
@@ -193,7 +193,7 @@ trait HasMedia
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     * @param int | \Spatie\MediaLibrary\Media $mediaId
+     * @param int|\Spatie\MediaLibrary\Media $mediaId
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel
      */

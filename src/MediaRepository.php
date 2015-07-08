@@ -12,6 +12,9 @@ class MediaRepository
      */
     protected $model;
 
+    /**
+     * @param \Spatie\MediaLibrary\Media $model
+     */
     public function __construct(Media $model)
     {
         $this->model = $model;
@@ -66,7 +69,7 @@ class MediaRepository
     /**
      * Determine if media is already preloaded on this model.
      *
-     * @param $model
+     * @param \Spatie\MediaLibrary\Traits\HasMediaInterface $model
      *
      * @return bool
      */
@@ -78,12 +81,12 @@ class MediaRepository
     /**
      * Apply given filters on media.
      *
-     * @param $media
-     * @param $filters
+     * @param \Illuminate\Support\Collection $media
+     * @param array $filters
      *
      * @return mixed
      */
-    protected function applyFiltersToMediaCollection(Collection $media, $filters)
+    protected function applyFiltersToMediaCollection(Collection $media, array $filters)
     {
         foreach ($filters as $filterProperty => $filterValue) {
             $media = $media->filter(function (Media $media) use ($filterProperty, $filterValue) {
@@ -97,7 +100,7 @@ class MediaRepository
     /**
      * Get all media.
      *
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function all()
     {
