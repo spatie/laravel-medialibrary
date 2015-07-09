@@ -45,14 +45,14 @@ interface HasMediaInterface
      *
      * @param string $name
      *
-     * @return \Spatie\MediaLibrary\Conversion\Conversion ;
+     * @return \Spatie\MediaLibrary\Conversion\Conversion
      */
     public function addMediaConversion($name);
 
     /**
      * Remove all media in the given collection.
      *
-     * @param strng $collectionName
+     * @param string $collectionName
      */
     public function clearMediaCollection($collectionName);
 }

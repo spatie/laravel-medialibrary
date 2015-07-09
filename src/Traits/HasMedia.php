@@ -217,7 +217,7 @@ trait HasMedia
      *
      * @param string $name
      *
-     * @return \Spatie\MediaLibrary\Conversion\Conversion ;
+     * @return \Spatie\MediaLibrary\Conversion\Conversion
      */
     public function addMediaConversion($name)
     {

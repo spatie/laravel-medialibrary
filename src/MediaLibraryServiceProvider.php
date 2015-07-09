@@ -56,7 +56,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
                 $urlGeneratorClass = $customClass;
             }
 
-            return new $urlGeneratorClass();
+            return $this->app->make($urlGeneratorClass);
         });
 
         $this->app->singleton(MediaRepository::class);

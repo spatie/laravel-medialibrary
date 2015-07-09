@@ -8,7 +8,7 @@ use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
 use Spatie\MediaLibrary\Helpers\File;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Spatie\MediaLibrary\UrlGenerator\UrlGenerator;
 
 class Media extends Eloquent implements SortableInterface
 {
@@ -67,11 +67,11 @@ class Media extends Eloquent implements SortableInterface
      *
      * @return string
      *
-     * @throws UnknownConversion
+     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
      */
     public function getUrl($conversionName = '')
     {
-        $urlGenerator = app(UrlGeneratorInterface::class)->setMedia($this);
+        $urlGenerator = app(UrlGenerator::class)->setMedia($this);
 
         if ($conversionName != '') {
             $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
