@@ -29,7 +29,7 @@ Next, you must install the service provider:
 // config/app.php
 'providers' => [
     ...
-    'Spatie\MediaLibrary\MediaLibraryServiceProvider',
+    Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
 ];
 ```
 
