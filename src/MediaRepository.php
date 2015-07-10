@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Traits\HasMediaInterface;
+use Spatie\MediaLibrary\Traits\HasMedia;
 
 class MediaRepository
 {
@@ -23,13 +23,13 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param \Spatie\MediaLibrary\Traits\HasMediaInterface $model
+     * @param \Spatie\MediaLibrary\Traits\HasMedia $model
      * @param string                                        $collectionName
      * @param array                                         $filters
      *
      * @return Collection
      */
-    public function getCollection(HasMediaInterface $model, $collectionName, $filters = [])
+    public function getCollection(HasMedia $model, $collectionName, $filters = [])
     {
         $mediaCollection = $this->loadMedia($model, $collectionName);
 
@@ -41,12 +41,12 @@ class MediaRepository
     /**
      * Load media by collectionName.
      *
-     * @param HasMediaInterface $model
+     * @param \Spatie\MediaLibrary\Traits\HasMedia $model
      * @param string            $collectionName
      *
      * @return mixed
      */
-    protected function loadMedia(HasMediaInterface $model, $collectionName)
+    protected function loadMedia(HasMedia $model, $collectionName)
     {
         if ($this->mediaIsPreloaded($model)) {
             $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
@@ -69,11 +69,11 @@ class MediaRepository
     /**
      * Determine if media is already preloaded on this model.
      *
-     * @param \Spatie\MediaLibrary\Traits\HasMediaInterface $model
+     * @param \Spatie\MediaLibrary\Traits\HasMedia $model
      *
      * @return bool
      */
-    protected function mediaIsPreloaded(HasMediaInterface $model)
+    protected function mediaIsPreloaded(HasMedia $model)
     {
         return isset($model->media);
     }
