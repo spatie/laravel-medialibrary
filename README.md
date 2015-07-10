@@ -170,12 +170,12 @@ $newsItem->delete(); // all associated files will be deleted as well
 
 If you want to remove all associated media in a specific collection you can use this method:
 ```php
-$newsItem->clearMediaCollection('images'); // all media in the images-collection will be deleted
+$newsItem->clearMediaCollection(); // all media will be deleted
 ```
 
 ## Working with collections
 If you have different types of files that you want to associate,
-you can put them in their on collection.
+you can put them in their own collection.
 
 ```php
 $newsItem = News::find(1);
@@ -187,12 +187,17 @@ $news->addMedia($pathToAnExcelFile, 'downloads');
 
 All media in a specific collection can be retrieved like this:
 ```php
-$news->getMedia('images'); // returns media objects for all associated files in the images collection
-$news->getMedia('downloads'); // returns media objects for all associated files in the downloads collection
+$news->getMedia('images'); // returns media objects for all files in the images collection
+$news->getMedia('downloads'); // returns media objects for all files in the downloads collection
 ```
 
-You can give a collection any name you want. If you don't specify a name, the file will get added to a
+A collection can have any name you want. If you don't specify a name, the file will get added to a
 `default`-collection.
+
+You can clear out a specific collection just be passing the name to `clearMediaCollection`:
+```php
+$newsItem->clearMediaCollection('images');
+```
 
 ## Working with images
 ###Defining conversions
