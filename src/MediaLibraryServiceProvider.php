@@ -22,7 +22,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../resources/config/laravel-medialibrary.php' => $this->app->configPath('laravel-medialibrary.php'),
+            __DIR__.'/../resources/config/laravel-medialibrary.php.stub' => $this->app->configPath('laravel-medialibrary.php'),
         ], 'config');
 
         if (!class_exists('CreateMediaTable')) {
