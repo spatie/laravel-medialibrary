@@ -202,8 +202,9 @@ in [their image API](http://glide.thephpleague.com/api/size/). So if you want to
 By default, a conversion will be performed on the queue that you specified 
 in the configuration. You can also avoid the usage of the queue by calling `nonQueued()` on a conversion.
 
-You can add as many conversions on a model as you want. Conversion can also be performed on multiple collections. If you pass
-`*` to  `performOnCollections` the conversion will be applied to every collection.
+You can add as many conversions on a model as you want. Conversion can also be performed on multiple collections. To do so
+you can just leave of the `performOnCollections`-call.  If you pass `*` to  `performOnCollections` the
+conversion will be applied to every collection as well.
 
 Here's an example where some of these options are demonstrated.
 
@@ -220,6 +221,10 @@ public function registerMediaConversions()
     $this->addMediaConversion('adminThumb')
         ->setManipulations(['w' => 50, 'h' => 50, 'sharp'=> 15])
         ->performOnCollections('*'); // perform the conversion on every collection
+
+    //a third media conversion that will be performed on every collection
+    $this->addMediaConversion('big')
+        ->setManipulations(['w' => 500, 'h' => 500);
 }
 ```
 

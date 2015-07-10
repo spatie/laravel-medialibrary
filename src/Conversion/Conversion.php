@@ -117,6 +117,11 @@ class Conversion
      */
     public function shouldBePerformedOn($collectionName)
     {
+        //if no collections were specified, perform conversion on all collections
+        if (! count($this->performOnCollections)) {
+            return true;
+        }
+
         if (in_array('*', $this->performOnCollections)) {
             return true;
         }

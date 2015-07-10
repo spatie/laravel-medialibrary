@@ -47,7 +47,7 @@ trait HasMediaTrait
      * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
      */
-    public function addMedia($file, $collectionName, $removeOriginal = true, $addAsTemporary = false)
+    public function addMedia($file, $collectionName = 'default', $removeOriginal = true, $addAsTemporary = false)
     {
         if (!is_file($file)) {
             throw new FileDoesNotExist();
@@ -89,7 +89,7 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia($collectionName, $filters = ['temp' => 0])
+    public function getMedia($collectionName = 'default', $filters = ['temp' => 0])
     {
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
@@ -102,7 +102,7 @@ trait HasMediaTrait
      *
      * @return bool|Media
      */
-    public function getFirstMedia($collectionName, $filters = [])
+    public function getFirstMedia($collectionName = 'default', $filters = [])
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -119,7 +119,7 @@ trait HasMediaTrait
      *
      * @return string
      */
-    public function getFirstMediaUrl($collectionName, $conversionName = '')
+    public function getFirstMediaUrl($collectionName = 'default', $conversionName = '')
     {
         $media = $this->getFirstMedia($collectionName);
 
@@ -138,7 +138,7 @@ trait HasMediaTrait
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection
      */
-    public function updateMedia(array $newMediaArray, $collectionName)
+    public function updateMedia(array $newMediaArray, $collectionName = 'default')
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
@@ -166,7 +166,7 @@ trait HasMediaTrait
      * @param array  $newMediaArray
      * @param string $collectionName
      */
-    protected function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName)
+    protected function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName = 'default')
     {
         $this->getMedia($collectionName, [])
             ->filter(function ($currentMediaItem) use ($newMediaArray) {
@@ -182,7 +182,7 @@ trait HasMediaTrait
      *
      * @param string $collectionName
      */
-    public function clearMediaCollection($collectionName)
+    public function clearMediaCollection($collectionName = 'default')
     {
         $this->getMedia($collectionName)->map(function (Media $media) {
             $media->delete();
