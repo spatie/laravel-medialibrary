@@ -274,7 +274,7 @@ issue this artisan command:
 ```bash
 $ php artisan medialibrary:regenerate news
 ```
-Leaving of `news` will regenerate all images.
+Leaving off `news` will regenerate all images.
 
 ##Advanced usage
 ###Generating custom urls
