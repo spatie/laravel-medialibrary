@@ -2,14 +2,14 @@
 
 namespace Spatie\MediaLibrary;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGenerator;
 
-class Media extends Eloquent implements SortableInterface
+class Media extends Model implements SortableInterface
 {
     use Sortable;
 
