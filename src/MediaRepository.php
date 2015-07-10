@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Traits\HasMedia;
+use Spatie\MediaLibrary\HasMedia;
 
 class MediaRepository
 {
@@ -23,7 +23,7 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param \Spatie\MediaLibrary\Traits\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMedia $model
      * @param string                                        $collectionName
      * @param array                                         $filters
      *
@@ -41,7 +41,7 @@ class MediaRepository
     /**
      * Load media by collectionName.
      *
-     * @param \Spatie\MediaLibrary\Traits\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMedia $model
      * @param string            $collectionName
      *
      * @return mixed
@@ -69,7 +69,7 @@ class MediaRepository
     /**
      * Determine if media is already preloaded on this model.
      *
-     * @param \Spatie\MediaLibrary\Traits\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMedia $model
      *
      * @return bool
      */

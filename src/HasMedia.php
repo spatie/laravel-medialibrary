@@ -41,15 +41,6 @@ interface HasMedia
     public function registerMediaConversions();
 
     /**
-     * Add a conversion.
-     *
-     * @param string $name
-     *
-     * @return \Spatie\MediaLibrary\Conversion\Conversion
-     */
-    public function addMediaConversion($name);
-
-    /**
      * Remove all media in the given collection.
      *
      * @param string $collectionName

@@ -13,6 +13,9 @@ use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMediaTrait
 {
+    /**
+     * @var array
+     */
     public $mediaConversions = [];
 
     public static function bootHasMediaTrait()
