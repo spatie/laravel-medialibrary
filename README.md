@@ -109,8 +109,8 @@ To relate media to a model, the model must implement this interface and trait:
 ```php
 namespace App\Models;
 
-use Spatie\MediaLibrary\Traits\HasMediaTrait;
-use Spatie\MediaLibrary\Traits\HasMedia;
+use Spatie\MediaLibrary\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
 
 class News extends Model implements HasMedia
 {
