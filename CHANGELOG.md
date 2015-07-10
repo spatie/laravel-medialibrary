@@ -2,6 +2,17 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+#2.0.1
+- fix bug in regenerate command
+
+#2.0.0
+This version is a complete rewrite. Though there are lots of breaking changes most features of v1 are retained. Notable new functions:
+- filesystem abstraction:  associated files can be stored on any filesystem Laravel 5's filesystem allows. So you could for instance store everything on S3.
+- thumbnails can now be generated for pdf files
+- registering conversions has been made more intuïtive
+- it's now very easy to add custom logic to generate urls
+- images can be manipulated per media object
+
 #1.6.2
 - Bugfix: prevent migration from being published multiple times
 
