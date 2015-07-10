@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Traits;
+namespace Spatie\MediaLibrary;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;

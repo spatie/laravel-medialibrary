@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Traits;
+namespace Spatie\MediaLibrary;
 
 interface HasMedia
 {
