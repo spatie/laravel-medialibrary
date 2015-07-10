@@ -55,7 +55,7 @@ This is the contents of the published config file:
 return [
 
     /*
-     * The filesystems you on which to store added files and derived images. Choose one or more
+     * The filesystems on which to store added files and derived images. Choose one or more
      * of the filesystems you configured in app/config/filesystems.php
      */
     'filesystem' => 'media',
