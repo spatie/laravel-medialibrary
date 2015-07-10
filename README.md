@@ -124,17 +124,15 @@ class News extends Model implements HasMedia
 You can add associate a file with a model like this:
 ```php
 $newsItem = News::find(1);
-$news->addMedia($pathToFile, 'images');
+$news->addMedia($pathToFile);
 ```
 The file will now be associated with the `newsItem`. Adding a file will move your file to a configured disk.
-In the above example the file was added to the `images`-collection of the `newsItem`. You can give a collection
-any name you want.
 
 ###Retrieving media
 
 To retrieve files you can use the ```getMedia```-method:
 ```php
-$mediaItems = $news->getMedia('images');
+$mediaItems = $news->getMedia();
 ```
 
 The method returns an collection with `Media`-objects.
@@ -174,6 +172,27 @@ If you want to remove all associated media in a specific collection you can use 
 ```php
 $newsItem->clearMediaCollection('images'); // all media in the images-collection will be deleted
 ```
+
+## Working with collections
+If you have different types of files that you want to associate,
+you can put them in their on collection.
+
+```php
+$newsItem = News::find(1);
+$news->addMedia($pathToImage, 'images');
+$news->addMedia($pathToAnotherImage, 'images');
+$news->addMedia($pathToPdfFile, 'downloads');
+$news->addMedia($pathToAnExcelFile, 'downloads');
+```
+
+All media in a specific collection can be retrieved like this:
+```php
+$news->getMedia('images'); // returns media objects for all associated files in the images collection
+$news->getMedia('downloads'); // returns media objects for all associated files in the downloads collection
+```
+
+You can give a collection any name you want. If you don't specify a name, the file will get added to a
+`default`-collection.
 
 ## Working with images
 ###Defining conversions
