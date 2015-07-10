@@ -21,7 +21,7 @@ interface HasMedia
      *
      * @return Media
      */
-    public function addMedia($file, $collectionName, $preserveOriginal = false, $addAsTemporary = false);
+    public function addMedia($file, $collectionName = 'default', $preserveOriginal = false, $addAsTemporary = false);
 
     /**
      * Get media collection by its collectionName.
@@ -31,7 +31,7 @@ interface HasMedia
      *
      * @return \Spatie\MediaLibrary\Media
      */
-    public function getMedia($collectionName, $filters = []);
+    public function getMedia($collectionName = 'default', $filters = []);
 
     /**
      * Register the conversions that should be performed.
@@ -54,5 +54,5 @@ interface HasMedia
      *
      * @param string $collectionName
      */
-    public function clearMediaCollection($collectionName);
+    public function clearMediaCollection($collectionName = 'default');
 }
