@@ -7,9 +7,6 @@ use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
 use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
-use Spatie\MediaLibrary\Filesystem;
-use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMediaTrait
 {
