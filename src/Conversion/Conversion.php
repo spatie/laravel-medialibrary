@@ -57,7 +57,14 @@ class Conversion
      */
     public function getManipulations()
     {
-        return $this->manipulations;
+        $manipulations = $this->manipulations;
+
+        //if format not is specified, create a jpg
+        if (count($manipulations) && !$this->containsFormatManipulation($manipulations)) {
+            $manipulations[0]['fm'] = 'jpg';
+        };
+
+        return $manipulations;
     }
 
     /**
@@ -70,11 +77,6 @@ class Conversion
     public function setManipulations($manipulations)
     {
         $this->manipulations = func_get_args();
-
-        //if format not is specified, create a jpg
-        if (count($this->manipulations) && !$this->containsFormatManipulation($this->manipulations)) {
-            $this->manipulations[0]['fm'] = 'jpg';
-        };
 
         return $this;
     }
@@ -172,7 +174,7 @@ class Conversion
      */
     public function getResultExtension($originalFileExtension = '')
     {
-        return array_reduce($this->manipulations, function ($carry, array $manipulation) {
+        return array_reduce($this->getManipulations(), function ($carry, array $manipulation) {
 
             return isset($manipulation['fm']) ? $manipulation['fm'] : $carry;
 
