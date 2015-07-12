@@ -130,5 +130,14 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('png', $this->conversion->getResultExtension());
     }
 
+    /**
+     * @test
+     */
+    public function it_can_add_width_to_a_manipulation()
+    {
+        $this->conversion->setWidth(10);
 
+        $this->arrayHasKey('w',$this->conversion->getManipulations()[0]);
+        $this->assertEquals(10,$this->conversion->getManipulations()[0]['w']);
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\Conversion;
 
+use Spatie\MediaLibrary\Exceptions\InvalidConversionParameter;
+
 class Conversion
 {
     /**
@@ -193,5 +195,32 @@ class Conversion
         return array_reduce($manipulations, function ($carry, array $manipulation) {
             return array_key_exists('fm', $manipulation) ? true : $carry;
         }, false);
+    }
+
+    /**
+     * Set the target width.
+     * Matches with glides 'w'-parameter.
+     *
+     * @param int $width
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
+     */
+    public function setWidth($width)
+    {
+        if (! is_numeric($width) || $width < 1) {
+            throw new InvalidConversionParameter('width should be numeric and greater than 1');
+        }
+
+        $this->setLastManipulationParameter('w', $width);
+    }
+
+    /**
+     * Set the g
+     *
+     * @param $name
+     * @param $value
+     */
+    protected function setLastManipulationParameter($name, $value)
+    {
+        $this->manipulations[count($this->manipulations)][$name] = $value;
     }
 }
