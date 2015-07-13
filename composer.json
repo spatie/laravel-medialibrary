@@ -27,7 +27,7 @@
     "spatie/eloquent-sortable": "^1.1.2",
     "spatie/laravel-glide": "^2.2.4",
     "spatie/pdf-to-image": "^1.0",
-    "spatie/string": "^1.8"
+    "spatie/string": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit" : "4.*",
