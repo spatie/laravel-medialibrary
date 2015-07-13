@@ -122,7 +122,7 @@ class Conversion
     public function shouldBePerformedOn($collectionName)
     {
         //if no collections were specified, perform conversion on all collections
-        if (! count($this->performOnCollections)) {
+        if (!count($this->performOnCollections)) {
             return true;
         }
 
@@ -202,25 +202,126 @@ class Conversion
      * Matches with glides 'w'-parameter.
      *
      * @param int $width
+     *
+     * @return $this
+     *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
      */
     public function setWidth($width)
     {
-        if (! is_numeric($width) || $width < 1) {
+        if (!is_numeric($width) || $width < 1) {
             throw new InvalidConversionParameter('width should be numeric and greater than 1');
         }
 
-        $this->setLastManipulationParameter('w', $width);
+        $this->setManipulationParameter('w', $width);
+
+        return $this;
     }
 
     /**
-     * Set the g
+     * Set the target height.
+     * Matches with glides 'h'-parameter.
+     *
+     * @param int $height
+     *
+     * @return $this
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
+     */
+    public function setHeight($height)
+    {
+        if (!is_numeric($height) || $height < 1) {
+            throw new InvalidConversionParameter('height should be numeric and greater than 1');
+        }
+
+        $this->setManipulationParameter('h', $height);
+
+        return $this;
+    }
+
+    /**
+     * Set the target format.
+     * Matches with glides 'fm'-parameter.
+     *
+     * @param string $format
+     *
+     * @return $this
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
+     */
+    public function setFormat($format)
+    {
+        $validFormats = ['jpg', 'png', 'gif'];
+
+        if (!in_array($format, $validFormats)) {
+            throw new InvalidConversionParameter($format.' is not a valid format.');
+        }
+
+        $this->setManipulationParameter('fm', $format);
+
+        return $this;
+    }
+
+    /**
+     * Set the target fit.
+     * Matches with glides 'fit'-parameter.
+     *
+     * @param string $fit
+     *
+     * @return $this
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
+     */
+    public function setFit($fit)
+    {
+        $validFits = ['contain', 'max', 'stretch', 'crop'];
+
+        if (!in_array($fit, $validFits)) {
+            throw new InvalidConversionParameter($fit.' is not a valid fit.');
+        }
+
+        $this->setManipulationParameter('fit', $fit);
+
+        return $this;
+    }
+
+    /**
+     * Set the target rectangle.
+     * Matches with glides 'rect'-parameter.
+     *
+     * @param int $width
+     * @param int $height
+     * @param int $x
+     * @param int $y
+     *
+     * @return $this
+     *
+     * @throws InvalidConversionParameter
+     */
+    public function setRectangle($width, $height, $x, $y)
+    {
+        foreach (compact('width', 'height', 'x', 'y') as $name => $value) {
+            if (!is_numeric($value) || $value < 1) {
+                throw new InvalidConversionParameter($name.' should be numeric and greater than 1');
+            }
+        }
+
+        $this->setManipulationParameter('rect', sprintf('%s,%s,%s,%s', $width, $height, $x, $y));
+
+        return $this;
+    }
+
+    /**
+     * Set the manipulation parameter.
      *
      * @param $name
      * @param $value
+     * @return $this
      */
-    protected function setLastManipulationParameter($name, $value)
+    public function setManipulationParameter($name, $value)
     {
         $this->manipulations[count($this->manipulations)][$name] = $value;
+
+        return $this;
     }
 }
