@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.1.2
+- Require correct version of spatie/string
+
 ##2.1.1
 - Bugfix: correct typehint in HasMediaTrait
 
