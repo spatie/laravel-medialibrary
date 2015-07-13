@@ -169,10 +169,10 @@ trait HasMediaTrait
     protected function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName = 'default')
     {
         $this->getMedia($collectionName, [])
-            ->filter(function (HasMedia $currentMediaItem) use ($newMediaArray) {
+            ->filter(function (Media $currentMediaItem) use ($newMediaArray) {
                 return !in_array($currentMediaItem->id, collect($newMediaArray)->lists('id')->toArray());
             })
-            ->map(function (HasMedia $media) {
+            ->map(function (Media $media) {
                 $media->delete();
             });
     }

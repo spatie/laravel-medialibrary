@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.1.1
+- Bugfix: correct typehint in HasMediaTrait
+
 ##2.1.0
 - Added some convenience methods for some frequent used manipulations
 
