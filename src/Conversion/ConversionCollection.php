@@ -40,7 +40,7 @@ class ConversionCollection extends Collection
         });
 
         if (!$conversion) {
-            throw new UnknownConversion();
+            throw new UnknownConversion("Conversion {$name} is not registered");
         }
 
         return $conversion;
