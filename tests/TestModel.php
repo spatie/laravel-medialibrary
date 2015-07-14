@@ -20,9 +20,5 @@ class TestModel extends Model implements HasMedia
      */
     public function registerMediaConversions()
     {
-        $this->addMediaConversion('thumb')
-            ->setWidth(368)
-            ->setHeight(232)
-            ->performOnCollections('images');
     }
 }

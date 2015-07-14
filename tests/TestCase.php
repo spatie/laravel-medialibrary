@@ -13,6 +13,11 @@ abstract class TestCase extends Orchestra
      */
     protected $testModel;
 
+    /**
+     * @var \Spatie\MediaLibrary\Test\TestModelWithConversion
+     */
+    protected $testModelWithConversion;
+
     public function setUp()
     {
         parent::setUp();
@@ -22,6 +27,7 @@ abstract class TestCase extends Orchestra
         $this->setUpTempTestFiles();
 
         $this->testModel = TestModel::first();
+        $this->testModelWithConversion = TestModelWithConversion::first();
     }
 
     /**
@@ -54,6 +60,10 @@ abstract class TestCase extends Orchestra
            'driver' => 'local',
            'root' => $this->getMediaDirectory(),
         ]);
+
+        $app->bind('path.public', function () {
+            return $this->getTempDirectory();
+        });
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
     }

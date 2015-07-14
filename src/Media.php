@@ -30,8 +30,10 @@ class Media extends Model implements SortableInterface
         'manipulations' => 'array',
     ];
 
-    public static function boot()
+    protected static function boot()
     {
+        parent::boot();
+
         static::updating(function (Media $media) {
             $media->previousManipulations = $media->getOriginal('manipulations');
         });
@@ -46,7 +48,6 @@ class Media extends Model implements SortableInterface
             app(Filesystem::class)->removeFiles($media);
         });
 
-        parent::boot();
     }
 
     /**

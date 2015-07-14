@@ -17,7 +17,7 @@ trait HasMediaTrait
 
     public static function bootHasMediaTrait()
     {
-        static::deleting(function (HasMedia $subject) {
+        self::deleting(function (HasMedia $subject) {
             $subject->media()->get()->map(function (Media $media) {
                 $media->delete();
             });
@@ -106,7 +106,7 @@ trait HasMediaTrait
     {
         $media = $this->getMedia($collectionName, $filters);
 
-        return (count($media) ? $media[0] : false);
+        return (count($media) ? $media->first() : false);
     }
 
     /**
@@ -185,6 +185,7 @@ trait HasMediaTrait
     public function clearMediaCollection($collectionName = 'default')
     {
         $this->getMedia($collectionName)->map(function (Media $media) {
+            app(Filesystem::class)->removeFiles($media);
             $media->delete();
         });
     }

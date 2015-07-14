@@ -73,6 +73,4 @@ class AddMediaTest extends TestCase
 
         $this->assertEquals(true, $media->temp);
     }
-
-
 }
