@@ -3,8 +3,9 @@
 namespace Spatie\MediaLibrary\Test\Conversion;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Test\TestCase;
 
-class ConversionTest extends \PHPUnit_Framework_TestCase
+class ConversionTest extends TestCase
 {
     protected $conversionName = 'test';
 
@@ -16,6 +17,8 @@ class ConversionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->conversion = new Conversion($this->conversionName);
+
+        parent::setUp();
     }
     /**
      * @test
