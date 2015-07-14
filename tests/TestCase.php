@@ -8,6 +8,11 @@ use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
+    /**
+     * @var \Spatie\MediaLibrary\Test\TestModel
+     */
+    protected $testModel;
+
     public function setUp()
     {
         parent::setUp();
@@ -15,6 +20,8 @@ abstract class TestCase extends Orchestra
         $this->setUpDatabase($this->app);
 
         $this->setUpTempTestFiles();
+
+        $this->testModel = TestModel::first();
     }
 
     /**

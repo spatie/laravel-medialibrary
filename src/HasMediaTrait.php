@@ -66,7 +66,7 @@ trait HasMediaTrait
 
         $media->size = filesize($file);
         $media->temp = $addAsTemporary;
-        $media->manipulations = ['list' => ['or' => '90']];
+        $media->manipulations = [];
 
         $media->save();
 
