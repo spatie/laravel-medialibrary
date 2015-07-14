@@ -37,7 +37,7 @@ class RegenerateCommand extends Command
     {
         parent::__construct();
 
-        $this->mediaLibraryRepository = $mediaRepository;
+        $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
     }
 
@@ -54,9 +54,9 @@ class RegenerateCommand extends Command
     public function getMediaToBeRegenerated()
     {
         if ($this->argument('modelType') == '') {
-            return $this->mediaLibraryRepository->all();
+            return $this->mediaRepository->all();
         }
 
-        return $this->mediaLibraryRepository->getByModelType($this->argument('modelType'));
+        return $this->mediaRepository->getByModelType($this->argument('modelType'));
     }
 }
