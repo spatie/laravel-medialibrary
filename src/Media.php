@@ -30,26 +30,6 @@ class Media extends Model implements SortableInterface
         'manipulations' => 'array',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::updating(function (Media $media) {
-            $media->previousManipulations = $media->getOriginal('manipulations');
-        });
-
-        static::updated(function (Media $media) {
-            if ($media->manipulations != $media->previousManipulations) {
-                app(FileManipulator::class)->createDerivedFiles($media);
-            }
-        });
-
-        static::deleted(function (Media $media) {
-            app(Filesystem::class)->removeFiles($media);
-        });
-
-    }
-
     /**
      * Create the polymorphic relation.
      *

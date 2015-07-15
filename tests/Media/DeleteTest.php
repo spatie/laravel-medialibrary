@@ -19,6 +19,6 @@ class DeleteTest extends TestCase
         $media->delete();
 
         // failing test
-        //$this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+        $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
     }
 }

@@ -15,15 +15,6 @@ trait HasMediaTrait
      */
     public $mediaConversions = [];
 
-    public static function bootHasMediaTrait()
-    {
-        self::deleting(function (HasMedia $subject) {
-            $subject->media()->get()->map(function (Media $media) {
-                $media->delete();
-            });
-        });
-    }
-
     /**
      * Set the polymorphic relation.
      *
@@ -227,5 +218,16 @@ trait HasMediaTrait
         $this->mediaConversions[] = $conversion;
 
         return $conversion;
+    }
+
+    public function delete()
+    {
+        if (!parent::delete()) {
+            return false;
+        }
+        
+        $this->media()->get()->map(function (Media $media) {
+            $media->delete();
+        });
     }
 }

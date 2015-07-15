@@ -9,7 +9,7 @@ class DeleteMediaTest extends TestCase
 {
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
 
         foreach (range(1, 3) as $index) {
             $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'default', false);
@@ -63,8 +63,7 @@ class DeleteMediaTest extends TestCase
         $this->testModel->delete();
 
         $ids->map(function ($id) {
-            //failing test
-            //$this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
+            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
         });
     }
 }
