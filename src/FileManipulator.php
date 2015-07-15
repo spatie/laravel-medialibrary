@@ -28,6 +28,10 @@ class FileManipulator
             return;
         }
 
+        if ($media->type == Media::TYPE_PDF && ! class_exists('Imagick')) {
+            return;
+        }
+
         $profileCollection = ConversionCollectionFactory::createForMedia($media);
 
         $this->performConversions($profileCollection->getNonQueuedConversions($media->collection_name), $media);

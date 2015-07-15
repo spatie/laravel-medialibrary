@@ -97,11 +97,13 @@ class AddMediaTest extends TestCase
     /**
      * @test
      */
-    public function it_can_create_a_derived_version_of_a_pdf()
+    public function it_can_create_a_derived_version_of_a_pdf_if_imagick_exists()
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.pdf'), 'images', true, true);
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+        $thumbPath = $this->getMediaDirectory($media->id.'/conversions/thumb.jpg');
+
+        class_exists('Imagick') ? $this->assertFileExists($thumbPath) : $this->assertFileNotExists($thumbPath);
     }
 
     /**
