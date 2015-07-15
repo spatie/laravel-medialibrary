@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.1.3
+- Fixes some bugs where files would not be removed when deleting a media-object
+
 ##2.1.2
 - Require correct version of spatie/string
 
