@@ -39,7 +39,7 @@ You can publish the migration with:
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
 ```
 
-After the migration has been published you can create the media-table you by running the migrations:
+After the migration has been published you can create the media-table by running the migrations:
 
 ```bash
 php artisan migrate
