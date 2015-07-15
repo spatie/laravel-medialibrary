@@ -2,13 +2,11 @@
 
 namespace Spatie\MediaLibrary\Test\UrlGenerator;
 
-use File;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
-
-class BaseGeneratorTest extends TestCase
+class BaseUrlGeneratorTest extends TestCase
 {
     protected $config;
 
