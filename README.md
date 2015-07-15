@@ -342,6 +342,14 @@ $mediaItems[0]->save(); // this will cause the thumb conversion to be regenerate
 Calling `save()` in this example will regenerate the thumb-image. The output will be a
 greyscale image that has a both width and height of 500 pixels.
 
+## Testing
+
+You can run the tests with:
+
+```bash
+vendor/bin/phpunit
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
