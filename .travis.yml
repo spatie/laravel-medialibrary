@@ -16,6 +16,7 @@ matrix:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - pecl install imagick
 
 script:
   - phpunit --coverage-text --coverage-clover=coverage.clover

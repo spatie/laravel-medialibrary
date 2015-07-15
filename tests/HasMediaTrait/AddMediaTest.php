@@ -19,6 +19,16 @@ class AddMediaTest extends TestCase
     /**
      * @test
      */
+    public function it_can_set_the_name_of_the_media()
+    {
+        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
+
+        $this->assertEquals('test', $media->name);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_add_a_file_to_a_named_collection()
     {
         $collectionName = 'images';
@@ -72,5 +82,47 @@ class AddMediaTest extends TestCase
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', true, true);
 
         $this->assertEquals(true, $media->temp);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_create_a_derived_version_of_an_image()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', true, true);
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_create_a_derived_version_of_a_pdf()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.pdf'), 'images', true, true);
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_not_create_a_derived_version_for_non_registered_collections()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'), 'downloads', true, true);
+
+        $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_put_a_gitignore_in_the_medialibrary_when_adding_media()
+    {
+        $this->assertFileNotExists($this->getMediaDirectory('.gitignore'));
+
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
+
+        $this->assertFileExists($this->getMediaDirectory('.gitignore'));
     }
 }
