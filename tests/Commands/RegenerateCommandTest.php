@@ -3,12 +3,10 @@
 namespace Spatie\MediaLibrary\Test\Conversion;
 
 use Illuminate\Support\Facades\Artisan;
-use File;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class RegenerateCommandTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -25,7 +23,5 @@ class RegenerateCommandTest extends TestCase
         Artisan::call('medialibrary:regenerate');
 
         $this->assertFileExists($derivedImage);
-
     }
-
 }

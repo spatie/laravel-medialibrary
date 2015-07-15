@@ -138,7 +138,6 @@ class AddMediaTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test.txt"));
     }
 
-
     /**
      * @test
      */
