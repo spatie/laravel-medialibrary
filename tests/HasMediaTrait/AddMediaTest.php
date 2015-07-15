@@ -9,7 +9,7 @@ class AddMediaTest extends TestCase
     /**
      * @test
      */
-    public function it_can_add_a_file_to_the_default_collection()
+    public function it_can_add_an_file_to_the_default_collection()
     {
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
 
@@ -105,6 +105,39 @@ class AddMediaTest extends TestCase
 
         class_exists('Imagick') ? $this->assertFileExists($thumbPath) : $this->assertFileNotExists($thumbPath);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_handle_a_file_without_an_extension()
+    {
+        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test'));
+
+        $this->assertEquals('test', $media->name);
+
+        $this->assertEquals('test', $media->file_name);
+
+        $this->assertEquals("/media/{$media->id}/test", $media->getUrl());
+
+        $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_handle_a_non_image_and_non_pdf_file()
+    {
+        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.txt'));
+
+        $this->assertEquals('test', $media->name);
+
+        $this->assertEquals('test.txt', $media->file_name);
+
+        $this->assertEquals("/media/{$media->id}/test.txt", $media->getUrl());
+
+        $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test.txt"));
+    }
+
 
     /**
      * @test
