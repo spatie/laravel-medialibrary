@@ -23,7 +23,7 @@ abstract class TestCase extends Orchestra
         parent::setUp();
 
         $this->setUpDatabase($this->app);
-
+        
         $this->setUpTempTestFiles();
 
         $this->testModel = TestModel::first();

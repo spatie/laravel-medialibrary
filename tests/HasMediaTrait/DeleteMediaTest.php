@@ -51,6 +51,7 @@ class DeleteMediaTest extends TestCase
 
     /**
      * @test
+     * @group bar
      */
     public function it_will_remove_the_files_when_deleting_a_subject()
     {

@@ -21,7 +21,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerMediaEvents();
+        Media::observe(new MediaObserver());
 
         $this->publishes([
             __DIR__.'/../resources/config/laravel-medialibrary.php' => $this->app->configPath().'/'.'laravel-medialibrary.php',
@@ -76,22 +76,5 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $filesystem = $this->app->config->get('laravel-medialibrary.filesystem');
 
         return $this->app->config->get('filesystems.disks.'.$filesystem.'.driver');
-    }
-
-    protected function registerMediaEvents()
-    {
-        Media::updating(function(Media $media) {
-            $media->previousManipulations = $media->getOriginal('manipulations');
-        });
-
-        Media::updated(function(Media $media) {
-            if ($media->manipulations != $media->previousManipulations) {
-                app(FileManipulator::class)->createDerivedFiles($media);
-            }
-        });
-
-        Media::deleted(function(Media $media) {
-            app(Filesystem::class)->removeFiles($media);
-        });
     }
 }

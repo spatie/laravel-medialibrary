@@ -220,6 +220,12 @@ trait HasMediaTrait
         return $conversion;
     }
 
+    /**
+     * Delete the model. The extra logic isn't handled in a model event since the boot function is unreliable
+     * for currently unknown reasons.
+     * 
+     * @return bool
+     */
     public function delete()
     {
         if (!parent::delete()) {
