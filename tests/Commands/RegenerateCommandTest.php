@@ -27,4 +27,5 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileExists($derivedImage);
 
     }
+
 }

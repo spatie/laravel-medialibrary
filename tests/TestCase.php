@@ -101,9 +101,9 @@ abstract class TestCase extends Orchestra
         File::makeDirectory($directory);
     }
 
-    public function getTempDirectory()
+    public function getTempDirectory($suffix = '')
     {
-        return __DIR__.'/temp';
+        return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getMediaDirectory($suffix = '')
