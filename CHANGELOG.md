@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.1.5
+- Fixes a bug where a valid UrlGenerator would not be recognized
+
 ##2.1.4
 - Fixes a bug where an exception would be thrown when adding a pdf on systems without Imagick installed
 
