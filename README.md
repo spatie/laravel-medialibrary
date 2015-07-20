@@ -282,6 +282,11 @@ $ php artisan medialibrary:regenerate news
 ```
 Leaving off `news` will regenerate all images.
 
+###Avoiding an empty registration function
+If you don't need media conversions at all, you may be bothered by the empty `registerMediaConversions`-function
+in your model. You may replace the `hasMedia`-interface by the `hasMediaWithoutConversions`-interface to avoid
+having that empty function.
+
 ##Advanced usage
 ###Generating custom urls
 When `getUrl()` is called the task of generating that url is passed to an implementation of `Spatie\MediaLibraryUrlGenerator`. 

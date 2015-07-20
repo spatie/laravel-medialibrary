@@ -23,13 +23,13 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param \Spatie\MediaLibrary\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMediaWithoutConversions $model
      * @param string                                        $collectionName
      * @param array                                         $filters
      *
      * @return Collection
      */
-    public function getCollection(HasMedia $model, $collectionName, $filters = [])
+    public function getCollection(HasMediaWithoutConversions $model, $collectionName, $filters = [])
     {
         $mediaCollection = $this->loadMedia($model, $collectionName);
 
@@ -41,12 +41,12 @@ class MediaRepository
     /**
      * Load media by collectionName.
      *
-     * @param \Spatie\MediaLibrary\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMediaWithoutConversions $model
      * @param string            $collectionName
      *
      * @return mixed
      */
-    protected function loadMedia(HasMedia $model, $collectionName)
+    protected function loadMedia(HasMediaWithoutConversions $model, $collectionName)
     {
         if ($this->mediaIsPreloaded($model)) {
             $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
@@ -69,11 +69,11 @@ class MediaRepository
     /**
      * Determine if media is already preloaded on this model.
      *
-     * @param \Spatie\MediaLibrary\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMediaWithoutConversions $model
      *
      * @return bool
      */
-    protected function mediaIsPreloaded(HasMedia $model)
+    protected function mediaIsPreloaded(HasMediaWithoutConversions $model)
     {
         return isset($model->media);
     }

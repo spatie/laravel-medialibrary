@@ -18,6 +18,11 @@ abstract class TestCase extends Orchestra
      */
     protected $testModelWithConversion;
 
+    /**
+     * @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions
+     */
+    protected $testModelWithoutMediaConversions;
+
     public function setUp()
     {
         parent::setUp();
@@ -28,6 +33,7 @@ abstract class TestCase extends Orchestra
 
         $this->testModel = TestModel::first();
         $this->testModelWithConversion = TestModelWithConversion::first();
+        $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
     }
 
     /**

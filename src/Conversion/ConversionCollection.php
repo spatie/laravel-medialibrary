@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\Media;
 
 class ConversionCollection extends Collection
@@ -54,7 +55,9 @@ class ConversionCollection extends Collection
      */
     protected function addConversionsFromRelatedModel(Media $media)
     {
-        $media->model->registerMediaConversions();
+        if ($media->model instanceof HasMedia) {
+            $media->model->registerMediaConversions();
+        }
 
         $this->items = $media->model->mediaConversions;
     }
