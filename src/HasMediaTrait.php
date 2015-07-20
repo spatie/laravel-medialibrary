@@ -223,7 +223,7 @@ trait HasMediaTrait
     /**
      * Delete the model. The extra logic isn't handled in a model event since the boot function is unreliable
      * for currently unknown reasons.
-     * 
+     *
      * @return bool
      */
     public function delete()
@@ -231,7 +231,7 @@ trait HasMediaTrait
         if (!parent::delete()) {
             return false;
         }
-        
+
         $this->media()->get()->map(function (Media $media) {
             $media->delete();
         });

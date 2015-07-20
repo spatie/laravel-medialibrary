@@ -3,8 +3,6 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\HasMedia;
-
 class MediaRepository
 {
     /**
@@ -24,8 +22,8 @@ class MediaRepository
      * Get all media in the collection.
      *
      * @param \Spatie\MediaLibrary\HasMediaWithoutConversions $model
-     * @param string                                        $collectionName
-     * @param array                                         $filters
+     * @param string                                          $collectionName
+     * @param array                                           $filters
      *
      * @return Collection
      */
@@ -42,7 +40,7 @@ class MediaRepository
      * Load media by collectionName.
      *
      * @param \Spatie\MediaLibrary\HasMediaWithoutConversions $model
-     * @param string            $collectionName
+     * @param string                                          $collectionName
      *
      * @return mixed
      */

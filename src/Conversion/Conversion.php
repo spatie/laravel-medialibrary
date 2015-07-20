@@ -316,6 +316,7 @@ class Conversion
      *
      * @param $name
      * @param $value
+     *
      * @return $this
      */
     public function setManipulationParameter($name, $value)
