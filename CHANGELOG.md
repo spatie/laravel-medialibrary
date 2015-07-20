@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.2.0
+- Added `hasMediaWithoutConversions`-interface
+
 ##2.1.5
 - Fixes a bug where a valid UrlGenerator would not be recognized
 
