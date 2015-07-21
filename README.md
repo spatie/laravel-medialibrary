@@ -12,6 +12,9 @@ Storage of the filesis handled by [Laravel's Filesystem](http://laravel.com/docs
 so you can easily use something like S3. Additionally the package can create image manipulations 
 on images and pdfs that have been added in the medialibrary.
 
+### About Spatie
+Spatie is webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+
 ## Requirements
 To create derived images [GD](http://php.net/manual/en/book.image.php) should be installed on your server.
 For the creation of thumbnails of pdf's you should also install [Imagick](http://php.net/manual/en/imagick.setresolution.php).
