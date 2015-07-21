@@ -129,7 +129,7 @@ class News extends Model implements HasMedia
 You can add associate a file with a model like this:
 ```php
 $newsItem = News::find(1);
-$news->addMedia($pathToFile);
+$newsItem->addMedia($pathToFile);
 ```
 The file will now be associated with the `newsItem`. Adding a file will move your file to a configured disk.
 
@@ -137,7 +137,7 @@ The file will now be associated with the `newsItem`. Adding a file will move you
 
 To retrieve files you can use the ```getMedia```-method:
 ```php
-$mediaItems = $news->getMedia();
+$mediaItems = $newsItem->getMedia();
 ```
 
 The method returns an collection with `Media`-objects.
@@ -184,16 +184,16 @@ you can put them in their own collection.
 
 ```php
 $newsItem = News::find(1);
-$news->addMedia($pathToImage, 'images');
-$news->addMedia($pathToAnotherImage, 'images');
-$news->addMedia($pathToPdfFile, 'downloads');
-$news->addMedia($pathToAnExcelFile, 'downloads');
+$newsItem->addMedia($pathToImage, 'images');
+$newsItem->addMedia($pathToAnotherImage, 'images');
+$newsItem->addMedia($pathToPdfFile, 'downloads');
+$newsItem->addMedia($pathToAnExcelFile, 'downloads');
 ```
 
 All media in a specific collection can be retrieved like this:
 ```php
-$news->getMedia('images'); // returns media objects for all files in the images collection
-$news->getMedia('downloads'); // returns media objects for all files in the downloads collection
+$newsItem->getMedia('images'); // returns media objects for all files in the images collection
+$newsItem->getMedia('downloads'); // returns media objects for all files in the downloads collection
 ```
 
 A collection can have any name you want. If you don't specify a name, the file will get added to a
@@ -261,7 +261,7 @@ public function registerMediaConversions()
 Here's example that shows you how to get the url's to the derived images:
 
 ```php
-$mediaItems = $news->getMedia('images');
+$mediaItems = $newsItem->getMedia('images');
 $mediaItems[0]->getUrl('thumb');
 ```
 
@@ -345,8 +345,8 @@ public function registerMediaConversions()
 ```
 ```php
 // somewhere in your project and assuming you've already added some images to myCollection.
-$mediaItems = $news->getMedia('images');
-$mediaItems[0] = $news->manipulations = ['thumb' => ['mode' => 'filt' => 'greyscale']]
+$mediaItems = $newsItem->getMedia('images');
+$mediaItems[0]->manipulations = ['thumb' => ['mode' => 'filt' => 'greyscale']]
 $mediaItems[0]->save(); // this will cause the thumb conversion to be regenerated. The result will be a greyscale image.
 ```
 Calling `save()` in this example will regenerate the thumb-image. The output will be a
