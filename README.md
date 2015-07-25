@@ -263,12 +263,12 @@ public function registerMediaConversions()
 ###Using convenience methods to set a manipulation
 The `setManipulations`-function expects an array with parameters that
 are available in [the Glide image API](http://glide.thephpleague.com/0.3/api/size/).
-Instead of using that function an passing an array you can the convenience functions.
+Instead of using that function you can use the convenience functions.
 
 This media conversion
 ```php
 $this->addMediaConversion('thumb')
-    ->setManipulations(['w' => 500]);
+     ->setManipulations(['w' => 500]);
 ```
 is equivalent to:
 ```php
@@ -276,7 +276,7 @@ $this->addMediaConversion('thumb')
      ->setWidth(500);
 ```
 
-These convenience methods are available:
+These are all available convencience methods:
 ```php
 /**
  * Set the target width.
