@@ -259,6 +259,56 @@ public function registerMediaConversions()
 }
 ```
 
+
+###Using convenience methods to set a manipulation
+The `setManipulations`-function expects an array with parameters that
+are available in [the Glide image API](http://glide.thephpleague.com/0.3/api/size/).
+Instead of using that function an passing an array you can the convenience functions.
+
+This media conversion
+```php
+$this->addMediaConversion('thumb')
+    ->setManipulations(['w' => 500]);
+```
+is equivalent to:
+```php
+$this->addMediaConversion('thumb')
+     ->setWidth(500);
+```
+
+These convenience methods are available:
+```php
+/**
+ * Set the target width.
+ * Matches with Glide's 'w'-parameter.
+ */
+public function setWidth($width)
+
+/**
+ * Set the target height.
+ * Matches with Glide's 'h'-parameter.
+ */
+public function setHeight($height)
+
+/**
+ * Set the target format.
+ * Matches with Glide's 'fm'-parameter.
+ */
+public function setFormat($format)
+
+/**
+ * Set the target fit.
+ * Matches with Glide's 'fit'-parameter.
+ */
+public function setFit($fit)
+
+/**
+ * Set the target rectangle.
+ * Matches with Glide's 'rect'-parameter.
+ */
+public function setRectangle($width, $height, $x, $y)
+``` 
+
 ###Retrieving derived images
 Here's example that shows you how to get the url's to the derived images:
 

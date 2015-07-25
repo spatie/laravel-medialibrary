@@ -199,7 +199,7 @@ class Conversion
 
     /**
      * Set the target width.
-     * Matches with glides 'w'-parameter.
+     * Matches with Glide's 'w'-parameter.
      *
      * @param int $width
      *
@@ -220,7 +220,7 @@ class Conversion
 
     /**
      * Set the target height.
-     * Matches with glides 'h'-parameter.
+     * Matches with Glide's 'h'-parameter.
      *
      * @param int $height
      *
@@ -241,7 +241,7 @@ class Conversion
 
     /**
      * Set the target format.
-     * Matches with glides 'fm'-parameter.
+     * Matches with Glide's 'fm'-parameter.
      *
      * @param string $format
      *
@@ -264,7 +264,7 @@ class Conversion
 
     /**
      * Set the target fit.
-     * Matches with glides 'fit'-parameter.
+     * Matches with Glide's 'fit'-parameter.
      *
      * @param string $fit
      *
@@ -287,7 +287,7 @@ class Conversion
 
     /**
      * Set the target rectangle.
-     * Matches with glides 'rect'-parameter.
+     * Matches with Glide's 'rect'-parameter.
      *
      * @param int $width
      * @param int $height
