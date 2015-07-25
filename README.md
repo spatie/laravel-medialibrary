@@ -268,7 +268,7 @@ Instead of using that function you can use the convenience functions.
 This media conversion
 ```php
 $this->addMediaConversion('thumb')
-    ->setManipulations(['w' => 500]);
+     ->setManipulations(['w' => 500]);
 ```
 is equivalent to:
 ```php
