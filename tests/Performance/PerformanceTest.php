@@ -10,11 +10,11 @@ class PerformanceTest extends TestCase
     /**
      * @test
      */
-    public function it_will_not_reload_media_if_it_is_eagerly_loaded()
+    public function it_will_can_use_eagerly_loaded_media()
     {
         foreach (range(1, 10) as $index) {
             $testModel = $this->testModelWithConversion->create(['name' => "test{$index}"]);
-            $testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'default', false);
+            $testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false);
         }
 
         DB::connection()->enableQueryLog();
@@ -23,7 +23,7 @@ class PerformanceTest extends TestCase
         $testModels->load("media");
 
         foreach ($testModels as $testModel) {
-            $testModel->getFirstMediaUrl();
+            $testModel->getFirstMediaUrl('images', 'thumb');
         }
 
         $this->assertCount(2, DB::getQueryLog());

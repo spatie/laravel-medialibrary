@@ -55,11 +55,21 @@ class ConversionCollection extends Collection
      */
     protected function addConversionsFromRelatedModel(Media $media)
     {
-        if ($media->model instanceof HasMedia) {
-            $media->model->registerMediaConversions();
+        static $cachedRegistrations = [];
+
+        $cacheKey = $media->model_type;
+        
+        if (! isset($cachedRegistrations[$cacheKey])) {
+
+            $cachedRegistrations[$cacheKey] = [];
+
+            if ($media->model instanceof HasMedia) {
+                $media->model->registerMediaConversions();
+                $cachedRegistrations[$cacheKey] = $media->model->mediaConversions;
+            }
         }
 
-        $this->items = $media->model->mediaConversions;
+        $this->items = $cachedRegistrations[$cacheKey];
     }
 
     /**
