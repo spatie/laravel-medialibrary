@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.2.1
+- Fixes an issue where too much queries were executed
+
 ##2.2.0
 - Added `hasMediaWithoutConversions`-interface
 
