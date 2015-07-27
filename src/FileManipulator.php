@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
-use File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\Conversion\Conversion;
