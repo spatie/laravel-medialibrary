@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.2.2
+- Fixed: use FQCN for facades instead of using the aliases
+
 ##2.2.1
 - Fixed an issue where too much queries were executed
 
