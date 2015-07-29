@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.2.3
+- Fixed: when renaming file_name on a media object the orginal file gets renamed as well
+
 ##2.2.2
 - Fixed: use FQCN for facades instead of using the aliases
 
