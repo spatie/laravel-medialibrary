@@ -12,15 +12,6 @@ matrix:
     - php: 5.6
       env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
 
-## Run on container environment
-sudo: false
-
-## Cache composer bits
-cache:
-  directories:
-    - vendor
-    - $HOME/.composer/cache
-
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
