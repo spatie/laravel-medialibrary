@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
+
 class MediaRepository
 {
     /**

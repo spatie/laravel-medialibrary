@@ -83,6 +83,24 @@ class Filesystem
     }
 
     /**
+     * Rename a file for the given media.
+     *
+     * @param Media  $media
+     * @param string $oldName
+     *
+     * @return bool
+     */
+    public function renameFile(Media $media, $oldName)
+    {
+        $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
+        $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+
+        $this->disk->move($oldFile, $newFile);
+
+        return true;
+    }
+
+    /**
      * Return the directory where all files of the given media are stored.
      *
      * @param \Spatie\MediaLibrary\Media $media

@@ -7,6 +7,10 @@ class MediaObserver
     public function updating(Media $media)
     {
         $media->previousManipulations = $media->getOriginal('manipulations');
+
+        if ($media->file_name != $media->getOriginal('file_name')) {
+            app(Filesystem::class)->renameFile($media, $media->getOriginal('file_name'));
+        }
     }
 
     public function updated(Media $media)
