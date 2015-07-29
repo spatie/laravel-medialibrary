@@ -157,11 +157,10 @@ $mediaItems[0]->name = 'newName'
 $mediaItems[0]->save(); // the new name gets saved. Activerecord ftw!
 ```
 
-Using media-object the name of uploaded file can be changed.
+Using the media-object the name of uploaded file can be changed.
 ```php
-echo $mediaItems[0]->name // display the name
 $mediaItems[0]->file_name = 'newFileName.jpg'
-$mediaItems[0]->save(); // This will also rename the file on the filesystem.
+$mediaItems[0]->save(); // Saving will also rename the file on the filesystem.
 ```
 
 You can also get the size of the file:
