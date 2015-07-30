@@ -90,10 +90,12 @@ class FileManipulator
         File::copy($copiedOriginalFile, $conversionTempFile);
 
         foreach ($conversion->getManipulations() as $manipulation) {
-            (new GlideImage())
-                ->load($conversionTempFile, $manipulation)
+            $glideImage = new GlideImage();
+            $glideImage->load($conversionTempFile, $manipulation)
                 ->useAbsoluteSourceFilePath()
                 ->save($conversionTempFile);
+
+            $glideImage = null;
         }
 
         return $conversionTempFile;
