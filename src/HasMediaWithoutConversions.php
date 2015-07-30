@@ -24,6 +24,15 @@ interface HasMediaWithoutConversions
     public function addMedia($file, $collectionName = 'default', $preserveOriginal = false, $addAsTemporary = false);
 
     /**
+     * Determine if there is media in the given collection.
+     *
+     * @param $collectionMedia
+     *
+     * @return bool
+     */
+    public function hasMedia($collectionMedia = 'default');
+
+    /**
      * Get media collection by its collectionName.
      *
      * @param string $collectionName

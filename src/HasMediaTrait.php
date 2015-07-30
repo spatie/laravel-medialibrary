@@ -73,6 +73,18 @@ trait HasMediaTrait
     }
 
     /**
+     * Determine if there is media in the given collection.
+     *
+     * @param $collectionName
+     *
+     * @return bool
+     */
+    public function hasMedia($collectionName = 'default')
+    {
+        return count($this->getMedia($collectionName)) ? true : false;
+    }
+
+    /**
      * Get media collection by its collectionName.
      *
      * @param string $collectionName

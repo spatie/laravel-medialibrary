@@ -20,7 +20,7 @@ class PerformanceTest extends TestCase
         DB::connection()->enableQueryLog();
 
         $testModels = $this->testModelWithConversion->get();
-        $testModels->load("media");
+        $testModels->load('media');
 
         foreach ($testModels as $testModel) {
             $testModel->getFirstMediaUrl('images', 'thumb');

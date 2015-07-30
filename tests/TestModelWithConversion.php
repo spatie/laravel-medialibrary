@@ -1,4 +1,5 @@
 <?php
+
 namespace Spatie\MediaLibrary\Test;
 
 class TestModelWithConversion extends TestModel

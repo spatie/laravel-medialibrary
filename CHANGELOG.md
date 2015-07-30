@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##2.3.0
+- Added: hasMedia convenience method
+
 ##2.2.3
 - Fixed: when renaming file_name on a media object the orginal file gets renamed as well
 

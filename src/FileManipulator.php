@@ -28,7 +28,7 @@ class FileManipulator
             return;
         }
 
-        if ($media->type == Media::TYPE_PDF && ! class_exists('Imagick')) {
+        if ($media->type == Media::TYPE_PDF && !class_exists('Imagick')) {
             return;
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Spatie\MediaLibrary\Test;
 
 use Illuminate\Database\Eloquent\Model;
