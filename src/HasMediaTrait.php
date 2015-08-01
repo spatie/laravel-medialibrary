@@ -28,7 +28,7 @@ trait HasMediaTrait
     /**
      * Add media to media collection from a given file.
      *
-     * @param string $file
+     * @param string|\Symfony\Component\HttpFoundation\File\File $file
      * @param string $collectionName
      * @param bool   $removeOriginal
      * @param bool   $addAsTemporary
@@ -40,9 +40,19 @@ trait HasMediaTrait
      */
     public function addMedia($file, $collectionName = 'default', $removeOriginal = true, $addAsTemporary = false)
     {
-        if (!is_file($file)) {
-            throw new FileDoesNotExist();
+        if (is_string($file)) {
+            $pathToFile = $file;
+            $fileName = pathinfo($file, PATHINFO_BASENAME);
+            $mediaName = pathinfo($file, PATHINFO_FILENAME);
         }
+
+        if ($file instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
+            $pathToFile = $file->getPath();
+            $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_BASENAME);
+            $mediaName = $file->getClientOriginalName();
+        }
+
+        if (!is_file($pathToFile)) throw new FileDoesNotExist();
 
         if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
             throw new FileTooBig();
@@ -50,12 +60,12 @@ trait HasMediaTrait
 
         $media = new Media();
 
-        $media->name = pathinfo($file, PATHINFO_FILENAME);
-        $media->file_name = pathinfo($file, PATHINFO_BASENAME);
+        $media->name = $mediaName;
+        $media->file_name = $fileName;
 
         $media->collection_name = $collectionName;
 
-        $media->size = filesize($file);
+        $media->size = filesize($pathToFile);
         $media->temp = $addAsTemporary;
         $media->manipulations = [];
 
@@ -66,7 +76,7 @@ trait HasMediaTrait
         app(Filesystem::class)->add($file, $media);
 
         if ($removeOriginal) {
-            unlink($file);
+            unlink($pathToFile);
         }
 
         return $media;
