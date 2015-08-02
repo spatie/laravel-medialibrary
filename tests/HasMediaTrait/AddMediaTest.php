@@ -59,20 +59,10 @@ class AddMediaTest extends TestCase
     {
         $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $media = $this->testModel->addMedia($testFile, 'images', false);
+        $media = $this->testModel->addMedia($testFile, 'images',[],false);
 
         $this->assertFileExists($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
-    }
-
-    /**
-     * @test
-     */
-    public function it_wil_not_mark_the_media_as_temporary_by_default()
-    {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', true);
-
-        $this->assertEquals(false, $media->temp);
     }
 
     /**

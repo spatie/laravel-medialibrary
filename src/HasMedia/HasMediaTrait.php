@@ -34,16 +34,18 @@ trait HasMediaTrait
      *
      * @param string|\Symfony\Component\HttpFoundation\File\File $file
      * @param string                                             $collectionName
+     * @param array                                              $customProperties
      * @param bool                                               $removeOriginal
-     * @param array                                               $customProperties
+
      *
      * @return Media
      *
      * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
      */
-    public function addMedia($file, $collectionName = 'default', $removeOriginal = true, $customProperties = [])
+    public function addMedia($file, $collectionName = 'default', $customProperties = [], $removeOriginal = true)
     {
+
         if (is_string($file)) {
             $pathToFile = $file;
             $fileName = pathinfo($file, PATHINFO_BASENAME);
