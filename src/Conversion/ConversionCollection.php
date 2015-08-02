@@ -64,9 +64,7 @@ class ConversionCollection extends Collection
         $model = new $modelName();
 
         if ($model instanceof HasMediaConversions) {
-            /*
-             * TODO: make this method static in the next version
-             */
+ 
             $model->registerMediaConversions();
         }
 
