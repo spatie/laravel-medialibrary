@@ -131,9 +131,14 @@ class News extends Model implements HasMedia
 You can add associate a file with a model like this:
 ```php
 $newsItem = News::find(1);
-$newsItem->addMedia($pathToFile);
+$newsItem->addMedia($pathToFile)->toMediaLibrary();
 ```
 The file will now be associated with the `newsItem`. Adding a file will move your file to a configured disk.
+
+If you want to preserve the file at the original location, you can call `preservingOriginal`:
+```php
+$newsItem->addMedia($pathToFile)->preservingOriginal()->toMediaLibrary();
+```
 
 ###Retrieving media
 
@@ -192,10 +197,10 @@ you can put them in their own collection.
 
 ```php
 $newsItem = News::find(1);
-$newsItem->addMedia($pathToImage, 'images');
-$newsItem->addMedia($pathToAnotherImage, 'images');
-$newsItem->addMedia($pathToPdfFile, 'downloads');
-$newsItem->addMedia($pathToAnExcelFile, 'downloads');
+$newsItem->addMedia($pathToImage)->toCollection('images');
+$newsItem->addMedia($pathToAnotherImage)->toCollection('images');
+$newsItem->addMedia($pathToPdfFile)->toCollection('downloads');
+$newsItem->addMedia($pathToAnExcelFile)->toCollection('downloads');
 ```
 
 All media in a specific collection can be retrieved like this:
@@ -340,6 +345,14 @@ $ php artisan medialibrary:regenerate news
 ```
 Leaving off `news` will regenerate all images.
 
+###Adding custom properties
+When adding a file to the medialibrary you can pass an array with custom properties:
+```php
+$newsItem->addMedia($pathToFile)->withCustomProperties(['mime-type' => 'image/jpeg'])->toMediaLibrary()
+```
+
+
+
 ###Avoiding an empty registration function
 If you don't need media conversions at all, you may be bothered by the empty `registerMediaConversions`-function
 in your model. You may replace the `hasMedia`-interface by the `hasMediaWithoutConversions`-interface to avoid
@@ -379,8 +392,6 @@ The code of the included `S3UrlGenerator` should help make things more clear:
      }
  }
  ```
-
-
 
 ###Storing manipulations on a media object
  
@@ -434,6 +445,7 @@ This behaviour has changed:
 from the default collection would be returned)
 - calling `hasMedia()` without a collection name returns true if any given collection contains files (wheres previously
 it would only return try if files were present in the default collection)
+- the `addMedia`-function has been replaced by a fluent interface. 
 
 ## Contributing
 
