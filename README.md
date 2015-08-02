@@ -370,11 +370,6 @@ $newsItem
     ->toMediaLibrary();
 ```
 
-###Avoiding an empty registration function
-If you don't need media conversions at all, you may be bothered by the empty `registerMediaConversions`-function
-in your model. You may replace the `hasMediaConversions`-interface by the `hasMedia`-interface to avoid
-having to declare that empty function.
-
 ##Advanced usage
 ###Generating custom urls
 When `getUrl()` is called the task of generating that url is passed to an implementation of `Spatie\MediaLibraryUrlGenerator`. 
