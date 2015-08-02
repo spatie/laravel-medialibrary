@@ -25,7 +25,6 @@ class GetMediaTest extends TestCase
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'downloads', false);
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
 
-
         $this->assertCount(3, $this->testModel->getMedia());
     }
 

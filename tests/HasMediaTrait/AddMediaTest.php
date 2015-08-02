@@ -85,8 +85,6 @@ class AddMediaTest extends TestCase
         $this->assertEquals(true, $media->temp);
     }
 
-
-
     /**
      * @test
      */
@@ -119,8 +117,6 @@ class AddMediaTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test.txt"));
     }
 
-
-
     /**
      * @test
      */
@@ -148,7 +144,5 @@ class AddMediaTest extends TestCase
         $media = $this->testModel->addMedia($uploadedFile);
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
-
-
     }
 }

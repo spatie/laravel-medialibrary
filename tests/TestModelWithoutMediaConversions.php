@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-
 class TestModelWithoutMediaConversions extends Model implements HasMedia
 {
     use HasMediaTrait;

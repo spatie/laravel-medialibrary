@@ -33,9 +33,9 @@ trait HasMediaTrait
      * Add media to media collection from a given file.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\File $file
-     * @param string $collectionName
-     * @param bool   $removeOriginal
-     * @param bool   $addAsTemporary
+     * @param string                                             $collectionName
+     * @param bool                                               $removeOriginal
+     * @param bool                                               $addAsTemporary
      *
      * @return Media
      *
@@ -51,12 +51,14 @@ trait HasMediaTrait
         }
 
         if ($file instanceof UploadedFile) {
-            $pathToFile = $file->getPath() . '/' . $file->getFilename();
+            $pathToFile = $file->getPath().'/'.$file->getFilename();
             $fileName = $file->getClientOriginalName();
-            $mediaName = pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME);
+            $mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         }
 
-        if (!is_file($pathToFile)) throw new FileDoesNotExist();
+        if (!is_file($pathToFile)) {
+            throw new FileDoesNotExist();
+        }
 
         if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
             throw new FileTooBig();
@@ -108,7 +110,7 @@ trait HasMediaTrait
      */
     public function getMedia($collectionName = '', $filters = [])
     {
-        if (! isset ($filters['temp'])) {
+        if (! isset($filters['temp'])) {
             $filters['temp'] = false;
         }
 

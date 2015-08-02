@@ -36,7 +36,6 @@ class AddMediaTest extends TestCase
         $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
-
     /**
      * @test
      */
@@ -48,5 +47,4 @@ class AddMediaTest extends TestCase
 
         class_exists('Imagick') ? $this->assertFileExists($thumbPath) : $this->assertFileNotExists($thumbPath);
     }
-
 }
