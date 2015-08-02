@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class AddMediaTest extends TestCase
+class IntegrationTest extends TestCase
 {
     /**
      * @test
@@ -13,7 +13,7 @@ class AddMediaTest extends TestCase
     public function it_can_add_an_file_to_the_default_collection()
     {
         $media = $this->testModel
-            ->copyFile($this->getTestFilesDirectory('test.jpg'))
+            ->addFile($this->getTestFilesDirectory('test.jpg'))
             ->toMediaLibrary();
 
         $this->assertEquals('default', $media->collection_name);
@@ -24,7 +24,9 @@ class AddMediaTest extends TestCase
      */
     public function it_can_set_the_name_of_the_media()
     {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $media = $this->testModel
+            ->addFile($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaLibrary();
 
         $this->assertEquals('test', $media->name);
     }
@@ -36,7 +38,7 @@ class AddMediaTest extends TestCase
     {
         $collectionName = 'images';
 
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), $collectionName);
+        $media = $this->testModel->addFile($this->getTestFilesDirectory('test.jpg'))->toCollection($collectionName);
 
         $this->assertEquals($collectionName, $media->collection_name);
     }
@@ -48,7 +50,9 @@ class AddMediaTest extends TestCase
     {
         $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $media = $this->testModel->addMedia($testFile);
+        $media = $this->testModel
+            ->addFile($testFile)
+            ->toMediaLibrary();
 
         $this->assertFileNotExists($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -61,7 +65,7 @@ class AddMediaTest extends TestCase
     {
         $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $media = $this->testModel->addMedia($testFile, 'images', [], false);
+        $media = $this->testModel->copyFile($testFile)->toCollection('images');
 
         $this->assertFileExists($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -72,7 +76,7 @@ class AddMediaTest extends TestCase
      */
     public function it_can_handle_a_file_without_an_extension()
     {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test'));
+        $media = $this->testModel->addFile($this->getTestFilesDirectory('test'))->toMediaLibrary();
 
         $this->assertEquals('test', $media->name);
 
@@ -88,7 +92,7 @@ class AddMediaTest extends TestCase
      */
     public function it_can_handle_a_non_image_and_non_pdf_file()
     {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.txt'));
+        $media = $this->testModel->addFile($this->getTestFilesDirectory('test.txt'))->toMediaLibrary();
 
         $this->assertEquals('test', $media->name);
 
@@ -106,7 +110,7 @@ class AddMediaTest extends TestCase
     {
         $this->assertFileNotExists($this->getMediaDirectory('.gitignore'));
 
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $this->testModel->addFile($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary();
 
         $this->assertFileExists($this->getMediaDirectory('.gitignore'));
     }
@@ -123,7 +127,7 @@ class AddMediaTest extends TestCase
             filesize($this->getTestFilesDirectory('test.jpg'))
         );
 
-        $media = $this->testModel->addMedia($uploadedFile);
+        $media = $this->testModel->addFile($uploadedFile)->toMediaLibrary();
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }

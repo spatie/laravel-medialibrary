@@ -27,16 +27,18 @@ trait HasMediaTrait
         return $this->morphMany(Media::class, 'model');
     }
 
+
+
     /**
-     * Copy a file to the medialibrary.
+     * Add a file to the medialibrary.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function copyFile($file)
+    public function addFile($file)
     {
-        return app(FileAdderFactory::class)->create($this, $file);
+        return $this->moveFile($file);
     }
 
     /**
@@ -47,6 +49,18 @@ trait HasMediaTrait
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
     public function moveFile($file)
+    {
+        return app(FileAdderFactory::class)->create($this, $file);
+    }
+
+    /**
+     * Copy a file to the medialibrary.
+     *
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public function copyFile($file)
     {
         return app(FileAdderFactory::class)->create($this, $file)->preservingOriginal();
     }

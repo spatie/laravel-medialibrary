@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdder
 {
