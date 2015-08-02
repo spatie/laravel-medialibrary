@@ -27,6 +27,16 @@ class HasMediaTest extends TestCase
     /**
      * @test
      */
+    public function it_returns_true_for_if_any_collection_is_not_empty()
+    {
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg', 'images'));
+
+        $this->assertTrue($this->testModel->hasMedia());
+    }
+
+    /**
+     * @test
+     */
     public function it_returns_false_for_an_empty_named_collection()
     {
         $this->assertFalse($this->testModel->hasMedia('images'));
@@ -42,4 +52,6 @@ class HasMediaTest extends TestCase
         $this->assertTrue($this->testModel->hasMedia('images'));
         $this->assertFalse($this->testModel->hasMedia('downloads'));
     }
+
+
 }

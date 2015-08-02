@@ -432,6 +432,8 @@ You can easily upgrade from v2 to v3 by performing these renames in your model t
 This behaviour has changed:
 - when calling `getMedia()` without providing a collection name all media will be returned (whereas previously only media
 from the default collection would be returned)
+- calling `hasMedia()` without a collection name returns true if any given collection contains files (wheres previously
+it would only return try if files were present in the default collection)
 
 ## Contributing
 
