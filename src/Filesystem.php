@@ -30,12 +30,13 @@ class Filesystem
     /**
      * Add a file to the mediaLibrary for the given media.
      *
-     * @param string                     $file
+     * @param string $file
      * @param \Spatie\MediaLibrary\Media $media
+     * @param $targetFileName
      */
-    public function add($file, Media $media)
+    public function add($file, Media $media, $targetFileName = '')
     {
-        $this->copyToMediaLibrary($file, $media);
+        $this->copyToMediaLibrary($file, $media, '', $targetFileName);
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }
@@ -43,14 +44,15 @@ class Filesystem
     /**
      * Copy a file to the mediaLibrary for the given $media.
      *
-     * @param string                     $file
+     * @param string $file
      * @param \Spatie\MediaLibrary\Media $media
-     * @param string                     $subDirectory
+     * @param string $subDirectory
+     * @param string $targetFileName
      */
-    public function copyToMediaLibrary($file, Media $media, $subDirectory = '')
+    public function copyToMediaLibrary($file, Media $media, $subDirectory = '', $targetFileName = '')
     {
         $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').
-            pathinfo($file, PATHINFO_BASENAME);
+            ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
         $this->disk->put($destination, fopen($file, 'r+'));
     }
