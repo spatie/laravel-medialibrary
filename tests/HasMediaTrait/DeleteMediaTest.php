@@ -13,12 +13,12 @@ class DeleteMediaTest extends TestCase
 
         foreach (range(1, 3) as $index) {
             $this->testModel
-                ->addFile($this->getTestJpg())
+                ->addMedia($this->getTestJpg())
                 ->preservingOriginal()
                 ->toMediaLibrary();
 
             $this->testModel
-                ->addFile($this->getTestJpg())
+                ->addMedia($this->getTestJpg())
                 ->preservingOriginal()
                 ->toMediaLibrary('images');
         }

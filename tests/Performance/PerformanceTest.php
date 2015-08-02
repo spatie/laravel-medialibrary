@@ -14,7 +14,7 @@ class PerformanceTest extends TestCase
     {
         foreach (range(1, 10) as $index) {
             $testModel = $this->testModelWithConversion->create(['name' => "test{$index}"]);
-            $testModel->addFile($this->getTestJpg())->preservingOriginal()->toCollection('images');
+            $testModel->addMedia($this->getTestJpg())->preservingOriginal()->toCollection('images');
         }
 
         DB::connection()->enableQueryLog();

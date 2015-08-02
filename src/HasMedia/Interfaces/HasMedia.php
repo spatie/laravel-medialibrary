@@ -18,16 +18,7 @@ interface HasMedia
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addFile($file);
-
-    /**
-     * Move a file to the medialibrary.
-     *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
-     *
-     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
-     */
-    public function moveFile($file);
+    public function addMedia($file);
 
     /**
      * Copy a file to the medialibrary.
@@ -36,7 +27,7 @@ interface HasMedia
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function copyFile($file);
+    public function copyMedia($file);
 
     /**
      * Determine if there is media in the given collection.

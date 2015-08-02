@@ -34,19 +34,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addFile($file)
-    {
-        return $this->moveFile($file);
-    }
-
-    /**
-     * Move a file to the medialibrary.
-     *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
-     *
-     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
-     */
-    public function moveFile($file)
+    public function addMedia($file)
     {
         return app(FileAdderFactory::class)->create($this, $file);
     }
@@ -58,9 +46,9 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function copyFile($file)
+    public function copyMedia($file)
     {
-        return app(FileAdderFactory::class)->create($this, $file)->preservingOriginal();
+        return $this->addMedia($file)->preservingOriginal();
     }
 
     /**
