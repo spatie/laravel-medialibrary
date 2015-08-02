@@ -19,11 +19,14 @@ class GetMediaTest extends TestCase
     /**
      * @test
      */
-    public function it_can_get_the_default_collection()
+    public function it_will_get_all_media_when_not_specify_a_collection()
     {
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false);
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'downloads', false);
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
 
-        $this->assertCount(1, $this->testModel->getMedia());
+
+        $this->assertCount(3, $this->testModel->getMedia());
     }
 
     /**

@@ -417,6 +417,21 @@ You can run the tests with:
 ```bash
 vendor/bin/phpunit
 ```
+##Upgrading
+###From v1 to v2
+Because v2 is a complete rewrite a simple upgrade path is not available.
+If you want to upgrade completly remove the v1 package and follow install instructions of v2.
+
+###From v2 to v3
+You can easily upgrade from v2 to v3 by performing these renames in your model that has media.
+
+- `Spatie\MediaLibrary\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\HasMedia\HasMediaTrait`. 
+- `Spatie\MediaLibrary\HasMedia` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversion`
+- `Spatie\MediaLibrary\HasMediaWithoutConversions` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia`
+
+This behaviour has changed:
+- when calling `getMedia()` without providing a collection name all media will be returned (whereas previously only media
+from the default collection would be returned)
 
 ## Contributing
 

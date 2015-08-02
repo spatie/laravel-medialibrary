@@ -49,17 +49,26 @@ class MediaRepository
     {
         if ($this->mediaIsPreloaded($model)) {
             $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
+
+                if ($collectionName == '') return true;
+
                 return $mediaItem->collection_name == $collectionName;
+
             })->sortBy(function (Media $media) {
+
                 return $media->order_column;
+
             })->values();
 
             return $media;
         }
 
-        $media = $model->media()
-            ->where('collection_name', $collectionName)
-            ->orderBy('order_column')
+        $query = $model->media();
+      if($collectionName != '')
+      {
+      $query = $query->where('collection_name', $collectionName);
+      }
+            $media = $query->orderBy('order_column')
             ->get();
 
         return $media;

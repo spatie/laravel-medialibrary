@@ -93,7 +93,7 @@ trait HasMediaTrait
      *
      * @return bool
      */
-    public function hasMedia($collectionName = 'default')
+    public function hasMedia($collectionName = '')
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
@@ -106,8 +106,12 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia($collectionName = 'default', $filters = ['temp' => 0])
+    public function getMedia($collectionName = '', $filters = [])
     {
+        if (! isset ($filters['temp'])) {
+            $filters['temp'] = false;
+        }
+
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
