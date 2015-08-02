@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\HasMedia\Interfaces;
 
-interface HasMedia extends HasMediaWithoutConversions
+interface HasMediaConversions extends HasMedia
 {
     /**
      * Register the conversions that should be performed.

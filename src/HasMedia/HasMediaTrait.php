@@ -1,12 +1,16 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\HasMedia;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
 use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
+use Spatie\MediaLibrary\Filesystem;
+use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\MediaRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait HasMediaTrait
 {
@@ -46,7 +50,7 @@ trait HasMediaTrait
             $mediaName = pathinfo($file, PATHINFO_FILENAME);
         }
 
-        if ($file instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
+        if ($file instanceof UploadedFile) {
             $pathToFile = $file->getPath() . '/' . $file->getFilename();
             $fileName = $file->getClientOriginalName();
             $mediaName = pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME);

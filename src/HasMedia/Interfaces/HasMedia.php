@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\HasMedia\Interfaces;
 
-interface HasMediaWithoutConversions
+interface HasMedia
 {
     /**
      * Set the polymorphic relation.

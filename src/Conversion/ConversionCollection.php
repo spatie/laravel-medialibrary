@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
-use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
 
 class ConversionCollection extends Collection
@@ -63,7 +63,7 @@ class ConversionCollection extends Collection
          */
         $model = new $modelName();
 
-        if ($model instanceof HasMedia) {
+        if ($model instanceof HasMediaConversions) {
             /*
              * TODO: make this method static in the next version
              */
