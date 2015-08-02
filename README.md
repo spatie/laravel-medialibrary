@@ -218,10 +218,26 @@ $newsItem->clearMediaCollection('images');
 ```
 
 ## Working with images
+
+
 ###Defining conversions
 Imagine you are making a site with a list of all news-items. Wouldn't it be nice to show 
 the user a thumb of image associated with the news-item? When adding an image to a media collection, 
 these derived images can be created automatically.
+
+If you want to use this functionality your models should implement the `hasMediaConversions` interface instead
+of `hasMedia`: 
+
+```php
+...
+use Spatie\MediaLibrary\HasMediaConversions;
+
+class News extends Model implements HasMediaConversions
+{
+	use HasMediaTrait;
+   ...
+}
+```
 
 You can let the package know that it should create a derived by registering a media conversion on the model.
 
@@ -345,17 +361,18 @@ $ php artisan medialibrary:regenerate news
 ```
 Leaving off `news` will regenerate all images.
 
-###Adding custom properties
+###Using custom properties
 When adding a file to the medialibrary you can pass an array with custom properties:
 ```php
-$newsItem->addMedia($pathToFile)->withCustomProperties(['mime-type' => 'image/jpeg'])->toMediaLibrary()
+$newsItem
+    ->addMedia($pathToFile)
+    ->withCustomProperties(['mime-type' => 'image/jpeg'])
+    ->toMediaLibrary();
 ```
-
-
 
 ###Avoiding an empty registration function
 If you don't need media conversions at all, you may be bothered by the empty `registerMediaConversions`-function
-in your model. You may replace the `hasMedia`-interface by the `hasMediaWithoutConversions`-interface to avoid
+in your model. You may replace the `hasMediaConversions`-interface by the `hasMedia`-interface to avoid
 having to declare that empty function.
 
 ##Advanced usage
