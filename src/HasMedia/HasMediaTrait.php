@@ -3,14 +3,12 @@
 namespace Spatie\MediaLibrary\HasMedia;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
 use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
+use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 trait HasMediaTrait
 {
@@ -30,64 +28,27 @@ trait HasMediaTrait
     }
 
     /**
-     * Add media to media collection from a given file.
+     * Copy a file to the medialibrary.
      *
-     * @param string|\Symfony\Component\HttpFoundation\File\File $file
-     * @param string                                             $collectionName
-     * @param array                                              $customProperties
-     * @param bool                                               $removeOriginal
-
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return Media
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMedia($file, $collectionName = 'default', $customProperties = [], $removeOriginal = true)
+    public function copyFile($file)
     {
+        return app(FileAdderFactory::class)->create($this, $file);
+    }
 
-        if (is_string($file)) {
-            $pathToFile = $file;
-            $fileName = pathinfo($file, PATHINFO_BASENAME);
-            $mediaName = pathinfo($file, PATHINFO_FILENAME);
-        }
-
-        if ($file instanceof UploadedFile) {
-            $pathToFile = $file->getPath().'/'.$file->getFilename();
-            $fileName = $file->getClientOriginalName();
-            $mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        }
-
-        if (!is_file($pathToFile)) {
-            throw new FileDoesNotExist();
-        }
-
-        if (filesize($file) > config('laravel-medialibrary.max_file_size')) {
-            throw new FileTooBig();
-        }
-
-        $media = new Media();
-
-        $media->name = $mediaName;
-        $media->file_name = $fileName;
-
-        $media->collection_name = $collectionName;
-
-        $media->size = filesize($pathToFile);
-        $media->custom_properties = $customProperties;
-        $media->manipulations = [];
-
-        $media->save();
-
-        $this->media()->save($media);
-
-        app(Filesystem::class)->add($file, $media);
-
-        if ($removeOriginal) {
-            unlink($pathToFile);
-        }
-
-        return $media;
+    /**
+     * Move a file to the medialibrary.
+     *
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public function moveFile($file)
+    {
+        return app(FileAdderFactory::class)->create($this, $file)->preservingOriginal();
     }
 
     /**

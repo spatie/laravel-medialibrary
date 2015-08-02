@@ -12,16 +12,22 @@ interface HasMedia
     public function media();
 
     /**
-     * Add media to media collection from a given file.
+     * Move a file to the medialibrary.
      *
-     * @param string $file
-     * @param string $collectionName
-     * @param array|\Closure $filter
-     * @param bool $preserveOriginal
-     * @return Media
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMedia($file, $collectionName = 'default', $filter, $preserveOriginal = false);
+    public function moveFile($file);
+
+    /**
+     * Copy a file to the medialibrary.
+     *
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public function copyFile($file);
 
     /**
      * Determine if there is media in the given collection.

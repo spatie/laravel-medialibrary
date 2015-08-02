@@ -12,7 +12,9 @@ class AddMediaTest extends TestCase
      */
     public function it_can_add_an_file_to_the_default_collection()
     {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $media = $this->testModel
+            ->copyFile($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaLibrary();
 
         $this->assertEquals('default', $media->collection_name);
     }
@@ -59,7 +61,7 @@ class AddMediaTest extends TestCase
     {
         $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $media = $this->testModel->addMedia($testFile, 'images',[],false);
+        $media = $this->testModel->addMedia($testFile, 'images', [], false);
 
         $this->assertFileExists($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));

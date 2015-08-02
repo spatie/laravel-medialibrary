@@ -12,8 +12,8 @@ class DeleteMediaTest extends TestCase
         parent::setUp();
 
         foreach (range(1, 3) as $index) {
-            $this->testModelWithoutMediaConversions->addMedia($this->getTestFilesDirectory('test.jpg'), 'default',[], false);
-            $this->testModelWithoutMediaConversions->addMedia($this->getTestFilesDirectory('test.jpg'), 'images',[], false);
+            $this->testModelWithoutMediaConversions->addMedia($this->getTestFilesDirectory('test.jpg'), 'default', [], false);
+            $this->testModelWithoutMediaConversions->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', [], false);
         }
     }
 

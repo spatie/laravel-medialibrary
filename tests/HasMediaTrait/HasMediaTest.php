@@ -52,6 +52,4 @@ class HasMediaTest extends TestCase
         $this->assertTrue($this->testModel->hasMedia('images'));
         $this->assertFalse($this->testModel->hasMedia('downloads'));
     }
-
-
 }

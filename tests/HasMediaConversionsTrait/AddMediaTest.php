@@ -11,7 +11,9 @@ class AddMediaTest extends TestCase
      */
     public function it_can_add_an_file_to_the_default_collection()
     {
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $media = $this->testModelWithoutMediaConversions
+            ->copyFile($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaLibrary();
 
         $this->assertEquals('default', $media->collection_name);
     }

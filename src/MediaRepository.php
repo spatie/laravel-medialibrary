@@ -23,8 +23,8 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param HasMedia $model
-     * @param string   $collectionName
+     * @param HasMedia       $model
+     * @param string         $collectionName
      * @param array|\Closure $filter
      *
      * @return Collection
@@ -95,7 +95,7 @@ class MediaRepository
      * Apply given filters on media.
      *
      * @param \Illuminate\Support\Collection $media
-     * @param array|\Closure                          $filter
+     * @param array|\Closure                 $filter
      *
      * @return mixed
      */
@@ -129,9 +129,10 @@ class MediaRepository
     }
 
     /**
-     * Convert the given array to a filter function
+     * Convert the given array to a filter function.
      *
      * @param $filters
+     *
      * @return \Closure
      */
     protected function getDefaultFilterFunction($filters)
@@ -141,13 +142,15 @@ class MediaRepository
             $customProperties = $media->custom_properties;
 
             foreach ($filters as $property => $value) {
-                if (!isset($customProperties[$property])) return false;
-                if ($customProperties[$property] != $value) return false;
+                if (!isset($customProperties[$property])) {
+                    return false;
+                }
+                if ($customProperties[$property] != $value) {
+                    return false;
+                }
             }
 
             return true;
         };
     }
 }
-
-
