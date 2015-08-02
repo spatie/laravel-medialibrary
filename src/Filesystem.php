@@ -52,7 +52,7 @@ class Filesystem
         $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').
             pathinfo($file, PATHINFO_BASENAME);
 
-        $this->disk->getDriver()->putStream($destination, fopen($file, 'r+'));
+        $this->disk->put($destination, fopen($file, 'r+'));
     }
 
     /**
