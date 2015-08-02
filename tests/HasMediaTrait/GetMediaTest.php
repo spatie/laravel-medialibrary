@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class GetMediaTest extends TestCase
@@ -76,11 +77,32 @@ class GetMediaTest extends TestCase
      */
     public function it_can_get_files_from_a_collection_using_a_filter()
     {
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'default', false, false);
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false, true);
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false, true);
+        $media1 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'default', false, ['filter1' => 'value1']);
+        $media2 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false,['filter1' => 'value1']);
+        $media3 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false,['filter2' => 'value1']);
+        $media4 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false,['filter2' => 'value2']);
 
-        $this->assertCount(2, $this->testModel->getMedia('images', ['temp' => 1]));
+        $collection = $this->testModel->getMedia('images', ['filter2' => 'value1']);
+        $this->assertCount(1, $collection);
+        $this->assertTrue($collection->first()->id == $media3->id);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_files_from_a_collection_using_a_filter_callback()
+    {
+        $media1 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'default', false, ['filter1' => 'value1']);
+        $media2 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false);
+        $media3 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false,['filter1' => 'value1']);
+        $media4 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false,['filter2' => 'value1']);
+
+        $collection = $this->testModel->getMedia('images', function(Media $media) {
+            return isset($media->custom_properties['filter1']);
+        });
+        
+        $this->assertCount(1, $collection);
+        $this->assertTrue($collection->first()->id == $media3->id);
     }
 
     /**
@@ -104,7 +126,7 @@ class GetMediaTest extends TestCase
      */
     public function it_can_get_the_first_media_from_a_collection_using_a_filter()
     {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false);
+        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', false,['extra_property' => 'yes']);
         $media->name = 'first';
         $media->save();
 
@@ -112,7 +134,7 @@ class GetMediaTest extends TestCase
         $media->name = 'second';
         $media->save();
 
-        $this->assertEquals('second', $this->testModel->getFirstMedia('images', ['temp' => 1])->name);
+        $this->assertEquals('first', $this->testModel->getFirstMedia('images', ['extra_property' => 'yes'])->name);
     }
 
     public function it_returns_false_when_getting_first_media_for_an_empty_collection()

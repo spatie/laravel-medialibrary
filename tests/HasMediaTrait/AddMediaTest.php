@@ -78,16 +78,6 @@ class AddMediaTest extends TestCase
     /**
      * @test
      */
-    public function it_can_mark_the_media_as_temporary()
-    {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'), 'images', true, true);
-
-        $this->assertEquals(true, $media->temp);
-    }
-
-    /**
-     * @test
-     */
     public function it_can_handle_a_file_without_an_extension()
     {
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('test'));

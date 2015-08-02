@@ -20,7 +20,7 @@ class CreateMediaTable extends Migration
             $table->string('file_name');
             $table->integer('size');
             $table->text('manipulations');
-            $table->boolean('temp');
+            $table->text('custom_properties');
             $table->integer('order_column')->nullable();
             $table->timestamps();
         });

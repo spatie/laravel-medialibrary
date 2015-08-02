@@ -25,15 +25,15 @@ class MediaRepository
      *
      * @param HasMedia $model
      * @param string   $collectionName
-     * @param array    $filters
+     * @param array|\Closure $filter
      *
      * @return Collection
      */
-    public function getCollection(HasMedia $model, $collectionName, $filters = [])
+    public function getCollection(HasMedia $model, $collectionName, $filter = [])
     {
         $mediaCollection = $this->loadMedia($model, $collectionName);
 
-        $mediaCollection = $this->applyFiltersToMediaCollection($mediaCollection, $filters);
+        $mediaCollection = $this->applyFilterToMediaCollection($mediaCollection, $filter);
 
         return Collection::make($mediaCollection);
     }
@@ -95,19 +95,17 @@ class MediaRepository
      * Apply given filters on media.
      *
      * @param \Illuminate\Support\Collection $media
-     * @param array                          $filters
+     * @param array|\Closure                          $filter
      *
      * @return mixed
      */
-    protected function applyFiltersToMediaCollection(Collection $media, array $filters)
+    protected function applyFilterToMediaCollection(Collection $media, $filter)
     {
-        foreach ($filters as $filterProperty => $filterValue) {
-            $media = $media->filter(function (Media $media) use ($filterProperty, $filterValue) {
-                return $media->$filterProperty == $filterValue;
-            });
+        if (is_array($filter)) {
+            $filter = $this->getDefaultFilterFunction($filter);
         }
 
-        return $media;
+        return $media->filter($filter);
     }
 
     /**
@@ -129,4 +127,27 @@ class MediaRepository
     {
         $this->model->where('model_type', $modelType)->get();
     }
+
+    /**
+     * Convert the given array to a filter function
+     *
+     * @param $filters
+     * @return \Closure
+     */
+    protected function getDefaultFilterFunction($filters)
+    {
+        return function (Media $media) use ($filters) {
+
+            $customProperties = $media->custom_properties;
+
+            foreach ($filters as $property => $value) {
+                if (!isset($customProperties[$property])) return false;
+                if ($customProperties[$property] != $value) return false;
+            }
+
+            return true;
+        };
+    }
 }
+
+

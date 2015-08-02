@@ -35,14 +35,14 @@ trait HasMediaTrait
      * @param string|\Symfony\Component\HttpFoundation\File\File $file
      * @param string                                             $collectionName
      * @param bool                                               $removeOriginal
-     * @param bool                                               $addAsTemporary
+     * @param array                                               $customProperties
      *
      * @return Media
      *
      * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExist
      * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
      */
-    public function addMedia($file, $collectionName = 'default', $removeOriginal = true, $addAsTemporary = false)
+    public function addMedia($file, $collectionName = 'default', $removeOriginal = true, $customProperties = [])
     {
         if (is_string($file)) {
             $pathToFile = $file;
@@ -72,7 +72,7 @@ trait HasMediaTrait
         $media->collection_name = $collectionName;
 
         $media->size = filesize($pathToFile);
-        $media->temp = $addAsTemporary;
+        $media->custom_properties = $customProperties;
         $media->manipulations = [];
 
         $media->save();
@@ -110,10 +110,6 @@ trait HasMediaTrait
      */
     public function getMedia($collectionName = '', $filters = [])
     {
-        if (! isset($filters['temp'])) {
-            $filters['temp'] = false;
-        }
-
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
@@ -178,7 +174,6 @@ trait HasMediaTrait
                 $currentMedia->name = $newMediaItem['name'];
             }
 
-            $currentMedia->temp = 0;
             $currentMedia->order_column = $orderColumn++;
 
             $currentMedia->save();

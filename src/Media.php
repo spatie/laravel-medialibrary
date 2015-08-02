@@ -28,6 +28,7 @@ class Media extends Model implements SortableInterface
      */
     protected $casts = [
         'manipulations' => 'array',
+        'custom_properties' => 'array'
     ];
 
     /**
