@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
 use Spatie\MediaLibrary\Test\TestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AddMediaTest extends TestCase
 {
@@ -158,5 +159,24 @@ class AddMediaTest extends TestCase
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
 
         $this->assertFileExists($this->getMediaDirectory('.gitignore'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_add_an_upload_to_the_medialibrary()
+    {
+        $uploadedFile = new UploadedFile(
+            $this->getTestFilesDirectory('test.jpg'),
+            'alternativename.jpg',
+            'image/jpeg',
+            filesize($this->getTestFilesDirectory('test.jpg'))
+        );
+
+        $media = $this->testModel->addMedia($uploadedFile);
+        $this->assertEquals('test', $media->name);
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+
+
     }
 }

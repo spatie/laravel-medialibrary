@@ -47,9 +47,9 @@ trait HasMediaTrait
         }
 
         if ($file instanceof \Symfony\Component\HttpFoundation\File\UploadedFile) {
-            $pathToFile = $file->getPath();
-            $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_BASENAME);
-            $mediaName = $file->getClientOriginalName();
+            $pathToFile = $file->getPath() . '/' . $file->getFilename();
+            $fileName = $file->getClientOriginalName();
+            $mediaName = pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME);
         }
 
         if (!is_file($pathToFile)) throw new FileDoesNotExist();
