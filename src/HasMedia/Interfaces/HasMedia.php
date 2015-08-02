@@ -16,12 +16,12 @@ interface HasMedia
      *
      * @param string $file
      * @param string $collectionName
-     * @param bool   $preserveOriginal
-     * @param bool   $addAsTemporary
-     *
+     * @param array|\Closure $filter
+     * @param bool $preserveOriginal
      * @return Media
+     *
      */
-    public function addMedia($file, $collectionName = 'default', $preserveOriginal = false, $addAsTemporary = false);
+    public function addMedia($file, $collectionName = 'default', $filter, $preserveOriginal = false);
 
     /**
      * Determine if there is media in the given collection.
