@@ -31,7 +31,7 @@ class BaseUrlGeneratorTest extends TestCase
 
         $this->config = app('config');
 
-        $this->media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $this->media = $this->testModelWithConversion->addFile($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary();
 
         $this->conversion = ConversionCollectionFactory::createForMedia($this->media)->getByName('thumb');
 

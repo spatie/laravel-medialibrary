@@ -13,7 +13,7 @@ class RenameTest extends TestCase
     {
         $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $media = $this->testModel->addMedia($testFile);
+        $media =  $this->testModel->addFile($testFile)->toMediaLibrary();
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 

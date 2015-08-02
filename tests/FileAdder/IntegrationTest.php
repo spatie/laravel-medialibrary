@@ -13,7 +13,7 @@ class IntegrationTest extends TestCase
     public function it_can_add_an_file_to_the_default_collection()
     {
         $media = $this->testModel
-            ->addFile($this->getTestFilesDirectory('test.jpg'))
+            ->addFile($this->getTestJpg())
             ->toMediaLibrary();
 
         $this->assertEquals('default', $media->collection_name);
@@ -25,7 +25,7 @@ class IntegrationTest extends TestCase
     public function it_can_set_the_name_of_the_media()
     {
         $media = $this->testModel
-            ->addFile($this->getTestFilesDirectory('test.jpg'))
+            ->addFile($this->getTestJpg())
             ->toMediaLibrary();
 
         $this->assertEquals('test', $media->name);
@@ -38,7 +38,7 @@ class IntegrationTest extends TestCase
     {
         $collectionName = 'images';
 
-        $media = $this->testModel->addFile($this->getTestFilesDirectory('test.jpg'))->toCollection($collectionName);
+        $media = $this->testModel->addFile($this->getTestJpg())->toCollection($collectionName);
 
         $this->assertEquals($collectionName, $media->collection_name);
     }
@@ -48,7 +48,7 @@ class IntegrationTest extends TestCase
      */
     public function it_can_move_the_original_file_to_the_medialibrary()
     {
-        $testFile = $this->getTestFilesDirectory('test.jpg');
+        $testFile = $this->getTestJpg();
 
         $media = $this->testModel
             ->addFile($testFile)
@@ -63,7 +63,7 @@ class IntegrationTest extends TestCase
      */
     public function it_can_copy_the_original_file_to_the_medialibrary()
     {
-        $testFile = $this->getTestFilesDirectory('test.jpg');
+        $testFile = $this->getTestJpg();
 
         $media = $this->testModel->copyFile($testFile)->toCollection('images');
 
@@ -128,7 +128,7 @@ class IntegrationTest extends TestCase
         );
 
         $media = $this->testModel->addFile($uploadedFile)->toMediaLibrary();
-        $this->assertEquals('test', $media->name);
+        $this->assertEquals('alternativename', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
 }

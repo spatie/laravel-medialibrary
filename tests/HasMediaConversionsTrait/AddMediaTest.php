@@ -23,9 +23,11 @@ class AddMediaTest extends TestCase
      */
     public function it_can_create_a_derived_version_of_an_image()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'), 'images');
+        $media = $this->testModelWithConversion->addFile($this->getTestJpg())->toCollection('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+
+
     }
 
     /**
@@ -33,7 +35,7 @@ class AddMediaTest extends TestCase
      */
     public function it_will_not_create_a_derived_version_for_non_registered_collections()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'), 'downloads');
+        $media = $this->testModelWithoutMediaConversions->addFile($this->getTestJpg())->toCollection('downloads');
 
         $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
@@ -43,7 +45,9 @@ class AddMediaTest extends TestCase
      */
     public function it_can_create_a_derived_version_of_a_pdf_if_imagick_exists()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.pdf'), 'images');
+        $media = $this->testModelWithoutMediaConversions
+            ->addFile($this->getTestFilesDirectory('test.pdf'))
+            ->toCollection('images');
 
         $thumbPath = $this->getMediaDirectory($media->id.'/conversions/thumb.jpg');
 

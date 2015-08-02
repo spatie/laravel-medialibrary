@@ -121,4 +121,9 @@ abstract class TestCase extends Orchestra
     {
         return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
     }
+
+    public function getTestJpg()
+    {
+        return $this->getTestFilesDirectory('test.jpg');
+    }
 }

@@ -130,25 +130,27 @@ class FileAdder
     /**
      * Set the metadata.
      *
-     * @param $customProperties
+     * @param array $customProperties
+     * @return $this
      */
-    public function withCustomProperties($customProperties)
+    public function withCustomProperties(array $customProperties)
     {
         $this->customProperties = $customProperties;
+        return $this;
     }
 
     /**
      * Set the target media collection to default.
      * Will also start the import process.
      *
+     * @param string $collectionName
      * @return Media
-     *
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
-    public function toMediaLibrary()
+    public function toMediaLibrary($collectionName = 'default')
     {
-        return $this->toCollection('default');
+        return $this->toCollection($collectionName);
     }
 
     /**

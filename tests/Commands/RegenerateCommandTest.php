@@ -12,7 +12,7 @@ class RegenerateCommandTest extends TestCase
      */
     public function it_can_regenerate_all_files()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'), 'images');
+        $media = $this->testModelWithConversion->addFile($this->getTestFilesDirectory('test.jpg'))->toCollection('images');
 
         $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
 

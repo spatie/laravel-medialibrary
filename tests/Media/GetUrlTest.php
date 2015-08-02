@@ -11,7 +11,7 @@ class GetUrlTest extends TestCase
      */
     public function it_can_get_an_url_of_an_original_item()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $media = $this->testModel->addFile($this->getTestJpg())->toMediaLibrary();
 
         $this->assertEquals($media->getUrl(), "/media/{$media->id}/test.jpg");
     }
@@ -21,7 +21,7 @@ class GetUrlTest extends TestCase
      */
     public function it_can_get_an_url_of_a_derived_image()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $media =  $this->testModelWithConversion->addFile($this->getTestJpg())->toMediaLibrary();
 
         $conversionName = 'thumb';
 
@@ -33,7 +33,7 @@ class GetUrlTest extends TestCase
      */
     public function it_returns_an_exception_when_getting_an_url_for_an_unknown_conversion()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $media = $this->testModel->addFile($this->getTestJpg())->toMediaLibrary();
 
         $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\UnknownConversion::class);
 
@@ -45,7 +45,7 @@ class GetUrlTest extends TestCase
      */
     public function it_can_get_the_default_collection()
     {
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'));
+        $this->testModel->addFile($this->getTestJpg())->toMediaLibrary();
 
         $this->assertCount(1, $this->testModel->getMedia());
     }
