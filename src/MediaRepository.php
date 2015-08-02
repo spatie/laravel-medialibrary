@@ -67,10 +67,13 @@ class MediaRepository
         }
 
         $query = $model->media();
+
         if ($collectionName != '') {
             $query = $query->where('collection_name', $collectionName);
         }
-        $media = $query->orderBy('order_column')
+
+        $media = $query
+            ->orderBy('order_column')
             ->get();
 
         return $media;

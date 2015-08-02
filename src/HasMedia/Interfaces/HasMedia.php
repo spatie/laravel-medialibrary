@@ -30,7 +30,7 @@ interface HasMedia
      *
      * @return bool
      */
-    public function hasMedia($collectionMedia = 'default');
+    public function hasMedia($collectionMedia = '');
 
     /**
      * Get media collection by its collectionName.
