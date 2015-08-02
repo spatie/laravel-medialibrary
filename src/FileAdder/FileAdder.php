@@ -131,11 +131,13 @@ class FileAdder
      * Set the metadata.
      *
      * @param array $customProperties
+     *
      * @return $this
      */
     public function withCustomProperties(array $customProperties)
     {
         $this->customProperties = $customProperties;
+
         return $this;
     }
 
@@ -144,7 +146,9 @@ class FileAdder
      * Will also start the import process.
      *
      * @param string $collectionName
+     *
      * @return Media
+     *
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */

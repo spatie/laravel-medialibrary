@@ -30,7 +30,7 @@ class Filesystem
     /**
      * Add a file to the mediaLibrary for the given media.
      *
-     * @param string $file
+     * @param string                     $file
      * @param \Spatie\MediaLibrary\Media $media
      * @param $targetFileName
      */
@@ -44,10 +44,10 @@ class Filesystem
     /**
      * Copy a file to the mediaLibrary for the given $media.
      *
-     * @param string $file
+     * @param string                     $file
      * @param \Spatie\MediaLibrary\Media $media
-     * @param string $subDirectory
-     * @param string $targetFileName
+     * @param string                     $subDirectory
+     * @param string                     $targetFileName
      */
     public function copyToMediaLibrary($file, Media $media, $subDirectory = '', $targetFileName = '')
     {

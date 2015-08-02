@@ -27,8 +27,6 @@ trait HasMediaTrait
         return $this->morphMany(Media::class, 'model');
     }
 
-
-
     /**
      * Add a file to the medialibrary.
      *

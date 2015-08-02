@@ -26,8 +26,6 @@ class AddMediaTest extends TestCase
         $media = $this->testModelWithConversion->addFile($this->getTestJpg())->toCollection('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
-
-
     }
 
     /**
