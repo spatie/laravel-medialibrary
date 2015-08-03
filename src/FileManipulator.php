@@ -116,7 +116,7 @@ class FileManipulator
     }
 
     /**
-     * @param $pdfFile
+     * @param string $pdfFile
      *
      * @return string
      */

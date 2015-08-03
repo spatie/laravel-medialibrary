@@ -97,7 +97,7 @@ class MediaRepository
      * @param \Illuminate\Support\Collection $media
      * @param array|\Closure                 $filter
      *
-     * @return mixed
+     * @return Collection
      */
     protected function applyFilterToMediaCollection(Collection $media, $filter)
     {

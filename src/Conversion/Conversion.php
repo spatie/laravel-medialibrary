@@ -314,8 +314,8 @@ class Conversion
     /**
      * Set the manipulation parameter.
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string $value
      *
      * @return $this
      */

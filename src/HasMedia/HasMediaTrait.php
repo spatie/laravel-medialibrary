@@ -225,5 +225,7 @@ trait HasMediaTrait
         $this->media()->get()->map(function (Media $media) {
             $media->delete();
         });
+
+        return true;
     }
 }

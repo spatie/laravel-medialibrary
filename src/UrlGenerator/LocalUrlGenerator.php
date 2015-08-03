@@ -25,7 +25,7 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
     /**
      * Get the directory where all files of the media item are stored.
      *
-     * @return string
+     * @return \Spatie\String\Str
      */
     protected function getBaseMediaDirectory()
     {

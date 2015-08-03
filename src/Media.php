@@ -7,7 +7,6 @@ use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\UrlGenerator\UrlGenerator;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model implements SortableInterface

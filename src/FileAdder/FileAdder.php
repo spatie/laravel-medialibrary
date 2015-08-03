@@ -228,6 +228,13 @@ class FileAdder
         return $media;
     }
 
+    /**
+     * Determine the disk to be used.
+     *
+     * @param $diskName
+     * @return string
+     * @throws FilesystemDoesNotExist
+     */
     protected function determineDiskName($diskName)
     {
         if ($diskName == '') {
