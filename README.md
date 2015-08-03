@@ -384,7 +384,7 @@ second parameter. If you have a disk named s3 you can do this:
 ```php
 $newsItem->addMedia($pathToAFile)->toCollectionOnDisk('images', 's3');
 ```
-This file will be stored on disk named s3.
+This file will be stored on the disk named s3.
 
 
 ##Advanced usage
