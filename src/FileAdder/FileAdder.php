@@ -231,7 +231,7 @@ class FileAdder
     /**
      * Determine the disk to be used.
      *
-     * @param $diskName
+     * @param string $diskName
      * @return string
      * @throws FilesystemDoesNotExist
      */
