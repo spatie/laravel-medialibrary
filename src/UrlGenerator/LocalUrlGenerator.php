@@ -41,9 +41,7 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
      */
     protected function getStoragePath()
     {
-        $filesystem = $this->config->get('laravel-medialibrary.filesystem');
-
-        $diskRootPath = $this->config->get('filesystems.disks.'.$filesystem.'.root');
+        $diskRootPath = $this->config->get('filesystems.disks.'.$this->media->disk.'.root');
 
         return realpath($diskRootPath);
     }

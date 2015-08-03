@@ -8,6 +8,7 @@ use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGenerator;
+use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model implements SortableInterface
 {
@@ -52,7 +53,7 @@ class Media extends Model implements SortableInterface
      */
     public function getUrl($conversionName = '')
     {
-        $urlGenerator = app(UrlGenerator::class)->setMedia($this);
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
         if ($conversionName != '') {
             $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
@@ -93,5 +94,10 @@ class Media extends Model implements SortableInterface
     public function getHumanReadableSizeAttribute()
     {
         return File::getHumanReadableSize($this->size);
+    }
+
+    public function getDiskDriverName()
+    {
+        return config('filesystems.disks.'.$this->disk.'.driver');
     }
 }

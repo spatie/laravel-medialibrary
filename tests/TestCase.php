@@ -67,6 +67,11 @@ abstract class TestCase extends Orchestra
            'root' => $this->getMediaDirectory(),
         ]);
 
+        $app['config']->set('filesystems.disks.secondMediaDisk', [
+            'driver' => 'local',
+            'root' => $this->getTempDirectory('media2'),
+        ]);
+
         $app->bind('path.public', function () {
             return $this->getTempDirectory();
         });

@@ -45,36 +45,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../resources/config/laravel-medialibrary.php', 'laravel-medialibrary');
 
-        $this->app->bind(Filesystem::class, function (Application $app) {
-            return new Filesystem($this->app->filesystem->disk($app->config->get('laravel-medialibrary.filesystem')), $app->config);
-        });
-
-        $this->app->bind(UrlGenerator::class, function (Application $app) {
-            $urlGeneratorClass = 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($this->getDriverType()).'UrlGenerator';
-
-            $customClass = $app->config->get('laravel-medialibrary.custom_url_generator_class');
-
-            if ($customClass != '' && class_exists($customClass) && is_subclass_of($customClass, UrlGenerator::class)) {
-                $urlGeneratorClass = $customClass;
-            }
-
-            return $this->app->make($urlGeneratorClass);
-        });
-
         $this->app->singleton(MediaRepository::class);
 
         $this->app['command.medialibrary:regenerate'] = $this->app->make(RegenerateCommand::class);
 
         $this->commands(['command.medialibrary:regenerate']);
-    }
-
-    /**
-     * @return string
-     */
-    public function getDriverType()
-    {
-        $filesystem = $this->app->config->get('laravel-medialibrary.filesystem');
-
-        return $this->app->config->get('filesystems.disks.'.$filesystem.'.driver');
     }
 }

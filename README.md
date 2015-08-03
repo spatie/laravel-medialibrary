@@ -452,6 +452,15 @@ You can easily upgrade from v2 to v3 by performing these renames in your model t
 - `Spatie\MediaLibrary\HasMedia` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversion`
 - `Spatie\MediaLibrary\HasMediaWithoutConversions` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia`
 
+In the config file these changes have been made:
+- the `filesystem`-option has been renamed to `defaultFileSystem`
+
+In your db you should remove the `temp`-column and add these columns:
+- disk (varchar, 255)
+- custom_properties (text)
+
+
+
 This behaviour has changed:
 - when calling `getMedia()` without providing a collection name all media will be returned (whereas previously only media
 from the default collection would be returned)

@@ -146,30 +146,53 @@ class FileAdder
      * Will also start the import process.
      *
      * @param string $collectionName
-     *
+     * @param string $diskName
      * @return Media
-     *
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
-    public function toMediaLibrary($collectionName = 'default')
+    public function toMediaLibrary($collectionName = 'default', $diskName = '')
     {
-        return $this->toCollection($collectionName);
+        return $this->toCollectionOnDisk($collectionName, $diskName);
+    }
+
+    /**
+     * Set the target media collection to default.
+     * Will also start the import process.
+     *
+     * @param string $collectionName
+     * @param string $diskName
+     * @return Media
+     * @throws FileDoesNotExist
+     * @throws FileTooBig
+     */
+    public function toMediaLibraryOnDisk($collectionName = 'default', $diskName = '')
+    {
+        return $this->toCollectionOnDisk($collectionName, $diskName);
     }
 
     /**
      * Set the collection name where to import the file.
      * Will also start the import process.
      *
-     * @param $collectionName
+     * @param string $collectionName
      *
+     * @param string $diskName
      * @return Media
-     *
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
-    public function toCollection($collectionName)
+    public function toCollection($collectionName = 'default', $diskName = '')
     {
+       return $this->toCollectionOnDisk($collectionName, $diskName);
+    }
+
+    public function toCollectionOnDisk($collectionName = 'default', $diskName = '')
+    {
+        if ($diskName == '') {
+            $diskName = config('laravel-medialibrary.defaultFilesystem');
+        }
+
         if (!is_file($this->pathToFile)) {
             throw new FileDoesNotExist();
         }
@@ -182,6 +205,7 @@ class FileAdder
 
         $media->name = $this->mediaName;
         $media->file_name = $this->fileName;
+        $media->disk = $diskName;
 
         $media->collection_name = $collectionName;
 
