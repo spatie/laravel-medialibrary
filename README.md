@@ -379,7 +379,7 @@ When adding a file to the medialibrary you can choose on which disk the file sho
 This is useful when for example you have some small files that should be stored locally and 
 some big files that you want to save on s3.
 
-The `toCollectionOnMedia` and `toMediaLibraryOnDisk`-functions accept a disk name as a 
+The `toCollectionOnMedia`- and `toMediaLibraryOnDisk`-functions accept a disk name as a 
 second parameter. If you have a disk named s3 you can do this:
 ```php
 $newsItem->addMedia($pathToAFile)->toCollectionOnDisk('images', 's3');
