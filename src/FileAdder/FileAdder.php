@@ -195,8 +195,6 @@ class FileAdder
 
     public function toCollectionOnDisk($collectionName = 'default', $diskName = '')
     {
-
-
         if (!is_file($this->pathToFile)) {
             throw new FileDoesNotExist();
         }

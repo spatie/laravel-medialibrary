@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 use Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist;
 use Spatie\MediaLibrary\Test\TestCase;
 
-class MutipleDiskTest extends TestCase
+class MultipleDiskTest extends TestCase
 {
     /**
      * @test
@@ -60,6 +60,5 @@ class MutipleDiskTest extends TestCase
 
         $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
         $this->assertEquals("/media2/{$media->id}/conversions/thumb.jpg", $media->getUrl('thumb'));
-
     }
 }
