@@ -370,7 +370,7 @@ $newsItem
     ->toMediaLibrary();
 ```
 
-##Working with multiple file systems
+##Working with multiple filesystems
 By default all files are stored on the disk whose name is specified in `defautFilesystem` in the
 config file.
 

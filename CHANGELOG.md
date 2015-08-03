@@ -5,9 +5,11 @@ All Notable changes to `laravel-medialibrary` will be documented in this file
 ##3.0.0
 - Replaced `addMedia` by a fluent interface
 - Added the ability to store custom properties on a media object
-- Added support for multi-filesystem medialibraries
+- Added support for multi-filesystem libraries
 - `getMedia` will now return all media regardless of collection
 - `hasMedia` will count all media regardless of collection
+- Uploads can now be processed directly when importing a file
+- Renamed various classes to better reflect their functionality
 
 ##2.3.0
 - Added: hasMedia convenience method
