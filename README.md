@@ -66,7 +66,7 @@ return [
      * The filesystems on which to store added files and derived images. Choose one or more
      * of the filesystems you configured in app/config/filesystems.php
      */
-    'filesystem' => 'media',
+    'defaultFilesystem' => 'media',
 
     /*
      * The maximum file size of an item in bytes. Adding a file
@@ -371,7 +371,7 @@ $newsItem
 ```
 
 ##Working with multiple filesystems
-By default all files are stored on the disk whose name is specified in `defautFilesystem` in the
+By default all files are stored on the disk whose name is specified in `defaultFilesystem` in the
 config file. 
 
 Files can also be stored [on any filesystem that is configured in your Laravel app](http://laravel.com/docs/5.0/filesystem#configuration)
