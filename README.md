@@ -370,6 +370,22 @@ $newsItem
     ->toMediaLibrary();
 ```
 
+##Working with multiple file systems
+By default all files are stored on the disk whose name is specified in `defautFilesystem` in the
+config file.
+
+When adding a file to the medialibrary you can choose on which disk the file should be stored. 
+This is useful when for example you have some small files that should be stored locally and 
+some big files that you want to save on s3
+
+The `toCollectionOnMedia` and `toMediaLibraryOnDisk`-functions accept a disk name as a 
+second parameter. If you have a disk named s3 you can do this:
+```php
+$newsItem->addMedia($pathToAFile)->toCollectionOnDisk('images', 's3');
+```
+This file will be stored on that s3-disk.
+
+
 ##Advanced usage
 ###Generating custom urls
 When `getUrl()` is called the task of generating that url is passed to an implementation of `Spatie\MediaLibraryUrlGenerator`. 
