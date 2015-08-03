@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 
