@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\HasMediaWithoutConversionsTrait;
+namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Spatie\MediaLibrary\Test\TestCase;
 

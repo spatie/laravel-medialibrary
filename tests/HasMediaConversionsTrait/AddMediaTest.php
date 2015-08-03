@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\HasMediaWithoutConversionsTrait;
+namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Spatie\MediaLibrary\Test\TestCase;
 
@@ -43,7 +43,7 @@ class AddMediaTest extends TestCase
      */
     public function it_can_create_a_derived_version_of_a_pdf_if_imagick_exists()
     {
-        $media = $this->testModelWithoutMediaConversions
+        $media = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('test.pdf'))
             ->toCollection('images');
 
