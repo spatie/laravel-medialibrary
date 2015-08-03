@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Filesystem\Factory;
-use Illuminate\Contracts\Filesystem\Filesystem as LaravelFilesystem;
 use Spatie\MediaLibrary\Helpers\Gitignore;
 
 class Filesystem
@@ -19,8 +18,8 @@ class Filesystem
     protected $config;
 
     /**
-     * @param Factory $filesystems
-     * @param \Illuminate\Contracts\Config\Repository     $config
+     * @param Factory                                 $filesystems
+     * @param \Illuminate\Contracts\Config\Repository $config
      */
     public function __construct(Factory $filesystems, ConfigRepository $config)
     {

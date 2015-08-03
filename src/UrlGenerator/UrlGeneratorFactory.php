@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-
 use Spatie\MediaLibrary\Media;
 
 class UrlGeneratorFactory

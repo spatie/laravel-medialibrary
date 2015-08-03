@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\FileAdder;
 use Illuminate\Contracts\Cache\Repository;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeImported;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
@@ -147,7 +148,9 @@ class FileAdder
      *
      * @param string $collectionName
      * @param string $diskName
+     *
      * @return Media
+     *
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
@@ -162,7 +165,9 @@ class FileAdder
      *
      * @param string $collectionName
      * @param string $diskName
+     *
      * @return Media
+     *
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
@@ -176,22 +181,21 @@ class FileAdder
      * Will also start the import process.
      *
      * @param string $collectionName
-     *
      * @param string $diskName
+     *
      * @return Media
+     *
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
     public function toCollection($collectionName = 'default', $diskName = '')
     {
-       return $this->toCollectionOnDisk($collectionName, $diskName);
+        return $this->toCollectionOnDisk($collectionName, $diskName);
     }
 
     public function toCollectionOnDisk($collectionName = 'default', $diskName = '')
     {
-        if ($diskName == '') {
-            $diskName = config('laravel-medialibrary.defaultFilesystem');
-        }
+
 
         if (!is_file($this->pathToFile)) {
             throw new FileDoesNotExist();
@@ -205,7 +209,7 @@ class FileAdder
 
         $media->name = $this->mediaName;
         $media->file_name = $this->fileName;
-        $media->disk = $diskName;
+        $media->disk = $this->determineDiskName($diskName);
 
         $media->collection_name = $collectionName;
 
@@ -224,5 +228,18 @@ class FileAdder
         }
 
         return $media;
+    }
+
+    protected function determineDiskName($diskName)
+    {
+        if ($diskName == '') {
+            $diskName = config('laravel-medialibrary.defaultFilesystem');
+        }
+
+        if (is_null(config("filesystems.disks.{$diskName}"))) {
+            throw new FilesystemDoesNotExist("There is no filesystem named {$diskName}");
+        }
+
+        return $diskName;
     }
 }
