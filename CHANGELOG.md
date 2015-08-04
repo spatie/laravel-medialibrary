@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.0.1
+- Fixed: `updateMedia` now returns updated media
+
 ##3.0.0
 - Replaced `addMedia` by a fluent interface
 - Added the ability to store custom properties on a media object
