@@ -118,6 +118,7 @@ trait HasMediaTrait
      * @param array  $newMediaArray
      * @param string $collectionName
      *
+     * @return array
      * @throws \Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection
      */
     public function updateMedia(array $newMediaArray, $collectionName = 'default')
@@ -126,6 +127,7 @@ trait HasMediaTrait
 
         $orderColumn = 0;
 
+        $updatedMedia = [];
         foreach ($newMediaArray as $newMediaItem) {
             $currentMedia = Media::findOrFail($newMediaItem['id']);
 
@@ -140,7 +142,11 @@ trait HasMediaTrait
             $currentMedia->order_column = $orderColumn++;
 
             $currentMedia->save();
+            
+            $updatedMedia[] = $currentMedia;
         }
+        
+        return $updatedMedia;
     }
 
     /**
