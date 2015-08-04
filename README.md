@@ -7,8 +7,14 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
 
-This Laravel 5.1 package provides an easy way to associate all sorts of files with Eloquent models. 
-Storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.1/filesystem), 
+This Laravel 5.1 package can associate all sorts of files with Eloquent models. It provides a
+simple API to work with. Here's an example:
+```php
+$newsItem = News::find(1);
+$newsItem->addMedia($pathToFile)->toCollection('images');
+```
+
+The storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.1/filesystem), 
 so you can easily use something like S3. Additionally the package can create image manipulations 
 on images and pdfs that have been added in the medialibrary.
 
