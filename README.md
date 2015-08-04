@@ -474,6 +474,7 @@ In the config file you should rename the `filesystem`-option to `defaultFilesyst
 In the db the `temp`-column must be removed. Add these columns:
 - disk (varchar, 255)
 - custom_properties (text)
+You should set the value of disk column in all rows to the name the defaultFilesystem specified in the config file.
 
 Note that this behaviour has changed:
 - when calling `getMedia()` without providing a collection name all media will be returned (whereas previously only media
