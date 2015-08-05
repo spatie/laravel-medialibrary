@@ -15,7 +15,7 @@ $newsItem->addMedia($pathToFile)->toCollection('images');
 ```
 It can handle your uploads directly:
 ```php
-$newsItem->addMedia($request->file('image')->toCollection('images'); //boom, added an image to the library
+$newsItem->addMedia($request->file('image')->toCollection('images');
 ```
 Want to store some large files on another filesystem? No problem:
 ```php
