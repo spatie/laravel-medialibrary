@@ -132,6 +132,7 @@ class FileAdder
      * Set the name of the media object.
      *
      * @param $name
+     *
      * @return $this
      */
     public function usingName($name)
@@ -143,6 +144,7 @@ class FileAdder
      * Set the name of the media object.
      *
      * @param $name
+     *
      * @return $this
      */
     public function setName($name)
@@ -156,6 +158,7 @@ class FileAdder
      * Set the file name.
      *
      * @param $fileName
+     *
      * @return $this
      */
     public function usingFileName($fileName)
@@ -167,6 +170,7 @@ class FileAdder
      * Set the file name.
      *
      * @param $fileName
+     *
      * @return $this
      */
     public function setFileName($fileName)
@@ -279,7 +283,9 @@ class FileAdder
      * Determine the disk to be used.
      *
      * @param string $diskName
+     *
      * @return string
+     *
      * @throws FilesystemDoesNotExist
      */
     protected function determineDiskName($diskName)

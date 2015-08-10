@@ -158,6 +158,5 @@ class IntegrationTest extends TestCase
 
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/othertest.jpg'));
-
     }
 }
