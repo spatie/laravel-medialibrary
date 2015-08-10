@@ -129,6 +129,54 @@ class FileAdder
     }
 
     /**
+     * Set the name of the media object.
+     *
+     * @param $name
+     * @return $this
+     */
+    public function usingName($name)
+    {
+        return $this->setName($name);
+    }
+
+    /**
+     * Set the name of the media object.
+     *
+     * @param $name
+     * @return $this
+     */
+    public function setName($name)
+    {
+        $this->mediaName = $name;
+
+        return $this;
+    }
+
+    /**
+     * Set the file name.
+     *
+     * @param $fileName
+     * @return $this
+     */
+    public function usingFileName($fileName)
+    {
+        return $this->setFileName($fileName);
+    }
+
+    /**
+     * Set the file name.
+     *
+     * @param $fileName
+     * @return $this
+     */
+    public function setFileName($fileName)
+    {
+        $this->fileName = $fileName;
+
+        return $this;
+    }
+
+    /**
      * Set the metadata.
      *
      * @param array $customProperties
@@ -218,7 +266,6 @@ class FileAdder
         $media->save();
 
         $this->subject->media()->save($media);
-
         $this->fileSystem->add($this->pathToFile, $media, $this->fileName);
 
         if (! $this->preserveOriginal) {

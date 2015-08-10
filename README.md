@@ -172,14 +172,24 @@ $publicUrl = $mediaItems[0]->getUrl();
 A media-object also has a name. By default it is the name of the file.
 ```php
 echo $mediaItems[0]->name // display the name
-$mediaItems[0]->name = 'newName'
+$mediaItems[0]->name = 'new name'
 $mediaItems[0]->save(); // the new name gets saved. Activerecord ftw!
+```
+
+The name of the media object can also be changed when it gets added to the medialibrary:
+```php`
+$newsItem->addMedia($pathToFile)->usingName('new name')->toMediaLibrary();
 ```
 
 Using the media-object the name of uploaded file can be changed.
 ```php
 $mediaItems[0]->file_name = 'newFileName.jpg'
 $mediaItems[0]->save(); // Saving will also rename the file on the filesystem.
+```
+
+The name of the uploaded file can also be changed when it gets added to the medialibrary:
+```php`
+$newsItem->addMedia($pathToFile)->usingFileName('otherFileName.txt')->toMediaLibrary();
 ```
 
 You can also get the size of the file:

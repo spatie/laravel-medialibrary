@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\HasMediaTrait;
+namespace Spatie\MediaLibrary\Test\FileAdder;
 
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -130,5 +130,34 @@ class IntegrationTest extends TestCase
         $media = $this->testModel->addMedia($uploadedFile)->toMediaLibrary();
         $this->assertEquals('alternativename', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_rename_the_media_before_it_gets_added()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->usingName('othername')
+            ->toMediaLibrary();
+
+        $this->assertEquals('othername', $media->name);
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_rename_the_file_before_it_gets_added()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->usingFileName('othertest.jpg')
+            ->toMediaLibrary();
+
+        $this->assertEquals('test', $media->name);
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/othertest.jpg'));
+
     }
 }

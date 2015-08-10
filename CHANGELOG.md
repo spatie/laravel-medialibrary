@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.1.0
+- Added: methods to rename the media object and file name before adding a file to the collection
+
 ##3.0.1
 - Fixed: `updateMedia` now returns updated media
 
