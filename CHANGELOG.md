@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.1.2
+- Images and pdf with capitalized extensions will now be recognized
+
 ##3.1.1
 - Fixed: a rare issue where binding the command would fail
 
