@@ -254,7 +254,7 @@ of `hasMedia`:
 
 ```php
 ...
-use Spatie\MediaLibrary\HasMediaConversions;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 class News extends Model implements HasMediaConversions
 {
