@@ -68,11 +68,13 @@ class Media extends Model implements SortableInterface
      */
     public function getTypeAttribute()
     {
-        if (in_array($this->extension, ['png', 'jpg', 'jpeg'])) {
+        $extension = strtolower($this->extension);
+
+        if (in_array($extension, ['png', 'jpg', 'jpeg'])) {
             return static::TYPE_IMAGE;
         }
 
-        if ($this->extension == 'pdf') {
+        if ($extension == 'pdf') {
             return static::TYPE_PDF;
         }
 

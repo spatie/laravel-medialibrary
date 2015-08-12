@@ -272,7 +272,7 @@ class FileAdder
         $this->subject->media()->save($media);
         $this->fileSystem->add($this->pathToFile, $media, $this->fileName);
 
-        if (! $this->preserveOriginal) {
+        if (!$this->preserveOriginal) {
             unlink($this->pathToFile);
         }
 

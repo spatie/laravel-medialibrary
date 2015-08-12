@@ -21,7 +21,7 @@ class GetUrlTest extends TestCase
      */
     public function it_can_get_an_url_of_a_derived_image()
     {
-        $media =  $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary();
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary();
 
         $conversionName = 'thumb';
 
