@@ -122,10 +122,11 @@ class MediaRepository
      * Get all media for the given type.
      *
      * @param string $modelType
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getByModelType($modelType)
     {
-        $this->model->where('model_type', $modelType)->get();
+        return $this->model->where('model_type', $modelType)->get();
     }
 
     /**

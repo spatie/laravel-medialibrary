@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.1.3
+- Fixed a bug where getByModelType would return null
+
 ##3.1.2
 - Images and pdf with capitalized extensions will now be recognized
 
