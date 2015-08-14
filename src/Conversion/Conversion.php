@@ -321,7 +321,17 @@ class Conversion
      */
     public function setManipulationParameter($name, $value)
     {
-        $this->manipulations[count($this->manipulations)][$name] = $value;
+        if (count($this->manipulations) == 0) {
+            $this->manipulations[0] = [];
+        };
+
+        $lastIndex = count($this->manipulations) - 1;
+
+        if (!isset($this->manipulations[$lastIndex])) {
+            $this->manipulations[$lastIndex] = [];
+        }
+
+        $this->manipulations[$lastIndex] = array_merge($this->manipulations[$lastIndex], [$name => $value]);
 
         return $this;
     }

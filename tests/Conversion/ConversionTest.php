@@ -248,4 +248,16 @@ class ConversionTest extends TestCase
         $this->assertEquals('value', $this->conversion->getManipulations()[0]['name']);
         $this->assertInstanceOf(\Spatie\MediaLibrary\Conversion\Conversion::class, $conversion);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_chain_the_convenience_methods()
+    {
+        $conversion = $this->conversion->setWidth(75)->setHeight(75)->setFit('crop')->setFormat('jpg');
+
+        $otherConversions = (new Conversion('other'))->setManipulations(['w' => 75, 'h' => 75, 'fit' => 'crop', 'fm' => 'jpg']);
+
+        $this->assertEquals($conversion->getManipulations(), $otherConversions->getManipulations());
+    }
 }
