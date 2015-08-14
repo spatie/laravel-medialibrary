@@ -5,7 +5,7 @@ All Notable changes to `laravel-medialibrary` will be documented in this file
 ##3.1.4
 - Fixed a bug where chaining the conversion convenience methods would not give the right result
 
-##3.1.3gti i
+##3.1.3
 - Fixed a bug where getByModelType would return null
 
 ##3.1.2
