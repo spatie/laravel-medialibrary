@@ -61,7 +61,7 @@ abstract class BaseUrlGenerator
      */
     public function getPathRelativeToRoot()
     {
-        $path = $this->media->id;
+        $path = $this->media->directory;
 
         if (is_null($this->conversion)) {
             return $path.'/'.$this->media->file_name;

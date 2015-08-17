@@ -61,6 +61,21 @@ class IntegrationTest extends TestCase
     /**
      * @test
      */
+    public function it_can_move_the_original_file_with_custom_directory_to_the_medialibrary()
+    {
+        $testFile = $this->getTestJpg();
+
+        $media = $this->testModelWithCustomDirectory
+            ->addMedia($testFile)
+            ->toMediaLibrary();
+
+        $this->assertFileNotExists($testFile);
+        $this->assertFileExists($this->getMediaDirectory('sub/directory/'.$media->id.'/'.$media->file_name));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_copy_the_original_file_to_the_medialibrary()
     {
         $testFile = $this->getTestJpg();

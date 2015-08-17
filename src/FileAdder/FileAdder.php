@@ -269,6 +269,8 @@ class FileAdder
 
         $media->save();
 
+        $media->setDirectory($this->subject->getDirectory());
+
         $this->subject->media()->save($media);
         $this->fileSystem->add($this->pathToFile, $media, $this->fileName);
 

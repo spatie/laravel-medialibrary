@@ -21,6 +21,8 @@ class Media extends Model implements SortableInterface
 
     public $previousManipulations = [];
 
+    private $directory;
+
     /**
      * The attributes that should be casted to native types.
      *
@@ -120,5 +122,26 @@ class Media extends Model implements SortableInterface
     public function getDiskDriverName()
     {
         return config('filesystems.disks.'.$this->disk.'.driver');
+    }
+
+    public function getDirectoryAttribute()
+    {
+        if (is_null($this->directory)) {
+            // If it is null we need to fetch it
+            $model = $this->model()->get()->first();
+
+            $this->setDirectory($model->getDirectory());
+        }
+
+        return $this->directory;
+    }
+
+    public function setDirectory($directory)
+    {
+        if (!empty($directory)) {
+            $directory .= '/';
+        }
+
+        $this->directory = $directory . $this->attributes['id'];
     }
 }

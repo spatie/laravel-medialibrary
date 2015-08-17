@@ -57,6 +57,8 @@ class MediaRepository
 
                 return $mediaItem->collection_name == $collectionName;
 
+            })->each(function (Media $media) use ($model) {
+                $media->setDirectory($model->getDirectory());
             })->sortBy(function (Media $media) {
 
                 return $media->order_column;
@@ -75,6 +77,10 @@ class MediaRepository
         $media = $query
             ->orderBy('order_column')
             ->get();
+
+        $media->each(function (Media $media) use ($model) {
+            $media->setDirectory($model->getDirectory());
+        });
 
         return $media;
     }

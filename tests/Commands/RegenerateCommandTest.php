@@ -14,7 +14,7 @@ class RegenerateCommandTest extends TestCase
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toCollection('images');
 
-        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
+        $derivedImage = $this->getMediaDirectory("{$media->directory}/conversions/thumb.jpg");
 
         unlink($derivedImage);
 
