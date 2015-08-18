@@ -62,6 +62,26 @@ class Media extends Model implements SortableInterface
     }
 
     /**
+     * Get the original path to a media-file.
+     *
+     * @param string $conversionName
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
+     */
+    public function getPath($conversionName = '')
+    {
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
+
+        if ($conversionName != '') {
+            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
+        }
+
+        return $urlGenerator->getPath();
+    }
+
+    /**
      * Determine the type of a file.
      *
      * @return string

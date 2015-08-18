@@ -23,6 +23,16 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
     }
 
     /**
+     * Get the path for the profile of a media item.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->getStoragePath().'/'.$this->getPathRelativeToRoot();
+    }
+
+    /**
      * Get the directory where all files of the media item are stored.
      *
      * @return \Spatie\String\Str
