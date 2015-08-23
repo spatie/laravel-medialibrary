@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.2.0
+- Added a function the get the path of file in the media library
+
+
 ##3.1.5
 - Avoid creating empty conversions-directories
 

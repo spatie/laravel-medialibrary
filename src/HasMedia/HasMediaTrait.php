@@ -113,6 +113,27 @@ trait HasMediaTrait
     }
 
     /**
+     * Get the url of the image for the given conversionName
+     * for first media for the given collectionName.
+     * If no profile is given, return the source's url.
+     *
+     * @param string $collectionName
+     * @param string $conversionName
+     *
+     * @return string
+     */
+    public function getFirstMediaPath($collectionName = 'default', $conversionName = '')
+    {
+        $media = $this->getFirstMedia($collectionName);
+
+        if (!$media) {
+            return false;
+        }
+
+        return $media->getPath($conversionName);
+    }
+
+    /**
      * Update a media collection by deleting and inserting again with new values.
      *
      * @param array  $newMediaArray

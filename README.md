@@ -163,10 +163,11 @@ $mediaItems = $newsItem->getMedia();
 
 The method returns an collection with `Media`-objects.
 
-You can retrieve the url to the file associated with `Media`-object with:
+You can retrieve the url and path to the file associated with `Media`-object with:
 
 ```php
 $publicUrl = $mediaItems[0]->getUrl();
+$fullPathOnDisk = $mediaItems[0]->getPath();
 ```
 
 A media-object also has a name. By default it is the name of the file.
@@ -362,19 +363,22 @@ public function setRectangle($width, $height, $x, $y)
 ``` 
 
 ###Retrieving derived images
-Here's example that shows you how to get the url's to the derived images:
+Here's example that shows you how to get the url's and paths to the derived images:
 
 ```php
 $mediaItems = $newsItem->getMedia('images');
 $mediaItems[0]->getUrl('thumb');
+$mediaItems[0]->getPath('thumb') //full path on disk;
 ```
 
 Because getting an url to the first mediaItem in a collection is such a common scenario
 the `getFirstMediaUrl`- convenience-method is provided. The first parameter is the name
-of the collection, the second the name of a conversion.
+of the collection, the second the name of a conversion. There's also a method `getFirstMediaPath` 
+that does the same for getting the path.
 
 ```php
 $urlToFirstListImage = $newsItem->getFirstMediaUrl('images', 'thumb');
+$pathOnDiskFirstListImage = $newsItem->getFirstMediaPath('images', 'thumb');
 ```
 
 ###Regenerating images

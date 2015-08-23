@@ -39,14 +39,4 @@ class GetUrlTest extends TestCase
 
         $media->getUrl('unknownConversionName');
     }
-
-    /**
-     * @test
-     */
-    public function it_can_get_the_default_collection()
-    {
-        $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
-
-        $this->assertCount(1, $this->testModel->getMedia());
-    }
 }
