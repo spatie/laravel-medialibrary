@@ -115,7 +115,6 @@ class Filesystem
 
         $directory = $media->id;
         $this->filesystems->disk($media->disk)->makeDirectory($directory);
-        $this->filesystems->disk($media->disk)->makeDirectory($directory.'/conversions');
 
         return $directory;
     }

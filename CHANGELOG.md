@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.1.5
+- Avoid creating empty conversions-directories
+
 ##3.1.4
 - Fixed a bug where chaining the conversion convenience methods would not give the right result
 
