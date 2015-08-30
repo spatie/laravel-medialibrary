@@ -155,7 +155,7 @@ class FileAdder
     }
 
     /**
-     * Set the file name.
+     * Set the name of the file that is stored on disk.
      *
      * @param $fileName
      *
@@ -167,7 +167,7 @@ class FileAdder
     }
 
     /**
-     * Set the file name.
+     * Set the name of the file that is stored on disk.
      *
      * @param $fileName
      *
