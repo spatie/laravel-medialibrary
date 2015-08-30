@@ -28,7 +28,8 @@ trait HasMediaTrait
     }
 
     /**
-     * Add a file to the medialibrary.
+     * Add a file to the medialibrary. The file will be removed from
+     * it's original location.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
