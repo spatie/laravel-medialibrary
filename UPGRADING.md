@@ -8,7 +8,7 @@ If you want to upgrade completely remove the v1 package and follow install instr
 You can upgrade from v2 to v3 by performing these renames in your model that has media.
 
 - `Spatie\MediaLibrary\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\HasMedia\HasMediaTrait`. 
-- `Spatie\MediaLibrary\HasMedia` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversion`
+- `Spatie\MediaLibrary\HasMedia` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions`
 - `Spatie\MediaLibrary\HasMediaWithoutConversions` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia`
 
 In the config file you should rename the `filesystem`-option to `defaultFilesystem`.
