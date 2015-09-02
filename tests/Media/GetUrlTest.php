@@ -19,6 +19,16 @@ class GetUrlTest extends TestCase
     /**
      * @test
      */
+    public function it_can_get_an_url_of_an_original_item_with_custom_directory()
+    {
+        $media = $this->testModelWithCustomDirectory->addMedia($this->getTestJpg())->toMediaLibrary();
+
+        $this->assertEquals($media->getUrl(), "/media/sub/directory/{$media->id}/test.jpg");
+    }
+
+    /**
+     * @test
+     */
     public function it_can_get_an_url_of_a_derived_image()
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary();

@@ -252,9 +252,22 @@ trait HasMediaTrait
         }
 
         $this->media()->get()->map(function (Media $media) {
+            $media->setDirectory($this->getDirectory());
             $media->delete();
         });
 
         return true;
+    }
+
+    /**
+     * This method is designed to be overridden by the model.
+     * It should return the path of the directory to be used for the media
+     * of this model. By default it will use the id of the media.
+     *
+     * @return string
+     */
+    public function getDirectory()
+    {
+        return '';
     }
 }

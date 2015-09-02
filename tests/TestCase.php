@@ -19,6 +19,11 @@ abstract class TestCase extends Orchestra
     protected $testModelWithConversion;
 
     /**
+     * @var \Spatie\MediaLibrary\Test\TestModelWithCustomDirectory
+     */
+    protected $testModelWithCustomDirectory;
+
+    /**
      * @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions
      */
     protected $testModelWithoutMediaConversions;
@@ -33,6 +38,7 @@ abstract class TestCase extends Orchestra
 
         $this->testModel = TestModel::first();
         $this->testModelWithConversion = TestModelWithConversion::first();
+        $this->testModelWithCustomDirectory = TestModelWithCustomDirectory::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
     }
 

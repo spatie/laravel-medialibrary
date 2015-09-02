@@ -113,7 +113,7 @@ class Filesystem
     {
         $this->filesystems->disk($media->disk)->put('.gitignore', Gitignore::getContents());
 
-        $directory = $media->id;
+        $directory = $media->directory;
         $this->filesystems->disk($media->disk)->makeDirectory($directory);
 
         return $directory;
