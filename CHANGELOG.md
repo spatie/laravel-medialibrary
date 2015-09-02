@@ -2,7 +2,7 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
-#3.2.2
+##3.2.2
 - Fixes tests
 
 ##3.2.1
