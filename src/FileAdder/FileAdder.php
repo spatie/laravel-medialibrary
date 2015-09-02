@@ -267,9 +267,8 @@ class FileAdder
         $media->custom_properties = $this->customProperties;
         $media->manipulations = [];
 
-        $media->save();
-
         $this->subject->media()->save($media);
+
         $this->fileSystem->add($this->pathToFile, $media, $this->fileName);
 
         if (!$this->preserveOriginal) {

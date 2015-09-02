@@ -13,9 +13,7 @@ class CreateMediaTable extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('model_id')->nullable();
-            $table->string('model_type')->nullable();
-            $table->index(['model_id', 'model_type']);
+            $table->morphs('model');
             $table->string('collection_name');
             $table->string('name');
             $table->string('file_name');
