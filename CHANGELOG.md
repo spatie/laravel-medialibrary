@@ -2,8 +2,12 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+#3.2.2
+- Fixes tests
+
 ##3.2.1
 - Add index to morphable fields in migration which could improve performance.
+NOTE: if you started out using this version, the tests will be broken
 
 ##3.2.0
 - Added functions to get a path to a file in the media library
