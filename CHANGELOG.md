@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.2.4
+- Removed dependency on spatie/eloquent-sortable
+
 ##3.2.3
 - Add index to morphable fields in migration which could improve performance.
 - Remove unnecessary query when adding a file
