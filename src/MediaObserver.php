@@ -4,6 +4,11 @@ namespace Spatie\MediaLibrary;
 
 class MediaObserver
 {
+    public function creating(Media $media)
+    {
+        $media->setHighestOrderNumber();
+    }
+
     public function updating(Media $media)
     {
         $media->previousManipulations = $media->getOriginal('manipulations');

@@ -159,4 +159,20 @@ class IntegrationTest extends TestCase
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/othertest.jpg'));
     }
+
+    /**
+     * @test
+     */
+    public function it_can_save_the_order()
+    {
+        $media = [];
+        foreach (range(0, 5) as $index) {
+            $media[] = $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->toMediaLibrary();
+
+            $this->assertEquals($index + 1, $media[$index]->order_column);
+        }
+    }
 }

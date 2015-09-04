@@ -3,15 +3,13 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableInterface;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
-class Media extends Model implements SortableInterface
+class Media extends Model
 {
-    use Sortable;
+    use SortableTrait;
 
     const TYPE_OTHER = 'other';
     const TYPE_IMAGE = 'image';
