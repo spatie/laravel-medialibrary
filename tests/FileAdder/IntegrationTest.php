@@ -163,7 +163,7 @@ class IntegrationTest extends TestCase
     /**
      * @test
      */
-    public function it_can_save_the_order()
+    public function it_can_save_media_in_the_right_order()
     {
         $media = [];
         foreach (range(0, 5) as $index) {
