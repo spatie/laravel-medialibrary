@@ -6,8 +6,6 @@
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/27cf455a-0555-4bcf-abae-16b5f7860d09.svg?style=flat-square)](https://insight.sensiolabs.com/projects/27cf455a-0555-4bcf-abae-16b5f7860d09)
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-medialibrary.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-medialibrary)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/spatie/laravel-medialibrary.svg)](http://isitmaintained.com/project/spatie/laravel-medialibrary "Average time to resolve an issue")
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/spatie/laravel-medialibrary.svg)](http://isitmaintained.com/project/spatie/laravel-medialibrary "Percentage of issues still open")
 
 This Laravel 5.1 package can associate all sorts of files with Eloquent models. It provides a
 simple API to work with. Here's an example:
