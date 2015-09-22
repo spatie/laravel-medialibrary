@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.2.5
+- Allow 0 for `x` and `y` parameters in `setRectangle`
+
 ##3.2.4
 - Removed dependency on spatie/eloquent-sortable
 

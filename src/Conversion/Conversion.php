@@ -301,8 +301,14 @@ class Conversion
     public function setRectangle($width, $height, $x, $y)
     {
         foreach (compact('width', 'height', 'x', 'y') as $name => $value) {
-            if (!is_numeric($value) || $value < 1) {
-                throw new InvalidConversionParameter($name.' should be numeric and greater than 1');
+            if (! is_numeric($value)) {
+                throw new InvalidConversionParameter($name.' should be numeric');
+            }
+        }
+
+        foreach (compact('width', 'height') as $name => $value) {
+            if ($value < 1) {
+                throw new InvalidConversionParameter($name.' should be greater than 1');
             }
         }
 

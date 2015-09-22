@@ -231,7 +231,19 @@ class ConversionTest extends TestCase
     /**
      * @test
      */
-    public function it_throw_an_exception_for_an_invalid_rectangle()
+    public function it_allows_zero_x_y_coordinates_in_rectangle_manipulations()
+    {
+        $conversion = $this->conversion->setRectangle(100, 200, 0, 0);
+
+        $this->arrayHasKey('rect', $this->conversion->getManipulations()[0]);
+        $this->assertEquals('100,200,0,0', $this->conversion->getManipulations()[0]['rect']);
+        $this->assertInstanceOf(\Spatie\MediaLibrary\Conversion\Conversion::class, $conversion);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_exception_for_an_invalid_rectangle()
     {
         $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
         $this->conversion->setRectangle('blabla', 200, 300, 400);
