@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.3.0
+- Added `hasCustomProperty`- and `getCustomProperty`-convenience-methods
+
 ##3.2.5
 - Allow 0 for `x` and `y` parameters in `setRectangle`
 

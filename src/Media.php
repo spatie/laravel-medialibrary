@@ -108,6 +108,7 @@ class Media extends Model
     }
 
     /**
+    /**
      * @return string
      */
     public function getHumanReadableSizeAttribute()
@@ -115,8 +116,37 @@ class Media extends Model
         return File::getHumanReadableSize($this->size);
     }
 
+    /**
+     * @return string
+     */
     public function getDiskDriverName()
     {
         return config('filesystems.disks.'.$this->disk.'.driver');
+    }
+
+    /**
+     * Determine if the media item has a custom property with the given name.
+     *
+     * @return bool
+     */
+    public function hasCustomProperty($propertyName)
+    {
+        return array_key_exists($propertyName, $this->custom_properties);
+    }
+
+    /**
+     * Get if the value of custom property with the given name.
+     *
+     * @param $propertyName
+     *
+     * @return mixed
+     */
+    public function getCustomProperty($propertyName)
+    {
+        if (!$this->hasCustomProperty($propertyName)) {
+            return;
+        }
+
+        return $this->custom_properties[$propertyName];
     }
 }
