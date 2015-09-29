@@ -255,7 +255,8 @@ class FileAdder
             throw new FileTooBig();
         }
 
-        $media = new Media();
+        $mediaClass = config('laravel-medialibrary.media_model');
+        $media = new $mediaClass;
 
         $media->name = $this->mediaName;
         $media->file_name = $this->fileName;

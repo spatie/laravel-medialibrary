@@ -15,9 +15,9 @@ return [
     'max_file_size' => 1024 * 1024 * 10,
 
     /*
-    * This queue will used to generate derived images.
-    * Leave empty to use the default queue.
-    */
+     * This queue will used to generate derived images.
+     * Leave empty to use the default queue.
+     */
     'queue_name' => '',
 
     /*
@@ -26,6 +26,10 @@ return [
      */
     'custom_url_generator_class' => '',
 
+    /*
+     * This allows you to extend the Media Eloquent model and add your own stuff to it.
+     */
+    'media_model' => Spatie\MediaLibrary\Media::class,
 
     's3' => [
         /*
