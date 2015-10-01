@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.3.1
+- Fixed a bug where conversions would always be performed on the default queue
+
 ##3.3.0
 - Added `hasCustomProperty`- and `getCustomProperty`-convenience-methods
 

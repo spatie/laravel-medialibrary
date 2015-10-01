@@ -39,7 +39,7 @@ class FileManipulator
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
         if (count($queuedConversions)) {
-            $this->dispatch(new PerformConversions($queuedConversions, $media));
+            $this->dispatchQueuedConversions($media, $queuedConversions);
         }
     }
 
@@ -127,5 +127,24 @@ class FileManipulator
         (new Pdf($pdfFile))->saveImage($imageFile);
 
         return $imageFile;
+    }
+
+    /**
+     * Dispatch the given conversions.
+     *
+     * @param Media $media
+     * @param $queuedConversions
+     */
+    protected function dispatchQueuedConversions(Media $media, $queuedConversions)
+    {
+        $job = new PerformConversions($queuedConversions, $media);
+
+        $customQueue = config('laravel-medialibrary.queue_name');
+
+        if ($customQueue != '') {
+            $job->onQueue($customQueue);
+        }
+
+        $this->dispatch($job);
     }
 }

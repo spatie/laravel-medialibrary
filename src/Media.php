@@ -108,7 +108,7 @@ class Media extends Model
     }
 
     /**
-    /**
+     /**
      * @return string
      */
     public function getHumanReadableSizeAttribute()
