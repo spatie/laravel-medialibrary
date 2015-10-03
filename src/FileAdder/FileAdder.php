@@ -256,7 +256,7 @@ class FileAdder
         }
 
         $mediaClass = config('laravel-medialibrary.media_model');
-        $media = new $mediaClass;
+        $media = new $mediaClass();
 
         $media->name = $this->mediaName;
         $media->file_name = $this->fileName;
