@@ -21,15 +21,15 @@ return [
     'queue_name' => '',
 
     /*
+     * The class name of the media model to be used.
+     */
+    'media_model' => Spatie\MediaLibrary\Media::class,
+
+    /*
      * When urls to files get generated this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */
     'custom_url_generator_class' => '',
-
-    /*
-     * This allows you to extend the Media Eloquent model and add your own stuff to it.
-     */
-    'media_model' => Spatie\MediaLibrary\Media::class,
 
     's3' => [
         /*

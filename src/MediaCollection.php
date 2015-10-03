@@ -28,13 +28,11 @@ class MediaCollection extends Collection
      * @param array $mediaIds
      *
      * @return $this
-     *
-     * @throws \Spatie\EloquentSortable\SortableException
      */
     public function saveOrder(array $mediaIds)
     {
         $mediaClass = config('laravel-medialibrary.media_model');
-        app($mediaClass)->setNewOrder($mediaIds);
+        $mediaClass::setNewOrder($mediaIds);
 
         return $this;
     }

@@ -153,7 +153,7 @@ trait HasMediaTrait
         $updatedMedia = [];
         foreach ($newMediaArray as $newMediaItem) {
             $mediaClass   = config('laravel-medialibrary.media_model');
-            $currentMedia = app($mediaClass)->findOrFail($newMediaItem['id']);
+            $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {
                 throw new MediaIsNotPartOfCollection(sprintf('Media id %s is not part of collection %s', $currentMedia->id, $collectionName));
