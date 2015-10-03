@@ -24,7 +24,7 @@ trait HasMediaTrait
      */
     public function media()
     {
-        return $this->morphMany(Media::class, 'model');
+        return $this->morphMany(config('laravel-medialibrary.media_model'), 'model');
     }
 
     /**
@@ -152,7 +152,8 @@ trait HasMediaTrait
 
         $updatedMedia = [];
         foreach ($newMediaArray as $newMediaItem) {
-            $currentMedia = Media::findOrFail($newMediaItem['id']);
+            $mediaClass   = config('laravel-medialibrary.media_model');
+            $currentMedia = app($mediaClass)->findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {
                 throw new MediaIsNotPartOfCollection(sprintf('Media id %s is not part of collection %s', $currentMedia->id, $collectionName));

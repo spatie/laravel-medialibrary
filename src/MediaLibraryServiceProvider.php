@@ -19,7 +19,8 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Media::observe(new MediaObserver());
+        $mediaClass = config('laravel-medialibrary.media_model');
+        app($mediaClass)->observe(new MediaObserver());
 
         $this->publishes([
             __DIR__.'/../resources/config/laravel-medialibrary.php' => $this->app->configPath().'/'.'laravel-medialibrary.php',

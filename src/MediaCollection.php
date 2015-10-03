@@ -33,7 +33,8 @@ class MediaCollection extends Collection
      */
     public function saveOrder(array $mediaIds)
     {
-        Media::setNewOrder($mediaIds);
+        $mediaClass = config('laravel-medialibrary.media_model');
+        app($mediaClass)->setNewOrder($mediaIds);
 
         return $this;
     }
