@@ -3,7 +3,7 @@
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
 ##3.4.0
-- Add support for using a custom model
+- Added support for using a custom model
 
 ##3.3.1
 - Fixed a bug where conversions would always be performed on the default queue
