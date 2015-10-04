@@ -185,6 +185,6 @@ class IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->toMediaLibrary();
 
-        $this->assertEquals('default', $media->collection_name);
+        $this->assertEquals($this->testModelWithMorphMap->getMorphClass(), $media->model_type);
     }
 }
