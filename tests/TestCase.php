@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test;
 
 use File;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -23,6 +24,11 @@ abstract class TestCase extends Orchestra
      */
     protected $testModelWithoutMediaConversions;
 
+    /**
+     * @var \Spatie\MediaLibrary\Test\TestModelWithMorphMap
+     */
+    protected $testModelWithMorphMap;
+
     public function setUp()
     {
         parent::setUp();
@@ -34,6 +40,7 @@ abstract class TestCase extends Orchestra
         $this->testModel = TestModel::first();
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
+        $this->testModelWithMorphMap = TestModelWithMorphMap::first();
     }
 
     /**
@@ -77,6 +84,8 @@ abstract class TestCase extends Orchestra
         });
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
+
+        $this->setUpMorphMap();
     }
 
     /**
@@ -130,5 +139,12 @@ abstract class TestCase extends Orchestra
     public function getTestJpg()
     {
         return $this->getTestFilesDirectory('test.jpg');
+    }
+
+    private function setUpMorphMap()
+    {
+        Relation::morphMap([
+            'test-model-with-morph-map' => TestModelWithMorphMap::class,
+        ]);
     }
 }
