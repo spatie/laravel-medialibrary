@@ -175,4 +175,16 @@ class IntegrationTest extends TestCase
             $this->assertEquals($index + 1, $media[$index]->order_column);
         }
     }
+
+    /**
+     * @test
+     */
+    public function it_can_add_file_to_model_with_morph_map()
+    {
+        $media = $this->testModelWithMorphMap
+            ->addMedia($this->getTestJpg())
+            ->toMediaLibrary();
+
+        $this->assertEquals($this->testModelWithMorphMap->getMorphClass(), $media->model_type);
+    }
 }
