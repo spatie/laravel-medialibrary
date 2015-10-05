@@ -136,14 +136,15 @@ class Media extends Model
     /**
      * Get if the value of custom property with the given name.
      *
-     * @param $propertyName
+     * @param string $propertyName
+     * @param mixed $propertyName
      *
      * @return mixed
      */
-    public function getCustomProperty($propertyName)
+    public function getCustomProperty($propertyName, $default = null)
     {
         if (!$this->hasCustomProperty($propertyName)) {
-            return;
+            return $default;
         }
 
         return $this->custom_properties[$propertyName];

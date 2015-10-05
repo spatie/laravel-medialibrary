@@ -48,4 +48,12 @@ class CustomPropertyTest extends TestCase
         $this->assertNull($this->mediaWithoutCustomProperty->getCustomProperty('customName'));
         $this->assertNull($this->mediaWithoutCustomProperty->getCustomProperty('nonExisting'));
     }
+
+    /**
+     * @test
+     */
+    public function it_returns_a_fallback_if_the_custom_property_isnt_set()
+    {
+        $this->assertEquals('foo', $this->mediaWithCustomProperty->getCustomProperty('imNotHere', 'foo'));
+    }
 }
