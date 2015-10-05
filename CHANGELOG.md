@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.5.0
+- Added the ability to provide a default value fallback to the `getCustomProperty` method
+
 ##3.4.0
 - Added support for using a custom model
 
