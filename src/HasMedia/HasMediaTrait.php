@@ -163,6 +163,10 @@ trait HasMediaTrait
                 $currentMedia->name = $newMediaItem['name'];
             }
 
+            if (array_key_exists('custom_properties', $newMediaItem)) {
+                $currentMedia->custom_properties = $newMediaItem['custom_properties'];
+            }
+
             $currentMedia->order_column = $orderColumn++;
 
             $currentMedia->save();
