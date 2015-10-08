@@ -74,7 +74,9 @@ class UpdateMediaTest extends TestCase
         $this->testModel->updateMedia($differentOrder);
         $this->testModel->load('media');
 
-        $this->assertEquals($mediaArray[0]['order_column'], $this->testModel->media[1]->order_column);
-        $this->assertEquals($mediaArray[1]['order_column'], $this->testModel->media[0]->order_column);
+        $orderedMedia = $this->testModel->media->sortBy('order_column');
+
+        $this->assertEquals($mediaArray[0]['order_column'], $orderedMedia[1]->order_column);
+        $this->assertEquals($mediaArray[1]['order_column'], $orderedMedia[0]->order_column);
     }
 }

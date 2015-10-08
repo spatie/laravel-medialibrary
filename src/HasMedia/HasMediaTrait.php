@@ -148,7 +148,7 @@ trait HasMediaTrait
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
-        $orderColumn = 0;
+        $orderColumn = 1;
 
         $updatedMedia = [];
         foreach ($newMediaArray as $newMediaItem) {
