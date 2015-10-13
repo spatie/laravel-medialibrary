@@ -251,7 +251,7 @@ trait HasMediaTrait
      */
     public static function bootHasMediaTrait()
     {
-        static::deleted(function($model){
+        static::deleted(function ($model) {
             $model->media()->get()->map(function (Media $media) {
                 $media->delete();
             });
