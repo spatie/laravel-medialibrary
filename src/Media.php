@@ -15,7 +15,7 @@ class Media extends Model
     const TYPE_IMAGE = 'image';
     const TYPE_PDF = 'pdf';
 
-    protected $guarded = ['id', 'disk', 'custom_properties', 'file_name', 'model', 'collection_name'];
+    protected $guarded = ['id', 'disk', 'file_name', 'model_type', 'model_id'];
 
     public $imageProfileUrls = [];
 
