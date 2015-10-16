@@ -175,4 +175,26 @@ class IntegrationTest extends TestCase
             $this->assertEquals($index + 1, $media[$index]->order_column);
         }
     }
+
+    /**
+     * @test
+     */
+    public function it_can_add_properties_to_the_saved_media()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->withProperties(['name' => 'testName'])
+            ->toMediaLibrary();
+
+        $this->assertEquals('testName', $media->name);
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->withAttributes(['name' => 'testName'])
+            ->toMediaLibrary();
+
+        $this->assertEquals('testName', $media->name);
+    }
 }

@@ -15,6 +15,8 @@ class Media extends Model
     const TYPE_IMAGE = 'image';
     const TYPE_PDF = 'pdf';
 
+    protected $guarded = ['id', 'disk', 'custom_properties', 'file_name', 'model', 'collection_name'];
+
     public $imageProfileUrls = [];
 
     public $previousManipulations = [];
@@ -137,7 +139,7 @@ class Media extends Model
      * Get if the value of custom property with the given name.
      *
      * @param string $propertyName
-     * @param mixed $propertyName
+     * @param mixed  $propertyName
      *
      * @return mixed
      */

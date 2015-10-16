@@ -152,7 +152,7 @@ trait HasMediaTrait
 
         $updatedMedia = [];
         foreach ($newMediaArray as $newMediaItem) {
-            $mediaClass   = config('laravel-medialibrary.media_model');
+            $mediaClass = config('laravel-medialibrary.media_model');
             $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {

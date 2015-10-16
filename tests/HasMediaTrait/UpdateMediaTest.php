@@ -36,7 +36,7 @@ class UpdateMediaTest extends TestCase
     public function it_renames_media_items()
     {
         $mediaArray = $this->testModel->media->toArray();
-        
+
         $mediaArray[0]['name'] = 'testFoo';
         $mediaArray[1]['name'] = 'testBar';
 
@@ -53,7 +53,7 @@ class UpdateMediaTest extends TestCase
     public function it_updates_media_item_custom_properties()
     {
         $mediaArray = $this->testModel->media->toArray();
-        
+
         $mediaArray[0]['custom_properties']['foo'] = 'bar';
 
         $this->testModel->updateMedia($mediaArray);

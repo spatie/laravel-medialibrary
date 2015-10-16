@@ -40,6 +40,11 @@ class FileAdder
     /**
      * @var array
      */
+    protected $properties = [];
+
+    /**
+     * @var array
+     */
     protected $customProperties = [];
 
     /**
@@ -195,6 +200,32 @@ class FileAdder
     }
 
     /**
+     * Set the metadata.
+     *
+     * @param array $properties
+     *
+     * @return $this
+     */
+    public function withProperties(array $properties)
+    {
+        $this->properties = $properties;
+
+        return $this;
+    }
+
+    /**
+     * Set the metadata.
+     *
+     * @param array $properties
+     *
+     * @return $this
+     */
+    public function withAttributes(array $properties)
+    {
+        return $this->withProperties($properties);
+    }
+
+    /**
      * Set the target media collection to default.
      * Will also start the import process.
      *
@@ -267,6 +298,8 @@ class FileAdder
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
         $media->manipulations = [];
+
+        $media->fill($this->properties);
 
         $this->subject->media()->save($media);
 
