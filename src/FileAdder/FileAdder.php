@@ -200,7 +200,7 @@ class FileAdder
     }
 
     /**
-     * Set the metadata.
+     * Set properties on the model.
      *
      * @param array $properties
      *
@@ -214,7 +214,7 @@ class FileAdder
     }
 
     /**
-     * Set the metadata.
+     * Set attributes on the model.
      *
      * @param array $properties
      *
