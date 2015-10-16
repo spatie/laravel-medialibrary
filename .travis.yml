@@ -5,14 +5,14 @@ php:
   - 5.6
   - 7.0
 
-matrix:
-  include:
-    - php: 5.6
-      env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
+env:
+  matrix:
+    - PREFER_LOWEST="--prefer-lowest"
+    - PREFER_LOWEST=""
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - travis_retry composer update --prefer-source $PREFER_LOWEST 
   - printf "\n" | pecl install imagick
 
 script:
