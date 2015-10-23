@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+#3.7.0
+- Added `setCustomProperty`-method on Media
+
 ##3.6.0
 - Added `withProperties` and `withAttributes` methods
 
