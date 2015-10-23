@@ -151,4 +151,9 @@ class Media extends Model
 
         return $this->custom_properties[$propertyName];
     }
+
+    public function setCustomProperty($name, $value)
+    {
+        $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
+    }
 }

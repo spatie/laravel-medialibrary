@@ -52,6 +52,17 @@ class CustomPropertyTest extends TestCase
     /**
      * @test
      */
+    public function it_can_set_custom_property()
+    {
+        $this->mediaWithCustomProperty->setCustomProperty('anotherName', 'anotherValue');
+
+        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('customName'));
+        $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getCustomProperty('anotherName'));
+    }
+
+    /**
+     * @test
+     */
     public function it_returns_a_fallback_if_the_custom_property_isnt_set()
     {
         $this->assertEquals('foo', $this->mediaWithCustomProperty->getCustomProperty('imNotHere', 'foo'));
