@@ -21,9 +21,7 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 
         $url = $this->getBaseMediaDirectory().'/'.$this->getPathRelativeToRoot();
 
-        $this->makeCompatibleForNonUnixHosts($url);
-
-        return $url;
+        return $this->makeCompatibleForNonUnixHosts($url);
     }
 
     /**
@@ -61,12 +59,16 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
     }
 
     /**
-     * @param $url
+     * @param string $url
+     *
+     * @return string
      */
     protected function makeCompatibleForNonUnixHosts($url)
     {
         if (DIRECTORY_SEPARATOR != '/') {
-            str_replace(DIRECTORY_SEPARATOR, '/', $url);
+            $url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
         }
+
+        return $url;
     }
 }
