@@ -36,4 +36,12 @@ class FileTest extends TestCase
         $this->assertEquals('9.54 MB', File::getHumanReadableSize(10000000));
         $this->assertEquals('9.31 GB', File::getHumanReadableSize(10000000000));
     }
+
+    /**
+     * @test
+     */
+    public function it_can_determine_the_mime_type_of_a_file()
+    {
+        $this->assertEquals('text/x-php', File::getMimetype(__FILE__));
+    }
 }

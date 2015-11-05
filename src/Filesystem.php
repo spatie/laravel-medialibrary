@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Filesystem\Factory;
+use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Helpers\Gitignore;
 
 class Filesystem
@@ -54,7 +55,10 @@ class Filesystem
         $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
-        $this->filesystems->disk($media->disk)->put($destination, fopen($file, 'r+'));
+        $this->filesystems
+            ->disk($media->disk)
+            ->getDriver()
+            ->put($destination, fopen($file, 'r+'), ['ContentType' => File::getMimeType($file)]);
     }
 
     /**
