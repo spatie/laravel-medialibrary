@@ -2,7 +2,7 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
-##3.7.1
+##3.7.2
 - Add mimetype when putting a file on a disk.
 
 ##3.7.1
