@@ -3,6 +3,9 @@
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
 ##3.7.1
+- Add mimetype when putting a file on a disk.
+
+##3.7.1
 - Fix generation of local url's on non-unix hosts
 
 ##3.7.0
