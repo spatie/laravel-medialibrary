@@ -196,6 +196,8 @@ trait HasMediaTrait
      * Remove all media in the given collection.
      *
      * @param string $collectionName
+     *
+     * @return $this
      */
     public function clearMediaCollection($collectionName = 'default')
     {
@@ -203,6 +205,8 @@ trait HasMediaTrait
             app(Filesystem::class)->removeFiles($media);
             $media->delete();
         });
+
+        return $this;
     }
 
     /**

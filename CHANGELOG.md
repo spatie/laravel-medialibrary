@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.7.2
+- `clearMediaCollection` is now chainable
+
 ##3.7.1
 - Fix generation of local url's on non-unix hosts
 

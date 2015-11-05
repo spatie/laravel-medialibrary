@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use File;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions;
 
 class DeleteMediaTest extends TestCase
 {
@@ -36,6 +37,16 @@ class DeleteMediaTest extends TestCase
 
         $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
         $this->assertCount(0, $this->testModelWithoutMediaConversions->getMedia('images'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_provides_a_chainable_method_for_clearing_a_collection()
+    {
+        $result = $this->testModelWithoutMediaConversions->clearMediaCollection('images');
+
+        $this->assertInstanceOf(TestModelWithoutMediaConversions::class, $result);
     }
 
    /**
