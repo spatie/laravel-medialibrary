@@ -22,6 +22,7 @@ class FileAdder
      * @var Filesystem
      */
     protected $fileSystem;
+
     /**
      * @var Repository
      */
@@ -51,6 +52,7 @@ class FileAdder
      * @var string
      */
     protected $pathToFile;
+
     /**
      * @var string
      */
@@ -121,7 +123,7 @@ class FileAdder
     }
 
     /**
-     * When adding the file the medialibrary, the original file
+     * When adding the file to the media library, the original file
      * will be preserved.
      *
      * @return $this
