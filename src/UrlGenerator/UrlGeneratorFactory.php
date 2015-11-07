@@ -3,8 +3,6 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
-use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class UrlGeneratorFactory
