@@ -44,13 +44,10 @@ trait HasMediaTrait
     public function addMediaFromUrl($url)
     {
         if ($stream = @fopen($url, 'r')) {
-
             $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
-            echo "--- $tmpFile ---";
             file_put_contents($tmpFile, $stream);
 
             return app(FileAdderFactory::class)->create($this, $tmpFile);
-
         }
 
         throw new UrlCouldNotBeOpened;
