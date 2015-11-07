@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\UrlGenerator;
 
 use Illuminate\Contracts\Config\Repository as Config;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 abstract class BaseUrlGenerator
 {
@@ -16,6 +17,11 @@ abstract class BaseUrlGenerator
      * @var \Spatie\MediaLibrary\Conversion\Conversion
      */
     protected $conversion;
+
+    /**
+     * @var \Spatie\MediaLibrary\PathGenerator\PathGenerator
+     */
+    protected $pathGenerator;
 
     /**
      * @var \Illuminate\Contracts\Config\Repository
@@ -55,19 +61,29 @@ abstract class BaseUrlGenerator
     }
 
     /**
+     * @param \Spatie\MediaLibrary\PathGenerator\PathGenerator $pathGenerator
+     *
+     * @return $this
+     */
+    public function setPathGenerator(PathGenerator $pathGenerator)
+    {
+        $this->pathGenerator = $pathGenerator;
+
+        return $this;
+    }
+
+    /**
      * Get the path to the requested file relative to the root of the media directory.
      *
      * @return string
      */
     public function getPathRelativeToRoot()
     {
-        $path = $this->media->id;
-
         if (is_null($this->conversion)) {
-            return $path.'/'.$this->media->file_name;
+            return $this->pathGenerator->getPath($this->media) . $this->media->file_name;
         }
 
-        return $path.'/conversions/'.$this->conversion->getName().'.'.
-            $this->conversion->getResultExtension($this->media->extension);
+        return $this->pathGenerator->getPathForConversions($this->media) .
+            $this->conversion->getName() . '.' . $this->conversion->getResultExtension($this->media->extension);
     }
 }

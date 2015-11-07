@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\UrlGenerator;
 
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
+use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
@@ -23,7 +24,12 @@ class BaseUrlGeneratorTest extends TestCase
     /**
      * @var LocalUrlGenerator
      */
-    protected $generator;
+    protected $urlGenerator;
+
+    /**
+     * @var BasePathGenerator
+     */
+    protected $pathGenerator;
 
     public function setUp()
     {
@@ -36,11 +42,14 @@ class BaseUrlGeneratorTest extends TestCase
         $this->conversion = ConversionCollectionFactory::createForMedia($this->media)->getByName('thumb');
 
         // because BaseUrlGenerator is abstract we'll use LocalUrlGenerator to test the methods of base
-        $this->generator = new LocalUrlGenerator($this->config);
+        $this->urlGenerator = new LocalUrlGenerator($this->config);
+        $this->pathGenerator = new BasePathGenerator();
 
-        $this->generator
+        $this->urlGenerator
             ->setMedia($this->media)
-            ->setConversion($this->conversion);
+            ->setConversion($this->conversion)
+            ->setPathGenerator($this->pathGenerator);
+
     }
 
     /**
@@ -50,6 +59,6 @@ class BaseUrlGeneratorTest extends TestCase
     {
         $pathRelativeToRoot = $this->media->id.'/conversions/'.$this->conversion->getName().'.'.$this->conversion->getResultExtension($this->media->extension);
 
-        $this->assertEquals($pathRelativeToRoot, $this->generator->getPathRelativeToRoot());
+        $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
     }
 }
