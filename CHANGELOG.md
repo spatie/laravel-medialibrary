@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.8.0
+- Added ability to add media from a url
+
+$media = $this->testModel->addMediaFromUrl($url)
 ##3.7.3
 - `clearMediaCollection` is now chainable
 

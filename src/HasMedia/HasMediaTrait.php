@@ -41,6 +41,15 @@ trait HasMediaTrait
         return app(FileAdderFactory::class)->create($this, $file);
     }
 
+    /**
+     * Add a remote file to the medialibrary.
+     * 
+     * @param $url
+     *
+     * @return mixed
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened
+     */
     public function addMediaFromUrl($url)
     {
         if (!$stream = @fopen($url, 'r')) {
