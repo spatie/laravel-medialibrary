@@ -135,6 +135,23 @@ class IntegrationTest extends TestCase
     /**
      * @test
      */
+    public function it_can_add_a_remote_file_to_the_medialibrary()
+    {
+        $url = $this->getTestUrl();
+        $filename = basename(parse_url($url, PHP_URL_PATH));
+
+        $media = $this->testModel->addMediaFromUrl($url)
+            ->usingName('test')
+            ->usingFileName($filename)
+            ->toMediaLibrary();
+
+        $this->assertEquals('test', $media->name);
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$filename));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_rename_the_media_before_it_gets_added()
     {
         $media = $this->testModel
