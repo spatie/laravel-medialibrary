@@ -131,9 +131,4 @@ abstract class TestCase extends Orchestra
     {
         return $this->getTestFilesDirectory('test.jpg');
     }
-
-    public function getTestUrl()
-    {
-        return 'http://medialibrary.spatie.be/assets/images/mountain.jpg';
-    }
 }

@@ -43,15 +43,19 @@ trait HasMediaTrait
 
     public function addMediaFromUrl($url)
     {
-        if ($stream = @fopen($url, 'r')) {
-            $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
-            file_put_contents($tmpFile, $stream);
-
-            return app(FileAdderFactory::class)->create($this, $tmpFile);
+        if (!$stream = @fopen($url, 'r')) {
+            throw new UrlCouldNotBeOpened();
         }
 
-        throw new UrlCouldNotBeOpened;
+        $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
+        file_put_contents($tmpFile, $stream);
 
+        $filename = basename(parse_url($url, PHP_URL_PATH));
+
+        return app(FileAdderFactory::class)
+            ->create($this, $tmpFile)
+            ->usingName(pathinfo($filename, PATHINFO_FILENAME))
+            ->usingFileName($filename);
     }
 
     /**
