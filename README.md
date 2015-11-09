@@ -81,8 +81,6 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 This is the contents of the published config file:
 
 ```php
-<?php
-
 return [
 
     /*
