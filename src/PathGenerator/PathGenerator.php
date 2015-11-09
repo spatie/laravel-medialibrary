@@ -9,7 +9,7 @@ interface PathGenerator
     /**
      * Get the path for the given media, relative to the root storage path.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      *
      * @return string
      */
@@ -18,7 +18,7 @@ interface PathGenerator
     /**
      * Get the path for conversions of the given media, relative to the root storage path.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      *
      * @return string
      */
