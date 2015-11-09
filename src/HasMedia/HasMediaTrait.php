@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
 use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
+use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
@@ -38,6 +39,32 @@ trait HasMediaTrait
     public function addMedia($file)
     {
         return app(FileAdderFactory::class)->create($this, $file);
+    }
+
+    /**
+     * Add a remote file to the medialibrary.
+     * 
+     * @param $url
+     *
+     * @return mixed
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened
+     */
+    public function addMediaFromUrl($url)
+    {
+        if (!$stream = @fopen($url, 'r')) {
+            throw new UrlCouldNotBeOpened();
+        }
+
+        $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
+        file_put_contents($tmpFile, $stream);
+
+        $filename = basename(parse_url($url, PHP_URL_PATH));
+
+        return app(FileAdderFactory::class)
+            ->create($this, $tmpFile)
+            ->usingName(pathinfo($filename, PATHINFO_FILENAME))
+            ->usingFileName($filename);
     }
 
     /**

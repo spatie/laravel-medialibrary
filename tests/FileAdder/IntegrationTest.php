@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
+use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened;
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -130,6 +131,35 @@ class IntegrationTest extends TestCase
         $media = $this->testModel->addMedia($uploadedFile)->toMediaLibrary();
         $this->assertEquals('alternativename', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_add_a_remote_file_to_the_medialibrary()
+    {
+        $url = 'http://medialibrary.spatie.be/assets/images/mountain.jpg';
+
+        $media = $this->testModel
+            ->addMediaFromUrl($url)
+            ->toMediaLibrary();
+
+        $this->assertEquals('mountain', $media->name);
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/mountain.jpg"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_wil_thrown_an_exception_when_a_remote_file_could_not_be_added()
+    {
+        $url = 'http://medialibrary.spatie.be/assets/images/thisonedoesnotexist.jpg';
+
+        $this->setExpectedException(UrlCouldNotBeOpened::class);
+
+        $this->testModel
+            ->addMediaFromUrl($url)
+            ->toMediaLibrary();
     }
 
     /**
