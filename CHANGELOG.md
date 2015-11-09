@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.9.0
+- Added PathGenerator
+
 ##3.8.0
 - Added ability to add media from a url
 
