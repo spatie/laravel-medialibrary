@@ -8,7 +8,7 @@ class FileAdderFactory
      * @param \Illuminate\Database\Eloquent\Model                        $subject
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return mixed
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
     public static function create($subject, $file)
     {

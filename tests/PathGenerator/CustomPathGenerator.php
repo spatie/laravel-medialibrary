@@ -10,7 +10,7 @@ class CustomPathGenerator implements PathGenerator
     /**
      * Get the path for the given media, relative to the root storage path.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      *
      * @return string
      */
@@ -22,7 +22,7 @@ class CustomPathGenerator implements PathGenerator
     /**
      * Get the path for conversions of the given media, relative to the root storage path.
      *
-     * @param Media $media
+     * @param \Spatie\MediaLibrary\Media $media
      *
      * @return string
      */

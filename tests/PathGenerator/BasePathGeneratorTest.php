@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Test\PathGenerator;
 
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
-use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
@@ -22,12 +21,12 @@ class BasePathGeneratorTest extends TestCase
     protected $conversion;
 
     /**
-     * @var LocalUrlGenerator
+     * @var \Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator
      */
     protected $urlGenerator;
 
     /**
-     * @var BasePathGenerator
+     * @var \Spatie\MediaLibrary\PathGenerator\BasePathGenerator
      */
     protected $pathGenerator;
 

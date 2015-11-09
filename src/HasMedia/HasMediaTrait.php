@@ -46,7 +46,7 @@ trait HasMediaTrait
      * 
      * @param $url
      *
-     * @return mixed
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      *
      * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened
      */

@@ -35,7 +35,7 @@ class BasePathGenerator implements PathGenerator
      *
      * @param \Spatie\MediaLibrary\Media $media
      *
-     * @return mixed
+     * @return string
      */
     protected function getBasePath(Media $media)
     {
