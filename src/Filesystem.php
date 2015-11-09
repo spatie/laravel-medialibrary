@@ -6,6 +6,7 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Helpers\Gitignore;
+use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
 {
@@ -37,7 +38,7 @@ class Filesystem
      */
     public function add($file, Media $media, $targetFileName = '')
     {
-        $this->copyToMediaLibrary($file, $media, '', $targetFileName);
+        $this->copyToMediaLibrary($file, $media, false, $targetFileName);
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }
@@ -47,12 +48,12 @@ class Filesystem
      *
      * @param string                     $file
      * @param \Spatie\MediaLibrary\Media $media
-     * @param string                     $subDirectory
+     * @param boolean                    $conversions
      * @param string                     $targetFileName
      */
-    public function copyToMediaLibrary($file, Media $media, $subDirectory = '', $targetFileName = '')
+    public function copyToMediaLibrary($file, Media $media, $conversions = false, $targetFileName = '')
     {
-        $destination = $this->getMediaDirectory($media).'/'.($subDirectory != '' ? $subDirectory.'/' : '').
+        $destination = $this->getMediaDirectory($media, $conversions) .
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
         $this->filesystems
@@ -113,11 +114,16 @@ class Filesystem
      *
      * @return string
      */
-    public function getMediaDirectory(Media $media)
+    public function getMediaDirectory(Media $media, $conversion = false)
     {
         $this->filesystems->disk($media->disk)->put('.gitignore', Gitignore::getContents());
 
-        $directory = $media->id;
+        $pathGenerator = PathGeneratorFactory::create();
+
+        $directory = $conversion ?
+            $pathGenerator->getPathForConversions($media) :
+            $pathGenerator->getPath($media);
+
         $this->filesystems->disk($media->disk)->makeDirectory($directory);
 
         return $directory;

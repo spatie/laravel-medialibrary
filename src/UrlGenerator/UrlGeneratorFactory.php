@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class UrlGeneratorFactory
 {
@@ -10,15 +11,17 @@ class UrlGeneratorFactory
     {
         $urlGeneratorClass = 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($media->getDiskDriverName()).'UrlGenerator';
 
-        $customClass = config('laravel-medialibrary.custom_url_generator_class');
+        $customUrlClass = config('laravel-medialibrary.custom_url_generator_class');
 
-        if ($customClass != '' && class_exists($customClass) && is_subclass_of($customClass, UrlGenerator::class)) {
-            $urlGeneratorClass = $customClass;
+        if ($customUrlClass && class_exists($customUrlClass) && is_subclass_of($customUrlClass, UrlGenerator::class)) {
+            $urlGeneratorClass = $customUrlClass;
         }
 
         $urlGenerator = app($urlGeneratorClass);
 
-        $urlGenerator->setMedia($media);
+        $pathGenerator = PathGeneratorFactory::create();
+
+        $urlGenerator->setMedia($media)->setPathGenerator($pathGenerator);
 
         return $urlGenerator;
     }
