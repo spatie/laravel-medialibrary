@@ -48,12 +48,12 @@ class Filesystem
      *
      * @param string                     $file
      * @param \Spatie\MediaLibrary\Media $media
-     * @param boolean                    $conversions
+     * @param bool                       $conversions
      * @param string                     $targetFileName
      */
     public function copyToMediaLibrary($file, Media $media, $conversions = false, $targetFileName = '')
     {
-        $destination = $this->getMediaDirectory($media, $conversions) .
+        $destination = $this->getMediaDirectory($media, $conversions).
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
         $this->filesystems

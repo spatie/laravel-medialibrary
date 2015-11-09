@@ -80,10 +80,10 @@ abstract class BaseUrlGenerator
     public function getPathRelativeToRoot()
     {
         if (is_null($this->conversion)) {
-            return $this->pathGenerator->getPath($this->media) . $this->media->file_name;
+            return $this->pathGenerator->getPath($this->media).$this->media->file_name;
         }
 
-        return $this->pathGenerator->getPathForConversions($this->media) .
-            $this->conversion->getName() . '.' . $this->conversion->getResultExtension($this->media->extension);
+        return $this->pathGenerator->getPathForConversions($this->media).
+            $this->conversion->getName().'.'.$this->conversion->getResultExtension($this->media->extension);
     }
 }

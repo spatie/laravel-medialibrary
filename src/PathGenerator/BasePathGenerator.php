@@ -15,7 +15,7 @@ class BasePathGenerator implements PathGenerator
      */
     public function getPath(Media $media)
     {
-        return $this->getBasePath($media) . '/';
+        return $this->getBasePath($media).'/';
     }
 
     /**
@@ -27,7 +27,7 @@ class BasePathGenerator implements PathGenerator
      */
     public function getPathForConversions(Media $media)
     {
-        return $this->getBasePath($media) . '/conversions/';
+        return $this->getBasePath($media).'/conversions/';
     }
 
     /**
