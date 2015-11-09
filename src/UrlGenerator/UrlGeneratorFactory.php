@@ -13,16 +13,38 @@ class UrlGeneratorFactory
 
         $customUrlClass = config('laravel-medialibrary.custom_url_generator_class');
 
-        if ($customUrlClass && class_exists($customUrlClass) && is_subclass_of($customUrlClass, UrlGenerator::class)) {
-            $urlGeneratorClass = $customUrlClass;
-        }
-
-        $urlGenerator = app($urlGeneratorClass);
+        $urlGenerator = self::isAValidUrlGeneratorClass($customUrlClass)
+            ? $customUrlClass
+            : app($urlGeneratorClass);
 
         $pathGenerator = PathGeneratorFactory::create();
 
         $urlGenerator->setMedia($media)->setPathGenerator($pathGenerator);
 
         return $urlGenerator;
+    }
+
+    /**
+     * Determine if the the given class is a valid UrlGenerator
+     *
+     * @param $customUrlClass
+     *
+     * @return bool
+     */
+    protected static function isAValidUrlGeneratorClass($customUrlClass)
+    {
+        if (!$customUrlClass) {
+            return false;
+        }
+
+        if (!class_exists($customUrlClass)) {
+            return false;
+        }
+
+        if (! is_subclass_of($customUrlClass, UrlGenerator::class)) {
+            return false;
+        }
+
+        return true;
     }
 }
