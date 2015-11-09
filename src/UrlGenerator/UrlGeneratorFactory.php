@@ -25,7 +25,7 @@ class UrlGeneratorFactory
     }
 
     /**
-     * Determine if the the given class is a valid UrlGenerator
+     * Determine if the the given class is a valid UrlGenerator.
      *
      * @param $customUrlClass
      *
@@ -41,7 +41,7 @@ class UrlGeneratorFactory
             return false;
         }
 
-        if (! is_subclass_of($customUrlClass, UrlGenerator::class)) {
+        if (!is_subclass_of($customUrlClass, UrlGenerator::class)) {
             return false;
         }
 
