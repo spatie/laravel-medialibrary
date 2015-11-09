@@ -36,10 +36,9 @@ class BasePathGeneratorTest extends TestCase
 
         $this->config = app('config');
 
-        // because BaseUrlGenerator is abstract we'll use LocalUrlGenerator to test the methods of base
+        // BaseUrlGenerator is abstract so we'll use LocalUrlGenerator to test the methods of base
         $this->urlGenerator = new LocalUrlGenerator($this->config);
 
-        // but we'll use a custom pathGenerator
         $this->pathGenerator = new CustomPathGenerator();
 
         $this->urlGenerator->setPathGenerator($this->pathGenerator);
