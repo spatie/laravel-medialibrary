@@ -47,5 +47,4 @@ class CollectionClearedEvent
     {
         return $this->collectionName;
     }
-
 }
