@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\HasMedia;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Events\CollectionHasBeenClearedEvent;
 use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
 use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
 use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened;
@@ -13,6 +14,7 @@ use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMediaTrait
 {
+
     /**
      * @var array
      */
@@ -43,7 +45,7 @@ trait HasMediaTrait
 
     /**
      * Add a remote file to the medialibrary.
-     * 
+     *
      * @param $url
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
@@ -183,7 +185,8 @@ trait HasMediaTrait
             $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {
-                throw new MediaIsNotPartOfCollection(sprintf('Media id %s is not part of collection %s', $currentMedia->id, $collectionName));
+                throw new MediaIsNotPartOfCollection(sprintf('Media id %s is not part of collection %s',
+                    $currentMedia->id, $collectionName));
             }
 
             if (array_key_exists('name', $newMediaItem)) {
@@ -233,6 +236,8 @@ trait HasMediaTrait
             $media->delete();
         });
 
+        app('events')->fire(new CollectionHasBeenClearedEvent($this, $collectionName));
+
         return $this;
     }
 
@@ -253,7 +258,7 @@ trait HasMediaTrait
         $media = $this->media->find($mediaId);
 
         if (!$media) {
-            throw new MediaDoesNotBelongToModel('Media id '.$mediaId.' does not belong to this model');
+            throw new MediaDoesNotBelongToModel('Media id ' . $mediaId . ' does not belong to this model');
         }
 
         $media->delete();
