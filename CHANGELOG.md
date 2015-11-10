@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.9.2
+- Fixed an issue where a model would not regenerate manipulations after changing manipulations on media.
+
 ##3.9.1
 - Fix bug when using a custom UrlGenerator class
 
