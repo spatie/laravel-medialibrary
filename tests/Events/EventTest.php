@@ -1,4 +1,5 @@
 <?php
+
 namespace Spatie\MediaLibrary\Test\Events;
 
 use Spatie\MediaLibrary\Events\CollectionClearedEvent;
@@ -8,7 +9,6 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class EventTest extends TestCase
 {
-
     /**
      * @test
      */

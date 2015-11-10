@@ -16,7 +16,7 @@ class CustomPathGenerator implements PathGenerator
      */
     public function getPath(Media $media)
     {
-        return md5($media->id) . '/';
+        return md5($media->id).'/';
     }
 
     /**
@@ -28,6 +28,6 @@ class CustomPathGenerator implements PathGenerator
      */
     public function getPathForConversions(Media $media)
     {
-        return md5($media->id). '/c/';
+        return md5($media->id).'/c/';
     }
 }

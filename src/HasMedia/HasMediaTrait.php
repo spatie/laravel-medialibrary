@@ -14,7 +14,6 @@ use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMediaTrait
 {
-
     /**
      * @var array
      */
@@ -259,7 +258,7 @@ trait HasMediaTrait
         $media = $this->media->find($mediaId);
 
         if (!$media) {
-            throw new MediaDoesNotBelongToModel('Media id ' . $mediaId . ' does not belong to this model');
+            throw new MediaDoesNotBelongToModel('Media id '.$mediaId.' does not belong to this model');
         }
 
         $media->delete();

@@ -12,7 +12,6 @@ use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
 {
-
     /**
      * @var Illuminate\Contracts\Filesystem\Factory
      */
@@ -31,7 +30,6 @@ class Filesystem
     /**
      * @param Factory                                 $filesystems
      * @param \Illuminate\Contracts\Config\Repository $config
-     *
      */
     public function __construct(Factory $filesystems, ConfigRepository $config, Dispatcher $events)
     {
@@ -66,7 +64,7 @@ class Filesystem
      */
     public function copyToMediaLibrary($file, Media $media, $conversions = false, $targetFileName = '')
     {
-        $destination = $this->getMediaDirectory($media, $conversions) .
+        $destination = $this->getMediaDirectory($media, $conversions).
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
         $this->filesystems
@@ -83,7 +81,7 @@ class Filesystem
      */
     public function copyFromMediaLibrary(Media $media, $targetFile)
     {
-        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         touch($targetFile);
 
@@ -112,8 +110,8 @@ class Filesystem
      */
     public function renameFile(Media $media, $oldName)
     {
-        $oldFile = $this->getMediaDirectory($media) . '/' . $oldName;
-        $newFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
+        $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         $this->filesystems->disk($media->disk)->move($oldFile, $newFile);
 

@@ -7,18 +7,17 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class CollectionClearedEvent
 {
-
     use SerializesModels;
 
     /**
      * @var \Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia
      */
-    protected $model;
+    public $model;
 
     /**
      * @var string
      */
-    protected $collectionName;
+    public $collectionName;
 
     /**
      * MediaHasBeenStoredEvent constructor.
@@ -30,21 +29,5 @@ class CollectionClearedEvent
     {
         $this->model = $model;
         $this->collectionName = $collectionName;
-    }
-
-    /**
-     * @return HasMedia
-     */
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCollectionName()
-    {
-        return $this->collectionName;
     }
 }

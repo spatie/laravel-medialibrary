@@ -8,18 +8,17 @@ use Spatie\MediaLibrary\Media;
 
 class ConversionCompleteEvent
 {
-
     use SerializesModels;
 
     /**
      * @var \Spatie\MediaLibrary\Media
      */
-    protected $media;
+    public $media;
 
     /**
      * @var \Spatie\MediaLibrary\Conversion\Conversion
      */
-    protected $conversion;
+    public $conversion;
 
     /**
      * ConversionHasFinishedEvent constructor.
@@ -31,21 +30,5 @@ class ConversionCompleteEvent
     {
         $this->media = $media;
         $this->conversion = $conversion;
-    }
-
-    /**
-     * @return Media
-     */
-    public function getMedia()
-    {
-        return $this->media;
-    }
-
-    /**
-     * @return Conversion
-     */
-    public function getConversion()
-    {
-        return $this->conversion;
     }
 }

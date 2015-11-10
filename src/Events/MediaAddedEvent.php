@@ -7,13 +7,12 @@ use Spatie\MediaLibrary\Media;
 
 class MediaAddedEvent
 {
-
     use SerializesModels;
 
     /**
      * @var \Spatie\MediaLibrary\Media
      */
-    protected $media;
+    public $media;
 
     /**
      * MediaHasBeenStoredEvent constructor.
@@ -23,13 +22,5 @@ class MediaAddedEvent
     public function __construct(Media $media)
     {
         $this->media = $media;
-    }
-
-    /**
-     * @return Media
-     */
-    public function getMedia()
-    {
-        return $this->media;
     }
 }

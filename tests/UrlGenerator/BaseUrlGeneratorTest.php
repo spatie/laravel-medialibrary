@@ -49,7 +49,6 @@ class BaseUrlGeneratorTest extends TestCase
             ->setMedia($this->media)
             ->setConversion($this->conversion)
             ->setPathGenerator($this->pathGenerator);
-
     }
 
     /**

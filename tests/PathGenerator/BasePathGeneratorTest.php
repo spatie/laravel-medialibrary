@@ -53,7 +53,7 @@ class BasePathGeneratorTest extends TestCase
 
         $this->urlGenerator->setMedia($media);
 
-        $pathRelativeToRoot = md5($media->id) . '/' . $media->file_name;
+        $pathRelativeToRoot = md5($media->id).'/'.$media->file_name;
 
         $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
     }
