@@ -186,7 +186,7 @@ trait HasMediaTrait
 
             if ($currentMedia->collection_name != $collectionName) {
                 throw new MediaIsNotPartOfCollection(
-                  sprintf('Media id %s is not part of collection %s', $currentMedia->id, $collectionName)
+                    sprintf('Media id %s is not part of collection %s', $currentMedia->id, $collectionName)
                 );
             }
 
