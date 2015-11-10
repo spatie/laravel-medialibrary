@@ -2,12 +2,14 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
+use Spatie\MediaLibrary\Events\ConversionCompleteEvent;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
 use Spatie\MediaLibrary\Helpers\Gitignore;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
@@ -15,7 +17,18 @@ use Spatie\PdfToImage\Pdf;
 
 class FileManipulator
 {
+
     use DispatchesJobs;
+
+    /**
+     * @var \Illuminate\Contracts\Events\Dispatcher
+     */
+    protected $events;
+
+    public function __construct(Dispatcher $events)
+    {
+        $this->events = $events;
+    }
 
     /**
      * Create all derived files for the given media.
@@ -53,7 +66,7 @@ class FileManipulator
     {
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
+        $copiedOriginalFile = $tempDirectory . '/' . str_random(16) . '.' . $media->extension;
 
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
@@ -62,12 +75,15 @@ class FileManipulator
         }
 
         foreach ($conversions as $conversion) {
+
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName() . '.' .
                 $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
 
-            app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
+            app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
+
+            $this->events->fire(new ConversionCompleteEvent($media, $conversion));
         }
 
         File::deleteDirectory($tempDirectory);
@@ -84,8 +100,8 @@ class FileManipulator
      */
     public function performConversion(Media $media, Conversion $conversion, $copiedOriginalFile)
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).
-            $conversion->getName().'.'.$media->extension;
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME) . '/' . string()->random(16) .
+            $conversion->getName() . '.' . $media->extension;
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
@@ -106,7 +122,7 @@ class FileManipulator
      */
     public function createTempDirectory()
     {
-        $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
+        $tempDirectory = storage_path('medialibrary/temp/' . str_random(16));
 
         File::makeDirectory($tempDirectory, 493, true);
 
@@ -122,7 +138,7 @@ class FileManipulator
      */
     protected function convertToImage($pdfFile)
     {
-        $imageFile = string($pdfFile)->pop('.').'.jpg';
+        $imageFile = string($pdfFile)->pop('.') . '.jpg';
 
         (new Pdf($pdfFile))->saveImage($imageFile);
 
@@ -132,10 +148,10 @@ class FileManipulator
     /**
      * Dispatch the given conversions.
      *
-     * @param Media $media
-     * @param $queuedConversions
+     * @param Media                $media
+     * @param ConversionCollection $queuedConversions
      */
-    protected function dispatchQueuedConversions(Media $media, $queuedConversions)
+    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions)
     {
         $job = new PerformConversions($queuedConversions, $media);
 

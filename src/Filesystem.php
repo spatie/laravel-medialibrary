@@ -3,30 +3,41 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
+use Spatie\MediaLibrary\Events\MediaAddedEvent;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Helpers\Gitignore;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
 {
+
     /**
-     * @var Factory
+     * @var Illuminate\Contracts\Filesystem\Factory
      */
     protected $filesystems;
+
     /**
      * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
 
     /**
+     * @var \Illuminate\Contracts\Events\Dispatcher
+     */
+    protected $events;
+
+    /**
      * @param Factory                                 $filesystems
      * @param \Illuminate\Contracts\Config\Repository $config
+     *
      */
-    public function __construct(Factory $filesystems, ConfigRepository $config)
+    public function __construct(Factory $filesystems, ConfigRepository $config, Dispatcher $events)
     {
         $this->filesystems = $filesystems;
         $this->config = $config;
+        $this->events = $events;
     }
 
     /**
@@ -34,11 +45,13 @@ class Filesystem
      *
      * @param string                     $file
      * @param \Spatie\MediaLibrary\Media $media
-     * @param $targetFileName
+     * @param string                     $targetFileName
      */
     public function add($file, Media $media, $targetFileName = '')
     {
         $this->copyToMediaLibrary($file, $media, false, $targetFileName);
+
+        $this->events->fire(new MediaAddedEvent($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }
@@ -53,7 +66,7 @@ class Filesystem
      */
     public function copyToMediaLibrary($file, Media $media, $conversions = false, $targetFileName = '')
     {
-        $destination = $this->getMediaDirectory($media, $conversions).
+        $destination = $this->getMediaDirectory($media, $conversions) .
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
         $this->filesystems
@@ -70,7 +83,7 @@ class Filesystem
      */
     public function copyFromMediaLibrary(Media $media, $targetFile)
     {
-        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
 
         touch($targetFile);
 
@@ -99,8 +112,8 @@ class Filesystem
      */
     public function renameFile(Media $media, $oldName)
     {
-        $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
-        $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $oldFile = $this->getMediaDirectory($media) . '/' . $oldName;
+        $newFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
 
         $this->filesystems->disk($media->disk)->move($oldFile, $newFile);
 
