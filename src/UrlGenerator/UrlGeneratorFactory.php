@@ -14,7 +14,7 @@ class UrlGeneratorFactory
         $customUrlClass = config('laravel-medialibrary.custom_url_generator_class');
 
         $urlGenerator = self::isAValidUrlGeneratorClass($customUrlClass)
-            ? $customUrlClass
+            ? app($customUrlClass)
             : app($urlGeneratorClass);
 
         $pathGenerator = PathGeneratorFactory::create();
