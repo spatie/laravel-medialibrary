@@ -27,12 +27,14 @@
     "spatie/laravel-glide": "^2.2.4",
     "spatie/pdf-to-image": "^1.0",
     "spatie/string": "^2.0"
+
   },
   "require-dev": {
-    "phpunit/phpunit" : "4.*",
+    "phpunit/phpunit" : "^4.0",
     "mockery/mockery": "0.9.*",
-    "scrutinizer/ocular": "~1.1",
-    "orchestra/testbench": "~3.0"
+    "scrutinizer/ocular": "^1.1",
+    "orchestra/testbench": "^3.0",
+    "doctrine/dbal": "^2.5"
   },
   "autoload": {
     "psr-4": {
