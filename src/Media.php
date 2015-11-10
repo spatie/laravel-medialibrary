@@ -19,7 +19,7 @@ class Media extends Model
 
     public $imageProfileUrls = [];
 
-    public $previousManipulations = [];
+    public $hasModifiedManipulations = false;
 
     /**
      * The attributes that should be casted to native types.
