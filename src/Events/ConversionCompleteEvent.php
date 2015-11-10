@@ -48,5 +48,4 @@ class ConversionCompleteEvent
     {
         return $this->conversion;
     }
-
 }

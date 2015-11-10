@@ -32,5 +32,4 @@ class MediaAddedEvent
     {
         return $this->media;
     }
-
 }

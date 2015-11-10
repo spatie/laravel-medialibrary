@@ -185,8 +185,9 @@ trait HasMediaTrait
             $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {
-                throw new MediaIsNotPartOfCollection(sprintf('Media id %s is not part of collection %s',
-                    $currentMedia->id, $collectionName));
+                throw new MediaIsNotPartOfCollection(
+                    sprintf('Media id %s is not part of collection %s', $currentMedia->id, $collectionName)
+                );
             }
 
             if (array_key_exists('name', $newMediaItem)) {
