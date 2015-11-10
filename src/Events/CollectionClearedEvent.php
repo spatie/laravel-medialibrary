@@ -11,14 +11,14 @@ class CollectionClearedEvent
     use SerializesModels;
 
     /**
-     * @var string
-     */
-    protected $collectionName;
-
-    /**
      * @var \Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia
      */
     protected $model;
+
+    /**
+     * @var string
+     */
+    protected $collectionName;
 
     /**
      * MediaHasBeenStoredEvent constructor.
