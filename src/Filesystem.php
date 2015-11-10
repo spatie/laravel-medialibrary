@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
-use Spatie\MediaLibrary\Events\MediaHasBeenStoredEvent;
+use Spatie\MediaLibrary\Events\MediaAddedEvent;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Helpers\Gitignore;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
@@ -51,7 +51,7 @@ class Filesystem
     {
         $this->copyToMediaLibrary($file, $media, false, $targetFileName);
 
-        $this->events->fire(new MediaHasBeenStoredEvent($media));
+        $this->events->fire(new MediaAddedEvent($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }

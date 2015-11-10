@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\Events;
 use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\Media;
 
-class MediaHasBeenStoredEvent
+class MediaAddedEvent
 {
 
     use SerializesModels;

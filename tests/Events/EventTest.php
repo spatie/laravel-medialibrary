@@ -1,9 +1,9 @@
 <?php
 namespace Spatie\MediaLibrary\Test\Events;
 
-use Spatie\MediaLibrary\Events\CollectionHasBeenClearedEvent;
-use Spatie\MediaLibrary\Events\ConversionHasFinishedEvent;
-use Spatie\MediaLibrary\Events\MediaHasBeenStoredEvent;
+use Spatie\MediaLibrary\Events\CollectionClearedEvent;
+use Spatie\MediaLibrary\Events\ConversionCompleteEvent;
+use Spatie\MediaLibrary\Events\MediaAddedEvent;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class EventTest extends TestCase
@@ -14,7 +14,7 @@ class EventTest extends TestCase
      */
     public function it_will_fire_the_made_has_been_stored_event()
     {
-        $this->expectsEvents([MediaHasBeenStoredEvent::class]);
+        $this->expectsEvents([MediaAddedEvent::class]);
 
         $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
     }
@@ -24,7 +24,7 @@ class EventTest extends TestCase
      */
     public function it_will_fire_the_conversion_has_finished_event()
     {
-        $this->expectsEvents([ConversionHasFinishedEvent::class]);
+        $this->expectsEvents([ConversionCompleteEvent::class]);
 
         $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
     }
@@ -39,7 +39,7 @@ class EventTest extends TestCase
             ->preservingOriginal()
             ->toMediaLibrary('images');
 
-        $this->expectsEvents([CollectionHasBeenClearedEvent::class]);
+        $this->expectsEvents([CollectionClearedEvent::class]);
 
         $this->testModel->clearMediaCollection('images');
     }

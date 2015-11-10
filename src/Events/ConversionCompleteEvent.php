@@ -6,7 +6,7 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Media;
 
-class ConversionHasFinishedEvent
+class ConversionCompleteEvent
 {
 
     use SerializesModels;
