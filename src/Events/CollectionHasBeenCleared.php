@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\Events;
 use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
-class CollectionClearedEvent
+class CollectionHasBeenCleared
 {
     use SerializesModels;
 

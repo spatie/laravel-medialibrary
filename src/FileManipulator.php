@@ -9,7 +9,7 @@ use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
-use Spatie\MediaLibrary\Events\ConversionCompleteEvent;
+use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
 use Spatie\MediaLibrary\Helpers\Gitignore;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
@@ -81,7 +81,7 @@ class FileManipulator
 
             app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
 
-            $this->events->fire(new ConversionCompleteEvent($media, $conversion));
+            $this->events->fire(new ConversionHasBeenCompleted($media, $conversion));
         }
 
         File::deleteDirectory($tempDirectory);
