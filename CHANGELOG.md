@@ -6,7 +6,7 @@ All Notable changes to `laravel-medialibrary` will be documented in this file
 - Fixed the event names to make them more readable `CollectionHasBeenCleared`, `ConversionHasBeenCompleted`, `MediaHasBeenAdded`
 
 ##3.10.0
-- Added `CollectionClearedEvent`, `ConverionCompleteEvent`, `MediaAddedEvent`
+- Added `CollectionClearedEvent`, `ConversionCompleteEvent`, `MediaAddedEvent`
 
 ##3.9.2
 - Fixed an issue where a model would not regenerate manipulations after changing manipulations on media
