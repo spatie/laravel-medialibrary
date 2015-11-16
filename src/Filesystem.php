@@ -13,9 +13,9 @@ use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 class Filesystem
 {
     /**
-     * @var Illuminate\Contracts\Filesystem\Factory
+     * @var \Illuminate\Contracts\Filesystem\Factory
      */
-    protected $filesystems;
+    protected $filesystem;
 
     /**
      * @var \Illuminate\Contracts\Config\Repository
@@ -33,7 +33,7 @@ class Filesystem
      */
     public function __construct(Factory $filesystems, ConfigRepository $config, Dispatcher $events)
     {
-        $this->filesystems = $filesystems;
+        $this->filesystem = $filesystems;
         $this->config = $config;
         $this->events = $events;
     }
@@ -67,10 +67,17 @@ class Filesystem
         $destination = $this->getMediaDirectory($media, $conversions).
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
-        $this->filesystems
-            ->disk($media->disk)
-            ->getDriver()
-            ->put($destination, fopen($file, 'r+'), ['ContentType' => File::getMimeType($file)]);
+        if ($media->getDiskDriverName() === 'local') {
+            $this->filesystem
+                ->disk($media->disk)
+                ->put($destination, fopen($file, 'r+'));
+        }
+        else {
+            $this->filesystem
+                ->disk($media->disk)
+                ->getDriver()
+                ->put($destination, fopen($file, 'r+'), ['ContentType' => File::getMimeType($file)]);
+        }
     }
 
     /**
@@ -85,7 +92,7 @@ class Filesystem
 
         touch($targetFile);
 
-        $stream = $this->filesystems->disk($media->disk)->readStream($sourceFile);
+        $stream = $this->filesystem->disk($media->disk)->readStream($sourceFile);
         file_put_contents($targetFile, stream_get_contents($stream), FILE_APPEND);
         fclose($stream);
     }
@@ -97,7 +104,7 @@ class Filesystem
      */
     public function removeFiles(Media $media)
     {
-        $this->filesystems->disk($media->disk)->deleteDirectory($this->getMediaDirectory($media));
+        $this->filesystem->disk($media->disk)->deleteDirectory($this->getMediaDirectory($media));
     }
 
     /**
@@ -113,7 +120,7 @@ class Filesystem
         $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
         $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
-        $this->filesystems->disk($media->disk)->move($oldFile, $newFile);
+        $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
 
         return true;
     }
@@ -127,7 +134,7 @@ class Filesystem
      */
     public function getMediaDirectory(Media $media, $conversion = false)
     {
-        $this->filesystems->disk($media->disk)->put('.gitignore', Gitignore::getContents());
+        $this->filesystem->disk($media->disk)->put('.gitignore', Gitignore::getContents());
 
         $pathGenerator = PathGeneratorFactory::create();
 
@@ -135,7 +142,7 @@ class Filesystem
             $pathGenerator->getPathForConversions($media) :
             $pathGenerator->getPath($media);
 
-        $this->filesystems->disk($media->disk)->makeDirectory($directory);
+        $this->filesystem->disk($media->disk)->makeDirectory($directory);
 
         return $directory;
     }
