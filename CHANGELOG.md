@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.11.0
+- Accept Symfony\Component\HttpFoundation\File\File-object when adding files
+
 ##3.10.2
 - Fixed mime-type errors when using the local filesystem
 
