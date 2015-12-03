@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdder
@@ -119,7 +120,16 @@ class FileAdder
             return $this;
         }
 
-        throw new FileCannotBeImported('Only strings and UploadedFileObjects can be imported');
+        if ($file instanceof File) {
+            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
+            $this->fileName = pathinfo($file->getFilename(), PATHINFO_BASENAME);
+            $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+
+            return $this;
+        }
+
+
+        throw new FileCannotBeImported('Only strings, FileObjects and UploadedFileObjects can be imported');
     }
 
     /**
