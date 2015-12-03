@@ -128,6 +128,7 @@ class Media extends Model
     /**
      * Determine if the media item has a custom property with the given name.
      *
+     * @param string $propertyName
      * @return bool
      */
     public function hasCustomProperty($propertyName)

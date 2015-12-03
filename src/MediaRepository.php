@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class MediaRepository
 {
