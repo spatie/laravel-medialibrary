@@ -70,8 +70,7 @@ class Filesystem
             $this->filesystem
                 ->disk($media->disk)
                 ->put($destination, fopen($file, 'r+'));
-        }
-        else {
+        } else {
             $this->filesystem
                 ->disk($media->disk)
                 ->getDriver()

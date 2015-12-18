@@ -20,7 +20,7 @@ trait SortableTrait
      */
     public function getHighestOrderNumber()
     {
-        return ((int) static::max($this->determineOrderColumnName()));
+        return (int) static::max($this->determineOrderColumnName());
     }
 
     /**
@@ -93,4 +93,3 @@ trait SortableTrait
         return $this->sortable['sort_when_creating'];
     }
 }
-

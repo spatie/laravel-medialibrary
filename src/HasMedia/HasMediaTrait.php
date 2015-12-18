@@ -118,7 +118,7 @@ trait HasMediaTrait
     {
         $media = $this->getMedia($collectionName, $filters);
 
-        return (count($media) ? $media->first() : false);
+        return count($media) ? $media->first() : false;
     }
 
     /**

@@ -128,7 +128,6 @@ class FileAdder
             return $this;
         }
 
-
         throw new FileCannotBeImported('Only strings, FileObjects and UploadedFileObjects can be imported');
     }
 
