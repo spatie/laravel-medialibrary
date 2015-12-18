@@ -106,7 +106,7 @@ class FileAdder
 
         if (is_string($file)) {
             $this->pathToFile = $file;
-            $this->fileName = pathinfo($file, PATHINFO_BASENAME);
+            $this->setFileName(pathinfo($file, PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file, PATHINFO_FILENAME);
 
             return $this;
@@ -114,7 +114,7 @@ class FileAdder
 
         if ($file instanceof UploadedFile) {
             $this->pathToFile = $file->getPath().'/'.$file->getFilename();
-            $this->fileName = $file->getClientOriginalName();
+            $this->setFileName($file->getClientOriginalName());
             $this->mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
             return $this;
@@ -122,7 +122,7 @@ class FileAdder
 
         if ($file instanceof File) {
             $this->pathToFile = $file->getPath().'/'.$file->getFilename();
-            $this->fileName = pathinfo($file->getFilename(), PATHINFO_BASENAME);
+            $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
             return $this;
@@ -191,7 +191,7 @@ class FileAdder
      */
     public function setFileName($fileName)
     {
-        $this->fileName = $fileName;
+        $this->fileName = $this->sanitizeFileName($fileName);
 
         return $this;
     }
@@ -287,6 +287,16 @@ class FileAdder
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
 
+    /**
+     * @param string $collectionName
+     * @param string $diskName
+     *
+     * @return \Spatie\MediaLibrary\Media
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExist
+     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
+     * @throws \Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist
+     */
     public function toCollectionOnDisk($collectionName = 'default', $diskName = '')
     {
         if (!is_file($this->pathToFile)) {
@@ -343,5 +353,17 @@ class FileAdder
         }
 
         return $diskName;
+    }
+
+    /**
+     * Sanitize the given file name.
+     *
+     * @param $fileName
+     *
+     * @return string
+     */
+    protected function sanitizeFileName($fileName)
+    {
+        return str_replace(['#', '/', '\\'], '-', $fileName);
     }
 }

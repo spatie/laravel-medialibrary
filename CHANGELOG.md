@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.11.2
+- Fixed the processing a file name with special characters
+
 ##3.11.1
 - Remove adding .gitignore files
 
