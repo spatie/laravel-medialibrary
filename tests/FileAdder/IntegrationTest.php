@@ -107,18 +107,6 @@ class IntegrationTest extends TestCase
     /**
      * @test
      */
-    public function it_will_put_a_gitignore_in_the_medialibrary_when_adding_media()
-    {
-        $this->assertFileNotExists($this->getMediaDirectory('.gitignore'));
-
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary();
-
-        $this->assertFileExists($this->getMediaDirectory('.gitignore'));
-    }
-
-    /**
-     * @test
-     */
     public function it_can_add_an_upload_to_the_medialibrary()
     {
         $uploadedFile = new UploadedFile(

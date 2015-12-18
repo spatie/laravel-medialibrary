@@ -7,7 +7,6 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Helpers\Gitignore;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
@@ -134,8 +133,6 @@ class Filesystem
      */
     public function getMediaDirectory(Media $media, $conversion = false)
     {
-        $this->filesystem->disk($media->disk)->put('.gitignore', Gitignore::getContents());
-
         $pathGenerator = PathGeneratorFactory::create();
 
         $directory = $conversion ?

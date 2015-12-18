@@ -11,7 +11,6 @@ use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
-use Spatie\MediaLibrary\Helpers\Gitignore;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
 use Spatie\PdfToImage\Pdf;
 
@@ -123,8 +122,6 @@ class FileManipulator
         $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
 
         File::makeDirectory($tempDirectory, 493, true);
-
-        Gitignore::createIn(storage_path('medialibrary'));
 
         return $tempDirectory;
     }
