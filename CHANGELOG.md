@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.11.1
+- Remove adding .gitignore files
+
 ##3.11.0
 - Accept Symfony\Component\HttpFoundation\File\File-object when adding files
 
