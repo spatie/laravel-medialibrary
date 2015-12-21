@@ -32,7 +32,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([
-                __DIR__.'/../resources/migrations/create_media_table.php.stub' => $this->app->basePath().'/'.'database/migrations/'.$timestamp.'_create_media_table.php',
+                __DIR__.'/../resources/migrations/create_media_table.php.stub' => database_path('migrations/'.$timestamp.'_create_media_table.php'),
             ], 'migrations');
         }
     }
