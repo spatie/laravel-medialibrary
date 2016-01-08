@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+#3.12.0
+- Add configurable headers when uploading media to a remote disk
+
 ##3.11.3
 - use database_path when publishing migrations
 
