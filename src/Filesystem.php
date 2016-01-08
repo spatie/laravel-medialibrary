@@ -71,10 +71,14 @@ class Filesystem
                 ->disk($media->disk)
                 ->put($destination, fopen($file, 'r+'));
         } else {
+            $config = array_merge([
+                'ContentType' => File::getMimeType($file)
+            ], $this->config->get('laravel-medialibrary.remote.extra_headers'));
+
             $this->filesystem
                 ->disk($media->disk)
                 ->getDriver()
-                ->put($destination, fopen($file, 'r+'), ['ContentType' => File::getMimeType($file)]);
+                ->put($destination, fopen($file, 'r+'), $config);
         }
     }
 

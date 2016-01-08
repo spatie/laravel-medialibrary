@@ -123,6 +123,20 @@ return [
          */
         'domain' => 'https://xxxxxxx.s3.amazonaws.com',
     ],
+
+    'remote' => [
+        /**
+         * Any extra headers that should be included when uploading media to
+         * a remote disk. Even though supported headers may vary between
+         * different drivers, a sensible default has been provided.
+         *
+         * Supported by S3: CacheControl, Expires, StorageClass,
+         * ServerSideEncryption, Metadata, ACL, ContentEncoding
+         */
+        'extra_headers' => [
+            'CacheControl' => 'max-age=604800',
+        ]
+    ]
 ];
 ```
 
