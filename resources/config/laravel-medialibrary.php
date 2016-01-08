@@ -44,7 +44,7 @@ return [
     ],
 
     'remote' => [
-        /**
+        /*
          * Any extra headers that should be included when uploading media to
          * a remote disk. Even though supported headers may vary between
          * different drivers, a sensible default has been provided.
