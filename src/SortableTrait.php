@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
+use Spatie\MediaLibrary\Exceptions\SortableException;
+
 trait SortableTrait
 {
     /**
