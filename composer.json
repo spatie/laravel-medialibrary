@@ -24,7 +24,7 @@
     "illuminate/console": "^5.1",
     "illuminate/database": "^5.1",
     "illuminate/support": "^5.1",
-    "spatie/laravel-glide": "^2.2.4",
+    "spatie/laravel-glide": "^2.2.4|^3.0",
     "spatie/pdf-to-image": "^1.0",
     "spatie/string": "^2.0"
 
