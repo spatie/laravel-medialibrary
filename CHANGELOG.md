@@ -2,7 +2,13 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+#3.12.2
+- Removed support for laravel-glide v3
+- Added missing `InvalidNewOrder`-exception
+
 #3.12.1
+*Important node: there is a bug in this version that prevents the creation
+of derived files*
 - Add support for laravel-glide v3
 
 #3.12.0

@@ -4,6 +4,6 @@ namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
 
-class SortableException extends Exception
+class InvalidNewOrder extends Exception
 {
 }
