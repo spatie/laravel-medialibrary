@@ -90,7 +90,7 @@ class Media extends Model
     {
         $extension = strtolower($this->extension);
 
-        if (in_array($extension, ['png', 'jpg', 'jpeg'])) {
+        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif'])) {
             return static::TYPE_IMAGE;
         }
 
