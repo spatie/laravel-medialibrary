@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+#3.13.3
+- Recognize gifs as images
+
 #3.12.2
 - Removed support for laravel-glide v3
 - Added missing `InvalidNewOrder`-exception
