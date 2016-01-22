@@ -103,9 +103,8 @@ class FileManipulator
         File::copy($copiedOriginalFile, $conversionTempFile);
 
         foreach ($conversion->getManipulations() as $manipulation) {
-            (new GlideImage())
-                ->load($conversionTempFile, $manipulation)
-                ->useAbsoluteSourceFilePath()
+            GlideImage::create($conversionTempFile)
+                ->modify($manipulation)
                 ->save($conversionTempFile);
         }
 
