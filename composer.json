@@ -45,6 +45,5 @@
     "psr-4": {
       "Spatie\\MediaLibrary\\Test\\": "tests"
     }
-  },
-  "license": "MIT"
+  }
 }
