@@ -2,6 +2,9 @@
 
 All Notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.13.4
+- Use `config_path` helper in ServiceProvider to allow easier integration in Lumen
+
 ##3.13.3
 - Recognize gifs as images
 
