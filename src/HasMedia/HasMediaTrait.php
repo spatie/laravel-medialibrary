@@ -305,7 +305,7 @@ trait HasMediaTrait
      *
      * @return bool
      */
-    public function deletePreservingFiles()
+    public function deletePreservingMedia()
     {
         return parent::delete();
     }

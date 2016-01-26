@@ -97,7 +97,7 @@ class DeleteMediaTest extends TestCase
             $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
         });
 
-        $this->testModelWithoutMediaConversions->deletePreservingFiles();
+        $this->testModelWithoutMediaConversions->deletePreservingMedia();
 
         $ids->map(function ($id) {
             $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
