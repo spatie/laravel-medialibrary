@@ -1,6 +1,9 @@
 #Changelog
 
-All Notable changes to `laravel-medialibrary` will be documented in this file
+All notable changes to `laravel-medialibrary` will be documented in this file
+
+##3.14.0
+- Added a `deletePreservingMedia`-function that will delete the model but not remove the associated files
 
 ##3.13.4
 - Use `config_path` helper in ServiceProvider to allow easier integration in Lumen
