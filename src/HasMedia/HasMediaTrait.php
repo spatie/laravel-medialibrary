@@ -299,4 +299,14 @@ trait HasMediaTrait
 
         return true;
     }
+
+    /**
+     * Delete the model, but preserve all the associated media.
+     *
+     * @return bool
+     */
+    public function deletePreservingMedia()
+    {
+        return parent::delete();
+    }
 }
