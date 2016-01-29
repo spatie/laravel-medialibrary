@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.14.1
+- Make migrations compatible with mysql's strict mode
+
 ##3.14.0
 - Added a `deletePreservingMedia`-function that will delete the model but not remove the associated files
 
