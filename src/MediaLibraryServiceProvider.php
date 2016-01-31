@@ -23,7 +23,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $mediaClass::observe(new MediaObserver());
 
         $this->publishes([
-            __DIR__.'/../resources/config/laravel-medialibrary.php' => $this->app->configPath().'/'.'laravel-medialibrary.php',
+            __DIR__.'/../resources/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
         if (!class_exists('CreateMediaTable')) {

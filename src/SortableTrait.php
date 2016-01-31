@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
+use Spatie\MediaLibrary\Exceptions\InvalidNewOrder;
+
 trait SortableTrait
 {
     /**
@@ -44,12 +46,12 @@ trait SortableTrait
      * @param array $ids
      * @param int   $startOrder
      *
-     * @throws SortableException
+     * @throws InvalidNewOrder
      */
     public static function setNewOrder($ids, $startOrder = 1)
     {
         if (!is_array($ids)) {
-            throw new SortableException('You must pass an array to setNewOrder');
+            throw new InvalidNewOrder('You must pass an array to setNewOrder');
         }
         foreach ($ids as $id) {
             $model = static::find($id);

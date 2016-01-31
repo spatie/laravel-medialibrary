@@ -74,4 +74,23 @@ class DeleteMediaTest extends TestCase
             $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
         });
     }
+
+
+    /**
+     * @test
+     */
+    public function it_will_not_remove_the_files_when_deleting_a_subject_and_preserving_media()
+    {
+        $ids = $this->testModel->getMedia('images')->lists('id');
+
+        $ids->map(function ($id) {
+            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        });
+
+        $this->testModel->deletePreservingMedia();
+
+        $ids->map(function ($id) {
+            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        });
+    }
 }

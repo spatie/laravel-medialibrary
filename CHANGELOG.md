@@ -1,8 +1,29 @@
 #Changelog
 
-All Notable changes to `laravel-medialibrary` will be documented in this file
+All notable changes to `laravel-medialibrary` will be documented in this file
 
-#3.12.0
+##3.14.1
+- Make migrations compatible with mysql's strict mode
+
+##3.14.0
+- Added a `deletePreservingMedia`-function that will delete the model but not remove the associated files
+
+##3.13.4
+- Use `config_path` helper in ServiceProvider to allow easier integration in Lumen
+
+##3.13.3
+- Recognize gifs as images
+
+##3.12.2
+- Removed support for laravel-glide v3
+- Added missing `InvalidNewOrder`-exception
+
+##3.12.1
+*Important node: there is a bug in this version that prevents the creation
+of derived files*
+- Add support for laravel-glide v3
+
+##3.12.0
 - Add configurable headers when uploading media to a remote disk
 
 ##3.11.3
