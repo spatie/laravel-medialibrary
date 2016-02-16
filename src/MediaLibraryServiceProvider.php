@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
+use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 
 class MediaLibraryServiceProvider extends ServiceProvider
@@ -47,7 +48,8 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->singleton(MediaRepository::class);
 
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
+        $this->app->bind('command.medialibrary:clear', ClearCommand::class);
 
-        $this->commands(['command.medialibrary:regenerate']);
+        $this->commands(['command.medialibrary:regenerate', 'command.medialibrary:clear']);
     }
 }
