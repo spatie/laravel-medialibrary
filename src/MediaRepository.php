@@ -131,6 +131,20 @@ class MediaRepository
     }
 
     /**
+     * Get all media for the given type and collection name
+     *
+     * @param $modelType
+     * @param $collectionName
+     * @return mixed
+     */
+    public function getByModelTypeAndCollectionName($modelType, $collectionName)
+    {
+        return $this->model->where('model_type', $modelType)
+            ->where('collection_name', $collectionName)
+            ->get();
+    }
+
+    /**
      * Convert the given array to a filter function.
      *
      * @param $filters
