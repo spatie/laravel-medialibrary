@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.15.0
+- Added `medialibrary:clear` command
+
 ##3.14.1
 - Make migrations compatible with mysql's strict mode
 
