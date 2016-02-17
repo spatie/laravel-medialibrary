@@ -8,33 +8,99 @@ use Spatie\MediaLibrary\Test\TestModel;
 
 class ClearCommandTest extends TestCase
 {
-    /**
-     * @test
-     */
-    public function delete_model_medias()
+    /** @var  array */
+    protected $media;
+
+    public function setUp()
     {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toCollection('collection1');
-        $this->assertFileExists(  $this->getMediaDirectory("{$media->id}/test.jpg") ) ;
-        Artisan::call('medialibrary:clear');
-        $this->assertFileNotExists( $this->getMediaDirectory("{$media->id}/test.jpg") ) ;
+        parent::setUp();
+
+        $this->media['model1']['collection1'] = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toCollection('collection1');
+
+        $this->media['model1']['collection2'] = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toCollection('collection2');
+
+        $this->media['model2']['collection1'] = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toCollection('collection1');
+
+        $this->media['model2']['collection2'] = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toCollection('collection2');
+
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 
     /**
      * @test
      */
-    public function delete_model_and_collection_medias()
+    public function it_can_clear_all_media()
     {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toCollection('collection');
-        $this->assertFileExists(  $this->getMediaDirectory("{$media->id}/test.jpg") ) ;
-        Artisan::call('medialibrary:clear' , [
-            "modelType" => TestModel::class ,
-            "collectionName" => "collection1" ,
+        Artisan::call('medialibrary:clear');
+
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_clear_media_from_a_specific_model_type()
+    {
+        Artisan::call('medialibrary:clear', [
+            'modelType' => TestModel::class,
         ]);
-        $this->assertFileExists( $this->getMediaDirectory("{$media->id}/test.jpg") ) ;
-        Artisan::call('medialibrary:clear' , [
-            "modelType" => TestModel::class ,
-            "collectionName" => "collection" ,
+
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_clear_media_from_a_specific_collection()
+    {
+        Artisan::call('medialibrary:clear', [
+            'collectionName' => 'collection2',
         ]);
-        $this->assertFileNotExists( $this->getMediaDirectory("{$media->id}/test.jpg") ) ;
+
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_clear_media_from_a_specific_model_type_and_collection()
+    {
+        Artisan::call('medialibrary:clear', [
+            'modelType' => TestModel::class,
+            'collectionName' => 'collection2',
+        ]);
+
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
+        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 }

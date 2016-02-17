@@ -75,7 +75,6 @@ class DeleteMediaTest extends TestCase
         });
     }
 
-
     /**
      * @test
      */

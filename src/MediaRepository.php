@@ -131,15 +131,31 @@ class MediaRepository
     }
 
     /**
-     * Get all media for the given type and collection name
+     * Get all media for the given type and collection name.
      *
-     * @param $modelType
-     * @param $collectionName
-     * @return mixed
+     * @param string $modelType
+     * @param string $collectionName
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getByModelTypeAndCollectionName($modelType, $collectionName)
     {
-        return $this->model->where('model_type', $modelType)
+        return $this->model
+            ->where('model_type', $modelType)
+            ->where('collection_name', $collectionName)
+            ->get();
+    }
+
+    /**
+     * Get all media for the given type and collection name.
+     *
+     * @param string $collectionName
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getByCollectionName($collectionName)
+    {
+        return $this->model
             ->where('collection_name', $collectionName)
             ->get();
     }

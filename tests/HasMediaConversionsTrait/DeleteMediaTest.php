@@ -103,5 +103,4 @@ class DeleteMediaTest extends TestCase
             $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
         });
     }
-
 }

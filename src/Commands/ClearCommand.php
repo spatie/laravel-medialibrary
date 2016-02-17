@@ -24,7 +24,7 @@ class ClearCommand extends Command
      *
      * @var string
      */
-    protected $description = 'clear medias';
+    protected $description = 'Delete all items in a media collection.';
 
     /**
      * @var \Spatie\MediaLibrary\MediaRepository
@@ -48,7 +48,7 @@ class ClearCommand extends Command
     }
 
     /**
-     * Handle command
+     * Handle command.
      */
     public function handle()
     {
@@ -56,7 +56,7 @@ class ClearCommand extends Command
             return;
         }
 
-        $this->getMedias()->each(function (Media $media) {
+        $this->getMediaItems()->each(function (Media $media) {
             $media->delete();
         });
 
@@ -66,16 +66,26 @@ class ClearCommand extends Command
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getMedias()
+    public function getMediaItems()
     {
-        if (($modelType = $this->argument('modelType')) == null) {
-            return $this->mediaRepository->all();
+        $modelType = $this->argument('modelType');
+        $collectionName = $this->argument('collectionName');
+
+        if (!is_null($modelType) && !is_null($collectionName)) {
+            return $this->mediaRepository->getByModelTypeAndCollectionName(
+                $modelType,
+                $collectionName
+            );
         }
 
-        if (($collectionName = $this->argument('collectionName')) == null) {
+        if (!is_null($modelType)) {
             return $this->mediaRepository->getByModelType($modelType);
         }
 
-        return $this->mediaRepository->getByModelTypeAndCollectionName($modelType, $collectionName);
+        if (!is_null($collectionName)) {
+            return $this->mediaRepository->getByCollectionName($collectionName);
+        }
+
+        return $this->mediaRepository->all();
     }
 }
