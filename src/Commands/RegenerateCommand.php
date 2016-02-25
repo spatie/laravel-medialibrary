@@ -14,7 +14,7 @@ class RegenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'medialibrary:regenerate {modelType?} {--mediaIds=*}';
+    protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}';
 
     /**
      * The console command description.
@@ -35,6 +35,7 @@ class RegenerateCommand extends Command
 
     /**
      * RegenerateCommand constructor.
+     *
      * @param MediaRepository $mediaRepository
      * @param FileManipulator $fileManipulator
      */
@@ -47,7 +48,7 @@ class RegenerateCommand extends Command
     }
 
     /**
-     * Handle regeneration
+     * Handle regeneration.
      */
     public function handle()
     {
@@ -65,7 +66,7 @@ class RegenerateCommand extends Command
     public function getMediaToBeRegenerated()
     {
         $modelType = $this->argument('modelType');
-        $mediaIds = $this->option('mediaIds');
+        $mediaIds = $this->option('ids');
 
         if ($modelType == '' && !$mediaIds) {
             return $this->mediaRepository->all();

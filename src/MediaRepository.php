@@ -131,15 +131,15 @@ class MediaRepository
     }
 
     /**
-     * Get media by ids
+     * Get media by ids.
      *
-     * @param $mediaIds
+     * @param array $ids
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getByIds($mediaIds)
+    public function getByIds(array $ids)
     {
-        return $this->model->whereIn('id', $mediaIds)->get();
+        return $this->model->whereIn('id', $ids)->get();
     }
 
     /**

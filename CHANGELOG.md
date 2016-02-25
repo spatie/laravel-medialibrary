@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.16.0
+- The `regenerate`-command now accepts an `ids`-option.
+
 ##3.15.0
 - Added `medialibrary:clear` command
 

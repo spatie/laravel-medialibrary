@@ -48,7 +48,7 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileNotExists($derivedImage);
         $this->assertFileNotExists($derivedImage2);
 
-        Artisan::call('medialibrary:regenerate', ['--mediaIds' => [2]]);
+        Artisan::call('medialibrary:regenerate', ['--ids' => [2]]);
 
         $this->assertFileNotExists($derivedImage);
         $this->assertFileExists($derivedImage2);
