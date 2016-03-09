@@ -126,14 +126,14 @@ class IntegrationTest extends TestCase
      */
     public function it_can_add_a_remote_file_to_the_medialibrary()
     {
-        $url = 'http://medialibrary.spatie.be/assets/images/mountain.jpg';
+        $url = 'https://docs.spatie.be/images/medialibrary/header.jpg';
 
         $media = $this->testModel
             ->addMediaFromUrl($url)
             ->toMediaLibrary();
 
-        $this->assertEquals('mountain', $media->name);
-        $this->assertFileExists($this->getMediaDirectory("{$media->id}/mountain.jpg"));
+        $this->assertEquals('header', $media->name);
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/header.jpg"));
     }
 
     /**
@@ -141,7 +141,7 @@ class IntegrationTest extends TestCase
      */
     public function it_wil_thrown_an_exception_when_a_remote_file_could_not_be_added()
     {
-        $url = 'http://medialibrary.spatie.be/assets/images/thisonedoesnotexist.jpg';
+        $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
 
         $this->setExpectedException(UrlCouldNotBeOpened::class);
 
