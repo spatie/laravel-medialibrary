@@ -2,8 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.16.1
+- Improved the compatiblity with packages that hook into the delete method of an Eloquent model
+
 ##3.16.0
-- The `regenerate`-command now accepts an `ids`-option.
+- The `regenerate`-command now accepts an `ids`-option
 
 ##3.15.0
 - Added `medialibrary:clear` command
