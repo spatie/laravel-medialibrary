@@ -21,6 +21,22 @@ trait HasMediaTrait
     public $mediaConversions = [];
 
     /**
+     * @var bool
+     */
+    private $deletePreservingMedia = false;
+
+    public static function bootHasMediaTrait()
+    {
+        static::deleted(function ($entity) {
+            if (!$entity->deletePreservingMedia) {
+                $entity->media()->get()->map(function (Media $media) {
+                    $media->delete();
+                });
+            }
+        });
+    }
+
+    /**
      * Set the polymorphic relation.
      *
      * @return mixed
@@ -282,31 +298,14 @@ trait HasMediaTrait
     }
 
     /**
-     * Delete the model. The extra logic isn't handled in a model event since the boot function is unreliable
-     * for currently unknown reasons.
-     *
-     * @return bool
-     */
-    public function delete()
-    {
-        if (!parent::delete()) {
-            return false;
-        }
-
-        $this->media()->get()->map(function ($media) {
-            $media->delete();
-        });
-
-        return true;
-    }
-
-    /**
      * Delete the model, but preserve all the associated media.
      *
      * @return bool
      */
     public function deletePreservingMedia()
     {
-        return parent::delete();
+        $this->deletePreservingMedia = true;
+
+        return $this->delete();
     }
 }
