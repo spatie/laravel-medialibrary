@@ -2,7 +2,9 @@
 
 namespace Spatie\MediaLibrary\Conversion;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
@@ -55,7 +57,7 @@ class ConversionCollection extends Collection
      */
     protected function addConversionsFromRelatedModel(Media $media)
     {
-        $modelName = $media->model_type;
+        $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
         /*
          * To prevent an sql query create a new model instead
