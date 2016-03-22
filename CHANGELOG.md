@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.17.0 - 2016-03-23
+- Added support for `morphMap`
+
 ##3.16.1 - 2016-03-20
 - Improved the compatiblity with packages that hook into the `delete` method of an Eloquent model
 
