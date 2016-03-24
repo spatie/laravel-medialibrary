@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.17.1 - 2016-03-24
+- Improved the file type detection for files without an extension
+
 ##3.17.0 - 2016-03-23
 - Added support for `morphMap`
 
