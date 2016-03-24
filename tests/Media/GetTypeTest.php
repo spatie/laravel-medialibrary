@@ -5,15 +5,8 @@ namespace Spatie\MediaLibrary\Test\Media;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 
-
 class GetTypeTest extends TestCase
 {
-
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     /**
      * @test
      * @dataProvider extensionProvider

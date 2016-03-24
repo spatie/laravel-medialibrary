@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
-use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class AddMediaTest extends TestCase

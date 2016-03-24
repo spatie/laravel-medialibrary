@@ -7,7 +7,6 @@ use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
-
 class Media extends Model
 {
     use SortableTrait;
