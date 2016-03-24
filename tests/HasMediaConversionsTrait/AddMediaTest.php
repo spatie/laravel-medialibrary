@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class AddMediaTest extends TestCase
@@ -36,6 +37,18 @@ class AddMediaTest extends TestCase
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toCollection('downloads');
 
         $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_create_a_derived_version_for_an_image_without_an_extension()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('image'))
+            ->toCollection('images');
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
     /**
