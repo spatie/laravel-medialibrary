@@ -41,6 +41,18 @@ class AddMediaTest extends TestCase
     /**
      * @test
      */
+    public function it_will_create_a_derived_version_for_an_image_without_an_extension()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('image'))
+            ->toCollection('images');
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_create_a_derived_version_of_a_pdf_if_imagick_exists()
     {
         $media = $this->testModelWithConversion

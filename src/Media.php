@@ -88,6 +88,21 @@ class Media extends Model
      */
     public function getTypeAttribute()
     {
+        $type = $this->type_from_extension;
+        if ($type !== Media::TYPE_OTHER) {
+            return $type;
+        }
+
+        return $this->type_from_mime;
+    }
+
+    /**
+     * Determine the type of a file from its file extension
+     *
+     * @return string
+     */
+    public function getTypeFromExtensionAttribute()
+    {
         $extension = strtolower($this->extension);
 
         if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif'])) {
@@ -95,6 +110,26 @@ class Media extends Model
         }
 
         if ($extension == 'pdf') {
+            return static::TYPE_PDF;
+        }
+
+        return static::TYPE_OTHER;
+    }
+
+    /**
+     * Determine the type of a file from its mime type
+     *
+     * @return string
+     */
+    public function getTypeFromMimeAttribute()
+    {
+        $mime = File::getMimetype($this->getPath());
+
+        if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
+            return static::TYPE_IMAGE;
+        }
+
+        if ($mime == 'application/pdf') {
             return static::TYPE_PDF;
         }
 

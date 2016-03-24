@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
 use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened;
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -86,6 +87,16 @@ class IntegrationTest extends TestCase
         $this->assertEquals("/media/{$media->id}/test", $media->getUrl());
 
         $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_handle_an_image_file_without_an_extension()
+    {
+        $media = $this->testModel->addMedia($this->getTestFilesDirectory('image'))->toMediaLibrary();
+
+        $this->assertEquals(Media::TYPE_IMAGE, $media->type);
     }
 
     /**
