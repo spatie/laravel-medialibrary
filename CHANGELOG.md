@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.17.2 - 2016-03-25
+- Fixed mistakes in the version contraints on the illuminate components
+
 ##3.17.1 - 2016-03-24
 - Improved the file type detection for files without an extension
 
