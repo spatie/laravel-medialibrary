@@ -4,9 +4,6 @@ namespace Spatie\MediaLibrary\FileAdder;
 
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeImported;
-use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;

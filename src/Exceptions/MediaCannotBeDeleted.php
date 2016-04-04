@@ -3,6 +3,7 @@
 namespace Spatie\Medialibrary\Exceptions;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\Media;
 
 class MediaCannotBeDeleted
 {
@@ -10,6 +11,6 @@ class MediaCannotBeDeleted
     {
         $modelClass = get_class($model);
         
-        return new static("Media with id {$media->id} cannot be deleted because it does not belong to model {$modelClass} with id {$model->id}");
+        return new static("Media with id {$media->getKey()} cannot be deleted because it does not belong to model {$modelClass} with id {$model->id}");
     }
 }
