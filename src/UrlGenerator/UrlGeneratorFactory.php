@@ -27,11 +27,11 @@ class UrlGeneratorFactory
     /**
      * Determine if the the given class is a valid UrlGenerator.
      *
-     * @param $customUrlClass
+     * @param string|null $customUrlClass
      *
      * @return bool
      */
-    protected static function isAValidUrlGeneratorClass($customUrlClass)
+    protected static function isAValidUrlGeneratorClass($customUrlClass) : bool
     {
         if (!$customUrlClass) {
             return false;

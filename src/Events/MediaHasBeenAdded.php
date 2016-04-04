@@ -14,9 +14,7 @@ class MediaHasBeenAdded
      */
     public $media;
 
-    /**
-     * MediaHasBeenStoredEvent constructor.
-     *
+    /*
      * @param \Spatie\MediaLibrary\Media $media
      */
     public function __construct(Media $media)

@@ -13,7 +13,7 @@ interface UrlGenerator
      *
      * @throws UrlCouldNotBeDeterminedException
      */
-    public function getUrl();
+    public function getUrl() : string;
 
     /**
      * Set the path generator class.

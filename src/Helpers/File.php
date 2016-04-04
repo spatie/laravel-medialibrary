@@ -6,15 +6,10 @@ use finfo;
 
 class File
 {
-    /**
+    /*
      * Rename a file.
-     *
-     * @param string $fileNameWithDirectory
-     * @param string $newFileNameWithoutDirectory
-     *
-     * @return string
      */
-    public static function renameInDirectory($fileNameWithDirectory, $newFileNameWithoutDirectory)
+    public static function renameInDirectory(string $fileNameWithDirectory, string $newFileNameWithoutDirectory) : string
     {
         $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME).'/'.$newFileNameWithoutDirectory;
 
@@ -23,12 +18,7 @@ class File
         return $targetFile;
     }
 
-    /**
-     * @param int $sizeInBytes
-     *
-     * @return string
-     */
-    public static function getHumanReadableSize($sizeInBytes)
+    public static function getHumanReadableSize(int $sizeInBytes) : string
     {
         $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
@@ -43,14 +33,10 @@ class File
         return round($sizeInBytes, 2).' '.$units[$i];
     }
 
-    /**
+    /*
      * Get the mime type of a file.
-     *
-     * @param $path
-     *
-     * @return string
      */
-    public static function getMimetype($path)
+    public static function getMimetype(string $path) : string
     {
         $finfo = new Finfo(FILEINFO_MIME_TYPE);
 

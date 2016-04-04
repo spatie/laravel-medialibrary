@@ -95,7 +95,7 @@ class FileManipulator
      *
      * @return string
      */
-    public function performConversion(Media $media, Conversion $conversion, $copiedOriginalFile)
+    public function performConversion(Media $media, Conversion $conversion, string $copiedOriginalFile)
     {
         $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).
             $conversion->getName().'.'.$media->extension;
@@ -116,7 +116,7 @@ class FileManipulator
      *
      * @return string
      */
-    public function createTempDirectory()
+    public function createTempDirectory() : string
     {
         $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
 
@@ -124,13 +124,8 @@ class FileManipulator
 
         return $tempDirectory;
     }
-
-    /**
-     * @param string $pdfFile
-     *
-     * @return string
-     */
-    protected function convertToImage($pdfFile)
+    
+    protected function convertToImage(string $pdfFile) : string
     {
         $imageFile = string($pdfFile)->pop('.').'.jpg';
 

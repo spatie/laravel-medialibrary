@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\Exceptions\InvalidNewOrder;
 
 trait SortableTrait
@@ -15,24 +16,18 @@ trait SortableTrait
         $this->$orderColumnName = $this->getHighestOrderNumber() + 1;
     }
 
-    /**
+    /*
      * Determine the order value for the new record.
-     *
-     * @return int
      */
-    public function getHighestOrderNumber()
+    public function getHighestOrderNumber() : int
     {
         return (int) static::max($this->determineOrderColumnName());
     }
 
-    /**
+    /*
      * Let's be nice and provide an ordered scope.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     *
-     * @return \Illuminate\Database\Query\Builder
      */
-    public function scopeOrdered(\Illuminate\Database\Eloquent\Builder $query)
+    public function scopeOrdered(Builder $query) : Builder
     {
         return $query->orderBy($this->determineOrderColumnName());
     }
@@ -48,11 +43,12 @@ trait SortableTrait
      *
      * @throws InvalidNewOrder
      */
-    public static function setNewOrder($ids, $startOrder = 1)
+    public static function setNewOrder(array $ids, int $startOrder = 1)
     {
         if (!is_array($ids)) {
             throw new InvalidNewOrder('You must pass an array to setNewOrder');
         }
+
         foreach ($ids as $id) {
             $model = static::find($id);
             $orderColumnName = $model->determineOrderColumnName();
@@ -66,32 +62,16 @@ trait SortableTrait
      *
      * @return string
      */
-    protected function determineOrderColumnName()
+    protected function determineOrderColumnName() : string
     {
-        if (
-            isset($this->sortable['order_column_name']) &&
-            !empty($this->sortable['order_column_name'])
-        ) {
-            return $this->sortable['order_column_name'];
-        }
-
-        return 'order_column';
+        return $this->sortable['order_column_name'] ?? 'order_column';
     }
 
-    /**
+    /*
      * Determine if the order column should be set when saving a new model instance.
-     *
-     * @return bool
      */
-    public function shouldSortWhenCreating()
+    public function shouldSortWhenCreating() : bool
     {
-        if (!isset($this->sortable)) {
-            return true;
-        }
-        if (!isset($this->sortable['sort_when_creating'])) {
-            return true;
-        }
-
-        return $this->sortable['sort_when_creating'];
+        return $this->sortable['sort_when_creating'] ?? true;
     }
 }
