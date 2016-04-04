@@ -59,7 +59,7 @@ class Conversion
     /**
      * Set the manipulations for this conversion.
      *
-     * @param \string[] $manipulations
+     * @param $manipulations
      * @return $this
      */
     public function setManipulations(...$manipulations)
@@ -86,9 +86,11 @@ class Conversion
     /**
      * Set the collection names on which this conversion must be performed.
      *
+     * @param array $collectionNames
+     *
      * @return $this
      */
-    public function performOnCollections(... $collectionNames)
+    public function performOnCollections(...$collectionNames)
     {
         $this->performOnCollections = $collectionNames;
 

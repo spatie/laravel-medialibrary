@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\Media;
 
+use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class GetPathTest extends TestCase
@@ -29,7 +30,7 @@ class GetPathTest extends TestCase
     {
         $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
 
-        $this->expectException(\Spatie\MediaLibrary\Exceptions\UnknownConversion::class);
+        $this->expectException(InvalidConversion::class);
 
         $media->getPath('unknownConversionName');
     }

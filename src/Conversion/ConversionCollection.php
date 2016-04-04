@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\Conversion;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Exceptions\UnknownConversion;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\Media;
@@ -33,17 +34,15 @@ class ConversionCollection extends Collection
      * @param string $name
      *
      * @return mixed
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
      */
     public function getByName(string $name)
     {
         $conversion = $this->first(function ($key, Conversion $conversion) use ($name) {
-            return $conversion->getName() == $name;
+            return $conversion->getName() === $name;
         });
 
         if (!$conversion) {
-            throw new UnknownConversion("Conversion {$name} is not registered");
+            throw InvalidConversion::unknownName($name);
         }
 
         return $conversion;
@@ -91,9 +90,9 @@ class ConversionCollection extends Collection
      *
      * @return $this
      */
-    public function getConversions($collectionName = '')
+    public function getConversions(string $collectionName = '')
     {
-        if ($collectionName == '') {
+        if ($collectionName === '') {
             return $this;
         }
 
@@ -102,14 +101,10 @@ class ConversionCollection extends Collection
         });
     }
 
-    /**
+    /*
      * Get all the conversions in the collection that should be queued.
-     *
-     * @param string $collectionName
-     *
-     * @return \Spatie\MediaLibrary\Conversion\ConversionCollection
      */
-    public function getQueuedConversions($collectionName = '')
+    public function getQueuedConversions(string $collectionName = '') : ConversionCollection
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
             return $conversion->shouldBeQueued();
@@ -118,11 +113,8 @@ class ConversionCollection extends Collection
 
     /**
      * Add the given manipulation to the conversion with the given name.
-     *
-     * @param array  $manipulation
-     * @param string $conversionName
      */
-    protected function addManipulationToConversion($manipulation, $conversionName)
+    protected function addManipulationToConversion(array $manipulation, string $conversionName)
     {
         foreach ($this as $conversion) {
             if ($conversion->getName() == $conversionName) {
@@ -133,14 +125,10 @@ class ConversionCollection extends Collection
         }
     }
 
-    /**
+    /*
      * Get all the conversions in the collection that should not be queued.
-     *
-     * @param string $collectionName
-     *
-     * @return ConversionCollection
      */
-    public function getNonQueuedConversions($collectionName = '')
+    public function getNonQueuedConversions(string $collectionName = '') : ConversionCollection
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
             return !$conversion->shouldBeQueued();

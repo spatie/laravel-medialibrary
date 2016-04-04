@@ -8,8 +8,6 @@ class S3UrlGenerator extends BaseUrlGenerator implements UrlGenerator
      * Get the url for the profile of a media item.
      *
      * @return string
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException
      */
     public function getUrl() : string
     {

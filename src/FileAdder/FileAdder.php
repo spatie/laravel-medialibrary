@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeImported;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\InvalidFile;
-use Spatie\MediaLibrary\Exceptions\InvalidFilesystem;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
 use Symfony\Component\HttpFoundation\File\File;
@@ -99,7 +98,7 @@ class FileAdder
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      * @return $this
      * 
-     * @throws \Spatie\MediaLibrary\Exceptions\InvalidFile
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function setFile($file)
     {
@@ -129,7 +128,7 @@ class FileAdder
             return $this;
         }
 
-        throw InvalidFile::cannotBeImported();
+        throw FileCannotBeAdded::unknownType();
     }
 
     /**
@@ -247,7 +246,7 @@ class FileAdder
      * @return Media
      *
      * @throws FileDoesNotExist
-     * @throws InvalidFile
+     * @throws FileCannotBeAdded
      */
     public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
     {
@@ -264,7 +263,7 @@ class FileAdder
      * @return Media
      *
      * @throws FileDoesNotExist
-     * @throws InvalidFile
+     * @throws FileCannotBeAdded
      */
     public function toMediaLibraryOnDisk(string $collectionName = 'default', string $diskName = '')
     {
@@ -281,7 +280,7 @@ class FileAdder
      * @return Media
      *
      * @throws FileDoesNotExist
-     * @throws InvalidFile
+     * @throws FileCannotBeAdded
      */
     public function toCollection(string $collectionName = 'default', string $diskName = '')
     {
@@ -294,17 +293,17 @@ class FileAdder
      *
      * @return \Spatie\MediaLibrary\Media
      *
-     * @throws InvalidFile
+     * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist
      */
     public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
         if (!is_file($this->pathToFile)) {
-            throw InvalidFile::doesNotExist($this->pathToFile);
+            throw FileCannotBeAdded::fileDoesNotExist($this->pathToFile);
         }
 
         if (filesize($this->pathToFile) > config('laravel-medialibrary.max_file_size')) {
-            throw InvalidFile::tooBig($this->pathToFile);
+            throw FileCannotBeAdded::fileIsTooBig($this->pathToFile);
         }
 
         $mediaClass = config('laravel-medialibrary.media_model');
@@ -349,7 +348,7 @@ class FileAdder
         }
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw InvalidFilesystem::doesNotExist($diskName);
+            throw FileCannotBeAdded::diskDoesNotExist($diskName);
         }
 
         return $diskName;

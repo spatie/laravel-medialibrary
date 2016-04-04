@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Exceptions\InvalidFilesystem;
 use Spatie\MediaLibrary\Test\TestCase;
 
@@ -23,7 +24,7 @@ class MultipleDiskTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_when_using_a_non_existing_disk()
     {
-        $this->expectException(InvalidFilesystem::class);
+        $this->expectException(FileCannotBeAdded::class);
 
         $this->testModel
             ->addMedia($this->getTestJpg())

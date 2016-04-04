@@ -2,8 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
-use Spatie\MediaLibrary\Exceptions\InvalidFile;
-use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,7 +22,7 @@ class IntegrationTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_when_adding_a_non_existing_file()
     {
-        $this->expectException(InvalidFile::class);
+        $this->expectException(FileCannotBeAdded::class);
 
         $media = $this->testModel
             ->addMedia('/home/blablaba')
@@ -143,7 +142,7 @@ class IntegrationTest extends TestCase
     {
         $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
 
-        $this->expectException(UrlCouldNotBeOpened::class);
+        $this->expectException(FileCannotBeAdded::class);
 
         $this->testModel
             ->addMediaFromUrl($url)
