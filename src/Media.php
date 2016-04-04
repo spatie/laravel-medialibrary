@@ -50,7 +50,7 @@ class Media extends Model
      *
      * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
      */
-    public function getUrl($conversionName = '')
+    public function getUrl(string $conversionName = '') : string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
@@ -70,7 +70,7 @@ class Media extends Model
      *
      * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
      */
-    public function getPath($conversionName = '')
+    public function getPath(string $conversionName = '') : string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
@@ -116,12 +116,10 @@ class Media extends Model
         return static::TYPE_OTHER;
     }
 
-    /**
+    /*
      * Determine the type of a file from its mime type
-     *
-     * @return string
      */
-    public function getTypeFromMimeAttribute()
+    public function getTypeFromMimeAttribute() : string
     {
         $mime = File::getMimetype($this->getPath());
 
@@ -136,38 +134,25 @@ class Media extends Model
         return static::TYPE_OTHER;
     }
 
-    /**
-     * @return string
-     */
-    public function getExtensionAttribute()
+    public function getExtensionAttribute() : string
     {
         return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
-    /**
-     * @return string
-     */
-    public function getHumanReadableSizeAttribute()
+    public function getHumanReadableSizeAttribute() : string
     {
         return File::getHumanReadableSize($this->size);
     }
 
-    /**
-     * @return string
-     */
-    public function getDiskDriverName()
+    public function getDiskDriverName() : string
     {
-        return config('filesystems.disks.'.$this->disk.'.driver');
+        return config("filesystems.disks.{$this->disk}.driver");
     }
 
-    /**
+    /*
      * Determine if the media item has a custom property with the given name.
-     *
-     * @param string $propertyName
-     *
-     * @return bool
      */
-    public function hasCustomProperty($propertyName)
+    public function hasCustomProperty(string $propertyName) : bool
     {
         return array_key_exists($propertyName, $this->custom_properties);
     }
@@ -176,11 +161,11 @@ class Media extends Model
      * Get if the value of custom property with the given name.
      *
      * @param string $propertyName
-     * @param mixed  $propertyName
+     * @param mixed  $default
      *
      * @return mixed
      */
-    public function getCustomProperty($propertyName, $default = null)
+    public function getCustomProperty(string $propertyName, $default = null)
     {
         if (!$this->hasCustomProperty($propertyName)) {
             return $default;
@@ -189,7 +174,7 @@ class Media extends Model
         return $this->custom_properties[$propertyName];
     }
 
-    public function setCustomProperty($name, $value)
+    public function setCustomProperty(string $name, $value)
     {
         $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
     }

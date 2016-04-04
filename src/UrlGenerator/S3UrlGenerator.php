@@ -11,7 +11,7 @@ class S3UrlGenerator extends BaseUrlGenerator implements UrlGenerator
      *
      * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException
      */
-    public function getUrl()
+    public function getUrl() : string
     {
         return config('laravel-medialibrary.s3.domain').'/'.$this->getPathRelativeToRoot();
     }

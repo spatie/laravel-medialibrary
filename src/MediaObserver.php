@@ -13,7 +13,7 @@ class MediaObserver
     {
         $media->hasModifiedManipulations = $media->isDirty('manipulations');
 
-        if ($media->file_name != $media->getOriginal('file_name')) {
+        if ($media->file_name !== $media->getOriginal('file_name')) {
             app(Filesystem::class)->renameFile($media, $media->getOriginal('file_name'));
         }
     }

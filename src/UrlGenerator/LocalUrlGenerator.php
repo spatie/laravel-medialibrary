@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined;
+use Spatie\String\Str;
 
 class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
@@ -13,7 +14,7 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
      *
      * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined
      */
-    public function getUrl()
+    public function getUrl() : string
     {
         if (!string($this->getStoragePath())->startsWith(public_path())) {
             throw new UrlCouldNotBeDetermined('The storage path is not part of the public path');
@@ -24,46 +25,35 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
         return $this->makeCompatibleForNonUnixHosts($url);
     }
 
-    /**
+    /*
      * Get the path for the profile of a media item.
-     *
-     * @return string
      */
-    public function getPath()
+    public function getPath() : string
     {
         return $this->getStoragePath().'/'.$this->getPathRelativeToRoot();
     }
 
-    /**
+    /*
      * Get the directory where all files of the media item are stored.
-     *
-     * @return \Spatie\String\Str
      */
-    protected function getBaseMediaDirectory()
+    protected function getBaseMediaDirectory() : Str
     {
         $baseDirectory = string($this->getStoragePath())->replace(public_path(), '');
 
         return $baseDirectory;
     }
 
-    /**
+    /*
      * Get the path where the whole medialibrary is stored.
-     *
-     * @return string
      */
-    protected function getStoragePath()
+    protected function getStoragePath() : string
     {
         $diskRootPath = $this->config->get('filesystems.disks.'.$this->media->disk.'.root');
 
         return realpath($diskRootPath);
     }
-
-    /**
-     * @param string $url
-     *
-     * @return string
-     */
-    protected function makeCompatibleForNonUnixHosts($url)
+    
+    protected function makeCompatibleForNonUnixHosts(string $url) : string
     {
         if (DIRECTORY_SEPARATOR != '/') {
             $url = str_replace(DIRECTORY_SEPARATOR, '/', $url);
