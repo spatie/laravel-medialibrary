@@ -36,7 +36,7 @@ class ConversionCollection extends Collection
      *
      * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
      */
-    public function getByName($name)
+    public function getByName(string $name)
     {
         $conversion = $this->first(function ($key, Conversion $conversion) use ($name) {
             return $conversion->getName() == $name;

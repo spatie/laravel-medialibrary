@@ -26,38 +26,25 @@ class Conversion
      */
     protected $performOnQueue = true;
 
-    /**
-     * @param string $name
-     */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return static
-     */
-    public static function create($name)
+    public static function create(string $name)
     {
         return new static($name);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
     /**
      * Get the manipulations of this conversion.
-     *
-     * @return array
      */
-    public function getManipulations()
+    public function getManipulations() : array
     {
         $manipulations = $this->manipulations;
 
@@ -72,13 +59,12 @@ class Conversion
     /**
      * Set the manipulations for this conversion.
      *
-     * @param string $manipulations,...
-     *
+     * @param \string[] $manipulations
      * @return $this
      */
-    public function setManipulations($manipulations)
+    public function setManipulations(...$manipulations)
     {
-        $this->manipulations = func_get_args();
+        $this->manipulations = $manipulations;
 
         return $this;
     }
@@ -100,26 +86,20 @@ class Conversion
     /**
      * Set the collection names on which this conversion must be performed.
      *
-     * @param string $collectionNames,...
-     *
      * @return $this
      */
-    public function performOnCollections($collectionNames)
+    public function performOnCollections(... $collectionNames)
     {
-        $this->performOnCollections = func_get_args();
+        $this->performOnCollections = $collectionNames;
 
         return $this;
     }
 
-    /**
+    /*
      * Determine if this conversion should be performed on the given
      * collection.
-     *
-     * @param string $collectionName
-     *
-     * @return bool
      */
-    public function shouldBePerformedOn($collectionName)
+    public function shouldBePerformedOn(string $collectionName) : bool
     {
         //if no collections were specified, perform conversion on all collections
         if (!count($this->performOnCollections)) {
@@ -157,24 +137,18 @@ class Conversion
         return $this;
     }
 
-    /**
+    /*
      * Determine if the conversion should be queued.
-     *
-     * @return bool
      */
-    public function shouldBeQueued()
+    public function shouldBeQueued() : bool
     {
         return $this->performOnQueue;
     }
 
-    /**
+    /*
      * Get the extension that the result of this conversion must have.
-     *
-     * @param string $originalFileExtension
-     *
-     * @return string
      */
-    public function getResultExtension($originalFileExtension = '')
+    public function getResultExtension(string $originalFileExtension = '') : string
     {
         return array_reduce($this->getManipulations(), function ($carry, array $manipulation) {
 
@@ -207,7 +181,7 @@ class Conversion
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
      */
-    public function setWidth($width)
+    public function setWidth(int $width)
     {
         if (!is_numeric($width) || $width < 1) {
             throw new InvalidConversionParameter('width should be numeric and greater than 1');
@@ -228,7 +202,7 @@ class Conversion
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
      */
-    public function setHeight($height)
+    public function setHeight(int $height)
     {
         if (!is_numeric($height) || $height < 1) {
             throw new InvalidConversionParameter('height should be numeric and greater than 1');
@@ -249,7 +223,7 @@ class Conversion
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
      */
-    public function setFormat($format)
+    public function setFormat(string $format)
     {
         $validFormats = ['jpg', 'png', 'gif'];
 
@@ -272,7 +246,7 @@ class Conversion
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
      */
-    public function setFit($fit)
+    public function setFit(string $fit)
     {
         $validFits = ['contain', 'max', 'stretch', 'crop'];
 
@@ -298,7 +272,7 @@ class Conversion
      *
      * @throws InvalidConversionParameter
      */
-    public function setRectangle($width, $height, $x, $y)
+    public function setRectangle(int $width, int $height, int $x, int $y)
     {
         foreach (compact('width', 'height', 'x', 'y') as $name => $value) {
             if (!is_numeric($value)) {
@@ -325,7 +299,7 @@ class Conversion
      *
      * @return $this
      */
-    public function setManipulationParameter($name, $value)
+    public function setManipulationParameter(string $name, string $value)
     {
         if (count($this->manipulations) == 0) {
             $this->manipulations[0] = [];
