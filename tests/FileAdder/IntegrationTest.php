@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IntegrationTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_add_an_file_to_the_default_collection()
     {
         $media = $this->testModel
@@ -22,9 +20,7 @@ class IntegrationTest extends TestCase
         $this->assertEquals('default', $media->collection_name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_throw_an_exception_when_adding_a_non_existing_file()
     {
         $this->expectException(InvalidFile::class);
@@ -34,9 +30,7 @@ class IntegrationTest extends TestCase
             ->toMediaLibrary();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_set_the_name_of_the_media()
     {
         $media = $this->testModel
@@ -46,9 +40,7 @@ class IntegrationTest extends TestCase
         $this->assertEquals('test', $media->name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_add_a_file_to_a_named_collection()
     {
         $collectionName = 'images';
@@ -58,9 +50,7 @@ class IntegrationTest extends TestCase
         $this->assertEquals($collectionName, $media->collection_name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_move_the_original_file_to_the_medialibrary()
     {
         $testFile = $this->getTestJpg();
@@ -73,9 +63,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_copy_the_original_file_to_the_medialibrary()
     {
         $testFile = $this->getTestJpg();
@@ -86,9 +74,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_handle_a_file_without_an_extension()
     {
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('test'))->toMediaLibrary();
@@ -102,9 +88,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test"));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_handle_an_image_file_without_an_extension()
     {
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('image'))->toMediaLibrary();
@@ -112,9 +96,7 @@ class IntegrationTest extends TestCase
         $this->assertEquals(Media::TYPE_IMAGE, $media->type);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_handle_a_non_image_and_non_pdf_file()
     {
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.txt'))->toMediaLibrary();
@@ -128,9 +110,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test.txt"));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_add_an_upload_to_the_medialibrary()
     {
         $uploadedFile = new UploadedFile(
@@ -145,9 +125,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_add_a_remote_file_to_the_medialibrary()
     {
         $url = 'https://docs.spatie.be/images/medialibrary/header.jpg';
@@ -160,9 +138,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/header.jpg"));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_wil_thrown_an_exception_when_a_remote_file_could_not_be_added()
     {
         $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
@@ -174,9 +150,7 @@ class IntegrationTest extends TestCase
             ->toMediaLibrary();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_rename_the_media_before_it_gets_added()
     {
         $media = $this->testModel
@@ -188,9 +162,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_rename_the_file_before_it_gets_added()
     {
         $media = $this->testModel
@@ -202,9 +174,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/othertest.jpg'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_sanitize_the_file_name()
     {
         $media = $this->testModel
@@ -216,9 +186,7 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/other-test.jpg'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_save_media_in_the_right_order()
     {
         $media = [];
@@ -232,9 +200,7 @@ class IntegrationTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_add_properties_to_the_saved_media()
     {
         $media = $this->testModel
@@ -254,9 +220,7 @@ class IntegrationTest extends TestCase
         $this->assertEquals('testName', $media->name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_add_file_to_model_with_morph_map()
     {
         $media = $this->testModelWithMorphMap

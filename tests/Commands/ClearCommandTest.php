@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Test\TestModel;
 
 class ClearCommandTest extends TestCase
 {
-    /** @var  array */
+    /** @var array */
     protected $media;
 
     public function setUp()
@@ -41,9 +41,7 @@ class ClearCommandTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_clear_all_media()
     {
         Artisan::call('medialibrary:clear');
@@ -55,9 +53,7 @@ class ClearCommandTest extends TestCase
         $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_clear_media_from_a_specific_model_type()
     {
         Artisan::call('medialibrary:clear', [
@@ -71,9 +67,7 @@ class ClearCommandTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_clear_media_from_a_specific_collection()
     {
         Artisan::call('medialibrary:clear', [
@@ -87,9 +81,7 @@ class ClearCommandTest extends TestCase
         $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_clear_media_from_a_specific_model_type_and_collection()
     {
         Artisan::call('medialibrary:clear', [

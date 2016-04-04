@@ -6,9 +6,7 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class RenameTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function it_wil_rename_the_file_if_it_is_changed_on_the_media_object()
     {
         $testFile = $this->getTestFilesDirectory('test.jpg');

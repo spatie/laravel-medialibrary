@@ -19,9 +19,7 @@ class EventTest extends TestCase
         $this->firedEvents = [];
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_fire_the_media_added_event()
     {
         $this->expectsEvent(MediaHasBeenAdded::class);
@@ -29,9 +27,7 @@ class EventTest extends TestCase
         $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_fire_the_conversion_complete_event()
     {
         $this->expectsEvent(ConversionHasBeenCompleted::class);
@@ -39,9 +35,7 @@ class EventTest extends TestCase
         $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_fire_the_collection_cleared_event()
     {
         $this->testModel

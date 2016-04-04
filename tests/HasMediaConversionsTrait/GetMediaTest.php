@@ -6,9 +6,7 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class GetMediaTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_handle_an_empty_collection()
     {
         $emptyCollection = $this->testModelWithoutMediaConversions->getMedia('images');

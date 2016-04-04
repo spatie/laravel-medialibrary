@@ -25,9 +25,7 @@ class CustomPropertyTest extends TestCase
             ->toMediaLibrary('images');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_determine_if_a_media_item_has_custom_property()
     {
         $this->assertTrue($this->mediaWithCustomProperty->hasCustomProperty('customName'));
@@ -37,9 +35,7 @@ class CustomPropertyTest extends TestCase
         $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('nonExisting'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_get_a_custom_property_of_a_media_item()
     {
         $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('customName'));
@@ -49,9 +45,7 @@ class CustomPropertyTest extends TestCase
         $this->assertNull($this->mediaWithoutCustomProperty->getCustomProperty('nonExisting'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_set_custom_property()
     {
         $this->mediaWithCustomProperty->setCustomProperty('anotherName', 'anotherValue');
@@ -60,9 +54,7 @@ class CustomPropertyTest extends TestCase
         $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getCustomProperty('anotherName'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_returns_a_fallback_if_the_custom_property_isnt_set()
     {
         $this->assertEquals('foo', $this->mediaWithCustomProperty->getCustomProperty('imNotHere', 'foo'));

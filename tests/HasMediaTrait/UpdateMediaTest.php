@@ -15,9 +15,7 @@ class UpdateMediaTest extends TestCase
         $this->testModel->addMedia($this->getTestJpg())->usingName('test2')->preservingOriginal()->toMediaLibrary();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_removes_a_media_item_if_its_not_in_the_update_array()
     {
         $mediaArray = $this->testModel->media->toArray();
@@ -30,9 +28,7 @@ class UpdateMediaTest extends TestCase
         $this->assertEquals('test2', $this->testModel->getFirstMedia()->name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_renames_media_items()
     {
         $mediaArray = $this->testModel->media->toArray();
@@ -47,9 +43,7 @@ class UpdateMediaTest extends TestCase
         $this->assertEquals('testBar', $this->testModel->media[1]->name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_updates_media_item_custom_properties()
     {
         $mediaArray = $this->testModel->media->toArray();

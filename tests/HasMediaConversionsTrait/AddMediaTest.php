@@ -6,9 +6,7 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class AddMediaTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_add_an_file_to_the_default_collection()
     {
         $media = $this->testModelWithoutMediaConversions
@@ -18,9 +16,7 @@ class AddMediaTest extends TestCase
         $this->assertEquals('default', $media->collection_name);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_create_a_derived_version_of_an_image()
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
@@ -28,9 +24,7 @@ class AddMediaTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_not_create_a_derived_version_for_non_registered_collections()
     {
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toCollection('downloads');
@@ -38,9 +32,7 @@ class AddMediaTest extends TestCase
         $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_create_a_derived_version_for_an_image_without_an_extension()
     {
         $media = $this->testModelWithConversion
@@ -50,9 +42,7 @@ class AddMediaTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_create_a_derived_version_of_a_pdf_if_imagick_exists()
     {
         $media = $this->testModelWithConversion
