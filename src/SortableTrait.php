@@ -45,10 +45,6 @@ trait SortableTrait
      */
     public static function setNewOrder(array $ids, int $startOrder = 1)
     {
-        if (!is_array($ids)) {
-            throw new InvalidNewOrder('You must pass an array to setNewOrder');
-        }
-
         foreach ($ids as $id) {
             $model = static::find($id);
             $orderColumnName = $model->determineOrderColumnName();

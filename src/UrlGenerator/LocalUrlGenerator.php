@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
+use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined;
 use Spatie\String\Str;
 
@@ -9,15 +10,13 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
     /**
      * Get the url for the profile of a media item.
-     *
      * @return string
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined
      */
     public function getUrl() : string
     {
         if (!string($this->getStoragePath())->startsWith(public_path())) {
-            throw new UrlCouldNotBeDetermined('The storage path is not part of the public path');
+            throw UrlCannotBeDetermined::mediaNotPubliclyAvailable($this->getStoragePath(), public_path());
         }
 
         $url = $this->getBaseMediaDirectory().'/'.$this->getPathRelativeToRoot();
@@ -52,7 +51,7 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 
         return realpath($diskRootPath);
     }
-    
+
     protected function makeCompatibleForNonUnixHosts(string $url) : string
     {
         if (DIRECTORY_SEPARATOR != '/') {
