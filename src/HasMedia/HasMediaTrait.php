@@ -64,7 +64,9 @@ trait HasMediaTrait
      * Add a remote file to the medialibrary.
      *
      * @param string $url
+     *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     *
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function addMediaFromUrl(string $url)
@@ -167,9 +169,11 @@ trait HasMediaTrait
     /**
      * Update a media collection by deleting and inserting again with new values.
      *
-     * @param array $newMediaArray
+     * @param array  $newMediaArray
      * @param string $collectionName
+     *
      * @return array
+     *
      * @throws \Spatie\Medialibrary\Exceptions\MediaCannotBeUpdated
      */
     public function updateMedia(array $newMediaArray, string $collectionName = 'default') : array

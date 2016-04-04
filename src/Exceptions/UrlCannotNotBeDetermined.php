@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
 
-class UrlCannotBeDetermined extends Exception
+class UrlCannotNotBeDetermined extends Exception
 {
     public static function mediaNotPubliclyAvailable(string $storagePath, string $publicPath)
     {

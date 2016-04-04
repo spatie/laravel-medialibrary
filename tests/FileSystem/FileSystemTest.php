@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\Test\FileSystem;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Test\TestCase;
 
-class FilesystemTest extends TestCase
+class FileSystemTest extends TestCase
 {
     /**
      * @var \Spatie\MediaLibrary\Filesystem

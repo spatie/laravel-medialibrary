@@ -17,7 +17,7 @@ class GetTypeTest extends TestCase
     public function it_can_determine_the_type_from_the_extension($extension, $type)
     {
         $media = new Media();
-        $media->file_name = 'test.' . $extension;
+        $media->file_name = 'test.'.$extension;
         $this->assertEquals($type, $media->type_from_extension);
     }
 
@@ -62,8 +62,7 @@ class GetTypeTest extends TestCase
             ['test', Media::TYPE_OTHER],
             ['test.jpg', Media::TYPE_IMAGE],
             ['test.pdf', Media::TYPE_PDF],
-            ['test.txt', Media::TYPE_OTHER]
+            ['test.txt', Media::TYPE_OTHER],
         ];
     }
-
 }

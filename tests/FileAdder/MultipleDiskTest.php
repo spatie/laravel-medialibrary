@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\Exceptions\InvalidFilesystem;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class MultipleDiskTest extends TestCase

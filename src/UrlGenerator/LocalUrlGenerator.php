@@ -9,7 +9,9 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
 {
     /**
      * Get the url for the profile of a media item.
+     *
      * @return string
+     *
      * @throws \Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined
      */
     public function getUrl() : string

@@ -28,7 +28,7 @@ class PerformConversions extends Job implements ShouldQueue
         $this->conversions = $conversions;
         $this->media = $media;
     }
-    
+
     public function handle() : bool
     {
         app(FileManipulator::class)->performConversions($this->conversions, $this->media);

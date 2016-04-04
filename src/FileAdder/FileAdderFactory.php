@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FileAdderFactory
 {
     /**
-     * @param Model                        $subject
+     * @param Model                                                      $subject
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder

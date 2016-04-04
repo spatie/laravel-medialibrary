@@ -93,6 +93,7 @@ class FileAdder
      * Set the file that needs to be imported.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     *
      * @return $this
      * 
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded

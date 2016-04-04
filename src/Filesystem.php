@@ -27,7 +27,7 @@ class Filesystem
     protected $events;
 
     /**
-     * @param Factory $filesystems
+     * @param Factory                                 $filesystems
      * @param \Illuminate\Contracts\Config\Repository $config
      */
     public function __construct(Factory $filesystems, ConfigRepository $config, Dispatcher $events)
@@ -54,13 +54,14 @@ class Filesystem
      */
     public function copyToMediaLibrary(string $file, Media $media, bool $conversions = false, string $targetFileName = '')
     {
-        $destination = $this->getMediaDirectory($media, $conversions) .
+        $destination = $this->getMediaDirectory($media, $conversions).
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
         if ($media->getDiskDriverName() === 'local') {
             $this->filesystem
                 ->disk($media->disk)
                 ->put($destination, fopen($file, 'r+'));
+
             return;
         }
 
@@ -68,7 +69,6 @@ class Filesystem
             ->disk($media->disk)
             ->getDriver()
             ->put($destination, fopen($file, 'r+'), $this->getRemoteHeadersForFile($file));
-
     }
 
     /*
@@ -89,7 +89,7 @@ class Filesystem
      */
     public function copyFromMediaLibrary(Media $media, string $targetFile)
     {
-        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         touch($targetFile);
 
@@ -111,8 +111,8 @@ class Filesystem
      */
     public function renameFile(Media $media, string $oldName)
     {
-        $oldFile = $this->getMediaDirectory($media) . '/' . $oldName;
-        $newFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
+        $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }

@@ -60,6 +60,7 @@ class Conversion
      * Set the manipulations for this conversion.
      *
      * @param $manipulations
+     *
      * @return $this
      */
     public function setManipulations(...$manipulations)
