@@ -23,7 +23,7 @@ trait HasMediaTrait
     /**
      * @var bool
      */
-    private $deletePreservingMedia = false;
+    protected $deletePreservingMedia = false;
 
     public static function bootHasMediaTrait()
     {
