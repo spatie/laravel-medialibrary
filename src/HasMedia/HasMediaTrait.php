@@ -215,7 +215,7 @@ trait HasMediaTrait
             ->filter(function ($currentMediaItem) use ($newMediaArray) {
                 return !in_array($currentMediaItem->id, collect($newMediaArray)->lists('id')->toArray());
             })
-            ->map(function ($media) {
+            ->map(function (Media $media) {
                 $media->delete();
             });
     }
@@ -229,7 +229,7 @@ trait HasMediaTrait
      */
     public function clearMediaCollection(string $collectionName = 'default')
     {
-        $this->getMedia($collectionName)->map(function ($media) {
+        $this->getMedia($collectionName)->map(function (Media $media) {
             app(Filesystem::class)->removeFiles($media);
             $media->delete();
         });

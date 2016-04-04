@@ -110,7 +110,7 @@ abstract class TestCase extends Orchestra
     protected function setUpTempTestFiles()
     {
         $this->initializeDirectory($this->getTestFilesDirectory());
-        File::copyDirectory(__DIR__.'/../resources/testfiles', $this->getTestFilesDirectory());
+        File::copyDirectory(__DIR__.'/testfiles', $this->getTestFilesDirectory());
     }
 
     protected function initializeDirectory($directory)

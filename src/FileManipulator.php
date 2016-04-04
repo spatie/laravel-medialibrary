@@ -108,13 +108,13 @@ class FileManipulator
                 ->save($conversionTempFile);
         }
 
+        
+
         return $conversionTempFile;
     }
 
-    /**
+    /*
      * Create a directory to store some working files.
-     *
-     * @return string
      */
     public function createTempDirectory() : string
     {
@@ -124,7 +124,7 @@ class FileManipulator
 
         return $tempDirectory;
     }
-    
+
     protected function convertToImage(string $pdfFile) : string
     {
         $imageFile = string($pdfFile)->pop('.').'.jpg';
@@ -134,11 +134,8 @@ class FileManipulator
         return $imageFile;
     }
 
-    /**
+    /*
      * Dispatch the given conversions.
-     *
-     * @param Media                $media
-     * @param ConversionCollection $queuedConversions
      */
     protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions)
     {
