@@ -18,14 +18,8 @@ class CollectionHasBeenCleared
      * @var string
      */
     public $collectionName;
-
-    /**
-     * MediaHasBeenStoredEvent constructor.
-     *
-     * @param \Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia $model
-     * @param string                                            $collectionName
-     */
-    public function __construct(HasMedia $model, $collectionName)
+    
+    public function __construct(HasMedia $model, string $collectionName)
     {
         $this->model = $model;
         $this->collectionName = $collectionName;

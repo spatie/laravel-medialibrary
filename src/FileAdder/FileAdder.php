@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\FileAdder;
 
 use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeImported;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
@@ -84,7 +85,7 @@ class FileAdder
      *
      * @return FileAdder
      */
-    public function setSubject($subject)
+    public function setSubject(Model $subject)
     {
         $this->subject = $subject;
 
@@ -147,11 +148,11 @@ class FileAdder
     /**
      * Set the name of the media object.
      *
-     * @param $name
+     * @param string $name
      *
      * @return $this
      */
-    public function usingName($name)
+    public function usingName(string $name)
     {
         return $this->setName($name);
     }
@@ -159,11 +160,11 @@ class FileAdder
     /**
      * Set the name of the media object.
      *
-     * @param $name
+     * @param string $name
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->mediaName = $name;
 
@@ -173,11 +174,11 @@ class FileAdder
     /**
      * Set the name of the file that is stored on disk.
      *
-     * @param $fileName
+     * @param string $fileName
      *
      * @return $this
      */
-    public function usingFileName($fileName)
+    public function usingFileName(string $fileName)
     {
         return $this->setFileName($fileName);
     }
@@ -185,11 +186,11 @@ class FileAdder
     /**
      * Set the name of the file that is stored on disk.
      *
-     * @param $fileName
+     * @param string $fileName
      *
      * @return $this
      */
-    public function setFileName($fileName)
+    public function setFileName(string $fileName)
     {
         $this->fileName = $this->sanitizeFileName($fileName);
 
@@ -248,7 +249,7 @@ class FileAdder
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
-    public function toMediaLibrary($collectionName = 'default', $diskName = '')
+    public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
     {
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
@@ -265,7 +266,7 @@ class FileAdder
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
-    public function toMediaLibraryOnDisk($collectionName = 'default', $diskName = '')
+    public function toMediaLibraryOnDisk(string $collectionName = 'default', string $diskName = '')
     {
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
@@ -282,7 +283,7 @@ class FileAdder
      * @throws FileDoesNotExist
      * @throws FileTooBig
      */
-    public function toCollection($collectionName = 'default', $diskName = '')
+    public function toCollection(string $collectionName = 'default', string $diskName = '')
     {
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
@@ -297,7 +298,7 @@ class FileAdder
      * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
      * @throws \Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist
      */
-    public function toCollectionOnDisk($collectionName = 'default', $diskName = '')
+    public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
         if (!is_file($this->pathToFile)) {
             throw new FileDoesNotExist();
@@ -342,9 +343,9 @@ class FileAdder
      *
      * @throws FilesystemDoesNotExist
      */
-    protected function determineDiskName($diskName)
+    protected function determineDiskName(string $diskName)
     {
-        if ($diskName == '') {
+        if ($diskName === '') {
             $diskName = config('laravel-medialibrary.defaultFilesystem');
         }
 
@@ -362,7 +363,7 @@ class FileAdder
      *
      * @return string
      */
-    protected function sanitizeFileName($fileName)
+    protected function sanitizeFileName(string $fileName) : string
     {
         return str_replace(['#', '/', '\\'], '-', $fileName);
     }
