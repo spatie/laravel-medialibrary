@@ -41,7 +41,7 @@ interface HasMedia
     /**
      * Get media collection by its collectionName.
      *
-     * @param string $collectionName
+     * @param string         $collectionName
      * @param array|callable $filters
      *
      * @return \Spatie\MediaLibrary\Media

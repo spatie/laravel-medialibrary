@@ -89,7 +89,7 @@ class Media extends Model
     public function getTypeAttribute()
     {
         $type = $this->type_from_extension;
-        if ($type !== Media::TYPE_OTHER) {
+        if ($type !== self::TYPE_OTHER) {
             return $type;
         }
 
@@ -97,7 +97,7 @@ class Media extends Model
     }
 
     /**
-     * Determine the type of a file from its file extension
+     * Determine the type of a file from its file extension.
      *
      * @return string
      */

@@ -108,8 +108,6 @@ class FileManipulator
                 ->save($conversionTempFile);
         }
 
-        
-
         return $conversionTempFile;
     }
 

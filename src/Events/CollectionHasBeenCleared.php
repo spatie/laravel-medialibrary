@@ -18,7 +18,7 @@ class CollectionHasBeenCleared
      * @var string
      */
     public $collectionName;
-    
+
     public function __construct(HasMedia $model, string $collectionName)
     {
         $this->model = $model;

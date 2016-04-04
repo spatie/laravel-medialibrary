@@ -2,9 +2,10 @@
 
 namespace Spatie\Medialibrary\Exceptions;
 
+use Exception;
 use Spatie\MediaLibrary\Media;
 
-class MediaCannotBeUpdated
+class MediaCannotBeUpdated extends Exception
 {
     public static function doesNotBelongToCollection(string $collectionName, Media $media)
     {
