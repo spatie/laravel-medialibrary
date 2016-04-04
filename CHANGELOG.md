@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.17.3 - 2016-04-04
+- Fixed an issue with deleting models with media in some php versions
+
 ##3.17.2 - 2016-03-25
 - Fixed mistakes in the version contraints on the illuminate components
 
