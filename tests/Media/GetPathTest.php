@@ -35,7 +35,7 @@ class GetPathTest extends TestCase
     {
         $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
 
-        $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\UnknownConversion::class);
+        $this->expectException(\Spatie\MediaLibrary\Exceptions\UnknownConversion::class);
 
         $media->getPath('unknownConversionName');
     }

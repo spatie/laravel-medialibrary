@@ -173,7 +173,7 @@ class ConversionTest extends TestCase
      */
     public function it_throw_an_exception_for_an_invalid_format()
     {
-        $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
+        $this->expectException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
         $this->conversion->setFormat('blabla');
     }
 
@@ -194,7 +194,7 @@ class ConversionTest extends TestCase
      */
     public function it_throw_an_exception_for_an_invalid_fit()
     {
-        $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
+        $this->expectException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
         $this->conversion->setFit('blabla');
     }
 
