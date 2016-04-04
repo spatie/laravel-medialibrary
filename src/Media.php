@@ -127,7 +127,7 @@ class Media extends Model
             return static::TYPE_IMAGE;
         }
 
-        if ($mime == 'application/pdf') {
+        if ($mime === 'application/pdf') {
             return static::TYPE_PDF;
         }
 
@@ -167,11 +167,7 @@ class Media extends Model
      */
     public function getCustomProperty(string $propertyName, $default = null)
     {
-        if (!$this->hasCustomProperty($propertyName)) {
-            return $default;
-        }
-
-        return $this->custom_properties[$propertyName];
+        return $this->custom_properties[$propertyName] ?? $default;
     }
 
     public function setCustomProperty(string $name, $value)
