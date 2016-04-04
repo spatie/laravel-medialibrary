@@ -19,9 +19,7 @@ class FilesystemTest extends TestCase
         $this->filesystem = $this->app->make(Filesystem::class);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_determine_the_header_for_file_that_will_be_copied_to_an_external_filesytem()
     {
         $expectedHeaders = [

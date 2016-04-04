@@ -25,9 +25,7 @@ class DeleteMediaTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_clear_a_collection()
     {
         $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
@@ -39,9 +37,7 @@ class DeleteMediaTest extends TestCase
         $this->assertCount(0, $this->testModelWithoutMediaConversions->getMedia('images'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_provides_a_chainable_method_for_clearing_a_collection()
     {
         $result = $this->testModelWithoutMediaConversions->clearMediaCollection('images');
@@ -86,9 +82,7 @@ class DeleteMediaTest extends TestCase
         });
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_not_remove_the_files_when_deleting_a_subject_and_preserving_media()
     {
         $ids = $this->testModelWithoutMediaConversions->getMedia('images')->lists('id');

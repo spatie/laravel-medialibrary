@@ -7,9 +7,7 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class RegenerateCommandTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_regenerate_all_files()
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toCollection('images');
@@ -25,9 +23,7 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileExists($derivedImage);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_can_regenerate_files_by_media_ids()
     {
         $media = $this->testModelWithConversion

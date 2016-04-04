@@ -7,9 +7,7 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class DeleteTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function it_will_remove_the_files_when_deleting_a_media_object()
     {
         $media = $this->testModel->addMedia($this->getTestJpg())->toCollection('images');
