@@ -36,22 +36,22 @@ interface HasMedia
      *
      * @return bool
      */
-    public function hasMedia($collectionMedia = '');
+    public function hasMedia(string $collectionMedia = '') : bool;
 
     /**
      * Get media collection by its collectionName.
      *
      * @param string $collectionName
-     * @param array  $filters
+     * @param array|callable $filters
      *
      * @return \Spatie\MediaLibrary\Media
      */
-    public function getMedia($collectionName = 'default', $filters = []);
+    public function getMedia(string $collectionName = 'default', $filters = []);
 
     /**
      * Remove all media in the given collection.
      *
      * @param string $collectionName
      */
-    public function clearMediaCollection($collectionName = 'default');
+    public function clearMediaCollection(string $collectionName = 'default');
 }
