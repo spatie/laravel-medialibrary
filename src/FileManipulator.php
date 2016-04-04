@@ -35,11 +35,11 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
-        if ($media->type == Media::TYPE_OTHER) {
+        if ($media->type === Media::TYPE_OTHER) {
             return;
         }
 
-        if ($media->type == Media::TYPE_PDF && !class_exists('Imagick')) {
+        if ($media->type === Media::TYPE_PDF && !class_exists('Imagick')) {
             return;
         }
 
@@ -103,9 +103,8 @@ class FileManipulator
         File::copy($copiedOriginalFile, $conversionTempFile);
 
         foreach ($conversion->getManipulations() as $manipulation) {
-            (new GlideImage())
-                ->load($conversionTempFile, $manipulation)
-                ->useAbsoluteSourceFilePath()
+            GlideImage::create($conversionTempFile)
+                ->modify($manipulation)
                 ->save($conversionTempFile);
         }
 
