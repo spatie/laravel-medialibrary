@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
-use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined;
 use Spatie\String\Str;
 
 class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator

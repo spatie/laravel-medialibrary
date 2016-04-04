@@ -9,8 +9,6 @@ use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\Medialibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\Medialibrary\Exceptions\MediaCannotBeUpdated;
-use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
-use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;

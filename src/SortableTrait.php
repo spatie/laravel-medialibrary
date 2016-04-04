@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\MediaLibrary\Exceptions\InvalidNewOrder;
 
 trait SortableTrait
 {
