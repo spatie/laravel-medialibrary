@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeImported;
 use Spatie\MediaLibrary\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileTooBig;
 use Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\InvalidFile;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
 use Symfony\Component\HttpFoundation\File\File;
@@ -96,10 +97,9 @@ class FileAdder
      * Set the file that needs to be imported.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
-     *
      * @return $this
-     *
-     * @throws FileCannotBeImported
+     * 
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidFile
      */
     public function setFile($file)
     {
@@ -129,7 +129,7 @@ class FileAdder
             return $this;
         }
 
-        throw new FileCannotBeImported('Only strings, FileObjects and UploadedFileObjects can be imported');
+        throw InvalidFile::cannotBeImported();
     }
 
     /**
@@ -247,7 +247,7 @@ class FileAdder
      * @return Media
      *
      * @throws FileDoesNotExist
-     * @throws FileTooBig
+     * @throws InvalidFile
      */
     public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
     {
@@ -264,7 +264,7 @@ class FileAdder
      * @return Media
      *
      * @throws FileDoesNotExist
-     * @throws FileTooBig
+     * @throws InvalidFile
      */
     public function toMediaLibraryOnDisk(string $collectionName = 'default', string $diskName = '')
     {
@@ -281,7 +281,7 @@ class FileAdder
      * @return Media
      *
      * @throws FileDoesNotExist
-     * @throws FileTooBig
+     * @throws InvalidFile
      */
     public function toCollection(string $collectionName = 'default', string $diskName = '')
     {
@@ -294,18 +294,17 @@ class FileAdder
      *
      * @return \Spatie\MediaLibrary\Media
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\Exceptions\FileTooBig
+     * @throws InvalidFile
      * @throws \Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist
      */
     public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
         if (!is_file($this->pathToFile)) {
-            throw new FileDoesNotExist();
+            throw InvalidFile::doesNotExist($this->pathToFile);
         }
 
         if (filesize($this->pathToFile) > config('laravel-medialibrary.max_file_size')) {
-            throw new FileTooBig();
+            throw InvalidFile::tooBig($this->pathToFile);
         }
 
         $mediaClass = config('laravel-medialibrary.media_model');

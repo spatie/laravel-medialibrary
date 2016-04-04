@@ -27,7 +27,7 @@ class MultipleDiskTest extends TestCase
      */
     public function it_will_throw_an_exception_when_using_a_non_existing_disk()
     {
-        $this->setExpectedException(FileSystemDoesNotExist::class);
+        $this->expectException(FileSystemDoesNotExist::class);
         $this->testModel
             ->addMedia($this->getTestJpg())
             ->toCollectionOnDisk('images', 'diskdoesnotexist');
