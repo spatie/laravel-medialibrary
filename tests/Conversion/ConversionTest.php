@@ -167,20 +167,20 @@ class ConversionTest extends TestCase
     /** @test */
     public function it_can_add_rectangle_to_a_manipulation()
     {
-        $conversion = $this->conversion->setRectangle(100, 200, 300, 400);
+        $conversion = $this->conversion->setCrop(100, 200, 300, 400);
 
-        $this->arrayHasKey('rect', $this->conversion->getManipulations()[0]);
-        $this->assertEquals('100,200,300,400', $this->conversion->getManipulations()[0]['rect']);
+        $this->arrayHasKey('crop', $this->conversion->getManipulations()[0]);
+        $this->assertEquals('100,200,300,400', $this->conversion->getManipulations()[0]['crop']);
         $this->assertInstanceOf(\Spatie\MediaLibrary\Conversion\Conversion::class, $conversion);
     }
 
     /** @test */
     public function it_allows_zero_x_y_coordinates_in_rectangle_manipulations()
     {
-        $conversion = $this->conversion->setRectangle(100, 200, 0, 0);
+        $conversion = $this->conversion->setCrop(100, 200, 0, 0);
 
-        $this->arrayHasKey('rect', $this->conversion->getManipulations()[0]);
-        $this->assertEquals('100,200,0,0', $this->conversion->getManipulations()[0]['rect']);
+        $this->arrayHasKey('crop', $this->conversion->getManipulations()[0]);
+        $this->assertEquals('100,200,0,0', $this->conversion->getManipulations()[0]['crop']);
         $this->assertInstanceOf(\Spatie\MediaLibrary\Conversion\Conversion::class, $conversion);
     }
 
