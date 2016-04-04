@@ -33,7 +33,7 @@ class ConversionTest extends TestCase
      */
     public function it_can_store_multiple_manipulations()
     {
-        $this->conversion->setManipulations(['w' => '1'], ['h' => 2]);
+        $this->conversion->setManipulations(['w' => 1], ['h' => 2]);
 
         $this->assertEquals(2, count($this->conversion->getManipulations()));
     }
@@ -43,7 +43,7 @@ class ConversionTest extends TestCase
      */
     public function it_will_add_a_format_parameter_if_it_was_not_given()
     {
-        $this->conversion->setManipulations(['w' => '1']);
+        $this->conversion->setManipulations(['w' => 1]);
 
         $manipulations = $this->conversion->getManipulations();
         $this->arrayHasKey('fm', $manipulations[0]);
@@ -147,15 +147,6 @@ class ConversionTest extends TestCase
     /**
      * @test
      */
-    public function it_throw_an_exception_for_an_invalid_width()
-    {
-        $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
-        $this->conversion->setWidth('blabla');
-    }
-
-    /**
-     * @test
-     */
     public function it_can_add_height_to_a_manipulation()
     {
         $conversion = $this->conversion->setHeight(10);
@@ -163,15 +154,6 @@ class ConversionTest extends TestCase
         $this->arrayHasKey('h', $this->conversion->getManipulations()[0]);
         $this->assertEquals(10, $this->conversion->getManipulations()[0]['h']);
         $this->assertInstanceOf(\Spatie\MediaLibrary\Conversion\Conversion::class, $conversion);
-    }
-
-    /**
-     * @test
-     */
-    public function it_throw_an_exception_for_an_invalid_height()
-    {
-        $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
-        $this->conversion->setHeight('blabla');
     }
 
     /**
@@ -238,15 +220,6 @@ class ConversionTest extends TestCase
         $this->arrayHasKey('rect', $this->conversion->getManipulations()[0]);
         $this->assertEquals('100,200,0,0', $this->conversion->getManipulations()[0]['rect']);
         $this->assertInstanceOf(\Spatie\MediaLibrary\Conversion\Conversion::class, $conversion);
-    }
-
-    /**
-     * @test
-     */
-    public function it_throws_an_exception_for_an_invalid_rectangle()
-    {
-        $this->setExpectedException(\Spatie\MediaLibrary\Exceptions\InvalidConversionParameter::class);
-        $this->conversion->setRectangle('blabla', 200, 300, 400);
     }
 
     /**

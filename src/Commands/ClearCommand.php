@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
@@ -63,10 +64,7 @@ class ClearCommand extends Command
         $this->info('All done!');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getMediaItems()
+    public function getMediaItems() : Collection
     {
         $modelType = $this->argument('modelType');
         $collectionName = $this->argument('collectionName');
