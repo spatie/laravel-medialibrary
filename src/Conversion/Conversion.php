@@ -184,7 +184,7 @@ class Conversion
     public function setWidth(int $width)
     {
         if (!is_numeric($width) || $width < 1) {
-            throw new InvalidConversionParameter('width should be numeric and greater than 1');
+            throw InvalidConversionParameter::invalidWidth();
         }
 
         $this->setManipulationParameter('w', $width);
@@ -205,7 +205,7 @@ class Conversion
     public function setHeight(int $height)
     {
         if (!is_numeric($height) || $height < 1) {
-            throw new InvalidConversionParameter('height should be numeric and greater than 1');
+            throw InvalidConversionParameter::invalidHeight();
         }
 
         $this->setManipulationParameter('h', $height);
@@ -228,7 +228,7 @@ class Conversion
         $validFormats = ['jpg', 'png', 'gif'];
 
         if (!in_array($format, $validFormats)) {
-            throw new InvalidConversionParameter($format.' is not a valid format.');
+            throw InvalidConversionParameter::invalidFormat($format, $validFormats);
         }
 
         $this->setManipulationParameter('fm', $format);
@@ -248,10 +248,10 @@ class Conversion
      */
     public function setFit(string $fit)
     {
-        $validFits = ['contain', 'max', 'stretch', 'crop'];
+        $validFits = ['contain', 'max', 'fill', 'stretch', 'crop'];
 
         if (!in_array($fit, $validFits)) {
-            throw new InvalidConversionParameter($fit.' is not a valid fit.');
+            throw InvalidConversionParameter::invalidFit($fit, $validFits);
         }
 
         $this->setManipulationParameter('fit', $fit);
@@ -260,8 +260,7 @@ class Conversion
     }
 
     /**
-     * Set the target rectangle.
-     * Matches with Glide's 'rect'-parameter.
+     * Crops the image to specific dimensions prior to any other resize operations.
      *
      * @param int $width
      * @param int $height
@@ -272,21 +271,21 @@ class Conversion
      *
      * @throws InvalidConversionParameter
      */
-    public function setRectangle(int $width, int $height, int $x, int $y)
+    public function setCrop(int $width, int $height, int $x, int $y)
     {
         foreach (compact('width', 'height', 'x', 'y') as $name => $value) {
             if (!is_numeric($value)) {
-                throw new InvalidConversionParameter($name.' should be numeric');
+                throw InvalidConversionParameter::shouldBeNumeric($name, $value);
             }
         }
 
         foreach (compact('width', 'height') as $name => $value) {
             if ($value < 1) {
-                throw new InvalidConversionParameter($name.' should be greater than 1');
+                throw InvalidConversionParameter::shouldBeGreaterThanOne($name, $value);
             }
         }
 
-        $this->setManipulationParameter('rect', sprintf('%s,%s,%s,%s', $width, $height, $x, $y));
+        $this->setManipulationParameter('crop', implode(',', [$width, $height, $x, $y]));
 
         return $this;
     }

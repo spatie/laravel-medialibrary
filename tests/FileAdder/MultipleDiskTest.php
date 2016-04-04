@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
-use Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\InvalidFilesystem;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class MultipleDiskTest extends TestCase
@@ -23,7 +23,8 @@ class MultipleDiskTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_when_using_a_non_existing_disk()
     {
-        $this->expectException(FileSystemDoesNotExist::class);
+        $this->expectException(InvalidFilesystem::class);
+
         $this->testModel
             ->addMedia($this->getTestJpg())
             ->toCollectionOnDisk('images', 'diskdoesnotexist');
