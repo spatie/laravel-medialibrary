@@ -20,7 +20,7 @@ class FileAdder
     /**
      * @var Filesystem
      */
-    protected $fileSystem;
+    protected $filesystem;
 
     /**
      * @var Repository
@@ -73,7 +73,7 @@ class FileAdder
      */
     public function __construct(Filesystem $fileSystem, Repository $config)
     {
-        $this->fileSystem = $fileSystem;
+        $this->filesystem = $fileSystem;
         $this->config = $config;
     }
 
@@ -292,11 +292,11 @@ class FileAdder
      * @return \Spatie\MediaLibrary\Media
      *
      * @throws FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FilesystemDoesNotExist
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
-        if (! $this->subject->exists) {
+        if (!$this->subject->exists) {
             throw FileCannotBeAdded::modelDoesNotExist($this->subject);
         }
 
@@ -325,7 +325,7 @@ class FileAdder
 
         $this->subject->media()->save($media);
 
-        $this->fileSystem->add($this->pathToFile, $media, $this->fileName);
+        $this->filesystem->add($this->pathToFile, $media, $this->fileName);
 
         if (!$this->preserveOriginal) {
             unlink($this->pathToFile);
@@ -341,7 +341,7 @@ class FileAdder
      *
      * @return string
      *
-     * @throws InvalidFilesystem
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     protected function determineDiskName(string $diskName)
     {

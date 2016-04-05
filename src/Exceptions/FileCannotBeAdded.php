@@ -43,4 +43,9 @@ class FileCannotBeAdded extends Exception
 
         return new static("Before adding media to it, you should first save the $modelClass-model");
     }
+
+    public static function requestDoesNotHaveFile($key)
+    {
+        return new static("The current request does not have a file in a key named `{$key}`");
+    }
 }

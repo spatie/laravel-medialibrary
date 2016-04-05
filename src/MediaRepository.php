@@ -69,7 +69,7 @@ class MediaRepository
 
         $query = $model->media();
 
-        if ($collectionName != '') {
+        if ($collectionName !== '') {
             $query = $query->where('collection_name', $collectionName);
         }
 
