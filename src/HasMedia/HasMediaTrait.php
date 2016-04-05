@@ -48,8 +48,7 @@ trait HasMediaTrait
     }
 
     /**
-     * Add a file to the medialibrary. The file will be removed from
-     * it's original location.
+     * Add a file to the medialibrary.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
@@ -58,6 +57,18 @@ trait HasMediaTrait
     public function addMedia($file)
     {
         return app(FileAdderFactory::class)->create($this, $file);
+    }
+
+    /**
+     * Add a file from a request.
+     *
+     * @param string $key
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public function addMediaFromRequest(string $key)
+    {
+        return app(FileAdderFactory::class)->createFromRequest($this, $key);
     }
 
     /**

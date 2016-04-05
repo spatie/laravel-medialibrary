@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Traits\Macroable;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
@@ -11,7 +10,6 @@ use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 class Media extends Model
 {
     use SortableTrait;
-    use Macroable;
 
     const TYPE_OTHER = 'other';
     const TYPE_IMAGE = 'image';

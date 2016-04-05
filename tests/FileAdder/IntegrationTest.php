@@ -35,7 +35,7 @@ class IntegrationTest extends TestCase
     {
         $this->expectException(FileCannotBeAdded::class);
 
-         $this->testModel
+        $this->testModel
             ->addMedia('/home/blablaba')
             ->toMediaLibrary();
     }
@@ -133,6 +133,37 @@ class IntegrationTest extends TestCase
         $media = $this->testModel->addMedia($uploadedFile)->toMediaLibrary();
         $this->assertEquals('alternativename', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+    }
+
+    /** @test */
+    public function it_can_add_an_upload_to_the_medialibrary_from_the_current_request()
+    {
+        $this->app['router']->get('/upload', function () {
+            $media = $this->testModel->addMediaFromRequest('file')->toMediaLibrary();
+            $this->assertEquals('alternativename', $media->name);
+            $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+        });
+
+        $fileUpload = new UploadedFile(
+            $this->getTestFilesDirectory('test.jpg'),
+            'alternativename.jpg',
+            'image/jpeg',
+            filesize($this->getTestFilesDirectory('test.jpg'))
+        );
+
+        $this->makeRequest('get', 'upload', [], [], ['file' => $fileUpload]);
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_trying_to_add_a_non_existing_key_from_a_request()
+    {
+        $this->app['router']->get('/upload', function () {
+            $this->expectException(FileCannotBeAdded::class);
+
+            $this->testModel->addMediaFromRequest('non existing key')->toMediaLibrary();
+        });
+
+        $this->makeRequest('get', 'upload');
     }
 
     /** @test */

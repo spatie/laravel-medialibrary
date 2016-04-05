@@ -31,7 +31,9 @@ class ConversionCollection extends Collection
      *  Get a conversion by it's name;.
      *
      * @param string $name
+     *
      * @return mixed
+     *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function getByName(string $name)
