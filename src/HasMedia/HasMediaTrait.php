@@ -16,14 +16,10 @@ use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMediaTrait
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $mediaConversions = [];
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $deletePreservingMedia = false;
 
     public static function bootHasMediaTrait()
