@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\Test\FileAdder;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Test\TestModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IntegrationTest extends TestCase
@@ -24,7 +25,17 @@ class IntegrationTest extends TestCase
     {
         $this->expectException(FileCannotBeAdded::class);
 
-        $media = $this->testModel
+        (new TestModel())
+            ->addMedia($this->getTestJpg())
+            ->toMediaLibrary();
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_adding_a_non_saved_model()
+    {
+        $this->expectException(FileCannotBeAdded::class);
+
+         $this->testModel
             ->addMedia('/home/blablaba')
             ->toMediaLibrary();
     }
