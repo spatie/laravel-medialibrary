@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 class FileAdderFactory
 {
     /**
-     * @param Model                                                      $subject
+     * @param \Illuminate\Database\Eloquent\Model                        $subject
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
@@ -21,8 +21,8 @@ class FileAdderFactory
     }
 
     /**
-     * @param Model  $subject
-     * @param string $key
+     * @param \Illuminate\Database\Eloquent\Model $subject
+     * @param string                              $key
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      *
@@ -30,12 +30,10 @@ class FileAdderFactory
      */
     public static function createFromRequest(Model $subject, string $key)
     {
-        $file = request()->file($key);
-
-        if (is_null($file)) {
+        if (!request()->hasFile($key)) {
             throw FileCannotBeAdded::requestDoesNotHaveFile($key);
         }
 
-        return static::create($subject, $file);
+        return static::create($subject, request()->file($key));
     }
 }

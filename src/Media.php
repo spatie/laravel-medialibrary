@@ -179,8 +179,8 @@ class Media extends Model
     /**
      * Get all the names of the registered media conversions.
      */
-    public function getMediaConversionNames() : array {
-
+    public function getMediaConversionNames() : array
+    {
         $conversions = ConversionCollectionFactory::createForMedia($this);
 
         return $conversions->map(function (Conversion $conversion) {
