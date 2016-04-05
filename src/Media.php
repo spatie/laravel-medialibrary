@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
@@ -177,5 +178,17 @@ class Media extends Model
     public function setCustomProperty(string $name, $value)
     {
         $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
+    }
+
+    /**
+     * Get all the names of the registered media conversions.
+     */
+    public function getMediaConversionNames() : array {
+
+        $conversions = ConversionCollectionFactory::createForMedia($this);
+
+        return $conversions->map(function (Conversion $conversion) {
+            return $conversion->getName();
+        })->toArray();
     }
 }

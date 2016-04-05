@@ -28,7 +28,7 @@ class ConversionCollection extends Collection
     }
 
     /**
-     *  Get a conversion by it's name;.
+     *  Get a conversion by it's name.
      *
      * @param string $name
      *
