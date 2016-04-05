@@ -19,16 +19,6 @@ class FileManipulator
     use DispatchesJobs;
 
     /**
-     * @var \Illuminate\Contracts\Events\Dispatcher
-     */
-    protected $events;
-
-    public function __construct(Dispatcher $events)
-    {
-        $this->events = $events;
-    }
-
-    /**
      * Create all derived files for the given media.
      *
      * @param \Spatie\MediaLibrary\Media $media
@@ -80,7 +70,7 @@ class FileManipulator
 
             app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
 
-            $this->events->fire(new ConversionHasBeenCompleted($media, $conversion));
+            event(new ConversionHasBeenCompleted($media, $conversion));
         }
 
         File::deleteDirectory($tempDirectory);

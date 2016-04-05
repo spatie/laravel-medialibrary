@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
@@ -245,7 +244,7 @@ trait HasMediaTrait
             $media->delete();
         });
 
-        app(Dispatcher::class)->fire(new CollectionHasBeenCleared($this, $collectionName));
+        event(new CollectionHasBeenCleared($this, $collectionName));
 
         return $this;
     }

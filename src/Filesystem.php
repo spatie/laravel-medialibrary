@@ -22,19 +22,13 @@ class Filesystem
     protected $config;
 
     /**
-     * @var \Illuminate\Contracts\Events\Dispatcher
-     */
-    protected $events;
-
-    /**
      * @param Factory                                 $filesystems
      * @param \Illuminate\Contracts\Config\Repository $config
      */
-    public function __construct(Factory $filesystems, ConfigRepository $config, Dispatcher $events)
+    public function __construct(Factory $filesystems, ConfigRepository $config)
     {
         $this->filesystem = $filesystems;
         $this->config = $config;
-        $this->events = $events;
     }
 
     /*
@@ -44,7 +38,7 @@ class Filesystem
     {
         $this->copyToMediaLibrary($file, $media, false, $targetFileName);
 
-        $this->events->fire(new MediaHasBeenAdded($media));
+        event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }

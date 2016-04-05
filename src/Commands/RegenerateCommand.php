@@ -67,10 +67,10 @@ class RegenerateCommand extends Command
      */
     public function getMediaToBeRegenerated()
     {
-        $modelType = $this->argument('modelType');
+        $modelType = $this->argument('modelType') ?? '';
         $mediaIds = $this->option('ids');
 
-        if ($modelType == '' && !$mediaIds) {
+        if ($modelType === '' && !$mediaIds) {
             return $this->mediaRepository->all();
         }
 
