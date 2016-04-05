@@ -296,6 +296,10 @@ class FileAdder
      */
     public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
+        if (! $this->subject->exists) {
+            throw FileCannotBeAdded::modelDoesNotExist($this->subject);
+        }
+
         if (!is_file($this->pathToFile)) {
             throw FileCannotBeAdded::fileDoesNotExist($this->pathToFile);
         }

@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Helpers\File;
 
 class FileCannotBeAdded extends Exception
@@ -34,5 +35,12 @@ class FileCannotBeAdded extends Exception
     public static function diskDoesNotExist(string $diskName)
     {
         return new static("There is no filesystem disk named `{$diskName}` does not exist");
+    }
+
+    public static function modelDoesNotExist(Model $model)
+    {
+        $modelClass = get_class($model);
+
+        return new static("Before adding media to it, you should first save the $modelClass-model");
     }
 }
