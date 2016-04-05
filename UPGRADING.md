@@ -24,3 +24,6 @@ from the default collection would be returned)
 - calling `hasMedia()` without a collection name returns true if any given collection contains files (wheres previously
 it would only return try if files were present in the default collection)
 - the `addMedia`-function has been replaced by a fluent interface. 
+
+##From v3 to v4
+- All exceptions have been renamed. If you were catching medialibrary specific exception please look up the new name in /src/Exceptions.
