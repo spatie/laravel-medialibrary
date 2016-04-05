@@ -27,3 +27,4 @@ it would only return try if files were present in the default collection)
 
 ##From v3 to v4
 - All exceptions have been renamed. If you were catching medialibrary specific exception please look up the new name in /src/Exceptions.
+- Glide has been upgraded from 0.3 in 1.0. Glide renamed some operations in their 1.0 release, most notably the `crop` and `fit` ones. If you were using those in your conversions refer the Glide documentation how they should be changed. 
