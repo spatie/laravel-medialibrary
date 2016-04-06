@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Test\TestCase;
 class PerformanceTest extends TestCase
 {
     /** @test */
-    public function it_will_can_use_eagerly_loaded_media()
+    public function it_can_use_eagerly_loaded_media()
     {
         foreach (range(1, 10) as $index) {
             $testModel = $this->testModelWithConversion->create(['name' => "test{$index}"]);

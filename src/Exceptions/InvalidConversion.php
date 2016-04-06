@@ -8,6 +8,6 @@ class InvalidConversion extends Exception
 {
     public static function unknownName(string $name)
     {
-        return new static("There is no collection named `{$name}`");
+        return new static("There is no conversion named `{$name}`");
     }
 }
