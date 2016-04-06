@@ -160,14 +160,10 @@ class Conversion
         }, $originalFileExtension);
     }
 
-    /**
+    /*
      * Determine if the given manipulations contain a format manipulation.
-     *
-     * @param array $manipulations
-     *
-     * @return mixed
      */
-    protected function containsFormatManipulation(array $manipulations)
+    protected function containsFormatManipulation(array $manipulations) : bool
     {
         return array_reduce($manipulations, function ($carry, array $manipulation) {
             return array_key_exists('fm', $manipulation) ? true : $carry;
@@ -251,7 +247,22 @@ class Conversion
      */
     public function setFit(string $fit)
     {
-        $validFits = ['contain', 'max', 'fill', 'stretch', 'crop'];
+        $validFits = [
+            'contain',
+            'max',
+            'fill',
+            'stretch',
+            'crop',
+            'crop-top-left',
+            'crop-top',
+            'crop-top-right',
+            'crop-left',
+            'crop-center',
+            'crop-right',
+            'crop-bottom-left',
+            'crop-bottom',
+            'crop-bottom-right',
+        ];
 
         if (!in_array($fit, $validFits)) {
             throw InvalidConversionParameter::invalidFit($fit, $validFits);
