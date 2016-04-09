@@ -12,7 +12,6 @@ use Spatie\MediaLibrary\Media;
 use Symfony\Component\HttpFoundation\File\File;
 use Illuminate\Http\UploadedFile;
 
-
 class FileAdder
 {
     /**
