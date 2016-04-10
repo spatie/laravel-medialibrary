@@ -11,9 +11,18 @@ interface UrlGenerator
      *
      * @return string
      *
-     * @throws UrlCouldNotBeDeterminedException
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined
      */
     public function getUrl();
+
+    /**
+     * Get the full url for the profile of a media item.
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined
+     */
+    public function getFullUrl();
 
     /**
      * Set the path generator class.

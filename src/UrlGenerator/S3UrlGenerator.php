@@ -9,7 +9,7 @@ class S3UrlGenerator extends BaseUrlGenerator implements UrlGenerator
      *
      * @return string
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined
      */
     public function getUrl()
     {
