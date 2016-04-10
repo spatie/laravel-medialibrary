@@ -49,18 +49,31 @@ class Media extends Model
      *
      * @return string
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function getUrl(string $conversionName = '') : string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
-        if ($conversionName != '') {
-            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
-        }
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getUrl();
     }
+
+    /**
+     * Get the original Full Url to a media-file.
+     *
+     * @param string $conversionName
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
+     */
+    public function getFullUrl($conversionName = '') : string
+    {
+        $urlGenerator = $this->getUrlGenerator($conversionName);
+
+        return $urlGenerator->getFullUrl();
+    }
+
 
     /**
      * Get the original path to a media-file.
@@ -69,15 +82,11 @@ class Media extends Model
      *
      * @return string
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function getPath(string $conversionName = '') : string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
-        if ($conversionName != '') {
-            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
-        }
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getPath();
     }
@@ -186,5 +195,23 @@ class Media extends Model
         return $conversions->map(function (Conversion $conversion) {
             return $conversion->getName();
         })->toArray();
+    }
+
+    /**
+     * Get the UrlGenerator instance.
+     *
+     * @param $conversionName
+     *
+     * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
+     *
+     * @throws Exceptions\InvalidConversion
+     */
+    protected function getUrlGenerator($conversionName)
+    {
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
+
+        if ($conversionName != '') {
+            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
+        }
     }
 }
