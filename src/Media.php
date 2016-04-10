@@ -52,13 +52,25 @@ class Media extends Model
      */
     public function getUrl($conversionName = '')
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
-        if ($conversionName != '') {
-            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
-        }
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getUrl();
+    }
+
+    /**
+     * Get the original full Url to a media-file.
+     *
+     * @param string $conversionName
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
+     */
+    public function getFullUrl($conversionName = '')
+    {
+        $urlGenerator = $this->getUrlGenerator($conversionName);
+
+        return $urlGenerator->getFullUrl();
     }
 
     /**
@@ -72,11 +84,7 @@ class Media extends Model
      */
     public function getPath($conversionName = '')
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
-        if ($conversionName != '') {
-            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
-        }
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getPath();
     }
@@ -192,5 +200,25 @@ class Media extends Model
     public function setCustomProperty($name, $value)
     {
         $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
+    }
+
+    /**
+     * Get the UrlGenerator instance.
+     *
+     * @param $conversionName
+     *
+     * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
+     */
+    protected function getUrlGenerator($conversionName)
+    {
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
+
+        if ($conversionName != '') {
+            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
+        }
+
+        return $urlGenerator;
     }
 }

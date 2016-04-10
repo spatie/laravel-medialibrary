@@ -25,6 +25,18 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
     }
 
     /**
+     * Get the full url for the profile of a media item.
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDetermined
+     */
+    public function getFullUrl()
+    {
+        return url($this->getUrl());
+    }
+
+    /**
      * Get the path for the profile of a media item.
      *
      * @return string
