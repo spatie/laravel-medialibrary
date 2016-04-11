@@ -25,18 +25,6 @@ class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
         return $this->makeCompatibleForNonUnixHosts($url);
     }
 
-    /**
-     * Get the full url for the profile of a media item.
-     *
-     * @return string
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined
-     */
-    public function getFullUrl() : string
-    {
-        return url($this->getUrl());
-    }
-
     /*
      * Get the path for the profile of a media item.
      */
