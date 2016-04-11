@@ -14,13 +14,6 @@ interface UrlGenerator
     public function getUrl() : string;
 
     /**
-     * Get the full url for the profile of a media item.
-     *
-     * @return string
-     */
-    public function getFullUrl() : string;
-
-    /**
      * Set the path generator class.
      *
      * @param \Spatie\MediaLibrary\PathGenerator\PathGenerator $pathGenerator

@@ -25,15 +25,6 @@ class GetUrlTest extends TestCase
         $this->assertEquals("/media/{$media->id}/conversions/{$conversionName}.jpg", $media->getUrl($conversionName));
     }
 
-    /**
-     * @test
-     */
-    public function it_cat_get_a_full_url_of_an_original_item()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
-        $this->assertEquals($media->getFullUrl(), "{$this->baseUrl}/media/{$media->id}/test.jpg");
-    }
-
     /** @test */
     public function it_returns_an_exception_when_getting_an_url_for_an_unknown_conversion()
     {
