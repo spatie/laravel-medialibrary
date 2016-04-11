@@ -86,4 +86,16 @@ abstract class BaseUrlGenerator
         .'.'
         .$this->conversion->getResultExtension($this->media->extension);
     }
+
+    /**
+     * Get the full url for the profile of a media item.
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined
+     */
+    public function getFullUrl() : string
+    {
+        return $this->getUrl();
+    }
 }
