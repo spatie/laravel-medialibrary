@@ -49,7 +49,7 @@ class Media extends Model
      *
      * @return string
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function getUrl(string $conversionName = '') : string
     {
@@ -69,7 +69,7 @@ class Media extends Model
      *
      * @return string
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\UnknownConversion
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function getPath(string $conversionName = '') : string
     {
