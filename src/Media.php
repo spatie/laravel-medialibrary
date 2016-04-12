@@ -122,7 +122,7 @@ class Media extends Model
      */
     public function getTypeFromMimeAttribute() : string
     {
-        if ($this->getDiskDriverName() != 'local') {
+        if ($this->getDiskDriverName() !== 'local') {
             return static::TYPE_OTHER;
         }
 
