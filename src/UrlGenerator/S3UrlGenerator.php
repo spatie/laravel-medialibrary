@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-class S3UrlGenerator extends BaseUrlGenerator implements UrlGenerator
+class S3UrlGenerator extends BaseUrlGenerator
 {
     /**
      * Get the url for the profile of a media item.

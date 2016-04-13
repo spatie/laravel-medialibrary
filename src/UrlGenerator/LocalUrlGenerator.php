@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\UrlGenerator;
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use Spatie\String\Str;
 
-class LocalUrlGenerator extends BaseUrlGenerator implements UrlGenerator
+class LocalUrlGenerator extends BaseUrlGenerator
 {
     /**
      * Get the url for the profile of a media item.
