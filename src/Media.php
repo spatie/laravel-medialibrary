@@ -18,8 +18,6 @@ class Media extends Model
 
     protected $guarded = ['id', 'disk', 'file_name', 'size', 'model_type', 'model_id'];
 
-    public $hasModifiedManipulations = false;
-
     /**
      * The attributes that should be casted to native types.
      *

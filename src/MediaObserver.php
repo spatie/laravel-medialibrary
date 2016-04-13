@@ -11,8 +11,6 @@ class MediaObserver
 
     public function updating(Media $media)
     {
-        $media->hasModifiedManipulations = $media->isDirty('manipulations');
-
         if ($media->file_name !== $media->getOriginal('file_name')) {
             app(Filesystem::class)->renameFile($media, $media->getOriginal('file_name'));
         }
@@ -24,7 +22,7 @@ class MediaObserver
             return;
         }
 
-        if ($media->hasModifiedManipulations) {
+        if ($media->manipulations !== $media->getOriginal('manipulations')) {
             app(FileManipulator::class)->createDerivedFiles($media);
         }
     }
