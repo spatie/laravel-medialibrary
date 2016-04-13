@@ -10,6 +10,7 @@ use Spatie\Medialibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\Medialibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Filesystem;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
 
@@ -23,7 +24,7 @@ trait HasMediaTrait
 
     public static function bootHasMediaTrait()
     {
-        static::deleted(function ($entity) {
+        static::deleted(function (HasMedia $entity) {
             if (!$entity->deletePreservingMedia) {
                 $entity->media()->get()->map(function (Media $media) {
                     $media->delete();
@@ -222,7 +223,7 @@ trait HasMediaTrait
     protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
     {
         $this->getMedia($collectionName, [])
-            ->filter(function ($currentMediaItem) use ($newMediaArray) {
+            ->filter(function (Media $currentMediaItem) use ($newMediaArray) {
                 return !in_array($currentMediaItem->id, collect($newMediaArray)->lists('id')->toArray());
             })
             ->map(function (Media $media) {
