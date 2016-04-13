@@ -24,7 +24,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $mediaClass::observe(new MediaObserver());
 
         $this->publishes([
-            __DIR__.'/../resources/config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
+            __DIR__.'/../config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
         ], 'config');
 
         if (!class_exists('CreateMediaTable')) {
@@ -33,7 +33,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([
-                __DIR__.'/../resources/migrations/create_media_table.php.stub' => database_path('migrations/'.$timestamp.'_create_media_table.php'),
+                __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.$timestamp.'_create_media_table.php'),
             ], 'migrations');
         }
     }
@@ -43,7 +43,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../resources/config/laravel-medialibrary.php', 'laravel-medialibrary');
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-medialibrary.php', 'laravel-medialibrary');
 
         $this->app->singleton(MediaRepository::class);
 
