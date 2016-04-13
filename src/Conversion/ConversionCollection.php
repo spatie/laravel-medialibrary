@@ -112,13 +112,13 @@ class ConversionCollection extends Collection
         });
     }
 
-    /**
+    /*
      * Add the given manipulation to the conversion with the given name.
      */
     protected function addManipulationToConversion(array $manipulation, string $conversionName)
     {
         foreach ($this as $conversion) {
-            if ($conversion->getName() == $conversionName) {
+            if ($conversion->getName() === $conversionName) {
                 $conversion->addAsFirstManipulation($manipulation);
 
                 return;
