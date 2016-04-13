@@ -22,7 +22,7 @@ class Filesystem
 
     /**
      * @param \Illuminate\Contracts\Filesystem\Factory $filesystems
-     * @param \Illuminate\Contracts\Config\Repository $config
+     * @param \Illuminate\Contracts\Config\Repository  $config
      */
     public function __construct(Factory $filesystems, ConfigRepository $config)
     {
@@ -82,7 +82,7 @@ class Filesystem
      */
     public function copyFromMediaLibrary(Media $media, string $targetFile)
     {
-        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         touch($targetFile);
 
@@ -104,8 +104,8 @@ class Filesystem
      */
     public function renameFile(Media $media, string $oldName)
     {
-        $oldFile = $this->getMediaDirectory($media) . '/' . $oldName;
-        $newFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
+        $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }

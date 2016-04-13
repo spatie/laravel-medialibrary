@@ -19,7 +19,7 @@ class UrlGeneratorFactory
         $pathGenerator = PathGeneratorFactory::create();
 
         $urlGenerator->setMedia($media)->setPathGenerator($pathGenerator);
-        
+
         return $urlGenerator;
     }
 

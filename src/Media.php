@@ -50,7 +50,7 @@ class Media extends Model
     public function getUrl(string $conversionName = '') : string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-        
+
         if ($conversionName !== '') {
             $urlGenerator->setConversion(ConversionCollection::createForMedia($this)->getByName($conversionName));
         }
@@ -173,7 +173,7 @@ class Media extends Model
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function setCustomProperty(string $name, $value)
     {
