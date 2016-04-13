@@ -39,11 +39,6 @@ If you've found a bug regarding security please mail [freek@spatie.be](mailto:fr
 To create derived images [GD](http://php.net/manual/en/book.image.php) should be installed on your server.
 For the creation of thumbnails of pdf's you should also install [Imagick](http://php.net/manual/en/imagick.setresolution.php).
 
-On Ubuntu you can install Imagick by issuing this command:
-```bash
-sudo apt-get install imagemagick php5-imagick
-``` 
-
 ## Installation
 
 You can install this package via composer using this command:
