@@ -18,8 +18,6 @@ class Media extends Model
 
     protected $guarded = ['id', 'disk', 'file_name', 'size', 'model_type', 'model_id'];
 
-    public $imageProfileUrls = [];
-
     public $hasModifiedManipulations = false;
 
     /**
@@ -55,7 +53,7 @@ class Media extends Model
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
-        if ($conversionName != '') {
+        if ($conversionName !== '') {
             $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
         }
 
