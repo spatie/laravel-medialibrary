@@ -14,6 +14,16 @@ class ConversionCollection extends Collection
     /**
      * @param \Spatie\MediaLibrary\Media $media
      *
+     * @return static
+     */
+    public static function createForMedia(Media $media)
+    {
+        return (new static())->setMedia($media);
+    }
+
+    /**
+     * @param \Spatie\MediaLibrary\Media $media
+     *
      * @return $this
      */
     public function setMedia(Media $media)
@@ -112,13 +122,13 @@ class ConversionCollection extends Collection
         });
     }
 
-    /**
+    /*
      * Add the given manipulation to the conversion with the given name.
      */
     protected function addManipulationToConversion(array $manipulation, string $conversionName)
     {
         foreach ($this as $conversion) {
-            if ($conversion->getName() == $conversionName) {
+            if ($conversion->getName() === $conversionName) {
                 $conversion->addAsFirstManipulation($manipulation);
 
                 return;

@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Helpers\File;
@@ -22,8 +21,8 @@ class Filesystem
     protected $config;
 
     /**
-     * @param Factory                                 $filesystems
-     * @param \Illuminate\Contracts\Config\Repository $config
+     * @param \Illuminate\Contracts\Filesystem\Factory $filesystems
+     * @param \Illuminate\Contracts\Config\Repository  $config
      */
     public function __construct(Factory $filesystems, ConfigRepository $config)
     {

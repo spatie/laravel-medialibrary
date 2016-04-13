@@ -165,9 +165,13 @@ class Conversion
      */
     protected function containsFormatManipulation(array $manipulations) : bool
     {
-        return array_reduce($manipulations, function ($carry, array $manipulation) {
-            return array_key_exists('fm', $manipulation) ? true : $carry;
-        }, false);
+        foreach ($manipulations as $manipulation) {
+            if (array_key_exists('fm', $manipulation)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -182,7 +186,7 @@ class Conversion
      */
     public function setWidth(int $width)
     {
-        if (!is_numeric($width) || $width < 1) {
+        if ($width < 1) {
             throw InvalidConversionParameter::invalidWidth();
         }
 
@@ -203,7 +207,7 @@ class Conversion
      */
     public function setHeight(int $height)
     {
-        if (!is_numeric($height) || $height < 1) {
+        if ($height < 1) {
             throw InvalidConversionParameter::invalidHeight();
         }
 
@@ -283,16 +287,10 @@ class Conversion
      *
      * @return $this
      *
-     * @throws InvalidConversionParameter
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversionParameter
      */
     public function setCrop(int $width, int $height, int $x, int $y)
     {
-        foreach (compact('width', 'height', 'x', 'y') as $name => $value) {
-            if (!is_numeric($value)) {
-                throw InvalidConversionParameter::shouldBeNumeric($name, $value);
-            }
-        }
-
         foreach (compact('width', 'height') as $name => $value) {
             if ($value < 1) {
                 throw InvalidConversionParameter::shouldBeGreaterThanOne($name, $value);
@@ -314,17 +312,9 @@ class Conversion
      */
     public function setManipulationParameter(string $name, string $value)
     {
-        if (count($this->manipulations) == 0) {
-            $this->manipulations[0] = [];
-        };
+        $manipulation = array_pop($this->manipulations) ?: [];
 
-        $lastIndex = count($this->manipulations) - 1;
-
-        if (!isset($this->manipulations[$lastIndex])) {
-            $this->manipulations[$lastIndex] = [];
-        }
-
-        $this->manipulations[$lastIndex] = array_merge($this->manipulations[$lastIndex], [$name => $value]);
+        $this->manipulations[] = array_merge($manipulation, [$name => $value]);
 
         return $this;
     }

@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
@@ -17,10 +17,6 @@ class Media extends Model
     const TYPE_PDF = 'pdf';
 
     protected $guarded = ['id', 'disk', 'file_name', 'size', 'model_type', 'model_id'];
-
-    public $imageProfileUrls = [];
-
-    public $hasModifiedManipulations = false;
 
     /**
      * The attributes that should be casted to native types.
@@ -55,8 +51,8 @@ class Media extends Model
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
-        if ($conversionName != '') {
-            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
+        if ($conversionName !== '') {
+            $urlGenerator->setConversion(ConversionCollection::createForMedia($this)->getByName($conversionName));
         }
 
         return $urlGenerator->getUrl();
@@ -76,7 +72,7 @@ class Media extends Model
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
         if ($conversionName != '') {
-            $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
+            $urlGenerator->setConversion(ConversionCollection::createForMedia($this)->getByName($conversionName));
         }
 
         return $urlGenerator->getPath();
@@ -175,17 +171,21 @@ class Media extends Model
         return $this->custom_properties[$propertyName] ?? $default;
     }
 
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
     public function setCustomProperty(string $name, $value)
     {
         $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
     }
 
-    /**
+    /*
      * Get all the names of the registered media conversions.
      */
     public function getMediaConversionNames() : array
     {
-        $conversions = ConversionCollectionFactory::createForMedia($this);
+        $conversions = ConversionCollection::createForMedia($this);
 
         return $conversions->map(function (Conversion $conversion) {
             return $conversion->getName();
