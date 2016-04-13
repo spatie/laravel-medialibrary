@@ -122,6 +122,10 @@ class Media extends Model
      */
     public function getTypeFromMimeAttribute() : string
     {
+        if ($this->getDiskDriverName() !== 'local') {
+            return static::TYPE_OTHER;
+        }
+
         $mime = File::getMimetype($this->getPath());
 
         if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
