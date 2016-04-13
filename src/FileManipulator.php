@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
@@ -33,7 +32,7 @@ class FileManipulator
             return;
         }
 
-        $profileCollection = ConversionCollectionFactory::createForMedia($media);
+        $profileCollection = ConversionCollection::createForMedia($media);
 
         $this->performConversions($profileCollection->getNonQueuedConversions($media->collection_name), $media);
 

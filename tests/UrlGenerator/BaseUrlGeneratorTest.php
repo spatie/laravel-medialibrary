@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\UrlGenerator;
 
-use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
@@ -39,7 +39,7 @@ class BaseUrlGeneratorTest extends TestCase
 
         $this->media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary();
 
-        $this->conversion = ConversionCollectionFactory::createForMedia($this->media)->getByName('thumb');
+        $this->conversion = ConversionCollection::createForMedia($this->media)->getByName('thumb');
 
         // because BaseUrlGenerator is abstract we'll use LocalUrlGenerator to test the methods of base
         $this->urlGenerator = new LocalUrlGenerator($this->config);

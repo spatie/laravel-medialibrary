@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\PathGenerator;
 
-use Spatie\MediaLibrary\Conversion\ConversionCollectionFactory;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
@@ -60,7 +60,7 @@ class BasePathGeneratorTest extends TestCase
     public function it_can_get_the_custom_path_for_media_with_conversions()
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary();
-        $conversion = ConversionCollectionFactory::createForMedia($media)->getByName('thumb');
+        $conversion = ConversionCollection::createForMedia($media)->getByName('thumb');
 
         $this->urlGenerator
             ->setMedia($media)
