@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Test\Media;
 
 use Spatie\MediaLibrary\Test\TestCase;
 
-class getMediaConversionsTest extends TestCase
+class GetMediaConversionsTest extends TestCase
 {
     /** @test */
     public function it_can_get_the_names_of_registered_conversions()
