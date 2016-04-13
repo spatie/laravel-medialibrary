@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.17.4 - 2016-04-12
+- Only detect mimetype from file on local disks
+
 ##3.17.3 - 2016-04-04
 - Fixed an issue that occured when deleting models with media in some php versions
 
