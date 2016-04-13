@@ -50,7 +50,7 @@ class Media extends Model
     public function getUrl(string $conversionName = '') : string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
+        
         if ($conversionName !== '') {
             $urlGenerator->setConversion(ConversionCollectionFactory::createForMedia($this)->getByName($conversionName));
         }
