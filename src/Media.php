@@ -170,12 +170,16 @@ class Media extends Model
         return $this->custom_properties[$propertyName] ?? $default;
     }
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
     public function setCustomProperty(string $name, $value)
     {
         $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
     }
 
-    /**
+    /*
      * Get all the names of the registered media conversions.
      */
     public function getMediaConversionNames() : array

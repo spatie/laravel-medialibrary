@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Helpers\File;
@@ -22,7 +21,7 @@ class Filesystem
     protected $config;
 
     /**
-     * @param Factory                                 $filesystems
+     * @param \Illuminate\Contracts\Filesystem\Factory $filesystems
      * @param \Illuminate\Contracts\Config\Repository $config
      */
     public function __construct(Factory $filesystems, ConfigRepository $config)
@@ -83,7 +82,7 @@ class Filesystem
      */
     public function copyFromMediaLibrary(Media $media, string $targetFile)
     {
-        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
 
         touch($targetFile);
 
@@ -105,8 +104,8 @@ class Filesystem
      */
     public function renameFile(Media $media, string $oldName)
     {
-        $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
-        $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $oldFile = $this->getMediaDirectory($media) . '/' . $oldName;
+        $newFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }

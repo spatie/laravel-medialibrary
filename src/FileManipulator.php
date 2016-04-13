@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
