@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.0.1 - 2016-04-25
+- Fixed queued jobs in Laravel 5.1
+
 ##4.0.0 - 2016-04-13
 - add support for Glide 1.0
 - added `addMediaFromRequest` method
