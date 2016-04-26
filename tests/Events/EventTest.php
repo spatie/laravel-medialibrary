@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\Test\Events;
 use Event;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
+use Spatie\MediaLibrary\Events\IndividualMediaRemoved;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Test\TestCase;
 
@@ -50,6 +51,21 @@ class EventTest extends TestCase
             ->toMediaLibrary('images');
 
         $this->expectsEvent(CollectionHasBeenCleared::class);
+
+        $this->testModel->clearMediaCollection('images');
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_fire_the_individual_media_cleared_event()
+    {
+        $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaLibrary('images');
+
+        $this->expectsEvent(IndividualMediaRemoved::class);
 
         $this->testModel->clearMediaCollection('images');
     }
