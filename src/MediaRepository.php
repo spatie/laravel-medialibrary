@@ -146,7 +146,7 @@ class MediaRepository
      * Get media by id.
      *
      * @param $id
-     * 
+     *
      * @return mixed
      */
     public function getById($id)
