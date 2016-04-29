@@ -143,6 +143,18 @@ class MediaRepository
     }
 
     /**
+     * Get media by id.
+     *
+     * @param $id
+     * 
+     * @return mixed
+     */
+    public function getById($id)
+    {
+        return $this->model->where('id', $id)->first();
+    }
+
+    /**
      * Get all media for the given type and collection name.
      *
      * @param string $modelType
