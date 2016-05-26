@@ -29,9 +29,9 @@ class MediaRepository
      *
      * @return Collection
      */
-    public function getCollection(HasMedia $model, $collectionName, $filter = [])
+    public function getCollection(HasMedia $model, $collectionName, $filter = [], $force = false)
     {
-        $mediaCollection = $this->loadMedia($model, $collectionName);
+        $mediaCollection = $this->loadMedia($model, $collectionName, $force);
 
         $mediaCollection = $this->applyFilterToMediaCollection($mediaCollection, $filter);
 
@@ -46,9 +46,9 @@ class MediaRepository
      *
      * @return mixed
      */
-    protected function loadMedia(HasMedia $model, $collectionName)
+    protected function loadMedia(HasMedia $model, $collectionName, $force = true)
     {
-        if ($this->mediaIsPreloaded($model)) {
+        if ($this->mediaIsPreloaded($model) && !$force) {
             $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
 
                 if ($collectionName == '') {

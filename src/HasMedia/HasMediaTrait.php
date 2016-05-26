@@ -117,9 +117,9 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia($collectionName = '', $filters = [])
+    public function getMedia($collectionName = '', $filters = [], $force = false)
     {
-        return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
+        return app(MediaRepository::class)->getCollection($this, $collectionName, $filters, $force);
     }
 
     /**
