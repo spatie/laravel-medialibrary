@@ -155,7 +155,13 @@ class Conversion
     {
         return array_reduce($this->getManipulations(), function ($carry, array $manipulation) {
 
-            return isset($manipulation['fm']) ? $manipulation['fm'] : $carry;
+            if (isset($manipulation['fm'])) {
+                $keepFormats = ['png', 'gif'];
+
+                return ($manipulation['fm'] === 'src' && in_array($carry, $keepFormats)) ? $carry : $manipulation['fm'];
+            }
+
+            return $carry;
 
         }, $originalFileExtension);
     }
