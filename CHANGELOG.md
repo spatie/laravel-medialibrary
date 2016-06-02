@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.1 - 2016-06-02
+- Added `shouldDeletePreservingMedia`
+
 ##4.0.1 - 2016-04-25
 - Fixed queued jobs in Laravel 5.1
 
