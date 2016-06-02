@@ -299,7 +299,7 @@ trait HasMediaTrait
     }
 
     /**
-     * Determines if the media files will be deleted when the media object gets deleted.
+     * Determines if the media files should be preserved when the media object gets deleted.
      *
      * @return \Spatie\MediaLibrary\Media
      */
