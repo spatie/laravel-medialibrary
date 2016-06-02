@@ -25,6 +25,7 @@ trait HasMediaTrait
     public static function bootHasMediaTrait()
     {
         static::deleted(function (HasMedia $entity) {
+
             if (!$entity->shouldDeletePreservingMedia()) {
                 $entity->media()->get()->each(function (Media $media) {
                     $media->delete();
@@ -240,7 +241,6 @@ trait HasMediaTrait
      */
     public function clearMediaCollection(string $collectionName = 'default')
     {
-
         $this->getMedia($collectionName)->map(function (Media $media) {
             app(Filesystem::class)->removeFiles($media);
             $media->delete();
@@ -303,8 +303,8 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\Media
      */
-    public function shouldDeletePreservingMedia() {
-
+    public function shouldDeletePreservingMedia()
+    {
         return $this->deletePreservingMedia ?? false;
     }
 }
