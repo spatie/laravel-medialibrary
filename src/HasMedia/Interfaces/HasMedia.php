@@ -54,4 +54,11 @@ interface HasMedia
      * @param string $collectionName
      */
     public function clearMediaCollection($collectionName = 'default');
+
+    /**
+     * Determines if the media files will be deleted when the media object gets deleted.
+     *
+     * @return \Spatie\MediaLibrary\Media
+     */
+    public function shouldDeletePreservingMedia();
 }

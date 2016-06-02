@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##3.18.0 - 2016-06-02
+-added `shouldDeletePreservingMedia`
+
 ##3.17.4 - 2016-04-12
 - Only detect mimetype from file on local disks
 
