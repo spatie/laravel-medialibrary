@@ -42,7 +42,7 @@ class DeleteMediaTest extends TestCase
     */
    public function it_will_remove_the_files_when_clearing_a_collection()
    {
-       $ids = $this->testModel->getMedia('images')->lists('id');
+       $ids = $this->testModel->getMedia('images')->pluck('id');
 
        $ids->map(function ($id) {
           $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
@@ -57,11 +57,10 @@ class DeleteMediaTest extends TestCase
 
     /**
      * @test
-     * @group bar
      */
     public function it_will_remove_the_files_when_deleting_a_subject()
     {
-        $ids = $this->testModel->getMedia('images')->lists('id');
+        $ids = $this->testModel->getMedia('images')->pluck('id');
 
         $ids->map(function ($id) {
             $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
