@@ -32,6 +32,7 @@ class DeleteMediaTest extends TestCase
         $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('images'));
 
         $this->testModelWithoutMediaConversions->clearMediaCollection('images');
+        $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
 
         $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
         $this->assertCount(0, $this->testModelWithoutMediaConversions->getMedia('images'));

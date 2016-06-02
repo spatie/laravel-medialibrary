@@ -31,6 +31,7 @@ class DeleteMediaTest extends TestCase
         $this->assertCount(3, $this->testModel->getMedia('images'));
 
         $this->testModel->clearMediaCollection('images');
+        $this->testModel = $this->testModel->fresh();
 
         $this->assertCount(3, $this->testModel->getMedia('default'));
         $this->assertCount(0, $this->testModel->getMedia('images'));
@@ -76,7 +77,7 @@ class DeleteMediaTest extends TestCase
     /** @test */
     public function it_will_not_remove_the_files_when_deleting_a_subject_and_preserving_media()
     {
-        $ids = $this->testModel->getMedia('images')->lists('id');
+        $ids = $this->testModel->getMedia('images')->pluck('id');
 
         $ids->map(function ($id) {
             $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
