@@ -101,7 +101,7 @@ class Filesystem
         $conversionsDirectory = $this->getConversionDirectory($media);
 
         collect([$mediaDirectory, $conversionsDirectory])
-            ->each(function($directory) use ($media) {
+            ->each(function ($directory) use ($media) {
                 $this->filesystem->disk($media->disk)->deleteDirectory($directory);
             });
     }
@@ -136,7 +136,8 @@ class Filesystem
     /*
      * Return the directory where all conversions of the given media are stored.
      */
-    public function getConversionDirectory(Media $media) : string {
+    public function getConversionDirectory(Media $media) : string
+    {
         return $this->getMediaDirectory($media, true);
     }
 }
