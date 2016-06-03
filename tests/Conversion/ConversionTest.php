@@ -111,6 +111,15 @@ class ConversionTest extends TestCase
     }
 
     /** @test */
+    public function it_keeps_the_file_extension_for_certain_formats()
+    {
+        $this->conversion->setManipulations(['w' => 100, 'fm' => 'src']);
+
+        $this->assertEquals('png', $this->conversion->getResultExtension('png'));
+        $this->assertEquals('gif', $this->conversion->getResultExtension('gif'));
+    }
+
+    /** @test */
     public function it_can_add_width_to_a_manipulation()
     {
         $conversion = $this->conversion->setWidth(10);
