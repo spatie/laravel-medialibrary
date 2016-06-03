@@ -96,7 +96,13 @@ class Filesystem
      */
     public function removeFiles(Media $media)
     {
-        $this->filesystem->disk($media->disk)->deleteDirectory($this->getMediaDirectory($media));
+        $mediaDirectory = $this->getMediaDirectory($media);
+        $conversionsDirectory = $this->getMediaDirectory($media, true);
+
+        $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
+
+        if(substr($conversionsDirectory, 0, strlen($mediaDirectory)) != $mediaDirectory)
+            $this->filesystem->disk($media->disk)->deleteDirectory($conversionsDirectory);
     }
 
     /*
