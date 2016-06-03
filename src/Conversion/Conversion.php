@@ -234,7 +234,7 @@ class Conversion
      */
     public function setFormat(string $format)
     {
-        $validFormats = ['jpg', 'png', 'gif'];
+        $validFormats = ['jpg', 'png', 'gif', 'src'];
 
         if (!in_array($format, $validFormats)) {
             throw InvalidConversionParameter::invalidFormat($format, $validFormats);

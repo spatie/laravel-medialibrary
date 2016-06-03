@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Test\TestModelWithConversion;
 
 class AddMediaTest extends TestCase
 {
@@ -40,6 +41,28 @@ class AddMediaTest extends TestCase
             ->toCollection('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+    }
+
+    /** @test */
+    public function it_will_keep_the_original_file_extension_when_using_the_src_format()
+    {
+        $modelClass = new class extends TestModelWithConversion {
+                 public function registerMediaConversions()
+                 {
+                     $this->addMediaConversion('thumb')
+                                ->setCrop(50, 50, 10, 10)
+                                ->setFormat('src')
+                                ->nonQueued();
+                 }
+             };
+
+        $model = $modelClass::first();
+
+        $media = $model
+            ->addMedia($this->getTestFilesDirectory('test.png'))
+            ->toCollection('images');
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.png'));
     }
 
     /** @test */

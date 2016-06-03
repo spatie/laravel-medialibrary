@@ -111,7 +111,7 @@ class ConversionTest extends TestCase
     }
 
     /** @test */
-    public function it_keeps_the_file_extension_for_certain_formats()
+    public function it_can_keep_the_original_file_extension_for_certain_formats()
     {
         $this->conversion->setManipulations(['w' => 100, 'fm' => 'src']);
 
