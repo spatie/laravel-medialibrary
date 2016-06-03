@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.2 - 2016-06-03
+- Added the `src` option for the `fm` conversion parameter
+
 ##4.1 - 2016-06-02
 - Added `shouldDeletePreservingMedia`
 
