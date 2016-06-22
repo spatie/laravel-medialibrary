@@ -22,8 +22,8 @@ Want to store some large files on another filesystem? No problem:
 $newsItem->addMedia($smallFile)->toCollectionOnDisk('downloads', 'local');
 $newsItem->addMedia($bigFile)->toCollectionOnDisk('downloads', 's3');
 ```
-The storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.1/filesystem), 
-so you can use any filesystem you like. Additionally the package can create image manipulations 
+The storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.1/filesystem),
+so you can use any filesystem you like. Additionally the package can create image manipulations
 on images and pdfs that have been added in the medialibrary.
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
@@ -148,9 +148,58 @@ And finally you should add a disk to `app/config/filesystems.php`. This would be
 ```
 
 All files of the medialibrary will be stored on that disk. If you are planning on
-working with the image manipulations you should configure a queue on your service 
+working with the image manipulations you should configure a queue on your service
 with the name specified in the config file.
 
+## Lumen Support
+Lumen configuration is slightly more involved but features and API are identical to Laravel.
+
+Install using this command:
+```bash
+composer require spatie/laravel-medialibrary
+```
+
+Uncomment the following lines in the bootstrap file:
+```php
+// bootstrap/app.php:
+$app->withFacades();
+$app->withEloquent();
+```
+
+Configure the laravel-medialibrary service provider (and `AppServiceProvider` if not already enabled):
+```php
+// bootstrap/app.php:
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(Spatie\MediaLibrary\MediaLibraryServiceProvider::class);
+```
+
+Update the `AppServiceProvider` register method to bind the filesystem manager to the IOC container:
+```php
+// app/Providers/AppServiceProvider.php
+public function register()
+{
+    $this->app->singleton('filesystem', function ($app) {
+        return $app->loadComponent('filesystems', 'Illuminate\Filesystem\FilesystemServiceProvider', 'filesystem');
+    });
+
+    $this->app->bind('Illuminate\Contracts\Filesystem\Factory', function($app) {
+        return new \Illuminate\Filesystem\FilesystemManager($app);
+    });
+}
+```
+
+Manually copy the package config file to `app\config\laravel-medialibrary.php` (you may need to
+create the config directory if it does not already exist).
+
+Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v5.2.31/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `defaultFilesystem` specified in the laravel-medialibrary config file.
+
+Finally, update `boostrap/app.php` to load both config files:
+
+```php
+// bootstrap/app.php
+$app->configure('laravel-medialibrary');
+$app->configure('filesystems');
+```
 
 ## Testing
 
