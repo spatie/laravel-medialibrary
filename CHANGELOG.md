@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.3.0 - 2016-06-23
+- Add Lumen compatibility
+
 ##4.2.1 - 2016-06-03
 - Delete the conversion directory even when it is not underneath the media directory
 
