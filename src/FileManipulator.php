@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\Conversion\Conversion;
@@ -14,7 +13,6 @@ use Spatie\PdfToImage\Pdf;
 
 class FileManipulator
 {
-    use DispatchesJobs;
 
     /**
      * Create all derived files for the given media.
@@ -133,6 +131,6 @@ class FileManipulator
             $job->onQueue($customQueue);
         }
 
-        $this->dispatch($job);
+        app('Illuminate\Contracts\Bus\Dispatcher')->dispatch($job);
     }
 }
