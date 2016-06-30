@@ -47,7 +47,7 @@ class Media extends Model
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function getUrl(string $conversionName = '') : string
+    public function getUrl($conversionName = '') : string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
@@ -67,7 +67,7 @@ class Media extends Model
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function getPath(string $conversionName = '') : string
+    public function getPath($conversionName = '') : string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
