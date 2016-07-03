@@ -34,7 +34,7 @@ class FileCannotBeAdded extends Exception
 
     public static function diskDoesNotExist(string $diskName)
     {
-        return new static("There is no filesystem disk named `{$diskName}` does not exist");
+        return new static("There is no filesystem disk named `{$diskName}`");
     }
 
     public static function modelDoesNotExist(Model $model)
