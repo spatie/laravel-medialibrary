@@ -5,7 +5,6 @@ namespace Spatie\MediaLibrary\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
 
@@ -33,19 +32,12 @@ class ClearCommand extends Command
     protected $mediaRepository;
 
     /**
-     * @var \Spatie\MediaLibrary\FileManipulator
-     */
-    protected $fileManipulator;
-
-    /**
      * @param MediaRepository $mediaRepository
-     * @param FileManipulator $fileManipulator
      */
-    public function __construct(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
+    public function __construct(MediaRepository $mediaRepository)
     {
         parent::__construct();
         $this->mediaRepository = $mediaRepository;
-        $this->fileManipulator = $fileManipulator;
     }
 
     /**
