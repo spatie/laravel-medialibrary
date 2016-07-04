@@ -22,6 +22,6 @@ class CustomPathGenerator implements PathGenerator
      */
     public function getPathForConversions(Media $media) : string
     {
-        return md5($media->id).'/c/';
+        return $this->getPath($media).'c/';
     }
 }
