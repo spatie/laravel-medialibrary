@@ -100,17 +100,19 @@ class Media extends Model
      */
     public function getTypeFromExtensionAttribute()
     {
-        $extension = strtolower($this->extension);
-
-        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif'])) {
-            return static::TYPE_IMAGE;
+        switch (strtolower($this->extension)) {
+            case 'png':
+            case 'jpg':
+            case 'jpeg':
+            case 'gif':
+                return static::TYPE_IMAGE;
+            break;
+            case 'pdf':
+                return static::TYPE_PDF;
+            break;
+            default:
+                return static::TYPE_OTHER;
         }
-
-        if ($extension == 'pdf') {
-            return static::TYPE_PDF;
-        }
-
-        return static::TYPE_OTHER;
     }
 
     /*
@@ -122,17 +124,19 @@ class Media extends Model
             return static::TYPE_OTHER;
         }
 
-        $mime = File::getMimetype($this->getPath());
 
-        if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
-            return static::TYPE_IMAGE;
+        switch (File::getMimetype($this->getPath())) {
+            case 'image/jpeg':
+            case 'image/gif':
+            case 'image/png':
+                return static::TYPE_IMAGE;
+            break;
+            case 'application/pdf':
+                return static::TYPE_PDF;
+            break;
+            default:
+                return static::TYPE_OTHER;
         }
-
-        if ($mime === 'application/pdf') {
-            return static::TYPE_PDF;
-        }
-
-        return static::TYPE_OTHER;
     }
 
     public function getExtensionAttribute() : string
