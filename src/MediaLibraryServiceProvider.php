@@ -7,6 +7,7 @@ use Laravel\Lumen\Application as LumenApplication;
 use Illuminate\Foundation\Application as LaravelApplication;
 use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
+use Spatie\MediaLibrary\Commands\CheckExistenceCommand;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -54,10 +55,12 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
+        $this->app->bind('command.medialibrary:checkExistence', CheckExistenceCommand::class);
 
         $this->commands([
             'command.medialibrary:regenerate',
             'command.medialibrary:clear',
+            'command.medialibrary:checkExistence'
         ]);
     }
 }

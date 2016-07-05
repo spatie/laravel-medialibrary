@@ -95,10 +95,17 @@ abstract class TestCase extends Orchestra
     {
         file_put_contents($this->getTempDirectory().'/database.sqlite', null);
 
-        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-        });
+        $testTables = [
+            'test_models',
+            'second_test_models',
+        ];
+
+        foreach($testTables as $table) {
+            $app['db']->connection()->getSchemaBuilder()->create($table, function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name');
+            });
+        }
 
         TestModel::create(['name' => 'test']);
 
