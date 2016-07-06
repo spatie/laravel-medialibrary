@@ -30,6 +30,7 @@ class GetTypeTest extends TestCase
                 ['png', Media::TYPE_IMAGE],
                 ['gif', Media::TYPE_IMAGE],
                 ['pdf', Media::TYPE_PDF],
+                ['svg', Media::TYPE_SVG],
                 ['bla', Media::TYPE_OTHER],
             ];
 
@@ -62,6 +63,7 @@ class GetTypeTest extends TestCase
             ['test', Media::TYPE_OTHER],
             ['test.jpg', Media::TYPE_IMAGE],
             ['test.pdf', Media::TYPE_PDF],
+            ['test.svg', Media::TYPE_SVG],
             ['test.txt', Media::TYPE_OTHER],
         ];
     }
