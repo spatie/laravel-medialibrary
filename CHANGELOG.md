@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.4.0 - 2016-07-06
+- Add support for converting svg's
+
 ##4.3.0 - 2016-06-23
 - Add Lumen compatibility
 
