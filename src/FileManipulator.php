@@ -26,7 +26,7 @@ class FileManipulator
             return;
         }
 
-        if (in_array($media->type, [Media::TYPE_PDF, Media::TYPE_PDF]) && !class_exists('Imagick')) {
+        if (in_array($media->type, [Media::TYPE_PDF, Media::TYPE_SVG]) && !class_exists('Imagick')) {
             return;
         }
 
@@ -56,11 +56,11 @@ class FileManipulator
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         if ($media->type == Media::TYPE_PDF) {
-            $copiedOriginalFile = $this->convertPDFToImage($copiedOriginalFile);
+            $copiedOriginalFile = $this->convertPdfToImage($copiedOriginalFile);
         }
 
         if ($media->type == Media::TYPE_SVG) {
-            $copiedOriginalFile = $this->convertSVGToImage($copiedOriginalFile);
+            $copiedOriginalFile = $this->convertSvgToImage($copiedOriginalFile);
         }
 
         foreach ($conversions as $conversion) {
@@ -114,7 +114,7 @@ class FileManipulator
         return $tempDirectory;
     }
 
-    protected function convertPDFToImage(string $pdfFile) : string
+    protected function convertPdfToImage(string $pdfFile) : string
     {
         $imageFile = string($pdfFile)->pop('.').'.jpg';
 
@@ -123,7 +123,7 @@ class FileManipulator
         return $imageFile;
     }
 
-    protected function convertSVGToImage(string $svgFile) : string
+    protected function convertSvgToImage(string $svgFile) : string
     {
         $imageFile = string($svgFile)->pop('.').'.png';
 
