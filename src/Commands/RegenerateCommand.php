@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Spatie\{
     MediaLibrary\FileManipulator, 
     MediaLibrary\Media, 
@@ -61,11 +62,8 @@ class RegenerateCommand extends Command
 
         $this->info('All done!');
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getMediaToBeRegenerated()
+    
+    public function getMediaToBeRegenerated(): Collection
     {
         $modelType = $this->argument('modelType') ?? '';
         $mediaIds = $this->option('ids');
