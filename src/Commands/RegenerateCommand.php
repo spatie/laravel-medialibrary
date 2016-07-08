@@ -75,6 +75,11 @@ class RegenerateCommand extends Command
         }
 
         if ($mediaIds) {
+
+            if (! is_array($mediaIds)) {
+                $mediaIds = explode(',', $mediaIds);
+            }
+
             return $this->mediaRepository->getByIds($mediaIds);
         }
 
