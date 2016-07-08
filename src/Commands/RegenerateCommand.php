@@ -55,7 +55,7 @@ class RegenerateCommand extends Command
      */
     public function handle()
     {
-        $this->getMediaToBeRegenerated()->map(function (Media $media) {
+        $this->getMediaToBeRegenerated()->each(function (Media $media) {
             $this->fileManipulator->createDerivedFiles($media);
             $this->info(sprintf('Media %s regenerated', $media->id));
         });
