@@ -145,4 +145,14 @@ class ConversionCollection extends Collection
             return !$conversion->shouldBeQueued();
         });
     }
+
+    /**
+     * Return the list of conversion files.
+     */
+    public function getConversionsFiles(string $collectionName = '') : ConversionCollection
+    {
+        return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
+            return $conversion->getName() . '.' . $conversion->getResultExtension();
+        });
+    }
 }
