@@ -121,6 +121,28 @@ class MediaRepository
         return $this->model->where('model_type', $modelType)->get();
     }
 
+    /**
+     * Get all media with the given types.
+     *
+     * @param array $types
+     * @return DbCollection
+     */
+    public function getByModelTypes(array $types) : DbCollection
+    {
+        return $this->model->whereIn('model_type', $types)->get();
+    }
+
+    /**
+     * Get all media that don't belong to the given types.
+     *
+     * @param array $types
+     * @return DbCollection
+     */
+    public function getByModelTypesExcept(array $types) : DbCollection
+    {
+        return $this->model->whereNotIn('model_type', $types)->get();
+    }
+
     /*
      * Get media by ids.
      */
@@ -148,6 +170,21 @@ class MediaRepository
         return $this->model
             ->where('collection_name', $collectionName)
             ->get();
+    }
+
+    /**
+     * Get the distinct known model types.
+     *
+     * @return Collection
+     */
+    public function getDistinctModelTypes() : Collection
+    {
+        return collect(
+            array_column(
+                $this->model->select('model_type')->distinct()->get()->toArray(),
+                'model_type'
+            )
+        );
     }
 
     /**
