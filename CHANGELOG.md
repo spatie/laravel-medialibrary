@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.4.1 - 2016-07-08
+- Fix regeneration command (see #260). It'll now properly regenerate files for all passed media id's
+
 ##4.4.0 - 2016-07-06
 - Add support for converting svg's
 
