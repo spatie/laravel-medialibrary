@@ -2,11 +2,12 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Spatie\{
-    MediaLibrary\FileManipulator, 
-    MediaLibrary\Media, 
+    MediaLibrary\FileManipulator,
+    MediaLibrary\Media,
     MediaLibrary\MediaRepository
 };
 
@@ -37,6 +38,11 @@ class RegenerateCommand extends Command
     protected $fileManipulator;
 
     /**
+     * @var array
+     */
+    protected $erroredMediaIds = [];
+
+    /**
      * RegenerateCommand constructor.
      *
      * @param MediaRepository $mediaRepository
@@ -56,13 +62,21 @@ class RegenerateCommand extends Command
     public function handle()
     {
         $this->getMediaToBeRegenerated()->each(function (Media $media) {
-            $this->fileManipulator->createDerivedFiles($media);
-            $this->info(sprintf('Media %s regenerated', $media->id));
+            try {
+                $this->fileManipulator->createDerivedFiles($media);
+                $this->info("Media {$media->id} regenerated");
+            } catch (Exception $exception) {
+                $this->error("Media {$media->id} could not be regenerated because `{$exception->getMessage()}`");          $this->erroredMediaIds[] = $media->id;
+            }
         });
+
+        if (count($this->erroredMediaIds)) {
+            $this->warn('The derived files of these media ids could not be regenerated: ' . implode(',', $this->erroredMediaIds));
+        }
 
         $this->info('All done!');
     }
-    
+
     public function getMediaToBeRegenerated(): Collection
     {
         $modelType = $this->argument('modelType') ?? '';
@@ -74,7 +88,7 @@ class RegenerateCommand extends Command
 
         if ($mediaIds) {
 
-            if (! is_array($mediaIds)) {
+            if (!is_array($mediaIds)) {
                 $mediaIds = explode(',', $mediaIds);
             }
 

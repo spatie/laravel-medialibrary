@@ -49,4 +49,14 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileNotExists($derivedImage);
         $this->assertFileExists($derivedImage2);
     }
+
+    /** @test */
+    public function it_can_regenerate_files_even_if_there_are_files_missing()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toCollection('images');
+
+        unlink($this->getMediaDirectory($media->id . '/test.jpg'));
+
+        Artisan::call('medialibrary:regenerate');
+    }
 }
