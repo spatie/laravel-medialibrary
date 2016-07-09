@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.5.0 - 2016-07-09
+
+- added `medialibrary:clean` command
+- the `medialibrary:regenerate` will continue regenerating files even if a primary media file is missing
+
 ##4.4.1 - 2016-07-08
 - Fix regeneration command (see #260). It'll now properly regenerate files for all passed media id's
 
