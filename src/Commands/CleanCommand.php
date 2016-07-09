@@ -54,7 +54,7 @@ class CleanCommand extends Command
     /**
      * @var bool
      */
-    protected $dry = false;
+    protected $isDryRun = false;
 
     /**
      * @param \Spatie\MediaLibrary\MediaRepository $mediaRepository
@@ -85,7 +85,7 @@ class CleanCommand extends Command
             return;
         }
 
-        $this->dry = $this->option('dry-run');
+        $this->isDryRun = $this->option('dry-run');
 
         $this->deleteFilesGeneratedForDeprecatedConversions();
 
@@ -121,23 +121,23 @@ class CleanCommand extends Command
     {
         $this->getMediaItems()->each(function (Media $media) {
 
-            // Get conversion directory
+            $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
+
             $path = $this->basePathGenerator->getPathForConversions($media);
-            $files = $this->fileSystem->disk($media->disk)->files($path);
+            $currentFilePaths = $this->fileSystem->disk($media->disk)->files($path);
 
-            // Get the list of currently defined conversions
-            $conversions = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
-
-            // Verify that each file on disk is defined in a conversion, else we delete the file
-            foreach ($files as $file) {
-                if (!$conversions->contains(basename($file))) {
-                    if (!$this->dry) {
-                        $this->fileSystem->disk($media->disk)->delete($file);
+            collect($currentFilePaths)
+                ->filter(function (string $currentFilePath) use ($conversionFilePaths) {
+                    return !$conversionFilePaths->contains(basename($currentFilePath));
+                })
+                ->each(function (string $currentFilePath) use ($media) {
+                    if (!$this->isDryRun) {
+                        $this->fileSystem->disk($media->disk)->delete($currentFilePath);
                     }
 
-                    $this->info("Deprecated conversion file `{$file}` " . ($this->dry ? 'found' : 'has been removed'));
-                }
-            }
+                    $this->info("Deprecated conversion file `{$currentFilePath}` " . ($this->isDryRun ? 'found' : 'has been removed'));
+                });
+
         });
     }
 
@@ -155,11 +155,11 @@ class CleanCommand extends Command
             ->filter(function (string $directory) use ($mediaIds) {
                 return is_numeric($directory) ? !$mediaIds->contains((int)$directory) : false;
             })->each(function (string $directory) use ($diskName) {
-                if (!$this->dry) {
+                if (!$this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }
 
-                $this->info("Orphaned media directory `{$directory}` " . ($this->dry ? 'found' : 'has been removed'));
+                $this->info("Orphaned media directory `{$directory}` " . ($this->isDryRun ? 'found' : 'has been removed'));
             });
     }
 }
