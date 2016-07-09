@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\Conversion;
 
+use DB;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
@@ -127,7 +128,7 @@ class CleanCommandTest extends TestCase
     public function it_can_clean_orphan_files_in_the_media_disk()
     {
         // Dirty delete
-        \DB::table('media')->delete($this->media['model1']['collection1']->id);
+        DB::table('media')->delete($this->media['model1']['collection1']->id);
 
         Artisan::call('medialibrary:clean');
 
