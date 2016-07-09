@@ -42,12 +42,12 @@ class CleanCommand extends Command
     protected $fileManipulator;
 
     /**
-     * @var Factory
+     * @var \Illuminate\Contracts\Filesystem\Factory
      */
     private $fileSystem;
 
     /**
-     * @var BasePathGenerator
+     * @var \Spatie\MediaLibrary\PathGenerator\BasePathGenerator
      */
     private $basePathGenerator;
 
@@ -57,17 +57,18 @@ class CleanCommand extends Command
     protected $dry = false;
 
     /**
-     * @param MediaRepository   $mediaRepository
-     * @param FileManipulator   $fileManipulator
-     * @param Factory           $fileSystem
-     * @param BasePathGenerator $basePathGenerator
+     * @param \Spatie\MediaLibrary\MediaRepository $mediaRepository
+     * @param \Spatie\MediaLibrary\FileManipulator $fileManipulator
+     * @param \Illuminate\Contracts\Filesystem\Factory $fileSystem
+     * @param \Spatie\MediaLibrary\PathGenerator\BasePathGenerator $basePathGenerator
      */
     public function __construct(
         MediaRepository $mediaRepository,
         FileManipulator $fileManipulator,
         Factory $fileSystem,
         BasePathGenerator $basePathGenerator
-    ) {
+    )
+    {
         parent::__construct();
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
@@ -86,13 +87,9 @@ class CleanCommand extends Command
 
         $this->dry = $this->option('dry-run');
 
-        // Clean deprecated conversions
-        $this->getMediaItems()->each(function (Media $media) {
-            $this->cleanDeprecatedConversions($media);
-        });
+        $this->deleteFilesGeneratedForDeprecatedConversions();
 
-        // Clean files without related models
-        $this->cleanOrphanFiles();
+        $this->deleteOrphanedFiles();
 
         $this->info('All done!');
     }
@@ -120,31 +117,31 @@ class CleanCommand extends Command
         return $this->mediaRepository->all();
     }
 
-    /**
-     * @param Media $media
-     */
-    private function cleanDeprecatedConversions(Media $media)
+    protected function deleteFilesGeneratedForDeprecatedConversions()
     {
-        // Get conversion directory
-        $path = $this->basePathGenerator->getPathForConversions($media);
-        $files = $this->fileSystem->disk($media->disk)->files($path);
+        $this->getMediaItems()->each(function (Media $media) {
 
-        // Get the list of currently defined conversions
-        $conversions = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
+            // Get conversion directory
+            $path = $this->basePathGenerator->getPathForConversions($media);
+            $files = $this->fileSystem->disk($media->disk)->files($path);
 
-        // Verify that each file on disk is defined in a conversion, else we delete the file
-        foreach ($files as $file) {
-            if (!$conversions->contains(basename($file))) {
-                if (!$this->dry) {
-                    $this->fileSystem->disk($media->disk)->delete($file);
+            // Get the list of currently defined conversions
+            $conversions = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
+
+            // Verify that each file on disk is defined in a conversion, else we delete the file
+            foreach ($files as $file) {
+                if (!$conversions->contains(basename($file))) {
+                    if (!$this->dry) {
+                        $this->fileSystem->disk($media->disk)->delete($file);
+                    }
+
+                    $this->info("Deprecated conversion file `{$file}` " . ($this->dry ? 'found' : 'has been removed'));
                 }
-
-                $this->info("Deprecated conversion file $file " . ($this->dry ? '' : 'has been removed'));
             }
-        }
+        });
     }
 
-    private function cleanOrphanFiles()
+    protected function deleteOrphanedFiles()
     {
         $diskName = $this->argument('disk') ?: config('laravel-medialibrary.defaultFilesystem');
 
@@ -152,21 +149,17 @@ class CleanCommand extends Command
             throw FileCannotBeAdded::diskDoesNotExist($diskName);
         }
 
-        $medias = $this->mediaRepository->all()->pluck('id');
-        $directories = new Collection($this->fileSystem->disk($diskName)->directories());
+        $mediaIds = $this->mediaRepository->all()->pluck('id');
 
-        // Ignore all directories related to a media row and non numeric directories name
-        $directories = $directories->filter(function ($directory) use ($medias) {
-            return is_numeric($directory) ? !$medias->contains((int)$directory) : false;
-        });
+        collect($this->fileSystem->disk($diskName)->directories())
+            ->filter(function (string $directory) use ($mediaIds) {
+                return is_numeric($directory) ? !$mediaIds->contains((int)$directory) : false;
+            })->each(function (string $directory) use ($diskName) {
+                if (!$this->dry) {
+                    $this->fileSystem->disk($diskName)->deleteDirectory($directory);
+                }
 
-        // Delete all directories with bo media row
-        foreach ($directories as $directory) {
-            if (!$this->dry) {
-                $this->fileSystem->disk($diskName)->deleteDirectory($directory);
-            }
-
-            $this->info("Orphan media file $directory " . ($this->dry ? '' : 'has been removed'));
-        }
+                $this->info("Orphaned media directory `{$directory}` " . ($this->dry ? 'found' : 'has been removed'));
+            });
     }
 }
