@@ -152,7 +152,7 @@ class ConversionCollection extends Collection
     public function getConversionsFiles(string $collectionName = '') : ConversionCollection
     {
         return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
-            return $conversion->getName() . '.' . $conversion->getResultExtension();
+            return $conversion->getName().'.'.$conversion->getResultExtension();
         });
     }
 }

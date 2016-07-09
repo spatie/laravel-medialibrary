@@ -57,9 +57,9 @@ class CleanCommand extends Command
     protected $isDryRun = false;
 
     /**
-     * @param \Spatie\MediaLibrary\MediaRepository $mediaRepository
-     * @param \Spatie\MediaLibrary\FileManipulator $fileManipulator
-     * @param \Illuminate\Contracts\Filesystem\Factory $fileSystem
+     * @param \Spatie\MediaLibrary\MediaRepository                 $mediaRepository
+     * @param \Spatie\MediaLibrary\FileManipulator                 $fileManipulator
+     * @param \Illuminate\Contracts\Filesystem\Factory             $fileSystem
      * @param \Spatie\MediaLibrary\PathGenerator\BasePathGenerator $basePathGenerator
      */
     public function __construct(
@@ -67,8 +67,7 @@ class CleanCommand extends Command
         FileManipulator $fileManipulator,
         Factory $fileSystem,
         BasePathGenerator $basePathGenerator
-    )
-    {
+    ) {
         parent::__construct();
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
@@ -135,7 +134,7 @@ class CleanCommand extends Command
                         $this->fileSystem->disk($media->disk)->delete($currentFilePath);
                     }
 
-                    $this->info("Deprecated conversion file `{$currentFilePath}` " . ($this->isDryRun ? 'found' : 'has been removed'));
+                    $this->info("Deprecated conversion file `{$currentFilePath}` ".($this->isDryRun ? 'found' : 'has been removed'));
                 });
 
         });
@@ -153,13 +152,13 @@ class CleanCommand extends Command
 
         collect($this->fileSystem->disk($diskName)->directories())
             ->filter(function (string $directory) use ($mediaIds) {
-                return is_numeric($directory) ? !$mediaIds->contains((int)$directory) : false;
+                return is_numeric($directory) ? !$mediaIds->contains((int) $directory) : false;
             })->each(function (string $directory) use ($diskName) {
                 if (!$this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }
 
-                $this->info("Orphaned media directory `{$directory}` " . ($this->isDryRun ? 'found' : 'has been removed'));
+                $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));
             });
     }
 }

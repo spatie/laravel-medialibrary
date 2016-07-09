@@ -14,7 +14,6 @@ use Spatie\PdfToImage\Pdf;
 
 class FileManipulator
 {
-
     /**
      * Create all derived files for the given media.
      *
@@ -130,7 +129,7 @@ class FileManipulator
         $image = new \Imagick();
         $image->readImage($svgFile);
         $image->setBackgroundColor(new ImagickPixel('none'));
-        $image->setImageFormat("png32");
+        $image->setImageFormat('png32');
 
         file_put_contents($imageFile, $image);
 
