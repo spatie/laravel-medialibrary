@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 
@@ -54,10 +55,12 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
+        $this->app->bind('command.medialibrary:clean', CleanCommand::class);
 
         $this->commands([
             'command.medialibrary:regenerate',
             'command.medialibrary:clear',
+            'command.medialibrary:clean',
         ]);
     }
 }
