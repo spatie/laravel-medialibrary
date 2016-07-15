@@ -55,7 +55,7 @@ class CustomPropertyTest extends TestCase
     }
     
     /** @test */
-    public function it_can_remove_custom_property()
+    public function it_can_remove_a_custom_property()
     {
         $this->mediaWithCustomProperty->removeCustomProperty('customName');
         

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.6.0 - 2016-07-15
+
+- added `removeCustomProperty` function
+
 ##4.5.0 - 2016-07-09
 
 - added `medialibrary:clean` command

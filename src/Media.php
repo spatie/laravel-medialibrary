@@ -188,13 +188,24 @@ class Media extends Model
     {
         $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
     }
-    
+
     /**
      * @param string $name
+     *
+     * @return $this
      */
     public function removeCustomProperty(string $name)
     {
-        unset($this->custom_properties[$key]);
+        if ($this->hasCustomProperty($name)) {
+
+            $customProperties = $this->custom_properties;
+
+            unset($customProperties[$name]);
+
+            $this->custom_properties = $customProperties;
+        }
+
+        return $this;
     }
 
     /*
