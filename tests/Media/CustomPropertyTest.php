@@ -53,6 +53,14 @@ class CustomPropertyTest extends TestCase
         $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('customName'));
         $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getCustomProperty('anotherName'));
     }
+    
+    /** @test */
+    public function it_can_remove_custom_property()
+    {
+        $this->mediaWithCustomProperty->removeCustomProperty('customName');
+        
+        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('customName'));
+    }
 
     /** @test */
     public function it_returns_a_fallback_if_the_custom_property_isnt_set()
