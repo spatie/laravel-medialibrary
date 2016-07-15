@@ -188,6 +188,14 @@ class Media extends Model
     {
         $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
     }
+    
+    /**
+     * @param string $name
+     */
+    public function removeCustomProperty(string $name)
+    {
+        unset($this->custom_properties[$key]);
+    }
 
     /*
      * Get all the names of the registered media conversions.
