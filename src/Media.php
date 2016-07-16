@@ -127,7 +127,7 @@ class Media extends Model
             return static::TYPE_OTHER;
         }
 
-        $mime = File::getMimetype($this->getPath());
+        $mime = $this->getMimeAttribute();
 
         if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
             return static::TYPE_IMAGE;
@@ -142,6 +142,11 @@ class Media extends Model
         }
 
         return static::TYPE_OTHER;
+    }
+
+    public function getMimeAttribute() : string
+    {
+        return File::getMimetype($this->getPath());
     }
 
     public function getExtensionAttribute() : string
