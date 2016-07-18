@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.7.0 - 2016-07-18
+
+- added `mime` attribute on the `Media` model
+
 ##4.6.0 - 2016-07-15
 
 - added `removeCustomProperty` function
