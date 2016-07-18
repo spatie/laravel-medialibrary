@@ -67,4 +67,12 @@ class GetTypeTest extends TestCase
             ['test.txt', Media::TYPE_OTHER],
         ];
     }
+
+    /** @test */
+    public function it_can_return_the_file_mime()
+    {
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
+
+        $this->assertEquals('image/jpeg', $media->mime);
+    }
 }
