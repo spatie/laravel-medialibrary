@@ -74,7 +74,7 @@ class Filesystem
             $this->filesystem
                 ->disk($media->disk)
                 ->getDriver()
-                ->put($destination, fopen($file, 'r+'), $this->getRemoteHeadersForFile($file));
+                ->putStream($destination, fopen($file, 'r+'), $this->getRemoteHeadersForFile($file));
         }
     }
 
