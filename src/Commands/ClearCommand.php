@@ -7,6 +7,7 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
+use Symfony\Component\Console\Input\InputOption;
 
 class ClearCommand extends Command
 {
@@ -77,5 +78,17 @@ class ClearCommand extends Command
         }
 
         return $this->mediaRepository->all();
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['force', null, InputOption::VALUE_NONE, 'Force the compiled class file to be written.'],
+        ];
     }
 }

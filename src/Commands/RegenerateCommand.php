@@ -10,6 +10,7 @@ use Spatie\{
     MediaLibrary\Media,
     MediaLibrary\MediaRepository
 };
+use Symfony\Component\Console\Input\InputOption;
 
 class RegenerateCommand extends Command
 {
@@ -66,7 +67,8 @@ class RegenerateCommand extends Command
                 $this->fileManipulator->createDerivedFiles($media);
                 $this->info("Media {$media->id} regenerated");
             } catch (Exception $exception) {
-                $this->error("Media {$media->id} could not be regenerated because `{$exception->getMessage()}`");          $this->erroredMediaIds[] = $media->id;
+                $this->error("Media {$media->id} could not be regenerated because `{$exception->getMessage()}`");
+                $this->erroredMediaIds[] = $media->id;
             }
         });
 
@@ -96,5 +98,17 @@ class RegenerateCommand extends Command
         }
 
         return $this->mediaRepository->getByModelType($modelType);
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['force', null, InputOption::VALUE_NONE, 'Force the compiled class file to be written.'],
+        ];
     }
 }
