@@ -4,22 +4,25 @@ namespace Spatie\MediaLibrary\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
 use Spatie\{
     MediaLibrary\FileManipulator,
     MediaLibrary\Media,
     MediaLibrary\MediaRepository
 };
-use Symfony\Component\Console\Input\InputOption;
 
 class RegenerateCommand extends Command
 {
+    use ConfirmableTrait;
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}';
+    protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}
+    {-- force : Force the compiled class file to be written}';
 
     /**
      * The console command description.
@@ -62,6 +65,10 @@ class RegenerateCommand extends Command
      */
     public function handle()
     {
+        if (!$this->confirmToProceed()) {
+            return;
+        }
+
         $this->getMediaToBeRegenerated()->each(function (Media $media) {
             try {
                 $this->fileManipulator->createDerivedFiles($media);
@@ -98,17 +105,5 @@ class RegenerateCommand extends Command
         }
 
         return $this->mediaRepository->getByModelType($modelType);
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['force', null, InputOption::VALUE_NONE, 'Force the compiled class file to be written.'],
-        ];
     }
 }

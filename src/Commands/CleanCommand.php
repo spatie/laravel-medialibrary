@@ -12,7 +12,6 @@ use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
-use Symfony\Component\Console\Input\InputOption;
 
 class CleanCommand extends Command
 {
@@ -23,7 +22,9 @@ class CleanCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?}';
+    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} 
+    {--dry-run : List files that will be removed without removing them},
+    {-- force : Force the compiled class file to be written}';
 
     /**
      * The console command description.
@@ -161,18 +162,5 @@ class CleanCommand extends Command
 
                 $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));
             });
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['dry-run', null, InputOption::VALUE_NONE, 'List files that will be removed without removing them.'],
-            ['force', null, InputOption::VALUE_NONE, 'Force the compiled class file to be written.'],
-        ];
     }
 }
