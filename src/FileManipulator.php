@@ -25,6 +25,10 @@ class FileManipulator
             return;
         }
 
+        if ($media->type === Media::TYPE_VIDEO && !class_exists('\\FFMpeg\\FFMpeg')) {
+            return;
+        }
+
         if (in_array($media->type, [Media::TYPE_PDF, Media::TYPE_SVG]) && !class_exists('Imagick')) {
             return;
         }
@@ -63,6 +67,10 @@ class FileManipulator
         }
 
         foreach ($conversions as $conversion) {
+            if ($media->type == Media::TYPE_VIDEO) {
+                $copiedOriginalFile = $this->extractVideoThumbnail($copiedOriginalFile, $conversion);
+            }
+
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
             $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
@@ -111,6 +119,22 @@ class FileManipulator
         File::makeDirectory($tempDirectory, 493, true);
 
         return $tempDirectory;
+    }
+
+    protected function extractVideoThumbnail(string $videoFile, Conversion $conversion) : string
+    {
+        $imageFile = string($videoFile)->pop('.').'.jpg';
+
+        $ffmpeg = \FFMpeg\FFMpeg::create([
+            'ffmpeg.binaries' => config('laravel-medialibrary.ffmpeg_binaries'),
+            'ffprobe.binaries' => config('laravel-medialibrary.ffprobe_binaries'),
+        ]);
+        $video = $ffmpeg->open($videoFile);
+
+        $frame = $video->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds($conversion->getExtractDuration()));
+        $frame->save($imageFile);
+
+        return $imageFile;
     }
 
     protected function convertPdfToImage(string $pdfFile) : string

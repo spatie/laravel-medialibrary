@@ -12,6 +12,11 @@ class Conversion
     protected $name = '';
 
     /**
+     * @var int
+     */
+    protected $extractDuration = 0;
+
+    /**
      * @var array
      */
     protected $manipulations = [];
@@ -39,6 +44,22 @@ class Conversion
     public function getName() : string
     {
         return $this->name;
+    }
+
+    /*
+     * Set the duration in seconds to extract a video thumbnail.
+     * Only used on video media.
+     */
+    public function setExtractDuration(int $duration) : Conversion
+    {
+        $this->extractDuration = $duration;
+
+        return $this;
+    }
+
+    public function getExtractDuration(): int
+    {
+        return $this->extractDuration;
     }
 
     /**
