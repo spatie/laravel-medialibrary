@@ -156,9 +156,9 @@ class Conversion
         return array_reduce($this->getManipulations(), function ($carry, array $manipulation) {
 
             if (isset($manipulation['fm'])) {
-                $keepFormats = ['png', 'gif'];
+                $keepExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
-                return ($manipulation['fm'] === 'src' && in_array($carry, $keepFormats)) ? $carry : $manipulation['fm'];
+                return ($manipulation['fm'] === 'src' && in_array($carry, $keepExtensions)) ? $carry : $manipulation['fm'];
             }
 
             return $carry;
