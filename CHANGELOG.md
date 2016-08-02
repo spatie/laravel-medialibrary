@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.7.1 - 2016-08-02
+- fixed the `src` format option when dealing with jpegs
+
 ##4.7.0 - 2016-07-18
 
 - added `mime` attribute on the `Media` model
