@@ -123,7 +123,7 @@ class FileManipulator
 
     protected function extractVideoThumbnail(string $videoFile, Conversion $conversion) : string
     {
-        $imageFile = string($videoFile)->pop('.').'.jpg';
+        $imageFile = pathinfo($videoFile, PATHINFO_FILENAME).'.jpg';
 
         $ffmpeg = \FFMpeg\FFMpeg::create([
             'ffmpeg.binaries' => config('laravel-medialibrary.ffmpeg_binaries'),
@@ -139,7 +139,7 @@ class FileManipulator
 
     protected function convertPdfToImage(string $pdfFile) : string
     {
-        $imageFile = string($pdfFile)->pop('.').'.jpg';
+        $imageFile = pathinfo($pdfFile, PATHINFO_FILENAME).'.jpg';
 
         (new Pdf($pdfFile))->saveImage($imageFile);
 
@@ -148,7 +148,7 @@ class FileManipulator
 
     protected function convertSvgToImage(string $svgFile) : string
     {
-        $imageFile = string($svgFile)->pop('.').'.png';
+        $imageFile = pathinfo($svgFile, PATHINFO_FILENAME).'.png';
 
         $image = new \Imagick();
         $image->readImage($svgFile);
