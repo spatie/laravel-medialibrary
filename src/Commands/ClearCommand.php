@@ -17,7 +17,8 @@ class ClearCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'medialibrary:clear {modelType?} {collectionName?}';
+    protected $signature = 'medialibrary:clear {modelType?} {collectionName?}
+    {-- force : Force the operation to run when in production}';
 
     /**
      * The console command description.

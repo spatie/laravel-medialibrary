@@ -22,7 +22,9 @@ class CleanCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} {--dry-run}';
+    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} 
+    {--dry-run : List files that will be removed without removing them},
+    {-- force : Force the operation to run when in production}';
 
     /**
      * The console command description.

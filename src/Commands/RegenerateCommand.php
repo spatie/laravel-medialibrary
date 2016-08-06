@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
 use Spatie\{
     MediaLibrary\FileManipulator,
@@ -13,12 +14,15 @@ use Spatie\{
 
 class RegenerateCommand extends Command
 {
+    use ConfirmableTrait;
+
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}';
+    protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}
+    {-- force : Force the operation to run when in production}';
 
     /**
      * The console command description.
@@ -61,12 +65,17 @@ class RegenerateCommand extends Command
      */
     public function handle()
     {
+        if (!$this->confirmToProceed()) {
+            return;
+        }
+
         $this->getMediaToBeRegenerated()->each(function (Media $media) {
             try {
                 $this->fileManipulator->createDerivedFiles($media);
                 $this->info("Media {$media->id} regenerated");
             } catch (Exception $exception) {
-                $this->error("Media {$media->id} could not be regenerated because `{$exception->getMessage()}`");          $this->erroredMediaIds[] = $media->id;
+                $this->error("Media {$media->id} could not be regenerated because `{$exception->getMessage()}`");
+                $this->erroredMediaIds[] = $media->id;
             }
         });
 
