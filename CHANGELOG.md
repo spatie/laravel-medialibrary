@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+##4.8.0 - 2016-08-07
+- added thumbnail generation for video's
+- added force option to the artisan commands
+
 ##4.7.1 - 2016-08-02
 - fixed the `src` format option when dealing with jpegs
 
