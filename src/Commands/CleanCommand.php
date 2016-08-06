@@ -24,7 +24,7 @@ class CleanCommand extends Command
      */
     protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} 
     {--dry-run : List files that will be removed without removing them},
-    {-- force : Force the compiled class file to be written}';
+    {-- force : Force the operation to run when in production}';
 
     /**
      * The console command description.

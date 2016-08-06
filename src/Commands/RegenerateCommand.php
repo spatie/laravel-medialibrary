@@ -22,7 +22,7 @@ class RegenerateCommand extends Command
      * @var string
      */
     protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}
-    {-- force : Force the compiled class file to be written}';
+    {-- force : Force the operation to run when in production}';
 
     /**
      * The console command description.
