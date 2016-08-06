@@ -14,6 +14,7 @@ class Media extends Model
 
     const TYPE_OTHER = 'other';
     const TYPE_IMAGE = 'image';
+    const TYPE_VIDEO = 'video';
     const TYPE_SVG = 'svg';
     const TYPE_PDF = 'pdf';
 
@@ -107,6 +108,10 @@ class Media extends Model
             return static::TYPE_IMAGE;
         }
 
+        if (in_array($extension, ['webm', 'mov', 'mp4'])) {
+            return static::TYPE_VIDEO;
+        }
+
         if ($extension == 'pdf') {
             return static::TYPE_PDF;
         }
@@ -131,6 +136,10 @@ class Media extends Model
 
         if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
             return static::TYPE_IMAGE;
+        }
+
+        if (in_array($mime, ['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime'])) {
+            return static::TYPE_VIDEO;
         }
 
         if ($mime === 'application/pdf') {

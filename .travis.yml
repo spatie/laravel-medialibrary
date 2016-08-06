@@ -8,9 +8,14 @@ matrix:
     - php: 7.0
       env: 'COMPOSER_FLAGS="--prefer-stable --prefer-lowest"'
 
-before_script:
+before_install:
+  - sudo apt-get update
   - travis_retry composer self-update
-  - travis_retry composer update --prefer-source $PREFER_LOWEST 
+
+install:
+  - sudo apt-get install -y ffmpeg libavcodec-extra-53
+  - travis_retry composer update --prefer-source $PREFER_LOWEST
+  - travis_retry composer require php-ffmpeg/php-ffmpeg
   - printf "\n" | pecl install imagick
 
 script:

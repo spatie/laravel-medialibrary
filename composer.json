@@ -36,6 +36,12 @@
     "orchestra/testbench": "^3.0",
     "doctrine/dbal": "^2.5.2"
   },
+  "conflict": {
+    "PHP-FFMpeg/PHP-FFMpeg": "<0.6.1"
+  },
+  "suggest": {
+    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
+  },
   "autoload": {
     "psr-4": {
       "Spatie\\MediaLibrary\\": "src"

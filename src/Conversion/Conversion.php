@@ -12,6 +12,11 @@ class Conversion
     protected $name = '';
 
     /**
+     * @var int
+     */
+    protected $extractVideoFrameAtSecond = 0;
+
+    /**
      * @var array
      */
     protected $manipulations = [];
@@ -39,6 +44,22 @@ class Conversion
     public function getName() : string
     {
         return $this->name;
+    }
+
+    /*
+     * Set the timecode in seconds to extract a video thumbnail.
+     * Only used on video media.
+     */
+    public function setExtractVideoFrameAtSecond(int $timecode) : Conversion
+    {
+        $this->extractVideoFrameAtSecond = $timecode;
+
+        return $this;
+    }
+
+    public function getExtractVideoFrameAtSecond(): int
+    {
+        return $this->extractVideoFrameAtSecond;
     }
 
     /**
