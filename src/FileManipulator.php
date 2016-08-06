@@ -131,7 +131,7 @@ class FileManipulator
         ]);
         $video = $ffmpeg->open($videoFile);
 
-        $frame = $video->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds($conversion->getExtractDuration()));
+        $frame = $video->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds($conversion->getExtractVideoFrameAtSecond()));
         $frame->save($imageFile);
 
         return $imageFile;

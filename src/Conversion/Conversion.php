@@ -14,7 +14,7 @@ class Conversion
     /**
      * @var int
      */
-    protected $extractDuration = 0;
+    protected $extractVideoFrameAtSecond = 0;
 
     /**
      * @var array
@@ -47,19 +47,19 @@ class Conversion
     }
 
     /*
-     * Set the duration in seconds to extract a video thumbnail.
+     * Set the timecode in seconds to extract a video thumbnail.
      * Only used on video media.
      */
-    public function setExtractDuration(int $duration) : Conversion
+    public function setExtractVideoFrameAtSecond(int $timecode) : Conversion
     {
-        $this->extractDuration = $duration;
+        $this->extractVideoFrameAtSecond = $timecode;
 
         return $this;
     }
 
-    public function getExtractDuration(): int
+    public function getExtractVideoFrameAtSecond(): int
     {
-        return $this->extractDuration;
+        return $this->extractVideoFrameAtSecond;
     }
 
     /**

@@ -215,8 +215,8 @@ class ConversionTest extends TestCase
 
     public function it_will_use_the_extract_duration_parameter_if_it_was_given()
     {
-        $this->conversion->setExtractDuration(10);
+        $this->conversion->setExtractVideoFrameAtSecond(10);
 
-        $this->assertEquals(10, $this->conversion->getExtractDuration());
+        $this->assertEquals(10, $this->conversion->getExtractVideoFrameAtSecond());
     }
 }
