@@ -234,6 +234,7 @@ If you discover any security related issues, please email [freek@spatie.be](mail
 - [All Contributors](../../contributors)
 
 ## Alternatives
+- [laravel-mediable](https://github.com/plank/laravel-mediable)
 - [laravel-stapler](https://github.com/CodeSleeve/laravel-stapler)
 
 ## About Spatie
