@@ -211,7 +211,6 @@ class Media extends Model
     public function removeCustomProperty(string $name)
     {
         if ($this->hasCustomProperty($name)) {
-
             $customProperties = $this->custom_properties;
 
             unset($customProperties[$name]);

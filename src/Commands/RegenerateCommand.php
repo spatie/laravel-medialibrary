@@ -6,11 +6,9 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Collection;
-use Spatie\{
-    MediaLibrary\FileManipulator,
-    MediaLibrary\Media,
-    MediaLibrary\MediaRepository
-};
+use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\MediaRepository;
 
 class RegenerateCommand extends Command
 {
@@ -80,7 +78,7 @@ class RegenerateCommand extends Command
         });
 
         if (count($this->erroredMediaIds)) {
-            $this->warn('The derived files of these media ids could not be regenerated: ' . implode(',', $this->erroredMediaIds));
+            $this->warn('The derived files of these media ids could not be regenerated: '.implode(',', $this->erroredMediaIds));
         }
 
         $this->info('All done!');
@@ -96,7 +94,6 @@ class RegenerateCommand extends Command
         }
 
         if ($mediaIds) {
-
             if (!is_array($mediaIds)) {
                 $mediaIds = explode(',', $mediaIds);
             }

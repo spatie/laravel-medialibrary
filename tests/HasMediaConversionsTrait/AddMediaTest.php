@@ -46,15 +46,16 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_will_keep_the_original_file_extension_when_using_the_src_format()
     {
-        $modelClass = new class extends TestModelWithConversion {
-                 public function registerMediaConversions()
-                 {
-                     $this->addMediaConversion('thumb')
+        $modelClass = new class() extends TestModelWithConversion
+        {
+            public function registerMediaConversions()
+            {
+                $this->addMediaConversion('thumb')
                                 ->setCrop(50, 50, 10, 10)
                                 ->setFormat('src')
                                 ->nonQueued();
-                 }
-             };
+            }
+        };
 
         $model = $modelClass::first();
 

@@ -55,7 +55,7 @@ class RegenerateCommandTest extends TestCase
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toCollection('images');
 
-        unlink($this->getMediaDirectory($media->id . '/test.jpg'));
+        unlink($this->getMediaDirectory($media->id.'/test.jpg'));
 
         Artisan::call('medialibrary:regenerate');
     }
