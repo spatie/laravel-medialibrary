@@ -45,7 +45,7 @@ class DeleteMediaTest extends TestCase
        $ids = $this->testModel->getMedia('images')->pluck('id');
 
        $ids->map(function ($id) {
-          $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+           $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
        });
 
        $this->testModel->clearMediaCollection('images');

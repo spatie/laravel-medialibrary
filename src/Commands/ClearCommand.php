@@ -46,7 +46,7 @@ class ClearCommand extends Command
      */
     public function handle()
     {
-        if (!$this->confirmToProceed()) {
+        if (! $this->confirmToProceed()) {
             return;
         }
 
@@ -62,18 +62,18 @@ class ClearCommand extends Command
         $modelType = $this->argument('modelType');
         $collectionName = $this->argument('collectionName');
 
-        if (!is_null($modelType) && !is_null($collectionName)) {
+        if (! is_null($modelType) && ! is_null($collectionName)) {
             return $this->mediaRepository->getByModelTypeAndCollectionName(
                 $modelType,
                 $collectionName
             );
         }
 
-        if (!is_null($modelType)) {
+        if (! is_null($modelType)) {
             return $this->mediaRepository->getByModelType($modelType);
         }
 
-        if (!is_null($collectionName)) {
+        if (! is_null($collectionName)) {
             return $this->mediaRepository->getByCollectionName($collectionName);
         }
 

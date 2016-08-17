@@ -51,17 +51,13 @@ class MediaRepository
     {
         if ($this->mediaIsPreloaded($model)) {
             $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
-
                 if ($collectionName == '') {
                     return true;
                 }
 
                 return $mediaItem->collection_name == $collectionName;
-
             })->sortBy(function (Media $media) {
-
                 return $media->order_column;
-
             })->values();
 
             return $media;
@@ -160,11 +156,10 @@ class MediaRepository
     protected function getDefaultFilterFunction(array $filters)
     {
         return function (Media $media) use ($filters) {
-
             $customProperties = $media->custom_properties;
 
             foreach ($filters as $property => $value) {
-                if (!isset($customProperties[$property])) {
+                if (! isset($customProperties[$property])) {
                     return false;
                 }
                 if ($customProperties[$property] != $value) {

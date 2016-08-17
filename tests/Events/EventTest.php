@@ -56,7 +56,7 @@ class EventTest extends TestCase
         });
 
         $this->beforeApplicationDestroyed(function () use ($eventClassName) {
-            if (!in_array($eventClassName, $this->firedEvents)) {
+            if (! in_array($eventClassName, $this->firedEvents)) {
                 throw new Exception("Event {$eventClassName} not fired");
             }
         });

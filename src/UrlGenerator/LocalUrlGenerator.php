@@ -16,7 +16,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     public function getUrl() : string
     {
-        if (!string($this->getStoragePath())->startsWith(public_path())) {
+        if (! string($this->getStoragePath())->startsWith(public_path())) {
             throw UrlCannotBeDetermined::mediaNotPubliclyAvailable($this->getStoragePath(), public_path());
         }
 

@@ -25,11 +25,11 @@ class UrlGeneratorFactory
 
     public static function guardAgainstInvalidUrlGenerator(string $urlGeneratorClass)
     {
-        if (!class_exists($urlGeneratorClass)) {
+        if (! class_exists($urlGeneratorClass)) {
             throw InvalidUrlGenerator::doesntExist($urlGeneratorClass);
         }
 
-        if (!is_subclass_of($urlGeneratorClass, UrlGenerator::class)) {
+        if (! is_subclass_of($urlGeneratorClass, UrlGenerator::class)) {
             throw InvalidUrlGenerator::isntAUrlGenerator($urlGeneratorClass);
         }
     }

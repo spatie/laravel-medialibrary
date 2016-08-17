@@ -25,11 +25,11 @@ class FileManipulator
             return;
         }
 
-        if ($media->type === Media::TYPE_VIDEO && !class_exists('\\FFMpeg\\FFMpeg')) {
+        if ($media->type === Media::TYPE_VIDEO && ! class_exists('\\FFMpeg\\FFMpeg')) {
             return;
         }
 
-        if (in_array($media->type, [Media::TYPE_PDF, Media::TYPE_SVG]) && !class_exists('Imagick')) {
+        if (in_array($media->type, [Media::TYPE_PDF, Media::TYPE_SVG]) && ! class_exists('Imagick')) {
             return;
         }
 

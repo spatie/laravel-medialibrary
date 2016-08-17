@@ -30,7 +30,7 @@ class FileAdderFactory
      */
     public static function createFromRequest(Model $subject, string $key)
     {
-        if (!request()->hasFile($key)) {
+        if (! request()->hasFile($key)) {
             throw FileCannotBeAdded::requestDoesNotHaveFile($key);
         }
 

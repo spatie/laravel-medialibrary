@@ -20,7 +20,7 @@ class File
 
     public static function getHumanReadableSize(int $sizeInBytes) : string
     {
-        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
         if ($sizeInBytes == 0) {
             return '0 '.$units[1];

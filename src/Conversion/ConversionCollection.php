@@ -52,7 +52,7 @@ class ConversionCollection extends Collection
             return $conversion->getName() === $name;
         });
 
-        if (!$conversion) {
+        if (! $conversion) {
             throw InvalidConversion::unknownName($name);
         }
 
@@ -142,7 +142,7 @@ class ConversionCollection extends Collection
     public function getNonQueuedConversions(string $collectionName = '') : ConversionCollection
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return !$conversion->shouldBeQueued();
+            return ! $conversion->shouldBeQueued();
         });
     }
 

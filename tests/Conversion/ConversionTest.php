@@ -20,6 +20,7 @@ class ConversionTest extends TestCase
 
         parent::setUp();
     }
+
     /** @test */
     public function it_can_get_its_name()
     {
@@ -115,10 +116,10 @@ class ConversionTest extends TestCase
     {
         $this->conversion->setManipulations(['w' => 100, 'fm' => 'src']);
 
-        $this->assertEquals('jpg',  $this->conversion->getResultExtension('jpg'));
+        $this->assertEquals('jpg', $this->conversion->getResultExtension('jpg'));
         $this->assertEquals('jpeg', $this->conversion->getResultExtension('jpeg'));
-        $this->assertEquals('png',  $this->conversion->getResultExtension('png'));
-        $this->assertEquals('gif',  $this->conversion->getResultExtension('gif'));
+        $this->assertEquals('png', $this->conversion->getResultExtension('png'));
+        $this->assertEquals('gif', $this->conversion->getResultExtension('gif'));
     }
 
     /** @test */
