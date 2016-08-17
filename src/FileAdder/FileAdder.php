@@ -95,7 +95,7 @@ class FileAdder
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return $this
-     * 
+     *
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function setFile($file)
@@ -296,11 +296,11 @@ class FileAdder
      */
     public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
-        if (!$this->subject->exists) {
+        if (! $this->subject->exists) {
             throw FileCannotBeAdded::modelDoesNotExist($this->subject);
         }
 
-        if (!is_file($this->pathToFile)) {
+        if (! is_file($this->pathToFile)) {
             throw FileCannotBeAdded::fileDoesNotExist($this->pathToFile);
         }
 
@@ -327,7 +327,7 @@ class FileAdder
 
         $this->filesystem->add($this->pathToFile, $media, $this->fileName);
 
-        if (!$this->preserveOriginal) {
+        if (! $this->preserveOriginal) {
             unlink($this->pathToFile);
         }
 

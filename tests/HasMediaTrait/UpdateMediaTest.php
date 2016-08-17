@@ -57,7 +57,7 @@ class UpdateMediaTest extends TestCase
     }
 
     /**
-     * @test 
+     * @test
      */
     public function it_reorders_media_items()
     {

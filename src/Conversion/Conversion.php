@@ -70,9 +70,9 @@ class Conversion
         $manipulations = $this->manipulations;
 
         //if format not is specified, create a jpg
-        if (count($manipulations) && !$this->containsFormatManipulation($manipulations)) {
+        if (count($manipulations) && ! $this->containsFormatManipulation($manipulations)) {
             $manipulations[0]['fm'] = 'jpg';
-        };
+        }
 
         return $manipulations;
     }
@@ -126,7 +126,7 @@ class Conversion
     public function shouldBePerformedOn(string $collectionName) : bool
     {
         //if no collections were specified, perform conversion on all collections
-        if (!count($this->performOnCollections)) {
+        if (! count($this->performOnCollections)) {
             return true;
         }
 
@@ -175,7 +175,6 @@ class Conversion
     public function getResultExtension(string $originalFileExtension = '') : string
     {
         return array_reduce($this->getManipulations(), function ($carry, array $manipulation) {
-
             if (isset($manipulation['fm'])) {
                 $keepExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
@@ -183,7 +182,6 @@ class Conversion
             }
 
             return $carry;
-
         }, $originalFileExtension);
     }
 
@@ -257,7 +255,7 @@ class Conversion
     {
         $validFormats = ['jpg', 'png', 'gif', 'src'];
 
-        if (!in_array($format, $validFormats)) {
+        if (! in_array($format, $validFormats)) {
             throw InvalidConversionParameter::invalidFormat($format, $validFormats);
         }
 
@@ -295,7 +293,7 @@ class Conversion
             'crop-bottom-right',
         ];
 
-        if (!in_array($fit, $validFits)) {
+        if (! in_array($fit, $validFits)) {
             throw InvalidConversionParameter::invalidFit($fit, $validFits);
         }
 

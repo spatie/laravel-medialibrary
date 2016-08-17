@@ -28,7 +28,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
                 __DIR__.'/../config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
             ], 'config');
 
-            if (!class_exists('CreateMediaTable')) {
+            if (! class_exists('CreateMediaTable')) {
                 // Publish the migration
                 $timestamp = date('Y_m_d_His', time());
 

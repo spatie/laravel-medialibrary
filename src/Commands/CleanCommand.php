@@ -82,7 +82,7 @@ class CleanCommand extends Command
      */
     public function handle()
     {
-        if (!$this->confirmToProceed()) {
+        if (! $this->confirmToProceed()) {
             return;
         }
 
@@ -100,18 +100,18 @@ class CleanCommand extends Command
         $modelType = $this->argument('modelType');
         $collectionName = $this->argument('collectionName');
 
-        if (!is_null($modelType) && !is_null($collectionName)) {
+        if (! is_null($modelType) && ! is_null($collectionName)) {
             return $this->mediaRepository->getByModelTypeAndCollectionName(
                 $modelType,
                 $collectionName
             );
         }
 
-        if (!is_null($modelType)) {
+        if (! is_null($modelType)) {
             return $this->mediaRepository->getByModelType($modelType);
         }
 
-        if (!is_null($collectionName)) {
+        if (! is_null($collectionName)) {
             return $this->mediaRepository->getByCollectionName($collectionName);
         }
 
@@ -121,7 +121,6 @@ class CleanCommand extends Command
     protected function deleteFilesGeneratedForDeprecatedConversions()
     {
         $this->getMediaItems()->each(function (Media $media) {
-
             $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
 
             $path = $this->basePathGenerator->getPathForConversions($media);
@@ -129,16 +128,15 @@ class CleanCommand extends Command
 
             collect($currentFilePaths)
                 ->filter(function (string $currentFilePath) use ($conversionFilePaths) {
-                    return !$conversionFilePaths->contains(basename($currentFilePath));
+                    return ! $conversionFilePaths->contains(basename($currentFilePath));
                 })
                 ->each(function (string $currentFilePath) use ($media) {
-                    if (!$this->isDryRun) {
+                    if (! $this->isDryRun) {
                         $this->fileSystem->disk($media->disk)->delete($currentFilePath);
                     }
 
                     $this->info("Deprecated conversion file `{$currentFilePath}` ".($this->isDryRun ? 'found' : 'has been removed'));
                 });
-
         });
     }
 
@@ -154,9 +152,9 @@ class CleanCommand extends Command
 
         collect($this->fileSystem->disk($diskName)->directories())
             ->filter(function (string $directory) use ($mediaIds) {
-                return is_numeric($directory) ? !$mediaIds->contains((int) $directory) : false;
+                return is_numeric($directory) ? ! $mediaIds->contains((int) $directory) : false;
             })->each(function (string $directory) use ($diskName) {
-                if (!$this->isDryRun) {
+                if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }
 
