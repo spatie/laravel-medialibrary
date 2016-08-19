@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+#4.8.1 - 2016-08-19
+- fixed some files that had a wrong namespace
+
 ##4.8.0 - 2016-08-07
 - added thumbnail generation for video's
 - added force option to the artisan commands
