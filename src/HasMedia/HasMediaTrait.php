@@ -6,8 +6,8 @@ use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\Medialibrary\Exceptions\MediaCannotBeDeleted;
-use Spatie\Medialibrary\Exceptions\MediaCannotBeUpdated;
+use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
+use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
@@ -181,7 +181,7 @@ trait HasMediaTrait
      *
      * @return array
      *
-     * @throws \Spatie\Medialibrary\Exceptions\MediaCannotBeUpdated
+     * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated
      */
     public function updateMedia(array $newMediaArray, string $collectionName = 'default') : array
     {
@@ -256,7 +256,7 @@ trait HasMediaTrait
      *
      * @param int|\Spatie\MediaLibrary\Media $mediaId
      *
-     * @throws \Spatie\Medialibrary\Exceptions\MediaCannotBeDeleted
+     * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted
      */
     public function deleteMedia($mediaId)
     {

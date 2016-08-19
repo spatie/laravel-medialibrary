@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Exceptions;
+namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
 use Spatie\MediaLibrary\Media;
