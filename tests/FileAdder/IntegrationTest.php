@@ -160,7 +160,7 @@ class IntegrationTest extends TestCase
         $this->app['router']->get('/upload', function () {
 
             $exceptionWasThrown = false;
-            
+
             try {
                 $this->testModel->addMediaFromRequest('non existing key')->toMediaLibrary();
             } catch (FileCannotBeAdded $exception) {
