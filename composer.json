@@ -33,8 +33,7 @@
     "phpunit/phpunit" : "^5.0.0",
     "mockery/mockery": "^0.9.4",
     "scrutinizer/ocular": "^1.1",
-    "orchestra/testbench": "3.2",
-    "orchestra/database": "3.2",
+    "orchestra/testbench": "3.1",
     "doctrine/dbal": "^2.5.2"
   },
   "conflict": {
