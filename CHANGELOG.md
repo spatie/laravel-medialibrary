@@ -2,7 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-#4.8.1 - 2016-08-19
+## 4.8.2 - 2016-08-24
+- made compatible with L5.3
+
+## 4.8.1 - 2016-08-19
 - fixed some files that had a wrong namespace
 
 ##4.8.0 - 2016-08-07
