@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
-use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class UpdateMediaTest extends TestCase
