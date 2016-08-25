@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.8.3 - 2016-08-25
+-  fix svg and pdf file path when performing conversions
+
 ## 4.8.2 - 2016-08-24
 - made compatible with L5.3
 
