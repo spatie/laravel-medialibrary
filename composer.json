@@ -27,7 +27,6 @@
     "spatie/laravel-glide": "^3.0.0",
     "spatie/pdf-to-image": "^1.0.1",
     "spatie/string": "^2.0.0"
-
   },
   "require-dev": {
     "phpunit/phpunit" : "^5.0.0",
@@ -38,7 +37,7 @@
     "doctrine/dbal": "^2.5.2"
   },
   "conflict": {
-    "PHP-FFMpeg/PHP-FFMpeg": "<0.6.1"
+    "php-ffmpeg/php-ffmpeg": "<0.6.1"
   },
   "suggest": {
     "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"

@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\Conversion;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class ConversionTest extends TestCase
@@ -216,10 +217,42 @@ class ConversionTest extends TestCase
         $this->assertEquals($conversion->getManipulations(), $otherConversions->getManipulations());
     }
 
+    /** @test */
     public function it_will_use_the_extract_duration_parameter_if_it_was_given()
     {
         $this->conversion->setExtractVideoFrameAtSecond(10);
 
         $this->assertEquals(10, $this->conversion->getExtractVideoFrameAtSecond());
+    }
+
+    /** @test */
+    public function it_will_extract_a_video_thumbnail()
+    {
+        if (! class_exists('\\FFMpeg\\FFMpeg')) {
+            return;
+        }
+
+        $imageFile = (new FileManipulator())->extractVideoThumbnail($this->getTestWebm(), $this->conversion);
+
+        $this->assertEquals(str_replace('.webm', '.jpg', $this->getTestWebm()), $imageFile);
+        $this->assertEquals('image/jpeg', mime_content_type($imageFile));
+    }
+
+    /** @test */
+    public function it_will_convert_pdf_to_image()
+    {
+        $imageFile = (new FileManipulator())->convertPdfToImage($this->getTestPdf());
+
+        $this->assertEquals(str_replace('.pdf', '.jpg', $this->getTestPdf()), $imageFile);
+        $this->assertEquals('image/jpeg', mime_content_type($imageFile));
+    }
+
+    /** @test */
+    public function it_will_convert_svg_to_image()
+    {
+        $imageFile = (new FileManipulator())->convertSvgToImage($this->getTestSvg());
+
+        $this->assertEquals(str_replace('.svg', '.png', $this->getTestSvg()), $imageFile);
+        $this->assertEquals('image/png', mime_content_type($imageFile));
     }
 }

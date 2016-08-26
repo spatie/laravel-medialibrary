@@ -121,7 +121,7 @@ class FileManipulator
         return $tempDirectory;
     }
 
-    protected function extractVideoThumbnail(string $videoFile, Conversion $conversion) : string
+    public function extractVideoThumbnail(string $videoFile, Conversion $conversion) : string
     {
         $imageFile = pathinfo($videoFile, PATHINFO_DIRNAME).'/'.pathinfo($videoFile, PATHINFO_FILENAME).'.jpg';
 
@@ -137,7 +137,7 @@ class FileManipulator
         return $imageFile;
     }
 
-    protected function convertPdfToImage(string $pdfFile) : string
+    public function convertPdfToImage(string $pdfFile) : string
     {
         $imageFile = pathinfo($pdfFile, PATHINFO_DIRNAME).'/'.pathinfo($pdfFile, PATHINFO_FILENAME).'.jpg';
 
@@ -146,7 +146,7 @@ class FileManipulator
         return $imageFile;
     }
 
-    protected function convertSvgToImage(string $svgFile) : string
+    public function convertSvgToImage(string $svgFile) : string
     {
         $imageFile = pathinfo($svgFile, PATHINFO_DIRNAME).'/'.pathinfo($svgFile, PATHINFO_FILENAME).'.png';
 
