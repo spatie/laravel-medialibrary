@@ -38,8 +38,13 @@ class File
      */
     public static function getMimetype(string $path) : string
     {
-        $finfo = new Finfo(FILEINFO_MIME_TYPE);
-
-        return $finfo->file($path);
+        if (is_file($path)) {
+            $finfo = new Finfo(FILEINFO_MIME_TYPE);
+            
+            return $finfo->file($path);
+        }else {
+            return "no-file";
+        }
+        
     }
 }
