@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
+use Spatie\MediaLibrary\BeforeConversion\Drivers\ImageDriver;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
@@ -103,7 +104,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('image'))->toMediaLibrary();
 
-        $this->assertEquals(Media::TYPE_IMAGE, $media->type);
+        $this->assertEquals((new ImageDriver)->getMediaType(), $media->type);
     }
 
     /** @test */
