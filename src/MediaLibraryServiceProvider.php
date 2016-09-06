@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriverHandler;
 use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
@@ -42,6 +43,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $mediaClass = config('laravel-medialibrary.media_model');
         $mediaClass::observe(new MediaObserver());
+
+        $this->app->singleton(BeforeConversionDriverHandler::class, function ($app) use ($mediaClass) {
+            return new BeforeConversionDriverHandler(new $mediaClass);
+        });
     }
 
     /**
