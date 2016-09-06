@@ -70,7 +70,7 @@ class BeforeConversionTest extends TestCase
     public function it_can_detect_media_type_from_extension_with_drivers($extension, $type)
     {
         $media = new Media();
-        $media->file_name = 'test.' . $extension;
+        $media->file_name = 'test.'.$extension;
         $this->assertEquals($type, $media->type_from_extension);
     }
 

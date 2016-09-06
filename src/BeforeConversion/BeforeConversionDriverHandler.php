@@ -10,7 +10,7 @@ class BeforeConversionDriverHandler
     protected $model;
 
     /**
-     * BeforeConversionDriver[]|Collection
+     * BeforeConversionDriver[]|Collection.
      */
     protected $drivers;
 
@@ -27,6 +27,7 @@ class BeforeConversionDriverHandler
     {
         return $this->model->getBeforeConversionDrivers()->map(function ($driver) {
             app()->singleton($driver);
+
             return app($driver);
         })->keyBy(function ($driver) {
             return $driver->getMediaType();
@@ -36,27 +37,23 @@ class BeforeConversionDriverHandler
     public function getTypeFromExtension(string $extension)
     {
         foreach ($this->drivers as $driver) {
-            if (!$driver->fileExtensionIsType($extension)) {
+            if (! $driver->fileExtensionIsType($extension)) {
                 continue;
             }
 
             return $driver->getMediaType();
         }
-
-        return ($this->model)::TYPE_OTHER;
     }
 
     public function getTypeFromMime(string $mime)
     {
         foreach ($this->drivers as $driver) {
-            if (!$driver->fileMimeIsType($mime)) {
+            if (! $driver->fileMimeIsType($mime)) {
                 continue;
             }
 
             return $driver->getMediaType();
         }
-
-        return null;
     }
 
     public function getDrivers()

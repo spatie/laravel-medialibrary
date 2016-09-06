@@ -42,7 +42,7 @@ class PdfDriver implements BeforeConversionDriver
      */
     public function convertToImage(string $file, Conversion $conversion) : string
     {
-        $imageFile = pathinfo($file, PATHINFO_DIRNAME) . '/' . pathinfo($file, PATHINFO_FILENAME) . '.jpg';
+        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
         (new Pdf($file))->saveImage($imageFile);
 

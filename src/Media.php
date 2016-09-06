@@ -79,7 +79,7 @@ class Media extends Model
     }
 
     /**
-     * Collection of all BeforeConversion drivers
+     * Collection of all BeforeConversion drivers.
      */
     public function getBeforeConversionDrivers() : Collection
     {

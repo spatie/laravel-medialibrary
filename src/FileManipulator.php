@@ -27,7 +27,7 @@ class FileManipulator
         $conversionDriverHandler = app(BeforeConversionDriverHandler::class);
 
         // If the media doesn't have any driver
-        if (!$conversionDriverHandler->mediaHasDriver($media)) {
+        if (! $conversionDriverHandler->mediaHasDriver($media)) {
             return;
         }
 
