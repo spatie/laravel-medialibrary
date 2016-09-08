@@ -138,11 +138,13 @@ class BeforeConversionTest extends TestCase
     /** @test */
     public function it_has_a_working_video_driver()
     {
-        if (! class_exists('\\FFMpeg\\FFMpeg')) {
+        $driver = new VideoDriver();
+
+        if (!$driver->hasRequirements()) {
             return;
         }
 
-        $imageFile = (new VideoDriver())->convertToImage($this->getTestWebm(), $this->conversion);
+        $imageFile = $driver->convertToImage($this->getTestWebm(), $this->conversion);
 
         $this->assertEquals(str_replace('.webm', '.jpg', $this->getTestWebm()), $imageFile);
         $this->assertEquals('image/jpeg', mime_content_type($imageFile));
@@ -151,7 +153,13 @@ class BeforeConversionTest extends TestCase
     /** @test */
     public function it_has_a_working_pdf_driver()
     {
-        $imageFile = (new PdfDriver())->convertToImage($this->getTestPdf(), $this->conversion);
+        $driver = new PdfDriver();
+
+        if (!$driver->hasRequirements()) {
+            return;
+        }
+
+        $imageFile = $driver->convertToImage($this->getTestPdf(), $this->conversion);
 
         $this->assertEquals(str_replace('.pdf', '.jpg', $this->getTestPdf()), $imageFile);
         $this->assertEquals('image/jpeg', mime_content_type($imageFile));
@@ -160,7 +168,13 @@ class BeforeConversionTest extends TestCase
     /** @test */
     public function it_has_a_working_svg_driver()
     {
-        $imageFile = (new SvgDriver())->convertToImage($this->getTestSvg(), $this->conversion);
+        $driver = new SvgDriver();
+
+        if (!$driver->hasRequirements()) {
+            return;
+        }
+
+        $imageFile = $driver->convertToImage($this->getTestSvg(), $this->conversion);
 
         $this->assertEquals(str_replace('.svg', '.png', $this->getTestSvg()), $imageFile);
         $this->assertEquals('image/png', mime_content_type($imageFile));
