@@ -140,7 +140,7 @@ class BeforeConversionTest extends TestCase
     {
         $driver = new VideoDriver();
 
-        if (!$driver->hasRequirements()) {
+        if (! $driver->hasRequirements()) {
             return;
         }
 
@@ -155,7 +155,7 @@ class BeforeConversionTest extends TestCase
     {
         $driver = new PdfDriver();
 
-        if (!$driver->hasRequirements()) {
+        if (! $driver->hasRequirements()) {
             return;
         }
 
@@ -170,7 +170,7 @@ class BeforeConversionTest extends TestCase
     {
         $driver = new SvgDriver();
 
-        if (!$driver->hasRequirements()) {
+        if (! $driver->hasRequirements()) {
             return;
         }
 
