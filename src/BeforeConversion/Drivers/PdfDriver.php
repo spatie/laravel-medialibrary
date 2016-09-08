@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\BeforeConversion\Drivers;
 
 use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriver;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\PdfToImage\Pdf;
 
 class PdfDriver implements BeforeConversionDriver
 {
@@ -34,7 +33,7 @@ class PdfDriver implements BeforeConversionDriver
 
     public function hasRequirements() : bool
     {
-        return class_exists('Imagick');
+        return class_exists('Imagick') && class_exists('\\Spatie\\PdfToImage\\Pdf');
     }
 
     /**
@@ -44,7 +43,7 @@ class PdfDriver implements BeforeConversionDriver
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        (new Pdf($file))->saveImage($imageFile);
+        (new \Spatie\PdfToImage\Pdf($file))->saveImage($imageFile);
 
         return $imageFile;
     }
