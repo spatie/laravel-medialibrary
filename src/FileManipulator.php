@@ -3,14 +3,13 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Facades\File;
-use ImagickPixel;
 use Spatie\Glide\GlideImage;
+use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriverHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
-use Spatie\PdfToImage\Pdf;
 
 class FileManipulator
 {
@@ -25,17 +24,20 @@ class FileManipulator
             return;
         }
 
-        if ($media->type === Media::TYPE_VIDEO && ! class_exists('\\FFMpeg\\FFMpeg')) {
-            return;
-        }
+        $conversionDriverHandler = app(BeforeConversionDriverHandler::class);
 
-        if (in_array($media->type, [Media::TYPE_PDF, Media::TYPE_SVG]) && ! class_exists('Imagick')) {
+        // If the media doesn't have any driver
+        if (! $conversionDriverHandler->mediaHasDriver($media)) {
             return;
         }
 
         $profileCollection = ConversionCollection::createForMedia($media);
 
-        $this->performConversions($profileCollection->getNonQueuedConversions($media->collection_name), $media);
+        $this->performConversions(
+            $profileCollection->getNonQueuedConversions($media->collection_name),
+            $media,
+            $conversionDriverHandler->getDriverForMedia($media)
+        );
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
@@ -47,10 +49,11 @@ class FileManipulator
     /**
      * Perform the given conversions for the given media.
      *
-     * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
-     * @param \Spatie\MediaLibrary\Media                           $media
+     * @param \Spatie\MediaLibrary\Conversion\ConversionCollection         $conversions
+     * @param \Spatie\MediaLibrary\Media                                   $media
+     * @param \Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriver $driver
      */
-    public function performConversions(ConversionCollection $conversions, Media $media)
+    public function performConversions(ConversionCollection $conversions, Media $media, $driver)
     {
         $tempDirectory = $this->createTempDirectory();
 
@@ -58,18 +61,8 @@ class FileManipulator
 
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
-        if ($media->type == Media::TYPE_PDF) {
-            $copiedOriginalFile = $this->convertPdfToImage($copiedOriginalFile);
-        }
-
-        if ($media->type == Media::TYPE_SVG) {
-            $copiedOriginalFile = $this->convertSvgToImage($copiedOriginalFile);
-        }
-
         foreach ($conversions as $conversion) {
-            if ($media->type == Media::TYPE_VIDEO) {
-                $copiedOriginalFile = $this->extractVideoThumbnail($copiedOriginalFile, $conversion);
-            }
+            $copiedOriginalFile = $driver->convertToImage($copiedOriginalFile, $conversion);
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
@@ -119,45 +112,6 @@ class FileManipulator
         File::makeDirectory($tempDirectory, 493, true);
 
         return $tempDirectory;
-    }
-
-    public function extractVideoThumbnail(string $videoFile, Conversion $conversion) : string
-    {
-        $imageFile = pathinfo($videoFile, PATHINFO_DIRNAME).'/'.pathinfo($videoFile, PATHINFO_FILENAME).'.jpg';
-
-        $ffmpeg = \FFMpeg\FFMpeg::create([
-            'ffmpeg.binaries' => config('laravel-medialibrary.ffmpeg_binaries'),
-            'ffprobe.binaries' => config('laravel-medialibrary.ffprobe_binaries'),
-        ]);
-        $video = $ffmpeg->open($videoFile);
-
-        $frame = $video->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds($conversion->getExtractVideoFrameAtSecond()));
-        $frame->save($imageFile);
-
-        return $imageFile;
-    }
-
-    public function convertPdfToImage(string $pdfFile) : string
-    {
-        $imageFile = pathinfo($pdfFile, PATHINFO_DIRNAME).'/'.pathinfo($pdfFile, PATHINFO_FILENAME).'.jpg';
-
-        (new Pdf($pdfFile))->saveImage($imageFile);
-
-        return $imageFile;
-    }
-
-    public function convertSvgToImage(string $svgFile) : string
-    {
-        $imageFile = pathinfo($svgFile, PATHINFO_DIRNAME).'/'.pathinfo($svgFile, PATHINFO_FILENAME).'.png';
-
-        $image = new \Imagick();
-        $image->readImage($svgFile);
-        $image->setBackgroundColor(new ImagickPixel('none'));
-        $image->setImageFormat('png32');
-
-        file_put_contents($imageFile, $image);
-
-        return $imageFile;
     }
 
     /*

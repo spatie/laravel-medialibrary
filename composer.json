@@ -25,7 +25,6 @@
     "illuminate/database": "~5.1.16|~5.2.0|~5.3.0",
     "illuminate/support": "~5.1.16|~5.2.0|~5.3.0",
     "spatie/laravel-glide": "^3.0.0",
-    "spatie/pdf-to-image": "^1.0.1",
     "spatie/string": "^2.0.0"
   },
   "require-dev": {
@@ -37,10 +36,12 @@
     "doctrine/dbal": "^2.5.2"
   },
   "conflict": {
-    "php-ffmpeg/php-ffmpeg": "<0.6.1"
+    "php-ffmpeg/php-ffmpeg": "<0.6.1",
+    "spatie/pdf-to-image": "<1.0.0"
   },
   "suggest": {
-    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
+    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails",
+    "spatie/pdf-to-image": "Required for generating Pdf thumbnails"
   },
   "autoload": {
     "psr-4": {

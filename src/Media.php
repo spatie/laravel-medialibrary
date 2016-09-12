@@ -3,6 +3,8 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriverHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
@@ -13,10 +15,6 @@ class Media extends Model
     use SortableTrait;
 
     const TYPE_OTHER = 'other';
-    const TYPE_IMAGE = 'image';
-    const TYPE_VIDEO = 'video';
-    const TYPE_SVG = 'svg';
-    const TYPE_PDF = 'pdf';
 
     protected $guarded = ['id', 'disk', 'file_name', 'size', 'model_type', 'model_id'];
 
@@ -81,6 +79,19 @@ class Media extends Model
     }
 
     /**
+     * Collection of all BeforeConversion drivers.
+     */
+    public function getBeforeConversionDrivers() : Collection
+    {
+        return collect([
+            \Spatie\MediaLibrary\BeforeConversion\Drivers\ImageDriver::class,
+            \Spatie\MediaLibrary\BeforeConversion\Drivers\PdfDriver::class,
+            \Spatie\MediaLibrary\BeforeConversion\Drivers\SvgDriver::class,
+            \Spatie\MediaLibrary\BeforeConversion\Drivers\VideoDriver::class,
+        ]);
+    }
+
+    /**
      * Determine the type of a file.
      *
      * @return string
@@ -104,23 +115,7 @@ class Media extends Model
     {
         $extension = strtolower($this->extension);
 
-        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif'])) {
-            return static::TYPE_IMAGE;
-        }
-
-        if (in_array($extension, ['webm', 'mov', 'mp4'])) {
-            return static::TYPE_VIDEO;
-        }
-
-        if ($extension == 'pdf') {
-            return static::TYPE_PDF;
-        }
-
-        if ($extension == 'svg') {
-            return static::TYPE_SVG;
-        }
-
-        return static::TYPE_OTHER;
+        return app(BeforeConversionDriverHandler::class)->getTypeFromExtension($extension) ?? static::TYPE_OTHER;
     }
 
     /*
@@ -134,23 +129,7 @@ class Media extends Model
 
         $mime = $this->getMimeAttribute();
 
-        if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
-            return static::TYPE_IMAGE;
-        }
-
-        if (in_array($mime, ['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime'])) {
-            return static::TYPE_VIDEO;
-        }
-
-        if ($mime === 'application/pdf') {
-            return static::TYPE_PDF;
-        }
-
-        if ($mime === 'image/svg+xml') {
-            return static::TYPE_SVG;
-        }
-
-        return static::TYPE_OTHER;
+        return app(BeforeConversionDriverHandler::class)->getTypeFromMime($mime) ?? static::TYPE_OTHER;
     }
 
     public function getMimeAttribute() : string
