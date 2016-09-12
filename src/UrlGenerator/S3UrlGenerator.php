@@ -13,4 +13,16 @@ class S3UrlGenerator extends BaseUrlGenerator
     {
         return config('laravel-medialibrary.s3.domain').'/'.$this->getPathRelativeToRoot();
     }
+    
+    /**
+     * Get the relative path for the profile of a media item.
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeDeterminedException
+     */
+    public function getPath()
+    {
+        return $this->getPathRelativeToRoot();
+    }  
 }
