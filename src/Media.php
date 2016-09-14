@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Storage;
 
 class Media extends Model
 {
@@ -128,11 +129,7 @@ class Media extends Model
      */
     public function getTypeFromMimeAttribute() : string
     {
-        if ($this->getDiskDriverName() !== 'local') {
-            return static::TYPE_OTHER;
-        }
-
-        $mime = $this->getMimeAttribute();
+        $mime = Storage::disk($this->disk)->getMimetype($this->getPath());
 
         if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
             return static::TYPE_IMAGE;
