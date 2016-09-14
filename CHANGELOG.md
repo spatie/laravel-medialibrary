@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.8.4 - 2016-09-15
+- encode urls to media
+
 ## 4.8.3 - 2016-08-25
 -  fix svg and pdf file path when performing conversions
 
