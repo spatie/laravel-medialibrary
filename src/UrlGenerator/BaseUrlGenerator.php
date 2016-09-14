@@ -79,7 +79,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
     public function getPathRelativeToRoot() : string
     {
         if (is_null($this->conversion)) {
-            return $this->pathGenerator->getPath($this->media).$this->media->file_name;
+            return $this->pathGenerator->getPath($this->media).rawurlencode($this->media->file_name);
         }
 
         return $this->pathGenerator->getPathForConversions($this->media)
