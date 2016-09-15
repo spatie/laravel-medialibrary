@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\BeforeConversion\Drivers;
+namespace Spatie\MediaLibrary\ImageGenerator\Drivers;
 
-use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriver;
+use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
-class ImageDriver implements BeforeConversionDriver
+class ImageDriver implements ImageGenerator
 {
     /**
      * Return the name of the media type handled by the driver.
@@ -17,6 +17,10 @@ class ImageDriver implements BeforeConversionDriver
 
     /**
      * Verify that a file is this driver media type using it's extension.
+     *
+     * @param string $extension
+     *
+     * @return bool
      */
     public function fileExtensionIsType(string $extension) : bool
     {
@@ -25,6 +29,10 @@ class ImageDriver implements BeforeConversionDriver
 
     /**
      * Verify that a file is this driver media type using it's mime.
+     *
+     * @param string $mime
+     *
+     * @return bool
      */
     public function fileMimeIsType(string $mime) : bool
     {
@@ -38,6 +46,11 @@ class ImageDriver implements BeforeConversionDriver
 
     /**
      * Image do not need any before conversion processing.
+     * @param string $file
+     *
+     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
+     *
+     * @return string
      */
     public function convertToImage(string $file, Conversion $conversion) : string
     {

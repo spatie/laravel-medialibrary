@@ -2,17 +2,17 @@
 
 namespace Spatie\MediaLibrary\Test\Conversion;
 
-use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriver;
-use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriverHandler;
-use Spatie\MediaLibrary\BeforeConversion\Drivers\ImageDriver;
-use Spatie\MediaLibrary\BeforeConversion\Drivers\PdfDriver;
-use Spatie\MediaLibrary\BeforeConversion\Drivers\SvgDriver;
-use Spatie\MediaLibrary\BeforeConversion\Drivers\VideoDriver;
+use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
+use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\ImageDriver;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\PdfDriver;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\SvgDriver;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\VideoDriver;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 
-class BeforeConversionTest extends TestCase
+class ImageGeneratorTest extends TestCase
 {
     protected $conversionName = 'test';
 
@@ -31,7 +31,7 @@ class BeforeConversionTest extends TestCase
     /** @test */
     public function it_has_the_required_drivers()
     {
-        $mediaModelDrivers = (new Media())->getBeforeConversionDrivers();
+        $mediaModelDrivers = (new Media())->getImageGenerators();
 
         $this->assertContains(ImageDriver::class, $mediaModelDrivers);
         $this->assertContains(PdfDriver::class, $mediaModelDrivers);
@@ -42,8 +42,8 @@ class BeforeConversionTest extends TestCase
     /** @test */
     public function it_instantiate_the_required_drivers()
     {
-        $mediaModelDrivers = (new Media())->getBeforeConversionDrivers();
-        $instanciatedDrivers = app(BeforeConversionDriverHandler::class)->getDrivers();
+        $mediaModelDrivers = (new Media())->getImageGenerators();
+        $instanciatedDrivers = app(ImageGeneratorHandler::class)->getDrivers();
 
         $this->assertEquals($mediaModelDrivers->count(), $instanciatedDrivers->count());
 
@@ -56,10 +56,10 @@ class BeforeConversionTest extends TestCase
     /** @test */
     public function it_implements_the_before_conversion_driver_interface()
     {
-        $instanciatedDrivers = app(BeforeConversionDriverHandler::class)->getDrivers();
+        $instanciatedDrivers = app(ImageGeneratorHandler::class)->getDrivers();
 
         foreach ($instanciatedDrivers as $driver) {
-            $this->assertContains(BeforeConversionDriver::class, class_implements($driver));
+            $this->assertContains(ImageGenerator::class, class_implements($driver));
         }
     }
 

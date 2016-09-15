@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
-use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriverHandler;
+use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
@@ -24,7 +24,7 @@ class FileManipulator
             return;
         }
 
-        $conversionDriverHandler = app(BeforeConversionDriverHandler::class);
+        $conversionDriverHandler = app(ImageGeneratorHandler::class);
 
         // If the media doesn't have any driver
         if (! $conversionDriverHandler->mediaHasDriver($media)) {
@@ -51,7 +51,7 @@ class FileManipulator
      *
      * @param \Spatie\MediaLibrary\Conversion\ConversionCollection         $conversions
      * @param \Spatie\MediaLibrary\Media                                   $media
-     * @param \Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriver $driver
+     * @param \Spatie\MediaLibrary\ImageGenerator\ImageGenerator $driver
      */
     public function performConversions(ConversionCollection $conversions, Media $media, $driver)
     {

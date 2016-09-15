@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\BeforeConversion\Drivers;
+namespace Spatie\MediaLibrary\ImageGenerator\Drivers;
 
 use ImagickPixel;
-use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriver;
+use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
-class SvgDriver implements BeforeConversionDriver
+class SvgDriver implements ImageGenerator
 {
     /**
      * Return the name of the media type handled by the driver.

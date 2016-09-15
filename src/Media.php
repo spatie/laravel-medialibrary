@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\BeforeConversion\BeforeConversionDriverHandler;
+use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
@@ -79,15 +79,15 @@ class Media extends Model
     }
 
     /**
-     * Collection of all BeforeConversion drivers.
+     * Collection of all ImageGenerator drivers.
      */
-    public function getBeforeConversionDrivers() : Collection
+    public function getImageGenerators() : Collection
     {
         return collect([
-            \Spatie\MediaLibrary\BeforeConversion\Drivers\ImageDriver::class,
-            \Spatie\MediaLibrary\BeforeConversion\Drivers\PdfDriver::class,
-            \Spatie\MediaLibrary\BeforeConversion\Drivers\SvgDriver::class,
-            \Spatie\MediaLibrary\BeforeConversion\Drivers\VideoDriver::class,
+            \Spatie\MediaLibrary\ImageGenerator\Drivers\ImageDriver::class,
+            \Spatie\MediaLibrary\ImageGenerator\Drivers\PdfDriver::class,
+            \Spatie\MediaLibrary\ImageGenerator\Drivers\SvgDriver::class,
+            \Spatie\MediaLibrary\ImageGenerator\Drivers\VideoDriver::class,
         ]);
     }
 
@@ -115,7 +115,7 @@ class Media extends Model
     {
         $extension = strtolower($this->extension);
 
-        return app(BeforeConversionDriverHandler::class)->getTypeFromExtension($extension) ?? static::TYPE_OTHER;
+        return app(ImageGeneratorHandler::class)->getTypeFromExtension($extension) ?? static::TYPE_OTHER;
     }
 
     /*
@@ -129,7 +129,7 @@ class Media extends Model
 
         $mime = $this->getMimeAttribute();
 
-        return app(BeforeConversionDriverHandler::class)->getTypeFromMime($mime) ?? static::TYPE_OTHER;
+        return app(ImageGeneratorHandler::class)->getTypeFromMime($mime) ?? static::TYPE_OTHER;
     }
 
     public function getMimeAttribute() : string

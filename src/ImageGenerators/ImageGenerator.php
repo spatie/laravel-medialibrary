@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\BeforeConversion;
+namespace Spatie\MediaLibrary\ImageGenerator;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
 
-interface BeforeConversionDriver
+interface ImageGenerator
 {
     /**
      * Return the name of the media type handled by the driver.
@@ -13,11 +13,19 @@ interface BeforeConversionDriver
 
     /**
      * Verify that a file is this driver media type using it's extension.
+     *
+     * @param string $extension
+     *
+     * @return bool
      */
     public function fileExtensionIsType(string $extension) : bool;
 
     /**
      * Verify that a file is this driver media type using it's mime.
+     *
+     * @param string $mime
+     *
+     * @return bool
      */
     public function fileMimeIsType(string $mime) : bool;
 
@@ -28,6 +36,11 @@ interface BeforeConversionDriver
 
     /**
      * Receive a file of type X and return a thumbnail in jpg/png format.
+     *
+     * @param string $file
+     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
+     *
+     * @return string
      */
     public function convertToImage(string $file, Conversion $conversion) : string;
 }

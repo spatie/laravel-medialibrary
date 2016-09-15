@@ -1,22 +1,24 @@
 <?php
 
-namespace Spatie\MediaLibrary\BeforeConversion;
+namespace Spatie\MediaLibrary\ImageGenerator;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Media;
 
-class BeforeConversionDriverHandler
+class ImageGeneratorHandler
 {
+    /** @var \Spatie\MediaLibrary\Media */
     protected $model;
 
     /**
-     * BeforeConversionDriver[]|Collection.
+     * ImageGenerator[]|Collection.
      */
     protected $drivers;
 
     public function __construct(Media $model)
     {
         $this->model = $model;
+
         $this->drivers = $this->bindDrivers();
     }
 
@@ -25,7 +27,7 @@ class BeforeConversionDriverHandler
      */
     private function bindDrivers() : Collection
     {
-        return $this->model->getBeforeConversionDrivers()->map(function ($driver) {
+        return $this->model->getImageGenerators()->map(function ($driver) {
             app()->singleton($driver);
 
             return app($driver);
@@ -36,6 +38,7 @@ class BeforeConversionDriverHandler
 
     public function getTypeFromExtension(string $extension)
     {
+
         foreach ($this->drivers as $driver) {
             if (! $driver->fileExtensionIsType($extension)) {
                 continue;
@@ -66,6 +69,11 @@ class BeforeConversionDriverHandler
         return $this->drivers->has($media->type) && $this->drivers->get($media->type)->hasRequirements();
     }
 
+    /**
+     * @param \Spatie\MediaLibrary\Media $media
+     *
+     * @return \Spatie\MediaLibrary\ImageGenerator\ImageGenerator|null
+     */
     public function getDriverForMedia(Media $media)
     {
         return $this->drivers->get($media->type);
