@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ImageGenerators;
 
+use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 
 abstract class BaseGenerator implements ImageGenerator
@@ -21,10 +22,6 @@ abstract class BaseGenerator implements ImageGenerator
         }
 
         if ($this->supportedMimetypes()->contains(File::getMimetype($path))) {
-            return true;
-        }
-
-        if ($this->supportedTypes()->contains($media->type)) {
             return true;
         }
 

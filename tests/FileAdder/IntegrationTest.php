@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Test\FileAdder;
 
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Image;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -103,7 +104,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel->addMedia($this->getTestFilesDirectory('image'))->toMediaLibrary();
 
-        $this->assertEquals((new Image)->getMediaType(), $media->type);
+        $this->assertEquals(Media::TYPE_IMAGE, $media->type);
     }
 
     /** @test */

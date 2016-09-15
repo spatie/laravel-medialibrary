@@ -147,10 +147,20 @@ class Media extends Model
         if ($this->getDiskDriverName() !== 'local') {
             return static::TYPE_OTHER;
         }
-
         $mime = $this->getMimeAttribute();
-
-        return app(ImageGeneratorHandler::class)->getTypeFromMime($mime) ?? static::TYPE_OTHER;
+        if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
+            return static::TYPE_IMAGE;
+        }
+        if (in_array($mime, ['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime'])) {
+            return static::TYPE_VIDEO;
+        }
+        if ($mime === 'application/pdf') {
+            return static::TYPE_PDF;
+        }
+        if ($mime === 'image/svg+xml') {
+            return static::TYPE_SVG;
+        }
+        return static::TYPE_OTHER;
     }
 
     public function getMimeAttribute() : string
