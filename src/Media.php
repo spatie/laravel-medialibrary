@@ -9,7 +9,6 @@ use Spatie\MediaLibrary\ImageGenerator\FileTypes\Pdf;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Svg;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Video;
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
-use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
@@ -126,7 +125,7 @@ class Media extends Model
             ->map(function (string $className) {
                 return app($className);
             })
-            ->first(function(ImageGenerator $imageGenerator) {
+            ->first(function (ImageGenerator $imageGenerator) {
                 return $imageGenerator->canHandleExtension(strtolower($this->extension));
             });
 
@@ -146,12 +145,11 @@ class Media extends Model
             ->map(function (string $className) {
                 return app($className);
             })
-            ->first(function(ImageGenerator $imageGenerator) {
+            ->first(function (ImageGenerator $imageGenerator) {
                 return $imageGenerator->canHandleMime($this->getMimeAttribute());
             });
 
         return $imageGenerator ? $imageGenerator->getType() : static::TYPE_OTHER;
-
     }
 
     public function getMimeAttribute() : string
