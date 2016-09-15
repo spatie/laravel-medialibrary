@@ -58,7 +58,6 @@ class FileManipulator
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         foreach ($conversions as $conversion) {
-
             $copiedOriginalFile = $imageGenerator->convertToImage($copiedOriginalFile, $conversion);
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
