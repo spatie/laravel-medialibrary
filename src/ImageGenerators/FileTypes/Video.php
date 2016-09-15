@@ -35,7 +35,7 @@ class Video extends BaseGenerator
     {
         return collect(['webm', 'mov', 'mp4']);
     }
-    
+
     public function supportedMimeTypes() : Collection
     {
         return collect(['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime']);
