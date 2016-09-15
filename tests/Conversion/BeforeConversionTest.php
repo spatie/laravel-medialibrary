@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 
-class ImageGeneratorTest extends TestCase
+class BeforeConversionTest extends TestCase
 {
     protected $conversionName = 'test';
 
