@@ -3,21 +3,24 @@
 namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
-use Spatie\MediaLibrary\Media;
 
 abstract class BaseGenerator implements ImageGenerator
 {
-    public function canConvert(Media $media): bool
+    public function canConvert(string $path): bool
     {
+        if (! file_exists($path)) {
+            return false;
+        }
+
         if (! $this->areRequirementsInstalled()) {
             return false;
         }
 
-        if ($this->supportedExtensions()->contains($media->extension)) {
+        if ($this->supportedExtensions()->contains(pathinfo($path, PATHINFO_EXTENSION))) {
             return true;
         }
 
-        if ($this->supportedMimetypes()->contains($media->mime)) {
+        if ($this->supportedMimetypes()->contains(File::getMimetype($path))) {
             return true;
         }
 

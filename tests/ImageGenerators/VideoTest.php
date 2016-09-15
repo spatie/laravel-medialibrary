@@ -18,9 +18,9 @@ class VideoTest extends TestCase
 
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestWebm())->toMediaLibrary();
 
-        $this->assertTrue($imageGenerator->canConvert($media));
+        $this->assertTrue($imageGenerator->canConvert($media->getPath()));
 
-        $imageFile = $imageGenerator->convert($media);
+        $imageFile = $imageGenerator->convert($media->getPath());
 
         $this->assertEquals('image/jpeg', mime_content_type($imageFile));
 

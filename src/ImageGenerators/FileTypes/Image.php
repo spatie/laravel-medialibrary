@@ -5,13 +5,12 @@ namespace Spatie\MediaLibrary\ImageGenerator\FileTypes;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
-use Spatie\MediaLibrary\Media;
 
 class Image extends BaseGenerator
 {
-    public function convert(Media $media, Conversion $conversion = null) : string
+    public function convert(string $path, Conversion $conversion = null) : string
     {
-        return $media->getPath();
+        return $path;
     }
 
     public function areRequirementsInstalled() : bool

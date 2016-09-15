@@ -21,12 +21,13 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
+
         $imageGenerator = $media->getImageGenerators()
             ->map(function (string $imageGeneratorClassName) {
                 return app($imageGeneratorClassName);
             })
             ->first(function (ImageGenerator $imageGenerator) use ($media) {
-                $imageGenerator->canConvert($media);
+                return $imageGenerator->canConvert($media->getPath());
             });
 
         if (!$imageGenerator) {

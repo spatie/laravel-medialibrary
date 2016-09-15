@@ -4,11 +4,10 @@ namespace Spatie\MediaLibrary\ImageGenerator\FileTypes;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
-use Spatie\MediaLibrary\Media;
 
 class Video extends BaseGenerator
 {
-    public function convert(Media $media, Conversion $conversion = null) : string
+    public function convert(string $file, Conversion $conversion = null) : string
     {
         $file = $media->getPath();
 
