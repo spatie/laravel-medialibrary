@@ -13,33 +13,33 @@ class ImageGeneratorHandler
     /**
      * ImageGenerator[]|Collection.
      */
-    protected $drivers;
+    protected $imageGenerators;
 
     public function __construct(Media $model)
     {
         $this->model = $model;
 
-        $this->drivers = $this->bindDrivers();
+        $this->imageGenerators = $this->bindImageGenerators();
     }
 
     /**
      * Register each drivers in the service container as a singleton.
      */
-    private function bindDrivers() : Collection
+    private function bindImageGenerators() : Collection
     {
-        return $this->model->getImageGenerators()->map(function ($driver) {
-            app()->singleton($driver);
+        return $this->model->getImageGenerators()->map(function ($imageGenerator) {
+            app()->singleton($imageGenerator);
 
-            return app($driver);
-        })->keyBy(function ($driver) {
-            return $driver->getMediaType();
+            return app($imageGenerator);
+        })->keyBy(function ($imageGenerator) {
+            return $imageGenerator->getMediaType();
         });
     }
 
     public function getTypeFromExtension(string $extension)
     {
 
-        foreach ($this->drivers as $driver) {
+        foreach ($this->imageGenerators as $driver) {
             if (! $driver->fileExtensionIsType($extension)) {
                 continue;
             }
@@ -50,7 +50,7 @@ class ImageGeneratorHandler
 
     public function getTypeFromMime(string $mime)
     {
-        foreach ($this->drivers as $driver) {
+        foreach ($this->imageGenerators as $driver) {
             if (! $driver->fileMimeIsType($mime)) {
                 continue;
             }
@@ -59,14 +59,14 @@ class ImageGeneratorHandler
         }
     }
 
-    public function getDrivers()
+    public function getImageGenerators()
     {
-        return $this->drivers;
+        return $this->imageGenerators;
     }
 
     public function mediaHasDriver(Media $media) : bool
     {
-        return $this->drivers->has($media->type) && $this->drivers->get($media->type)->hasRequirements();
+        return $this->imageGenerators->has($media->type) && $this->imageGenerators->get($media->type)->hasRequirements();
     }
 
     /**
@@ -76,6 +76,6 @@ class ImageGeneratorHandler
      */
     public function getDriverForMedia(Media $media)
     {
-        return $this->drivers->get($media->type);
+        return $this->imageGenerators->get($media->type);
     }
 }

@@ -43,7 +43,7 @@ class ImageGeneratorTest extends TestCase
     public function it_instantiate_the_required_drivers()
     {
         $mediaModelDrivers = (new Media())->getImageGenerators();
-        $instanciatedDrivers = app(ImageGeneratorHandler::class)->getDrivers();
+        $instanciatedDrivers = app(ImageGeneratorHandler::class)->getImageGenerators();
 
         $this->assertEquals($mediaModelDrivers->count(), $instanciatedDrivers->count());
 
@@ -56,7 +56,7 @@ class ImageGeneratorTest extends TestCase
     /** @test */
     public function it_implements_the_before_conversion_driver_interface()
     {
-        $instanciatedDrivers = app(ImageGeneratorHandler::class)->getDrivers();
+        $instanciatedDrivers = app(ImageGeneratorHandler::class)->getImageGenerators();
 
         foreach ($instanciatedDrivers as $driver) {
             $this->assertContains(ImageGenerator::class, class_implements($driver));
