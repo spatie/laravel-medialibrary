@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\ImageGenerator\FileTypes\Image;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Pdf;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Svg;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Video;
+use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
@@ -121,22 +122,15 @@ class Media extends Model
      */
     public function getTypeFromExtensionAttribute()
     {
-        $extension = strtolower($this->extension);
+        $type = $this->getImageGenerators()
+            ->map(function (string $className) {
+                return app($className);
+            })
+            ->first(function(ImageGenerator $imageGenerator) {
+                return $imageGenerator->canHandleExtension(strtolower($this->extension));
+            });
 
-        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif'])) {
-            return static::TYPE_IMAGE;
-        }
-        if (in_array($extension, ['webm', 'mov', 'mp4'])) {
-            return static::TYPE_VIDEO;
-        }
-        if ($extension == 'pdf') {
-            return static::TYPE_PDF;
-        }
-        if ($extension == 'svg') {
-            return static::TYPE_SVG;
-        }
-
-        return static::TYPE_OTHER;
+        return $type ?? static::TYPE_OTHER;
     }
 
     /*
@@ -147,20 +141,17 @@ class Media extends Model
         if ($this->getDiskDriverName() !== 'local') {
             return static::TYPE_OTHER;
         }
-        $mime = $this->getMimeAttribute();
-        if (in_array($mime, ['image/jpeg', 'image/gif', 'image/png'])) {
-            return static::TYPE_IMAGE;
-        }
-        if (in_array($mime, ['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime'])) {
-            return static::TYPE_VIDEO;
-        }
-        if ($mime === 'application/pdf') {
-            return static::TYPE_PDF;
-        }
-        if ($mime === 'image/svg+xml') {
-            return static::TYPE_SVG;
-        }
-        return static::TYPE_OTHER;
+
+        $type = $this->getImageGenerators()
+            ->map(function (string $className) {
+                return app($className);
+            })
+            ->first(function(ImageGenerator $imageGenerator) {
+                return $imageGenerator->canHandleMime($this->getMimeAttribute());
+            });
+
+        return $type ?? static::TYPE_OTHER;
+
     }
 
     public function getMimeAttribute() : string
@@ -195,7 +186,7 @@ class Media extends Model
      * Get if the value of custom property with the given name.
      *
      * @param string $propertyName
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
@@ -206,7 +197,7 @@ class Media extends Model
 
     /**
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function setCustomProperty(string $name, $value)
     {

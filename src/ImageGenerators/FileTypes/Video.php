@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ImageGenerator\FileTypes;
 
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
 
@@ -34,13 +35,11 @@ class Video extends BaseGenerator
     {
         return collect(['webm', 'mov', 'mp4']);
     }
-
-
+    
     public function supportedMimeTypes() : Collection
     {
         return collect(['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime']);
     }
-
 
     public function supportedTypes() : Collection
     {

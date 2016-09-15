@@ -27,4 +27,19 @@ abstract class BaseGenerator implements ImageGenerator
 
         return false;
     }
+
+    public function canHandleMime(string $mime = ''): bool
+    {
+        return $this->supportedMimetypes()->contains($mime);
+    }
+
+    public function canHandleExtension(string $extension = ''): bool
+    {
+        return $this->supportedExtensions()->contains($extension);
+    }
+
+    public function getType(): string
+    {
+        return strtolower(class_basename(static::class));
+    }
 }

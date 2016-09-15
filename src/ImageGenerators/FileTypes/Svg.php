@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ImageGenerator\FileTypes;
 
+use Illuminate\Support\Collection;
 use ImagickPixel;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
