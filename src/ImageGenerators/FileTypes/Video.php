@@ -17,6 +17,10 @@ class Video implements ImageGenerator
 
     /**
      * Verify that a file is this driver media type using it's extension.
+     *
+     * @param string $extension
+     *
+     * @return bool
      */
     public function fileExtensionIsType(string $extension) : bool
     {
@@ -25,6 +29,10 @@ class Video implements ImageGenerator
 
     /**
      * Verify that a file is this driver media type using it's mime.
+     *
+     * @param string $mime
+     *
+     * @return bool
      */
     public function fileMimeIsType(string $mime) : bool
     {
@@ -38,6 +46,11 @@ class Video implements ImageGenerator
 
     /**
      * Receive a file of any video type and return a thumbnail in jpg.
+     *
+     * @param string $file
+     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
+     *
+     * @return string
      */
     public function convertToImage(string $file, Conversion $conversion) : string
     {
