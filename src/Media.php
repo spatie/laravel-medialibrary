@@ -122,7 +122,7 @@ class Media extends Model
      */
     public function getTypeFromExtensionAttribute()
     {
-        $type = $this->getImageGenerators()
+        $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
             })
@@ -130,7 +130,7 @@ class Media extends Model
                 return $imageGenerator->canHandleExtension(strtolower($this->extension));
             });
 
-        return $type ?? static::TYPE_OTHER;
+        return $imageGenerator ? $imageGenerator->getType() : static::TYPE_OTHER;
     }
 
     /*
@@ -142,7 +142,7 @@ class Media extends Model
             return static::TYPE_OTHER;
         }
 
-        $type = $this->getImageGenerators()
+        $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
             })
@@ -150,7 +150,7 @@ class Media extends Model
                 return $imageGenerator->canHandleMime($this->getMimeAttribute());
             });
 
-        return $type ?? static::TYPE_OTHER;
+        return $imageGenerator ? $imageGenerator->getType() : static::TYPE_OTHER;
 
     }
 
