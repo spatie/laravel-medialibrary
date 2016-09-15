@@ -19,6 +19,10 @@ class Media extends Model
     use SortableTrait;
 
     const TYPE_OTHER = 'other';
+    const TYPE_IMAGE = 'image';
+    const TYPE_VIDEO = 'video';
+    const TYPE_SVG = 'svg';
+    const TYPE_PDF = 'pdf';
 
     protected $guarded = ['id', 'disk', 'file_name', 'size', 'model_type', 'model_id'];
 
@@ -119,7 +123,20 @@ class Media extends Model
     {
         $extension = strtolower($this->extension);
 
-        return app(ImageGeneratorHandler::class)->getTypeFromExtension($extension) ?? static::TYPE_OTHER;
+        if (in_array($extension, ['png', 'jpg', 'jpeg', 'gif'])) {
+            return static::TYPE_IMAGE;
+        }
+        if (in_array($extension, ['webm', 'mov', 'mp4'])) {
+            return static::TYPE_VIDEO;
+        }
+        if ($extension == 'pdf') {
+            return static::TYPE_PDF;
+        }
+        if ($extension == 'svg') {
+            return static::TYPE_SVG;
+        }
+
+        return static::TYPE_OTHER;
     }
 
     /*

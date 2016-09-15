@@ -43,10 +43,6 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $mediaClass = config('laravel-medialibrary.media_model');
         $mediaClass::observe(new MediaObserver());
-
-        $this->app->singleton(ImageGeneratorHandler::class, function ($app) use ($mediaClass) {
-            return new ImageGeneratorHandler(new $mediaClass);
-        });
     }
 
     /**

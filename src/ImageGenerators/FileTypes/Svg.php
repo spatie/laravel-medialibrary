@@ -3,45 +3,16 @@
 namespace Spatie\MediaLibrary\ImageGenerator\FileTypes;
 
 use ImagickPixel;
-use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
+use Spatie\MediaLibrary\Media;
 
-class Svg implements ImageGenerator
+class Svg extends BaseGenerator
 {
-    /**
-     * Return the name of the media type handled by the driver.
-     */
-    public function getMediaType() : string
+    public function convert(Media $media, Conversion $conversion = null) : string
     {
-        return 'svg';
-    }
+        $file = $media->getPath();
 
-    /**
-     * Verify that a file is this driver media type using it's extension.
-     */
-    public function fileExtensionIsType(string $extension) : bool
-    {
-        return $extension === 'svg';
-    }
-
-    /**
-     * Verify that a file is this driver media type using it's mime.
-     */
-    public function fileMimeIsType(string $mime) : bool
-    {
-        return $mime === 'image/svg+xml';
-    }
-
-    public function hasRequirements() : bool
-    {
-        return class_exists('Imagick');
-    }
-
-    /**
-     * Receive a file of type svg and return a thumbnail in png.
-     */
-    public function convertToImage(string $file, Conversion $conversion) : string
-    {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.png';
 
         $image = new \Imagick();
@@ -52,5 +23,27 @@ class Svg implements ImageGenerator
         file_put_contents($imageFile, $image);
 
         return $imageFile;
+    }
+
+    public function areRequirementsInstalled() : bool
+    {
+        return class_exists('Imagick');
+    }
+
+    public function supportedExtensions() : Collection
+    {
+        return collect('svg');
+    }
+
+
+    public function supportedMimeTypes() : Collection
+    {
+        return collect('image/svg+xml');
+    }
+
+
+    public function supportedTypes() : Collection
+    {
+        return collect('svg');
     }
 }

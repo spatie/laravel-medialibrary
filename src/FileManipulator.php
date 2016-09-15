@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
+use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
@@ -20,10 +21,15 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
-        $conversionDriverHandler = app(ImageGeneratorHandler::class);
+        $imageGenerator = $media->getImageGenerators()
+            ->map(function (string $imageGeneratorClassName) {
+                return app($imageGeneratorClassName);
+            })
+            ->first(function (ImageGenerator $imageGenerator) use ($media) {
+                $imageGenerator->canConvert($media);
+            });
 
-        // If the media doesn't have any driver
-        if (! $conversionDriverHandler->mediaHasDriver($media)) {
+        if (!$imageGenerator) {
             return;
         }
 
@@ -32,7 +38,7 @@ class FileManipulator
         $this->performConversions(
             $profileCollection->getNonQueuedConversions($media->collection_name),
             $media,
-            $conversionDriverHandler->getDriverForMedia($media)
+            $imageGenerator
         );
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
@@ -45,25 +51,25 @@ class FileManipulator
     /**
      * Perform the given conversions for the given media.
      *
-     * @param \Spatie\MediaLibrary\Conversion\ConversionCollection         $conversions
-     * @param \Spatie\MediaLibrary\Media                                   $media
+     * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
+     * @param \Spatie\MediaLibrary\Media $media
      * @param \Spatie\MediaLibrary\ImageGenerator\ImageGenerator $imageGenerator
      */
-    public function performConversions(ConversionCollection $conversions, Media $media, $imageGenerator)
+    public function performConversions(ConversionCollection $conversions, Media $media, ImageGenerator $imageGenerator)
     {
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
+        $copiedOriginalFile = $tempDirectory . '/' . str_random(16) . '.' . $media->extension;
 
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         foreach ($conversions as $conversion) {
 
-            $copiedOriginalFile = $imageGenerator->convertToImage($copiedOriginalFile, $conversion);
+            $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName() . '.' .
                 $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
 
             app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
@@ -78,15 +84,15 @@ class FileManipulator
      * Perform the conversion.
      *
      * @param \Spatie\MediaLibrary\Media $media
-     * @param Conversion                 $conversion
-     * @param string                     $copiedOriginalFile
+     * @param Conversion $conversion
+     * @param string $copiedOriginalFile
      *
      * @return string
      */
     public function performConversion(Media $media, Conversion $conversion, string $copiedOriginalFile)
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).
-            $conversion->getName().'.'.$media->extension;
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME) . '/' . string()->random(16) .
+            $conversion->getName() . '.' . $media->extension;
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
@@ -104,7 +110,7 @@ class FileManipulator
      */
     public function createTempDirectory() : string
     {
-        $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
+        $tempDirectory = storage_path('medialibrary/temp/' . str_random(16));
 
         File::makeDirectory($tempDirectory, 493, true);
 

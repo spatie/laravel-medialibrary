@@ -2,58 +2,35 @@
 
 namespace Spatie\MediaLibrary\ImageGenerator\FileTypes;
 
-use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
+use Spatie\MediaLibrary\Media;
 
-class Image implements ImageGenerator
+class Image extends BaseGenerator
 {
-    /**
-     * Return the name of the media type handled by the driver.
-     */
-    public function getMediaType() : string
+    public function convert(Media $media, Conversion $conversion = null) : string
     {
-        return 'image';
+        return $media->getPath();
     }
 
-    /**
-     * Verify that a file is this driver media type using it's extension.
-     *
-     * @param string $extension
-     *
-     * @return bool
-     */
-    public function fileExtensionIsType(string $extension) : bool
-    {
-        return in_array($extension, ['png', 'jpg', 'jpeg', 'gif']);
-    }
-
-    /**
-     * Verify that a file is this driver media type using it's mime.
-     *
-     * @param string $mime
-     *
-     * @return bool
-     */
-    public function fileMimeIsType(string $mime) : bool
-    {
-        return in_array($mime, ['image/jpeg', 'image/gif', 'image/png']);
-    }
-
-    public function hasRequirements() : bool
+    public function areRequirementsInstalled() : bool
     {
         return true;
     }
 
-    /**
-     * Image do not need any before conversion processing.
-     * @param string $file
-     *
-     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
-     *
-     * @return string
-     */
-    public function convertToImage(string $file, Conversion $conversion) : string
+    public function supportedExtensions() : Collection
     {
-        return $file;
+        return collect(['png', 'jpg', 'jpeg', 'gif']);
+    }
+
+    public function supportedMimeTypes() : Collection
+    {
+        return collect(['image/jpeg', 'image/gif', 'image/png']);
+    }
+
+    public function supportedTypes() : Collection
+    {
+        return collect('image');
     }
 }
