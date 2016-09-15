@@ -20,10 +20,6 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
-        if ($media->type === Media::TYPE_OTHER) {
-            return;
-        }
-
         $conversionDriverHandler = app(ImageGeneratorHandler::class);
 
         // If the media doesn't have any driver
@@ -51,9 +47,9 @@ class FileManipulator
      *
      * @param \Spatie\MediaLibrary\Conversion\ConversionCollection         $conversions
      * @param \Spatie\MediaLibrary\Media                                   $media
-     * @param \Spatie\MediaLibrary\ImageGenerator\ImageGenerator $driver
+     * @param \Spatie\MediaLibrary\ImageGenerator\ImageGenerator $imageGenerator
      */
-    public function performConversions(ConversionCollection $conversions, Media $media, $driver)
+    public function performConversions(ConversionCollection $conversions, Media $media, $imageGenerator)
     {
         $tempDirectory = $this->createTempDirectory();
 
@@ -62,7 +58,8 @@ class FileManipulator
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         foreach ($conversions as $conversion) {
-            $copiedOriginalFile = $driver->convertToImage($copiedOriginalFile, $conversion);
+
+            $copiedOriginalFile = $imageGenerator->convertToImage($copiedOriginalFile, $conversion);
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
