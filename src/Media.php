@@ -8,7 +8,6 @@ use Spatie\MediaLibrary\ImageGenerator\FileTypes\Image;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Pdf;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Svg;
 use Spatie\MediaLibrary\ImageGenerator\FileTypes\Video;
-use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
@@ -160,6 +159,7 @@ class Media extends Model
         if ($mime === 'image/svg+xml') {
             return static::TYPE_SVG;
         }
+
         return static::TYPE_OTHER;
     }
 
