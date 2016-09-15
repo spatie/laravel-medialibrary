@@ -19,13 +19,13 @@ class Pdf extends BaseGenerator
 
     public function areRequirementsInstalled() : bool
     {
-        if  (! class_exists('Imagick')) {
+        if (! class_exists('Imagick')) {
             return false;
         }
 
         if (! class_exists('\\Spatie\\PdfToImage\\Pdf')) {
             return false;
-        };
+        }
 
         return true;
     }
