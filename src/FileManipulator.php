@@ -5,7 +5,6 @@ namespace Spatie\MediaLibrary;
 use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
-use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
@@ -29,7 +28,7 @@ class FileManipulator
                 $imageGenerator->canConvert($media);
             });
 
-        if (!$imageGenerator) {
+        if (! $imageGenerator) {
             return;
         }
 
@@ -59,17 +58,16 @@ class FileManipulator
     {
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = $tempDirectory . '/' . str_random(16) . '.' . $media->extension;
+        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
 
         app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         foreach ($conversions as $conversion) {
-
             $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName() . '.' .
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
                 $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
 
             app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
@@ -91,8 +89,8 @@ class FileManipulator
      */
     public function performConversion(Media $media, Conversion $conversion, string $copiedOriginalFile)
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME) . '/' . string()->random(16) .
-            $conversion->getName() . '.' . $media->extension;
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).
+            $conversion->getName().'.'.$media->extension;
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
@@ -110,7 +108,7 @@ class FileManipulator
      */
     public function createTempDirectory() : string
     {
-        $tempDirectory = storage_path('medialibrary/temp/' . str_random(16));
+        $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
 
         File::makeDirectory($tempDirectory, 493, true);
 
