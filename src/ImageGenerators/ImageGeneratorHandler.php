@@ -38,7 +38,6 @@ class ImageGeneratorHandler
 
     public function getTypeFromExtension(string $extension)
     {
-
         foreach ($this->imageGenerators as $driver) {
             if (! $driver->fileExtensionIsType($extension)) {
                 continue;
