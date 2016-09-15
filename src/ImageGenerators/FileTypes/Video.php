@@ -1,63 +1,56 @@
 <?php
 
-namespace Spatie\MediaLibrary\ImageGenerator\Drivers;
+namespace Spatie\MediaLibrary\ImageGenerator\FileTypes;
 
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
-class Pdf implements ImageGenerator
+class Video implements ImageGenerator
 {
     /**
      * Return the name of the media type handled by the driver.
      */
     public function getMediaType() : string
     {
-        return 'pdf';
+        return 'video';
     }
 
     /**
      * Verify that a file is this driver media type using it's extension.
-     *
-     * @param string $extension
-     *
-     * @return bool
      */
     public function fileExtensionIsType(string $extension) : bool
     {
-        return $extension === 'pdf';
+        return in_array($extension, ['webm', 'mov', 'mp4']);
     }
 
     /**
      * Verify that a file is this driver media type using it's mime.
-     *
-     * @param string $mime
-     *
-     * @return bool
      */
     public function fileMimeIsType(string $mime) : bool
     {
-        return $mime === 'application/pdf';
+        return in_array($mime, ['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime']);
     }
 
     public function hasRequirements() : bool
     {
-        return class_exists('Imagick') && class_exists('\\Spatie\\PdfToImage\\Pdf');
+        return class_exists('\\FFMpeg\\FFMpeg');
     }
 
     /**
-     * Receive a file of type pdf and return a thumbnail in jpg.
-     *
-     * @param string $file
-     *
-     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
-     *
-     * @return string
+     * Receive a file of any video type and return a thumbnail in jpg.
      */
     public function convertToImage(string $file, Conversion $conversion) : string
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        (new \Spatie\PdfToImage\Pdf($file))->saveImage($imageFile);
+        $ffmpeg = \FFMpeg\FFMpeg::create([
+            'ffmpeg.binaries' => config('laravel-medialibrary.ffmpeg_binaries'),
+            'ffprobe.binaries' => config('laravel-medialibrary.ffprobe_binaries'),
+        ]);
+        $video = $ffmpeg->open($file);
+
+        $frame = $video->frame(\FFMpeg\Coordinate\TimeCode::fromSeconds($conversion->getExtractVideoFrameAtSecond()));
+        $frame->save($imageFile);
 
         return $imageFile;
     }

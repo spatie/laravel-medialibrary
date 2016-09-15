@@ -4,10 +4,10 @@ namespace Spatie\MediaLibrary\Test\Conversion;
 
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\Image;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\Pdf;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\Svg;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\Video;
+use Spatie\MediaLibrary\ImageGenerator\FileTypes\Image;
+use Spatie\MediaLibrary\ImageGenerator\FileTypes\Pdf;
+use Spatie\MediaLibrary\ImageGenerator\FileTypes\Svg;
+use Spatie\MediaLibrary\ImageGenerator\FileTypes\Video;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;

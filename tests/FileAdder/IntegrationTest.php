@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
-use Spatie\MediaLibrary\ImageGenerator\Drivers\Image;
+use Spatie\MediaLibrary\ImageGenerator\FileTypes\Image;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
