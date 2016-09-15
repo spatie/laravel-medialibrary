@@ -5,14 +5,14 @@ namespace Spatie\MediaLibrary\ImageGenerator\Drivers;
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
-class ImageDriver implements ImageGenerator
+class Pdf implements ImageGenerator
 {
     /**
      * Return the name of the media type handled by the driver.
      */
     public function getMediaType() : string
     {
-        return 'image';
+        return 'pdf';
     }
 
     /**
@@ -24,7 +24,7 @@ class ImageDriver implements ImageGenerator
      */
     public function fileExtensionIsType(string $extension) : bool
     {
-        return in_array($extension, ['png', 'jpg', 'jpeg', 'gif']);
+        return $extension === 'pdf';
     }
 
     /**
@@ -36,16 +36,17 @@ class ImageDriver implements ImageGenerator
      */
     public function fileMimeIsType(string $mime) : bool
     {
-        return in_array($mime, ['image/jpeg', 'image/gif', 'image/png']);
+        return $mime === 'application/pdf';
     }
 
     public function hasRequirements() : bool
     {
-        return true;
+        return class_exists('Imagick') && class_exists('\\Spatie\\PdfToImage\\Pdf');
     }
 
     /**
-     * Image do not need any before conversion processing.
+     * Receive a file of type pdf and return a thumbnail in jpg.
+     *
      * @param string $file
      *
      * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
@@ -54,6 +55,10 @@ class ImageDriver implements ImageGenerator
      */
     public function convertToImage(string $file, Conversion $conversion) : string
     {
-        return $file;
+        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+
+        (new \Spatie\PdfToImage\Pdf($file))->saveImage($imageFile);
+
+        return $imageFile;
     }
 }

@@ -6,7 +6,7 @@ use ImagickPixel;
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
-class SvgDriver implements ImageGenerator
+class Svg implements ImageGenerator
 {
     /**
      * Return the name of the media type handled by the driver.

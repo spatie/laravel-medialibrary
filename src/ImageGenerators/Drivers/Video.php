@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\ImageGenerator\Drivers;
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
-class VideoDriver implements ImageGenerator
+class Video implements ImageGenerator
 {
     /**
      * Return the name of the media type handled by the driver.

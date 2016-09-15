@@ -4,6 +4,10 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Image;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Pdf;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Svg;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Video;
 use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
@@ -84,10 +88,10 @@ class Media extends Model
     public function getImageGenerators() : Collection
     {
         return collect([
-            \Spatie\MediaLibrary\ImageGenerator\Drivers\ImageDriver::class,
-            \Spatie\MediaLibrary\ImageGenerator\Drivers\PdfDriver::class,
-            \Spatie\MediaLibrary\ImageGenerator\Drivers\SvgDriver::class,
-            \Spatie\MediaLibrary\ImageGenerator\Drivers\VideoDriver::class,
+            Image::class,
+            Pdf::class,
+            Svg::class,
+            Video::class,
         ]);
     }
 

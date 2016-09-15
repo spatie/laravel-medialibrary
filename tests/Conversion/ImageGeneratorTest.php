@@ -4,10 +4,10 @@ namespace Spatie\MediaLibrary\Test\Conversion;
 
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 use Spatie\MediaLibrary\ImageGenerator\ImageGeneratorHandler;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\ImageDriver;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\PdfDriver;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\SvgDriver;
-use Spatie\MediaLibrary\ImageGenerator\Drivers\VideoDriver;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Image;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Pdf;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Svg;
+use Spatie\MediaLibrary\ImageGenerator\Drivers\Video;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
@@ -31,12 +31,12 @@ class ImageGeneratorTest extends TestCase
     /** @test */
     public function it_has_the_required_drivers()
     {
-        $mediaModelDrivers = (new Media())->getImageGenerators();
+        $imageGenerators = (new Media())->getImageGenerators();
 
-        $this->assertContains(ImageDriver::class, $mediaModelDrivers);
-        $this->assertContains(PdfDriver::class, $mediaModelDrivers);
-        $this->assertContains(SvgDriver::class, $mediaModelDrivers);
-        $this->assertContains(VideoDriver::class, $mediaModelDrivers);
+        $this->assertContains(Image::class, $imageGenerators);
+        $this->assertContains(Pdf::class, $imageGenerators);
+        $this->assertContains(Svg::class, $imageGenerators);
+        $this->assertContains(Video::class, $imageGenerators);
     }
 
     /** @test */
@@ -78,15 +78,15 @@ class ImageGeneratorTest extends TestCase
     {
         $extensions =
             [
-                ['jpg', (new ImageDriver())->getMediaType()],
-                ['jpeg', (new ImageDriver())->getMediaType()],
-                ['png', (new ImageDriver())->getMediaType()],
-                ['gif', (new ImageDriver())->getMediaType()],
-                ['webm', (new VideoDriver())->getMediaType()],
-                ['mov', (new VideoDriver())->getMediaType()],
-                ['mp4', (new VideoDriver())->getMediaType()],
-                ['pdf', (new PdfDriver())->getMediaType()],
-                ['svg', (new SvgDriver())->getMediaType()],
+                ['jpg', (new Image())->getMediaType()],
+                ['jpeg', (new Image())->getMediaType()],
+                ['png', (new Image())->getMediaType()],
+                ['gif', (new Image())->getMediaType()],
+                ['webm', (new Video())->getMediaType()],
+                ['mov', (new Video())->getMediaType()],
+                ['mp4', (new Video())->getMediaType()],
+                ['pdf', (new Pdf())->getMediaType()],
+                ['svg', (new Svg())->getMediaType()],
                 ['bla', Media::TYPE_OTHER],
             ];
 
@@ -115,12 +115,12 @@ class ImageGeneratorTest extends TestCase
     public static function mimeProvider()
     {
         return [
-            ['image', (new ImageDriver())->getMediaType()],
-            ['test.jpg', (new ImageDriver())->getMediaType()],
-            ['test.webm', (new VideoDriver())->getMediaType()],
-            ['test.mp4', (new VideoDriver())->getMediaType()],
-            ['test.pdf', (new PdfDriver())->getMediaType()],
-            ['test.svg', (new SvgDriver())->getMediaType()],
+            ['image', (new Image())->getMediaType()],
+            ['test.jpg', (new Image())->getMediaType()],
+            ['test.webm', (new Video())->getMediaType()],
+            ['test.mp4', (new Video())->getMediaType()],
+            ['test.pdf', (new Pdf())->getMediaType()],
+            ['test.svg', (new Svg())->getMediaType()],
             ['test', Media::TYPE_OTHER],
             ['test.txt', Media::TYPE_OTHER],
         ];
@@ -129,7 +129,7 @@ class ImageGeneratorTest extends TestCase
     /** @test */
     public function image_driver_can_convert_image()
     {
-        $imageFile = (new ImageDriver())->convertToImage($this->getTestJpg(), $this->conversion);
+        $imageFile = (new Image())->convertToImage($this->getTestJpg(), $this->conversion);
 
         $this->assertEquals('image/jpeg', mime_content_type($imageFile));
         $this->assertEquals($this->getTestJpg(), $imageFile);
@@ -138,7 +138,7 @@ class ImageGeneratorTest extends TestCase
     /** @test */
     public function it_has_a_working_video_driver()
     {
-        $driver = new VideoDriver();
+        $driver = new Video();
 
         if (! $driver->hasRequirements()) {
             return;
@@ -153,7 +153,7 @@ class ImageGeneratorTest extends TestCase
     /** @test */
     public function it_has_a_working_pdf_driver()
     {
-        $driver = new PdfDriver();
+        $driver = new Pdf();
 
         if (! $driver->hasRequirements()) {
             return;
@@ -168,7 +168,7 @@ class ImageGeneratorTest extends TestCase
     /** @test */
     public function it_has_a_working_svg_driver()
     {
-        $driver = new SvgDriver();
+        $driver = new Svg();
 
         if (! $driver->hasRequirements()) {
             return;
