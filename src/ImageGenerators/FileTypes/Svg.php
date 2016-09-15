@@ -11,8 +11,6 @@ class Svg extends BaseGenerator
 {
     public function convert(string $file, Conversion $conversion = null) : string
     {
-        $file = $media->getPath();
-
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.png';
 
         $image = new \Imagick();
