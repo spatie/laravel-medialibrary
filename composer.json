@@ -36,8 +36,7 @@
     "doctrine/dbal": "^2.5.2"
   },
   "conflict": {
-    "php-ffmpeg/php-ffmpeg": "<0.6.1",
-    "spatie/pdf-to-image": "<1.0.0"
+    "php-ffmpeg/php-ffmpeg": "<0.6.1"
   },
   "suggest": {
     "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
