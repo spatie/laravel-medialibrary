@@ -53,13 +53,11 @@ class FileManipulator
                 return app($imageGeneratorClassName);
             });
 
-        foreach($imageGenerators as $imageGenerator) {
+        foreach ($imageGenerators as $imageGenerator) {
             if ($imageGenerator->canConvert($media->getPath())) {
                 return $imageGenerator;
             }
         }
-
-        return null;
     }
 
     /**
