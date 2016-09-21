@@ -4,11 +4,11 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\ImageGenerator\FileTypes\Image;
-use Spatie\MediaLibrary\ImageGenerator\FileTypes\Pdf;
-use Spatie\MediaLibrary\ImageGenerator\FileTypes\Svg;
-use Spatie\MediaLibrary\ImageGenerator\FileTypes\Video;
-use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
@@ -121,15 +121,18 @@ class Media extends Model
      */
     public function getTypeFromExtensionAttribute()
     {
-        $imageGenerator = $this->getImageGenerators()
+        $imageGenerators = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
-            })
-            ->first(function (ImageGenerator $imageGenerator) {
-                return $imageGenerator->canHandleExtension(strtolower($this->extension));
             });
 
-        return $imageGenerator ? $imageGenerator->getType() : static::TYPE_OTHER;
+        foreach ($imageGenerators as $imageGenerator) {
+            if ($imageGenerator->canHandleExtension(strtolower($this->extension))) {
+                return $imageGenerator->getType();
+            }
+        }
+
+        return static::TYPE_OTHER;
     }
 
     /*
@@ -141,15 +144,18 @@ class Media extends Model
             return static::TYPE_OTHER;
         }
 
-        $imageGenerator = $this->getImageGenerators()
+        $imageGenerators = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
-            })
-            ->first(function (ImageGenerator $imageGenerator) {
-                return $imageGenerator->canHandleMime($this->getMimeAttribute());
             });
 
-        return $imageGenerator ? $imageGenerator->getType() : static::TYPE_OTHER;
+        foreach ($imageGenerators as $imageGenerator) {
+            if ($imageGenerator->canHandleMime($this->getMimeAttribute())) {
+                return $imageGenerator->getType();
+            }
+        }
+
+        return static::TYPE_OTHER;
     }
 
     public function getMimeAttribute() : string

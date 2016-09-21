@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
-use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
@@ -20,13 +20,7 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
-        $imageGenerator = $media->getImageGenerators()
-            ->map(function (string $imageGeneratorClassName) {
-                return app($imageGeneratorClassName);
-            })
-            ->first(function (ImageGenerator $imageGenerator) use ($media) {
-                return $imageGenerator->canConvert($media->getPath());
-            });
+        $imageGenerator = $this->determineImageGenerator($media);
 
         if (! $imageGenerator) {
             return;
@@ -48,11 +42,32 @@ class FileManipulator
     }
 
     /**
+     * @param \Spatie\MediaLibrary\Media $media
+     *
+     * @return \Spatie\MediaLibrary\ImageGenerators\ImageGenerator|null
+     */
+    public function determineImageGenerator(Media $media)
+    {
+        $imageGenerators = $media->getImageGenerators()
+            ->map(function (string $imageGeneratorClassName) {
+                return app($imageGeneratorClassName);
+            });
+
+        foreach($imageGenerators as $imageGenerator) {
+            if ($imageGenerator->canConvert($media->getPath())) {
+                return $imageGenerator;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Perform the given conversions for the given media.
      *
      * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
      * @param \Spatie\MediaLibrary\Media $media
-     * @param \Spatie\MediaLibrary\ImageGenerator\ImageGenerator $imageGenerator
+     * @param \Spatie\MediaLibrary\ImageGenerators\ImageGenerator $imageGenerator
      */
     public function performConversions(ConversionCollection $conversions, Media $media, ImageGenerator $imageGenerator)
     {

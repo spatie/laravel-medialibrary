@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\ImageGenerators;
 
-use Spatie\MediaLibrary\ImageGenerator\FileTypes\Svg;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class SvgTest extends TestCase

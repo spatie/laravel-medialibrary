@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 
 abstract class BaseGenerator implements ImageGenerator
 {

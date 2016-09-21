@@ -148,7 +148,7 @@ class CleanCommand extends Command
             throw FileCannotBeAdded::diskDoesNotExist($diskName);
         }
 
-        $mediaIds = $this->mediaRepository->all()->pluck('id');
+        $mediaIds = collect($this->mediaRepository->all()->pluck('id')->toArray());
 
         collect($this->fileSystem->disk($diskName)->directories())
             ->filter(function (string $directory) use ($mediaIds) {

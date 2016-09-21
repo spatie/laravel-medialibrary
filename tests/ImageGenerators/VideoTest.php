@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\ImageGenerators;
 
-use Spatie\MediaLibrary\ImageGenerator\FileTypes\Video;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class VideoTest extends TestCase

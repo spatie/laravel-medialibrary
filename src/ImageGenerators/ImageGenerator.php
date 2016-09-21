@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\ImageGenerator;
+namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
 
