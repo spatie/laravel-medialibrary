@@ -12,7 +12,7 @@ class VideoTest extends TestCase
     {
         $imageGenerator = new Video();
 
-        if (! $imageGenerator->areRequirementsInstalled()) {
+        if (! $imageGenerator->requirementsAreInstalled()) {
             $this->markTestSkipped('Skipping video test because requirements to run it are not met');
         }
 

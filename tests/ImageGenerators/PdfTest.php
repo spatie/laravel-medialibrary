@@ -12,7 +12,7 @@ class PdfTest extends TestCase
     {
         $imageGenerator = new Pdf();
 
-        if (! $imageGenerator->areRequirementsInstalled()) {
+        if (! $imageGenerator->requirementsAreInstalled()) {
             $this->markTestSkipped('Skipping pdf test because requirements to run it are not met');
         }
 

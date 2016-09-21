@@ -12,7 +12,7 @@ class SvgTest extends TestCase
     {
         $imageGenerator = new Svg();
 
-        if (! $imageGenerator->areRequirementsInstalled()) {
+        if (! $imageGenerator->requirementsAreInstalled()) {
             $this->markTestSkipped('Skipping svg test because requirements to run it are not met');
         }
 
@@ -23,7 +23,5 @@ class SvgTest extends TestCase
         $imageFile = $imageGenerator->convert($media->getPath());
 
         $this->assertEquals('image/jpeg', mime_content_type($imageFile));
-
-        //$this->assertEquals($imageFile, $media->getPath());
     }
 }

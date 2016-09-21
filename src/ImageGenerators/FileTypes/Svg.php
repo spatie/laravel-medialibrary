@@ -23,7 +23,7 @@ class Svg extends BaseGenerator
         return $imageFile;
     }
 
-    public function areRequirementsInstalled() : bool
+    public function requirementsAreInstalled() : bool
     {
         return class_exists('Imagick');
     }

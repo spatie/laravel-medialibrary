@@ -13,7 +13,7 @@ abstract class BaseGenerator implements ImageGenerator
             return false;
         }
 
-        if (! $this->areRequirementsInstalled()) {
+        if (! $this->requirementsAreInstalled()) {
             return false;
         }
 

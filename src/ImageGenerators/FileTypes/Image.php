@@ -13,7 +13,7 @@ class Image extends BaseGenerator
         return $path;
     }
 
-    public function areRequirementsInstalled() : bool
+    public function requirementsAreInstalled() : bool
     {
         return true;
     }

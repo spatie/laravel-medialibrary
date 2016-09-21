@@ -17,7 +17,7 @@ class Pdf extends BaseGenerator
         return $imageFile;
     }
 
-    public function areRequirementsInstalled() : bool
+    public function requirementsAreInstalled() : bool
     {
         if (! class_exists('Imagick')) {
             return false;
