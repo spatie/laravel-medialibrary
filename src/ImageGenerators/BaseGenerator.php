@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ImageGenerators;
 
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\ImageGenerator\ImageGenerator;
 
@@ -42,4 +43,10 @@ abstract class BaseGenerator implements ImageGenerator
     {
         return strtolower(class_basename(static::class));
     }
+
+    public abstract function requirementsAreInstalled(): bool;
+
+    public abstract function supportedExtensions(): Collection;
+
+    public abstract function supportedMimetypes(): Collection;
 }
