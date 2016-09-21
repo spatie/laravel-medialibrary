@@ -17,7 +17,6 @@ install:
   - sudo apt-get install -y ffmpeg libavcodec-extra-53
   - travis_retry composer update --prefer-source $PREFER_LOWEST
   - travis_retry composer require php-ffmpeg/php-ffmpeg
-  - travis_retry composer require spatie/pdf-to-image
   - printf "\n" | pecl install imagick
 
 script:
