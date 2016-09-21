@@ -44,9 +44,9 @@ abstract class BaseGenerator implements ImageGenerator
         return strtolower(class_basename(static::class));
     }
 
-    public abstract function requirementsAreInstalled(): bool;
+    abstract public function requirementsAreInstalled(): bool;
 
-    public abstract function supportedExtensions(): Collection;
+    abstract public function supportedExtensions(): Collection;
 
-    public abstract function supportedMimetypes(): Collection;
+    abstract public function supportedMimetypes(): Collection;
 }
