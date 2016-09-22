@@ -25,6 +25,6 @@ class VideoTest extends TestCase
 
         $this->assertEquals('image/jpeg', mime_content_type($imageFile));
 
-        $this->assertEquals($imageFile, $media->getPath());
+        $this->assertEquals($imageFile, str_replace('.webm', '.jpg', $media->getPath()));
     }
 }
