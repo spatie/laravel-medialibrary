@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\ImageGenerators;
 
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
 use Spatie\MediaLibrary\Test\TestCase;
 
