@@ -22,7 +22,11 @@ class LocalUrlGenerator extends BaseUrlGenerator
 
         $url = $this->getBaseMediaDirectory().'/'.$this->getPathRelativeToRoot();
 
-        return $this->makeCompatibleForNonUnixHosts($url);
+        $url = $this->makeCompatibleForNonUnixHosts($url);
+
+        $url = $this->rawUrlEncodeFilename($url);
+
+        return $url;
     }
 
     /*
@@ -60,5 +64,10 @@ class LocalUrlGenerator extends BaseUrlGenerator
         }
 
         return $url;
+    }
+
+    public function rawUrlEncodeFilename(string $path = ''): string
+    {
+        return pathinfo($path, PATHINFO_DIRNAME).'/'.rawurlencode(pathinfo($path, PATHINFO_BASENAME));
     }
 }
