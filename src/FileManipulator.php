@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
-use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
@@ -20,18 +19,11 @@ class FileManipulator
      */
     public function createDerivedFiles(Media $media)
     {
-        $imageGenerator = $this->determineImageGenerator($media);
-
-        if (! $imageGenerator) {
-            return;
-        }
-
         $profileCollection = ConversionCollection::createForMedia($media);
 
         $this->performConversions(
             $profileCollection->getNonQueuedConversions($media->collection_name),
-            $media,
-            $imageGenerator
+            $media
         );
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
@@ -42,33 +34,19 @@ class FileManipulator
     }
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
-     *
-     * @return \Spatie\MediaLibrary\ImageGenerators\ImageGenerator|null
-     */
-    public function determineImageGenerator(Media $media)
-    {
-        $imageGenerators = $media->getImageGenerators()
-            ->map(function (string $imageGeneratorClassName) {
-                return app($imageGeneratorClassName);
-            });
-
-        foreach ($imageGenerators as $imageGenerator) {
-            if ($imageGenerator->canConvert($media->getPath())) {
-                return $imageGenerator;
-            }
-        }
-    }
-
-    /**
      * Perform the given conversions for the given media.
      *
      * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
      * @param \Spatie\MediaLibrary\Media $media
-     * @param \Spatie\MediaLibrary\ImageGenerators\ImageGenerator $imageGenerator
      */
-    public function performConversions(ConversionCollection $conversions, Media $media, ImageGenerator $imageGenerator)
+    public function performConversions(ConversionCollection $conversions, Media $media)
     {
+        $imageGenerator = $this->determineImageGenerator($media);
+
+        if (! $imageGenerator) {
+            return;
+        }
+
         $tempDirectory = $this->createTempDirectory();
 
         $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
@@ -142,5 +120,24 @@ class FileManipulator
         }
 
         app('Illuminate\Contracts\Bus\Dispatcher')->dispatch($job);
+    }
+
+    /**
+     * @param \Spatie\MediaLibrary\Media $media
+     *
+     * @return \Spatie\MediaLibrary\ImageGenerators\ImageGenerator|null
+     */
+    public function determineImageGenerator(Media $media)
+    {
+        $imageGenerators = $media->getImageGenerators()
+            ->map(function (string $imageGeneratorClassName) {
+                return app($imageGeneratorClassName);
+            });
+
+        foreach ($imageGenerators as $imageGenerator) {
+            if ($imageGenerator->canConvert($media->getPath())) {
+                return $imageGenerator;
+            }
+        }
     }
 }
