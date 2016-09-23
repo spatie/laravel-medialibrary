@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
 use FFMpeg\Coordinate\TimeCode;
-use \FFMpeg\FFMpeg;
+use FFMpeg\FFMpeg;
 
 class Video extends BaseGenerator
 {
