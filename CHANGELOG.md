@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.9.0 - 2016-09-23
+
+- introduced `ImageGenerators`
+
 ## 4.8.4 - 2016-09-15
 - encode urls to media
 
