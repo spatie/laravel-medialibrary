@@ -87,6 +87,4 @@ abstract class BaseUrlGenerator implements UrlGenerator
         .'.'
         .$this->conversion->getResultExtension($this->media->extension);
     }
-
-
 }
