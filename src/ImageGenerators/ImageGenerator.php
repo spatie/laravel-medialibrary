@@ -3,10 +3,11 @@
 namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Media;
 
 interface ImageGenerator
 {
-    public function canConvert(string $path);
+    public function canConvert(Media $media);
 
     /**
      * Receive a file and return a thumbnail in jpg/png format.

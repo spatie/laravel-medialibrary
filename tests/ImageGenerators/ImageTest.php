@@ -14,7 +14,7 @@ class ImageTest extends TestCase
 
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaLibrary();
 
-        $this->assertTrue($imageGenerator->canConvert($media->getPath()));
+        $this->assertTrue($imageGenerator->canConvert($media));
 
         $imageFile = $imageGenerator->convert($media->getPath());
 

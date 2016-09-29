@@ -4,24 +4,24 @@ namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\Media;
 
 abstract class BaseGenerator implements ImageGenerator
 {
-    public function canConvert(string $path): bool
-    {
-        if (! file_exists($path)) {
-            return false;
-        }
+    protected $shouldCheckMime = true;
 
+    public function canConvert(Media $media): bool
+    {
         if (! $this->requirementsAreInstalled()) {
             return false;
         }
 
-        if ($this->supportedExtensions()->contains(pathinfo($path, PATHINFO_EXTENSION))) {
+        if ($this->supportedExtensions()->contains($media->getExtensionAttribute())) {
             return true;
         }
 
-        if ($this->supportedMimetypes()->contains(File::getMimetype($path))) {
+        if ($this->shouldCheckMime && file_exists($media->getPath())
+            && $this->supportedMimetypes()->contains(File::getMimetype($media->getPath()))) {
             return true;
         }
 
@@ -41,6 +41,13 @@ abstract class BaseGenerator implements ImageGenerator
     public function getType(): string
     {
         return strtolower(class_basename(static::class));
+    }
+
+    public function shouldCheckMime(bool $shouldCheckMime)
+    {
+        $this->shouldCheckMime = $shouldCheckMime;
+
+        return $this;
     }
 
     abstract public function requirementsAreInstalled(): bool;

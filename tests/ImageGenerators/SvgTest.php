@@ -18,7 +18,7 @@ class SvgTest extends TestCase
 
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestSvg())->toMediaLibrary();
 
-        $this->assertTrue($imageGenerator->canConvert($media->getPath()));
+        $this->assertTrue($imageGenerator->canConvert($media));
 
         $imageFile = $imageGenerator->convert($media->getPath());
 
