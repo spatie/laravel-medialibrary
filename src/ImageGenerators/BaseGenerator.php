@@ -20,7 +20,7 @@ abstract class BaseGenerator implements ImageGenerator
 
         if (method_exists($media, 'getPath') && file_exists($media->getPath())
             && $this->supportedMimetypes()->contains(File::getMimetype($media->getPath()))) {
-                return true;
+            return true;
         }
 
         return false;
