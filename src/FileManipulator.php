@@ -133,7 +133,7 @@ class FileManipulator
 
         $imageGenerators = $media->getImageGenerators()
             ->map(function (string $imageGeneratorClassName) use ($isLocal) {
-                return app($imageGeneratorClassName)->shouldCheckMime($isLocal);
+                return app($imageGeneratorClassName);
             });
 
         foreach ($imageGenerators as $imageGenerator) {

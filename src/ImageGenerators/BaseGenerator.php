@@ -8,21 +8,19 @@ use Spatie\MediaLibrary\Media;
 
 abstract class BaseGenerator implements ImageGenerator
 {
-    protected $shouldCheckMime = true;
-
     public function canConvert(Media $media): bool
     {
         if (! $this->requirementsAreInstalled()) {
             return false;
         }
 
-        if ($this->supportedExtensions()->contains($media->getExtensionAttribute())) {
+        if ($this->supportedExtensions()->contains($media->extension)) {
             return true;
         }
 
-        if ($this->shouldCheckMime && file_exists($media->getPath())
+        if (method_exists($media, 'getPath') && file_exists($media->getPath())
             && $this->supportedMimetypes()->contains(File::getMimetype($media->getPath()))) {
-            return true;
+                return true;
         }
 
         return false;
@@ -41,13 +39,6 @@ abstract class BaseGenerator implements ImageGenerator
     public function getType(): string
     {
         return strtolower(class_basename(static::class));
-    }
-
-    public function shouldCheckMime(bool $shouldCheckMime)
-    {
-        $this->shouldCheckMime = $shouldCheckMime;
-
-        return $this;
     }
 
     abstract public function requirementsAreInstalled(): bool;
