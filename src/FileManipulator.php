@@ -129,10 +129,8 @@ class FileManipulator
      */
     public function determineImageGenerator(Media $media)
     {
-        $isLocal = $media->getDiskDriverName() === 'local';
-
         $imageGenerators = $media->getImageGenerators()
-            ->map(function (string $imageGeneratorClassName) use ($isLocal) {
+            ->map(function (string $imageGeneratorClassName) {
                 return app($imageGeneratorClassName);
             });
 
