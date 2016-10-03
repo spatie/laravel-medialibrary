@@ -135,7 +135,7 @@ class FileManipulator
             });
 
         foreach ($imageGenerators as $imageGenerator) {
-            if ($imageGenerator->canConvert($media->getPath())) {
+            if ($imageGenerator->canConvert($media)) {
                 return $imageGenerator;
             }
         }
