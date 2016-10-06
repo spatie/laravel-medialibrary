@@ -2,11 +2,13 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.9.2 - 2016-10-06
+- fixed bug where an exception would be raised when using S3
+
 ## 4.9.1 - 2016-09-23
 - fix bug where urls to media would not be encoded anymore
 
 ## 4.9.0 - 2016-09-23
-
 - introduced `ImageGenerators`
 
 ## 4.8.4 - 2016-09-15
@@ -21,48 +23,48 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 4.8.1 - 2016-08-19
 - fixed some files that had a wrong namespace
 
-##4.8.0 - 2016-08-07
+## 4.8.0 - 2016-08-07
 - added thumbnail generation for video's
 - added force option to the artisan commands
 
-##4.7.1 - 2016-08-02
+## 4.7.1 - 2016-08-02
 - fixed the `src` format option when dealing with jpegs
 
-##4.7.0 - 2016-07-18
+## 4.7.0 - 2016-07-18
 
 - added `mime` attribute on the `Media` model
 
-##4.6.0 - 2016-07-15
+## 4.6.0 - 2016-07-15
 
 - added `removeCustomProperty` function
 
-##4.5.0 - 2016-07-09
+## 4.5.0 - 2016-07-09
 
 - added `medialibrary:clean` command
 - the `medialibrary:regenerate` will continue regenerating files even if a primary media file is missing
 
-##4.4.1 - 2016-07-08
+## 4.4.1 - 2016-07-08
 - Fix regeneration command (see #260). It'll now properly regenerate files for all passed media id's
 
-##4.4.0 - 2016-07-06
+## 4.4.0 - 2016-07-06
 - Add support for converting svg's
 
-##4.3.0 - 2016-06-23
+## 4.3.0 - 2016-06-23
 - Add Lumen compatibility
 
-##4.2.1 - 2016-06-03
+## 4.2.1 - 2016-06-03
 - Delete the conversion directory even when it is not underneath the media directory
 
-##4.2 - 2016-06-03
+## 4.2 - 2016-06-03
 - Added the `src` option for the `fm` conversion parameter
 
-##4.1 - 2016-06-02
+## 4.1 - 2016-06-02
 - Added `shouldDeletePreservingMedia`
 
-##4.0.1 - 2016-04-25
+## 4.0.1 - 2016-04-25
 - Fixed queued jobs in Laravel 5.1
 
-##4.0.0 - 2016-04-13
+## 4.0.0 - 2016-04-13
 - add support for Glide 1.0
 - added `addMediaFromRequest` method
 - small refactors
