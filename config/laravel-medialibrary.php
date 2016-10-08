@@ -15,7 +15,7 @@ return [
     'max_file_size' => 1024 * 1024 * 10,
 
     /*
-     * This queue will used to generate derived images.
+     * This queue will be used to generate derived images.
      * Leave empty to use the default queue.
      */
     'queue_name' => '',

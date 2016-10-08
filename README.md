@@ -100,7 +100,7 @@ return [
     'max_file_size' => 1024 * 1024 * 10,
 
     /*
-     * This queue will used to generate derived images.
+     * This queue will be used to generate derived images.
      * Leave empty to use the default queue.
      */
     'queue_name' => '',
@@ -129,7 +129,7 @@ return [
     ],
 
     'remote' => [
-        /**
+        /*
          * Any extra headers that should be included when uploading media to
          * a remote disk. Even though supported headers may vary between
          * different drivers, a sensible default has been provided.
@@ -139,9 +139,18 @@ return [
          */
         'extra_headers' => [
             'CacheControl' => 'max-age=604800',
-        ]
-    ]
+        ],
+    ],
+
+    /*
+     * FFMPEG & FFProbe binaries path, only used if you try to generate video
+     * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
+     * dependency.
+     */
+    'ffmpeg_binaries' => '/usr/bin/ffmpeg',
+    'ffprobe_binaries' => '/usr/bin/ffprobe',
 ];
+
 ```
 
 And finally you should add a disk to `app/config/filesystems.php`. This would be a typical configuration:
@@ -149,6 +158,8 @@ And finally you should add a disk to `app/config/filesystems.php`. This would be
 ```php
     ...
 	'disks' => [
+	    ...
+	    
         'media' => [
             'driver' => 'local',
             'root'   => public_path().'/media',
