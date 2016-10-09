@@ -65,7 +65,7 @@ abstract class TestCase extends Orchestra
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
-            'database' => $this->getTempDirectory().'/database.sqlite',
+            'database' => ':memory:',
             'prefix' => '',
         ]);
 
@@ -93,8 +93,6 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        file_put_contents($this->getTempDirectory().'/database.sqlite', null);
-
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -103,7 +101,7 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
 
         include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
-
+        
         (new \CreateMediaTable())->up();
     }
 
