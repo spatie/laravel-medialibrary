@@ -27,9 +27,4 @@ class Image extends BaseGenerator
     {
         return collect(['image/jpeg', 'image/gif', 'image/png']);
     }
-
-    public function supportedTypes() : Collection
-    {
-        return collect('image');
-    }
 }
