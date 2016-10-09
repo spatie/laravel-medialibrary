@@ -37,9 +37,4 @@ class Svg extends BaseGenerator
     {
         return collect('image/svg+xml');
     }
-
-    public function supportedTypes() : Collection
-    {
-        return collect('svg');
-    }
 }

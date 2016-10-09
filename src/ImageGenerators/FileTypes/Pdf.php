@@ -39,9 +39,4 @@ class Pdf extends BaseGenerator
     {
         return collect(['application/pdf']);
     }
-
-    public function supportedTypes() : Collection
-    {
-        return collect('pdf');
-    }
 }
