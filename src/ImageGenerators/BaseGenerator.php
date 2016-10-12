@@ -14,12 +14,12 @@ abstract class BaseGenerator implements ImageGenerator
             return false;
         }
 
-        if ($this->supportedExtensions()->contains($media->extension)) {
+        if ($this->supportedExtensions()->contains(strtolower($media->extension))) {
             return true;
         }
 
         if (method_exists($media, 'getPath') && file_exists($media->getPath())
-            && $this->supportedMimetypes()->contains(File::getMimetype($media->getPath()))) {
+            && $this->supportedMimetypes()->contains(strtolower(File::getMimetype($media->getPath())))) {
             return true;
         }
 
