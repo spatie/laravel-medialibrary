@@ -8,7 +8,6 @@ use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
-use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
@@ -91,12 +90,7 @@ class Media extends Model
      */
     public function getImageGenerators() : Collection
     {
-        return collect([
-            Image::class,
-            Pdf::class,
-            Svg::class,
-            Video::class,
-        ]);
+        return collect(config('laravel-medialibrary.imageGenerators'));
     }
 
     /**
