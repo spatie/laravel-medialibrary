@@ -6,11 +6,7 @@ use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model
@@ -90,12 +86,7 @@ class Media extends Model
      */
     public function getImageGenerators() : Collection
     {
-        return collect([
-            Image::class,
-            Pdf::class,
-            Svg::class,
-            Video::class,
-        ]);
+        return collect(config('laravel-medialibrary.imageGenerators'));
     }
 
     /**

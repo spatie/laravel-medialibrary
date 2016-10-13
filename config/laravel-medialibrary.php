@@ -1,5 +1,10 @@
 <?php
 
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
+
 return [
 
     /*
@@ -35,6 +40,16 @@ return [
      * The class that contains the strategy for determining a media file's path.
      */
     'custom_path_generator_class' => null,
+
+    /**
+     * List of all Image generators.
+     */
+    'imageGenerators' => [
+        Image::class,
+        Pdf::class,
+        Svg::class,
+        Video::class,
+    ],
 
     's3' => [
         /*
