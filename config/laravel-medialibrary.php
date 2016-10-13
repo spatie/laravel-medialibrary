@@ -41,7 +41,7 @@ return [
      */
     'custom_path_generator_class' => null,
 
-    /**
+    /*
      * List of all Image generators.
      */
     'imageGenerators' => [
