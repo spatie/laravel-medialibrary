@@ -4,14 +4,13 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
-use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model
@@ -140,10 +139,6 @@ class Media extends Model
      */
     public function getTypeFromMimeAttribute() : string
     {
-        if ($this->getDiskDriverName() !== 'local') {
-            return static::TYPE_OTHER;
-        }
-
         $imageGenerators = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
