@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.9.4 - 2016-10-21
+- fix for image generators when using S3
+
 ## 4.9.3 - 2016-10-13
 - the image generators wil now do their supported extensions check in a case insensitive manner
 
