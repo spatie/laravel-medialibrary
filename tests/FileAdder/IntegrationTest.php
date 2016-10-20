@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
