@@ -111,7 +111,8 @@ class FileManipulator
      */
     protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions)
     {
-        $job = new PerformConversions($queuedConversions, $media);
+        $jobClass = config('laravel-medialibrary.queue_job_class', PerformConversions::class);
+        $job = new $jobClass($queuedConversions, $media);
 
         $customQueue = config('laravel-medialibrary.queue_name');
 

@@ -21,6 +21,11 @@ return [
     'queue_name' => '',
 
     /*
+     * The class to use for the queue job to convert media.
+     */
+    'queue_job_class' => \Spatie\MediaLibrary\Jobs\PerformConversions::class,
+
+    /*
      * The class name of the media model to be used.
      */
     'media_model' => Spatie\MediaLibrary\Media::class,
