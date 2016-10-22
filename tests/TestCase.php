@@ -174,10 +174,10 @@ abstract class TestCase extends Orchestra
             'key' => getenv('S3_ACCESS_KEY_ID'),
             'secret' => getenv('S3_SECRET_ACCESS_KEY'),
             'region' => getenv('S3_BUCKET_REGION'),
-            'bucket' => getenv('S3_BUCKET_NAME')
+            'bucket' => getenv('S3_BUCKET_NAME'),
         ];
 
-        $this->canTestS3 = !(bool)array_search(false, $s3Configuration);
+        $this->canTestS3 = ! (bool) array_search(false, $s3Configuration);
 
         $app['config']->set('filesystems.disks.s3', $s3Configuration);
         $app['config']->set(

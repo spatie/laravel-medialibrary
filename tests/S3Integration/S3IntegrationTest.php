@@ -11,7 +11,7 @@ class S3IntegrationTest extends TestCase
     {
         parent::setUp();
 
-        if (!$this->canTestS3) {
+        if (! $this->canTestS3) {
             $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
         }
     }
@@ -86,7 +86,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('laravel-medialibrary.s3.domain') . "/{$media->id}/test.jpg",
+            $this->app['config']->get('laravel-medialibrary.s3.domain')."/{$media->id}/test.jpg",
             $media->getUrl()
         );
 
@@ -105,7 +105,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('laravel-medialibrary.s3.domain') . "/{$media->id}/conversions/thumb.jpg",
+            $this->app['config']->get('laravel-medialibrary.s3.domain')."/{$media->id}/conversions/thumb.jpg",
             $media->getUrl('thumb')
         );
     }
