@@ -16,16 +16,6 @@ class S3IntegrationTest extends TestCase
         }
     }
 
-    public static function tearDownAfterClass()
-    {
-        parent::tearDownAfterClass();
-
-        // Clean S3 Bucket
-        collect(Storage::disk('s3')->allDirectories())->each(function ($directory) {
-            Storage::disk('s3')->deleteDirectory($directory);
-        });
-    }
-
     /** @test */
     public function it_store_a_file_on_s3()
     {
