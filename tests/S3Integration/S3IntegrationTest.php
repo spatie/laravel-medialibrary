@@ -81,10 +81,10 @@ class S3IntegrationTest extends TestCase
         );
 
         // Need to allow s3 read from travis
-        //$this->assertEquals(
-        //    sha1(file_get_contents($this->getTestJpg())),
-        //    sha1(file_get_contents($media->getUrl()))
-        //);
+        $this->assertEquals(
+            sha1(file_get_contents($this->getTestJpg())),
+            sha1(file_get_contents($media->getUrl()))
+        );
     }
 
     /** @test */
