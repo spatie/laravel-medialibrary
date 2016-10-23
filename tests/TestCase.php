@@ -186,10 +186,12 @@ abstract class TestCase extends Orchestra
             'https://'.$s3Configuration['region'].'.amazonaws.com/laravel-medialibrary'
         );
 
-        register_shutdown_function(function () {
-            collect(Storage::disk('s3')->allDirectories())->each(function ($directory) {
-                Storage::disk('s3')->deleteDirectory($directory);
+        if ($this->canTestS3) {
+            register_shutdown_function(function () {
+                collect(Storage::disk('s3')->allDirectories())->each(function ($directory) {
+                    Storage::disk('s3')->deleteDirectory($directory);
+                });
             });
-        });
+        }
     }
 }
