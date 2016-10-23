@@ -21,7 +21,7 @@ install:
   - printf "\n" | pecl install imagick
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - phpunit
 
 branches:
   only:
