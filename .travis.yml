@@ -17,13 +17,11 @@ install:
   - sudo apt-get install -y ffmpeg libavcodec-extra-53
   - travis_retry composer update --prefer-source $PREFER_LOWEST
   - travis_retry composer require php-ffmpeg/php-ffmpeg
+  - travis_retry composer require league/flysystem-aws-s3-v3
   - printf "\n" | pecl install imagick
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
-
-after_script:
-  - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+  - phpunit
 
 branches:
   only:

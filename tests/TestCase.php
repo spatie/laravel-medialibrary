@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\Test;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -28,6 +29,11 @@ abstract class TestCase extends Orchestra
      * @var \Spatie\MediaLibrary\Test\TestModelWithMorphMap
      */
     protected $testModelWithMorphMap;
+
+    /**
+     * @var bool
+     */
+    protected $canTestS3;
 
     public function setUp()
     {
@@ -85,6 +91,7 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
 
+        $this->setupS3($app);
         $this->setUpMorphMap();
     }
 
@@ -159,5 +166,32 @@ abstract class TestCase extends Orchestra
         Relation::morphMap([
             'test-model-with-morph-map' => TestModelWithMorphMap::class,
         ]);
+    }
+
+    private function setupS3($app)
+    {
+        $s3Configuration = [
+            'driver' => 's3',
+            'key' => getenv('S3_ACCESS_KEY_ID'),
+            'secret' => getenv('S3_SECRET_ACCESS_KEY'),
+            'region' => getenv('S3_BUCKET_REGION'),
+            'bucket' => getenv('S3_BUCKET_NAME'),
+        ];
+
+        $this->canTestS3 = ! (bool) array_search(false, $s3Configuration);
+
+        $app['config']->set('filesystems.disks.s3', $s3Configuration);
+        $app['config']->set(
+            'laravel-medialibrary.s3.domain',
+            'https://'.$s3Configuration['region'].'.amazonaws.com/laravel-medialibrary'
+        );
+
+        if ($this->canTestS3) {
+            register_shutdown_function(function () {
+                collect(Storage::disk('s3')->allDirectories())->each(function ($directory) {
+                    Storage::disk('s3')->deleteDirectory($directory);
+                });
+            });
+        }
     }
 }
