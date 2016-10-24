@@ -12,7 +12,7 @@ class S3IntegrationTest extends TestCase
         parent::setUp();
 
         if (! $this->canTestS3) {
-            $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
+            //$this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
         }
     }
 
