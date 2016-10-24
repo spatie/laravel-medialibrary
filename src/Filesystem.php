@@ -62,7 +62,6 @@ class Filesystem
             ->disk($media->disk)
             ->getDriver()
             ->put($destination, fopen($file, 'r+'), $this->getRemoteHeadersForFile($file));
-
     }
 
     /*
