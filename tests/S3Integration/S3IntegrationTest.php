@@ -12,8 +12,15 @@ class S3IntegrationTest extends TestCase
         parent::setUp();
 
         if (! $this->canTestS3) {
-            //$this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
+            $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
         }
+    }
+
+    public function tearDown()
+    {
+        $this->cleanUpS3();
+
+        parent::tearDown();
     }
 
     /** @test */
@@ -98,5 +105,12 @@ class S3IntegrationTest extends TestCase
             $this->app['config']->get('laravel-medialibrary.s3.domain')."/{$media->id}/conversions/thumb.jpg",
             $media->getUrl('thumb')
         );
+    }
+
+    protected function cleanUpS3()
+    {
+        collect(Storage::disk('s3')->allDirectories())->each(function ($directory) {
+            Storage::disk('s3')->deleteDirectory($directory);
+        });
     }
 }
