@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.9.5 - 2016-10-25
+- improve returned values for `getUrl` methods
+
 ## 4.9.4 - 2016-10-21
 - fix for image generators when using S3
 
