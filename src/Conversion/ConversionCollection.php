@@ -38,7 +38,7 @@ class ConversionCollection extends Collection
      */
     public function getByName($name)
     {
-        $conversion = $this->first(function ($key, Conversion $conversion) use ($name) {
+        $conversion = $this->first(function (Conversion $conversion, $key) use ($name) {
             return $conversion->getName() == $name;
         });
 
