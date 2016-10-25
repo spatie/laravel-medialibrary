@@ -151,7 +151,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return false;
+            return '';
         }
 
         return $media->getUrl($conversionName);
@@ -167,7 +167,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return false;
+            return '';
         }
 
         return $media->getPath($conversionName);
