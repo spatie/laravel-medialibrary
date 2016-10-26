@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\Test\PathGenerator\S3TestPathGenerator;
 use Spatie\MediaLibrary\Test\TestCase;
 
 class S3IntegrationTest extends TestCase
@@ -14,11 +15,15 @@ class S3IntegrationTest extends TestCase
         if (! $this->canTestS3) {
             $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
         }
+
+        $this->app['config']->set('laravel-medialibrary.custom_path_generator_class', S3TestPathGenerator::class);
     }
 
     public function tearDown()
     {
         $this->cleanUpS3();
+
+        $this->app['config']->set('laravel-medialibrary.custom_path_generator_class', null);
 
         parent::tearDown();
     }
@@ -109,7 +114,7 @@ class S3IntegrationTest extends TestCase
 
     protected function cleanUpS3()
     {
-        collect(Storage::disk('s3')->allDirectories())->each(function ($directory) {
+        collect(Storage::disk('s3')->allDirectories(getenv('TRAVIS_BUILD_ID')))->each(function ($directory) {
             Storage::disk('s3')->deleteDirectory($directory);
         });
     }
