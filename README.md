@@ -171,6 +171,26 @@ All files of the medialibrary will be stored on that disk. If you are planning o
 working with the image manipulations you should configure a queue on your service
 with the name specified in the config file.
 
+## Usage
+Adding it to a Eloquent model is easy, you simply use the supplied trait, as follows:
+
+````
+
+<?php
+
+namespace App;
+
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class News extends Model
+{
+	use HasMediaTrait;
+	
+	...
+}
+
+````
+
 ## Lumen Support
 Lumen configuration is slightly more involved but features and API are identical to Laravel.
 
