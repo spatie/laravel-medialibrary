@@ -9,7 +9,9 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
 
 This Laravel >=5.1 and Lumen compatible package can associate all sorts of files with Eloquent models. It provides a
-simple API to work with. Here's an example:
+simple API to work with. To learn all about it, head over to [the extensive documention](https://docs.spatie.be/laravel-medialibrary/v4). 
+
+Here are a few short examples of what you can do:
 ```php
 $newsItem = News::find(1);
 $newsItem->addMedia($pathToFile)->toCollection('images');
