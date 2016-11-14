@@ -252,6 +252,7 @@ A big thank you to [Nicolas Beauvais](https://github.com/nicolasbeauvais) for he
 ## Alternatives
 - [laravel-mediable](https://github.com/plank/laravel-mediable)
 - [laravel-stapler](https://github.com/CodeSleeve/laravel-stapler)
+- [media-manager](https://github.com/talvbansal/media-manager)
 
 ## About Spatie
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
