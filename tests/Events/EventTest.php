@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\Test\Events;
 use Event;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
+use Spatie\MediaLibrary\Events\IndividualMediaRemoved;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Test\TestCase;
 
@@ -54,13 +55,41 @@ class EventTest extends TestCase
         $this->testModel->clearMediaCollection('images');
     }
 
-    protected function expectsEvent($eventClassName)
+    /**
+     * @test
+     */
+    public function it_will_fire_the_individual_media_cleared_event()
+    {
+        $times = 3;
+
+        for($i = 0; $i < $times; $i++) {
+            $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->toMediaLibrary('images');
+        }
+
+        $this->expectsEvent(IndividualMediaRemoved::class, $times);
+
+        $this->testModel->clearMediaCollection('images');
+    }
+
+    protected function expectsEvent($eventClassName, $expectedTimes = 1)
     {
         Event::listen($eventClassName, function ($event) use ($eventClassName) {
             $this->firedEvents[] = $eventClassName;
         });
 
-        $this->beforeApplicationDestroyed(function () use ($eventClassName) {
+        $this->beforeApplicationDestroyed(function () use ($eventClassName, $expectedTimes) {
+            if ($expectedTimes > 1) {
+                $filtered = array_filter($this->firedEvents, function($class) use ($eventClassName) {
+                    return $class === $eventClassName;
+                });
+
+                if (count($filtered) !== $expectedTimes) {
+                    throw new Exception("Event {$eventClassName} not fired {$expectedTimes} amount of times");
+                }
+            }
             if (!in_array($eventClassName, $this->firedEvents)) {
                 throw new Exception("Event {$eventClassName} not fired");
             }

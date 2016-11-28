@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\HasMedia;
 use Illuminate\Contracts\Events\Dispatcher;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\Events\IndividualMediaRemoved;
 use Spatie\MediaLibrary\Exceptions\MediaDoesNotBelongToModel;
 use Spatie\MediaLibrary\Exceptions\MediaIsNotPartOfCollection;
 use Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened;
@@ -250,7 +251,10 @@ trait HasMediaTrait
     {
         $this->getMedia($collectionName)->map(function ($media) {
             app(Filesystem::class)->removeFiles($media);
+
             $media->delete();
+
+            app(Dispatcher::class)->fire(new IndividualMediaRemoved($media));
         });
 
         app(Dispatcher::class)->fire(new CollectionHasBeenCleared($this, $collectionName));
