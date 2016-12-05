@@ -170,7 +170,7 @@ class Media extends Model
 
     public function getDiskDriverName() : string
     {
-        return config("filesystems.disks.{$this->disk}.driver");
+        return strtolower(config("filesystems.disks.{$this->disk}.driver"));
     }
 
     /*
