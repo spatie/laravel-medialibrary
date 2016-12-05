@@ -128,7 +128,9 @@ class Filesystem
             $pathGenerator->getPathForConversions($media) :
             $pathGenerator->getPath($media);
 
-        $this->filesystem->disk($media->disk)->makeDirectory($directory);
+        if(! in_array($media->getDiskDriverName(), ['s3'], true)) {
+            $this->filesystem->disk($media->disk)->makeDirectory($directory);
+        }
 
         return $directory;
     }
