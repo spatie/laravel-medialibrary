@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Events;
 
-use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\Media;
+use Illuminate\Queue\SerializesModels;
 
 class MediaHasBeenAdded
 {

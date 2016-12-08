@@ -4,10 +4,10 @@ namespace Spatie\MediaLibrary\Test\Events;
 
 use Event;
 use Exception;
+use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
-use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
-use Spatie\MediaLibrary\Test\TestCase;
 
 class EventTest extends TestCase
 {

@@ -2,12 +2,12 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Filesystem;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Repository;
 use Symfony\Component\HttpFoundation\File\File;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdder

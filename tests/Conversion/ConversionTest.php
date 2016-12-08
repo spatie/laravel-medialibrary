@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Test\Conversion;
 
-use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Conversion\Conversion;
 
 class ConversionTest extends TestCase
 {
