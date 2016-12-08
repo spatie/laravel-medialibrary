@@ -235,13 +235,13 @@ class FileAdder
     }
 
     /**
-     * Add additional custom remote headers.
+     * Add the given additional headers when copying the file to a remote filesystem.
      *
      * @param array $customRemoteHeaders
      *
      * @return $this
      */
-    public function addCustomRemoteHeaders(array $customRemoteHeaders)
+    public function addCustomHeaders(array $customRemoteHeaders)
     {
         $this->filesystem->addCustomRemoteHeaders($customRemoteHeaders);
 

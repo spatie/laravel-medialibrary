@@ -53,7 +53,7 @@ class FileSystemTest extends TestCase
     }
 
     /** @test */
-    public function it_can_override_config_custom_headers_for_file_that_will_be_copied_to_an_external_filesytem()
+    public function it_can_use_custom_headers_when_copying_the_media_to_an_external_filesystem()
     {
         $this->filesystem->addCustomRemoteHeaders([
             'CacheControl' => 'max-age=302400',

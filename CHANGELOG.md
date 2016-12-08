@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.10.0 - 2016-12-09
+- add `addCustomHeaders` function
+
 ## 4.9.5 - 2016-10-25
 - improve returned values for `getUrl` methods
 
