@@ -235,6 +235,20 @@ class FileAdder
     }
 
     /**
+     * Add additional custom remote headers.
+     *
+     * @param array $customRemoteHeaders
+     *
+     * @return $this
+     */
+    public function addCustomRemoteHeaders(array $customRemoteHeaders)
+    {
+        $this->filesystem->addCustomRemoteHeaders($customRemoteHeaders);
+
+        return $this;
+    }
+
+    /**
      * Set the target media collection to default.
      * Will also start the import process.
      *

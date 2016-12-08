@@ -21,6 +21,11 @@ class Filesystem
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $customRemoteHeaders = [];
+
+    /**
      * @param \Illuminate\Contracts\Filesystem\Factory $filesystems
      * @param \Illuminate\Contracts\Config\Repository  $config
      */
@@ -64,6 +69,16 @@ class Filesystem
             ->put($destination, fopen($file, 'r+'), $this->getRemoteHeadersForFile($file));
     }
 
+    /**
+     * Add custom remote headers on runtime.
+     *
+     * @param array $customRemoteHeaders
+     */
+    public function addCustomRemoteHeaders(array $customRemoteHeaders)
+    {
+        $this->customRemoteHeaders = $customRemoteHeaders;
+    }
+
     /*
      * Get the headers to be used when copying the
      * given file to a remote filesytem.
@@ -74,7 +89,7 @@ class Filesystem
 
         $extraHeaders = $this->config->get('laravel-medialibrary.remote.extra_headers');
 
-        return array_merge($mimeTypeHeader, $extraHeaders);
+        return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
     }
 
     /*
