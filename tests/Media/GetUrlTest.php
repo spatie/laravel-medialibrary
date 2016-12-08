@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Test\Media;
 
-use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 
 class GetUrlTest extends TestCase
 {

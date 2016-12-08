@@ -2,15 +2,15 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
+use Spatie\MediaLibrary\Media;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
+use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\FileManipulator;
-use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\MediaRepository;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 
 class CleanCommand extends Command

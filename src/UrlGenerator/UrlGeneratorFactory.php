@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Exceptions\InvalidUrlGenerator;
 use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Exceptions\InvalidUrlGenerator;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class UrlGeneratorFactory

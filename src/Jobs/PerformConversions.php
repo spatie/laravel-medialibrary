@@ -2,12 +2,12 @@
 
 namespace Spatie\MediaLibrary\Jobs;
 
+use Spatie\MediaLibrary\Media;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
+use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\FileManipulator;
-use Spatie\MediaLibrary\Media;
 
 class PerformConversions extends Job implements ShouldQueue
 {

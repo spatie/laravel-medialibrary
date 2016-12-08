@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Illuminate\Contracts\Config\Repository as Config;
-use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
+use Illuminate\Contracts\Config\Repository as Config;
 
 abstract class BaseUrlGenerator implements UrlGenerator
 {
