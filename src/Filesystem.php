@@ -70,11 +70,11 @@ class Filesystem
     }
 
     /**
-     * Set custom remote headers on runtime.
+     * Add custom remote headers on runtime.
      *
      * @param array $customRemoteHeaders
      */
-    public function setCustomRemoteHeaders(array $customRemoteHeaders)
+    public function addCustomRemoteHeaders(array $customRemoteHeaders)
     {
         $this->customRemoteHeaders = $customRemoteHeaders;
     }
