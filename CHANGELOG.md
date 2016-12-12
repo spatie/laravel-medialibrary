@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.10.1 - 2016-12-12
+- reduce amount of calls to `s3`
+
 ## 4.10.0 - 2016-12-09
 - add `addCustomHeaders` function
 
