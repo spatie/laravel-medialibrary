@@ -3,11 +3,11 @@
 namespace Spatie\MediaLibrary\Commands;
 
 use Exception;
-use Illuminate\Console\Command;
-use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Media;
+use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
+use Illuminate\Console\ConfirmableTrait;
+use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\MediaRepository;
 
 class RegenerateCommand extends Command

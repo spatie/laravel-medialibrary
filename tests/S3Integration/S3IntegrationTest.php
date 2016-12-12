@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
+use Spatie\MediaLibrary\Test\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Test\PathGenerator\S3TestPathGenerator;
-use Spatie\MediaLibrary\Test\TestCase;
 
 class S3IntegrationTest extends TestCase
 {

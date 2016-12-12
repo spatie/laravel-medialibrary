@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Helpers\File;
+use Illuminate\Database\Eloquent\Model;
 
 class FileCannotBeAdded extends Exception
 {

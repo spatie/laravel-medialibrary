@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Test\Conversion;
 
 use DB;
-use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Test\TestCase;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Test\TestModel;
 use Spatie\MediaLibrary\Test\TestModelWithConversion;
 

@@ -3,11 +3,11 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Laravel\Lumen\Application as LumenApplication;
-use Illuminate\Foundation\Application as LaravelApplication;
 use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
+use Laravel\Lumen\Application as LumenApplication;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
+use Illuminate\Foundation\Application as LaravelApplication;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {

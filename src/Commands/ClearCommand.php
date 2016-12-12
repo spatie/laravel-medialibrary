@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
+use Spatie\MediaLibrary\Media;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Database\Eloquent\Collection;
-use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\MediaRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class ClearCommand extends Command
 {
