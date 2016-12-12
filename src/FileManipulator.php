@@ -2,13 +2,13 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Support\Facades\File;
 use Spatie\Glide\GlideImage;
+use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Jobs\PerformConversions;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
-use Spatie\MediaLibrary\Jobs\PerformConversions;
 
 class FileManipulator
 {

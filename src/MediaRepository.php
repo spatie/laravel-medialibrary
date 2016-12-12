@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Database\Eloquent\Collection as DbCollection;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Illuminate\Database\Eloquent\Collection as DbCollection;
 
 class MediaRepository
 {

@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 interface UrlGenerator

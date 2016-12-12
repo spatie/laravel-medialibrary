@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
-use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
 class Filesystem
 {
@@ -143,7 +143,7 @@ class Filesystem
             $pathGenerator->getPathForConversions($media) :
             $pathGenerator->getPath($media);
 
-        if(! in_array($media->getDiskDriverName(), ['s3'], true)) {
+        if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
             $this->filesystem->disk($media->disk)->makeDirectory($directory);
         }
 

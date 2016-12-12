@@ -3,9 +3,9 @@
 namespace Spatie\MediaLibrary\Test;
 
 use File;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 abstract class TestCase extends Orchestra
 {
