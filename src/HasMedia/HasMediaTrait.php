@@ -298,7 +298,6 @@ trait HasMediaTrait
         return $media;
     }
 
-
     /*
      * Add a conversion.
      */
