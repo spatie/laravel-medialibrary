@@ -273,6 +273,32 @@ trait HasMediaTrait
         $media->delete();
     }
 
+    /**
+     * Retrieve the associated media with the given id.
+     * You may also pass a media object.
+     *
+     * @param int|\Spatie\MediaLibrary\Media $mediaId
+     *
+     * @returns \Spatie\MediaLibrary\Media
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted
+     */
+    public function findMedia($mediaId)
+    {
+        if ($mediaId instanceof Media) {
+            $mediaId = $mediaId->id;
+        }
+
+        $media = $this->media->find($mediaId);
+
+        if (! $media) {
+            throw MediaCannotBeDeleted::doesNotBelongToModel($media, $this);
+        }
+
+        return $media;
+    }
+
+
     /*
      * Add a conversion.
      */
