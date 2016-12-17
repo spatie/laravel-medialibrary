@@ -32,56 +32,11 @@ class MediaRepository
      */
     public function getCollection(HasMedia $model, string $collectionName, $filter = []) : Collection
     {
-        $mediaCollection = $this->loadMedia($model, $collectionName);
+        $mediaCollection = $model->loadMedia($collectionName);
 
         $mediaCollection = $this->applyFilterToMediaCollection($mediaCollection, $filter);
 
         return collect($mediaCollection);
-    }
-
-    /**
-     * Load media by collectionName.
-     *
-     * @param HasMedia $model
-     * @param string   $collectionName
-     *
-     * @return mixed
-     */
-    protected function loadMedia(HasMedia $model, string $collectionName)
-    {
-        if ($this->mediaIsPreloaded($model)) {
-            $media = $model->media->filter(function (Media $mediaItem) use ($collectionName) {
-                if ($collectionName == '') {
-                    return true;
-                }
-
-                return $mediaItem->collection_name == $collectionName;
-            })->sortBy(function (Media $media) {
-                return $media->order_column;
-            })->values();
-
-            return $media;
-        }
-
-        $query = $model->media();
-
-        if ($collectionName !== '') {
-            $query = $query->where('collection_name', $collectionName);
-        }
-
-        $media = $query
-            ->orderBy('order_column')
-            ->get();
-
-        return $media;
-    }
-
-    /*
-     * Determine if media is already preloaded on this model.
-     */
-    protected function mediaIsPreloaded(HasMedia $model) : bool
-    {
-        return isset($model->media);
     }
 
     /**

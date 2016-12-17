@@ -247,6 +247,10 @@ trait HasMediaTrait
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
+        if ($this->mediaIsPreloaded()) {
+            unset($this->media);
+        }
+
         return $this;
     }
 
@@ -305,5 +309,46 @@ trait HasMediaTrait
     public function shouldDeletePreservingMedia()
     {
         return $this->deletePreservingMedia ?? false;
+    }
+
+    protected function mediaIsPreloaded() : bool
+    {
+        return isset($this->media);
+    }
+
+    /**
+     * Cache the media on the object.
+     *
+     * @param string $collectionName
+     *
+     * @return mixed
+     */
+    public function loadMedia(string $collectionName)
+    {
+        if ($this->mediaIsPreloaded()) {
+            $media = $this->media->filter(function (Media $mediaItem) use ($collectionName) {
+                if ($collectionName == '') {
+                    return true;
+                }
+
+                return $mediaItem->collection_name == $collectionName;
+            })->sortBy(function (Media $media) {
+                return $this->order_column;
+            })->values();
+
+            return $media;
+        }
+
+        $query = $this->media();
+
+        if ($collectionName !== '') {
+            $query = $query->where('collection_name', $collectionName);
+        }
+
+        $media = $query
+            ->orderBy('order_column')
+            ->get();
+
+        return $media;
     }
 }
