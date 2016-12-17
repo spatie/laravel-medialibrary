@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.10.2 - 2016-12-17
+- refactored the preloading of media
+
 ## 4.10.1 - 2016-12-12
 - reduce amount of calls to `s3`
 
