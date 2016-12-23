@@ -108,7 +108,7 @@ trait HasMediaTrait
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = '') : bool
+    public function hasMedia(string $collectionName = 'default') : bool
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
@@ -121,7 +121,7 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia(string $collectionName = '', $filters = []) : Collection
+    public function getMedia(string $collectionName = 'default', $filters = []) : Collection
     {
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
