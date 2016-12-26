@@ -44,9 +44,10 @@ trait SortableTrait
      */
     public static function setNewOrder(array $ids, int $startOrder = 1)
     {
+        $orderColumnName = $model->determineOrderColumnName();
+
         foreach ($ids as $id) {
             $model = static::find($id);
-            $orderColumnName = $model->determineOrderColumnName();
             $model->$orderColumnName = $startOrder++;
             $model->save();
         }
