@@ -218,10 +218,5 @@ class GetMediaTest extends TestCase
             2 => '2',
             1 => '3',
         ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->toArray());
-
-
-
-
-
     }
 }
