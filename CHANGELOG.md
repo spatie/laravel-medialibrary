@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.11.0 - 2017-01-10
+- added `hasNestedCustomProperty`, `getNestedCustomProperty`, `setNestedCustomProperty` and `forgetNestedCustomProperty`
+- renamed `removeCustomProperty` to `forgetCustomProperty` (`removeCustomProperty` still exists but is marked as deprecated)
+
 ## 4.10.3 - 2017-01-09
 - fix for getting preloaded media in the wrong order
 
