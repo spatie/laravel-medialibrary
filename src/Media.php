@@ -182,7 +182,7 @@ class Media extends Model
     }
 
     /**
-     * Determine if the media item has a custom property with the given name 
+     * Determine if the media item has a custom property with the given name
      * using dot notation.
      *
      * @param string $propertyName
