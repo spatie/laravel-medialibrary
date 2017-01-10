@@ -3,7 +3,7 @@
 All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 4.11.0 - 2017-01-10
-- added `hasNestedCustomProperty`, `getNestedCustomProperty`, `setNestedCustomProperty` and `forgetNestedCustomProperty`
+- added `hasNestedCustomProperty`, `getNestedCustomProperty`, `setNestedCustomProperty` and `forgetNestedCustomProperty` to use dot notation with custom properties
 - renamed `removeCustomProperty` to `forgetCustomProperty` (`removeCustomProperty` still exists but is marked as deprecated)
 
 ## 4.10.3 - 2017-01-09
