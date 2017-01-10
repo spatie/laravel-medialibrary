@@ -259,9 +259,6 @@ class Media extends Model
      * @param string $name
      *
      * @return $this
-     *
-     * @deprecated Will be renamed to `forgetCustomProperty` in the next
-     * major version.
      */
     public function forgetCustomProperty(string $name)
     {
@@ -293,7 +290,6 @@ class Media extends Model
      * Forget a custom property using dot notation.
      *
      * @param string $name
-     * @param mixed $value
      *
      * @deprecated Will be removed in the next major version in favor of
      * changing `forgetCustomProperty` to use dot notation.
