@@ -58,7 +58,7 @@ class Filesystem
         if ($media->getDiskDriverName() === 'local') {
             $this->filesystem
                 ->disk($media->disk)
-                ->put($destination, fopen($file, 'r+'));
+                ->put($destination, fopen($file, 'r'));
 
             return;
         }
@@ -66,7 +66,7 @@ class Filesystem
         $this->filesystem
             ->disk($media->disk)
             ->getDriver()
-            ->put($destination, fopen($file, 'r+'), $this->getRemoteHeadersForFile($file));
+            ->put($destination, fopen($file, 'r'), $this->getRemoteHeadersForFile($file));
     }
 
     /**
