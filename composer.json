@@ -20,24 +20,20 @@
   ],
   "require": {
     "php" : "^7.0",
-    "illuminate/contracts": "~5.2.0|~5.3.28|~5.4.0",
-    "illuminate/container": "~5.2.0|~5.3.28|~5.4.0",
-    "illuminate/bus": "~5.2.0|~5.3.0|~5.4.0",
-    "illuminate/console": "~5.2.0|~5.3.0|~5.4.0",
-    "illuminate/database": "~5.2.0|~5.3.0|~5.4.0",
-    "illuminate/support": "~5.2.0|~5.3.0|~5.4.0",
-    "illuminate/filesystem": "~5.2.0|~5.3.0|~5.4.0",
+    "league/flysystem": "^1.0.13",
+    "illuminate/bus": "~5.4.0",
+    "illuminate/console": "~5.4.0",
+    "illuminate/database": "~5.4.0",
+    "illuminate/support": "~5.4.0",
     "spatie/laravel-glide": "^3.0.0",
     "spatie/string": "^2.0.0",
-    "spatie/pdf-to-image": "^1.2",
-    "league/flysystem": "^1.0.13"
-
+    "spatie/pdf-to-image": "^1.2"
   },
   "require-dev": {
     "league/flysystem-aws-s3-v3": "^1.0.13",
     "phpunit/phpunit" : "^5.7.0",
     "mockery/mockery": "^0.9.4",
-    "orchestra/testbench": "~3.2.0|~3.3.0|~3.4.0",
+    "orchestra/testbench": "~3.4.0",
     "doctrine/dbal": "^2.5.2"
   },
   "conflict": {
@@ -56,5 +52,7 @@
     "psr-4": {
       "Spatie\\MediaLibrary\\Test\\": "tests"
     }
-  }
+  },
+
+  "minimum-stability": "dev"
 }
