@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Conversion\Conversion;
@@ -90,12 +91,7 @@ class Media extends Model
      */
     public function getImageGenerators() : Collection
     {
-        return collect([
-            Image::class,
-            Pdf::class,
-            Svg::class,
-            Video::class,
-        ]);
+        return collect(config('laravel-medialibrary.imageGenerators'));
     }
 
     /**
