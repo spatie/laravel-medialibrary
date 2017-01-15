@@ -2,12 +2,12 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Filesystem;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Cache\Repository;
 use Symfony\Component\HttpFoundation\File\File;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdder
@@ -232,6 +232,20 @@ class FileAdder
     public function withAttributes(array $properties)
     {
         return $this->withProperties($properties);
+    }
+
+    /**
+     * Add the given additional headers when copying the file to a remote filesystem.
+     *
+     * @param array $customRemoteHeaders
+     *
+     * @return $this
+     */
+    public function addCustomHeaders(array $customRemoteHeaders)
+    {
+        $this->filesystem->addCustomRemoteHeaders($customRemoteHeaders);
+
+        return $this;
     }
 
     /**

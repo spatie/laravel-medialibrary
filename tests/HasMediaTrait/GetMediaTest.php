@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Test\TestModel;
 
 class GetMediaTest extends TestCase
 {
@@ -189,5 +190,33 @@ class GetMediaTest extends TestCase
         $secondMedia->save();
 
         $this->assertEquals($firstMedia->getPath(), $this->testModel->getFirstMediaPath('images'));
+    }
+
+    /** @test */
+    public function it_will_return_preloaded_media_sorting_on_order_column()
+    {
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toCollection('images');
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toCollection('images');
+
+        $preloadedTestModel = TestModel::with('media')
+            ->where('id', $this->testModel->id)
+            ->first();
+
+        $this->assertSame([
+            1 => '1',
+            2 => '2',
+        ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->toArray());
+
+        $firstMedia->order_column = 3;
+        $firstMedia->save();
+
+        $preloadedTestModel = TestModel::with('media')
+            ->where('id', $this->testModel->id)
+            ->first();
+
+        $this->assertSame([
+            2 => '2',
+            1 => '3',
+        ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->toArray());
     }
 }

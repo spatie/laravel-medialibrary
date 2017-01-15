@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Test;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class TestModelWithoutMediaConversions extends Model implements HasMedia
 {

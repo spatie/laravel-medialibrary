@@ -27,11 +27,12 @@
     "spatie/laravel-glide": "^3.0.0",
     "spatie/string": "^2.0.0",
     "spatie/pdf-to-image": "^1.2"
+
   },
   "require-dev": {
+    "league/flysystem-aws-s3-v3": "^1.0",
     "phpunit/phpunit" : "^5.0.0",
     "mockery/mockery": "^0.9.4",
-    "scrutinizer/ocular": "^1.1",
     "orchestra/testbench": "^3.1",
     "doctrine/dbal": "^2.5.2"
   },
@@ -39,7 +40,8 @@
     "php-ffmpeg/php-ffmpeg": "<0.6.1"
   },
   "suggest": {
-    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
+    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails",
+    "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage"
   },
   "autoload": {
     "psr-4": {

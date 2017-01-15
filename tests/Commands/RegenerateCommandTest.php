@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Test\Conversion;
 
-use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Test\TestCase;
+use Illuminate\Support\Facades\Artisan;
 
 class RegenerateCommandTest extends TestCase
 {

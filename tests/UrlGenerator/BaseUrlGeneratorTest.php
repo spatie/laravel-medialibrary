@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\Test\UrlGenerator;
 
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 
 class BaseUrlGeneratorTest extends TestCase
 {

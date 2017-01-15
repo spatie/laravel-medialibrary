@@ -61,4 +61,13 @@ interface HasMedia
      * @return \Spatie\MediaLibrary\Media
      */
     public function shouldDeletePreservingMedia();
+
+    /**
+     * Cache the media on the object.
+     *
+     * @param string $collectionName
+     *
+     * @return mixed
+     */
+    public function loadMedia(string $collectionName);
 }

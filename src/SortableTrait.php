@@ -46,7 +46,9 @@ trait SortableTrait
     {
         foreach ($ids as $id) {
             $model = static::find($id);
+
             $orderColumnName = $model->determineOrderColumnName();
+
             $model->$orderColumnName = $startOrder++;
             $model->save();
         }

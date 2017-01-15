@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
-use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
+use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
 class Filesystem
 {
@@ -19,6 +19,11 @@ class Filesystem
      * @var \Illuminate\Contracts\Config\Repository
      */
     protected $config;
+
+    /**
+     * @var array
+     */
+    protected $customRemoteHeaders = [];
 
     /**
      * @param \Illuminate\Contracts\Filesystem\Factory $filesystems
@@ -64,6 +69,16 @@ class Filesystem
             ->put($destination, fopen($file, 'r+'), $this->getRemoteHeadersForFile($file));
     }
 
+    /**
+     * Add custom remote headers on runtime.
+     *
+     * @param array $customRemoteHeaders
+     */
+    public function addCustomRemoteHeaders(array $customRemoteHeaders)
+    {
+        $this->customRemoteHeaders = $customRemoteHeaders;
+    }
+
     /*
      * Get the headers to be used when copying the
      * given file to a remote filesytem.
@@ -74,7 +89,7 @@ class Filesystem
 
         $extraHeaders = $this->config->get('laravel-medialibrary.remote.extra_headers');
 
-        return array_merge($mimeTypeHeader, $extraHeaders);
+        return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
     }
 
     /*
@@ -128,7 +143,9 @@ class Filesystem
             $pathGenerator->getPathForConversions($media) :
             $pathGenerator->getPath($media);
 
-        $this->filesystem->disk($media->disk)->makeDirectory($directory);
+        if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
+            $this->filesystem->disk($media->disk)->makeDirectory($directory);
+        }
 
         return $directory;
     }

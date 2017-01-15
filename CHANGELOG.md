@@ -2,6 +2,31 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.11.1 - 2017-01-14
+- fix bug in `setNewOrder`
+
+## 4.11.0 - 2017-01-10
+- added `hasNestedCustomProperty`, `getNestedCustomProperty`, `setNestedCustomProperty` and `forgetNestedCustomProperty` to use dot notation with custom properties
+- renamed `removeCustomProperty` to `forgetCustomProperty` (`removeCustomProperty` still exists but is marked as deprecated)
+
+## 4.10.3 - 2017-01-09
+- fix for getting preloaded media in the wrong order
+
+## 4.10.2 - 2016-12-17
+- refactored the preloading of media
+
+## 4.10.1 - 2016-12-12
+- reduce amount of calls to `s3`
+
+## 4.10.0 - 2016-12-09
+- add `addCustomHeaders` function
+
+## 4.9.5 - 2016-10-25
+- improve returned values for `getUrl` methods
+
+## 4.9.4 - 2016-10-21
+- fix for image generators when using S3
+
 ## 4.9.3 - 2016-10-13
 - the image generators wil now do their supported extensions check in a case insensitive manner
 

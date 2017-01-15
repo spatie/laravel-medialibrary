@@ -2,17 +2,17 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Filesystem;
+use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
-use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
-use Spatie\MediaLibrary\Filesystem;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
-use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\MediaRepository;
 
 trait HasMediaTrait
 {
@@ -108,7 +108,7 @@ trait HasMediaTrait
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = '') : bool
+    public function hasMedia(string $collectionName = 'default') : bool
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
@@ -121,7 +121,7 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia(string $collectionName = '', $filters = []) : Collection
+    public function getMedia(string $collectionName = 'default', $filters = []) : Collection
     {
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
@@ -151,7 +151,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return false;
+            return '';
         }
 
         return $media->getUrl($conversionName);
@@ -167,7 +167,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return false;
+            return '';
         }
 
         return $media->getPath($conversionName);
@@ -247,6 +247,10 @@ trait HasMediaTrait
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
+        if ($this->mediaIsPreloaded()) {
+            unset($this->media);
+        }
+
         return $this;
     }
 
@@ -305,5 +309,40 @@ trait HasMediaTrait
     public function shouldDeletePreservingMedia()
     {
         return $this->deletePreservingMedia ?? false;
+    }
+
+    protected function mediaIsPreloaded() : bool
+    {
+        return isset($this->media);
+    }
+
+    /**
+     * Cache the media on the object.
+     *
+     * @param string $collectionName
+     *
+     * @return mixed
+     */
+    public function loadMedia(string $collectionName)
+    {
+        if ($this->mediaIsPreloaded()) {
+            return $this->media->filter(function (Media $mediaItem) use ($collectionName) {
+                if ($collectionName == '') {
+                    return true;
+                }
+
+                return $mediaItem->collection_name == $collectionName;
+            })->sortBy('order_column')->values();
+        }
+
+        $query = $this->media();
+
+        if ($collectionName !== '') {
+            $query = $query->where('collection_name', $collectionName);
+        }
+
+        return $query
+            ->orderBy('order_column')
+            ->get();
     }
 }
