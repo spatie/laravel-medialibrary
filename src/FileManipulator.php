@@ -43,7 +43,7 @@ class FileManipulator
     {
         $imageGenerator = $this->determineImageGenerator($media);
 
-        if (! $imageGenerator) {
+        if (! $imageGenerator || $conversions->isEmpty()) {
             return;
         }
 
