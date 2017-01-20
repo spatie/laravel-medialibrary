@@ -152,6 +152,8 @@ class IntegrationTest extends TestCase
         );
 
         $result = $this->call('get', 'upload', [], [], ['file' => $fileUpload]);
+
+        $this->assertEquals(200, $result->getStatusCode());
     }
 
     /** @test */
