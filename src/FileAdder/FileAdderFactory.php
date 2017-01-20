@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\FileAdder;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 
 class FileAdderFactory
