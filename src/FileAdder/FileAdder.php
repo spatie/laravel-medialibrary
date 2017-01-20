@@ -299,6 +299,11 @@ class FileAdder
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
 
+    public function toCollectionOnCloudDisk(string $collectionName = 'default')
+    {
+        return $this->toCollectionOnDisk($collectionName, config('filesystems.cloud'));
+    }
+
     /**
      * @param string $collectionName
      * @param string $diskName
