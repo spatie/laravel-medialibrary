@@ -66,6 +66,28 @@ class AddMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
+    {
+        $modelClass = new class() extends TestModelWithConversion {
+            public function registerMediaConversions()
+            {
+                $this->addMediaConversion('my-conversion')
+                    ->setCrop(50, 50, 10, 10)
+                    ->setFormat('src')
+                    ->nonQueued();
+            }
+        };
+
+        $model = $modelClass::first();
+
+        $media = $model
+            ->addMedia($this->getTestFilesDirectory('test.png'))
+            ->toCollection('images');
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/my-conversion.png'));
+    }
+
+    /** @test */
     public function it_can_create_a_derived_version_of_a_pdf_if_imagick_exists()
     {
         $media = $this->testModelWithConversion
