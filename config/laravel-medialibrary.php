@@ -1,10 +1,5 @@
 <?php
 
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
-
 return [
 
     /*
@@ -41,16 +36,6 @@ return [
      */
     'custom_path_generator_class' => null,
 
-    /*
-     * List of all Image generators.
-     */
-    'imageGenerators' => [
-        Image::class,
-        Pdf::class,
-        Svg::class,
-        Video::class,
-    ],
-
     's3' => [
         /*
          * The domain that should be prepended when generating urls.
@@ -70,6 +55,16 @@ return [
         'extra_headers' => [
             'CacheControl' => 'max-age=604800',
         ],
+    ],
+
+    /*
+     * These generators will be used to created conversion of media files.
+     */
+    'imageGenerators' => [
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
     ],
 
     /*

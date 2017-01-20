@@ -2,6 +2,11 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Filesystem;
 use Illuminate\Database\Eloquent\Model;
@@ -96,7 +101,6 @@ class FileAdder
      *
      * @return $this
      *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function setFile($file)
     {
@@ -126,7 +130,7 @@ class FileAdder
             return $this;
         }
 
-        throw FileCannotBeAdded::unknownType();
+        throw UnknownType::create();
     }
 
     /**
@@ -279,6 +283,7 @@ class FileAdder
      */
     public function toMediaLibraryOnDisk(string $collectionName = 'default', string $diskName = '')
     {
+
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
 
@@ -316,15 +321,15 @@ class FileAdder
     public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
         if (! $this->subject->exists) {
-            throw FileCannotBeAdded::modelDoesNotExist($this->subject);
+            throw ModelDoesNotExist::create($this->subject);
         }
 
         if (! is_file($this->pathToFile)) {
-            throw FileCannotBeAdded::fileDoesNotExist($this->pathToFile);
+            throw FileDoesNotExist::create($this->pathToFile);
         }
 
         if (filesize($this->pathToFile) > config('laravel-medialibrary.max_file_size')) {
-            throw FileCannotBeAdded::fileIsTooBig($this->pathToFile);
+            throw FileIsTooBig::create($this->pathToFile);
         }
 
         $mediaClass = config('laravel-medialibrary.media_model');
@@ -369,7 +374,7 @@ class FileAdder
         }
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw FileCannotBeAdded::diskDoesNotExist($diskName);
+            throw DiskDoesNotExist::create($diskName);
         }
 
         return $diskName;
