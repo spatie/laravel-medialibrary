@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.0.0 - unreleased 
+
+- add `toCollectionOnCloudDisk`
+
 ## 4.11.2 - 2017-01-17
 - avoid creating / deleting temp dir if no conversions should be performed
 
