@@ -26,4 +26,4 @@ script:
 branches:
   only:
     - master
-    - stable
+    - v5
