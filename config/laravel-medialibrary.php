@@ -1,8 +1,8 @@
 <?php
 
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Video;
 
 return [
