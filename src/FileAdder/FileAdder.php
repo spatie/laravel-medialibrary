@@ -2,11 +2,6 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Filesystem;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +9,11 @@ use Illuminate\Contracts\Cache\Repository;
 use Symfony\Component\HttpFoundation\File\File;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
 
 class FileAdder
 {
@@ -100,7 +100,6 @@ class FileAdder
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return $this
-     *
      */
     public function setFile($file)
     {
@@ -283,7 +282,6 @@ class FileAdder
      */
     public function toMediaLibraryOnDisk(string $collectionName = 'default', string $diskName = '')
     {
-
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
 
