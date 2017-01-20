@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Filesystem;
@@ -79,7 +80,7 @@ trait HasMediaTrait
     public function addMediaFromUrl(string $url)
     {
         if (! $stream = @fopen($url, 'r')) {
-            throw FileCannotBeAdded::unreachableUrl($url);
+            throw UnreachableUrl::create($url);
         }
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
