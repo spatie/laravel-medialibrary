@@ -338,7 +338,7 @@ class FileAdder
         $media->fill($this->properties);
 
         $this->subject->media()->save($media);
-        
+
         $this->filesystem->add($this->pathToFile, $media, $this->fileName);
 
         if (! $this->preserveOriginal) {
