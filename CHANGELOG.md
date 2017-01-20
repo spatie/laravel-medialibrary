@@ -5,6 +5,10 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 5.0.0 - unreleased 
 
 - add `toCollectionOnCloudDisk`
+- refactor all functions in `FileCannotBeAdded` to their own exception classes
+
+## 4.11.3 - 2017-01-20
+- put files using `r` mode instead of `r+`
 
 ## 4.11.2 - 2017-01-17
 - avoid creating / deleting temp dir if no conversions should be performed
