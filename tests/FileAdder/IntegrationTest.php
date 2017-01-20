@@ -151,7 +151,9 @@ class IntegrationTest extends TestCase
             filesize($this->getTestFilesDirectory('test.jpg'))
         );
 
-        $this->makeRequest('get', 'upload', [], [], ['file' => $fileUpload]);
+        $result = $this->call('get', 'upload', [], [], ['file' => $fileUpload]);
+
+        $this->assertEquals(200, $result->getStatusCode());
     }
 
     /** @test */
