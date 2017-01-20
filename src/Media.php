@@ -3,9 +3,9 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
