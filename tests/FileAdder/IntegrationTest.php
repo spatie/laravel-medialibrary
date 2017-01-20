@@ -171,7 +171,7 @@ class IntegrationTest extends TestCase
             $this->assertTrue($exceptionWasThrown);
         });
 
-        $this->makeRequest('get', 'upload');
+        $this->call('get', 'upload');
     }
 
     /** @test */

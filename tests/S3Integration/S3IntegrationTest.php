@@ -64,7 +64,7 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_delete_a_file_converions_on_s3()
+    public function it_deletes_file_converions_on_s3()
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
