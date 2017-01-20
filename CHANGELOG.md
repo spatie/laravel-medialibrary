@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.11.2 - 2017-01-17
+- avoid creating / deleting temp dir if no conversions should be performed
+
 ## 4.11.1 - 2017-01-14
 - fix bug in `setNewOrder`
 
