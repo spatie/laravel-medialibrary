@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.12.0 - 2017-01-23
+- add support for Laravel 5.4
+- drop support for Laravel 5.1
+
 ## 4.11.3 - 2017-01-20
 - put files using `r` mode instead of `r+`
 
