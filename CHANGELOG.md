@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.12.1 - 2017-01-27
+- avoid unnecessary regeneration of conversions when saving a model
+
 ## 4.12.0 - 2017-01-23
 - add support for Laravel 5.4
 - drop support for Laravel 5.1
