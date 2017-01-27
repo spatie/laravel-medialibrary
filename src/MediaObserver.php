@@ -22,7 +22,7 @@ class MediaObserver
             return;
         }
 
-        if ($media->manipulations !== $media->getOriginal('manipulations')) {
+        if ($media->manipulations !== json_decode($media->getOriginal('manipulations'))) {
             app(FileManipulator::class)->createDerivedFiles($media);
         }
     }
