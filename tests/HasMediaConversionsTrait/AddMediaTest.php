@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
+use Carbon\Carbon;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModelWithConversion;
 
@@ -75,5 +76,25 @@ class AddMediaTest extends TestCase
         $thumbPath = $this->getMediaDirectory($media->id.'/conversions/thumb.jpg');
 
         class_exists('Imagick') ? $this->assertFileExists($thumbPath) : $this->assertFileNotExists($thumbPath);
+    }
+
+    /** @test */
+    public function it_will_not_create_a_derived_version_if_manipulations_did_not_change()
+    {
+        Carbon::setTestNow();
+
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
+
+        $originalThumbCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+
+        Carbon::setTestNow(Carbon::now()->addMinute());
+
+        $media->order_column = $media->order_column+1;
+        $media->save();
+
+        $thumbsCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
+
+        $this->assertEquals($originalThumbCreatedAt, $thumbsCreatedAt);
+
     }
 }
