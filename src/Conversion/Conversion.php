@@ -60,7 +60,7 @@ class Conversion
         $manipulations = $this->manipulations;
 
         //if format not is specified, create a jpg
-        if (count($manipulations) && !$this->containsFormatManipulation($manipulations)) {
+        if (count($manipulations) && ! $this->containsFormatManipulation($manipulations)) {
             $manipulations[0]['fm'] = 'jpg';
         }
 
@@ -116,7 +116,7 @@ class Conversion
     public function shouldBePerformedOn(string $collectionName): bool
     {
         //if no collections were specified, perform conversion on all collections
-        if (!count($this->performOnCollections)) {
+        if (! count($this->performOnCollections)) {
             return true;
         }
 
@@ -256,7 +256,7 @@ dd($manipulation['fm']);
     {
         $validFormats = ['jpg', 'png', 'gif', 'src'];
 
-        if (!in_array($format, $validFormats)) {
+        if (! in_array($format, $validFormats)) {
             throw InvalidConversionParameter::invalidFormat($format, $validFormats);
         }
 
@@ -294,7 +294,7 @@ dd($manipulation['fm']);
             'crop-bottom-right',
         ];
 
-        if (!in_array($fit, $validFits)) {
+        if (! in_array($fit, $validFits)) {
             throw InvalidConversionParameter::invalidFit($fit, $validFits);
         }
 
