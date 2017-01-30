@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.13.1 - 2017-01-30
+
+- add `FilesystemInterface`
+
 ## 4.12.1 - 2017-01-27
 - avoid unnecessary regeneration of conversions when saving a model
 
