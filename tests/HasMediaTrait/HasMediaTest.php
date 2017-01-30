@@ -25,7 +25,7 @@ class HasMediaTest extends TestCase
     {
         $this->testModel->addMedia($this->getTestJpg())->toCollection('images');
 
-        $this->assertTrue($this->testModel->hasMedia());
+        $this->assertTrue($this->testModel->hasMedia('images'));
     }
 
     /** @test */

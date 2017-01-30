@@ -87,7 +87,7 @@ class Filesystem
     {
         $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
 
-        $extraHeaders = $this->config->get('laravel-medialibrary.remote.extra_headers');
+        $extraHeaders = $this->config->get('medialibrary.remote.extra_headers');
 
         return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
     }

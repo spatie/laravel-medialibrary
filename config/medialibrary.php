@@ -58,6 +58,16 @@ return [
     ],
 
     /*
+     * These generators will be used to created conversion of media files.
+     */
+    'imageGenerators' => [
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
+    ],
+
+    /*
      * FFMPEG & FFProbe binaries path, only used if you try to generate video
      * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
      * dependency.

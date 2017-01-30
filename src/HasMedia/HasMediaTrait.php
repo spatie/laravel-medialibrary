@@ -8,11 +8,11 @@ use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 
 trait HasMediaTrait
 {
@@ -40,7 +40,7 @@ trait HasMediaTrait
      */
     public function media()
     {
-        return $this->morphMany(config('laravel-medialibrary.media_model'), 'model');
+        return $this->morphMany(config('medialibrary.media_model'), 'model');
     }
 
     /**
@@ -79,7 +79,7 @@ trait HasMediaTrait
     public function addMediaFromUrl(string $url)
     {
         if (! $stream = @fopen($url, 'r')) {
-            throw FileCannotBeAdded::unreachableUrl($url);
+            throw UnreachableUrl::create($url);
         }
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
@@ -108,7 +108,7 @@ trait HasMediaTrait
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = '') : bool
+    public function hasMedia(string $collectionName = 'default') : bool
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
@@ -121,7 +121,7 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia(string $collectionName = '', $filters = []) : Collection
+    public function getMedia(string $collectionName = 'default', $filters = []) : Collection
     {
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
@@ -191,7 +191,7 @@ trait HasMediaTrait
 
         $updatedMedia = [];
         foreach ($newMediaArray as $newMediaItem) {
-            $mediaClass = config('laravel-medialibrary.media_model');
+            $mediaClass = config('medialibrary.media_model');
             $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {

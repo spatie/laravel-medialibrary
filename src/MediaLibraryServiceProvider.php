@@ -25,7 +25,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
     {
         if ($this->app instanceof LaravelApplication) {
             $this->publishes([
-                __DIR__.'/../config/laravel-medialibrary.php' => config_path('laravel-medialibrary.php'),
+                __DIR__.'/../config/medialibrary.php' => config_path('medialibrary.php'),
             ], 'config');
 
             if (! class_exists('CreateMediaTable')) {
@@ -37,10 +37,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
                   ], 'migrations');
             }
         } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure('laravel-medialibrary');
+            $this->app->configure('medialibrary');
         }
 
-        $mediaClass = config('laravel-medialibrary.media_model');
+        $mediaClass = config('medialibrary.media_model');
         $mediaClass::observe(new MediaObserver());
     }
 
@@ -49,7 +49,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laravel-medialibrary.php', 'laravel-medialibrary');
+        $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', 'medialibrary');
 
         $this->app->singleton(MediaRepository::class);
 

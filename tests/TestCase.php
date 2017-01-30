@@ -176,7 +176,7 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.s3', $s3Configuration);
         $app['config']->set(
-            'laravel-medialibrary.s3.domain',
+            'medialibrary.s3.domain',
             'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
         );
     }

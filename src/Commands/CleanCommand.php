@@ -142,7 +142,7 @@ class CleanCommand extends Command
 
     protected function deleteOrphanedFiles()
     {
-        $diskName = $this->argument('disk') ?: config('laravel-medialibrary.defaultFilesystem');
+        $diskName = $this->argument('disk') ?: config('medialibrary.defaultFilesystem');
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw FileCannotBeAdded::diskDoesNotExist($diskName);

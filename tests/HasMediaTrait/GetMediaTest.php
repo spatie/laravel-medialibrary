@@ -17,13 +17,21 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
-    public function it_will_get_all_media_when_not_specify_a_collection()
+    public function it_will_only_get_media_from_the_specified_collection()
     {
+        $this->assertCount(0, $this->testModel->getMedia('images'));
+        $this->assertCount(0, $this->testModel->getMedia('downloads'));
+        $this->assertCount(0, $this->testModel->getMedia());
+
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toCollection('images');
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toCollection('downloads');
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaLibrary();
 
-        $this->assertCount(3, $this->testModel->getMedia());
+        $this->testModel = $this->testModel->fresh();
+
+        $this->assertCount(1, $this->testModel->getMedia('images'));
+        $this->assertCount(1, $this->testModel->getMedia('downloads'));
+        $this->assertCount(1, $this->testModel->getMedia());
     }
 
     /** @test */

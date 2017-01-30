@@ -9,6 +9,11 @@ use Illuminate\Contracts\Cache\Repository;
 use Symfony\Component\HttpFoundation\File\File;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
 
 class FileAdder
 {
@@ -95,8 +100,6 @@ class FileAdder
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return $this
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function setFile($file)
     {
@@ -126,7 +129,7 @@ class FileAdder
             return $this;
         }
 
-        throw FileCannotBeAdded::unknownType();
+        throw UnknownType::create();
     }
 
     /**
@@ -299,6 +302,11 @@ class FileAdder
         return $this->toCollectionOnDisk($collectionName, $diskName);
     }
 
+    public function toCollectionOnCloudDisk(string $collectionName = 'default')
+    {
+        return $this->toCollectionOnDisk($collectionName, config('filesystems.cloud'));
+    }
+
     /**
      * @param string $collectionName
      * @param string $diskName
@@ -311,18 +319,18 @@ class FileAdder
     public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
     {
         if (! $this->subject->exists) {
-            throw FileCannotBeAdded::modelDoesNotExist($this->subject);
+            throw ModelDoesNotExist::create($this->subject);
         }
 
         if (! is_file($this->pathToFile)) {
-            throw FileCannotBeAdded::fileDoesNotExist($this->pathToFile);
+            throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('laravel-medialibrary.max_file_size')) {
-            throw FileCannotBeAdded::fileIsTooBig($this->pathToFile);
+        if (filesize($this->pathToFile) > config('medialibrary.max_file_size')) {
+            throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('laravel-medialibrary.media_model');
+        $mediaClass = config('medialibrary.media_model');
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -360,11 +368,11 @@ class FileAdder
     protected function determineDiskName(string $diskName)
     {
         if ($diskName === '') {
-            $diskName = config('laravel-medialibrary.defaultFilesystem');
+            $diskName = config('medialibrary.defaultFilesystem');
         }
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw FileCannotBeAdded::diskDoesNotExist($diskName);
+            throw DiskDoesNotExist::create($diskName);
         }
 
         return $diskName;

@@ -13,7 +13,9 @@ class MultipleDiskTest extends TestCase
         $collectionName = 'images';
         $diskName = 'secondMediaDisk';
 
-        $media = $this->testModel->addMedia($this->getTestJpg())->toCollectionOnDisk($collectionName, $diskName);
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toCollectionOnDisk($collectionName, $diskName);
 
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);
@@ -53,5 +55,23 @@ class MultipleDiskTest extends TestCase
 
         $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
         $this->assertEquals("/media2/{$media->id}/conversions/thumb.jpg", $media->getUrl('thumb'));
+    }
+
+    /** @test */
+    public function it_can_put_files_on_the_cloud_disk_configured_the_filesystems_config_file()
+    {
+        $collectionName = 'images';
+
+        $diskName = 'secondMediaDisk';
+
+        $this->app['config']->set('filesystems.cloud', 'secondMediaDisk');
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toCollectionOnCloudDisk($collectionName);
+
+        $this->assertEquals($collectionName, $media->collection_name);
+        $this->assertEquals($diskName, $media->disk);
+        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
     }
 }
