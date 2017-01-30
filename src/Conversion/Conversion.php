@@ -164,7 +164,6 @@ class Conversion
      */
     public function getResultExtension(string $originalFileExtension = ''): string
     {
-        /*
         return collect($this->getManipulations())
             ->filter(function(array $manipulation) {
                 return isset($manipulation['fm']);
@@ -175,22 +174,11 @@ class Conversion
                 if ($manipulation['fm'] === 'src' && in_array($originalFileExtension, $keepExtensions)) {
                     return $originalFileExtension;
                 }
-dd($manipulation['fm']);
+
                 return $manipulation['fm'];
 
             })
             ->last() ?? $originalFileExtension;
-        */
-
-        return array_reduce($this->getManipulations(), function ($carry, array $manipulation) {
-            if (isset($manipulation['fm'])) {
-                $keepExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-                return ($manipulation['fm'] === 'src' && in_array($carry, $keepExtensions)) ? $carry : $manipulation['fm'];
-            }
-
-            return $carry;
-        }, $originalFileExtension);
     }
 
     protected function containsFormatManipulation(array $manipulations): bool

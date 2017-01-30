@@ -48,11 +48,9 @@ class ConversionCollection extends Collection
      */
     public function getByName(string $name)
     {
-        foreach ($this->items as $conversion) {
-            if ($conversion->getName() === $name) {
-                return $conversion;
-            }
-        }
+        return $this->first(function(Conversion $conversion) {
+            return $conversion->getName();
+        });
 
         throw InvalidConversion::unknownName($name);
     }
