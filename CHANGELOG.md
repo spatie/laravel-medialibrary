@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 4.13.1 - 2017-01-30
+## 4.13.0 - 2017-01-30
 
 - add `FilesystemInterface`
 
