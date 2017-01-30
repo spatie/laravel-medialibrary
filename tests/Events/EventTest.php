@@ -33,7 +33,7 @@ class EventTest extends TestCase
     {
         $this->expectsEvent(ConversionHasBeenCompleted::class);
 
-        $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
+        $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
     }
 
     /** @test */

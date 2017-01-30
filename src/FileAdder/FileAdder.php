@@ -252,59 +252,16 @@ class FileAdder
     }
 
     /**
-     * Set the target media collection to default.
-     * Will also start the import process.
-     *
      * @param string $collectionName
-     * @param string $diskName
      *
-     * @return Media
+     * @return \Spatie\MediaLibrary\Media
      *
-     * @throws FileDoesNotExist
      * @throws FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
+    public function toMediaLibraryOnCloudDisk(string $collectionName = 'default')
     {
-        return $this->toCollectionOnDisk($collectionName, $diskName);
-    }
-
-    /**
-     * Set the target media collection to default.
-     * Will also start the import process.
-     *
-     * @param string $collectionName
-     * @param string $diskName
-     *
-     * @return Media
-     *
-     * @throws FileDoesNotExist
-     * @throws FileCannotBeAdded
-     */
-    public function toMediaLibraryOnDisk(string $collectionName = 'default', string $diskName = '')
-    {
-        return $this->toCollectionOnDisk($collectionName, $diskName);
-    }
-
-    /**
-     * Set the collection name where to import the file.
-     * Will also start the import process.
-     *
-     * @param string $collectionName
-     * @param string $diskName
-     *
-     * @return Media
-     *
-     * @throws FileDoesNotExist
-     * @throws FileCannotBeAdded
-     */
-    public function toCollection(string $collectionName = 'default', string $diskName = '')
-    {
-        return $this->toCollectionOnDisk($collectionName, $diskName);
-    }
-
-    public function toCollectionOnCloudDisk(string $collectionName = 'default')
-    {
-        return $this->toCollectionOnDisk($collectionName, config('filesystems.cloud'));
+        return $this->toMediaLibrary($collectionName, config('filesystems.cloud'));
     }
 
     /**
@@ -316,7 +273,7 @@ class FileAdder
      * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
+    public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
     {
         if (! $this->subject->exists) {
             throw ModelDoesNotExist::create($this->subject);

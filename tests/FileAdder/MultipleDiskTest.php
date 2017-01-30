@@ -15,7 +15,7 @@ class MultipleDiskTest extends TestCase
 
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toCollectionOnDisk($collectionName, $diskName);
+            ->toMediaLibrary($collectionName, $diskName);
 
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);
@@ -29,7 +29,7 @@ class MultipleDiskTest extends TestCase
 
         $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toCollectionOnDisk('images', 'diskdoesnotexist');
+            ->toMediaLibrary('images', 'diskdoesnotexist');
     }
 
     /** @test */
@@ -38,7 +38,9 @@ class MultipleDiskTest extends TestCase
         $collectionName = 'images';
         $diskName = 'secondMediaDisk';
 
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollectionOnDisk($collectionName, $diskName);
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->toMediaLibrary($collectionName, $diskName);
 
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);
@@ -51,7 +53,7 @@ class MultipleDiskTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryOnDisk('', 'secondMediaDisk');
+            ->toMediaLibrary('', 'secondMediaDisk');
 
         $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
         $this->assertEquals("/media2/{$media->id}/conversions/thumb.jpg", $media->getUrl('thumb'));
@@ -68,7 +70,7 @@ class MultipleDiskTest extends TestCase
 
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toCollectionOnCloudDisk($collectionName);
+            ->toMediaLibraryOnCloudDisk($collectionName);
 
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);

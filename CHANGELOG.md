@@ -4,9 +4,10 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 5.0.0 - unreleased 
 
-- add `toCollectionOnCloudDisk`
+- add `toMediaLibraryOnCloudDisk`
 - refactor all functions in `FileCannotBeAdded` to their own exception classes
-- renamed config file from `laravel-medialibrary` to `medialibrary`
+- rename config file from `laravel-medialibrary` to `medialibrary`
+- remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
 
 ## 4.13.0 - 2017-01-30
 - add `FilesystemInterface`

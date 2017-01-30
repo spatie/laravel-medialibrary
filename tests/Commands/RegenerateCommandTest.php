@@ -10,7 +10,7 @@ class RegenerateCommandTest extends TestCase
     /** @test */
     public function it_can_regenerate_all_files()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toCollection('images');
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary('images');
 
         $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
 
@@ -29,11 +29,11 @@ class RegenerateCommandTest extends TestCase
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('test.jpg'))
             ->preservingOriginal()
-            ->toCollection('images');
+            ->toMediaLibrary('images');
 
         $media2 = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('test.jpg'))
-            ->toCollection('images');
+            ->toMediaLibrary('images');
 
         $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
         $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/thumb.jpg");
@@ -53,7 +53,7 @@ class RegenerateCommandTest extends TestCase
     /** @test */
     public function it_can_regenerate_files_even_if_there_are_files_missing()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toCollection('images');
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary('images');
 
         unlink($this->getMediaDirectory($media->id.'/test.jpg'));
 

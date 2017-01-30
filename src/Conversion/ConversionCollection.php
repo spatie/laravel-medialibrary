@@ -123,13 +123,9 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationToConversion(array $manipulation, string $conversionName)
     {
-        foreach ($this as $conversion) {
-            if ($conversion->getName() === $conversionName) {
-                $conversion->addAsFirstManipulation($manipulation);
-
-                return;
-            }
-        }
+        $this->first(function(Conversion $conversion) use ($conversionName) {
+            return $conversion->getName() === $conversionName;
+        })->addAsFirstManipulation($manipulation);
     }
 
     /*
@@ -146,7 +142,7 @@ class ConversionCollection extends Collection
     public function getConversionsFiles(string $collectionName = ''): ConversionCollection
     {
         return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
-            return $conversion->getName() . '.' . $conversion->getResultExtension();
+            return "{$conversion->getName()}.{$conversion->getResultExtension()}";
         });
     }
 }
