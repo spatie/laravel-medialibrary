@@ -10,7 +10,7 @@ class UrlGeneratorFactory
 {
     public static function createForMedia(Media $media) : UrlGenerator
     {
-        $urlGeneratorClass = config('laravel-medialibrary.custom_url_generator_class')
+        $urlGeneratorClass = config('medialibrary.custom_url_generator_class')
             ?: 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($media->getDiskDriverName()).'UrlGenerator';
 
         static::guardAgainstInvalidUrlGenerator($urlGeneratorClass);

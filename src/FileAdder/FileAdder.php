@@ -326,11 +326,11 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('laravel-medialibrary.max_file_size')) {
+        if (filesize($this->pathToFile) > config('medialibrary.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('laravel-medialibrary.media_model');
+        $mediaClass = config('medialibrary.media_model');
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -368,7 +368,7 @@ class FileAdder
     protected function determineDiskName(string $diskName)
     {
         if ($diskName === '') {
-            $diskName = config('laravel-medialibrary.defaultFilesystem');
+            $diskName = config('medialibrary.defaultFilesystem');
         }
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
