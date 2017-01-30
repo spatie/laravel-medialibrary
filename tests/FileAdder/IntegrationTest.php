@@ -300,7 +300,7 @@ class IntegrationTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_when_adding_a_file_that_is_too_big()
     {
-        $this->app['config']->set('laravel-medialibrary.max_file_size', 1);
+        $this->app['config']->set('medialibrary.max_file_size', 1);
 
         $this->expectException(FileIsTooBig::class);
 

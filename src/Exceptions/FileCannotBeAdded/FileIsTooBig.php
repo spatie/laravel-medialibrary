@@ -11,7 +11,7 @@ class FileIsTooBig extends FileCannotBeAdded
     {
         $fileSize = File::getHumanReadableSize(filesize($path));
 
-        $maxFileSize = File::getHumanReadableSize(config('laravel-medialibrary.max_file_size'));
+        $maxFileSize = File::getHumanReadableSize(config('medialibrary.max_file_size'));
 
         return new static("File `{$path}` has a size of {$fileSize} which is greater than the maximum allowed {$maxFileSize}");
     }

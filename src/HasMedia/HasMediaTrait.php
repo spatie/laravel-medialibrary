@@ -40,7 +40,7 @@ trait HasMediaTrait
      */
     public function media()
     {
-        return $this->morphMany(config('laravel-medialibrary.media_model'), 'model');
+        return $this->morphMany(config('medialibrary.media_model'), 'model');
     }
 
     /**
@@ -191,7 +191,7 @@ trait HasMediaTrait
 
         $updatedMedia = [];
         foreach ($newMediaArray as $newMediaItem) {
-            $mediaClass = config('laravel-medialibrary.media_model');
+            $mediaClass = config('medialibrary.media_model');
             $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
             if ($currentMedia->collection_name != $collectionName) {

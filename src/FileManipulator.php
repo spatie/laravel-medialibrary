@@ -113,7 +113,7 @@ class FileManipulator
     {
         $job = new PerformConversions($queuedConversions, $media);
 
-        $customQueue = config('laravel-medialibrary.queue_name');
+        $customQueue = config('medialibrary.queue_name');
 
         if ($customQueue != '') {
             $job->onQueue($customQueue);

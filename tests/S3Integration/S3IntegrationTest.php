@@ -16,14 +16,14 @@ class S3IntegrationTest extends TestCase
             $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
         }
 
-        $this->app['config']->set('laravel-medialibrary.custom_path_generator_class', S3TestPathGenerator::class);
+        $this->app['config']->set('medialibrary.custom_path_generator_class', S3TestPathGenerator::class);
     }
 
     public function tearDown()
     {
         $this->cleanUpS3();
 
-        $this->app['config']->set('laravel-medialibrary.custom_path_generator_class', null);
+        $this->app['config']->set('medialibrary.custom_path_generator_class', null);
 
         parent::tearDown();
     }
@@ -88,7 +88,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('laravel-medialibrary.s3.domain')."/{$media->id}/test.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$media->id}/test.jpg",
             $media->getUrl()
         );
 
@@ -107,7 +107,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('laravel-medialibrary.s3.domain')."/{$media->id}/conversions/thumb.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$media->id}/conversions/thumb.jpg",
             $media->getUrl('thumb')
         );
     }

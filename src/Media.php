@@ -86,7 +86,7 @@ class Media extends Model
      */
     public function getImageGenerators() : Collection
     {
-        return collect(config('laravel-medialibrary.imageGenerators'));
+        return collect(config('medialibrary.imageGenerators'));
     }
 
     /**

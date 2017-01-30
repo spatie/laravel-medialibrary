@@ -15,8 +15,8 @@ class Video extends BaseGenerator
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
         $ffmpeg = FFMpeg::create([
-            'ffmpeg.binaries' => config('laravel-medialibrary.ffmpeg_binaries'),
-            'ffprobe.binaries' => config('laravel-medialibrary.ffprobe_binaries'),
+            'ffmpeg.binaries' => config('medialibrary.ffmpeg_binaries'),
+            'ffprobe.binaries' => config('medialibrary.ffprobe_binaries'),
         ]);
         $video = $ffmpeg->open($file);
 
