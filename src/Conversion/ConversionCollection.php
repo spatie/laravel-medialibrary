@@ -48,11 +48,15 @@ class ConversionCollection extends Collection
      */
     public function getByName(string $name)
     {
-        return $this->first(function(Conversion $conversion) {
+        $conversion = $this->first(function (Conversion $conversion) {
             return $conversion->getName();
         });
 
-        throw InvalidConversion::unknownName($name);
+        if (! $conversion) {
+            throw InvalidConversion::unknownName($name);
+        }
+
+        return $conversion;
     }
 
     /**
@@ -111,7 +115,7 @@ class ConversionCollection extends Collection
     /*
      * Get all the conversions in the collection that should be queued.
      */
-    public function getQueuedConversions(string $collectionName = '') : ConversionCollection
+    public function getQueuedConversions(string $collectionName = ''): ConversionCollection
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
             return $conversion->shouldBeQueued();
@@ -135,20 +139,20 @@ class ConversionCollection extends Collection
     /*
      * Get all the conversions in the collection that should not be queued.
      */
-    public function getNonQueuedConversions(string $collectionName = '') : ConversionCollection
+    public function getNonQueuedConversions(string $collectionName = ''): ConversionCollection
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return ! $conversion->shouldBeQueued();
+            return !$conversion->shouldBeQueued();
         });
     }
 
     /**
      * Return the list of conversion files.
      */
-    public function getConversionsFiles(string $collectionName = '') : ConversionCollection
+    public function getConversionsFiles(string $collectionName = ''): ConversionCollection
     {
         return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
-            return $conversion->getName().'.'.$conversion->getResultExtension();
+            return $conversion->getName() . '.' . $conversion->getResultExtension();
         });
     }
 }
