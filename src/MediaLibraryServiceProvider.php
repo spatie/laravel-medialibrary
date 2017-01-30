@@ -57,6 +57,8 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
 
+        $this->app->bind(FilesystemInterface::class, Filesystem::class);
+
         $this->commands([
             'command.medialibrary:regenerate',
             'command.medialibrary:clear',
