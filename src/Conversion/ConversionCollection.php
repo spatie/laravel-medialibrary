@@ -89,9 +89,9 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationsFromDb(Media $media)
     {
-        foreach ($media->manipulations as $conversionName => $manipulation) {
+        collect($media->manipulations)->each(function($manipulation, $conversionName) {
             $this->addManipulationToConversion($manipulation, $conversionName);
-        }
+        });
     }
 
     /**
@@ -107,9 +107,7 @@ class ConversionCollection extends Collection
             return $this;
         }
 
-        return $this->filter(function (Conversion $conversion) use ($collectionName) {
-            return $conversion->shouldBePerformedOn($collectionName);
-        });
+        return $this->filter->shouldBePerformedOn($collectionName);
     }
 
     /*
@@ -117,9 +115,7 @@ class ConversionCollection extends Collection
      */
     public function getQueuedConversions(string $collectionName = ''): ConversionCollection
     {
-        return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return $conversion->shouldBeQueued();
-        });
+        return $this->getConversions($collectionName)->filter->shouldBeQueued();
     }
 
     /*
@@ -141,9 +137,7 @@ class ConversionCollection extends Collection
      */
     public function getNonQueuedConversions(string $collectionName = ''): ConversionCollection
     {
-        return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return !$conversion->shouldBeQueued();
-        });
+        return $this->getConversions($collectionName)->reject->shouldBeQueued();
     }
 
     /**
