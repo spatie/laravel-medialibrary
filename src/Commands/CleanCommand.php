@@ -35,7 +35,7 @@ class CleanCommand extends Command
     /** @var \Spatie\MediaLibrary\PathGenerator\BasePathGenerator */
     protected $basePathGenerator;
 
-    /**  @var bool */
+    /** @var bool */
     protected $isDryRun = false;
 
     /**
@@ -128,7 +128,7 @@ class CleanCommand extends Command
         $mediaIds = collect($this->mediaRepository->all()->pluck('id')->toArray());
 
         collect($this->fileSystem->disk($diskName)->directories())
-            ->filter(function(string $directory) {
+            ->filter(function (string $directory) {
                 return is_numeric($directory);
             })
             ->reject(function (string $directory) use ($mediaIds) {
