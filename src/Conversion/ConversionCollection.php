@@ -142,7 +142,7 @@ class ConversionCollection extends Collection
     public function getNonQueuedConversions(string $collectionName = ''): ConversionCollection
     {
         return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return !$conversion->shouldBeQueued();
+            return ! $conversion->shouldBeQueued();
         });
     }
 
@@ -152,7 +152,7 @@ class ConversionCollection extends Collection
     public function getConversionsFiles(string $collectionName = ''): ConversionCollection
     {
         return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
-            return $conversion->getName() . '.' . $conversion->getResultExtension();
+            return $conversion->getName().'.'.$conversion->getResultExtension();
         });
     }
 }
