@@ -6,29 +6,19 @@ use Spatie\MediaLibrary\Exceptions\InvalidConversionParameter;
 
 class Conversion
 {
-    /**
-     * @var string name
-     */
+    /** @var string */
     protected $name = '';
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $extractVideoFrameAtSecond = 0;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $manipulations = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $performOnCollections = [];
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $performOnQueue = true;
 
     public function __construct(string $name)
@@ -41,7 +31,7 @@ class Conversion
         return new static($name);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -50,7 +40,7 @@ class Conversion
      * Set the timecode in seconds to extract a video thumbnail.
      * Only used on video media.
      */
-    public function setExtractVideoFrameAtSecond(int $timecode) : Conversion
+    public function setExtractVideoFrameAtSecond(int $timecode): Conversion
     {
         $this->extractVideoFrameAtSecond = $timecode;
 
@@ -65,12 +55,12 @@ class Conversion
     /**
      * Get the manipulations of this conversion.
      */
-    public function getManipulations() : array
+    public function getManipulations(): array
     {
         $manipulations = $this->manipulations;
 
         //if format not is specified, create a jpg
-        if (count($manipulations) && ! $this->containsFormatManipulation($manipulations)) {
+        if (count($manipulations) && !$this->containsFormatManipulation($manipulations)) {
             $manipulations[0]['fm'] = 'jpg';
         }
 
@@ -84,7 +74,7 @@ class Conversion
      *
      * @return $this
      */
-    public function setManipulations(...$manipulations)
+    public function setManipulations(iterable ...$manipulations)
     {
         $this->manipulations = $manipulations;
 
@@ -108,7 +98,7 @@ class Conversion
     /**
      * Set the collection names on which this conversion must be performed.
      *
-     * @param array $collectionNames
+     * @param  $collectionNames
      *
      * @return $this
      */
@@ -123,10 +113,10 @@ class Conversion
      * Determine if this conversion should be performed on the given
      * collection.
      */
-    public function shouldBePerformedOn(string $collectionName) : bool
+    public function shouldBePerformedOn(string $collectionName): bool
     {
         //if no collections were specified, perform conversion on all collections
-        if (! count($this->performOnCollections)) {
+        if (!count($this->performOnCollections)) {
             return true;
         }
 
@@ -164,7 +154,7 @@ class Conversion
     /*
      * Determine if the conversion should be queued.
      */
-    public function shouldBeQueued() : bool
+    public function shouldBeQueued(): bool
     {
         return $this->performOnQueue;
     }
@@ -172,8 +162,26 @@ class Conversion
     /*
      * Get the extension that the result of this conversion must have.
      */
-    public function getResultExtension(string $originalFileExtension = '') : string
+    public function getResultExtension(string $originalFileExtension = ''): string
     {
+        /*
+        return collect($this->getManipulations())
+            ->filter(function(array $manipulation) {
+                return isset($manipulation['fm']);
+            })
+            ->map(function (array $manipulation) use($originalFileExtension) {
+                $keepExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+                if ($manipulation['fm'] === 'src' && in_array($originalFileExtension, $keepExtensions)) {
+                    return $originalFileExtension;
+                }
+dd($manipulation['fm']);
+                return $manipulation['fm'];
+
+            })
+            ->last() ?? $originalFileExtension;
+        */
+
         return array_reduce($this->getManipulations(), function ($carry, array $manipulation) {
             if (isset($manipulation['fm'])) {
                 $keepExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -185,18 +193,11 @@ class Conversion
         }, $originalFileExtension);
     }
 
-    /*
-     * Determine if the given manipulations contain a format manipulation.
-     */
-    protected function containsFormatManipulation(array $manipulations) : bool
+    protected function containsFormatManipulation(array $manipulations): bool
     {
-        foreach ($manipulations as $manipulation) {
-            if (array_key_exists('fm', $manipulation)) {
-                return true;
-            }
-        }
-
-        return false;
+        return collect($manipulations)->contains(function ($value, $key) {
+            return array_key_exists('fm', $value);
+        });
     }
 
     /**
@@ -255,7 +256,7 @@ class Conversion
     {
         $validFormats = ['jpg', 'png', 'gif', 'src'];
 
-        if (! in_array($format, $validFormats)) {
+        if (!in_array($format, $validFormats)) {
             throw InvalidConversionParameter::invalidFormat($format, $validFormats);
         }
 
@@ -293,7 +294,7 @@ class Conversion
             'crop-bottom-right',
         ];
 
-        if (! in_array($fit, $validFits)) {
+        if (!in_array($fit, $validFits)) {
             throw InvalidConversionParameter::invalidFit($fit, $validFits);
         }
 

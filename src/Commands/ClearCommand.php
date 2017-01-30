@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
-use Spatie\MediaLibrary\Media;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Spatie\MediaLibrary\MediaRepository;
@@ -12,47 +11,28 @@ class ClearCommand extends Command
 {
     use ConfirmableTrait;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $signature = 'medialibrary:clear {modelType?} {collectionName?}
     {-- force : Force the operation to run when in production}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Delete all items in a media collection.';
 
-    /**
-     * @var \Spatie\MediaLibrary\MediaRepository
-     */
+    /** @var \Spatie\MediaLibrary\MediaRepository */
     protected $mediaRepository;
 
-    /**
-     * @param MediaRepository $mediaRepository
-     */
+    /** @param MediaRepository $mediaRepository */
     public function __construct(MediaRepository $mediaRepository)
     {
         parent::__construct();
         $this->mediaRepository = $mediaRepository;
     }
 
-    /**
-     * Handle command.
-     */
     public function handle()
     {
         if (! $this->confirmToProceed()) {
             return;
         }
 
-        $this->getMediaItems()->each(function (Media $media) {
-            $media->delete();
-        });
+        $this->getMediaItems()->each->delete();
 
         $this->info('All done!');
     }
