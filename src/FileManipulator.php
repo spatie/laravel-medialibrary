@@ -51,7 +51,7 @@ class FileManipulator
 
         $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
 
-        app(Filesystem::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
+        app(FilesystemInterface::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
         foreach ($conversions as $conversion) {
             $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
@@ -61,7 +61,7 @@ class FileManipulator
             $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
                 $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
 
-            app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
+            app(FilesystemInterface::class)->copyToMediaLibrary($renamedFile, $media, true);
 
             event(new ConversionHasBeenCompleted($media, $conversion));
         }

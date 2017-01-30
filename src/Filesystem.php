@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
-class Filesystem
+class Filesystem implements FilesystemInterface
 {
     /**
      * @var \Illuminate\Contracts\Filesystem\Factory

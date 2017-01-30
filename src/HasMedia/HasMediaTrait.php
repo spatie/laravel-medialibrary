@@ -4,8 +4,8 @@ namespace Spatie\MediaLibrary\HasMedia;
 
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Filesystem;
 use Spatie\MediaLibrary\MediaRepository;
+use Spatie\MediaLibrary\FilesystemInterface;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
@@ -241,7 +241,7 @@ trait HasMediaTrait
     public function clearMediaCollection(string $collectionName = 'default')
     {
         $this->getMedia($collectionName)->map(function (Media $media) {
-            app(Filesystem::class)->removeFiles($media);
+            app(FilesystemInterface::class)->removeFiles($media);
             $media->delete();
         });
 
