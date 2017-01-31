@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
-class PerformConversions  implements ShouldQueue
+class PerformConversions implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, Queueable;
 

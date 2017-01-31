@@ -6,8 +6,8 @@ use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model
@@ -56,7 +56,6 @@ class Media extends Model
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
         if ($conversionName !== '') {
-
             $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
 
             $urlGenerator->setConversion($conversion);
@@ -77,8 +76,6 @@ class Media extends Model
     public function getPath(string $conversionName = '') : string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
-
 
         if ($conversionName != '') {
             $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
@@ -130,7 +127,6 @@ class Media extends Model
             ? $imageGenerator->getType()
             : static::TYPE_OTHER;
     }
-
 
     /*
      * Determine the type of a file from its mime type
