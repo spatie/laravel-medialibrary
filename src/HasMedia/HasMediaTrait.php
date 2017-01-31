@@ -222,12 +222,10 @@ trait HasMediaTrait
     protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
     {
         $this->getMedia($collectionName)
-            ->filter(function (Media $currentMediaItem) use ($newMediaArray) {
-                return !in_array($currentMediaItem->id, collect($newMediaArray)->pluck('id')->toArray());
+            ->reject(function (Media $currentMediaItem) use ($newMediaArray) {
+                return in_array($currentMediaItem->id, array_column($newMediaArray, 'id'));
             })
-            ->map(function (Media $media) {
-                $media->delete();
-            });
+            ->each->delete();
     }
 
     /**
@@ -239,10 +237,11 @@ trait HasMediaTrait
      */
     public function clearMediaCollection(string $collectionName = 'default')
     {
-        $this->getMedia($collectionName)->map(function (Media $media) {
-            app(FilesystemInterface::class)->removeFiles($media);
-            $media->delete();
-        });
+        $this->getMedia($collectionName)
+            ->each(function (Media $media) {
+                app(FilesystemInterface::class)->removeFiles($media);
+                $media->delete();
+            });
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
