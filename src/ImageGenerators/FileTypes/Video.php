@@ -21,7 +21,7 @@ class Video extends BaseGenerator
 
         $video = $ffmpeg->open($file);
 
-        $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond(): 0;
+        $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
 
         $frame = $video->frame(TimeCode::fromSeconds($seconds));
         $frame->save($imageFile);
