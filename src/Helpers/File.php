@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Helpers;
 
-use finfo;
+use Finfo;
 
 class File
 {

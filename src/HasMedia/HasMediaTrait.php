@@ -324,13 +324,16 @@ trait HasMediaTrait
     public function loadMedia(string $collectionName)
     {
         if ($this->mediaIsPreloaded()) {
-            return $this->media->filter(function (Media $mediaItem) use ($collectionName) {
-                if ($collectionName == '') {
-                    return true;
-                }
+            return $this->media
+                ->filter(function (Media $mediaItem) use ($collectionName) {
+                    if ($collectionName == '') {
+                        return true;
+                    }
 
-                return $mediaItem->collection_name == $collectionName;
-            })->sortBy('order_column')->values();
+                    return $mediaItem->collection_name === $collectionName;
+                })
+                ->sortBy('order_column')
+                ->values();
         }
 
         $query = $this->media();
