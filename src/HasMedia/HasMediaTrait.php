@@ -78,7 +78,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url)
     {
-        if (!$stream = @fopen($url, 'r')) {
+        if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -150,7 +150,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -166,7 +166,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -223,7 +223,7 @@ trait HasMediaTrait
     {
         $this->getMedia($collectionName)
             ->filter(function (Media $currentMediaItem) use ($newMediaArray) {
-                return !in_array($currentMediaItem->id, collect($newMediaArray)->pluck('id')->toArray());
+                return ! in_array($currentMediaItem->id, collect($newMediaArray)->pluck('id')->toArray());
             })
             ->map(function (Media $media) {
                 $media->delete();
@@ -269,7 +269,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (!$media) {
+        if (! $media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($media, $this);
         }
 
