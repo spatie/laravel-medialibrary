@@ -9,6 +9,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - rename config file from `laravel-medialibrary` to `medialibrary`
 - remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
 - drop support for Lumen
+- use json columns for `manipulations` and `custom_properties`
 
 ## 4.13.0 - 2017-01-30
 - add `FilesystemInterface`
