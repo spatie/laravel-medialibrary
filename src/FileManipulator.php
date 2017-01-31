@@ -84,7 +84,7 @@ class FileManipulator
     public function performConversion(Media $media, Conversion $conversion, string $copiedOriginalFile)
     {
         $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16)
-            . $conversion->getName()
+            .$conversion->getName()
             .'.'
             .$media->extension;
 
