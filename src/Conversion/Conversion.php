@@ -60,7 +60,7 @@ class Conversion
         $manipulations = $this->manipulations;
 
         //if format not is specified, create a jpg
-        if (count($manipulations) && !$this->containsFormatManipulation($manipulations)) {
+        if (count($manipulations) && ! $this->containsFormatManipulation($manipulations)) {
             $manipulations[0]['fm'] = 'jpg';
         }
 
@@ -116,7 +116,7 @@ class Conversion
     public function shouldBePerformedOn(string $collectionName): bool
     {
         //if no collections were specified, perform conversion on all collections
-        if (!count($this->performOnCollections)) {
+        if (! count($this->performOnCollections)) {
             return true;
         }
 
@@ -165,10 +165,10 @@ class Conversion
     public function getResultExtension(string $originalFileExtension = ''): string
     {
         return collect($this->getManipulations())
-            ->filter(function(array $manipulation) {
+            ->filter(function (array $manipulation) {
                 return isset($manipulation['fm']);
             })
-            ->map(function (array $manipulation) use($originalFileExtension) {
+            ->map(function (array $manipulation) use ($originalFileExtension) {
                 $keepExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
                 if ($manipulation['fm'] === 'src' && in_array($originalFileExtension, $keepExtensions)) {
@@ -176,7 +176,6 @@ class Conversion
                 }
 
                 return $manipulation['fm'];
-
             })
             ->last() ?? $originalFileExtension;
     }
@@ -244,7 +243,7 @@ class Conversion
     {
         $validFormats = ['jpg', 'png', 'gif', 'src'];
 
-        if (!in_array($format, $validFormats)) {
+        if (! in_array($format, $validFormats)) {
             throw InvalidConversionParameter::invalidFormat($format, $validFormats);
         }
 
@@ -282,7 +281,7 @@ class Conversion
             'crop-bottom-right',
         ];
 
-        if (!in_array($fit, $validFits)) {
+        if (! in_array($fit, $validFits)) {
             throw InvalidConversionParameter::invalidFit($fit, $validFits);
         }
 
