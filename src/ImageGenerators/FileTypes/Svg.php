@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ImageGenerators\FileTypes;
 
+use Imagick;
 use ImagickPixel;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
@@ -9,11 +10,11 @@ use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
 
 class Svg extends BaseGenerator
 {
-    public function convert(string $file, Conversion $conversion = null) : string
+    public function convert(string $file, Conversion $conversion = null): string
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        $image = new \Imagick();
+        $image = new Imagick();
         $image->readImage($file);
         $image->setBackgroundColor(new ImagickPixel('none'));
         $image->setImageFormat('jpg');
@@ -23,17 +24,17 @@ class Svg extends BaseGenerator
         return $imageFile;
     }
 
-    public function requirementsAreInstalled() : bool
+    public function requirementsAreInstalled(): bool
     {
         return class_exists('Imagick');
     }
 
-    public function supportedExtensions() : Collection
+    public function supportedExtensions(): Collection
     {
         return collect('svg');
     }
 
-    public function supportedMimeTypes() : Collection
+    public function supportedMimeTypes(): Collection
     {
         return collect('image/svg+xml');
     }

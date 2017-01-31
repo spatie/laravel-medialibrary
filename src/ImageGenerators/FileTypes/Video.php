@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
 
 class Video extends BaseGenerator
 {
-    public function convert(string $file, Conversion $conversion = null) : string
+    public function convert(string $file, Conversion $conversion = null): string
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
@@ -18,9 +18,10 @@ class Video extends BaseGenerator
             'ffmpeg.binaries' => config('medialibrary.ffmpeg_binaries'),
             'ffprobe.binaries' => config('medialibrary.ffprobe_binaries'),
         ]);
+
         $video = $ffmpeg->open($file);
 
-        $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
+        $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond(): 0;
 
         $frame = $video->frame(TimeCode::fromSeconds($seconds));
         $frame->save($imageFile);
@@ -28,17 +29,17 @@ class Video extends BaseGenerator
         return $imageFile;
     }
 
-    public function requirementsAreInstalled() : bool
+    public function requirementsAreInstalled(): bool
     {
         return class_exists('\\FFMpeg\\FFMpeg');
     }
 
-    public function supportedExtensions() : Collection
+    public function supportedExtensions(): Collection
     {
         return collect(['webm', 'mov', 'mp4']);
     }
 
-    public function supportedMimeTypes() : Collection
+    public function supportedMimeTypes(): Collection
     {
         return collect(['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime']);
     }
