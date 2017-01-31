@@ -134,9 +134,9 @@ class Filesystem implements FilesystemInterface
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        $directory = $conversion ?
-            $pathGenerator->getPathForConversions($media) :
-            $pathGenerator->getPath($media);
+        $directory = $conversion
+            ? $pathGenerator->getPathForConversions($media)
+            : $pathGenerator->getPath($media);
 
         if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
             $this->filesystem->disk($media->disk)->makeDirectory($directory);

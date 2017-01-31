@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model
@@ -55,7 +56,10 @@ class Media extends Model
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
         if ($conversionName !== '') {
-            $urlGenerator->setConversion(ConversionCollection::createForMedia($this)->getByName($conversionName));
+
+            $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
+
+            $urlGenerator->setConversion($conversion);
         }
 
         return $urlGenerator->getUrl();
@@ -74,8 +78,12 @@ class Media extends Model
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
+
+
         if ($conversionName != '') {
-            $urlGenerator->setConversion(ConversionCollection::createForMedia($this)->getByName($conversionName));
+            $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
+
+            $urlGenerator->setConversion($conversion);
         }
 
         return $urlGenerator->getPath();
@@ -97,6 +105,7 @@ class Media extends Model
     public function getTypeAttribute()
     {
         $type = $this->type_from_extension;
+
         if ($type !== self::TYPE_OTHER) {
             return $type;
         }
@@ -111,37 +120,32 @@ class Media extends Model
      */
     public function getTypeFromExtensionAttribute()
     {
-        $imageGenerators = $this->getImageGenerators()
+        $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
-            });
+            })
+            ->first->canHandleExtension(strtolower($this->extension));
 
-        foreach ($imageGenerators as $imageGenerator) {
-            if ($imageGenerator->canHandleExtension(strtolower($this->extension))) {
-                return $imageGenerator->getType();
-            }
-        }
-
-        return static::TYPE_OTHER;
+        return $imageGenerator
+            ? $imageGenerator->getType()
+            : static::TYPE_OTHER;
     }
+
 
     /*
      * Determine the type of a file from its mime type
      */
     public function getTypeFromMimeAttribute() : string
     {
-        $imageGenerators = $this->getImageGenerators()
+        $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
-            });
+            })
+            ->first->canHandleMime($this->getMimeAttribute());
 
-        foreach ($imageGenerators as $imageGenerator) {
-            if ($imageGenerator->canHandleMime($this->getMimeAttribute())) {
-                return $imageGenerator->getType();
-            }
-        }
-
-        return static::TYPE_OTHER;
+        return $imageGenerator
+            ? $imageGenerator->getType()
+            : static::TYPE_OTHER;
     }
 
     public function getMimeAttribute() : string

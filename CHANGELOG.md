@@ -8,6 +8,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - refactor all functions in `FileCannotBeAdded` to their own exception classes
 - rename config file from `laravel-medialibrary` to `medialibrary`
 - remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
+- drop support for Lumen
 
 ## 4.13.0 - 2017-01-30
 - add `FilesystemInterface`

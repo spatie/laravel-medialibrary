@@ -12,35 +12,25 @@ use Illuminate\Foundation\Application as LaravelApplication;
 class MediaLibraryServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
      * Bootstrap the application events.
      */
     public function boot()
     {
-        if ($this->app instanceof LaravelApplication) {
+        $this->publishes([
+            __DIR__ . '/../config/medialibrary.php' => config_path('medialibrary.php'),
+        ], 'config');
+
+        if (!class_exists('CreateMediaTable')) {
+            // Publish the migration
+            $timestamp = date('Y_m_d_His', time());
+
             $this->publishes([
-                __DIR__.'/../config/medialibrary.php' => config_path('medialibrary.php'),
-            ], 'config');
-
-            if (! class_exists('CreateMediaTable')) {
-                // Publish the migration
-                $timestamp = date('Y_m_d_His', time());
-
-                $this->publishes([
-                    __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.$timestamp.'_create_media_table.php'),
-                  ], 'migrations');
-            }
-        } elseif ($this->app instanceof LumenApplication) {
-            $this->app->configure('medialibrary');
+                __DIR__ . '/../database/migrations/create_media_table.php.stub' => database_path('migrations/' . $timestamp . '_create_media_table.php'),
+            ], 'migrations');
         }
 
         $mediaClass = config('medialibrary.media_model');
+
         $mediaClass::observe(new MediaObserver());
     }
 
@@ -49,7 +39,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', 'medialibrary');
+        $this->mergeConfigFrom(__DIR__ . '/../config/medialibrary.php', 'medialibrary');
 
         $this->app->singleton(MediaRepository::class);
 
