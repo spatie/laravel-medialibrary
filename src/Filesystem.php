@@ -10,19 +10,13 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
 class Filesystem implements FilesystemInterface
 {
-    /**
-     * @var \Illuminate\Contracts\Filesystem\Factory
-     */
+    /** @var \Illuminate\Contracts\Filesystem\Factory */
     protected $filesystem;
 
-    /**
-     * @var \Illuminate\Contracts\Config\Repository
-     */
+    /** @var \Illuminate\Contracts\Config\Repository */
     protected $config;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $customRemoteHeaders = [];
 
     /**
@@ -32,6 +26,7 @@ class Filesystem implements FilesystemInterface
     public function __construct(Factory $filesystems, ConfigRepository $config)
     {
         $this->filesystem = $filesystems;
+
         $this->config = $config;
     }
 

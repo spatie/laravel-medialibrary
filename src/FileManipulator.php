@@ -28,7 +28,7 @@ class FileManipulator
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
-        if (count($queuedConversions)) {
+        if ($queuedConversions->isNotEmpty()) {
             $this->dispatchQueuedConversions($media, $queuedConversions);
         }
     }
@@ -58,8 +58,11 @@ class FileManipulator
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $conversion->getName().'.'.
-                $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION)));
+            $newFileName = $conversion->getName()
+                .'.'
+                .$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
+
+            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
 
             app(FilesystemInterface::class)->copyToMediaLibrary($renamedFile, $media, true);
 
@@ -80,16 +83,18 @@ class FileManipulator
      */
     public function performConversion(Media $media, Conversion $conversion, string $copiedOriginalFile)
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16).
-            $conversion->getName().'.'.$media->extension;
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16)
+            . $conversion->getName()
+            .'.'
+            .$media->extension;
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
-        foreach ($conversion->getManipulations() as $manipulation) {
+        collect($conversion->getManipulations())->each(function (array $manipulation) use ($conversionTempFile) {
             GlideImage::create($conversionTempFile)
                 ->modify($manipulation)
                 ->save($conversionTempFile);
-        }
+        });
 
         return $conversionTempFile;
     }
@@ -129,15 +134,10 @@ class FileManipulator
      */
     public function determineImageGenerator(Media $media)
     {
-        $imageGenerators = $media->getImageGenerators()
+        return $media->getImageGenerators()
             ->map(function (string $imageGeneratorClassName) {
                 return app($imageGeneratorClassName);
-            });
-
-        foreach ($imageGenerators as $imageGenerator) {
-            if ($imageGenerator->canConvert($media)) {
-                return $imageGenerator;
-            }
-        }
+            })
+            ->first->canConvert($media);
     }
 }
