@@ -25,11 +25,11 @@ trait HasMediaTrait
     public static function bootHasMediaTrait()
     {
         static::deleted(function (HasMedia $entity) {
-            if (! $entity->shouldDeletePreservingMedia()) {
-                $entity->media()->get()->each(function (Media $media) {
-                    $media->delete();
-                });
+            if ($entity->shouldDeletePreservingMedia()) {
+                return;
             }
+
+            $entity->media()->get()->each->delete();
         });
     }
 
@@ -78,7 +78,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url)
     {
-        if (! $stream = @fopen($url, 'r')) {
+        if (!$stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -108,7 +108,7 @@ trait HasMediaTrait
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = 'default') : bool
+    public function hasMedia(string $collectionName = 'default'): bool
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
@@ -121,7 +121,7 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia(string $collectionName = 'default', $filters = []) : Collection
+    public function getMedia(string $collectionName = 'default', $filters = []): Collection
     {
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
@@ -130,7 +130,7 @@ trait HasMediaTrait
      * Get the first media item of a media collection.
      *
      * @param string $collectionName
-     * @param array  $filters
+     * @param array $filters
      *
      * @return Media|null
      */
@@ -146,11 +146,11 @@ trait HasMediaTrait
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = '') : string
+    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -162,11 +162,11 @@ trait HasMediaTrait
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = '') : string
+    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -176,55 +176,54 @@ trait HasMediaTrait
     /**
      * Update a media collection by deleting and inserting again with new values.
      *
-     * @param array  $newMediaArray
+     * @param array $newMediaArray
      * @param string $collectionName
      *
      * @return array
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated
      */
-    public function updateMedia(array $newMediaArray, string $collectionName = 'default') : array
+    public function updateMedia(array $newMediaArray, string $collectionName = 'default'): array
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
-        $orderColumn = 1;
+        return collect($newMediaArray)
+            ->map(function (array $newMediaItem) use ($collectionName) {
+                static $orderColumn = 1;
 
-        $updatedMedia = [];
-        foreach ($newMediaArray as $newMediaItem) {
-            $mediaClass = config('medialibrary.media_model');
-            $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
+                $mediaClass = config('medialibrary.media_model');
+                $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
-            if ($currentMedia->collection_name != $collectionName) {
-                throw MediaCannotBeUpdated::doesNotBelongToCollection($collectionName, $currentMedia);
-            }
+                if ($currentMedia->collection_name != $collectionName) {
+                    throw MediaCannotBeUpdated::doesNotBelongToCollection($collectionName, $currentMedia);
+                }
 
-            if (array_key_exists('name', $newMediaItem)) {
-                $currentMedia->name = $newMediaItem['name'];
-            }
+                if (array_key_exists('name', $newMediaItem)) {
+                    $currentMedia->name = $newMediaItem['name'];
+                }
 
-            if (array_key_exists('custom_properties', $newMediaItem)) {
-                $currentMedia->custom_properties = $newMediaItem['custom_properties'];
-            }
+                if (array_key_exists('custom_properties', $newMediaItem)) {
+                    $currentMedia->custom_properties = $newMediaItem['custom_properties'];
+                }
 
-            $currentMedia->order_column = $orderColumn++;
+                $currentMedia->order_column = $orderColumn++;
 
-            $currentMedia->save();
+                $currentMedia->save();
 
-            $updatedMedia[] = $currentMedia;
-        }
-
-        return $updatedMedia;
+                return $currentMedia;
+            })
+            ->toArray();
     }
 
     /**
-     * @param array  $newMediaArray
+     * @param array $newMediaArray
      * @param string $collectionName
      */
     protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
     {
-        $this->getMedia($collectionName, [])
+        $this->getMedia($collectionName)
             ->filter(function (Media $currentMediaItem) use ($newMediaArray) {
-                return ! in_array($currentMediaItem->id, collect($newMediaArray)->pluck('id')->toArray());
+                return !in_array($currentMediaItem->id, collect($newMediaArray)->pluck('id')->toArray());
             })
             ->map(function (Media $media) {
                 $media->delete();
@@ -270,7 +269,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (! $media) {
+        if (!$media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($media, $this);
         }
 
@@ -280,7 +279,7 @@ trait HasMediaTrait
     /*
      * Add a conversion.
      */
-    public function addMediaConversion(string $name) : Conversion
+    public function addMediaConversion(string $name): Conversion
     {
         $conversion = Conversion::create($name);
 
@@ -294,7 +293,7 @@ trait HasMediaTrait
      *
      * @return bool
      */
-    public function deletePreservingMedia() : bool
+    public function deletePreservingMedia(): bool
     {
         $this->deletePreservingMedia = true;
 
@@ -311,7 +310,7 @@ trait HasMediaTrait
         return $this->deletePreservingMedia ?? false;
     }
 
-    protected function mediaIsPreloaded() : bool
+    protected function mediaIsPreloaded(): bool
     {
         return isset($this->media);
     }

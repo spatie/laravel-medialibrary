@@ -94,7 +94,7 @@ class FileAdder
         return $this;
     }
 
-    /**
+    /*
      * Set the file that needs to be imported.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
