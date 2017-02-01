@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Carbon\Carbon;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModelWithConversion;
 

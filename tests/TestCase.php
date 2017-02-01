@@ -15,7 +15,7 @@ abstract class TestCase extends Orchestra
     /** @var \Spatie\MediaLibrary\Test\TestModelWithConversion */
     protected $testModelWithConversion;
 
-    /**  @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions */
+    /** @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions */
     protected $testModelWithoutMediaConversions;
 
     /** @var \Spatie\MediaLibrary\Test\TestModelWithMorphMap */
