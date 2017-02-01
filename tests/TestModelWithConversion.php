@@ -14,7 +14,7 @@ class TestModelWithConversion extends TestModel
     public function registerMediaConversions()
     {
         $this->addMediaConversion('thumb')
-            ->setManipulations(function(Manipulations $manipulations) {
+            ->setManipulations(function (Manipulations $manipulations) {
                 $manipulations->width(50);
             })
             ->nonQueued();
