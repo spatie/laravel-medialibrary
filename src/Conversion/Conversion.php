@@ -162,8 +162,8 @@ class Conversion
      */
     public function getResultExtension(string $originalFileExtension = ''): string
     {
-        if ($manipulation = $this->manipulations->getManipulation('format')) {
-            return $manipulation[1];
+        if ($manipulationArgument = $this->manipulations->getManipulationArgument('format')) {
+            return $manipulationArgument;
         }
 
         return $originalFileExtension;
