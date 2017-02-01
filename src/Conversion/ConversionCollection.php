@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Arr;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Media;
+use Spatie\Image\Manipulations;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;

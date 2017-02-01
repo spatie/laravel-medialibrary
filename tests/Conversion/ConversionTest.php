@@ -49,7 +49,7 @@ class ConversionTest extends TestCase
     public function it_will_use_the_format_parameter_if_it_was_given()
     {
         $this->conversion->setManipulations((new Manipulations())->format('png'));
-dd($this->conversion->getManipulations());
+        dd($this->conversion->getManipulations());
         $this->assertEquals('png', $this->conversion->getManipulations()->getManipulation('format')[1]);
     }
 
