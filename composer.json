@@ -21,8 +21,6 @@
   "require": {
     "php" : "^7.0",
     "illuminate/bus": "~5.4.0@dev",
-    "illuminate/container": "~5.4.0",
-    "illuminate/contracts": "~5.4.0",
     "illuminate/console": "~5.4.0",
     "illuminate/database": "~5.4.0",
     "illuminate/support": "~5.4.0",
