@@ -27,7 +27,7 @@
     "illuminate/database": "~5.4.0@dev",
     "illuminate/support": "~5.4.0@dev",
     "illuminate/pipeline": "~5.4.0@dev",
-    "spatie/laravel-glide": "^3.0.0",
+    "spatie/image": "dev-master",
     "spatie/string": "^2.0.0",
     "spatie/pdf-to-image": "^1.2"
   },

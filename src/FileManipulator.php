@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
-use Spatie\Glide\GlideImage;
 use Illuminate\Support\Facades\File;
+use Spatie\Image\Image;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
@@ -43,13 +43,13 @@ class FileManipulator
     {
         $imageGenerator = $this->determineImageGenerator($media);
 
-        if (! $imageGenerator || $conversions->isEmpty()) {
+        if (!$imageGenerator || $conversions->isEmpty()) {
             return;
         }
 
         $tempDirectory = $this->createTempDirectory();
 
-        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
+        $copiedOriginalFile = $tempDirectory . '/' . str_random(16) . '.' . $media->extension;
 
         app(FilesystemInterface::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
@@ -59,8 +59,8 @@ class FileManipulator
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
             $newFileName = $conversion->getName()
-                .'.'
-                .$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
+                . '.'
+                . $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
 
             $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
 
@@ -83,18 +83,16 @@ class FileManipulator
      */
     public function performConversion(Media $media, Conversion $conversion, string $copiedOriginalFile)
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16)
-            .$conversion->getName()
-            .'.'
-            .$media->extension;
+        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME) . '/' . string()->random(16)
+            . $conversion->getName()
+            . '.'
+            . $media->extension;
 
         File::copy($copiedOriginalFile, $conversionTempFile);
 
-        collect($conversion->getManipulations())->each(function (array $manipulation) use ($conversionTempFile) {
-            GlideImage::create($conversionTempFile)
-                ->modify($manipulation)
-                ->save($conversionTempFile);
-        });
+        Image::load($conversionTempFile)
+            ->manipulate($conversion->getManipulations())
+            ->save();
 
         return $conversionTempFile;
     }
@@ -102,9 +100,9 @@ class FileManipulator
     /*
      * Create a directory to store some working files.
      */
-    public function createTempDirectory() : string
+    public function createTempDirectory(): string
     {
-        $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
+        $tempDirectory = storage_path('medialibrary/temp/' . str_random(16));
 
         File::makeDirectory($tempDirectory, 493, true);
 

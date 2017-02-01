@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\Test;
 
+use Spatie\Image\Manipulations;
+
 class TestModelWithConversion extends TestModel
 {
     /**
@@ -12,7 +14,9 @@ class TestModelWithConversion extends TestModel
     public function registerMediaConversions()
     {
         $this->addMediaConversion('thumb')
-            ->setCrop(50, 50, 10, 10)
+            ->setManipulations(function(Manipulations $manipulations) {
+                $manipulations->crop(Manipulations::CROP_CENTER, 50, 50);
+            })
             ->nonQueued();
     }
 }

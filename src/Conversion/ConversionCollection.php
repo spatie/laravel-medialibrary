@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Arr;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -89,8 +90,8 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationsFromDb(Media $media)
     {
-        collect($media->manipulations)->each(function ($manipulation, $conversionName) {
-            $this->addManipulationToConversion($manipulation, $conversionName);
+        collect($media->manipulations)->each(function ($manipulations, $conversionName) {
+            $this->addManipulationToConversion(new Manipulations($manipulations), $conversionName);
         });
     }
 
@@ -121,11 +122,11 @@ class ConversionCollection extends Collection
     /*
      * Add the given manipulation to the conversion with the given name.
      */
-    protected function addManipulationToConversion(array $manipulation, string $conversionName)
+    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
         $this->first(function (Conversion $conversion) use ($conversionName) {
             return $conversion->getName() === $conversionName;
-        })->addAsFirstManipulation($manipulation);
+        })->addAsFirstManipulation($manipulations);
     }
 
     /*

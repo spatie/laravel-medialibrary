@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\Conversion;
 
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
@@ -38,21 +39,18 @@ class ConversionTest extends TestCase
     /** @test */
     public function it_will_add_a_format_parameter_if_it_was_not_given()
     {
-        $this->conversion->setManipulations(['w' => 1]);
+        $this->conversion->setManipulations((new Manipulations())->width(10));
 
-        $manipulations = $this->conversion->getManipulations();
-        $this->arrayHasKey('fm', $manipulations[0]);
-        $this->assertEquals('jpg', $manipulations[0]['fm']);
+        $this->assertTrue($this->conversion->getManipulations()->hasManipulation('format'));
+        $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulation('format')[1]);
     }
 
     /** @test */
     public function it_will_use_the_format_parameter_if_it_was_given()
     {
-        $this->conversion->setManipulations(['fm' => 'png']);
-
-        $manipulations = $this->conversion->getManipulations();
-        $this->arrayHasKey('fm', $manipulations[0]);
-        $this->assertEquals('png', $manipulations[0]['fm']);
+        $this->conversion->setManipulations((new Manipulations())->format('png'));
+dd($this->conversion->getManipulations());
+        $this->assertEquals('png', $this->conversion->getManipulations()->getManipulation('format')[1]);
     }
 
     /** @test */
