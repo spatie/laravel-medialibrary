@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Carbon\Carbon;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModelWithConversion;
 
@@ -44,7 +43,7 @@ class AddMediaTest extends TestCase
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
-    
+
     /** @test */
     public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
     {
