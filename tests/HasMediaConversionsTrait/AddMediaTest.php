@@ -54,8 +54,7 @@ class AddMediaTest extends TestCase
                 $this->addMediaConversion('my-conversion')
                     ->setManipulations(function(Manipulations $manipulations) {
                         $manipulations
-                            ->greyscale()
-                            ->format('png');
+                            ->removeManipulation('format');
                     })
                     ->nonQueued();
             }
