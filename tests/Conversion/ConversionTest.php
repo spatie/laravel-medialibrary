@@ -31,7 +31,7 @@ class ConversionTest extends TestCase
     /** @test */
     public function it_will_add_a_format_parameter_if_it_was_not_given()
     {
-        $this->conversion->setManipulations((new Manipulations())->width(10));
+        $this->conversion->setManipulations->width(10);
 
         $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulationArgument('format'));
     }
@@ -39,7 +39,7 @@ class ConversionTest extends TestCase
     /** @test */
     public function it_will_use_the_format_parameter_if_it_was_given()
     {
-        $this->conversion->setManipulations((new Manipulations())->format('png'));
+        $this->conversion->format('png');
 
         $this->assertEquals('png', $this->conversion->getManipulations()->getManipulationArgument('format'));
     }
@@ -91,17 +91,23 @@ class ConversionTest extends TestCase
     /** @test */
     public function it_can_determine_the_extension_of_the_result()
     {
-        $this->conversion->setManipulations(function(Manipulations $manipulations) {
-            $manipulations->width(50);
-        });
+        $this->conversion->width(50);
 
         $this->assertEquals('jpg', $this->conversion->getResultExtension());
 
-        $this->conversion->setManipulations(function(Manipulations $manipulations) {
-            $manipulations->width(100)->format('png');
-        });
+        $this->conversion->width(100)->format('png');
 
         $this->assertEquals('png', $this->conversion->getResultExtension());
+    }
+
+    /** @test */
+    public function it_can_remove_a_previously_set_manipulation()
+    {
+        $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulationArgument('format'));
+
+        $this->conversion->removeManipulation('format');
+
+        $this->assertNull($this->conversion->getManipulations()->getManipulationArgument('format'));
     }
 
     /** @test */
@@ -110,5 +116,40 @@ class ConversionTest extends TestCase
         $this->conversion->setExtractVideoFrameAtSecond(10);
 
         $this->assertEquals(10, $this->conversion->getExtractVideoFrameAtSecond());
+    }
+
+    /** @test */
+    public function manipulations_can_be_set_using_an_instance_of_manipulations()
+    {
+        $this->conversion->setManipulations((new Manipulations())->width(10));
+
+        $this->assertEquals([[
+            'width' => 10,
+            'format' => 'jpg'
+        ]], $this->conversion
+            ->getManipulations()
+            ->getManipulationSequence()
+            ->toArray()
+        );
+    }
+
+
+    /** @test */
+    public function manipulations_can_be_set_using_a_closure()
+    {
+        $this->conversion->setManipulations(function (Manipulations $manipulations) {
+            $manipulations->width(10);
+        });
+
+        $this->assertEquals([[
+            'width' => 10,
+            'format' => 'jpg'
+        ]], $this->conversion
+            ->getManipulations()
+            ->getManipulationSequence()
+            ->toArray()
+        );
+
+
     }
 }

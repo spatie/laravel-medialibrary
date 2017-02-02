@@ -2,8 +2,10 @@
 
 namespace Spatie\MediaLibrary\Conversion;
 
+use Exception;
 use Spatie\Image\Manipulations;
 
+/** @mixin \Spatie\Image\Manipulations */
 class Conversion
 {
     /** @var string */
@@ -59,6 +61,24 @@ class Conversion
         return $this->manipulations;
     }
 
+    public function removeManipulation(string $manipulationName)
+    {
+        $this->manipulations->removeManipulation($manipulationName);
+
+        return $this;
+    }
+
+    public function __call($name, $arguments)
+    {
+        if (! method_exists($this->manipulations, $name)) {
+            throw new Exception("Manipulation `{$name}` does not exist");
+        }
+
+        $this->manipulations->$name(...$arguments);
+
+        return $this;
+    }
+
     /**
      * Set the manipulations for this conversion.
      *
@@ -80,13 +100,13 @@ class Conversion
     }
 
     /**
-     * Add the given manipulation as the first manipulation.
+     * Add the given manipulations as the first ones.
      *
      * @param \Spatie\Image\Manipulations $manipulations
      *
      * @return $this
      */
-    public function addAsFirstManipulation(Manipulations $manipulations)
+    public function addAsFirstManipulations(Manipulations $manipulations)
     {
         $this->manipulations = $manipulations->mergeManipulations($this->manipulations);
 
