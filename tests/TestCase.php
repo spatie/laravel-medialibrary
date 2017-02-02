@@ -172,4 +172,9 @@ abstract class TestCase extends Orchestra
             'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
         );
     }
+
+    public static function getS3BaseTestDirectory(): string
+    {
+        return getenv('TRAVIS_BUILD_ID') . '-' . app()->version() . '-' . phpversion();
+    }
 }

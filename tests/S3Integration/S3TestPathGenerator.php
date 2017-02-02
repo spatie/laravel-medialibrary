@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Test\PathGenerator;
 
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
+use Spatie\MediaLibrary\Test\TestCase;
 
 class S3TestPathGenerator implements PathGenerator
 {
@@ -28,6 +29,6 @@ class S3TestPathGenerator implements PathGenerator
      */
     protected function getBasePath(Media $media) : string
     {
-        return (getenv('TRAVIS_BUILD_ID') ? getenv('TRAVIS_BUILD_ID').'/' : '').$media->getKey();
+        return (getenv('TRAVIS_BUILD_ID') ? TestCase::getS3BaseTestDirectory().'/' : '').$media->getKey();
     }
 }

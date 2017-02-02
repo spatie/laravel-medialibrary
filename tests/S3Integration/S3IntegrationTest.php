@@ -92,7 +92,6 @@ class S3IntegrationTest extends TestCase
             $media->getUrl()
         );
 
-        // Need to allow s3 read from travis
         $this->assertEquals(
             sha1(file_get_contents($this->getTestJpg())),
             sha1(file_get_contents($media->getUrl()))
@@ -114,7 +113,7 @@ class S3IntegrationTest extends TestCase
 
     protected function cleanUpS3()
     {
-        collect(Storage::disk('s3')->allDirectories(getenv('TRAVIS_BUILD_ID')))->each(function ($directory) {
+        collect(Storage::disk('s3')->allDirectories(TestCase::getS3BaseTestDirectory()))->each(function ($directory) {
             Storage::disk('s3')->deleteDirectory($directory);
         });
     }
