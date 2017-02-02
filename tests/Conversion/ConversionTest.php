@@ -125,14 +125,13 @@ class ConversionTest extends TestCase
 
         $this->assertEquals([[
             'width' => 10,
-            'format' => 'jpg'
+            'format' => 'jpg',
         ]], $this->conversion
             ->getManipulations()
             ->getManipulationSequence()
             ->toArray()
         );
     }
-
 
     /** @test */
     public function manipulations_can_be_set_using_a_closure()
@@ -143,13 +142,11 @@ class ConversionTest extends TestCase
 
         $this->assertEquals([[
             'width' => 10,
-            'format' => 'jpg'
+            'format' => 'jpg',
         ]], $this->conversion
             ->getManipulations()
             ->getManipulationSequence()
             ->toArray()
         );
-
-
     }
 }
