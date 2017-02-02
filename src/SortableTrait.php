@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait SortableTrait
 {
-    /**
-     * Modify the order column value.
-     */
     public function setHighestOrderNumber()
     {
         $orderColumnName = $this->determineOrderColumnName();
@@ -16,17 +13,11 @@ trait SortableTrait
         $this->$orderColumnName = $this->getHighestOrderNumber() + 1;
     }
 
-    /*
-     * Determine the order value for the new record.
-     */
     public function getHighestOrderNumber(): int
     {
         return (int) static::max($this->determineOrderColumnName());
     }
 
-    /*
-     * Let's be nice and provide an ordered scope.
-     */
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy($this->determineOrderColumnName());
@@ -40,8 +31,6 @@ trait SortableTrait
      *
      * @param array $ids
      * @param int   $startOrder
-     *
-     * @throws InvalidNewOrder
      */
     public static function setNewOrder(array $ids, int $startOrder = 1)
     {

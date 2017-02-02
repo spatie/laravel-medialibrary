@@ -15,21 +15,12 @@ class DefaultFilesystem implements Filesystem
     /** @var \Illuminate\Contracts\Filesystem\Factory */
     protected $filesystem;
 
-    /** @var \Illuminate\Contracts\Config\Repository */
-    protected $config;
-
     /** @var array */
     protected $customRemoteHeaders = [];
 
-    /**
-     * @param \Illuminate\Contracts\Filesystem\Factory $filesystems
-     * @param \Illuminate\Contracts\Config\Repository  $config
-     */
-    public function __construct(Factory $filesystems, ConfigRepository $config)
+    public function __construct(Factory $filesystems)
     {
         $this->filesystem = $filesystems;
-
-        $this->config = $config;
     }
 
     /*
@@ -84,7 +75,7 @@ class DefaultFilesystem implements Filesystem
     {
         $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
 
-        $extraHeaders = $this->config->get('medialibrary.remote.extra_headers');
+        $extraHeaders = config('medialibrary.remote.extra_headers');
 
         return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
     }

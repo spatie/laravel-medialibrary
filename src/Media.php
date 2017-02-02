@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
@@ -20,7 +19,7 @@ class Media extends Model
     const TYPE_SVG = 'svg';
     const TYPE_PDF = 'pdf';
 
-    protected $guarded = ['id', 'disk', 'file_name', 'size', 'model_type', 'model_id'];
+    protected $guarded = [];
 
     /**
      * The attributes that should be casted to native types.
@@ -43,7 +42,7 @@ class Media extends Model
     }
 
     /**
-     * Get the original Url to a media-file.
+     * Get the url to a original media file.
      *
      * @param string $conversionName
      *
@@ -51,7 +50,7 @@ class Media extends Model
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function getUrl(string $conversionName = '') : string
+    public function getUrl(string $conversionName = ''): string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
@@ -65,7 +64,7 @@ class Media extends Model
     }
 
     /**
-     * Get the original path to a media-file.
+     * Get the path to the original media file.
      *
      * @param string $conversionName
      *
@@ -73,7 +72,7 @@ class Media extends Model
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function getPath(string $conversionName = '') : string
+    public function getPath(string $conversionName = ''): string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this);
 
@@ -110,12 +109,7 @@ class Media extends Model
         return $this->getTypeFromMime();
     }
 
-    /**
-     * Determine the type of a file from its file extension.
-     *
-     * @return string
-     */
-    public function getTypeFromExtension()
+    public function getTypeFromExtension(): string
     {
         $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
@@ -131,7 +125,7 @@ class Media extends Model
     /*
      * Determine the type of a file from its mime type
      */
-    public function getTypeFromMime() : string
+    public function getTypeFromMime(): string
     {
         $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
@@ -144,17 +138,17 @@ class Media extends Model
             : static::TYPE_OTHER;
     }
 
-    public function getExtensionAttribute() : string
+    public function getExtensionAttribute(): string
     {
         return pathinfo($this->file_name, PATHINFO_EXTENSION);
     }
 
-    public function getHumanReadableSizeAttribute() : string
+    public function getHumanReadableSizeAttribute(): string
     {
         return File::getHumanReadableSize($this->size);
     }
 
-    public function getDiskDriverName() : string
+    public function getDiskDriverName(): string
     {
         return strtolower(config("filesystems.disks.{$this->disk}.driver"));
     }
@@ -162,7 +156,7 @@ class Media extends Model
     /*
      * Determine if the media item has a custom property with the given name.
      */
-    public function hasCustomProperty(string $propertyName) : bool
+    public function hasCustomProperty(string $propertyName): bool
     {
         return array_has($this->custom_properties, $propertyName);
     }

@@ -26,7 +26,7 @@ class MediaRepository
      *
      * @return Collection
      */
-    public function getCollection(HasMedia $model, string $collectionName, $filter = []) : Collection
+    public function getCollection(HasMedia $model, string $collectionName, $filter = []): Collection
     {
         $mediaCollection = $model->loadMedia($collectionName);
 
@@ -43,7 +43,7 @@ class MediaRepository
      *
      * @return Collection
      */
-    protected function applyFilterToMediaCollection(Collection $media, $filter) : Collection
+    protected function applyFilterToMediaCollection(Collection $media, $filter): Collection
     {
         if (is_array($filter)) {
             $filter = $this->getDefaultFilterFunction($filter);
@@ -52,25 +52,22 @@ class MediaRepository
         return $media->filter($filter);
     }
 
-    /**
-     * Get all media.
-     */
-    public function all() : DbCollection
+    public function all(): DbCollection
     {
         return $this->model->all();
     }
 
-    public function getByModelType(string $modelType) : DbCollection
+    public function getByModelType(string $modelType): DbCollection
     {
         return $this->model->where('model_type', $modelType)->get();
     }
 
-    public function getByIds(array $ids) : DbCollection
+    public function getByIds(array $ids): DbCollection
     {
         return $this->model->whereIn('id', $ids)->get();
     }
 
-    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName) : DbCollection
+    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection
     {
         return $this->model
             ->where('model_type', $modelType)
@@ -78,7 +75,7 @@ class MediaRepository
             ->get();
     }
 
-    public function getByCollectionName(string $collectionName) : DbCollection
+    public function getByCollectionName(string $collectionName): DbCollection
     {
         return $this->model
             ->where('collection_name', $collectionName)

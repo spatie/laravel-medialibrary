@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\FileAdder;
 
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Cache\Repository;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,69 +16,42 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
 
 class FileAdder
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model subject
-     */
+    /** @var \Illuminate\Database\Eloquent\Model subject */
     protected $subject;
 
-    /**
-     * @var Filesystem
-     */
+    /** @var \Spatie\MediaLibrary\Filesystem\Filesystem */
     protected $filesystem;
 
-    /**
-     * @var Repository
-     */
-    protected $config;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $preserveOriginal = false;
 
-    /**
-     * @var string|\Symfony\Component\HttpFoundation\File\UploadedFile
-     */
+    /** @var string|\Symfony\Component\HttpFoundation\File\UploadedFile */
     protected $file;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $properties = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $customProperties = [];
 
-    /**
-     * @var string
-     */
+    /**  @var string */
     protected $pathToFile;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $fileName;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $mediaName;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $diskName = '';
 
     /**
      * @param Filesystem $fileSystem
-     * @param Repository $config
      */
-    public function __construct(Filesystem $fileSystem, Repository $config)
+    public function __construct(Filesystem $fileSystem)
     {
         $this->filesystem = $fileSystem;
-        $this->config = $config;
     }
 
     /**
