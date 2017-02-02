@@ -95,7 +95,7 @@ class FileManipulator
     {
         $job = new PerformConversions($queuedConversions, $media);
 
-        if ($customQueue = config('medialibrary.queue_name');) {
+        if ($customQueue = config('medialibrary.queue_name')) {
             $job->onQueue($customQueue);
         }
 
