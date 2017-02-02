@@ -25,9 +25,9 @@
     "illuminate/database": "~5.4.0",
     "illuminate/support": "~5.4.0",
     "illuminate/pipeline": "~5.4.0",
-    "spatie/image": "dev-master",
     "spatie/string": "^2.0.0",
-    "spatie/pdf-to-image": "^1.2"
+    "spatie/pdf-to-image": "^1.2",
+    "spatie/image": "^0.0.3"
   },
   "require-dev": {
     "league/flysystem-aws-s3-v3": "^1.0.13",
