@@ -31,7 +31,7 @@ class ConversionTest extends TestCase
     /** @test */
     public function it_will_add_a_format_parameter_if_it_was_not_given()
     {
-        $this->conversion->setManipulations->width(10);
+        $this->conversion->width(10);
 
         $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulationArgument('format'));
     }
