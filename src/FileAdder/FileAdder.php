@@ -34,7 +34,7 @@ class FileAdder
     /** @var array */
     protected $customProperties = [];
 
-    /**  @var string */
+    /** @var string */
     protected $pathToFile;
 
     /** @var string */

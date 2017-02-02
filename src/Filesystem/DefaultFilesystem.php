@@ -2,13 +2,12 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
-use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
-use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
 class DefaultFilesystem implements Filesystem
 {

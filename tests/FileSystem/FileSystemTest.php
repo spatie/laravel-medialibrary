@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Test\FileSystem;
 
-use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
 
 class FileSystemTest extends TestCase
 {
