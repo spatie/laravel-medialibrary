@@ -52,7 +52,7 @@ class AddMediaTest extends TestCase
             public function registerMediaConversions()
             {
                 $this->addMediaConversion('my-conversion')
-                    ->setManipulations(function(Manipulations $manipulations) {
+                    ->setManipulations(function (Manipulations $manipulations) {
                         $manipulations
                             ->removeManipulation('format');
                     })
