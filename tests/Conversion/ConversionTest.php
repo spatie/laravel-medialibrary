@@ -91,13 +91,13 @@ class ConversionTest extends TestCase
     /** @test */
     public function it_can_determine_the_extension_of_the_result()
     {
-        $this->conversion->setManipulations(function(Manipulations $manipulations) {
+        $this->conversion->setManipulations(function (Manipulations $manipulations) {
             $manipulations->width(50);
         });
 
         $this->assertEquals('jpg', $this->conversion->getResultExtension());
 
-        $this->conversion->setManipulations(function(Manipulations $manipulations) {
+        $this->conversion->setManipulations(function (Manipulations $manipulations) {
             $manipulations->width(100)->format('png');
         });
 
