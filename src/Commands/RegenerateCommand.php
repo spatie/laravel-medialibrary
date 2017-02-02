@@ -36,9 +36,6 @@ class RegenerateCommand extends Command
         $this->fileManipulator = $fileManipulator;
     }
 
-    /**
-     * Handle regeneration.
-     */
     public function handle()
     {
         if (! $this->confirmToProceed()) {

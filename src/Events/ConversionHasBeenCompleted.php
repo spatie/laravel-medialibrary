@@ -23,6 +23,7 @@ class ConversionHasBeenCompleted
     public function __construct(Media $media, Conversion $conversion)
     {
         $this->media = $media;
+        
         $this->conversion = $conversion;
     }
 }

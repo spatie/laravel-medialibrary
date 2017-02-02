@@ -287,8 +287,6 @@ class FileAdder
     }
 
     /**
-     * Determine the disk to be used.
-     *
      * @param string $diskName
      *
      * @return string
@@ -309,8 +307,6 @@ class FileAdder
     }
 
     /**
-     * Sanitize the given file name.
-     *
      * @param $fileName
      *
      * @return string
