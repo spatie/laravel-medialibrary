@@ -2,8 +2,6 @@
 
 namespace Spatie\MediaLibrary\Test;
 
-use Spatie\Image\Manipulations;
-
 class TestModelWithConversion extends TestModel
 {
     /**
