@@ -14,7 +14,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
 - rename `Spatie\MedialibraryFilesystemInterface` to `Spatie\Medialibrary\Filesystem\Filesystem`
 - remove `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty`
-- droppe support for Lumen and anything below Laravel 5.4
+- drop support for Lumen and anything below Laravel 5.4
 - clean up all classes
 
 ## 4.13.0 - 2017-01-30
