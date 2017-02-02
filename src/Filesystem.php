@@ -90,7 +90,7 @@ class Filesystem implements FilesystemInterface
     /*
      * Copy a file from the medialibrary to the given targetFile.
      */
-    public function copyFromMediaLibrary(Media $media, string $targetFile)
+    public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
@@ -99,6 +99,8 @@ class Filesystem implements FilesystemInterface
         $stream = $this->filesystem->disk($media->disk)->readStream($sourceFile);
         file_put_contents($targetFile, stream_get_contents($stream), FILE_APPEND);
         fclose($stream);
+
+        return $targetFile;
     }
 
     /*

@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Contracts\Bus\Dispatcher;
 use Spatie\Image\Image;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Conversion\Conversion;
@@ -50,9 +51,10 @@ class FileManipulator
 
         $temporaryDirectory = new TemporaryDirectory(storage_path('medialibrary/temp/'));
 
-        $copiedOriginalFile = $temporaryDirectory->path(str_random(16).'.'.$media->extension);
-
-        app(FilesystemInterface::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
+        $copiedOriginalFile = app(FilesystemInterface::class)->copyFromMediaLibrary(
+            $media,
+            $temporaryDirectory->path(str_random(16).'.'.$media->extension)
+        );
 
         foreach ($conversions as $conversion) {
             $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
@@ -73,23 +75,14 @@ class FileManipulator
         $temporaryDirectory->delete();
     }
 
-    /**
-     * Perform the conversion.
-     *
-     * @param \Spatie\MediaLibrary\Media $media
-     * @param Conversion $conversion
-     * @param string $copiedOriginalFile
-     *
-     * @return string
-     */
-    public function performConversion(Media $media, Conversion $conversion, string $copiedOriginalFile)
+    public function performConversion(Media $media, Conversion $conversion, string $imageFile): string
     {
-        $conversionTempFile = pathinfo($copiedOriginalFile, PATHINFO_DIRNAME).'/'.string()->random(16)
+        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.string()->random(16)
             .$conversion->getName()
             .'.'
             .$media->extension;
 
-        File::copy($copiedOriginalFile, $conversionTempFile);
+        File::copy($imageFile, $conversionTempFile);
 
         Image::load($conversionTempFile)
             ->manipulate($conversion->getManipulations())
@@ -98,20 +91,15 @@ class FileManipulator
         return $conversionTempFile;
     }
 
-    /*
-     * Dispatch the given conversions.
-     */
     protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions)
     {
         $job = new PerformConversions($queuedConversions, $media);
 
-        $customQueue = config('medialibrary.queue_name');
-
-        if ($customQueue != '') {
+        if ($customQueue = config('medialibrary.queue_name');) {
             $job->onQueue($customQueue);
         }
 
-        app('Illuminate\Contracts\Bus\Dispatcher')->dispatch($job);
+        app(Dispatcher::class)->dispatch($job);
     }
 
     /**

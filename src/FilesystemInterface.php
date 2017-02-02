@@ -12,7 +12,7 @@ interface FilesystemInterface
 
     public function getRemoteHeadersForFile(string $file) : array;
 
-    public function copyFromMediaLibrary(Media $media, string $targetFile);
+    public function copyFromMediaLibrary(Media $media, string $targetFile): string;
 
     public function removeFiles(Media $media);
 
