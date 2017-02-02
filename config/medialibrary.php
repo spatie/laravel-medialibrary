@@ -60,7 +60,7 @@ return [
     /*
      * These generators will be used to created conversion of media files.
      */
-    'imageGenerators' => [
+    'image_generators' => [
         Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
         Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
         Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
