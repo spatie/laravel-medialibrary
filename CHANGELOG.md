@@ -5,6 +5,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 5.0.0 - unreleased 
 
 - add `toMediaLibraryOnCloudDisk`
+- image generators may now be specified in the config file
 - use json columns for `manipulations` and `custom_properties`
 - refactor all functions in `FileCannotBeAdded` to their own exception classes
 - rename config file from `laravel-medialibrary` to `medialibrary`
