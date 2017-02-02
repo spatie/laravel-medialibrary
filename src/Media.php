@@ -101,13 +101,13 @@ class Media extends Model
      */
     public function getTypeAttribute()
     {
-        $type = $this->type_from_extension;
+        $type = $this->getTypeFromExtension();
 
         if ($type !== self::TYPE_OTHER) {
             return $type;
         }
 
-        return $this->type_from_mime;
+        return $this->getTypeFromMime();
     }
 
     /**
@@ -115,7 +115,7 @@ class Media extends Model
      *
      * @return string
      */
-    public function getTypeFromExtensionAttribute()
+    public function getTypeFromExtension()
     {
         $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
@@ -131,22 +131,17 @@ class Media extends Model
     /*
      * Determine the type of a file from its mime type
      */
-    public function getTypeFromMimeAttribute() : string
+    public function getTypeFromMime() : string
     {
         $imageGenerator = $this->getImageGenerators()
             ->map(function (string $className) {
                 return app($className);
             })
-            ->first->canHandleMime($this->getMimeAttribute());
+            ->first->canHandleMime($this->mime_type);
 
         return $imageGenerator
             ? $imageGenerator->getType()
             : static::TYPE_OTHER;
-    }
-
-    public function getMimeAttribute() : string
-    {
-        return File::getMimetype($this->getPath());
     }
 
     public function getExtensionAttribute() : string

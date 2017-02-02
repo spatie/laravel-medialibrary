@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Cache\Repository;
 use Spatie\MediaLibrary\FilesystemInterface;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
@@ -121,7 +121,7 @@ class FileAdder
             return $this;
         }
 
-        if ($file instanceof File) {
+        if ($file instanceof SymfonyFile) {
             $this->pathToFile = $file->getPath().'/'.$file->getFilename();
             $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
@@ -296,6 +296,7 @@ class FileAdder
 
         $media->collection_name = $collectionName;
 
+        $media->mime_type = File::getMimetype($this->pathToFile);
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
         $media->manipulations = [];

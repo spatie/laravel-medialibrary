@@ -20,14 +20,15 @@
   ],
   "require": {
     "php" : "^7.0",
-    "illuminate/bus": "~5.4.0@dev",
+    "illuminate/bus": "~5.4.0",
     "illuminate/console": "~5.4.0",
     "illuminate/database": "~5.4.0",
     "illuminate/support": "~5.4.0",
     "illuminate/pipeline": "~5.4.0",
     "spatie/string": "^2.0.0",
     "spatie/pdf-to-image": "^1.2",
-    "spatie/image": "^0.0.3"
+    "spatie/image": "^0.0.4",
+    "spatie/temporary-directory": "^1.1"
   },
   "require-dev": {
     "league/flysystem-aws-s3-v3": "^1.0.13",

@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Jobs\PerformConversions;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class FileManipulator
 {
@@ -47,9 +48,9 @@ class FileManipulator
             return;
         }
 
-        $tempDirectory = $this->createTempDirectory();
+        $temporaryDirectory = new TemporaryDirectory(storage_path('medialibrary/temp/'));
 
-        $copiedOriginalFile = $tempDirectory.'/'.str_random(16).'.'.$media->extension;
+        $copiedOriginalFile = $temporaryDirectory->path(str_random(16).'.'.$media->extension);
 
         app(FilesystemInterface::class)->copyFromMediaLibrary($media, $copiedOriginalFile);
 
@@ -69,7 +70,7 @@ class FileManipulator
             event(new ConversionHasBeenCompleted($media, $conversion));
         }
 
-        File::deleteDirectory($tempDirectory);
+        $temporaryDirectory->delete();
     }
 
     /**
@@ -95,18 +96,6 @@ class FileManipulator
             ->save();
 
         return $conversionTempFile;
-    }
-
-    /*
-     * Create a directory to store some working files.
-     */
-    public function createTempDirectory(): string
-    {
-        $tempDirectory = storage_path('medialibrary/temp/'.str_random(16));
-
-        File::makeDirectory($tempDirectory, 493, true);
-
-        return $tempDirectory;
     }
 
     /*

@@ -11,6 +11,6 @@ class GetTypeTest extends TestCase
     {
         $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
 
-        $this->assertEquals('image/jpeg', $media->mime);
+        $this->assertEquals('image/jpeg', $media->mime_type);
     }
 }

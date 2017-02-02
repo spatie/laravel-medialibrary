@@ -11,6 +11,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
 - drop support for Lumen
 - replace dependency on `spatie/laravel-glide` by `spatie/image`
+- mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
 
 ## 4.13.0 - 2017-01-30
 - add `FilesystemInterface`
