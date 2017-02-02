@@ -6,10 +6,10 @@ use Spatie\Image\Image;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
-use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class FileManipulator
 {
