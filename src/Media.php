@@ -190,7 +190,9 @@ class Media extends Model
     {
         $customProperties = $this->custom_properties;
 
-        $this->custom_properties = array_set($customProperties, $name, $value);
+        array_set($customProperties, $name, $value);
+
+        $this->custom_properties = $customProperties;
 
         return $this;
     }
