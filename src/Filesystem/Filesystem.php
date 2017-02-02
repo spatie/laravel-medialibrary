@@ -1,8 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\Filesystem;
 
-interface FilesystemInterface
+use Spatie\MediaLibrary\Media;
+
+interface Filesystem
 {
     public function add(string $file, Media $media, string $targetFileName = '');
 
@@ -14,9 +16,9 @@ interface FilesystemInterface
 
     public function copyFromMediaLibrary(Media $media, string $targetFile): string;
 
-    public function removeFiles(Media $media);
-
     public function renameFile(Media $media, string $oldName);
+
+    public function removeFiles(Media $media);
 
     public function getMediaDirectory(Media $media, bool $conversion = false) : string;
 

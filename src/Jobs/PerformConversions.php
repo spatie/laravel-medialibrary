@@ -23,6 +23,7 @@ class PerformConversions implements ShouldQueue
     public function __construct(ConversionCollection $conversions, Media $media)
     {
         $this->conversions = $conversions;
+
         $this->media = $media;
     }
 

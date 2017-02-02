@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\FileAdder;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Cache\Repository;
-use Spatie\MediaLibrary\FilesystemInterface;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -23,7 +23,7 @@ class FileAdder
     protected $subject;
 
     /**
-     * @var FilesystemInterface
+     * @var Filesystem
      */
     protected $filesystem;
 
@@ -73,10 +73,10 @@ class FileAdder
     protected $diskName = '';
 
     /**
-     * @param FilesystemInterface $fileSystem
+     * @param Filesystem $fileSystem
      * @param Repository $config
      */
-    public function __construct(FilesystemInterface $fileSystem, Repository $config)
+    public function __construct(Filesystem $fileSystem, Repository $config)
     {
         $this->filesystem = $fileSystem;
         $this->config = $config;

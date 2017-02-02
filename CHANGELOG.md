@@ -12,6 +12,8 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - drop support for Lumen
 - replace dependency on `spatie/laravel-glide` by `spatie/image`
 - mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
+- renamed `Spatie\MedialibraryFilesystemInterface` to `Spatie\Medialibrary\Filesystem\Filesystem`
+- cleaned up all classes
 
 ## 4.13.0 - 2017-01-30
 - add `FilesystemInterface`

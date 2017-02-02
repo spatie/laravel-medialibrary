@@ -10,9 +10,7 @@ class ConversionTest extends TestCase
 {
     protected $conversionName = 'test';
 
-    /**
-     * @var \Spatie\MediaLibrary\Conversion\Conversion
-     */
+    /** @var \Spatie\MediaLibrary\Conversion\Conversion */
     protected $conversion;
 
     public function setUp()

@@ -23,7 +23,5 @@ class PdfTest extends TestCase
         $imageFile = $imageGenerator->convert($media->getPath());
 
         $this->assertEquals('image/jpeg', mime_content_type($imageFile));
-
-        //$this->assertEquals($imageFile, $media->getPath());
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Bus\Dispatcher;
 use Spatie\Image\Image;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
@@ -51,7 +52,7 @@ class FileManipulator
 
         $temporaryDirectory = new TemporaryDirectory(storage_path('medialibrary/temp/'));
 
-        $copiedOriginalFile = app(FilesystemInterface::class)->copyFromMediaLibrary(
+        $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
             $temporaryDirectory->path(str_random(16).'.'.$media->extension)
         );
@@ -67,7 +68,7 @@ class FileManipulator
 
             $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
 
-            app(FilesystemInterface::class)->copyToMediaLibrary($renamedFile, $media, true);
+            app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
 
             event(new ConversionHasBeenCompleted($media, $conversion));
         }

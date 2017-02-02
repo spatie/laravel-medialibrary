@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
+use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -45,7 +47,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
 
-        $this->app->bind(FilesystemInterface::class, Filesystem::class);
+        $this->app->bind(Filesystem::class, DefaultFilesystem::class);
 
         $this->commands([
             'command.medialibrary:regenerate',
