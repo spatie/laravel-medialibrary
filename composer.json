@@ -5,6 +5,9 @@
     "spatie",
     "laravel-medialibrary",
     "media",
+    "conversion",
+    "images",
+    "downloads",
     "cms",
     "laravel"
   ],
