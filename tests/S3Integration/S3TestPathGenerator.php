@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Test\PathGenerator;
 
 use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 class S3TestPathGenerator implements PathGenerator
 {
