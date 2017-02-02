@@ -6,7 +6,10 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class CustomPropertyTest extends TestCase
 {
+    /** @var \Spatie\MediaLibrary\Media */
     protected $mediaWithCustomProperty;
+
+    /** @var \Spatie\MediaLibrary\Media */
     protected $mediaWithoutCustomProperty;
 
     public function setUp()
@@ -43,11 +46,11 @@ class CustomPropertyTest extends TestCase
     /** @test */
     public function it_can_determine_if_a_media_item_has_a_nested_custom_property()
     {
-        $this->assertTrue($this->mediaWithCustomProperty->hasNestedCustomProperty('nested.customName'));
-        $this->assertFalse($this->mediaWithCustomProperty->hasNestedCustomProperty('nested.nonExisting'));
+        $this->assertTrue($this->mediaWithCustomProperty->hasCustomProperty('nested.customName'));
+        $this->assertFalse($this->mediaWithCustomProperty->hasCustomProperty('nested.nonExisting'));
 
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasNestedCustomProperty('nested.customName'));
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasNestedCustomProperty('nested.nonExisting'));
+        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('nested.customName'));
+        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('nested.nonExisting'));
     }
 
     /** @test */
@@ -65,31 +68,31 @@ class CustomPropertyTest extends TestCase
     {
         $this->assertEquals(
             'customValue',
-            $this->mediaWithCustomProperty->getNestedCustomProperty('nested.customName')
+            $this->mediaWithCustomProperty->getCustomProperty('nested.customName')
         );
 
-        $this->assertNull($this->mediaWithCustomProperty->getNestedCustomProperty('nested.notExisting'));
+        $this->assertNull($this->mediaWithCustomProperty->getCustomProperty('nested.notExisting'));
 
-        $this->assertNull($this->mediaWithoutCustomProperty->getNestedCustomProperty('nested.customName'));
-        $this->assertNull($this->mediaWithoutCustomProperty->getNestedCustomProperty('nested.notExisting'));
+        $this->assertNull($this->mediaWithoutCustomProperty->getCustomProperty('nested.customName'));
+        $this->assertNull($this->mediaWithoutCustomProperty->getCustomProperty('nested.notExisting'));
     }
 
     /** @test */
-    public function it_can_set_custom_property()
+    public function it_can_set_a_custom_property()
     {
         $this->mediaWithCustomProperty->setCustomProperty('anotherName', 'anotherValue');
 
-        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('customName'));
         $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getCustomProperty('anotherName'));
+        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('customName'));
     }
 
     /** @test */
-    public function it_can_a_nested_set_custom_property_using_dot_notation()
+    public function it_can_set_a_nested_set_custom_property_using_dot_notation()
     {
-        $this->mediaWithCustomProperty->setNestedCustomProperty('nested.anotherName', 'anotherValue');
+        $this->mediaWithCustomProperty->setCustomProperty('nested.anotherName', 'anotherValue');
 
-        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getNestedCustomProperty('nested.customName'));
-        $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getNestedCustomProperty('nested.anotherName'));
+        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('nested.customName'));
+        $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getCustomProperty('nested.anotherName'));
     }
 
     /** @test */
@@ -101,19 +104,11 @@ class CustomPropertyTest extends TestCase
     }
 
     /** @test */
-    public function it_can_forget_a_custom_property_with_remove_custom_property()
-    {
-        $this->mediaWithCustomProperty->removeCustomProperty('customName');
-
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('customName'));
-    }
-
-    /** @test */
     public function it_can_forget_a_nested_custom_property_using_dot_notation()
     {
         $this->mediaWithCustomProperty->forgetCustomProperty('nested.customName');
 
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasNestedCustomProperty('nested.customName'));
+        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('nested.customName'));
     }
 
     /** @test */

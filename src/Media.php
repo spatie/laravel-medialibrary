@@ -164,22 +164,6 @@ class Media extends Model
      */
     public function hasCustomProperty(string $propertyName) : bool
     {
-        return array_key_exists($propertyName, $this->custom_properties);
-    }
-
-    /**
-     * Determine if the media item has a custom property with the given name
-     * using dot notation.
-     *
-     * @param string $propertyName
-     *
-     * @return bool
-     *
-     * @deprecated Will be removed in the next major version in favor of
-     * changing `hasCustomProperty` to use dot notation.
-     */
-    public function hasNestedCustomProperty(string $propertyName) : bool
-    {
         return array_has($this->custom_properties, $propertyName);
     }
 
@@ -193,52 +177,22 @@ class Media extends Model
      */
     public function getCustomProperty(string $propertyName, $default = null)
     {
-        return $this->custom_properties[$propertyName] ?? $default;
-    }
-
-    /**
-     * Get a custom property using dot notation.
-     *
-     * @param string $propertyName
-     * @param mixed $default
-     *
-     * @return mixed
-     *
-     * @deprecated Will be removed in the next major version in favor of
-     * changing `getCustomProperty` to use dot notation.
-     */
-    public function getNestedCustomProperty(string $propertyName, $default = null)
-    {
         return array_get($this->custom_properties, $propertyName, $default);
     }
 
     /**
      * @param string $name
      * @param mixed $value
+     *
+     * @return $this
      */
     public function setCustomProperty(string $name, $value)
     {
-        $this->custom_properties = array_merge($this->custom_properties, [$name => $value]);
-    }
-
-    /**
-     * Set a custom property using dot notation.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @deprecated Will be removed in the next major version in favor of
-     * changing `setCustomProperty` to use dot notation.
-     */
-    public function setNestedCustomProperty(string $name, $value)
-    {
-        // We need to assign `custom_properties` to a variable so we can
-        // modify it by reference.
         $customProperties = $this->custom_properties;
 
-        array_set($customProperties, $name, $value);
+        $this->custom_properties = array_set($customProperties, $name, $value);
 
-        $this->custom_properties = $customProperties;
+        return $this;
     }
 
     /**
@@ -248,47 +202,13 @@ class Media extends Model
      */
     public function forgetCustomProperty(string $name)
     {
-        if ($this->hasCustomProperty($name)) {
-            $customProperties = $this->custom_properties;
-
-            unset($customProperties[$name]);
-
-            $this->custom_properties = $customProperties;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return $this
-     *
-     * @deprecated Will be renamed to `forgetCustomProperty` in the next
-     * major version.
-     */
-    public function removeCustomProperty(string $name)
-    {
-        return $this->forgetCustomProperty($name);
-    }
-
-    /**
-     * Forget a custom property using dot notation.
-     *
-     * @param string $name
-     *
-     * @deprecated Will be removed in the next major version in favor of
-     * changing `forgetCustomProperty` to use dot notation.
-     */
-    public function forgetNestedCustomProperty(string $name)
-    {
-        // We need to assign `custom_properties` to a variable so we can
-        // modify it by reference.
         $customProperties = $this->custom_properties;
 
         array_forget($customProperties, $name);
 
         $this->custom_properties = $customProperties;
+
+        return $this;
     }
 
     /*

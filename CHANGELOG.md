@@ -9,10 +9,11 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - refactor all functions in `FileCannotBeAdded` to their own exception classes
 - rename config file from `laravel-medialibrary` to `medialibrary`
 - remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
-- drop support for Lumen
 - replace dependency on `spatie/laravel-glide` by `spatie/image`
 - mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
 - renamed `Spatie\MedialibraryFilesystemInterface` to `Spatie\Medialibrary\Filesystem\Filesystem`
+- removed `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty`
+- dropped support for Lumen and anything below Laravel 5.4
 - cleaned up all classes
 
 ## 4.13.0 - 2017-01-30
