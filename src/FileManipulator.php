@@ -86,6 +86,7 @@ class FileManipulator
         File::copy($imageFile, $conversionTempFile);
 
         Image::load($conversionTempFile)
+            ->useImageDriver(config('medialibrary.image_driver'))
             ->manipulate($conversion->getManipulations())
             ->save();
 
