@@ -175,6 +175,6 @@ abstract class TestCase extends Orchestra
 
     public static function getS3BaseTestDirectory(): string
     {
-        return getenv('TRAVIS_BUILD_ID') . '-' . app()->version() . '-' . phpversion();
+        return md5(getenv('TRAVIS_BUILD_ID') . app()->version() . phpversion());
     }
 }
