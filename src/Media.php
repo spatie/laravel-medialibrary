@@ -14,10 +14,6 @@ class Media extends Model
     use SortableTrait;
 
     const TYPE_OTHER = 'other';
-    const TYPE_IMAGE = 'image';
-    const TYPE_VIDEO = 'video';
-    const TYPE_SVG = 'svg';
-    const TYPE_PDF = 'pdf';
 
     protected $guarded = [];
 
