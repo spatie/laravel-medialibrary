@@ -32,7 +32,7 @@
   },
   "require-dev": {
     "league/flysystem-aws-s3-v3": "^1.0.13",
-    "phpunit/phpunit" : "^5.7.0",
+    "phpunit/phpunit" : "^6.0",
     "mockery/mockery": "^0.9.4",
     "orchestra/testbench": "~3.4.0",
     "doctrine/dbal": "^2.5.2"

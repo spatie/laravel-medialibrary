@@ -57,6 +57,8 @@ class RegenerateCommandTest extends TestCase
 
         unlink($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        Artisan::call('medialibrary:regenerate');
+        $result = Artisan::call('medialibrary:regenerate');
+
+        $this->assertEquals(0, $result);
     }
 }
