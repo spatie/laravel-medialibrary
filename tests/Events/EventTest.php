@@ -45,7 +45,7 @@ class EventTest extends TestCase
     {
         $this->testModel
             ->addMedia($this->getTestJpg())
-            ->preservingOriginal()commit
+            ->preservingOriginal()
             ->toMediaLibrary('images');
 
         $this->expectsEvent(CollectionHasBeenCleared::class);
