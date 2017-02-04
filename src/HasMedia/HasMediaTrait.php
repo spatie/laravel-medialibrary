@@ -179,11 +179,11 @@ trait HasMediaTrait
      * @param array $newMediaArray
      * @param string $collectionName
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated
      */
-    public function updateMedia(array $newMediaArray, string $collectionName = 'default'): array
+    public function updateMedia(array $newMediaArray, string $collectionName = 'default'): Collection
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
@@ -211,8 +211,7 @@ trait HasMediaTrait
                 $currentMedia->save();
 
                 return $currentMedia;
-            })
-            ->toArray();
+            });
     }
 
     /**

@@ -13,7 +13,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - replace dependency on `spatie/laravel-glide` by `spatie/image`
 - mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
 - rename `Spatie\MedialibraryFilesystemInterface` to `Spatie\Medialibrary\Filesystem\Filesystem`
-- remove `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty`
+- remove `withCustomProperties`, `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty`
 - drop support for Lumen and anything below Laravel 5.4
 - clean up all classes
 

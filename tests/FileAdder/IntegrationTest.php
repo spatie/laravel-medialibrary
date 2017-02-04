@@ -117,7 +117,7 @@ class IntegrationTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('image'))
             ->toMediaLibrary();
 
-        $this->assertEquals(Media::TYPE_IMAGE, $media->type);
+        $this->assertEquals('image', $media->type);
     }
 
     /** @test */
