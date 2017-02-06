@@ -29,6 +29,6 @@ class S3TestPathGenerator implements PathGenerator
      */
     protected function getBasePath(Media $media) : string
     {
-        return (getenv('TRAVIS_BUILD_ID') ? TestCase::getS3BaseTestDirectory().'/' : '').$media->getKey();
+        return (TestCase::getS3BaseTestDirectory()).$media->getKey();
     }
 }
