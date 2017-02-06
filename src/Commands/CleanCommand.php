@@ -19,7 +19,7 @@ class CleanCommand extends Command
 
     protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} 
     {--dry-run : List files that will be removed without removing them},
-    {-- force : Force the operation to run when in production}';
+    {--force : Force the operation to run when in production}';
 
     protected $description = 'Clean deprecated conversions and files without related model.';
 
@@ -51,6 +51,7 @@ class CleanCommand extends Command
         BasePathGenerator $basePathGenerator
     ) {
         parent::__construct();
+
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
         $this->fileSystem = $fileSystem;
