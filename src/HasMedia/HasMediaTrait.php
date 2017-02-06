@@ -62,7 +62,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromRequest(string $key)
+    public function addMediaFromRequest($key)
     {
         return app(FileAdderFactory::class)->createFromRequest($this, $key);
     }
@@ -76,7 +76,7 @@ trait HasMediaTrait
      *
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addMediaFromUrl(string $url)
+    public function addMediaFromUrl($url)
     {
         if (! $stream = @fopen($url, 'r')) {
             throw FileCannotBeAdded::unreachableUrl($url);
@@ -108,7 +108,7 @@ trait HasMediaTrait
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = '') : bool
+    public function hasMedia($collectionName = '') : bool
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
@@ -121,7 +121,7 @@ trait HasMediaTrait
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia(string $collectionName = '', $filters = []) : Collection
+    public function getMedia($collectionName = '', $filters = []) : Collection
     {
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
@@ -134,7 +134,7 @@ trait HasMediaTrait
      *
      * @return Media|null
      */
-    public function getFirstMedia(string $collectionName = 'default', array $filters = [])
+    public function getFirstMedia($collectionName = 'default', array $filters = [])
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -146,7 +146,7 @@ trait HasMediaTrait
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = '') : string
+    public function getFirstMediaUrl($collectionName = 'default', $conversionName = '') : string
     {
         $media = $this->getFirstMedia($collectionName);
 
@@ -162,7 +162,7 @@ trait HasMediaTrait
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = '') : string
+    public function getFirstMediaPath($collectionName = 'default', $conversionName = '') : string
     {
         $media = $this->getFirstMedia($collectionName);
 
@@ -183,7 +183,7 @@ trait HasMediaTrait
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated
      */
-    public function updateMedia(array $newMediaArray, string $collectionName = 'default') : array
+    public function updateMedia(array $newMediaArray, $collectionName = 'default') : array
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
@@ -220,7 +220,7 @@ trait HasMediaTrait
      * @param array  $newMediaArray
      * @param string $collectionName
      */
-    protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
+    protected function removeMediaItemsNotPresentInArray(array $newMediaArray, $collectionName = 'default')
     {
         $this->getMedia($collectionName, [])
             ->filter(function (Media $currentMediaItem) use ($newMediaArray) {
@@ -238,7 +238,7 @@ trait HasMediaTrait
      *
      * @return $this
      */
-    public function clearMediaCollection(string $collectionName = 'default')
+    public function clearMediaCollection($collectionName = 'default')
     {
         $this->getMedia($collectionName)->map(function (Media $media) {
             app(FilesystemInterface::class)->removeFiles($media);
@@ -280,7 +280,7 @@ trait HasMediaTrait
     /*
      * Add a conversion.
      */
-    public function addMediaConversion(string $name) : Conversion
+    public function addMediaConversion($name) : Conversion
     {
         $conversion = Conversion::create($name);
 
