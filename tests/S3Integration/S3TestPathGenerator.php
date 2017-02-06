@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\PathGenerator;
+namespace Spatie\MediaLibrary\Test\S3Integration;
 
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
