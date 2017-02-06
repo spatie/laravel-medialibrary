@@ -7,14 +7,26 @@ class PathGeneratorFactory
     public static function create()
     {
         $pathGeneratorClass = BasePathGenerator::class;
+
         $customPathClass = config('medialibrary.custom_path_generator_class');
 
-        if ($customPathClass
-            && class_exists($customPathClass)
-            && is_subclass_of($customPathClass, PathGenerator::class)) {
+        if ($customPathClass) {
             $pathGeneratorClass = $customPathClass;
         }
 
+        static::guardAgainstInvalidPathGenerator($pathGeneratorClass);
+
         return app($pathGeneratorClass);
+    }
+
+    protected static function guardAgainstInvalidPathGenerator(string $pathGeneratorClass)
+    {
+        if (! class_exists($pathGeneratorClass)) {
+            throw InvalidPathGenerator::doesntExist($pathGeneratorClass);
+        }
+
+        if (! is_subclass_of($pathGeneratorClass, PathGenerator::class)) {
+            throw InvalidPathGenerator::isntAPathGenerator($pathGeneratorClass);
+        }
     }
 }

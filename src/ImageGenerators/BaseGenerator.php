@@ -23,9 +23,11 @@ abstract class BaseGenerator implements ImageGenerator
 
         $mimeType = strtolower(File::getMimetype($media->getPath()));
 
-        if (method_exists($urlGenerator, 'getPath')
-            && file_exists($media->getPath())
-            && $this->supportedMimetypes()->contains($mimeType)) {
+        if (
+            method_exists($urlGenerator, 'getPath') &&
+            file_exists($media->getPath()) &&
+            $this->supportedMimetypes()->contains($mimeType)
+        ) {
             return true;
         }
 

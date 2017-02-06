@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Conversion;
 
-use Exception;
+use BadMethodCallException;
 use Spatie\Image\Manipulations;
 
 /** @mixin \Spatie\Image\Manipulations */
@@ -44,7 +44,7 @@ class Conversion
      * Set the timecode in seconds to extract a video thumbnail.
      * Only used on video media.
      */
-    public function setExtractVideoFrameAtSecond(int $timecode): Conversion
+    public function extractVideoFrameAtSecond(int $timecode): Conversion
     {
         $this->extractVideoFrameAtSecond = $timecode;
 
@@ -71,7 +71,7 @@ class Conversion
     public function __call($name, $arguments)
     {
         if (! method_exists($this->manipulations, $name)) {
-            throw new Exception("Manipulation `{$name}` does not exist");
+            throw new BadMethodCallException("Manipulation `{$name}` does not exist");
         }
 
         $this->manipulations->$name(...$arguments);
