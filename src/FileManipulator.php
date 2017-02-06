@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
@@ -50,7 +51,7 @@ class FileManipulator
             return;
         }
 
-        $temporaryDirectory = new TemporaryDirectory(storage_path('medialibrary/temp/'));
+        $temporaryDirectory = new TemporaryDirectory(storage_path('medialibrary/temp'));
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
@@ -78,7 +79,7 @@ class FileManipulator
 
     public function performConversion(Media $media, Conversion $conversion, string $imageFile): string
     {
-        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.string()->random(16)
+        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.str_random(16)
             .$conversion->getName()
             .'.'
             .$media->extension;
@@ -115,6 +116,8 @@ class FileManipulator
             ->map(function (string $imageGeneratorClassName) {
                 return app($imageGeneratorClassName);
             })
-            ->first->canConvert($media);
+            ->first(function (ImageGenerator $imageGenerator) use ($media) {
+                return $imageGenerator->canConvert($media);
+            });
     }
 }

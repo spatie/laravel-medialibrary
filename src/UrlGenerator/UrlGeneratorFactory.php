@@ -18,7 +18,9 @@ class UrlGeneratorFactory
         $urlGenerator = app($urlGeneratorClass);
         $pathGenerator = PathGeneratorFactory::create();
 
-        $urlGenerator->setMedia($media)->setPathGenerator($pathGenerator);
+        $urlGenerator
+            ->setMedia($media)
+            ->setPathGenerator($pathGenerator);
 
         return $urlGenerator;
     }
