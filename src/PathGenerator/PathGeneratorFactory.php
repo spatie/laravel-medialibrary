@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\PathGenerator;
 
+use Spatie\MediaLibrary\Exceptions\InvalidPathGenerator;
+
 class PathGeneratorFactory
 {
     public static function create()
