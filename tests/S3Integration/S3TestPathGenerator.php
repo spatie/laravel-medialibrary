@@ -3,9 +3,8 @@
 namespace Spatie\MediaLibrary\Test\S3Integration;
 
 use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\Test\FileAdder\S3IntegrationTest;
-use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
+use Spatie\MediaLibrary\Test\FileAdder\S3IntegrationTest;
 
 class S3TestPathGenerator implements PathGenerator
 {
@@ -30,6 +29,6 @@ class S3TestPathGenerator implements PathGenerator
      */
     protected function getBasePath(Media $media) : string
     {
-        return (S3IntegrationTest::getS3BaseTestDirectory()) . '/'.$media->getKey();
+        return (S3IntegrationTest::getS3BaseTestDirectory()).'/'.$media->getKey();
     }
 }
