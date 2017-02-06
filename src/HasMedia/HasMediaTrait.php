@@ -113,7 +113,7 @@ trait HasMediaTrait
         return count($this->getMedia($collectionName)) ? true : false;
     }
 
-    /*
+    /**
      * Get media collection by its collectionName.
      *
      * @param string $collectionName

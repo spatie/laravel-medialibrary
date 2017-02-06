@@ -28,7 +28,6 @@
     "illuminate/database": "~5.4.0",
     "illuminate/support": "~5.4.0",
     "illuminate/pipeline": "~5.4.0",
-    "spatie/string": "^2.0.0",
     "spatie/pdf-to-image": "^1.2",
     "spatie/image": "^0.0.4",
     "spatie/temporary-directory": "^1.1"

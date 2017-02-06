@@ -20,14 +20,9 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/medialibrary.php' => config_path('medialibrary.php'),
         ], 'config');
 
-        if (! class_exists('CreateMediaTable')) {
-            // Publish the migration
-            $timestamp = date('Y_m_d_His', time());
-
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.$timestamp.'_create_media_table.php'),
-            ], 'migrations');
-        }
+        $this->publishes([
+            __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
+        ], 'migrations');
 
         $mediaClass = config('medialibrary.media_model');
 
