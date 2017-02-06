@@ -17,6 +17,8 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - drop support for Lumen and anything below Laravel 5.4
 - clean up all classes
 
+**KNOWN BUG: loading manipulations from the db doesn't work in certain edge cases, fix incoming soon**
+
 ## 4.13.0 - 2017-01-30
 - add `FilesystemInterface`
 
