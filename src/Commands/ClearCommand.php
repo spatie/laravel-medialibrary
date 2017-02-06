@@ -19,7 +19,6 @@ class ClearCommand extends Command
     /** @var \Spatie\MediaLibrary\MediaRepository */
     protected $mediaRepository;
 
-    /** @param MediaRepository $mediaRepository */
     public function __construct(MediaRepository $mediaRepository)
     {
         parent::__construct();
