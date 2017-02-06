@@ -49,8 +49,8 @@ class ConversionCollection extends Collection
      */
     public function getByName(string $name)
     {
-        $conversion = $this->first(function (Conversion $conversion) {
-            return $conversion->getName();
+        $conversion = $this->first(function (Conversion $conversion) use ($name) {
+            return $conversion->getName() === $name;
         });
 
         if (! $conversion) {
