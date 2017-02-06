@@ -2,20 +2,18 @@
 
 namespace Spatie\MediaLibrary;
 
+use Closure;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
 
 class MediaRepository
 {
-    /**
-     * @var \Spatie\MediaLibrary\Media
-     */
+    /** @var \Spatie\MediaLibrary\Media */
     protected $model;
 
-    /**
-     * @param \Spatie\MediaLibrary\Media $model
-     */
+    /** @param \Spatie\MediaLibrary\Media $model */
     public function __construct(Media $model)
     {
         $this->model = $model;
@@ -24,30 +22,26 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param HasMedia       $model
-     * @param string         $collectionName
+     * @param \Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia $model
+     * @param string $collectionName
      * @param array|callable $filter
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
-    public function getCollection(HasMedia $model, string $collectionName, $filter = []) : Collection
+    public function getCollection(HasMedia $model, string $collectionName, $filter = []): Collection
     {
-        $mediaCollection = $model->loadMedia($collectionName);
-
-        $mediaCollection = $this->applyFilterToMediaCollection($mediaCollection, $filter);
-
-        return collect($mediaCollection);
+        return $this->applyFilterToMediaCollection($model->loadMedia($collectionName), $filter);
     }
 
     /**
      * Apply given filters on media.
      *
      * @param \Illuminate\Support\Collection $media
-     * @param array|callable                 $filter
+     * @param array|callable $filter
      *
-     * @return Collection
+     * @return \Illuminate\Support\Collection
      */
-    protected function applyFilterToMediaCollection(Collection $media, $filter) : Collection
+    protected function applyFilterToMediaCollection(Collection $media, $filter): Collection
     {
         if (is_array($filter)) {
             $filter = $this->getDefaultFilterFunction($filter);
@@ -56,34 +50,22 @@ class MediaRepository
         return $media->filter($filter);
     }
 
-    /**
-     * Get all media.
-     */
-    public function all() : DbCollection
+    public function all(): DbCollection
     {
         return $this->model->all();
     }
 
-    /*
-     * Get all media for the given type.
-     */
-    public function getByModelType(string $modelType) : DbCollection
+    public function getByModelType(string $modelType): DbCollection
     {
         return $this->model->where('model_type', $modelType)->get();
     }
 
-    /*
-     * Get media by ids.
-     */
-    public function getByIds(array $ids) : DbCollection
+    public function getByIds(array $ids): DbCollection
     {
         return $this->model->whereIn('id', $ids)->get();
     }
 
-    /*
-     * Get all media for the given type and collection name.
-     */
-    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName) : DbCollection
+    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection
     {
         return $this->model
             ->where('model_type', $modelType)
@@ -91,10 +73,7 @@ class MediaRepository
             ->get();
     }
 
-    /*
-     * Get all media for the given type and collection name.
-     */
-    public function getByCollectionName(string $collectionName) : DbCollection
+    public function getByCollectionName(string $collectionName): DbCollection
     {
         return $this->model
             ->where('collection_name', $collectionName)
@@ -108,16 +87,15 @@ class MediaRepository
      *
      * @return \Closure
      */
-    protected function getDefaultFilterFunction(array $filters)
+    protected function getDefaultFilterFunction(array $filters): Closure
     {
         return function (Media $media) use ($filters) {
-            $customProperties = $media->custom_properties;
-
             foreach ($filters as $property => $value) {
-                if (! isset($customProperties[$property])) {
+                if (! Arr::has($media->custom_properties, $property)) {
                     return false;
                 }
-                if ($customProperties[$property] != $value) {
+
+                if (Arr::get($media->custom_properties, $property) !== $value) {
                     return false;
                 }
             }

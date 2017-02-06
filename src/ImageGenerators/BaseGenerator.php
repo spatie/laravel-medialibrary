@@ -21,8 +21,13 @@ abstract class BaseGenerator implements ImageGenerator
 
         $urlGenerator = UrlGeneratorFactory::createForMedia($media);
 
-        if (method_exists($urlGenerator, 'getPath') && file_exists($media->getPath())
-            && $this->supportedMimetypes()->contains(strtolower(File::getMimetype($media->getPath())))) {
+        $mimeType = strtolower(File::getMimetype($media->getPath()));
+
+        if (
+            method_exists($urlGenerator, 'getPath') &&
+            file_exists($media->getPath()) &&
+            $this->supportedMimetypes()->contains($mimeType)
+        ) {
             return true;
         }
 

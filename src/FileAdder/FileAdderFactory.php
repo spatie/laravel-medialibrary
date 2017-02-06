@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\FileAdder;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 
 class FileAdderFactory
 {
@@ -31,7 +31,7 @@ class FileAdderFactory
     public static function createFromRequest(Model $subject, string $key)
     {
         if (! request()->hasFile($key)) {
-            throw FileCannotBeAdded::requestDoesNotHaveFile($key);
+            throw RequestDoesNotHaveFile::create($key);
         }
 
         return static::create($subject, request()->file($key));

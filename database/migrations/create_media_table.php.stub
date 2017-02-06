@@ -17,10 +17,11 @@ class CreateMediaTable extends Migration
             $table->string('collection_name');
             $table->string('name');
             $table->string('file_name');
+            $table->string('mime_type')->nullable();
             $table->string('disk');
             $table->unsignedInteger('size');
-            $table->text('manipulations');
-            $table->text('custom_properties');
+            $table->json('manipulations');
+            $table->json('custom_properties');
             $table->unsignedInteger('order_column')->nullable();
             $table->nullableTimestamps();
         });
@@ -30,6 +31,6 @@ class CreateMediaTable extends Migration
      */
     public function down()
     {
-        Schema::drop('media');
+        Schema::dropIfExists('media');
     }
 }

@@ -2,8 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 4.13.0 - 2017-01-30
+## 5.0.0 - unreleased 
 
+- add `toMediaLibraryOnCloudDisk`
+- image generators may now be specified in the config file
+- use json columns for `manipulations` and `custom_properties`
+- refactor all functions in `FileCannotBeAdded` to their own exception classes
+- rename config file from `laravel-medialibrary` to `medialibrary`
+- remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
+- replace dependency on `spatie/laravel-glide` by `spatie/image`
+- mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
+- rename `Spatie\MedialibraryFilesystemInterface` to `Spatie\Medialibrary\Filesystem\Filesystem`
+- remove `withCustomProperties`, `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty`
+- drop support for Lumen and anything below Laravel 5.4
+- clean up all classes
+
+## 4.13.0 - 2017-01-30
 - add `FilesystemInterface`
 
 ## 4.12.1 - 2017-01-27
@@ -121,7 +135,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - Fixed an issue that occured when deleting models with media in some php versions
 
 ##3.17.2 - 2016-03-25
-- Fixed mistakes in the version contraints on the illuminate components
+- Fixed mistakes in the version constraints on the illuminate components
 
 ##3.17.1 - 2016-03-24
 - Improved the file type detection for files without an extension

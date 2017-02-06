@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Test\FileAdder;
 
 use Spatie\MediaLibrary\Test\TestCase;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\Test\PathGenerator\S3TestPathGenerator;
+use Spatie\MediaLibrary\Test\S3Integration\S3TestPathGenerator;
 
 class S3IntegrationTest extends TestCase
 {
@@ -16,14 +16,14 @@ class S3IntegrationTest extends TestCase
             $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
         }
 
-        $this->app['config']->set('laravel-medialibrary.custom_path_generator_class', S3TestPathGenerator::class);
+        $this->app['config']->set('medialibrary.custom_path_generator_class', S3TestPathGenerator::class);
     }
 
     public function tearDown()
     {
         $this->cleanUpS3();
 
-        $this->app['config']->set('laravel-medialibrary.custom_path_generator_class', null);
+        $this->app['config']->set('medialibrary.custom_path_generator_class', null);
 
         parent::tearDown();
     }
@@ -64,7 +64,7 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_delete_a_file_converions_on_s3()
+    public function it_deletes_file_converions_on_s3()
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
@@ -88,11 +88,10 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('laravel-medialibrary.s3.domain')."/{$media->id}/test.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$media->id}/test.jpg",
             $media->getUrl()
         );
 
-        // Need to allow s3 read from travis
         $this->assertEquals(
             sha1(file_get_contents($this->getTestJpg())),
             sha1(file_get_contents($media->getUrl()))
@@ -107,14 +106,14 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('laravel-medialibrary.s3.domain')."/{$media->id}/conversions/thumb.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$media->id}/conversions/thumb.jpg",
             $media->getUrl('thumb')
         );
     }
 
     protected function cleanUpS3()
     {
-        collect(Storage::disk('s3')->allDirectories(getenv('TRAVIS_BUILD_ID')))->each(function ($directory) {
+        collect(Storage::disk('s3')->allDirectories(TestCase::getS3BaseTestDirectory()))->each(function ($directory) {
             Storage::disk('s3')->deleteDirectory($directory);
         });
     }

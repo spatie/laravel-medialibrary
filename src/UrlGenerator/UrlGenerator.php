@@ -13,21 +13,21 @@ interface UrlGenerator
      *
      * @return string
      */
-    public function getUrl() : string;
+    public function getUrl(): string;
 
     /**
      * @param \Spatie\MediaLibrary\Media $media
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setMedia(Media $media) : UrlGenerator;
+    public function setMedia(Media $media): UrlGenerator;
 
     /**
      * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setConversion(Conversion $conversion) : UrlGenerator;
+    public function setConversion(Conversion $conversion): UrlGenerator;
 
     /**
      * Set the path generator class.
@@ -36,5 +36,5 @@ interface UrlGenerator
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setPathGenerator(PathGenerator $pathGenerator) : UrlGenerator;
+    public function setPathGenerator(PathGenerator $pathGenerator): UrlGenerator;
 }

@@ -6,125 +6,76 @@ use Spatie\MediaLibrary\Test\TestCase;
 
 class CustomPropertyTest extends TestCase
 {
-    protected $mediaWithCustomProperty;
+    /** @var \Spatie\MediaLibrary\Media */
+    protected $media;
+
+    /** @var \Spatie\MediaLibrary\Media */
     protected $mediaWithoutCustomProperty;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->mediaWithCustomProperty = $this->testModel
+        $this->media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties([
                 'customName' => 'customValue',
                 'nested' => [
-                    'customName' => 'customValue',
+                    'customName' => 'nested customValue',
                 ],
             ])
-            ->toMediaLibrary('images');
-
-        $this->mediaWithoutCustomProperty = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
             ->toMediaLibrary('images');
     }
 
     /** @test */
     public function it_can_determine_if_a_media_item_has_a_custom_property()
     {
-        $this->assertTrue($this->mediaWithCustomProperty->hasCustomProperty('customName'));
-        $this->assertFalse($this->mediaWithCustomProperty->hasCustomProperty('nonExisting'));
+        $this->assertTrue($this->media->hasCustomProperty('customName'));
+        $this->assertTrue($this->media->hasCustomProperty('nested.customName'));
 
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('customName'));
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('nonExisting'));
-    }
-
-    /** @test */
-    public function it_can_determine_if_a_media_item_has_a_nested_custom_property()
-    {
-        $this->assertTrue($this->mediaWithCustomProperty->hasNestedCustomProperty('nested.customName'));
-        $this->assertFalse($this->mediaWithCustomProperty->hasNestedCustomProperty('nested.nonExisting'));
-
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasNestedCustomProperty('nested.customName'));
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasNestedCustomProperty('nested.nonExisting'));
+        $this->assertFalse($this->media->hasCustomProperty('nonExisting'));
+        $this->assertFalse($this->media->hasCustomProperty('nested.nonExisting'));
     }
 
     /** @test */
     public function it_can_get_a_custom_property()
     {
-        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('customName'));
-        $this->assertNull($this->mediaWithCustomProperty->getCustomProperty('nonExisting'));
+        $this->assertEquals('customValue', $this->media->getCustomProperty('customName'));
+        $this->assertEquals('nested customValue', $this->media->getCustomProperty('nested.customName'));
 
-        $this->assertNull($this->mediaWithoutCustomProperty->getCustomProperty('customName'));
-        $this->assertNull($this->mediaWithoutCustomProperty->getCustomProperty('nonExisting'));
+        $this->assertNull($this->media->getCustomProperty('nonExisting'));
+        $this->assertNull($this->media->getCustomProperty('nested.nonExisting'));
     }
 
     /** @test */
-    public function it_can_get_a_nested_custom_property_using_dot_notation()
+    public function it_can_set_a_custom_property()
     {
-        $this->assertEquals(
-            'customValue',
-            $this->mediaWithCustomProperty->getNestedCustomProperty('nested.customName')
-        );
+        $this->media->setCustomProperty('anotherName', 'anotherValue');
 
-        $this->assertNull($this->mediaWithCustomProperty->getNestedCustomProperty('nested.notExisting'));
+        $this->assertEquals('anotherValue', $this->media->getCustomProperty('anotherName'));
+        $this->assertEquals('customValue', $this->media->getCustomProperty('customName'));
 
-        $this->assertNull($this->mediaWithoutCustomProperty->getNestedCustomProperty('nested.customName'));
-        $this->assertNull($this->mediaWithoutCustomProperty->getNestedCustomProperty('nested.notExisting'));
-    }
-
-    /** @test */
-    public function it_can_set_custom_property()
-    {
-        $this->mediaWithCustomProperty->setCustomProperty('anotherName', 'anotherValue');
-
-        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getCustomProperty('customName'));
-        $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getCustomProperty('anotherName'));
-    }
-
-    /** @test */
-    public function it_can_a_nested_set_custom_property_using_dot_notation()
-    {
-        $this->mediaWithCustomProperty->setNestedCustomProperty('nested.anotherName', 'anotherValue');
-
-        $this->assertEquals('customValue', $this->mediaWithCustomProperty->getNestedCustomProperty('nested.customName'));
-        $this->assertEquals('anotherValue', $this->mediaWithCustomProperty->getNestedCustomProperty('nested.anotherName'));
+        $this->media->setCustomProperty('nested.anotherName', 'anotherValue');
+        $this->assertEquals('anotherValue', $this->media->getCustomProperty('nested.anotherName'));
     }
 
     /** @test */
     public function it_can_forget_a_custom_property()
     {
-        $this->mediaWithCustomProperty->forgetCustomProperty('customName');
+        $this->assertTrue($this->media->hasCustomProperty('customName'));
+        $this->assertTrue($this->media->hasCustomProperty('nested.customName'));
 
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('customName'));
-    }
+        $this->media->forgetCustomProperty('customName');
+        $this->media->forgetCustomProperty('nested.customName');
 
-    /** @test */
-    public function it_can_forget_a_custom_property_with_remove_custom_property()
-    {
-        $this->mediaWithCustomProperty->removeCustomProperty('customName');
-
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasCustomProperty('customName'));
-    }
-
-    /** @test */
-    public function it_can_forget_a_nested_custom_property_using_dot_notation()
-    {
-        $this->mediaWithCustomProperty->forgetCustomProperty('nested.customName');
-
-        $this->assertFalse($this->mediaWithoutCustomProperty->hasNestedCustomProperty('nested.customName'));
+        $this->assertFalse($this->media->hasCustomProperty('customName'));
+        $this->assertFalse($this->media->hasCustomProperty('nested.customName'));
     }
 
     /** @test */
     public function it_returns_a_fallback_if_a_custom_property_isnt_set()
     {
-        $this->assertEquals('foo', $this->mediaWithCustomProperty->getCustomProperty('imNotHere', 'foo'));
-    }
-
-    /** @test */
-    public function it_returns_a_fallback_if_a_nested_custom_property_isnt_set()
-    {
-        $this->assertEquals('foo', $this->mediaWithCustomProperty->getCustomProperty('nested.imNotHere', 'foo'));
+        $this->assertEquals('foo', $this->media->getCustomProperty('imNotHere', 'foo'));
     }
 }

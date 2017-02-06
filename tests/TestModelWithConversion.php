@@ -12,7 +12,7 @@ class TestModelWithConversion extends TestModel
     public function registerMediaConversions()
     {
         $this->addMediaConversion('thumb')
-            ->setCrop(50, 50, 10, 10)
+            ->width(50)
             ->nonQueued();
     }
 }

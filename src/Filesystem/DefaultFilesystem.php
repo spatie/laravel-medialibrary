@@ -1,38 +1,25 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\Filesystem;
 
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
-use Illuminate\Contracts\Config\Repository as ConfigRepository;
 
-class Filesystem implements FilesystemInterface
+class DefaultFilesystem implements Filesystem
 {
-    /**
-     * @var \Illuminate\Contracts\Filesystem\Factory
-     */
+    /** @var \Illuminate\Contracts\Filesystem\Factory */
     protected $filesystem;
 
-    /**
-     * @var \Illuminate\Contracts\Config\Repository
-     */
-    protected $config;
-
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $customRemoteHeaders = [];
 
-    /**
-     * @param \Illuminate\Contracts\Filesystem\Factory $filesystems
-     * @param \Illuminate\Contracts\Config\Repository  $config
-     */
-    public function __construct(Factory $filesystems, ConfigRepository $config)
+    public function __construct(Factory $filesystems)
     {
         $this->filesystem = $filesystems;
-        $this->config = $config;
     }
 
     /*
@@ -87,7 +74,7 @@ class Filesystem implements FilesystemInterface
     {
         $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
 
-        $extraHeaders = $this->config->get('laravel-medialibrary.remote.extra_headers');
+        $extraHeaders = config('medialibrary.remote.extra_headers');
 
         return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
     }
@@ -95,7 +82,7 @@ class Filesystem implements FilesystemInterface
     /*
      * Copy a file from the medialibrary to the given targetFile.
      */
-    public function copyFromMediaLibrary(Media $media, string $targetFile)
+    public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
@@ -104,6 +91,8 @@ class Filesystem implements FilesystemInterface
         $stream = $this->filesystem->disk($media->disk)->readStream($sourceFile);
         file_put_contents($targetFile, stream_get_contents($stream), FILE_APPEND);
         fclose($stream);
+
+        return $targetFile;
     }
 
     /*
@@ -139,9 +128,9 @@ class Filesystem implements FilesystemInterface
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        $directory = $conversion ?
-            $pathGenerator->getPathForConversions($media) :
-            $pathGenerator->getPath($media);
+        $directory = $conversion
+            ? $pathGenerator->getPathForConversions($media)
+            : $pathGenerator->getPath($media);
 
         if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
             $this->filesystem->disk($media->disk)->makeDirectory($directory);

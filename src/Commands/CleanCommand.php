@@ -17,45 +17,25 @@ class CleanCommand extends Command
 {
     use ConfirmableTrait;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} 
     {--dry-run : List files that will be removed without removing them},
-    {-- force : Force the operation to run when in production}';
+    {--force : Force the operation to run when in production}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Clean deprecated conversions and files without related model.';
 
-    /**
-     * @var \Spatie\MediaLibrary\MediaRepository
-     */
+    /** @var \Spatie\MediaLibrary\MediaRepository */
     protected $mediaRepository;
 
-    /**
-     * @var \Spatie\MediaLibrary\FileManipulator
-     */
+    /** @var \Spatie\MediaLibrary\FileManipulator */
     protected $fileManipulator;
 
-    /**
-     * @var \Illuminate\Contracts\Filesystem\Factory
-     */
-    private $fileSystem;
+    /** @var \Illuminate\Contracts\Filesystem\Factory */
+    protected $fileSystem;
 
-    /**
-     * @var \Spatie\MediaLibrary\PathGenerator\BasePathGenerator
-     */
-    private $basePathGenerator;
+    /** @var \Spatie\MediaLibrary\PathGenerator\BasePathGenerator */
+    protected $basePathGenerator;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $isDryRun = false;
 
     /**
@@ -71,15 +51,13 @@ class CleanCommand extends Command
         BasePathGenerator $basePathGenerator
     ) {
         parent::__construct();
+
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
         $this->fileSystem = $fileSystem;
         $this->basePathGenerator = $basePathGenerator;
     }
 
-    /**
-     * Handle command.
-     */
     public function handle()
     {
         if (! $this->confirmToProceed()) {
@@ -95,7 +73,7 @@ class CleanCommand extends Command
         $this->info('All done!');
     }
 
-    public function getMediaItems() : Collection
+    public function getMediaItems(): Collection
     {
         $modelType = $this->argument('modelType');
         $collectionName = $this->argument('collectionName');
@@ -127,8 +105,8 @@ class CleanCommand extends Command
             $currentFilePaths = $this->fileSystem->disk($media->disk)->files($path);
 
             collect($currentFilePaths)
-                ->filter(function (string $currentFilePath) use ($conversionFilePaths) {
-                    return ! $conversionFilePaths->contains(basename($currentFilePath));
+                ->reject(function (string $currentFilePath) use ($conversionFilePaths) {
+                    return  $conversionFilePaths->contains(basename($currentFilePath));
                 })
                 ->each(function (string $currentFilePath) use ($media) {
                     if (! $this->isDryRun) {
@@ -142,7 +120,7 @@ class CleanCommand extends Command
 
     protected function deleteOrphanedFiles()
     {
-        $diskName = $this->argument('disk') ?: config('laravel-medialibrary.defaultFilesystem');
+        $diskName = $this->argument('disk') ?: config('medialibrary.defaultFilesystem');
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw FileCannotBeAdded::diskDoesNotExist($diskName);
@@ -151,8 +129,11 @@ class CleanCommand extends Command
         $mediaIds = collect($this->mediaRepository->all()->pluck('id')->toArray());
 
         collect($this->fileSystem->disk($diskName)->directories())
-            ->filter(function (string $directory) use ($mediaIds) {
-                return is_numeric($directory) ? ! $mediaIds->contains((int) $directory) : false;
+            ->filter(function (string $directory) {
+                return is_numeric($directory);
+            })
+            ->reject(function (string $directory) use ($mediaIds) {
+                return $mediaIds->contains((int) $directory);
             })->each(function (string $directory) use ($diskName) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);

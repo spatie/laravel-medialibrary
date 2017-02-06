@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Carbon\Carbon;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModelWithConversion;
 
@@ -21,7 +22,7 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_can_create_a_derived_version_of_an_image()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
@@ -29,7 +30,7 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_will_not_create_a_derived_version_for_non_registered_collections()
     {
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toCollection('downloads');
+        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaLibrary('downloads');
 
         $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
@@ -39,21 +40,23 @@ class AddMediaTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('image'))
-            ->toCollection('images');
+            ->toMediaLibrary('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
     /** @test */
-    public function it_will_keep_the_original_file_extension_when_using_the_src_format()
+    public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
     {
         $modelClass = new class() extends TestModelWithConversion {
             public function registerMediaConversions()
             {
-                $this->addMediaConversion('thumb')
-                                ->setCrop(50, 50, 10, 10)
-                                ->setFormat('src')
-                                ->nonQueued();
+                $this->addMediaConversion('my-conversion')
+                    ->setManipulations(function (Manipulations $manipulations) {
+                        $manipulations
+                            ->removeManipulation('format');
+                    })
+                    ->nonQueued();
             }
         };
 
@@ -61,9 +64,9 @@ class AddMediaTest extends TestCase
 
         $media = $model
             ->addMedia($this->getTestFilesDirectory('test.png'))
-            ->toCollection('images');
+            ->toMediaLibrary('images');
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.png'));
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/my-conversion.png'));
     }
 
     /** @test */
@@ -71,7 +74,7 @@ class AddMediaTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('test.pdf'))
-            ->toCollection('images');
+            ->toMediaLibrary('images');
 
         $thumbPath = $this->getMediaDirectory($media->id.'/conversions/thumb.jpg');
 
@@ -83,7 +86,7 @@ class AddMediaTest extends TestCase
     {
         Carbon::setTestNow();
 
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
 
         $originalThumbCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
 

@@ -9,14 +9,10 @@ class MediaHasBeenAdded
 {
     use SerializesModels;
 
-    /**
-     * @var \Spatie\MediaLibrary\Media
-     */
+    /** @var \Spatie\MediaLibrary\Media */
     public $media;
 
-    /*
-     * @param \Spatie\MediaLibrary\Media $media
-     */
+    /* @param \Spatie\MediaLibrary\Media $media */
     public function __construct(Media $media)
     {
         $this->media = $media;

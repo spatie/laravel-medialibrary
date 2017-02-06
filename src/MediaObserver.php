@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
+use Spatie\MediaLibrary\Filesystem\Filesystem;
+
 class MediaObserver
 {
     public function creating(Media $media)
@@ -12,7 +14,7 @@ class MediaObserver
     public function updating(Media $media)
     {
         if ($media->file_name !== $media->getOriginal('file_name')) {
-            app(FilesystemInterface::class)->renameFile($media, $media->getOriginal('file_name'));
+            app(Filesystem::class)->renameFile($media, $media->getOriginal('file_name'));
         }
     }
 
@@ -29,6 +31,6 @@ class MediaObserver
 
     public function deleted(Media $media)
     {
-        app(FilesystemInterface::class)->removeFiles($media);
+        app(Filesystem::class)->removeFiles($media);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Helpers;
 
-use finfo;
+use Finfo;
 
 class File
 {
@@ -33,9 +33,6 @@ class File
         return round($sizeInBytes, 2).' '.$units[$i];
     }
 
-    /*
-     * Get the mime type of a file.
-     */
     public static function getMimetype(string $path) : string
     {
         $finfo = new Finfo(FILEINFO_MIME_TYPE);

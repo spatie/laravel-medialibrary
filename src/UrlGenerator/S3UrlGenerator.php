@@ -9,8 +9,8 @@ class S3UrlGenerator extends BaseUrlGenerator
      *
      * @return string
      */
-    public function getUrl() : string
+    public function getUrl(): string
     {
-        return config('laravel-medialibrary.s3.domain').'/'.$this->getPathRelativeToRoot();
+        return config('medialibrary.s3.domain').'/'.$this->getPathRelativeToRoot();
     }
 }

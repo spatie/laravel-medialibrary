@@ -2,79 +2,56 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Cache\Repository;
-use Spatie\MediaLibrary\FilesystemInterface;
-use Symfony\Component\HttpFoundation\File\File;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
 
 class FileAdder
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model subject
-     */
+    /** @var \Illuminate\Database\Eloquent\Model subject */
     protected $subject;
 
-    /**
-     * @var FilesystemInterface
-     */
+    /** @var \Spatie\MediaLibrary\Filesystem\Filesystem */
     protected $filesystem;
 
-    /**
-     * @var Repository
-     */
-    protected $config;
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $preserveOriginal = false;
 
-    /**
-     * @var string|\Symfony\Component\HttpFoundation\File\UploadedFile
-     */
+    /** @var string|\Symfony\Component\HttpFoundation\File\UploadedFile */
     protected $file;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $properties = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $customProperties = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pathToFile;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $fileName;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $mediaName;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $diskName = '';
 
     /**
-     * @param FilesystemInterface $fileSystem
-     * @param Repository $config
+     * @param Filesystem $fileSystem
      */
-    public function __construct(FilesystemInterface $fileSystem, Repository $config)
+    public function __construct(Filesystem $fileSystem)
     {
         $this->filesystem = $fileSystem;
-        $this->config = $config;
     }
 
     /**
@@ -89,14 +66,12 @@ class FileAdder
         return $this;
     }
 
-    /**
+    /*
      * Set the file that needs to be imported.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return $this
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function setFile($file)
     {
@@ -118,7 +93,7 @@ class FileAdder
             return $this;
         }
 
-        if ($file instanceof File) {
+        if ($file instanceof SymfonyFile) {
             $this->pathToFile = $file->getPath().'/'.$file->getFilename();
             $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
@@ -126,7 +101,7 @@ class FileAdder
             return $this;
         }
 
-        throw FileCannotBeAdded::unknownType();
+        throw UnknownType::create();
     }
 
     /**
@@ -249,54 +224,16 @@ class FileAdder
     }
 
     /**
-     * Set the target media collection to default.
-     * Will also start the import process.
-     *
      * @param string $collectionName
-     * @param string $diskName
      *
-     * @return Media
+     * @return \Spatie\MediaLibrary\Media
      *
-     * @throws FileDoesNotExist
      * @throws FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
+    public function toMediaLibraryOnCloudDisk(string $collectionName = 'default')
     {
-        return $this->toCollectionOnDisk($collectionName, $diskName);
-    }
-
-    /**
-     * Set the target media collection to default.
-     * Will also start the import process.
-     *
-     * @param string $collectionName
-     * @param string $diskName
-     *
-     * @return Media
-     *
-     * @throws FileDoesNotExist
-     * @throws FileCannotBeAdded
-     */
-    public function toMediaLibraryOnDisk(string $collectionName = 'default', string $diskName = '')
-    {
-        return $this->toCollectionOnDisk($collectionName, $diskName);
-    }
-
-    /**
-     * Set the collection name where to import the file.
-     * Will also start the import process.
-     *
-     * @param string $collectionName
-     * @param string $diskName
-     *
-     * @return Media
-     *
-     * @throws FileDoesNotExist
-     * @throws FileCannotBeAdded
-     */
-    public function toCollection(string $collectionName = 'default', string $diskName = '')
-    {
-        return $this->toCollectionOnDisk($collectionName, $diskName);
+        return $this->toMediaLibrary($collectionName, config('filesystems.cloud'));
     }
 
     /**
@@ -308,21 +245,21 @@ class FileAdder
      * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toCollectionOnDisk(string $collectionName = 'default', string $diskName = '')
+    public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
     {
         if (! $this->subject->exists) {
-            throw FileCannotBeAdded::modelDoesNotExist($this->subject);
+            throw ModelDoesNotExist::create($this->subject);
         }
 
         if (! is_file($this->pathToFile)) {
-            throw FileCannotBeAdded::fileDoesNotExist($this->pathToFile);
+            throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('laravel-medialibrary.max_file_size')) {
-            throw FileCannotBeAdded::fileIsTooBig($this->pathToFile);
+        if (filesize($this->pathToFile) > config('medialibrary.max_file_size')) {
+            throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('laravel-medialibrary.media_model');
+        $mediaClass = config('medialibrary.media_model');
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -331,6 +268,7 @@ class FileAdder
 
         $media->collection_name = $collectionName;
 
+        $media->mime_type = File::getMimetype($this->pathToFile);
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
         $media->manipulations = [];
@@ -349,8 +287,6 @@ class FileAdder
     }
 
     /**
-     * Determine the disk to be used.
-     *
      * @param string $diskName
      *
      * @return string
@@ -360,19 +296,17 @@ class FileAdder
     protected function determineDiskName(string $diskName)
     {
         if ($diskName === '') {
-            $diskName = config('laravel-medialibrary.defaultFilesystem');
+            $diskName = config('medialibrary.defaultFilesystem');
         }
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw FileCannotBeAdded::diskDoesNotExist($diskName);
+            throw DiskDoesNotExist::create($diskName);
         }
 
         return $diskName;
     }
 
     /**
-     * Sanitize the given file name.
-     *
      * @param $fileName
      *
      * @return string

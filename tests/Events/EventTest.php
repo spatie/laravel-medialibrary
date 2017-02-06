@@ -26,6 +26,8 @@ class EventTest extends TestCase
         $this->expectsEvent(MediaHasBeenAdded::class);
 
         $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
+
+        $this->addToAssertionCount(1);
     }
 
     /** @test */
@@ -33,7 +35,9 @@ class EventTest extends TestCase
     {
         $this->expectsEvent(ConversionHasBeenCompleted::class);
 
-        $this->testModelWithConversion->addMedia($this->getTestJpg())->toCollection('images');
+        $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
+
+        $this->addToAssertionCount(1);
     }
 
     /** @test */
@@ -47,6 +51,8 @@ class EventTest extends TestCase
         $this->expectsEvent(CollectionHasBeenCleared::class);
 
         $this->testModel->clearMediaCollection('images');
+
+        $this->addToAssertionCount(1);
     }
 
     protected function expectsEvent($eventClassName)

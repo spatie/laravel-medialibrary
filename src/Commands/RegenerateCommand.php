@@ -14,42 +14,20 @@ class RegenerateCommand extends Command
 {
     use ConfirmableTrait;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}
     {-- force : Force the operation to run when in production}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Regenerate the derived images of media';
 
-    /**
-     * @var \Spatie\MediaLibrary\MediaRepository
-     */
+    /** @var \Spatie\MediaLibrary\MediaRepository */
     protected $mediaRepository;
 
-    /**
-     * @var \Spatie\MediaLibrary\FileManipulator
-     */
+    /** @var \Spatie\MediaLibrary\FileManipulator */
     protected $fileManipulator;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $erroredMediaIds = [];
 
-    /**
-     * RegenerateCommand constructor.
-     *
-     * @param MediaRepository $mediaRepository
-     * @param FileManipulator $fileManipulator
-     */
     public function __construct(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
     {
         parent::__construct();
@@ -58,9 +36,6 @@ class RegenerateCommand extends Command
         $this->fileManipulator = $fileManipulator;
     }
 
-    /**
-     * Handle regeneration.
-     */
     public function handle()
     {
         if (! $this->confirmToProceed()) {

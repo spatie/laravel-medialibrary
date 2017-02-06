@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Arr;
 use Spatie\MediaLibrary\Media;
+use Spatie\Image\Manipulations;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
@@ -48,13 +49,15 @@ class ConversionCollection extends Collection
      */
     public function getByName(string $name)
     {
-        foreach ($this->items as $conversion) {
-            if ($conversion->getName() === $name) {
-                return $conversion;
-            }
+        $conversion = $this->first(function (Conversion $conversion) {
+            return $conversion->getName();
+        });
+
+        if (! $conversion) {
+            throw InvalidConversion::unknownName($name);
         }
 
-        throw InvalidConversion::unknownName($name);
+        return $conversion;
     }
 
     /**
@@ -87,9 +90,9 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationsFromDb(Media $media)
     {
-        foreach ($media->manipulations as $conversionName => $manipulation) {
-            $this->addManipulationToConversion($manipulation, $conversionName);
-        }
+        collect($media->manipulations)->each(function ($manipulations, $conversionName) {
+            $this->addManipulationToConversion(new Manipulations([$manipulations]), $conversionName);
+        });
     }
 
     /**
@@ -105,52 +108,42 @@ class ConversionCollection extends Collection
             return $this;
         }
 
-        return $this->filter(function (Conversion $conversion) use ($collectionName) {
-            return $conversion->shouldBePerformedOn($collectionName);
-        });
+        return $this->filter->shouldBePerformedOn($collectionName);
     }
 
     /*
      * Get all the conversions in the collection that should be queued.
      */
-    public function getQueuedConversions(string $collectionName = '') : ConversionCollection
+    public function getQueuedConversions(string $collectionName = ''): ConversionCollection
     {
-        return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return $conversion->shouldBeQueued();
-        });
+        return $this->getConversions($collectionName)->filter->shouldBeQueued();
     }
 
     /*
      * Add the given manipulation to the conversion with the given name.
      */
-    protected function addManipulationToConversion(array $manipulation, string $conversionName)
+    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        foreach ($this as $conversion) {
-            if ($conversion->getName() === $conversionName) {
-                $conversion->addAsFirstManipulation($manipulation);
-
-                return;
-            }
-        }
+        $this->first(function (Conversion $conversion) use ($conversionName) {
+            return $conversion->getName() === $conversionName;
+        })->addAsFirstManipulations($manipulations);
     }
 
     /*
      * Get all the conversions in the collection that should not be queued.
      */
-    public function getNonQueuedConversions(string $collectionName = '') : ConversionCollection
+    public function getNonQueuedConversions(string $collectionName = ''): ConversionCollection
     {
-        return $this->getConversions($collectionName)->filter(function (Conversion $conversion) {
-            return ! $conversion->shouldBeQueued();
-        });
+        return $this->getConversions($collectionName)->reject->shouldBeQueued();
     }
 
     /**
      * Return the list of conversion files.
      */
-    public function getConversionsFiles(string $collectionName = '') : ConversionCollection
+    public function getConversionsFiles(string $collectionName = ''): ConversionCollection
     {
         return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
-            return $conversion->getName().'.'.$conversion->getResultExtension();
+            return "{$conversion->getName()}.{$conversion->getResultExtension()}";
         });
     }
 }

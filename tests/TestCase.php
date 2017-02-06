@@ -9,24 +9,16 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 abstract class TestCase extends Orchestra
 {
-    /**
-     * @var \Spatie\MediaLibrary\Test\TestModel
-     */
+    /** @var \Spatie\MediaLibrary\Test\TestModel */
     protected $testModel;
 
-    /**
-     * @var \Spatie\MediaLibrary\Test\TestModelWithConversion
-     */
+    /** @var \Spatie\MediaLibrary\Test\TestModelWithConversion */
     protected $testModelWithConversion;
 
-    /**
-     * @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions
-     */
+    /** @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions */
     protected $testModelWithoutMediaConversions;
 
-    /**
-     * @var \Spatie\MediaLibrary\Test\TestModelWithMorphMap
-     */
+    /** @var \Spatie\MediaLibrary\Test\TestModelWithMorphMap */
     protected $testModelWithMorphMap;
 
     public function setUp()
@@ -176,8 +168,13 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('filesystems.disks.s3', $s3Configuration);
         $app['config']->set(
-            'laravel-medialibrary.s3.domain',
+            'medialibrary.s3.domain',
             'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
         );
+    }
+
+    public static function getS3BaseTestDirectory(): string
+    {
+        return md5(getenv('TRAVIS_BUILD_ID').app()->version().phpversion());
     }
 }

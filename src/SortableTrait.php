@@ -6,27 +6,19 @@ use Illuminate\Database\Eloquent\Builder;
 
 trait SortableTrait
 {
-    /**
-     * Modify the order column value.
-     */
     public function setHighestOrderNumber()
     {
         $orderColumnName = $this->determineOrderColumnName();
+
         $this->$orderColumnName = $this->getHighestOrderNumber() + 1;
     }
 
-    /*
-     * Determine the order value for the new record.
-     */
-    public function getHighestOrderNumber() : int
+    public function getHighestOrderNumber(): int
     {
         return (int) static::max($this->determineOrderColumnName());
     }
 
-    /*
-     * Let's be nice and provide an ordered scope.
-     */
-    public function scopeOrdered(Builder $query) : Builder
+    public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy($this->determineOrderColumnName());
     }
@@ -39,8 +31,6 @@ trait SortableTrait
      *
      * @param array $ids
      * @param int   $startOrder
-     *
-     * @throws InvalidNewOrder
      */
     public static function setNewOrder(array $ids, int $startOrder = 1)
     {
@@ -59,7 +49,7 @@ trait SortableTrait
      *
      * @return string
      */
-    protected function determineOrderColumnName() : string
+    protected function determineOrderColumnName(): string
     {
         return $this->sortable['order_column_name'] ?? 'order_column';
     }
@@ -67,7 +57,7 @@ trait SortableTrait
     /*
      * Determine if the order column should be set when saving a new model instance.
      */
-    public function shouldSortWhenCreating() : bool
+    public function shouldSortWhenCreating(): bool
     {
         return $this->sortable['sort_when_creating'] ?? true;
     }
