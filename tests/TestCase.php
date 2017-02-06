@@ -164,17 +164,10 @@ abstract class TestCase extends Orchestra
             'bucket' => getenv('S3_BUCKET_NAME'),
         ];
 
-        $this->canTestS3 = ! (bool) array_search(false, $s3Configuration);
-
         $app['config']->set('filesystems.disks.s3', $s3Configuration);
         $app['config']->set(
             'medialibrary.s3.domain',
             'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
         );
-    }
-
-    public static function getS3BaseTestDirectory(): string
-    {
-        return md5(getenv('TRAVIS_BUILD_ID').app()->version().phpversion());
     }
 }

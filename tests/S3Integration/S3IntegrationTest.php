@@ -8,13 +8,18 @@ use Spatie\MediaLibrary\Test\S3Integration\S3TestPathGenerator;
 
 class S3IntegrationTest extends TestCase
 {
+    /** @var @string */
+    protected $s3BaseDirectory;
+
     public function setUp()
     {
         parent::setUp();
 
-        if (! $this->canTestS3) {
+        if (! $this->canTestS3()) {
             $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
         }
+
+        $this->s3BaseDirectory = self::getS3BaseTestDirectory();
 
         $this->app['config']->set('medialibrary.custom_path_generator_class', S3TestPathGenerator::class);
     }
@@ -35,7 +40,7 @@ class S3IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->toMediaLibrary('default', 's3');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
     }
 
     /** @test */
@@ -45,22 +50,22 @@ class S3IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->toMediaLibrary('default', 's3');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$media->id}/test.jpg"));
-        $this->assertTrue(Storage::disk('s3')->has("{$media->id}/conversions/thumb.jpg"));
+        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
     }
 
     /** @test */
-    public function it_delete_a_file_on_s3()
+    public function it_can_delete_a_file_on_s3()
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->toMediaLibrary('default', 's3');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
 
         $media->delete();
 
-        $this->assertFalse(Storage::disk('s3')->has("{$media->id}/test.jpg"));
+        $this->assertFalse(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
     }
 
     /** @test */
@@ -70,13 +75,13 @@ class S3IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->toMediaLibrary('default', 's3');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$media->id}/test.jpg"));
-        $this->assertTrue(Storage::disk('s3')->has("{$media->id}/conversions/thumb.jpg"));
+        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
 
         $media->delete();
 
-        $this->assertFalse(Storage::disk('s3')->has("{$media->id}/test.jpg"));
-        $this->assertFalse(Storage::disk('s3')->has("{$media->id}/conversions/thumb.jpg"));
+        $this->assertFalse(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertFalse(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
     }
 
     /** @test */
@@ -88,7 +93,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain')."/{$media->id}/test.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
             $media->getUrl()
         );
 
@@ -106,15 +111,25 @@ class S3IntegrationTest extends TestCase
             ->toMediaLibrary('default', 's3');
 
         $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain')."/{$media->id}/conversions/thumb.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
             $media->getUrl('thumb')
         );
     }
 
     protected function cleanUpS3()
     {
-        collect(Storage::disk('s3')->allDirectories(TestCase::getS3BaseTestDirectory()))->each(function ($directory) {
+        collect(Storage::disk('s3')->allDirectories(self::getS3BaseTestDirectory()))->each(function ($directory) {
             Storage::disk('s3')->deleteDirectory($directory);
         });
+    }
+
+    public function canTestS3()
+    {
+        return ! empty(getenv('S3_ACCESS_KEY_ID'));
+    }
+
+    public static function getS3BaseTestDirectory(): string
+    {
+        return md5(getenv('TRAVIS_BUILD_ID').app()->version().phpversion());
     }
 }
