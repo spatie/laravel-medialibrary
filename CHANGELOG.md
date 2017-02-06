@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.0.1 - 2017-02-06
+
+- fix for `getFirstMediaUrl()` always returning the url for the first conversion 
+
 ## 5.0.0 - 2017-02-06 
 
 - add `toMediaLibraryOnCloudDisk`
