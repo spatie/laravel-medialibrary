@@ -9,7 +9,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
 
 This Laravel >=5.4 package can associate all sorts of files with Eloquent models. It provides a
-simple API to work with. To learn all about it, head over to [the extensive documention](https://docs.spatie.be/laravel-medialibrary/v4). 
+simple API to work with. To learn all about it, head over to [the extensive documention](https://docs.spatie.be/laravel-medialibrary/v5). 
 
 Here are a few short examples of what you can do:
 ```php
@@ -32,7 +32,7 @@ on images and pdfs that have been added in the medialibrary.
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## Documentation
-You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v4](https://docs.spatie.be/laravel-medialibrary/v4).
+You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v5](https://docs.spatie.be/laravel-medialibrary/v5).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
 
