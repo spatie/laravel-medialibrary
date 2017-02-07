@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.0.2 - 2017-02-07
+
+- fix loading manipulations from the db
+
 ## 5.0.1 - 2017-02-06
 
 - fix for `getFirstMediaUrl()` always returning the url for the first conversion 

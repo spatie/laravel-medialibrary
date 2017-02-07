@@ -108,7 +108,11 @@ class Conversion
      */
     public function addAsFirstManipulations(Manipulations $manipulations)
     {
-        $this->manipulations = $manipulations->mergeManipulations($this->manipulations);
+        $manipulationSequence = $manipulations->getManipulationSequence()->toArray();
+
+        $this->manipulations
+            ->getManipulationSequence()
+            ->mergeArray($manipulationSequence);
 
         return $this;
     }
