@@ -10,7 +10,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - calls to `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty` should be replaced by their non-nested counterparts.
 - All exceptions have been renamed. If you were catching medialibrary specific exception please look up the new name in /src/Exceptions.
 - be aware`getMedia` and related functions now return only the media from the `default` collection
-- `image_generator` have now been added to the config file.
+- `image_generators` have now been added to the config file.
 
 
 ## From v3 to v4
