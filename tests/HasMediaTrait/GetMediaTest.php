@@ -211,9 +211,11 @@ class GetMediaTest extends TestCase
             ->first();
 
         $this->assertSame([
-            1 => '1',
-            2 => '2',
-        ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->toArray());
+            1 => 1,
+            2 => 2,
+        ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->map(function ($value) {
+                return (int) $value;
+            })->toArray());
 
         $firstMedia->order_column = 3;
         $firstMedia->save();
@@ -223,8 +225,10 @@ class GetMediaTest extends TestCase
             ->first();
 
         $this->assertSame([
-            2 => '2',
-            1 => '3',
-        ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->toArray());
+            2 => 2,
+            1 => 3,
+        ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->map(function ($value) {
+                return (int) $value;
+            })->toArray());
     }
 }
