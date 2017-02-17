@@ -25,10 +25,11 @@ class FileManipulator
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
-        $this->performConversions(
-            $profileCollection->getNonQueuedConversions($media->collection_name),
-            $media
-        );
+        $nonQueuedConversions = $profileCollection->getNonQueuedConversions($media->collection_name);
+
+        if ($nonQueuedConversions->isNotEmpty()) {
+            $this->performConversions($nonQueuedConversions, $media);
+        }
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
