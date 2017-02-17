@@ -45,9 +45,13 @@ class FileManipulator
      */
     public function performConversions(ConversionCollection $conversions, Media $media)
     {
+        if ($conversions->isEmpty()) {
+            return;
+        }
+
         $imageGenerator = $this->determineImageGenerator($media);
 
-        if (! $imageGenerator || $conversions->isEmpty()) {
+        if (! $imageGenerator) {
             return;
         }
 
