@@ -78,12 +78,33 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url)
     {
-        if (! $stream = @fopen($url, 'r')) {
-            throw UnreachableUrl::create($url);
-        }
-
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
-        file_put_contents($tmpFile, $stream);
+
+        if (function_exists('curl_init')) {
+            $fh = fopen($tmpFile, 'w');
+
+            $curl = curl_init($url);
+            $options = [
+                CURLOPT_RETURNTRANSFER  => true,
+                CURLOPT_FAILONERROR     => true,
+                CURLOPT_FILE            => $fh,
+                CURLOPT_TIMEOUT         => 35,
+            ];
+            curl_setopt_array($curl, $options);
+            if (false === curl_exec($curl)) {
+                curl_close($curl);
+                fclose($fh);
+                throw UnreachableUrl::create($url);
+            }
+            curl_close($curl);
+            fclose($fh);
+        } else {
+            if (! $stream = @fopen($url, 'r')) {
+                throw UnreachableUrl::create($url);
+            }
+
+            file_put_contents($tmpFile, $stream);
+        }
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
 
