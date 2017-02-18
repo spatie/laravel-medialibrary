@@ -42,4 +42,22 @@ class GetUrlTest extends TestCase
 
         $this->assertEquals('/media/1/test%20with%20space.jpg', $this->testModel->getFirstMediaUrl());
     }
+
+    /** @test */
+    public function it_can_get_the_full_url_of_an_original_item()
+    {
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
+
+        $this->assertEquals($media->getFullUrl(), "http://localhost/media/{$media->id}/test.jpg");
+    }
+
+    /** @test */
+    public function it_can_get_the_full_url_of_a_derived_image()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary();
+
+        $conversionName = 'thumb';
+
+        $this->assertEquals("http://localhost/media/{$media->id}/conversions/{$conversionName}.jpg", $media->getFullUrl($conversionName));
+    }
 }
