@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.1.0 - 2017-02-17
+
+- add `fullUrl` method
+
 ## 5.0.2 - 2017-02-07
 
 - fix loading manipulations from the db
