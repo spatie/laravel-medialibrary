@@ -38,6 +38,20 @@ class Media extends Model
     }
 
     /**
+     * Get the full url to a original media file.
+     *
+     * @param string $conversionName
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
+     */
+    public function getFullUrl(string $conversionName = ''): string
+    {
+        return url($this->getUrl($conversionName));
+    }
+    
+    /**
      * Get the url to a original media file.
      *
      * @param string $conversionName
