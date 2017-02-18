@@ -50,7 +50,7 @@ class Media extends Model
     {
         return url($this->getUrl($conversionName));
     }
-    
+
     /**
      * Get the url to a original media file.
      *
