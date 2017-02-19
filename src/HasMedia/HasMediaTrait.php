@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 
 trait HasMediaTrait
 {
@@ -91,6 +92,46 @@ trait HasMediaTrait
             ->create($this, $tmpFile)
             ->usingName(pathinfo($filename, PATHINFO_FILENAME))
             ->usingFileName($filename);
+    }
+
+    /**
+     * Add a base64 encoded file to the medialibrary.
+     *
+     * @param string $base64data
+     *
+     * @throws InvalidBase64Data
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public function addMediaFromBase64(string $base64data)
+    {
+        // strip out data uri scheme information (see RFC 2397)
+        if (strpos($base64data, ';base64') !== false) {
+            list(, $base64data) = explode(';', $base64data);
+            list(, $base64data) = explode(',', $base64data);
+        }
+
+        // strict mode filters for non-base64 alphabet characters
+        if (base64_decode($base64data, true) === false) {
+            throw InvalidBase64Data::create();
+        }
+
+        // decoding and then reeconding should not change the data
+        if (base64_encode(base64_decode($base64data)) !== $base64data) {
+            throw InvalidBase64Data::create();
+        }
+
+        $binaryData = base64_decode($base64data);
+
+        // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
+        $tmpFile = tempnam(sys_get_temp_dir(), 'medialibrary');
+        file_put_contents($tmpFile, $binaryData);
+
+        $file = app(FileAdderFactory::class)
+            ->create($this, $tmpFile);
+
+        return $file;
     }
 
     /**

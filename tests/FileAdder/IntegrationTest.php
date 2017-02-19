@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 
@@ -335,5 +336,44 @@ class IntegrationTest extends TestCase
         $this->testModel
             ->addMedia($this->getTestJpg())
             ->toMediaLibrary('images', 'non-existing-disk');
+    }
+
+    /** @test */
+    public function it_can_add_a_base64_encoded_file_to_the_medialibrary()
+    {
+        $testFile = $this->getTestJpg();
+        $testBase64Data = base64_encode(file_get_contents($testFile));
+
+        $media = $this->testModel
+            ->addMediaFromBase64($testBase64Data)
+            ->toMediaLibrary();
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+    }
+
+    /** @test */
+    public function it_can_add_data_uri_prefixed_base64_encoded_file_to_the_medialibrary()
+    {
+        $testFile = $this->getTestJpg();
+        $testBase64Data = 'data:image/jpg;base64,'.base64_encode(file_get_contents($testFile));
+
+        $media = $this->testModel
+            ->addMediaFromBase64($testBase64Data)
+            ->toMediaLibrary();
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_adding_invalid_base64_data()
+    {
+        $testFile = $this->getTestJpg();
+        $invalidBase64Data = file_get_contents($testFile);
+
+        $this->expectException(InvalidBase64Data::class);
+
+        $this->testModel
+            ->addMediaFromBase64($invalidBase64Data)
+            ->toMediaLibrary();
     }
 }
