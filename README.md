@@ -55,7 +55,7 @@ The best postcards will get published on the open source page on our website.
 You can install this package via composer using this command:
 
 ```bash
-composer require spatie/laravel-medialibrary
+composer require spatie/laravel-medialibrary:^4.0.0
 ```
 
 Next, you must install the service provider:
