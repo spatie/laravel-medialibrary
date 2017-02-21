@@ -4,10 +4,10 @@ namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Carbon\Carbon;
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
 use Spatie\MediaLibrary\Test\TestModelWithConversion;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 class AddMediaTest extends TestCase
 {
@@ -26,7 +26,7 @@ class AddMediaTest extends TestCase
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
 
-        $this->assertFileExists($this->getMediaDirectory($media->id . '/conversions/thumb.jpg'));
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
     /** @test */
@@ -34,7 +34,7 @@ class AddMediaTest extends TestCase
     {
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaLibrary('downloads');
 
-        $this->assertFileNotExists($this->getMediaDirectory($media->id . '/conversions/thumb.jpg'));
+        $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
     /** @test */
@@ -44,14 +44,13 @@ class AddMediaTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('image'))
             ->toMediaLibrary('images');
 
-        $this->assertFileExists($this->getMediaDirectory($media->id . '/conversions/thumb.jpg'));
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
 
     /** @test */
     public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
     {
-        $modelClass = new class() extends TestModelWithConversion
-        {
+        $modelClass = new class() extends TestModelWithConversion {
             public function registerMediaConversions()
             {
                 $this->addMediaConversion('my-conversion')
@@ -69,7 +68,7 @@ class AddMediaTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('test.png'))
             ->toMediaLibrary('images');
 
-        $this->assertFileExists($this->getMediaDirectory($media->id . '/conversions/my-conversion.png'));
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/my-conversion.png'));
     }
 
     /** @test */
@@ -79,7 +78,7 @@ class AddMediaTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('test.pdf'))
             ->toMediaLibrary('images');
 
-        $thumbPath = $this->getMediaDirectory($media->id . '/conversions/thumb.jpg');
+        $thumbPath = $this->getMediaDirectory($media->id.'/conversions/thumb.jpg');
 
         class_exists('Imagick') ? $this->assertFileExists($thumbPath) : $this->assertFileNotExists($thumbPath);
     }
@@ -91,14 +90,14 @@ class AddMediaTest extends TestCase
 
         $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
 
-        $originalThumbCreatedAt = filemtime($this->getMediaDirectory($media->id . '/conversions/thumb.jpg'));
+        $originalThumbCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
 
         Carbon::setTestNow(Carbon::now()->addMinute());
 
         $media->order_column = $media->order_column + 1;
         $media->save();
 
-        $thumbsCreatedAt = filemtime($this->getMediaDirectory($media->id . '/conversions/thumb.jpg'));
+        $thumbsCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
 
         $this->assertEquals($originalThumbCreatedAt, $thumbsCreatedAt);
     }
@@ -106,8 +105,7 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_will_have_access_the_model_instance_when_registerMediaConversionsUsingModelInstance_has_been_set()
     {
-        $modelClass = new class extends TestModel
-        {
+        $modelClass = new class extends TestModel {
             public $registerMediaConversionsUsingModelInstance = true;
 
             /**
