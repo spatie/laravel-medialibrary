@@ -72,9 +72,20 @@ class ConversionCollection extends Collection
 
         /*
          * To prevent an sql query create a new model instead
-         * of the using the associated one
+         * of the using the associated one.
          */
         $model = new $modelName();
+
+        /*
+         * In some cases the user might want to get the actual model
+         * instance so conversion parameters can depend on model
+         * properties. This will causes extra queries.
+         */
+        if ($model->registerMediaConversionsUsingModelInstance) {
+            $model = $media->model;
+
+            $model->mediaConversion = [];
+        }
 
         if ($model instanceof HasMediaConversions) {
             $model->registerMediaConversions();
