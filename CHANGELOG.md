@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.3.0 - 2017-02-22
+
+- add support for `registerMediaConversionsUsingModelInstance`
+
 ## 5.2.0 - 2017-02-20
 
 - add `addMediaFromBase64`
