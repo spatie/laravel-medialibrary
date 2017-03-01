@@ -2,7 +2,13 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.3.2 - 2017-03-01
+
+- fix for undefined function `getPath` when using S3
+
 ## 5.3.1 - 2017-03-01
+
+**this version is broken, do not use**
 
 - fix for undefined function `getPath` when using S3
 
