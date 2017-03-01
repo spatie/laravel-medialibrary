@@ -4,8 +4,6 @@ namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 abstract class BaseGenerator implements ImageGenerator
 {
