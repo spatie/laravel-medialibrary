@@ -42,10 +42,14 @@ class DefaultFilesystem implements Filesystem
         $destination = $this->getMediaDirectory($media, $conversions).
             ($targetFileName == '' ? pathinfo($file, PATHINFO_BASENAME) : $targetFileName);
 
+        $filePointer = fopen($file, 'r');
+
         if ($media->getDiskDriverName() === 'local') {
             $this->filesystem
                 ->disk($media->disk)
-                ->put($destination, fopen($file, 'r'));
+                ->put($destination, $filePointer);
+
+            fclose($filePointer);
 
             return;
         }
@@ -53,7 +57,9 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem
             ->disk($media->disk)
             ->getDriver()
-            ->put($destination, fopen($file, 'r'), $this->getRemoteHeadersForFile($file));
+            ->put($destination, $filePointer, $this->getRemoteHeadersForFile($file));
+        
+        fclose($filePointer);
     }
 
     /**
