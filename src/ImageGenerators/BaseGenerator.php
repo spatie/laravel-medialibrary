@@ -4,8 +4,6 @@ namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 abstract class BaseGenerator implements ImageGenerator
 {
@@ -19,15 +17,7 @@ abstract class BaseGenerator implements ImageGenerator
             return true;
         }
 
-        $urlGenerator = UrlGeneratorFactory::createForMedia($media);
-
-        $mimeType = strtolower(File::getMimetype($media->getPath()));
-
-        if (
-            method_exists($urlGenerator, 'getPath') &&
-            file_exists($media->getPath()) &&
-            $this->supportedMimetypes()->contains($mimeType)
-        ) {
+        if ($this->supportedMimetypes()->contains(strtolower($media->mime_type))) {
             return true;
         }
 
