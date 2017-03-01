@@ -9,6 +9,12 @@ return [
     'defaultFilesystem' => 'media',
 
     /*
+     * The path where to store temporary files while performing image conversions.
+     * If set to null, storage_path('medialibrary/temp') will be used.
+     */
+    'temp_file_path' => null,
+
+    /*
      * The maximum file size of an item in bytes. Adding a file
      * that is larger will result in an exception.
      */
