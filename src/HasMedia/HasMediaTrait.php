@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Spatie\MediaLibrary\FileAdder\FileAdderGroupFactory;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
@@ -47,24 +48,44 @@ trait HasMediaTrait
     /**
      * Add a file to the medialibrary.
      *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile|array $file
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
     public function addMedia($file)
     {
+        if(is_array($file)) {
+            return $this->addMultipleMedia($file);
+        }
+
         return app(FileAdderFactory::class)->create($this, $file);
+    }
+
+    /**
+     * Add an array of files to the medialibrary
+     *
+     * @param array $files
+     *
+     * @return mixed
+     */
+    public function addMultipleMedia(array $files)
+    {
+        return app(FileAdderGroupFactory::class)->create($this, $files);
     }
 
     /**
      * Add a file from a request.
      *
-     * @param string $key
+     * @param string|string[] $key
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromRequest(string $key)
+    public function addMediaFromRequest($key)
     {
+        if (is_array($key)) {
+            return app(FileAdderGroupFactory::class)->createFromRequest($this, $key);
+        }
+
         return app(FileAdderFactory::class)->createFromRequest($this, $key);
     }
 
@@ -135,15 +156,15 @@ trait HasMediaTrait
     }
 
     /**
-     * Copy a file to the medialibrary.
+     * Copy one or more files to the medialibrary.
      *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile|array $files
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function copyMedia($file)
+    public function copyMedia($files)
     {
-        return $this->addMedia($file)->preservingOriginal();
+        return $this->addMedia($files)->preservingOriginal();
     }
 
     /*
