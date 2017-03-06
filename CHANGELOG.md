@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.3.3 - 2017-03-06
+
+- fix bug around `getRemoteHeadersForFile()`
+
 ## 5.3.2 - 2017-03-01
 
 - fix for undefined function `getPath` when using S3
