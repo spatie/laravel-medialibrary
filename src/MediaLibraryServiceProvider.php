@@ -51,7 +51,12 @@ class MediaLibraryServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-medialibrary.php', 'laravel-medialibrary');
 
-        $this->app->singleton(MediaRepository::class);
+        $this->app->singleton(MediaRepository::class, function ($app) {
+            // set class explicitly, otherwise in case of a custom class with custom table name commands will fail
+            $mediaClass = $this->app['config']['laravel-medialibrary']['media_model'];
+
+            return new MediaRepository(new $mediaClass);
+        });
 
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
