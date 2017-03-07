@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
-use Spatie\MediaLibrary\FileAdder\FileAdderGroupFactory;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
@@ -48,45 +47,47 @@ trait HasMediaTrait
     /**
      * Add a file to the medialibrary.
      *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile|array $file
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
     public function addMedia($file)
     {
-        if(is_array($file)) {
-            return $this->addMultipleMedia($file);
-        }
-
         return app(FileAdderFactory::class)->create($this, $file);
-    }
-
-    /**
-     * Add an array of files to the medialibrary
-     *
-     * @param array $files
-     *
-     * @return mixed
-     */
-    public function addMultipleMedia(array $files)
-    {
-        return app(FileAdderGroupFactory::class)->create($this, $files);
     }
 
     /**
      * Add a file from a request.
      *
-     * @param string|string[] $key
+     * @param string $key
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromRequest($key)
+    public function addMediaFromRequest(string $key)
     {
-        if (is_array($key)) {
-            return app(FileAdderGroupFactory::class)->createFromRequest($this, $key);
-        }
-
         return app(FileAdderFactory::class)->createFromRequest($this, $key);
+    }
+
+    /**
+     * Add a file from a request.
+     *
+     * @param string[] $keys
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
+     */
+    public function addMultipleMediaFromRequest(array $keys)
+    {
+        return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
+    }
+
+    /**
+     * Add all files from a request
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
+     */
+    public function addAllMediaFromRequest()
+    {
+        return app(FileAdderFactory::class)->createAllFromRequest($this);
     }
 
     /**
@@ -156,15 +157,15 @@ trait HasMediaTrait
     }
 
     /**
-     * Copy one or more files to the medialibrary.
+     * Copy a file to the medialibrary.
      *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile|array $files
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function copyMedia($files)
+    public function copyMedia($file)
     {
-        return $this->addMedia($files)->preservingOriginal();
+        return $this->addMedia($file)->preservingOriginal();
     }
 
     /*

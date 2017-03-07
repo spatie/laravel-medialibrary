@@ -180,6 +180,85 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_multiple_uploads_to_the_medialibrary_from_the_current_request()
+    {
+        $this->app['router']->get('/upload', function () {
+            $fileAdders = collect(
+                $this->testModel
+                    ->addMultipleMediaFromRequest(['file-1', 'file-2'])
+            );
+
+            $fileAdders->each(function ($fileAdder) {
+                $media = $fileAdder->toMediaLibrary();
+
+                $this->assertEquals('alternativename', $media->name);
+                $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+            });
+
+            $this->assertCount(2, $fileAdders);
+        });
+
+
+        $uploadedFiles = [
+            'file-1' => new UploadedFile(
+                $this->getTestJpg(),
+                'alternativename.jpg',
+                'image/jpeg',
+                filesize($this->getTestJpg())
+            ),
+            'file-2' => new UploadedFile(
+                $this->getTestSvg(),
+                'alternativename.svg',
+                'image/svg',
+                filesize($this->getTestSvg())
+            )
+        ];
+
+        $result = $this->call('get', 'upload', [], [], $uploadedFiles);
+
+        $this->assertEquals(200, $result->getStatusCode());
+    }
+
+    /** @test */
+    public function it_can_add_all_uploads_to_the_medialibrary_from_the_current_request()
+    {
+        $this->app['router']->get('/upload', function () {
+            $fileAdders = collect(
+                $this->testModel->addAllMediaFromRequest()
+            );
+
+            $fileAdders->each(function ($fileAdder) {
+                $media = $fileAdder->toMediaLibrary();
+
+                $this->assertEquals('alternativename', $media->name);
+                $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+            });
+
+            $this->assertCount(2, $fileAdders);
+        });
+
+
+        $uploadedFiles = [
+            'file-1' => new UploadedFile(
+                $this->getTestJpg(),
+                'alternativename.jpg',
+                'image/jpeg',
+                filesize($this->getTestJpg())
+            ),
+            'file-2' => new UploadedFile(
+                $this->getTestSvg(),
+                'alternativename.svg',
+                'image/svg',
+                filesize($this->getTestSvg())
+            )
+        ];
+
+        $result = $this->call('get', 'upload', [], [], $uploadedFiles);
+
+        $this->assertEquals(200, $result->getStatusCode());
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_trying_to_add_a_non_existing_key_from_a_request()
     {
         $this->app['router']->get('/upload', function () {
