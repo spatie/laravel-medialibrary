@@ -36,7 +36,11 @@ class MediaLibraryServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', 'medialibrary');
 
-        $this->app->singleton(MediaRepository::class);
+        $this->app->singleton(MediaRepository::class, function () {
+            $mediaClass = $this->app['config']['medialibrary']['media_model'];
+
+            return new MediaRepository(new $mediaClass);
+        });
 
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
