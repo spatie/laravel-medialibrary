@@ -45,7 +45,7 @@ class FileAdderFactory
     {
         $fileAdders = [];
 
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             if (! request()->hasFile($key)) {
                 throw RequestDoesNotHaveFile::create($key);
             }

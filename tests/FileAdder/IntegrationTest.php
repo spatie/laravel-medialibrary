@@ -198,7 +198,6 @@ class IntegrationTest extends TestCase
             $this->assertCount(2, $fileAdders);
         });
 
-
         $uploadedFiles = [
             'file-1' => new UploadedFile(
                 $this->getTestJpg(),
@@ -211,7 +210,7 @@ class IntegrationTest extends TestCase
                 'alternativename.svg',
                 'image/svg',
                 filesize($this->getTestSvg())
-            )
+            ),
         ];
 
         $result = $this->call('get', 'upload', [], [], $uploadedFiles);
@@ -250,7 +249,7 @@ class IntegrationTest extends TestCase
                 'alternativename.svg',
                 'image/svg',
                 filesize($this->getTestSvg())
-            )
+            ),
         ];
 
         $result = $this->call('get', 'upload', [], [], $uploadedFiles);

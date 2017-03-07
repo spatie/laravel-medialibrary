@@ -69,7 +69,7 @@ trait HasMediaTrait
     }
 
     /**
-     * Add a file from a request.
+     * Add multiple files from a request by keys.
      *
      * @param string[] $keys
      *
@@ -81,7 +81,7 @@ trait HasMediaTrait
     }
 
     /**
-     * Add all files from a request
+     * Add all files from a request.
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
      */
