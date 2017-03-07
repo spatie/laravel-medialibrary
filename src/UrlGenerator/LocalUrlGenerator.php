@@ -33,7 +33,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
     }
 
     /**
-     * Get the relative URL to the root of the public medialibrary directory
+     * Get the relative URL to the root of the public medialibrary directory.
      *
      * @throws UrlCannotBeDetermined
      */
