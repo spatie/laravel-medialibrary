@@ -236,7 +236,6 @@ class IntegrationTest extends TestCase
             $this->assertCount(2, $fileAdders);
         });
 
-
         $uploadedFiles = [
             'file-1' => new UploadedFile(
                 $this->getTestJpg(),
