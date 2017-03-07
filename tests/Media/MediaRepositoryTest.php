@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Test\Media;
 
-use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Test\TestCustomMediaModel;
 
 class MediaRepositoryTest extends TestCase
