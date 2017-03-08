@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.5.0 - 2017-03-08
+
+- add `createMultipleFromRequest` and `createAllFromRequest` on `FileAdder`
+
 ## 5.4.0 - 2017-03-08
 
 - add `temporary_directory_path` to config
