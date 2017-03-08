@@ -69,6 +69,28 @@ trait HasMediaTrait
     }
 
     /**
+     * Add multiple files from a request by keys.
+     *
+     * @param string[] $keys
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
+     */
+    public function addMultipleMediaFromRequest(array $keys)
+    {
+        return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
+    }
+
+    /**
+     * Add all files from a request.
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
+     */
+    public function addAllMediaFromRequest()
+    {
+        return app(FileAdderFactory::class)->createAllFromRequest($this);
+    }
+
+    /**
      * Add a remote file to the medialibrary.
      *
      * @param string $url
