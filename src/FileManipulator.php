@@ -55,7 +55,7 @@ class FileManipulator
             return;
         }
 
-        $temporaryDirectory = new TemporaryDirectory(storage_path('medialibrary/temp'));
+        $temporaryDirectory = new TemporaryDirectory($this->getTemporaryDirectoryPath());
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
@@ -76,9 +76,11 @@ class FileManipulator
             app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
 
             event(new ConversionHasBeenCompleted($media, $conversion));
+
+            unlink($renamedFile);
         }
 
-        $temporaryDirectory->delete();
+        unlink($copiedOriginalFile);
     }
 
     public function performConversion(Media $media, Conversion $conversion, string $imageFile): string
@@ -107,6 +109,20 @@ class FileManipulator
         }
 
         app(Dispatcher::class)->dispatch($job);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTemporaryDirectoryPath(): string
+    {
+        $path = config('medialibrary.temp_file_path');
+
+        if ($path !== null) {
+            return $path;
+        }
+
+        return storage_path('medialibrary/temp');
     }
 
     /**
