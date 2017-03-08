@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.5.2 - 2017-03-08
+
+- prevent migration from being published multiple times
+- `LocalUrlGenerator` will now use the `url` property of `disk` when one has been set
+
 ## 5.5.1 - 2017-03-08
 
 - fix for using `MediaRepository` with a custom media model

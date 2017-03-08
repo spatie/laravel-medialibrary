@@ -32,15 +32,9 @@ class LocalUrlGenerator extends BaseUrlGenerator
         return $this->getStoragePath().'/'.$this->getPathRelativeToRoot();
     }
 
-    /**
-     * Get the relative URL to the root of the public medialibrary directory.
-     *
-     * @throws UrlCannotBeDetermined
-     */
     protected function getBaseMediaDirectoryUrl(): string
     {
-        $diskUrl = $this->config->get("filesystems.disks.{$this->media->disk}.url");
-        if ($diskUrl) {
+        if ($diskUrl = $this->config->get("filesystems.disks.{$this->media->disk}.url")) {
             return str_replace(url('/'), '', $diskUrl);
         }
 
