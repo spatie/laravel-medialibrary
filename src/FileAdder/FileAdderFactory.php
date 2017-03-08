@@ -30,7 +30,7 @@ class FileAdderFactory
      */
     public static function createFromRequest(Model $subject, string $key)
     {
-        return array_values(static::createMultipleFromRequest($subject, [$key]))[0];
+        return static::createMultipleFromRequest($subject, [$key])[0];
     }
 
     /**
