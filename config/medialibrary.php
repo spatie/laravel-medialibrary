@@ -9,12 +9,6 @@ return [
     'defaultFilesystem' => 'media',
 
     /*
-     * The path where to store temporary files while performing image conversions.
-     * If set to null, storage_path('medialibrary/temp') will be used.
-     */
-    'temp_file_path' => null,
-
-    /*
      * The maximum file size of an item in bytes. Adding a file
      * that is larger will result in an exception.
      */
@@ -78,6 +72,12 @@ return [
         Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
         Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
     ],
+
+    /*
+     * The path where to store temporary files while performing image conversions.
+     * If set to null, storage_path('medialibrary/temp') will be used.
+     */
+    'temporary_directory_path' => null,
 
     /*
      * FFMPEG & FFProbe binaries path, only used if you try to generate video
