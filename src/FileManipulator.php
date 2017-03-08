@@ -111,11 +111,11 @@ class FileManipulator
 
     protected function getTemporaryDirectoryPath(): string
     {
-        $path =  is_null(config('medialibrary.temporary_directory_path'))
+        $path = is_null(config('medialibrary.temporary_directory_path'))
             ? storage_path('medialibrary/temp')
             : config('medialibrary.temporary_directory_path');
 
-        return $path . str_random(32);
+        return $path.str_random(32);
     }
 
     /**
