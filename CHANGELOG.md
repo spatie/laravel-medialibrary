@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 4.13.1 - 2017-03-08
+
+- fix for using `MediaRepository` with a custom media model
+
 ## 4.13.0 - 2017-01-30
 
 - add `FilesystemInterface`
