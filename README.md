@@ -13,18 +13,18 @@ simple API to work with. To learn all about it, head over to [the extensive docu
 Here are a few short examples of what you can do:
 ```php
 $newsItem = News::find(1);
-$newsItem->addMedia($pathToFile)->toCollection('images');
+$newsItem->addMedia($pathToFile)->toMediaLibrary('images');
 ```
 It can handle your uploads directly:
 ```php
-$newsItem->addMedia($request->file('image'))->toCollection('images');
+$newsItem->addMedia($request->file('image'))->toMediaLibrary('images');
 ```
 Want to store some large files on another filesystem? No problem:
 ```php
-$newsItem->addMedia($smallFile)->toCollectionOnDisk('downloads', 'local');
-$newsItem->addMedia($bigFile)->toCollectionOnDisk('downloads', 's3');
+$newsItem->addMedia($smallFile)->toMediaLibrary('downloads', 'local');
+$newsItem->addMedia($bigFile)->toMediaLibrary('downloads', 's3');
 ```
-The storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.1/filesystem),
+The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/5.4/filesystem),
 so you can use any filesystem you like. Additionally the package can create image manipulations
 on images and pdfs that have been added in the medialibrary.
 
@@ -218,7 +218,7 @@ public function register()
 Manually copy the package config file to `app\config\laravel-medialibrary.php` (you may need to
 create the config directory if it does not already exist).
 
-Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v5.2.31/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `defaultFilesystem` specified in the laravel-medialibrary config file.
+Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v5.4.15/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `defaultFilesystem` specified in the laravel-medialibrary config file.
 
 Finally, update `boostrap/app.php` to load both config files:
 
