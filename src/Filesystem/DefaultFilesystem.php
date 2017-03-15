@@ -56,7 +56,6 @@ class DefaultFilesystem implements Filesystem
 
         $this->filesystem
             ->disk($media->disk)
-            ->getDriver()
             ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile));
 
         fclose($file);
