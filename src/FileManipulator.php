@@ -115,7 +115,7 @@ class FileManipulator
             ? storage_path('medialibrary/temp')
             : config('medialibrary.temporary_directory_path');
 
-        return $path . DIRECTORY_SEPARATOR .str_random(32);
+        return $path.DIRECTORY_SEPARATOR.str_random(32);
     }
 
     /**
