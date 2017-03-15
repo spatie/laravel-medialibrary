@@ -1,6 +1,10 @@
-#Changelog
+# Changelog
 
 All notable changes to `laravel-medialibrary` will be documented in this file
+
+## 4.13.2 - 2017-03-17
+
+- fix bug where streams would be used on external filesystems that do not support streaming
 
 ## 4.13.1 - 2017-03-08
 
