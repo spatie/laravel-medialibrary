@@ -60,7 +60,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
     {
         $diskRootPath = $this->config->get("filesystems.disks.{$this->media->disk}.root");
 
-        return realpath($diskRootPath);
+        return config('medialibrary.local_url_generator_realpath', true) ? realpath($diskRootPath) : $diskRootPath;
     }
 
     protected function makeCompatibleForNonUnixHosts(string $url): string
