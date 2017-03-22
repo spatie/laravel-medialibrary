@@ -38,7 +38,7 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibrary('default', 's3');
+            ->toMediaLibraryCollection('default', 's3');
 
         $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
     }
@@ -48,7 +48,7 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaLibrary('default', 's3');
+            ->toMediaLibraryCollection('default', 's3');
 
         $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
         $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
@@ -59,7 +59,7 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibrary('default', 's3');
+            ->toMediaLibraryCollection('default', 's3');
 
         $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
 
@@ -73,7 +73,7 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaLibrary('default', 's3');
+            ->toMediaLibraryCollection('default', 's3');
 
         $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
         $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
@@ -90,7 +90,7 @@ class S3IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibrary('default', 's3');
+            ->toMediaLibraryCollection('default', 's3');
 
         $this->assertEquals(
             $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
@@ -108,7 +108,7 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaLibrary('default', 's3');
+            ->toMediaLibraryCollection('default', 's3');
 
         $this->assertEquals(
             $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
