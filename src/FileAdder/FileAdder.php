@@ -282,6 +282,7 @@ class FileAdder
         if (! $this->preserveOriginal) {
             unlink($this->pathToFile);
         }
+
         return $media;
     }
 
