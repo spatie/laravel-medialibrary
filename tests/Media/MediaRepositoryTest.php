@@ -20,7 +20,7 @@ class MediaRepositoryTest extends TestCase
     {
         $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibrary();
+            ->toMediaLibraryCollection();
 
         $mediaRepository = app(MediaRepository::class);
 

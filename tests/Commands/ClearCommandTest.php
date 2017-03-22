@@ -18,22 +18,22 @@ class ClearCommandTest extends TestCase
         $this->media['model1']['collection1'] = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibrary('collection1');
+            ->toMediaLibraryCollection('collection1');
 
         $this->media['model1']['collection2'] = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibrary('collection2');
+            ->toMediaLibraryCollection('collection2');
 
         $this->media['model2']['collection1'] = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibrary('collection1');
+            ->toMediaLibraryCollection('collection1');
 
         $this->media['model2']['collection2'] = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibrary('collection2');
+            ->toMediaLibraryCollection('collection2');
 
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));

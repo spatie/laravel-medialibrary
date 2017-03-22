@@ -12,14 +12,14 @@ class GetMediaConversionsTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibrary();
+            ->toMediaLibraryCollection();
 
         $this->assertSame([], $media->getMediaConversionNames());
 
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibrary();
+            ->toMediaLibraryCollection();
 
         $this->assertSame(['thumb'], $media->getMediaConversionNames());
     }

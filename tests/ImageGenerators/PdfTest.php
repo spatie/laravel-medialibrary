@@ -16,7 +16,7 @@ class PdfTest extends TestCase
             $this->markTestSkipped('Skipping pdf test because requirements to run it are not met');
         }
 
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestPdf())->toMediaLibrary();
+        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestPdf())->toMediaLibraryCollection();
 
         $this->assertTrue($imageGenerator->canConvert($media));
 

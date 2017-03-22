@@ -16,7 +16,7 @@ class AddMediaTest extends TestCase
     {
         $media = $this->testModelWithoutMediaConversions
             ->copyMedia($this->getTestFilesDirectory('test.jpg'))
-            ->toMediaLibrary();
+            ->toMediaLibraryCollection();
 
         $this->assertEquals('default', $media->collection_name);
     }
@@ -24,7 +24,7 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_can_create_a_derived_version_of_an_image()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibraryCollection('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
@@ -32,7 +32,7 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_will_not_create_a_derived_version_for_non_registered_collections()
     {
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaLibrary('downloads');
+        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaLibraryCollection('downloads');
 
         $this->assertFileNotExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
@@ -42,7 +42,7 @@ class AddMediaTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('image'))
-            ->toMediaLibrary('images');
+            ->toMediaLibraryCollection('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
     }
@@ -66,7 +66,7 @@ class AddMediaTest extends TestCase
 
         $media = $model
             ->addMedia($this->getTestFilesDirectory('test.png'))
-            ->toMediaLibrary('images');
+            ->toMediaLibraryCollection('images');
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/my-conversion.png'));
     }
@@ -76,7 +76,7 @@ class AddMediaTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('test.pdf'))
-            ->toMediaLibrary('images');
+            ->toMediaLibraryCollection('images');
 
         $thumbPath = $this->getMediaDirectory($media->id.'/conversions/thumb.jpg');
 
@@ -88,7 +88,7 @@ class AddMediaTest extends TestCase
     {
         Carbon::setTestNow();
 
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibrary('images');
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaLibraryCollection('images');
 
         $originalThumbCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/thumb.jpg'));
 
@@ -128,7 +128,7 @@ class AddMediaTest extends TestCase
 
         $media = $model
             ->addMedia($this->getTestJpg())
-            ->toMediaLibrary();
+            ->toMediaLibraryCollection();
 
         $conversionCollection = ConversionCollection::createForMedia($media);
 

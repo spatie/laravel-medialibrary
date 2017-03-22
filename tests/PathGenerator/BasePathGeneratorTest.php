@@ -47,7 +47,7 @@ class BasePathGeneratorTest extends TestCase
     /** @test */
     public function it_can_get_the_custom_path_for_media_without_conversions()
     {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary();
+        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibraryCollection();
 
         $this->urlGenerator->setMedia($media);
 
@@ -59,7 +59,7 @@ class BasePathGeneratorTest extends TestCase
     /** @test */
     public function it_can_get_the_custom_path_for_media_with_conversions()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibrary();
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibraryCollection();
         $conversion = ConversionCollection::createForMedia($media)->getByName('thumb');
 
         $this->urlGenerator

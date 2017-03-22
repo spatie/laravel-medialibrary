@@ -9,7 +9,7 @@ class GetTypeTest extends TestCase
     /** @test */
     public function it_can_return_the_file_mime()
     {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibrary();
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibraryCollection();
 
         $this->assertEquals('image/jpeg', $media->mime_type);
     }

@@ -17,7 +17,7 @@ class VideoTest extends TestCase
             $this->markTestSkipped('Skipping video test because requirements to run it are not met');
         }
 
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestWebm())->toMediaLibrary();
+        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestWebm())->toMediaLibraryCollection();
 
         $this->assertTrue($imageGenerator->canConvert($media));
 
