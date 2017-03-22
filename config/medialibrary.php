@@ -32,6 +32,11 @@ return [
     'image_driver' => 'gd',
 
     /*
+     * Set to false when using public symlink to access files that are not actually in public folder.
+     */
+    'local_url_generator_realpath' => true,
+
+    /*
      * When urls to files get generated this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */
