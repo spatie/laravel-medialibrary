@@ -16,7 +16,7 @@ class SvgTest extends TestCase
             $this->markTestSkipped('Skipping svg test because requirements to run it are not met');
         }
 
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestSvg())->toMediaLibraryCollection();
+        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestSvg())->toMediaCollection();
 
         $this->assertTrue($imageGenerator->canConvert($media));
 

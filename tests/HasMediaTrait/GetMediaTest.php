@@ -23,9 +23,9 @@ class GetMediaTest extends TestCase
         $this->assertCount(0, $this->testModel->getMedia('downloads'));
         $this->assertCount(0, $this->testModel->getMedia());
 
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaLibraryCollection('images');
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaLibraryCollection('downloads');
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaLibraryCollection();
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('images');
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('downloads');
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection();
 
         $this->testModel = $this->testModel->fresh();
 
@@ -37,7 +37,7 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_returns_a_media_collection_as_a_laravel_collection()
     {
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibraryCollection();
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
 
         $this->assertInstanceOf(\Illuminate\Support\Collection::class, $this->testModel->getMedia());
     }
@@ -45,7 +45,7 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_returns_collections_filled_with_media_objects()
     {
-        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaLibraryCollection();
+        $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
 
         $this->assertInstanceOf(\Spatie\MediaLibrary\Media::class, $this->testModel->getMedia()->first());
     }
@@ -53,8 +53,8 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_can_get_multiple_media_from_the_default_collection()
     {
-        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection();
-        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection();
+        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
+        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
 
         $this->assertCount(2, $this->testModel->getMedia());
     }
@@ -62,8 +62,8 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_can_get_files_from_a_named_collection()
     {
-        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection();
-        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
+        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
         $this->assertCount(1, $this->testModel->getMedia('images'));
         $this->assertEquals('images', $this->testModel->getMedia('images')[0]->collection_name);
@@ -76,25 +76,25 @@ class GetMediaTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter1' => 'value1'])
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $media2 = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter1' => 'value2'])
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
 
         $media3 = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter2' => 'value1'])
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
 
         $media4 = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter2' => 'value2'])
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
 
         $collection = $this->testModel->getMedia('images', ['filter2' => 'value1']);
         $this->assertCount(1, $collection);
@@ -108,25 +108,25 @@ class GetMediaTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter1' => 'value1'])
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $media2 = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter1' => 'value2'])
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
 
         $media3 = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter2' => 'value1'])
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
 
         $media4 = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withCustomProperties(['filter2' => 'value2'])
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
 
         $collection = $this->testModel->getMedia('images', function (Media $media) {
             return isset($media->custom_properties['filter1']);
@@ -139,11 +139,11 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_can_get_the_first_media_from_a_collection()
     {
-        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $media->name = 'first';
         $media->save();
 
-        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $media->name = 'second';
         $media->save();
 
@@ -157,14 +157,14 @@ class GetMediaTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->withCustomProperties(['extra_property' => 'yes'])
             ->preservingOriginal()
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
         $media->name = 'first';
         $media->save();
 
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
         $media->name = 'second';
         $media->save();
 
@@ -179,10 +179,10 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_can_get_the_url_to_first_media_in_a_collection()
     {
-        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $firstMedia->save();
 
-        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $secondMedia->save();
 
         $this->assertEquals($firstMedia->getUrl(), $this->testModel->getFirstMediaUrl('images'));
@@ -191,10 +191,10 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_can_get_the_path_to_first_media_in_a_collection()
     {
-        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $firstMedia->save();
 
-        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $secondMedia->save();
 
         $this->assertEquals($firstMedia->getPath(), $this->testModel->getFirstMediaPath('images'));
@@ -203,8 +203,8 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_will_return_preloaded_media_sorting_on_order_column()
     {
-        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
-        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaLibraryCollection('images');
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
         $preloadedTestModel = TestModel::with('media')
             ->where('id', $this->testModel->id)

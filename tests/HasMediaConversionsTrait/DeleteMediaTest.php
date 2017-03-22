@@ -16,12 +16,12 @@ class DeleteMediaTest extends TestCase
             $this->testModelWithoutMediaConversions
                 ->addMedia($this->getTestJpg())
                 ->preservingOriginal()
-                ->toMediaLibraryCollection();
+                ->toMediaCollection();
 
             $this->testModelWithoutMediaConversions
                 ->addMedia($this->getTestJpg())
                 ->preservingOriginal()
-                ->toMediaLibraryCollection('images');
+                ->toMediaCollection('images');
         }
     }
 

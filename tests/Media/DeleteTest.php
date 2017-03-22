@@ -12,7 +12,7 @@ class DeleteTest extends TestCase
     /** @test */
     public function it_will_remove_the_files_when_deleting_a_media_object()
     {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaLibraryCollection('images');
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
 
@@ -35,7 +35,7 @@ class DeleteTest extends TestCase
 
         $testModel = $testModelClass::find($this->testModel->id);
 
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaLibraryCollection('images');
+        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         $testModel = $testModel->fresh();
 
@@ -58,7 +58,7 @@ class DeleteTest extends TestCase
 
         $testModel = $testModelClass::find($this->testModel->id);
 
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaLibraryCollection('images');
+        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         $testModel = $testModel->fresh();
 

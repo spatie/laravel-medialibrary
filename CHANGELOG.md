@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.6.0 - 2017-03-22
+
+- add `toMediaCollection`
+
 ## 5.5.3 - 2017-03-16
 
 - fix bug where streams would be used on external filesystems that do not support streaming

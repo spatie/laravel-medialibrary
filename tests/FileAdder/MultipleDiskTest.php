@@ -15,7 +15,7 @@ class MultipleDiskTest extends TestCase
 
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection($collectionName, $diskName);
+            ->toMediaCollection($collectionName, $diskName);
 
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);
@@ -29,7 +29,7 @@ class MultipleDiskTest extends TestCase
 
         $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection('images', 'diskdoesnotexist');
+            ->toMediaCollection('images', 'diskdoesnotexist');
     }
 
     /** @test */
@@ -40,7 +40,7 @@ class MultipleDiskTest extends TestCase
 
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection($collectionName, $diskName);
+            ->toMediaCollection($collectionName, $diskName);
 
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);
@@ -53,7 +53,7 @@ class MultipleDiskTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection('', 'secondMediaDisk');
+            ->toMediaCollection('', 'secondMediaDisk');
 
         $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
         $this->assertEquals("/media2/{$media->id}/conversions/thumb.jpg", $media->getUrl('thumb'));

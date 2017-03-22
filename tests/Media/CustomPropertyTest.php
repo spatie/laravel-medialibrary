@@ -25,7 +25,7 @@ class CustomPropertyTest extends TestCase
                     'customName' => 'nested customValue',
                 ],
             ])
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
     }
 
     /** @test */

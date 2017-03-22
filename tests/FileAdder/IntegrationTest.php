@@ -32,7 +32,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('default', $media->collection_name);
     }
@@ -44,7 +44,7 @@ class IntegrationTest extends TestCase
 
         $this->testModel
             ->addMedia('this-file-does-not-exist.jpg')
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class IntegrationTest extends TestCase
 
         (new TestModel())
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
     }
 
     /** @test */
@@ -62,7 +62,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
     }
@@ -74,7 +74,7 @@ class IntegrationTest extends TestCase
 
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection($collectionName);
+            ->toMediaCollection($collectionName);
 
         $this->assertEquals($collectionName, $media->collection_name);
     }
@@ -86,7 +86,7 @@ class IntegrationTest extends TestCase
 
         $media = $this->testModel
             ->addMedia($testFile)
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertFileNotExists($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -99,7 +99,7 @@ class IntegrationTest extends TestCase
 
         $media = $this->testModel
             ->copyMedia($testFile)
-            ->toMediaLibraryCollection('images');
+            ->toMediaCollection('images');
 
         $this->assertFileExists($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -110,7 +110,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestFilesDirectory('test'))
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
 
@@ -126,7 +126,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestFilesDirectory('image'))
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('image', $media->type);
     }
@@ -136,7 +136,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestFilesDirectory('test.txt'))
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
 
@@ -159,7 +159,7 @@ class IntegrationTest extends TestCase
 
         $media = $this->testModel
             ->addMedia($uploadedFile)
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('alternativename', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -171,7 +171,7 @@ class IntegrationTest extends TestCase
         $this->app['router']->get('/upload', function () {
             $media = $this->testModel
                 ->addMediaFromRequest('file')
-                ->toMediaLibraryCollection();
+                ->toMediaCollection();
 
             $this->assertEquals('alternativename', $media->name);
             $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -199,7 +199,7 @@ class IntegrationTest extends TestCase
             );
 
             $fileAdders->each(function ($fileAdder) {
-                $media = $fileAdder->toMediaLibraryCollection();
+                $media = $fileAdder->toMediaCollection();
 
                 $this->assertEquals('alternativename', $media->name);
                 $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -237,7 +237,7 @@ class IntegrationTest extends TestCase
             );
 
             $fileAdders->each(function ($fileAdder) {
-                $media = $fileAdder->toMediaLibraryCollection();
+                $media = $fileAdder->toMediaCollection();
 
                 $this->assertEquals('alternativename', $media->name);
                 $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
@@ -275,7 +275,7 @@ class IntegrationTest extends TestCase
             try {
                 $this->testModel
                     ->addMediaFromRequest('non existing key')
-                    ->toMediaLibraryCollection();
+                    ->toMediaCollection();
             } catch (RequestDoesNotHaveFile $exception) {
                 $exceptionWasThrown = true;
             }
@@ -293,7 +293,7 @@ class IntegrationTest extends TestCase
 
         $media = $this->testModel
             ->addMediaFromUrl($url)
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('header', $media->name);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/header.jpg"));
@@ -308,7 +308,7 @@ class IntegrationTest extends TestCase
 
         $this->testModel
             ->addMediaFromUrl($url)
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
     }
 
     /** @test */
@@ -317,7 +317,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->usingName('othername')
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('othername', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
@@ -329,7 +329,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->usingFileName('othertest.jpg')
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/othertest.jpg'));
@@ -341,7 +341,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->usingFileName('other#test.jpg')
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/other-test.jpg'));
@@ -355,7 +355,7 @@ class IntegrationTest extends TestCase
             $media[] = $this->testModel
                 ->addMedia($this->getTestJpg())
                 ->preservingOriginal()
-                ->toMediaLibraryCollection();
+                ->toMediaCollection();
 
             $this->assertEquals($index + 1, $media[$index]->order_column);
         }
@@ -368,7 +368,7 @@ class IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withProperties(['name' => 'testName'])
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('testName', $media->name);
 
@@ -376,7 +376,7 @@ class IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->withAttributes(['name' => 'testName'])
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals('testName', $media->name);
     }
@@ -386,7 +386,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModelWithMorphMap
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertEquals($this->testModelWithMorphMap->getMorphClass(), $media->model_type);
     }
@@ -412,7 +412,7 @@ class IntegrationTest extends TestCase
 
         $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
     }
 
     /** @test */
@@ -422,7 +422,7 @@ class IntegrationTest extends TestCase
 
         $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection('images', 'non-existing-disk');
+            ->toMediaCollection('images', 'non-existing-disk');
     }
 
     /** @test */
@@ -433,7 +433,7 @@ class IntegrationTest extends TestCase
 
         $media = $this->testModel
             ->addMediaFromBase64($testBase64Data)
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
@@ -446,7 +446,7 @@ class IntegrationTest extends TestCase
 
         $media = $this->testModel
             ->addMediaFromBase64($testBase64Data)
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
@@ -461,6 +461,6 @@ class IntegrationTest extends TestCase
 
         $this->testModel
             ->addMediaFromBase64($invalidBase64Data)
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
     }
 }

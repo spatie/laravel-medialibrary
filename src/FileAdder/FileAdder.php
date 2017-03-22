@@ -233,7 +233,7 @@ class FileAdder
      */
     public function toMediaLibraryOnCloudDisk(string $collectionName = 'default')
     {
-        return $this->toMediaLibraryCollection($collectionName, config('filesystems.cloud'));
+        return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
     /**
@@ -245,7 +245,7 @@ class FileAdder
      * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toMediaLibraryCollection(string $collectionName = 'default', string $diskName = '')
+    public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
     {
         if (! $this->subject->exists) {
             throw ModelDoesNotExist::create($this->subject);
@@ -282,11 +282,12 @@ class FileAdder
         if (! $this->preserveOriginal) {
             unlink($this->pathToFile);
         }
-
         return $media;
     }
 
     /**
+     * @deprecated Please use `toMediaCollection` instead
+     *
      * @param string $collectionName
      * @param string $diskName
      *
@@ -294,48 +295,10 @@ class FileAdder
      *
      * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     *
-     * @deprecated
      */
     public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
     {
-        if (! $this->subject->exists) {
-            throw ModelDoesNotExist::create($this->subject);
-        }
-
-        if (! is_file($this->pathToFile)) {
-            throw FileDoesNotExist::create($this->pathToFile);
-        }
-
-        if (filesize($this->pathToFile) > config('medialibrary.max_file_size')) {
-            throw FileIsTooBig::create($this->pathToFile);
-        }
-
-        $mediaClass = config('medialibrary.media_model');
-        $media = new $mediaClass();
-
-        $media->name = $this->mediaName;
-        $media->file_name = $this->fileName;
-        $media->disk = $this->determineDiskName($diskName);
-
-        $media->collection_name = $collectionName;
-
-        $media->mime_type = File::getMimetype($this->pathToFile);
-        $media->size = filesize($this->pathToFile);
-        $media->custom_properties = $this->customProperties;
-        $media->manipulations = [];
-
-        $media->fill($this->properties);
-
-        $this->subject->media()->save($media);
-
-        $this->filesystem->add($this->pathToFile, $media, $this->fileName);
-
-        if (! $this->preserveOriginal) {
-            unlink($this->pathToFile);
-        }
-
-        return $media;
+        return $this->toMediaCollection($collectionName, $diskName);
     }
 
     /**

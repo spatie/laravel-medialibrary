@@ -10,8 +10,8 @@ class UpdateMediaTest extends TestCase
     {
         parent::setUp();
 
-        $this->testModel->addMedia($this->getTestJpg())->usingName('test1')->preservingOriginal()->toMediaLibraryCollection();
-        $this->testModel->addMedia($this->getTestJpg())->usingName('test2')->preservingOriginal()->toMediaLibraryCollection();
+        $this->testModel->addMedia($this->getTestJpg())->usingName('test1')->preservingOriginal()->toMediaCollection();
+        $this->testModel->addMedia($this->getTestJpg())->usingName('test2')->preservingOriginal()->toMediaCollection();
     }
 
     /** @test */

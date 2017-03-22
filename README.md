@@ -12,16 +12,16 @@ simple API to work with. To learn all about it, head over to [the extensive docu
 Here are a few short examples of what you can do:
 ```php
 $newsItem = News::find(1);
-$newsItem->addMedia($pathToFile)->toMediaLibraryCollection('images');
+$newsItem->addMedia($pathToFile)->toMediaCollection('images');
 ```
 It can handle your uploads directly:
 ```php
-$newsItem->addMedia($request->file('image'))->toMediaLibraryCollection('images');
+$newsItem->addMedia($request->file('image'))->toMediaCollection('images');
 ```
 Want to store some large files on another filesystem? No problem:
 ```php
-$newsItem->addMedia($smallFile)->toMediaLibraryCollection('downloads', 'local');
-$newsItem->addMedia($bigFile)->toMediaLibraryCollection('downloads', 's3');
+$newsItem->addMedia($smallFile)->toMediaCollection('downloads', 'local');
+$newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/5.4/filesystem),
 so you can use any filesystem you like. Additionally the package can create image manipulations

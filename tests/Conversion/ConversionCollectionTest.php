@@ -16,7 +16,7 @@ class ConversionCollectionTest extends TestCase
 
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryCollection();
+            ->toMediaCollection();
 
         $media->manipulations = ['thumb' => ['filter' => 'greyscale', 'height' => 10]];
         $media->save();
