@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.7.0 - 2017-03-23
+
+- add `keepOriginalImageFormat` manipulation
+
 ## 5.6.0 - 2017-03-22
 
 - add `toMediaCollection`
