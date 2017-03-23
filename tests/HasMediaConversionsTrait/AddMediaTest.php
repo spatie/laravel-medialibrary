@@ -48,6 +48,16 @@ class AddMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_a_derived_version_for_an_image_keeping_the_original_format()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestPng())
+            ->toMediaCollection('images');
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/keep_original_format.png'));
+    }
+
+    /** @test */
     public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
     {
         $modelClass = new class() extends TestModelWithConversion {

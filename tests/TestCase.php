@@ -133,6 +133,11 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('test.jpg');
     }
 
+    public function getTestPng()
+    {
+        return $this->getTestFilesDirectory('test.png');
+    }
+
     public function getTestWebm()
     {
         return $this->getTestFilesDirectory('test.webm');

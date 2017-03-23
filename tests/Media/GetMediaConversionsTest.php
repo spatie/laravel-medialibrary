@@ -21,6 +21,6 @@ class GetMediaConversionsTest extends TestCase
             ->preservingOriginal()
             ->toMediaCollection();
 
-        $this->assertSame(['thumb'], $media->getMediaConversionNames());
+        $this->assertSame(['thumb', 'keep_original_format'], $media->getMediaConversionNames());
     }
 }

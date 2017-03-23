@@ -23,6 +23,9 @@ class Conversion
     /** @var bool */
     protected $performOnQueue = true;
 
+    /** @var bool */
+    protected $keepOriginalImageFormat = false;
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -54,6 +57,18 @@ class Conversion
     public function getExtractVideoFrameAtSecond(): int
     {
         return $this->extractVideoFrameAtSecond;
+    }
+
+    public function keepOriginalImageFormat(): Conversion
+    {
+        $this->keepOriginalImageFormat = true;
+
+        return $this;
+    }
+
+    public function shouldKeepOriginalImageFormat(): Bool
+    {
+        return $this->keepOriginalImageFormat;
     }
 
     public function getManipulations(): Manipulations
