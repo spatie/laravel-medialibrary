@@ -39,6 +39,21 @@ class DeleteMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_clear_a_collection_excluding_some_media()
+    {
+        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
+        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('images'));
+
+        $excludedMedia = $this->testModelWithoutMediaConversions->getMedia('images')->take(2);
+
+        $this->testModelWithoutMediaConversions->clearMediaCollectionExcept('images', $excludedMedia);
+        $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
+
+        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
+        $this->assertCount(2, $this->testModelWithoutMediaConversions->getMedia('images'));
+    }
+
+    /** @test */
     public function it_provides_a_chainable_method_for_clearing_a_collection()
     {
         $result = $this->testModelWithoutMediaConversions->clearMediaCollection('images');

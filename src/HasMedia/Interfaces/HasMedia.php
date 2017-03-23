@@ -56,6 +56,16 @@ interface HasMedia
     public function clearMediaCollection(string $collectionName = 'default');
 
     /**
+     * Remove all media in the given collection except some.
+     *
+     * @param string $collectionName
+     * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
+     *
+     * @return string $collectionName
+     */
+    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []);
+
+    /**
      * Determines if the media files should be preserved when the media object gets deleted.
      *
      * @return \Spatie\MediaLibrary\Media

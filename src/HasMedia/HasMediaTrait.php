@@ -315,6 +315,38 @@ trait HasMediaTrait
     }
 
     /**
+     * Remove all media in the given collection except some.
+     *
+     * @param string $collectionName
+     * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
+     *
+     * @return $this
+     */
+    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = [])
+    {
+        $excludedMedia = collect($excludedMedia);
+
+        if ($excludedMedia->isEmpty()) {
+            return $this->clearMediaCollection($collectionName);
+        }
+
+        $this->getMedia($collectionName)
+            ->reject(function (Media $media) use ($excludedMedia) {
+                return $excludedMedia->where('id', $media->id)->count();
+            })
+            ->each(function (Media $media) {
+                app(Filesystem::class)->removeFiles($media);
+                $media->delete();
+            });
+
+        if ($this->mediaIsPreloaded()) {
+            unset($this->media);
+        }
+
+        return $this;
+    }
+
+    /**
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
