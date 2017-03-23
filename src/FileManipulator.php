@@ -90,6 +90,11 @@ class FileManipulator
 
         File::copy($imageFile, $conversionTempFile);
 
+        $supportedFormats = ['jpg', 'pjpg', 'png', 'gif'];
+        if ($conversion->shouldKeepOriginalImageFormat() && in_array($media->extension, $supportedFormats)) {
+            $conversion->format($media->extension);
+        }
+
         Image::load($conversionTempFile)
             ->useImageDriver(config('medialibrary.image_driver'))
             ->manipulate($conversion->getManipulations())

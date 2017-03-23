@@ -14,5 +14,9 @@ class TestModelWithConversion extends TestModel
         $this->addMediaConversion('thumb')
             ->width(50)
             ->nonQueued();
+
+        $this->addMediaConversion('keep_original_format')
+            ->keepOriginalImageFormat()
+            ->nonQueued();
     }
 }
