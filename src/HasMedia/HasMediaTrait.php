@@ -300,10 +300,7 @@ trait HasMediaTrait
     public function clearMediaCollection(string $collectionName = 'default')
     {
         $this->getMedia($collectionName)
-            ->each(function (Media $media) {
-                app(Filesystem::class)->removeFiles($media);
-                $media->delete();
-            });
+             ->each->delete();
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
@@ -334,10 +331,7 @@ trait HasMediaTrait
             ->reject(function (Media $media) use ($excludedMedia) {
                 return $excludedMedia->where('id', $media->id)->count();
             })
-            ->each(function (Media $media) {
-                app(Filesystem::class)->removeFiles($media);
-                $media->delete();
-            });
+            ->each->delete();
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
