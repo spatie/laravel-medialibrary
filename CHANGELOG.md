@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.8.0 - 2017-03-24
+
+- add `clearMediaCollectionExcept` method
+
 ## 5.7.0 - 2017-03-23
 
 - add `keepOriginalImageFormat` manipulation
