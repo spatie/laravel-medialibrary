@@ -300,12 +300,38 @@ trait HasMediaTrait
     public function clearMediaCollection(string $collectionName = 'default')
     {
         $this->getMedia($collectionName)
-            ->each(function (Media $media) {
-                app(Filesystem::class)->removeFiles($media);
-                $media->delete();
-            });
+             ->each->delete();
 
         event(new CollectionHasBeenCleared($this, $collectionName));
+
+        if ($this->mediaIsPreloaded()) {
+            unset($this->media);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove all media in the given collection except some.
+     *
+     * @param string $collectionName
+     * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
+     *
+     * @return $this
+     */
+    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = [])
+    {
+        $excludedMedia = collect($excludedMedia);
+
+        if ($excludedMedia->isEmpty()) {
+            return $this->clearMediaCollection($collectionName);
+        }
+
+        $this->getMedia($collectionName)
+            ->reject(function (Media $media) use ($excludedMedia) {
+                return $excludedMedia->where('id', $media->id)->count();
+            })
+            ->each->delete();
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
