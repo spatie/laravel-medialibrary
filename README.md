@@ -7,22 +7,28 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
 
 This Laravel >=5.4 package can associate all sorts of files with Eloquent models. It provides a
-simple API to work with. To learn all about it, head over to [the extensive documention](https://docs.spatie.be/laravel-medialibrary/v5). 
+simple API to work with. To learn all about it, head over to [the extensive documention](https://docs.spatie.be/laravel-medialibrary/v5).
 
 Here are a few short examples of what you can do:
+
 ```php
 $newsItem = News::find(1);
 $newsItem->addMedia($pathToFile)->toMediaCollection('images');
 ```
+
 It can handle your uploads directly:
+
 ```php
 $newsItem->addMedia($request->file('image'))->toMediaCollection('images');
 ```
+
 Want to store some large files on another filesystem? No problem:
+
 ```php
 $newsItem->addMedia($smallFile)->toMediaCollection('downloads', 'local');
 $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
+
 The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/5.4/filesystem),
 so you can use any filesystem you like. Additionally the package can create image manipulations
 on images and pdfs that have been added in the medialibrary.
@@ -30,6 +36,7 @@ on images and pdfs that have been added in the medialibrary.
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## Documentation
+
 You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v5](https://docs.spatie.be/laravel-medialibrary/v5).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
@@ -37,6 +44,7 @@ Find yourself stuck using the package? Found a bug? Do you have general question
 If you've found a bug regarding security please mail [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
 
 ## Requirements
+
 To create derived images [GD](http://php.net/manual/en/book.image.php) should be installed on your server.
 For the creation of thumbnails of svg's or pdf's you should also install [Imagick](http://php.net/manual/en/imagick.setresolution.php).
 
@@ -67,6 +75,7 @@ Next, you must install the service provider:
 ```
 
 You can publish the migration with:
+
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
 ```
@@ -78,6 +87,7 @@ php artisan migrate
 ```
 
 You can publish the config-file with:
+
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
 ```
@@ -141,7 +151,7 @@ return [
             'CacheControl' => 'max-age=604800',
         ],
     ],
-    
+
     /*
      * The path where to store temporary files while performing image conversions.
      * If set to null, storage_path('medialibrary/temp') will be used.
@@ -163,14 +173,14 @@ And finally you should add a disk to `app/config/filesystems.php`. This would be
 
 ```php
     ...
-	'disks' => [
-	    ...
-	    
+    'disks' => [
+        ...
+
         'media' => [
             'driver' => 'local',
             'root'   => public_path().'/media',
         ],
-    ...    
+    ...
 ```
 
 All files of the medialibrary will be stored on that disk. If you are planning on
@@ -178,14 +188,17 @@ working with the image manipulations you should configure a queue on your servic
 with the name specified in the config file.
 
 ## Lumen Support
+
 Lumen configuration is slightly more involved but features and API are identical to Laravel.
 
 Install using this command:
+
 ```bash
 composer require spatie/laravel-medialibrary
 ```
 
 Uncomment the following lines in the bootstrap file:
+
 ```php
 // bootstrap/app.php:
 $app->withFacades();
@@ -193,6 +206,7 @@ $app->withEloquent();
 ```
 
 Configure the laravel-medialibrary service provider (and `AppServiceProvider` if not already enabled):
+
 ```php
 // bootstrap/app.php:
 $app->register(App\Providers\AppServiceProvider::class);
@@ -200,6 +214,7 @@ $app->register(Spatie\MediaLibrary\MediaLibraryServiceProvider::class);
 ```
 
 Update the `AppServiceProvider` register method to bind the filesystem manager to the IOC container:
+
 ```php
 // app/Providers/AppServiceProvider.php
 public function register()
@@ -234,7 +249,8 @@ You can run the tests with:
 ```bash
 vendor/bin/phpunit
 ```
-##Upgrading
+
+## Upgrading
 
 Please see [UPGRADING](UPGRADING.md) for details.
 
@@ -254,11 +270,13 @@ If you discover any security related issues, please email [freek@spatie.be](mail
 A big thank you to [Nicolas Beauvais](https://github.com/nicolasbeauvais) for helping out with the issues on this repo.
 
 ## Alternatives
+
 - [laravel-mediable](https://github.com/plank/laravel-mediable)
 - [laravel-stapler](https://github.com/CodeSleeve/laravel-stapler)
 - [media-manager](https://github.com/talvbansal/media-manager)
 
 ## About Spatie
+
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## License
