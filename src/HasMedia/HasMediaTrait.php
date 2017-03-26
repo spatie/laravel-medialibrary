@@ -414,7 +414,7 @@ trait HasMediaTrait
         if ($this->mediaIsPreloaded()) {
             return $this->media
                 ->filter(function (Media $mediaItem) use ($collectionName) {
-                    if ($collectionName == '') {
+                    if ($collectionName == 'default') {
                         return true;
                     }
 
@@ -426,7 +426,7 @@ trait HasMediaTrait
 
         $query = $this->media();
 
-        if ($collectionName !== '') {
+        if ($collectionName !== 'default') {
             $query = $query->where('collection_name', $collectionName);
         }
 
