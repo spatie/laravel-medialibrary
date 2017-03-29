@@ -117,7 +117,9 @@ class Filesystem implements FilesystemInterface
 
         collect([$mediaDirectory, $conversionsDirectory])
             ->each(function ($directory) use ($media) {
-                $this->filesystem->disk($media->disk)->deleteDirectory($directory);
+                if ($this->filesystem->disk($media->disk)->has($directory)) {
+                    $this->filesystem->disk($media->disk)->deleteDirectory($directory);
+                }
             });
     }
 
