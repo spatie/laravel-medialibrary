@@ -201,6 +201,10 @@ class Conversion
      */
     public function getResultExtension(string $originalFileExtension = ''): string
     {
+        if ($this->shouldKeepOriginalImageFormat()) {
+            return $originalFileExtension;
+        }
+
         if ($manipulationArgument = $this->manipulations->getManipulationArgument('format')) {
             return $manipulationArgument;
         }
