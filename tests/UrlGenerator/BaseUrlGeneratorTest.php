@@ -22,6 +22,11 @@ class BaseUrlGeneratorTest extends TestCase
     protected $conversion;
 
     /**
+     * @var \Spatie\MediaLibrary\Conversion\Conversion
+     */
+    protected $conversionKeepingOriginalImageFormat;
+
+    /**
      * @var LocalUrlGenerator
      */
     protected $urlGenerator;
@@ -37,9 +42,11 @@ class BaseUrlGeneratorTest extends TestCase
 
         $this->config = app('config');
 
-        $this->media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
+        $this->media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
 
         $this->conversion = ConversionCollection::createForMedia($this->media)->getByName('thumb');
+
+        $this->conversionKeepingOriginalImageFormat = ConversionCollection::createForMedia($this->media)->getByName('keep_original_format');
 
         // because BaseUrlGenerator is abstract we'll use LocalUrlGenerator to test the methods of base
         $this->urlGenerator = new LocalUrlGenerator($this->config);
@@ -54,7 +61,17 @@ class BaseUrlGeneratorTest extends TestCase
     /** @test */
     public function it_can_get_the_path_relative_to_the_root_of_media_folder()
     {
-        $pathRelativeToRoot = $this->media->id.'/conversions/'.$this->conversion->getName().'.'.$this->conversion->getResultExtension($this->media->extension);
+        $pathRelativeToRoot = $this->media->id.'/conversions/'.$this->conversion->getName().'.jpg';
+
+        $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+    }
+
+    /** @test */
+    public function it_can_get_the_path_relative_to_the_root_of_media_folder_when_keeping_the_original_image_format()
+    {
+        $this->urlGenerator->setConversion($this->conversionKeepingOriginalImageFormat);
+
+        $pathRelativeToRoot = $this->media->id.'/conversions/'.$this->conversionKeepingOriginalImageFormat->getName().'.png';
 
         $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
     }
