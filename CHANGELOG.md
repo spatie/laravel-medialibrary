@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.8.1 - 2017-03-30
+
+- fix bug where the wrong extension would be returned by `getResultExtension` for `keepOriginalImageFormat`
+
 ## 5.8.0 - 2017-03-24
 
 - add `clearMediaCollectionExcept` method
