@@ -227,4 +227,23 @@ class GetMediaTest extends TestCase
             1 => '3',
         ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->toArray());
     }
+    
+    
+    /** @test */
+    public function it_will_return_false_first_time_we_ask_if_media_is_preloaded()
+    {
+        // faking the protected mediaIsPreloaded method
+        $this->assertFalse(isset($this->testModel->media));
+        $media = $this->testModel->getMedia('images');
+        $this->asserTrue(isset($this->testModel->media));
+
+
+        // enabling the querylog shows it doesn't sort using eloquent
+        // it does sort in the collection afterwards
+        // code in HasMediaTrait->loadMedia after the if statement never gets executed
+//        \DB::enableQueryLog();
+//        $media = $this->testModel->getMedia('images')->pluck('id')->toArray();
+//        var_dump($media, \DB::getQueryLog());
+
+    }
 }
