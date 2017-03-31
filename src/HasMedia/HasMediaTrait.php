@@ -17,6 +17,8 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 
 trait HasMediaTrait
 {
+    public $mediaData;
+    
     /** @var array */
     public $mediaConversions = [];
 
@@ -305,7 +307,7 @@ trait HasMediaTrait
         event(new CollectionHasBeenCleared($this, $collectionName));
 
         if ($this->mediaIsPreloaded()) {
-            unset($this->media);
+            unset($this->mediaData);
         }
 
         return $this;
@@ -334,7 +336,7 @@ trait HasMediaTrait
             ->each->delete();
 
         if ($this->mediaIsPreloaded()) {
-            unset($this->media);
+            unset($this->mediaData);
         }
 
         return $this;
@@ -399,7 +401,7 @@ trait HasMediaTrait
 
     protected function mediaIsPreloaded(): bool
     {
-        return isset($this->media);
+        return isset($this->mediaData);
     }
 
     /**
@@ -412,7 +414,7 @@ trait HasMediaTrait
     public function loadMedia(string $collectionName)
     {
         if ($this->mediaIsPreloaded()) {
-            return $this->media
+            return $this->mediaData
                 ->filter(function (Media $mediaItem) use ($collectionName) {
                     if ($collectionName == '') {
                         return true;
