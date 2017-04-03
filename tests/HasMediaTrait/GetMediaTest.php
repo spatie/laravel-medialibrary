@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
+use DB;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
@@ -226,5 +227,25 @@ class GetMediaTest extends TestCase
             2 => '2',
             1 => '3',
         ], $preloadedTestModel->getMedia('images')->pluck('order_column', 'id')->toArray());
+    }
+
+    /** @test */
+    public function it_will_cache_loaded_media()
+    {
+        DB::enableQueryLog();
+
+        $this->assertFalse($this->testModel->relationLoaded('media'));
+        $this->assertCount(0, DB::getQueryLog());
+
+        $this->testModel->getMedia('images');
+
+        $this->assertTrue($this->testModel->relationLoaded('media'));
+        $this->assertCount(1, DB::getQueryLog());
+
+        $this->testModel->getMedia('images');
+
+        $this->assertCount(1, DB::getQueryLog());
+
+        DB::DisableQueryLog();
     }
 }
