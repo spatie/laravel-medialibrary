@@ -399,7 +399,7 @@ trait HasMediaTrait
 
     protected function mediaIsPreloaded(): bool
     {
-        return isset($this->media);
+        return $this->relationLoaded('media');
     }
 
     /**
@@ -411,27 +411,15 @@ trait HasMediaTrait
      */
     public function loadMedia(string $collectionName)
     {
-        if ($this->mediaIsPreloaded()) {
-            return $this->media
-                ->filter(function (Media $mediaItem) use ($collectionName) {
-                    if ($collectionName == '') {
-                        return true;
-                    }
+        return $this->media
+            ->filter(function (Media $mediaItem) use ($collectionName) {
+                if ($collectionName == '') {
+                    return true;
+                }
 
-                    return $mediaItem->collection_name === $collectionName;
-                })
-                ->sortBy('order_column')
-                ->values();
-        }
-
-        $query = $this->media();
-
-        if ($collectionName !== '') {
-            $query = $query->where('collection_name', $collectionName);
-        }
-
-        return $query
-            ->orderBy('order_column')
-            ->get();
+                return $mediaItem->collection_name === $collectionName;
+            })
+            ->sortBy('order_column')
+            ->values();
     }
 }
