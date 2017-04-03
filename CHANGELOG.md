@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.8.2 - 2017-04-03
+
+- fix bug where `mediaIsPreloaded` always returned true
+
 ## 5.8.1 - 2017-03-30
 
 - fix bug where the wrong extension would be returned by `getResultExtension` for `keepOriginalImageFormat`
