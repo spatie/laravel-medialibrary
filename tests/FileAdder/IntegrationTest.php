@@ -48,16 +48,6 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_adding_a_non_saved_model()
-    {
-        $this->expectException(ModelDoesNotExist::class);
-
-        (new TestModel())
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection();
-    }
-
-    /** @test */
     public function it_can_set_the_name_of_the_media()
     {
         $media = $this->testModel

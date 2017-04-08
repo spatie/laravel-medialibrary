@@ -327,19 +327,19 @@ class FileAdder
     }
 
     /**
-     * Attach media to the model
+     * Attach media to the model.
      *
      * @param $media
      */
     protected function attachMedia($media)
     {
-        if (!$this->subject->exists) {
+        if (! $this->subject->exists) {
             $this->subject->unsavedMedias[] = $media;
 
             $class = get_class($this->subject);
 
             $class::created(function ($model) {
-                if (!empty($model->unsavedMedias)) {
+                if (! empty($model->unsavedMedias)) {
                     foreach ($model->unsavedMedias as $unsavedMedia) {
                         $model->media()->save($unsavedMedia);
                         $this->filesystem->add($this->pathToFile, $unsavedMedia, $this->fileName);
