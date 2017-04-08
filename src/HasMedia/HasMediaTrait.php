@@ -23,6 +23,9 @@ trait HasMediaTrait
     /** @var bool */
     protected $deletePreservingMedia = false;
 
+    /** @var array */
+    public $unsavedMedias = [];
+
     public static function bootHasMediaTrait()
     {
         static::deleted(function (HasMedia $entity) {

@@ -247,10 +247,6 @@ class FileAdder
      */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
     {
-        if (! $this->subject->exists) {
-            throw ModelDoesNotExist::create($this->subject);
-        }
-
         if (! is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
@@ -275,9 +271,7 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        $this->subject->media()->save($media);
-
-        $this->filesystem->add($this->pathToFile, $media, $this->fileName);
+        $this->attachMedia($media);
 
         if (! $this->preserveOriginal) {
             unlink($this->pathToFile);
@@ -330,5 +324,31 @@ class FileAdder
     protected function sanitizeFileName(string $fileName) : string
     {
         return str_replace(['#', '/', '\\'], '-', $fileName);
+    }
+
+    /**
+     * Attach media to the model
+     *
+     * @param $media
+     */
+    protected function attachMedia($media)
+    {
+        if (!$this->subject->exists) {
+            $this->subject->unsavedMedias[] = $media;
+
+            $class = get_class($this->subject);
+
+            $class::created(function ($model) {
+                if (!empty($model->unsavedMedias)) {
+                    foreach ($model->unsavedMedias as $unsavedMedia) {
+                        $model->media()->save($unsavedMedia);
+                        $this->filesystem->add($this->pathToFile, $unsavedMedia, $this->fileName);
+                    }
+                }
+            });
+        } else {
+            $this->subject->media()->save($media);
+            $this->filesystem->add($this->pathToFile, $media, $this->fileName);
+        }
     }
 }
