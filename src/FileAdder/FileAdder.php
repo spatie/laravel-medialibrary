@@ -2,10 +2,12 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
@@ -326,28 +328,38 @@ class FileAdder
     }
 
     /**
-     * Attach media to the model.
-     *
-     * @param $media
+     * @param Media $media
      */
-    protected function attachMedia($media)
+    protected function attachMedia(Media $media)
     {
         if (! $this->subject->exists) {
-            $this->subject->unsavedMedias[] = $media;
+            $this->subject->unsavedMediaItems[] = $media;
 
             $class = get_class($this->subject);
 
             $class::created(function ($model) {
-                if (! empty($model->unsavedMedias)) {
-                    foreach ($model->unsavedMedias as $unsavedMedia) {
-                        $model->media()->save($unsavedMedia);
-                        $this->filesystem->add($this->pathToFile, $unsavedMedia, $this->fileName);
-                    }
+                if (empty($model->unsavedMediaItems)) {
+                    return;
+                }
+
+                foreach ($model->unsavedMediaItems as $unsavedMediaItem) {
+                    $this->processMediaItem($model, $unsavedMediaItem);
                 }
             });
-        } else {
-            $this->subject->media()->save($media);
-            $this->filesystem->add($this->pathToFile, $media, $this->fileName);
+
+            return;
         }
+
+        $this->processMediaItem($this->subject, $media);
+    }
+
+    /**
+     * @param HasMedia $model
+     * @param Media $media
+     */
+    protected function processMediaItem(HasMedia $model, Media $media)
+    {
+        $model->media()->save($media);
+        $this->filesystem->add($this->pathToFile, $media, $this->fileName);
     }
 }
