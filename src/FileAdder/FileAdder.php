@@ -2,12 +2,12 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
