@@ -6,7 +6,6 @@ use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
@@ -22,6 +21,9 @@ trait HasMediaTrait
 
     /** @var bool */
     protected $deletePreservingMedia = false;
+
+    /** @var array */
+    public $unsavedMediaItems = [];
 
     public static function bootHasMediaTrait()
     {
@@ -411,7 +413,9 @@ trait HasMediaTrait
      */
     public function loadMedia(string $collectionName)
     {
-        return $this->media
+        $collection = $this->exists ? $this->media : collect($this->unsavedMediaItems);
+
+        return $collection
             ->filter(function (Media $mediaItem) use ($collectionName) {
                 if ($collectionName == '') {
                     return true;

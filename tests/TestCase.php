@@ -12,6 +12,9 @@ abstract class TestCase extends Orchestra
     /** @var \Spatie\MediaLibrary\Test\TestModel */
     protected $testModel;
 
+    /** @var \Spatie\MediaLibrary\Test\TestModel */
+    protected $testUnsavedModel;
+
     /** @var \Spatie\MediaLibrary\Test\TestModelWithConversion */
     protected $testModelWithConversion;
 
@@ -30,6 +33,7 @@ abstract class TestCase extends Orchestra
         $this->setUpTempTestFiles();
 
         $this->testModel = TestModel::first();
+        $this->testUnsavedModel = new TestModel;
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();

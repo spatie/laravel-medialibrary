@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\Test\FileAdder;
 
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
-use Spatie\MediaLibrary\Test\TestModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
@@ -12,7 +11,6 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 
 class IntegrationTest extends TestCase
@@ -44,16 +42,6 @@ class IntegrationTest extends TestCase
 
         $this->testModel
             ->addMedia('this-file-does-not-exist.jpg')
-            ->toMediaCollection();
-    }
-
-    /** @test */
-    public function it_will_throw_an_exception_when_adding_a_non_saved_model()
-    {
-        $this->expectException(ModelDoesNotExist::class);
-
-        (new TestModel())
-            ->addMedia($this->getTestJpg())
             ->toMediaCollection();
     }
 

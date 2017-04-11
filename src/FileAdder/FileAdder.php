@@ -2,17 +2,18 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
+use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\ModelDoesNotExist;
 
 class FileAdder
 {
@@ -247,10 +248,6 @@ class FileAdder
      */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
     {
-        if (! $this->subject->exists) {
-            throw ModelDoesNotExist::create($this->subject);
-        }
-
         if (! is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
@@ -275,9 +272,7 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        $this->subject->media()->save($media);
-
-        $this->filesystem->add($this->pathToFile, $media, $this->fileName);
+        $this->attachMedia($media);
 
         if (! $this->preserveOriginal) {
             unlink($this->pathToFile);
@@ -330,5 +325,41 @@ class FileAdder
     protected function sanitizeFileName(string $fileName) : string
     {
         return str_replace(['#', '/', '\\'], '-', $fileName);
+    }
+
+    /**
+     * @param Media $media
+     */
+    protected function attachMedia(Media $media)
+    {
+        if (! $this->subject->exists) {
+            $this->subject->unsavedMediaItems[] = $media;
+
+            $class = get_class($this->subject);
+
+            $class::created(function ($model) {
+                if (empty($model->unsavedMediaItems)) {
+                    return;
+                }
+
+                foreach ($model->unsavedMediaItems as $unsavedMediaItem) {
+                    $this->processMediaItem($model, $unsavedMediaItem);
+                }
+            });
+
+            return;
+        }
+
+        $this->processMediaItem($this->subject, $media);
+    }
+
+    /**
+     * @param HasMedia $model
+     * @param Media $media
+     */
+    protected function processMediaItem(HasMedia $model, Media $media)
+    {
+        $model->media()->save($media);
+        $this->filesystem->add($this->pathToFile, $media, $this->fileName);
     }
 }

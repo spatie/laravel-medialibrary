@@ -21,6 +21,14 @@ class HasMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_true_for_a_non_empty_collection_in_unsaved_model()
+    {
+        $this->testUnsavedModel->addMedia($this->getTestJpg())->toMediaCollection();
+
+        $this->assertTrue($this->testUnsavedModel->hasMedia());
+    }
+
+    /** @test */
     public function it_returns_true_for_if_any_collection_is_not_empty()
     {
         $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
