@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.9.0 - 2017-04-12
+
+- media can now be attached to unsaved models
+
 ## 5.8.2 - 2017-04-03
 
 - fix bug where `mediaIsPreloaded` always returned true
