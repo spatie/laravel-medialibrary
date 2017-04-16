@@ -41,7 +41,7 @@ class RegenerateCommand extends Command
         if (! $this->confirmToProceed()) {
             return;
         }
-        
+
         $mediaFiles = $this->getMediaToBeRegenerated();
 
         $bar = $this->output->createProgressBar($mediaFiles->count());
