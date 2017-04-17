@@ -63,7 +63,7 @@ class RegenerateCommand extends Command
         if (count($this->erroredMediaIds)) {
             $this->warn('The derived files of these media ids could not be regenerated: '.implode(',', $this->erroredMediaIds));
         }
-        
+
         $this->info('All done!');
     }
 
