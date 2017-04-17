@@ -44,9 +44,9 @@ class RegenerateCommand extends Command
 
         $mediaFiles = $this->getMediaToBeRegenerated();
 
-        $bar = $this->output->createProgressBar($mediaFiles->count());
+        $progressBar = $this->output->createProgressBar($mediaFiles->count());
 
-        $mediaFiles->each(function (Media $media) use ($bar) {
+        $mediaFiles->each(function (Media $media) use ($progressBar) {
             try {
                 $this->fileManipulator->createDerivedFiles($media);
                 $this->info("Media {$media->id} regenerated");
@@ -55,14 +55,16 @@ class RegenerateCommand extends Command
                 $this->erroredMediaIds[] = $media->id;
             }
 
-            $bar->advance();
+            $progressBar->advance();
         });
 
-        $bar->finish();
+        $progressBar->finish();
 
         if (count($this->erroredMediaIds)) {
             $this->warn('The derived files of these media ids could not be regenerated: '.implode(',', $this->erroredMediaIds));
         }
+        
+        $this->info('All done!');
     }
 
     public function getMediaToBeRegenerated(): Collection
