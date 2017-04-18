@@ -39,6 +39,10 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - fix for using `MediaRepository` with a custom media model
 
+## 5.6.0 - 2017-04-18
+
+- show progress bar when regenerating media
+
 ## 5.5.0 - 2017-03-08
 
 - add `createMultipleFromRequest` and `createAllFromRequest` on `FileAdder`
