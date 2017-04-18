@@ -64,11 +64,11 @@ class RegenerateCommand extends Command
             $this->warn('All done, but with some error messages:');
 
             foreach ($this->errorMessages as $mediaId => $message) {
-                $this->warn('Media id '.$mediaId.': "'.$message.'"');
+                $this->warn("Media id {$mediaId}: `{$message}`");
             }
-        } else {
-            $this->info('All done!');
         }
+
+        $this->info('All done!');
     }
 
     public function getMediaToBeRegenerated(): Collection
