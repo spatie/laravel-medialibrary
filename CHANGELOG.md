@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.10.0 - 2017-04-18
+
+- show progress bar when regenerating media
+
 ## 5.9.0 - 2017-04-12
 
 - media can now be attached to unsaved models
@@ -38,10 +42,6 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 5.5.1 - 2017-03-08
 
 - fix for using `MediaRepository` with a custom media model
-
-## 5.6.0 - 2017-04-18
-
-- show progress bar when regenerating media
 
 ## 5.5.0 - 2017-03-08
 
