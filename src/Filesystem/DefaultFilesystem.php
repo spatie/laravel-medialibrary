@@ -49,7 +49,7 @@ class DefaultFilesystem implements Filesystem
                 ->disk($media->disk)
                 ->put($destination, $file);
 
-            if(is_resource($file)){
+            if (is_resource($file)) {
                 fclose($file);
             }
 
@@ -60,7 +60,7 @@ class DefaultFilesystem implements Filesystem
             ->disk($media->disk)
             ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile));
 
-        if(is_resource($file)){
+        if (is_resource($file)) {
             fclose($file);
         }
     }
