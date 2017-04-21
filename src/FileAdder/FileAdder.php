@@ -307,7 +307,7 @@ class FileAdder
     protected function determineDiskName(string $diskName)
     {
         if ($diskName === '') {
-            $diskName = config('medialibrary.defaultFilesystem');
+            $diskName = config('medialibrary.default_filesystem');
         }
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
