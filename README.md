@@ -230,7 +230,7 @@ You can run the tests with:
 ```bash
 vendor/bin/phpunit
 ```
-##Upgrading
+## Upgrading
 
 Please see [UPGRADING](UPGRADING.md) for details.
 
