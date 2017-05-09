@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
-use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
@@ -225,13 +224,17 @@ class IntegrationTest extends TestCase
             );
 
             $fileAdders->each(function ($fileAdder) {
-                $media = $fileAdder->toMediaCollection();
+                $fileAdder = is_array($fileAdder) ? $fileAdder : [$fileAdder];
 
-                $this->assertEquals('alternativename', $media->name);
-                $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+                foreach ($fileAdder as $item) {
+                    $media = $item->toMediaCollection();
+
+                    $this->assertEquals('alternativename', $media->name);
+                    $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+                }
             });
 
-            $this->assertCount(2, $fileAdders);
+            $this->assertCount(3, $fileAdders);
         });
 
         $uploadedFiles = [
@@ -247,6 +250,20 @@ class IntegrationTest extends TestCase
                 'image/svg',
                 filesize($this->getTestSvg())
             ),
+            'medias' => [
+                new UploadedFile(
+                    $this->getTestPng(),
+                    'alternativename.png',
+                    'image/png',
+                    filesize($this->getTestPng())
+                ),
+                new UploadedFile(
+                    $this->getTestWebm(),
+                    'alternativename.webm',
+                    'video/webm',
+                    filesize($this->getTestWebm())
+                ),
+            ],
         ];
 
         $result = $this->call('get', 'upload', [], [], $uploadedFiles);
