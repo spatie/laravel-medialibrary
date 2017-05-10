@@ -216,7 +216,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_all_uploads_to_the_medialibrary_from_the_current_request()
+    public function it_can_add_handle_file_keys_that_contain_an_array_to_the_medialibrary_from_the_current_request()
     {
         $this->app['router']->get('/upload', function () {
             $fileAdders = collect(
