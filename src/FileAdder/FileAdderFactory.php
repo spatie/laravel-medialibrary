@@ -33,7 +33,15 @@ class FileAdderFactory
                 throw RequestDoesNotHaveFile::create($key);
             }
 
-            return static::create($subject, request()->file($key));
+            $files = request()->file($key);
+
+            if (! is_array($files)) {
+                return static::create($subject, $files);
+            }
+
+            return array_map(function ($file) use ($subject) {
+                return static::create($subject, $file);
+            }, $files);
         });
     }
 
