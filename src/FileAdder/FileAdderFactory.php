@@ -42,7 +42,7 @@ class FileAdderFactory
             return array_map(function ($file) use ($subject) {
                 return static::create($subject, $file);
             }, $files);
-        });
+        })->collapse();
     }
 
     public static function createAllFromRequest(Model $subject): Collection
