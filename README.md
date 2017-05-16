@@ -238,7 +238,7 @@ Finally, update `boostrap/app.php` to load both config files:
 
 ```php
 // bootstrap/app.php
-$app->configure('laravel-medialibrary');
+$app->configure('medialibrary');
 $app->configure('filesystems');
 ```
 
