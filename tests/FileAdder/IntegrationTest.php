@@ -483,6 +483,5 @@ class IntegrationTest extends TestCase
         $media = $this->testUnsavedModel->getMedia();
 
         $this->assertCount(2, $media);
-
     }
 }
