@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
@@ -23,7 +24,7 @@ trait HasMediaTrait
     protected $deletePreservingMedia = false;
 
     /** @var array */
-    public $unsavedMediaItems = [];
+    protected $unAttachedMediaLibraryItems = [];
 
     public static function bootHasMediaTrait()
     {
@@ -103,7 +104,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url)
     {
-        if (! $stream = @fopen($url, 'r')) {
+        if (!$stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -182,7 +183,7 @@ trait HasMediaTrait
      * Get media collection by its collectionName.
      *
      * @param string $collectionName
-     * @param array|callable  $filters
+     * @param array|callable $filters
      *
      * @return \Illuminate\Support\Collection
      */
@@ -215,7 +216,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -231,7 +232,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -302,7 +303,7 @@ trait HasMediaTrait
     public function clearMediaCollection(string $collectionName = 'default')
     {
         $this->getMedia($collectionName)
-             ->each->delete();
+            ->each->delete();
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
@@ -358,7 +359,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (! $media) {
+        if (!$media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($media, $this);
         }
 
@@ -425,5 +426,18 @@ trait HasMediaTrait
             })
             ->sortBy('order_column')
             ->values();
+    }
+
+    public function prepareToAttachMedia(Media $media, FileAdder $fileAdder)
+    {
+        $this->unAttachedMediaLibraryItems[] = compact('media', 'fileAdder');
+    }
+
+    public function processUnattachedMedia(callable $callable) {
+        foreach($this->unAttachedMediaLibraryItems as $item) {
+            $callable($item['media'], $item['fileAdder']);
+        }
+
+        $this->unAttachedMediaLibraryItems = [];
     }
 }

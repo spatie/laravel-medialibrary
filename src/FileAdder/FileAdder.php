@@ -87,7 +87,7 @@ class FileAdder
         }
 
         if ($file instanceof UploadedFile) {
-            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
+            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
             $this->setFileName($file->getClientOriginalName());
             $this->mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -95,7 +95,7 @@ class FileAdder
         }
 
         if ($file instanceof SymfonyFile) {
-            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
+            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
             $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
@@ -248,7 +248,7 @@ class FileAdder
      */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
     {
-        if (! is_file($this->pathToFile)) {
+        if (!is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
@@ -318,7 +318,7 @@ class FileAdder
      *
      * @return string
      */
-    protected function sanitizeFileName(string $fileName) : string
+    protected function sanitizeFileName(string $fileName): string
     {
         return str_replace(['#', '/', '\\'], '-', $fileName);
     }
@@ -328,35 +328,37 @@ class FileAdder
      */
     protected function attachMedia(Media $media)
     {
-        if (! $this->subject->exists) {
-            $this->subject->unsavedMediaItems[] = $media;
+        if (!$this->subject->exists) {
+
+            $this->subject->prepareToAttachMedia($media, $this);
 
             $class = get_class($this->subject);
 
             $class::created(function ($model) {
-                if (empty($model->unsavedMediaItems)) {
-                    return;
-                }
-
-                foreach ($model->unsavedMediaItems as $unsavedMediaItem) {
-                    $this->processMediaItem($model, $unsavedMediaItem);
-                }
+                $model->processUnattachedMedia(function (Media $media, FileAdder $fileAdder) use ($model) {
+                    $this->processMediaItem($model, $media, $fileAdder);
+                });
             });
 
             return;
         }
 
-        $this->processMediaItem($this->subject, $media);
+        $this->processMediaItem($this->subject, $media, $this);
     }
 
     /**
      * @param HasMedia $model
      * @param Media $media
+     * @param FileAdder $fileAdder
      */
-    protected function processMediaItem(HasMedia $model, Media $media)
+    protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
     {
         $model->media()->save($media);
 
-        $this->filesystem->add($this->pathToFile, $media, $this->fileName);
+        $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
+
+        if (!$fileAdder->preserveOriginal) {
+            unlink($fileAdder->pathToFile);
+        }
     }
 }
