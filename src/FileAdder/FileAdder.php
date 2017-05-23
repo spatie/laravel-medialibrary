@@ -87,7 +87,7 @@ class FileAdder
         }
 
         if ($file instanceof UploadedFile) {
-            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
+            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
             $this->setFileName($file->getClientOriginalName());
             $this->mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -95,7 +95,7 @@ class FileAdder
         }
 
         if ($file instanceof SymfonyFile) {
-            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
+            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
             $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
@@ -248,7 +248,7 @@ class FileAdder
      */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
     {
-        if (!is_file($this->pathToFile)) {
+        if (! is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
@@ -328,8 +328,7 @@ class FileAdder
      */
     protected function attachMedia(Media $media)
     {
-        if (!$this->subject->exists) {
-
+        if (! $this->subject->exists) {
             $this->subject->prepareToAttachMedia($media, $this);
 
             $class = get_class($this->subject);
@@ -357,7 +356,7 @@ class FileAdder
 
         $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
 
-        if (!$fileAdder->preserveOriginal) {
+        if (! $fileAdder->preserveOriginal) {
             unlink($fileAdder->pathToFile);
         }
     }

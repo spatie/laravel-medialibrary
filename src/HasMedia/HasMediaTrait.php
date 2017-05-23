@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
-use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
@@ -104,7 +104,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url)
     {
-        if (!$stream = @fopen($url, 'r')) {
+        if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -216,7 +216,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -232,7 +232,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -359,7 +359,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (!$media) {
+        if (! $media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($media, $this);
         }
 
@@ -435,8 +435,9 @@ trait HasMediaTrait
         $this->unAttachedMediaLibraryItems[] = compact('media', 'fileAdder');
     }
 
-    public function processUnattachedMedia(callable $callable) {
-        foreach($this->unAttachedMediaLibraryItems as $item) {
+    public function processUnattachedMedia(callable $callable)
+    {
+        foreach ($this->unAttachedMediaLibraryItems as $item) {
             $callable($item['media'], $item['fileAdder']);
         }
 
