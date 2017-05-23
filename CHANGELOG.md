@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.11.1 - 2017-05-23
+
+
 ## 5.11.0 - 2017-05-10
 
 - add support to `addAllMediaFromRequest` for file names in the request that contain an array
