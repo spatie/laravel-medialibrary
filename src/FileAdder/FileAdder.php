@@ -274,10 +274,6 @@ class FileAdder
 
         $this->attachMedia($media);
 
-        if (! $this->preserveOriginal) {
-            unlink($this->pathToFile);
-        }
-
         return $media;
     }
 
@@ -360,6 +356,7 @@ class FileAdder
     protected function processMediaItem(HasMedia $model, Media $media)
     {
         $model->media()->save($media);
+
         $this->filesystem->add($this->pathToFile, $media, $this->fileName);
     }
 }

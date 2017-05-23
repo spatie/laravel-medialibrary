@@ -468,4 +468,21 @@ class IntegrationTest extends TestCase
             ->addMediaFromBase64($invalidBase64Data)
             ->toMediaCollection();
     }
+
+    /** @test */
+    public function it_can_add_files_on_an_unsaved_model_even_if_not_preserving_the_original()
+    {
+        $this->testUnsavedModel->name = 'test';
+
+        $this->testUnsavedModel->addMedia($this->getTestJpg())->toMediaCollection();
+
+        $this->testUnsavedModel->addMedia($this->getTestPdf())->toMediaCollection();
+
+        $this->testUnsavedModel->save();
+
+        $media = $this->testUnsavedModel->getMedia();
+
+        $this->assertCount(2, $media);
+
+    }
 }
