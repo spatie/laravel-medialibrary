@@ -4,6 +4,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 5.11.1 - 2017-05-23
 
+- fix bugs regarding attaching media to non-existing models
 
 ## 5.11.0 - 2017-05-10
 

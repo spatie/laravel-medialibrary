@@ -414,7 +414,9 @@ trait HasMediaTrait
      */
     public function loadMedia(string $collectionName)
     {
-        $collection = $this->exists ? $this->media : collect($this->unsavedMediaItems);
+        $collection = $this->exists
+            ? $this->media
+            : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection
             ->filter(function (Media $mediaItem) use ($collectionName) {
