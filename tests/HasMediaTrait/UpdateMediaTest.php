@@ -17,7 +17,7 @@ class UpdateMediaTest extends TestCase
     /** @test */
     public function it_removes_a_media_item_if_its_not_in_the_update_array()
     {
-        $mediaArray = $this->testModel->media->toArray();
+        $mediaArray = $this->testModel->media()->ordered()->get()->toArray();
         unset($mediaArray[0]);
 
         $this->testModel->updateMedia($mediaArray);
@@ -60,7 +60,7 @@ class UpdateMediaTest extends TestCase
      */
     public function it_reorders_media_items()
     {
-        $mediaArray = $this->testModel->media->toArray();
+        $mediaArray = $this->testModel->media->sortBy('order_column')->toArray();
 
         $differentOrder = array_reverse($mediaArray);
 

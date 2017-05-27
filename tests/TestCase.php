@@ -65,6 +65,18 @@ abstract class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
+//        $app['config']->set('database.default', 'pgsql');
+//        $app['config']->set('database.connections.pgsql', [
+//            'driver' => 'pgsql',
+//            'database' => 'laravel-medialibrary',
+//            'username' => 'pguevara',
+//            'host' => '127.0.0.1',
+//            'prefix' => '',
+//            'charset' => 'utf8',
+//            'schema' => 'public',
+//            'port' => '5432',
+//        ]);
+
         $app['config']->set('filesystems.disks.media', [
             'driver' => 'local',
             'root' => $this->getMediaDirectory(),
@@ -90,6 +102,13 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
+        if ($app['db']->connection()->getSchemaBuilder()->hasTable('test_models')) {
+            $app['db']->connection()->getSchemaBuilder()->drop('test_models');
+        }
+        if ($app['db']->connection()->getSchemaBuilder()->hasTable('media')) {
+            $app['db']->connection()->getSchemaBuilder()->drop('media');
+        }
+
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
