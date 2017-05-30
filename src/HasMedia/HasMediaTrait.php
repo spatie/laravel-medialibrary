@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 
 trait HasMediaTrait
 {
@@ -97,12 +98,13 @@ trait HasMediaTrait
      * Add a remote file to the medialibrary.
      *
      * @param string $url
+     * @param array $allowedMimeTypes
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      *
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addMediaFromUrl(string $url)
+    public function addMediaFromUrl(string $url, array $allowedMimeTypes = [])
     {
         if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
@@ -110,6 +112,10 @@ trait HasMediaTrait
 
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
         file_put_contents($tmpFile, $stream);
+
+        if (! empty($allowedMimeTypes) && ! in_array(mime_content_type($tmpFile), $allowedMimeTypes)) {
+            throw MimeTypeNotAllowed::create(mime_content_type($tmpFile), $allowedMimeTypes);
+        }
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
 
@@ -123,13 +129,14 @@ trait HasMediaTrait
      * Add a base64 encoded file to the medialibrary.
      *
      * @param string $base64data
+     * @param array $allowedMimeTypes
      *
      * @throws InvalidBase64Data
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromBase64(string $base64data)
+    public function addMediaFromBase64(string $base64data, array $allowedMimeTypes = [])
     {
         // strip out data uri scheme information (see RFC 2397)
         if (strpos($base64data, ';base64') !== false) {
@@ -152,6 +159,10 @@ trait HasMediaTrait
         // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
         $tmpFile = tempnam(sys_get_temp_dir(), 'medialibrary');
         file_put_contents($tmpFile, $binaryData);
+
+        if (! empty($allowedMimeTypes) && ! in_array(mime_content_type($tmpFile), $allowedMimeTypes)) {
+            throw MimeTypeNotAllowed::create(mime_content_type($tmpFile), $allowedMimeTypes);
+        }
 
         $file = app(FileAdderFactory::class)
             ->create($this, $tmpFile);

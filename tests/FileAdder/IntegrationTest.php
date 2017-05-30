@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
@@ -317,6 +318,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_wil_throw_an_exception_when_a_remote_file_has_an_invalid_mime_type()
+    {
+        $url = 'https://docs.spatie.be/images/medialibrary/header.jpg';
+
+        $this->expectException(MimeTypeNotAllowed::class);
+
+        $this->testModel
+            ->addMediaFromUrl($url, ['image/png'])
+            ->toMediaCollection();
+    }
+
+    /** @test */
     public function it_can_rename_the_media_before_it_gets_added()
     {
         $media = $this->testModel
@@ -466,6 +479,19 @@ class IntegrationTest extends TestCase
 
         $this->testModel
             ->addMediaFromBase64($invalidBase64Data)
+            ->toMediaCollection();
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_adding_invalid_base64_mime_type()
+    {
+        $testFile = $this->getTestJpg();
+        $testBase64Data = base64_encode(file_get_contents($testFile));
+
+        $this->expectException(MimeTypeNotAllowed::class);
+
+        $this->testModel
+            ->addMediaFromBase64($testBase64Data, ['image/png'])
             ->toMediaCollection();
     }
 
