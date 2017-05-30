@@ -453,7 +453,7 @@ trait HasMediaTrait
         $this->unAttachedMediaLibraryItems = [];
     }
 
-    protected function guardAgainstInvalidMimeType(string $file,  ...$allowedMimeTypes)
+    protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes)
     {
         $allowedMimeTypes = array_flatten($allowedMimeTypes);
 
