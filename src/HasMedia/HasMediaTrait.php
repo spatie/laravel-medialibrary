@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Illuminate\Http\File;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
@@ -114,9 +115,7 @@ trait HasMediaTrait
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
         file_put_contents($tmpFile, $stream);
 
-        if (! empty($allowedMimeTypes) && Validator::make(['file' => $tmpFile], ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)])->fails()) {
-            throw MimeTypeNotAllowed::create(mime_content_type($tmpFile), $allowedMimeTypes);
-        }
+        $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
 
@@ -161,9 +160,7 @@ trait HasMediaTrait
         $tmpFile = tempnam(sys_get_temp_dir(), 'medialibrary');
         file_put_contents($tmpFile, $binaryData);
 
-        if (! empty($allowedMimeTypes) && Validator::make(['file' => $tmpFile], ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)])->fails()) {
-            throw MimeTypeNotAllowed::create(mime_content_type($tmpFile), $allowedMimeTypes);
-        }
+        $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
         $file = app(FileAdderFactory::class)
             ->create($this, $tmpFile);
@@ -454,5 +451,18 @@ trait HasMediaTrait
         }
 
         $this->unAttachedMediaLibraryItems = [];
+    }
+
+    protected function guardAgainstInvalidMimeType(string $file, array $allowedMimeTypes)
+    {
+        if (empty($allowedMimeTypes)) {
+            return;
+        }
+
+        $validation = Validator::make(['file' => new File($file)], ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]);
+
+        if ($validation->fails()) {
+            throw MimeTypeNotAllowed::create(mime_content_type($file), $allowedMimeTypes);
+        }
     }
 }
