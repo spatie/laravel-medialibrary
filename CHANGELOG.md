@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.12.0 - 2017-05-30
+
+- add parameter to specify allowed mime types to `addMediaFromUrl` and `addMediaFromBase64`
+
 ## 5.11.1 - 2017-05-23
 
 - fix bugs regarding attaching media to non-existing models

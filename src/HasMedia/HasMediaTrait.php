@@ -100,13 +100,13 @@ trait HasMediaTrait
      * Add a remote file to the medialibrary.
      *
      * @param string $url
-     * @param array $allowedMimeTypes
+     * @param string|array ...$allowedMimeTypes
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      *
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addMediaFromUrl(string $url, array $allowedMimeTypes = [])
+    public function addMediaFromUrl(string $url, ...$allowedMimeTypes)
     {
         if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
@@ -129,14 +129,14 @@ trait HasMediaTrait
      * Add a base64 encoded file to the medialibrary.
      *
      * @param string $base64data
-     * @param array $allowedMimeTypes
+     * @param string|array ...$allowedMimeTypes
      *
      * @throws InvalidBase64Data
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromBase64(string $base64data, array $allowedMimeTypes = [])
+    public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes)
     {
         // strip out data uri scheme information (see RFC 2397)
         if (strpos($base64data, ';base64') !== false) {
@@ -453,16 +453,21 @@ trait HasMediaTrait
         $this->unAttachedMediaLibraryItems = [];
     }
 
-    protected function guardAgainstInvalidMimeType(string $file, array $allowedMimeTypes)
+    protected function guardAgainstInvalidMimeType(string $file,  ...$allowedMimeTypes)
     {
+        $allowedMimeTypes = array_flatten($allowedMimeTypes);
+
         if (empty($allowedMimeTypes)) {
             return;
         }
 
-        $validation = Validator::make(['file' => new File($file)], ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]);
+        $validation = Validator::make(
+            ['file' => new File($file)],
+            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
+        );
 
         if ($validation->fails()) {
-            throw MimeTypeNotAllowed::create(mime_content_type($file), $allowedMimeTypes);
+            throw MimeTypeNotAllowed::create($file, $allowedMimeTypes);
         }
     }
 }
