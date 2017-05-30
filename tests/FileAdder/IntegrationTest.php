@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\Test\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
@@ -11,6 +10,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 
 class IntegrationTest extends TestCase
