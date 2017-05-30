@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
+use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
@@ -113,7 +114,7 @@ trait HasMediaTrait
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
         file_put_contents($tmpFile, $stream);
 
-        if (! empty($allowedMimeTypes) && ! in_array(mime_content_type($tmpFile), $allowedMimeTypes)) {
+        if (! empty($allowedMimeTypes) && Validator::make(['file' => $tmpFile], ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)])->fails()) {
             throw MimeTypeNotAllowed::create(mime_content_type($tmpFile), $allowedMimeTypes);
         }
 
@@ -160,7 +161,7 @@ trait HasMediaTrait
         $tmpFile = tempnam(sys_get_temp_dir(), 'medialibrary');
         file_put_contents($tmpFile, $binaryData);
 
-        if (! empty($allowedMimeTypes) && ! in_array(mime_content_type($tmpFile), $allowedMimeTypes)) {
+        if (! empty($allowedMimeTypes) && Validator::make(['file' => $tmpFile], ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)])->fails()) {
             throw MimeTypeNotAllowed::create(mime_content_type($tmpFile), $allowedMimeTypes);
         }
 
