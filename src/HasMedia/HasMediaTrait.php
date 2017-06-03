@@ -247,6 +247,53 @@ trait HasMediaTrait
 
         return $media->getPath($conversionName);
     }
+    
+    /**
+     * Get the last media item of a media collection.
+     *
+     * @param string $collectionName
+     * @param array  $filters
+     *
+     * @return Media|null
+     */
+    public function getLastMedia(string $collectionName = 'default', array $filters = [])
+    {
+        $media = $this->getMedia($collectionName, $filters);
+
+        return $media->last();
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = '') : string
+    {
+        $media = $this->getLastMedia($collectionName);
+
+        if (! $media) {
+            return false;
+        }
+
+        return $media->getUrl($conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLastMediaPath(string $collectionName = 'default', string $conversionName = '') : string
+    {
+        $media = $this->getLastMedia($collectionName);
+
+        if (! $media) {
+            return false;
+        }
+
+        return $media->getPath($conversionName);
+    }
 
     /**
      * Update a media collection by deleting and inserting again with new values.
