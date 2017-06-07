@@ -6,9 +6,6 @@ use Finfo;
 
 class File
 {
-    /*
-     * Rename a file.
-     */
     public static function renameInDirectory(string $fileNameWithDirectory, string $newFileNameWithoutDirectory) : string
     {
         $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME).'/'.$newFileNameWithoutDirectory;
