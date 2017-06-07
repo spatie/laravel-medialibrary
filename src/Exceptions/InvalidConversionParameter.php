@@ -8,12 +8,12 @@ class InvalidConversionParameter extends Exception
 {
     public static function invalidWidth()
     {
-        return new static('Width should be numeric an greater than 0');
+        return new static('Width should be numeric and greater than 0');
     }
 
     public static function invalidHeight()
     {
-        return new static('Height should be numeric an greater than 0');
+        return new static('Height should be numeric and greater than 0');
     }
 
     public static function invalidFormat(string $givenFormat, array $validFormats)
