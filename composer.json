@@ -55,5 +55,12 @@
     "psr-4": {
       "Spatie\\MediaLibrary\\Test\\": "tests"
     }
+  },
+  "extra": {
+      "laravel": {
+          "providers": [
+              "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
+          ]
+      }
   }
 }
