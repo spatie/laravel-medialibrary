@@ -1,4 +1,4 @@
-  <?php
+<?php
 
 namespace Spatie\MediaLibrary\Test\HasMediaTrait;
 
