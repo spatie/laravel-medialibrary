@@ -235,7 +235,7 @@ class IntegrationTest extends TestCase
                 }
             });
 
-            $this->assertCount(3, $fileAdders);
+            $this->assertCount(4, $fileAdders);
         });
 
         $uploadedFiles = [
