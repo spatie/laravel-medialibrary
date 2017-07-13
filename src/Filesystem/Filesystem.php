@@ -23,4 +23,6 @@ interface Filesystem
     public function getMediaDirectory(Media $media, bool $conversion = false) : string;
 
     public function getConversionDirectory(Media $media) : string;
+
+    public function removeDirectory(string $directory, string $diskName);
 }
