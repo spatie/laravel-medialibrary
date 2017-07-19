@@ -36,8 +36,8 @@ trait HasMediaTrait
                 return;
             }
             
-            if(in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses(__CLASS__))){
-                if(!$entity->forceDeleting){
+            if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses(__CLASS__))) {
+                if (!$entity->forceDeleting) {
                     return;
                 }
             }
