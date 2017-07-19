@@ -131,26 +131,21 @@ class CleanCommand extends Command
             throw FileCannotBeAdded::diskDoesNotExist($diskName);
         }
 
-        $medias = $this->mediaRepository->all();
+        collect($this->fileSystem->disk($diskName)->allDirectories())
+            ->diff($this->mediaRepository->all()->map(function ($media) {
+                return [
+                    rtrim($this->pathGenerator->getPath($media), '/'),
+                    rtrim($this->pathGenerator->getPathForConversions($media), '/'),
+                ];
+            })->flatten()
+            )->reject(function (string $directory) use ($diskName) {
+                return empty($this->fileSystem->disk($diskName)->files($directory));
+            })->each(function (string $directory) use ($diskName) {
+                if (! $this->isDryRun) {
+                    $this->mediaFileSystem->removeDirectory($directory, $diskName);
+                }
 
-        $mediaPaths = $medias->map(function ($media) {
-            return rtrim($this->pathGenerator->getPath($media), '/');
-        });
-
-        $mediaPaths = $mediaPaths->merge($medias->map(function ($media) {
-            return rtrim($this->pathGenerator->getPathForConversions($media), '/');
-        }));
-
-        $diff = collect($this->fileSystem->disk($diskName)->allDirectories())->diff($mediaPaths);
-
-        $diff->reject(function (string $directory) use ($diskName) {
-            return empty($this->fileSystem->disk($diskName)->files($directory));
-        })->each(function (string $directory) use ($diskName) {
-            if (! $this->isDryRun) {
-                $this->mediaFileSystem->removeDirectory($directory, $diskName);
-            }
-
-            $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));
-        });
+                $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));
+            });
     }
 }
