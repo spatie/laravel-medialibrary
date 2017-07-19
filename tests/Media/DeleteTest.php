@@ -47,7 +47,7 @@ class DeleteTest extends TestCase
     /**
      * @test
      */
-    public function it_will_remove_the_files_when_shouldDeletePreservingMedia_returns_true()
+    public function it_will_remove_the_files_when_shouldDeletePreservingMedia_returns_false()
     {
         $testModelClass = new class() extends TestModel {
             public function shouldDeletePreservingMedia()
