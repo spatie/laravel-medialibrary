@@ -35,9 +35,9 @@ trait HasMediaTrait
             if ($entity->shouldDeletePreservingMedia()) {
                 return;
             }
-            
+
             if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses(__CLASS__))) {
-                if (!$entity->forceDeleting) {
+                if (! $entity->forceDeleting) {
                     return;
                 }
             }
