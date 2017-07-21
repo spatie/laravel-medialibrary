@@ -24,6 +24,38 @@ class DeleteTest extends TestCase
     /**
      * @test
      */
+    public function it_will_not_remove_the_files_when_delete_with_softdeletes_is_used()
+    {
+        $testModel = $this->testModelWithSoftDeletes->find($this->testModel->id);
+
+        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $testModel = $testModel->fresh();
+
+        $testModel->delete();
+
+        $this->assertNotNull(Media::find($media->id));
+    }
+
+    /**
+     * @test
+     */
+    public function it_will_remove_the_files_when_forcedelete_with_softdeletes_is_used()
+    {
+        $testModel = $this->testModelWithSoftDeletes->find($this->testModel->id);
+
+        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $testModel = $testModel->fresh();
+
+        $testModel->forceDelete();
+
+        $this->assertNull(Media::find($media->id));
+    }
+
+    /**
+     * @test
+     */
     public function it_will_not_remove_the_files_when_shouldDeletePreservingMedia_returns_true()
     {
         $testModelClass = new class() extends TestModel {
@@ -47,7 +79,7 @@ class DeleteTest extends TestCase
     /**
      * @test
      */
-    public function it_will_remove_the_files_when_shouldDeletePreservingMedia_returns_true()
+    public function it_will_remove_the_files_when_shouldDeletePreservingMedia_returns_false()
     {
         $testModelClass = new class() extends TestModel {
             public function shouldDeletePreservingMedia()

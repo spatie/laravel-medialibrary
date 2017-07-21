@@ -36,6 +36,12 @@ trait HasMediaTrait
                 return;
             }
 
+            if (in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, trait_uses_recursive($entity))) {
+                if (! $entity->forceDeleting) {
+                    return;
+                }
+            }
+
             $entity->media()->get()->each->delete();
         });
     }
