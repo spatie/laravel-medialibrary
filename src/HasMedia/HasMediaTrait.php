@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
@@ -36,7 +37,7 @@ trait HasMediaTrait
                 return;
             }
 
-            if (in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, trait_uses_recursive($entity))) {
+            if (in_array(SoftDeletes::class, trait_uses_recursive($entity))) {
                 if (! $entity->forceDeleting) {
                     return;
                 }
