@@ -2,7 +2,12 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.13.0 - 2017-07-22
+
+- add support for soft deletes
+
 ## 5.12.1 - 2017-07-11
+
 - fixed array fields in `addMultipleMediaFromRequest`
 
 ## 5.12.0 - 2017-05-30
