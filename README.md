@@ -101,7 +101,7 @@ return [
      * The filesystems on which to store added files and derived images by default. Choose
      * one or more of the filesystems you configured in app/config/filesystems.php
      */
-    'defaultFilesystem' => 'media',
+    'default_filesystem' => 'media',
 
     /*
      * The maximum file size of an item in bytes. Adding a file
@@ -232,7 +232,7 @@ public function register()
 Manually copy the package config file to `app\config\laravel-medialibrary.php` (you may need to
 create the config directory if it does not already exist).
 
-Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v5.4.15/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `defaultFilesystem` specified in the laravel-medialibrary config file.
+Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v5.4.15/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `default_filesystem` specified in the laravel-medialibrary config file.
 
 Finally, update `boostrap/app.php` to load both config files:
 

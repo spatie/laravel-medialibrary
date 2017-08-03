@@ -16,6 +16,8 @@ to
  ```php
  public function registerMediaConversions(Media $media = null)
  ```
+ 
+ - change the `defaultFilesystem` key in the config file to `default_filesystem`
 
 ## From v4 to v5
 - rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file againt the one provided by this package
@@ -39,12 +41,12 @@ You can upgrade from v2 to v3 by performing these renames in your model that has
 - `Spatie\MediaLibrary\HasMedia` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions`
 - `Spatie\MediaLibrary\HasMediaWithoutConversions` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia`
 
-In the config file you should rename the `filesystem`-option to `defaultFilesystem`.
+In the config file you should rename the `filesystem`-option to `default_filesystem`.
 
 In the db the `temp`-column must be removed. Add these columns:
 - disk (varchar, 255)
 - custom_properties (text)
-You should set the value of disk column in all rows to the name the defaultFilesystem specified in the config file.
+You should set the value of disk column in all rows to the name the default_filesystem specified in the config file.
 
 Note that this behaviour has changed:
 - when calling `getMedia()` without providing a collection name all media will be returned (whereas previously only media
