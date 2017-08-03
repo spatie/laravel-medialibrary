@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.13.2 - 2017-08-03
+- fix error when try to close a file that was already closed by flysystem
+
 ## 5.13.1 - 2017-08-03
 - fix `MediaCannotBeDeleted` exception
 
