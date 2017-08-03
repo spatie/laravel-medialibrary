@@ -5,7 +5,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 6.0.0 - 2017-XX-XX
 
 - add compatiblity for Laravel 5.5
-- dropped support for older Laravel version
+- dropped support for older Laravel versions
 - the signature of `registerMediaConversions` has been changed
 - the default disk has changed from `media` to `public`
 - `defaultFilesystem` config option has been renamed to `default_filesystem`
