@@ -6,7 +6,7 @@ return [
      * The filesystems on which to store added files and derived images by default. Choose
      * one or more of the filesystems you configured in app/config/filesystems.php
      */
-    'defaultFilesystem' => 'media',
+    'defaultFilesystem' => 'public',
 
     /*
      * The maximum file size of an item in bytes. Adding a file

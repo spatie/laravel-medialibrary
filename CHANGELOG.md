@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.0.0 - 2017-XX-XX
+
+- add compatiblity for Laravel 5.5
+- dropped support for older Laravel version
+- the signature of `registerMediaConversions` has been changed
+- the default disk has changed from `media` to `public`
+
 ## 5.13.2 - 2017-08-03
 - fix error when try to close a file that was already closed by flysystem
 
