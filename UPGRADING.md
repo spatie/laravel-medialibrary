@@ -2,6 +2,22 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v5 to v6
+
+- the signature of `registerMediaConversions` has been changed. 
+
+Change every instance of
+ 
+  ```php
+  public function registerMediaConversions()
+  ```
+to
+ 
+ ```php
+ public function registerMediaConversions(Media $media = null)
+ ```
+
+
 ## From v4 to v5
 - rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file againt the one provided by this package
 - all calls to `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk` should be renamed to `toMediaLibrary`

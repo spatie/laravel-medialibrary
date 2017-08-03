@@ -2,12 +2,9 @@
 
 namespace Spatie\MediaLibrary\HasMedia\Interfaces;
 
+use Spatie\MediaLibrary\Media;
+
 interface HasMediaConversions extends HasMedia
 {
-    /**
-     * Register the conversions that should be performed.
-     *
-     * @return array
-     */
-    public function registerMediaConversions();
+    public function registerMediaConversions(Media $media = null);
 }

@@ -88,7 +88,7 @@ class ConversionCollection extends Collection
         }
 
         if ($model instanceof HasMediaConversions) {
-            $model->registerMediaConversions();
+            $model->registerMediaConversions($media);
         }
 
         $this->items = $model->mediaConversions;
