@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class MediaCannotBeDeleted extends Exception
 {
-    public static function doesNotBelongToModel(Media $media, Model $model)
+    public static function doesNotBelongToModel($mediaId, Model $model)
     {
         $modelClass = get_class($model);
 
-        return new static("Media with id {$media->getKey()} cannot be deleted because it does not belong to model {$modelClass} with id {$model->id}");
+        return new static("Media with id `{$mediaId}` cannot be deleted because it does not exist or does not belong to model {$modelClass} with id {$model->id}");
     }
 }
