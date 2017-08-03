@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary\Test;
 
+use Spatie\MediaLibrary\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
-use Spatie\MediaLibrary\Media;
 
 class TestModelWithSoftDeletes extends Model implements HasMediaConversions
 {
