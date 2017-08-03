@@ -2,13 +2,13 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
