@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.13.1 - 2017-08-03
+- fix `MediaCannotBeDeleted` exception
+
 ## 5.13.0 - 2017-07-22
 
 - add support for soft deletes
