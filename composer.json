@@ -23,11 +23,11 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/bus": "~5.4.0|~5.5.x-dev",
-        "illuminate/console": "~5.4.0|~5.5.x-dev",
-        "illuminate/database": "~5.4.0|~5.5.x-dev",
-        "illuminate/support": "~5.4.0|~5.5.x-dev",
-        "illuminate/pipeline": "~5.4.0|~5.5.x-dev",
+        "illuminate/bus": "~5.4.0|~5.5.x-dev|~5.5.x-dev",
+        "illuminate/console": "~5.4.0|~5.5.x-dev|~5.5.x-dev",
+        "illuminate/database": "~5.4.0|~5.5.x-dev|~5.5.x-dev",
+        "illuminate/support": "~5.4.0|~5.5.x-dev|~5.5.x-dev",
+        "illuminate/pipeline": "~5.4.0|~5.5.x-dev|~5.5.x-dev",
         "spatie/pdf-to-image": "^1.2",
         "spatie/image": "^1.0.0",
         "spatie/temporary-directory": "^1.1"
@@ -36,7 +36,7 @@
         "league/flysystem-aws-s3-v3": "^1.0.13",
         "phpunit/phpunit": "^6.2",
         "mockery/mockery": "^0.9.4",
-        "orchestra/testbench": "~3.4.0|~3.5.x-dev",
+        "orchestra/testbench": "~3.4.0|~3.5.x-dev|~3.5.x-dev",
         "doctrine/dbal": "^2.5.2"
     },
     "conflict": {
@@ -64,3 +64,4 @@
         }
     }
 }
+
