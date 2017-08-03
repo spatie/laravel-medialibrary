@@ -58,7 +58,9 @@ class DefaultFilesystem implements Filesystem
             ->disk($media->disk)
             ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile));
 
-        fclose($file);
+        if (is_resource($file)) {
+            fclose($file);
+        }
     }
 
     /**
