@@ -9,9 +9,10 @@ use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Database\Eloquent\Collection;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
+use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class CleanCommand extends Command
 {
@@ -32,30 +33,34 @@ class CleanCommand extends Command
     /** @var \Illuminate\Contracts\Filesystem\Factory */
     protected $fileSystem;
 
-    /** @var \Spatie\MediaLibrary\PathGenerator\BasePathGenerator */
-    protected $basePathGenerator;
+    /** @var \Spatie\MediaLibrary\Filesystem\Filesystem */
+    protected $mediaFileSystem;
+
+    /** @var \Spatie\MediaLibrary\PathGenerator\PathGenerator */
+    protected $pathGenerator;
 
     /** @var bool */
     protected $isDryRun = false;
 
     /**
-     * @param \Spatie\MediaLibrary\MediaRepository                 $mediaRepository
-     * @param \Spatie\MediaLibrary\FileManipulator                 $fileManipulator
-     * @param \Illuminate\Contracts\Filesystem\Factory             $fileSystem
-     * @param \Spatie\MediaLibrary\PathGenerator\BasePathGenerator $basePathGenerator
+     * @param \Spatie\MediaLibrary\MediaRepository $mediaRepository
+     * @param \Spatie\MediaLibrary\FileManipulator $fileManipulator
+     * @param \Spatie\MediaLibrary\Filesystem\Filesystem $mediaFileSystem
+     * @param \Illuminate\Contracts\Filesystem\Factory $fileSystem
      */
     public function __construct(
         MediaRepository $mediaRepository,
         FileManipulator $fileManipulator,
-        Factory $fileSystem,
-        BasePathGenerator $basePathGenerator
+        Filesystem $mediaFileSystem,
+        Factory $fileSystem
     ) {
         parent::__construct();
 
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
+        $this->mediaFileSystem = $mediaFileSystem;
         $this->fileSystem = $fileSystem;
-        $this->basePathGenerator = $basePathGenerator;
+        $this->pathGenerator = PathGeneratorFactory::create();
     }
 
     public function handle()
@@ -101,12 +106,12 @@ class CleanCommand extends Command
         $this->getMediaItems()->each(function (Media $media) {
             $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
 
-            $path = $this->basePathGenerator->getPathForConversions($media);
+            $path = $this->pathGenerator->getPathForConversions($media);
             $currentFilePaths = $this->fileSystem->disk($media->disk)->files($path);
 
             collect($currentFilePaths)
                 ->reject(function (string $currentFilePath) use ($conversionFilePaths) {
-                    return  $conversionFilePaths->contains(basename($currentFilePath));
+                    return $conversionFilePaths->contains(basename($currentFilePath));
                 })
                 ->each(function (string $currentFilePath) use ($media) {
                     if (! $this->isDryRun) {
@@ -126,17 +131,18 @@ class CleanCommand extends Command
             throw FileCannotBeAdded::diskDoesNotExist($diskName);
         }
 
-        $mediaIds = collect($this->mediaRepository->all()->pluck('id')->toArray());
-
-        collect($this->fileSystem->disk($diskName)->directories())
-            ->filter(function (string $directory) {
-                return is_numeric($directory);
-            })
-            ->reject(function (string $directory) use ($mediaIds) {
-                return $mediaIds->contains((int) $directory);
+        collect($this->fileSystem->disk($diskName)->allDirectories())
+            ->diff($this->mediaRepository->all()->map(function ($media) {
+                return [
+                    rtrim($this->pathGenerator->getPath($media), '/'),
+                    rtrim($this->pathGenerator->getPathForConversions($media), '/'),
+                ];
+            })->flatten()
+            )->reject(function (string $directory) use ($diskName) {
+                return empty($this->fileSystem->disk($diskName)->files($directory));
             })->each(function (string $directory) use ($diskName) {
                 if (! $this->isDryRun) {
-                    $this->fileSystem->disk($diskName)->deleteDirectory($directory);
+                    $this->mediaFileSystem->removeDirectory($directory, $diskName);
                 }
 
                 $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));

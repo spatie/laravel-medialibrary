@@ -113,8 +113,33 @@ class DefaultFilesystem implements Filesystem
 
         collect([$mediaDirectory, $conversionsDirectory])
             ->each(function ($directory) use ($media) {
-                $this->filesystem->disk($media->disk)->deleteDirectory($directory);
+                $this->removeDirectory($directory, $media->disk);
             });
+    }
+
+    /*
+     * Remove target directory with empty parents recursively
+     */
+    public function removeDirectory(string $directory, string $diskName)
+    {
+        $this->filesystem->disk($diskName)->deleteDirectory($directory);
+        $this->cleanDirectoryRecursive(dirname($directory), $diskName);
+    }
+
+    /*
+     * Remove parent directories if it's empty
+     */
+    protected function cleanDirectoryRecursive(string $directory, string $diskName)
+    {
+        if ('.' === $directory) {
+            return;
+        }
+
+        if (empty($this->filesystem->disk($diskName)->directories($directory)) &&
+            empty($this->filesystem->disk($diskName)->files($directory))) {
+            $this->filesystem->disk($diskName)->deleteDirectory($directory);
+            $this->cleanDirectoryRecursive(dirname($directory), $diskName);
+        }
     }
 
     /*
