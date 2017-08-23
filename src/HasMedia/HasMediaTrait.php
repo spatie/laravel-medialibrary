@@ -387,7 +387,7 @@ trait HasMediaTrait
      */
     public function addMediaConversion(string $name): Conversion
     {
-        $conversion = Conversion::create($name)->optimize(config('medialibrary.image_optimizers'));
+        $conversion = Conversion::create($name);
 
         $this->mediaConversions[] = $conversion;
 
