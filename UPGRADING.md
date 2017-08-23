@@ -18,6 +18,7 @@ to
  ```
  
  - change the `defaultFilesystem` key in the config file to `default_filesystem`
+ - be aware that the medialibrary will now optimize all conversions by default. If you do not want this tack on `nonOptimized` to all your media conversions.
 
 ## From v4 to v5
 - rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file againt the one provided by this package
