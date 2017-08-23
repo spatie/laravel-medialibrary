@@ -92,7 +92,7 @@ return [
             '-quiet', // required parameter for this package
         ],
         Spatie\ImageOptimizer\Optimizers\Svgo::class => [
-            '--disable=cleanupIDs', // disabling because it is know to cause troubles
+            '--disable=cleanupIDs', // disabling because it is known to cause troubles
         ],
         Spatie\ImageOptimizer\Optimizers\Gifsicle::class => [
             '-b', // required parameter for this package
