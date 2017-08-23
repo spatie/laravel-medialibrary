@@ -74,7 +74,7 @@ return [
     ],
 
     /*
-     * By default the medialibrary will try to optimize all converted images by
+     * Medialibrary will try to optimize all converted images by
      * removing metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.
      */
