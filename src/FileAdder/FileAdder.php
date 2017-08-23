@@ -232,7 +232,7 @@ class FileAdder
      * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toMediaLibraryOnCloudDisk(string $collectionName = 'default')
+    public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
     {
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }

@@ -16,16 +16,6 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 class IntegrationTest extends TestCase
 {
     /** @test */
-    public function it_can_add_a_file_to_the_default_collection_with_to_media_library()
-    {
-        $media = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->toMediaLibrary();
-
-        $this->assertEquals('default', $media->collection_name);
-    }
-
-    /** @test */
     public function it_can_add_an_file_to_the_default_collection()
     {
         $media = $this->testModel
