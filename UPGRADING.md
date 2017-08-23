@@ -20,6 +20,7 @@ to
  - change the `defaultFilesystem` key in the config file to `default_filesystem`
  - add the `image_optimizers` key from the default config file to your config file.
  - be aware that the medialibrary will now optimize all conversions by default. If you do not want this tack on `nonOptimized` to all your media conversions.
+ - `toMediaLibrary` has been removed. Use `toMediaCollection` instead.
  
 
 ## From v4 to v5

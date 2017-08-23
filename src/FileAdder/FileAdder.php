@@ -278,22 +278,6 @@ class FileAdder
     }
 
     /**
-     * @deprecated Please use `toMediaCollection` instead
-     *
-     * @param string $collectionName
-     * @param string $diskName
-     *
-     * @return \Spatie\MediaLibrary\Media
-     *
-     * @throws FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     */
-    public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
-    {
-        return $this->toMediaCollection($collectionName, $diskName);
-    }
-
-    /**
      * @param string $diskName
      *
      * @return string
