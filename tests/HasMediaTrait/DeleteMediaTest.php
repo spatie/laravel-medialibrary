@@ -36,23 +36,23 @@ class DeleteMediaTest extends TestCase
         $this->assertCount(0, $this->testModel->getMedia('images'));
     }
 
-   /**
-    * @test
-    */
-   public function it_will_remove_the_files_when_clearing_a_collection()
-   {
-       $ids = $this->testModel->getMedia('images')->pluck('id');
+    /**
+     * @test
+     */
+    public function it_will_remove_the_files_when_clearing_a_collection()
+    {
+        $ids = $this->testModel->getMedia('images')->pluck('id');
 
-       $ids->map(function ($id) {
-           $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-       });
+        $ids->map(function ($id) {
+            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        });
 
-       $this->testModel->clearMediaCollection('images');
+        $this->testModel->clearMediaCollection('images');
 
-       $ids->map(function ($id) {
-           $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
-       });
-   }
+        $ids->map(function ($id) {
+            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
+        });
+    }
 
     /**
      * @test
