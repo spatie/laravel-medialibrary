@@ -11,6 +11,8 @@ class VideoTest extends TestCase
     /** @test */
     public function it_can_convert_a_video()
     {
+        $this->skipOnTravis();
+
         $imageGenerator = new Video();
 
         if (! $imageGenerator->requirementsAreInstalled()) {
