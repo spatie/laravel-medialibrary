@@ -155,7 +155,7 @@ class ConversionTest extends TestCase
         $this->assertEquals([[
             'width' => 10,
             'format' => 'jpg',
-        ]], $manipulations );
+        ]], $manipulations);
     }
 
     /** @test */
