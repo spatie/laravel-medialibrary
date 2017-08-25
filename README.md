@@ -73,15 +73,7 @@ You can install this package via composer using this command:
 composer require spatie/laravel-medialibrary:^5.0.0
 ```
 
-Next, you must install the service provider:
-
-```php
-// config/app.php
-'providers' => [
-    ...
-    Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
-];
-```
+The package will automatically register itself.
 
 You can publish the migration with:
 
