@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 5.14.0 - 2017-08-25
+- add `getPath` to `S3UrlGenerator`
+
 ## 5.13.2 - 2017-08-03
 - fix error when try to close a file that was already closed by flysystem
 

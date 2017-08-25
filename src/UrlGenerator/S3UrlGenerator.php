@@ -13,4 +13,14 @@ class S3UrlGenerator extends BaseUrlGenerator
     {
         return config('medialibrary.s3.domain').'/'.$this->getPathRelativeToRoot();
     }
+
+    /**
+     * Get the url for the profile of a media item.
+     *
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return $this->getPathRelativeToRoot();
+    }
 }
