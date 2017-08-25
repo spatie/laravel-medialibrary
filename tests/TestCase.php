@@ -103,7 +103,7 @@ abstract class TestCase extends Orchestra
 
         TestModel::create(['name' => 'test']);
 
-        include_once __DIR__ . '/../database/migrations/create_media_table.php.stub';
+        include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
 
         (new \CreateMediaTable())->up();
     }
@@ -111,7 +111,7 @@ abstract class TestCase extends Orchestra
     protected function setUpTempTestFiles()
     {
         $this->initializeDirectory($this->getTestFilesDirectory());
-        File::copyDirectory(__DIR__ . '/testfiles', $this->getTestFilesDirectory());
+        File::copyDirectory(__DIR__.'/testfiles', $this->getTestFilesDirectory());
     }
 
     protected function initializeDirectory($directory)
@@ -124,17 +124,17 @@ abstract class TestCase extends Orchestra
 
     public function getTempDirectory($suffix = '')
     {
-        return __DIR__ . '/temp' . ($suffix == '' ? '' : '/' . $suffix);
+        return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getMediaDirectory($suffix = '')
     {
-        return $this->getTempDirectory() . '/media' . ($suffix == '' ? '' : '/' . $suffix);
+        return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getTestFilesDirectory($suffix = '')
     {
-        return $this->getTempDirectory() . '/testfiles' . ($suffix == '' ? '' : '/' . $suffix);
+        return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getTestJpg()
@@ -182,13 +182,13 @@ abstract class TestCase extends Orchestra
         $app['config']->set('filesystems.disks.s3', $s3Configuration);
         $app['config']->set(
             'medialibrary.s3.domain',
-            'https://' . $s3Configuration['bucket'] . '.s3.amazonaws.com'
+            'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
         );
     }
 
     public function skipOnTravis()
     {
-        if (!empty(getenv('TRAVIS_BUILD_ID'))) {
+        if (! empty(getenv('TRAVIS_BUILD_ID'))) {
             $this->markTestSkipped('Skipping because this test does not run properly on Travis');
         }
     }
