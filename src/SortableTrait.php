@@ -54,8 +54,10 @@ trait SortableTrait
         return $this->sortable['order_column_name'] ?? 'order_column';
     }
 
-    /*
+    /**
      * Determine if the order column should be set when saving a new model instance.
+     *
+     * @return bool
      */
     public function shouldSortWhenCreating(): bool
     {
