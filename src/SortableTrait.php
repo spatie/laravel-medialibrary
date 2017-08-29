@@ -44,13 +44,13 @@ trait SortableTrait
         }
     }
 
-    protected function determineOrderColumnName(): string
-    {
-        return $this->sortable['order_column_name'] ?? 'order_column';
-    }
-
     public function shouldSortWhenCreating(): bool
     {
         return $this->sortable['sort_when_creating'] ?? true;
+    }
+
+    protected function determineOrderColumnName(): string
+    {
+        return $this->sortable['order_column_name'] ?? 'order_column';
     }
 }
