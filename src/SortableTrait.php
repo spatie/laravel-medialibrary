@@ -44,11 +44,6 @@ trait SortableTrait
         }
     }
 
-    /**
-     * Determine the column name of the order column.
-     *
-     * @return string
-     */
     protected function determineOrderColumnName(): string
     {
         return $this->sortable['order_column_name'] ?? 'order_column';
