@@ -30,7 +30,9 @@ class Conversion
     {
         $this->name = $name;
 
-        $this->manipulations = (new Manipulations())->format('jpg');
+        $this->manipulations = (new Manipulations())
+            ->optimize(config('medialibrary.image_optimizers'))
+            ->format('jpg');
     }
 
     public static function create(string $name)
@@ -184,6 +186,18 @@ class Conversion
     public function nonQueued()
     {
         $this->performOnQueue = false;
+
+        return $this;
+    }
+
+    /**
+     * Avoid optimization of the converted image.
+     *
+     * @return $this
+     */
+    public function nonOptimized()
+    {
+        $this->removeManipulation('optimize');
 
         return $this;
     }

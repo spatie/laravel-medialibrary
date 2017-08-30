@@ -3,6 +3,7 @@ language: php
 php:
   - 7.0
   - 7.1
+  - 7.2
 
 env:
   matrix:
@@ -14,7 +15,6 @@ before_install:
   - travis_retry composer self-update
 
 install:
-  - sudo apt-get install -y ffmpeg libavcodec-extra-53
   - travis_retry composer update --prefer-source $PREFER_LOWEST
   - travis_retry composer require php-ffmpeg/php-ffmpeg
   - travis_retry composer require league/flysystem-aws-s3-v3

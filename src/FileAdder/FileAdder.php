@@ -232,7 +232,7 @@ class FileAdder
      * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toMediaLibraryOnCloudDisk(string $collectionName = 'default')
+    public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
     {
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
@@ -278,22 +278,6 @@ class FileAdder
     }
 
     /**
-     * @deprecated Please use `toMediaCollection` instead
-     *
-     * @param string $collectionName
-     * @param string $diskName
-     *
-     * @return \Spatie\MediaLibrary\Media
-     *
-     * @throws FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     */
-    public function toMediaLibrary(string $collectionName = 'default', string $diskName = '')
-    {
-        return $this->toMediaCollection($collectionName, $diskName);
-    }
-
-    /**
      * @param string $diskName
      *
      * @return string
@@ -303,7 +287,7 @@ class FileAdder
     protected function determineDiskName(string $diskName)
     {
         if ($diskName === '') {
-            $diskName = config('medialibrary.defaultFilesystem');
+            $diskName = config('medialibrary.default_filesystem');
         }
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {

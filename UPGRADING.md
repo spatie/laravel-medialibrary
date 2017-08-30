@@ -2,6 +2,28 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v5 to v6
+
+- the signature of `registerMediaConversions` has been changed. 
+
+Change every instance of
+ 
+  ```php
+  public function registerMediaConversions()
+  ```
+to
+ 
+ ```php
+ public function registerMediaConversions(Media $media = null)
+ ```
+ 
+ - change the `defaultFilesystem` key in the config file to `default_filesystem`
+ - add the `image_optimizers` key from the default config file to your config file.
+ - be aware that the medialibrary will now optimize all conversions by default. If you do not want this tack on `nonOptimized` to all your media conversions.
+ - `toMediaLibrary` has been removed. Use `toMediaCollection` instead.
+ - `toMediaLibraryOnCloudDisk` has been removed. Use `toMediaCollectionOnCloudDisk` instead.
+ 
+
 ## From v4 to v5
 - rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file againt the one provided by this package
 - all calls to `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk` should be renamed to `toMediaLibrary`
@@ -24,12 +46,12 @@ You can upgrade from v2 to v3 by performing these renames in your model that has
 - `Spatie\MediaLibrary\HasMedia` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions`
 - `Spatie\MediaLibrary\HasMediaWithoutConversions` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia`
 
-In the config file you should rename the `filesystem`-option to `defaultFilesystem`.
+In the config file you should rename the `filesystem`-option to `default_filesystem`.
 
 In the db the `temp`-column must be removed. Add these columns:
 - disk (varchar, 255)
 - custom_properties (text)
-You should set the value of disk column in all rows to the name the defaultFilesystem specified in the config file.
+You should set the value of disk column in all rows to the name the default_filesystem specified in the config file.
 
 Note that this behaviour has changed:
 - when calling `getMedia()` without providing a collection name all media will be returned (whereas previously only media

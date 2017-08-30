@@ -15,9 +15,9 @@ class ConversionTest extends TestCase
 
     public function setUp()
     {
-        $this->conversion = new Conversion($this->conversionName);
-
         parent::setUp();
+
+        $this->conversion = new Conversion($this->conversionName);
     }
 
     /** @test */
@@ -121,14 +121,19 @@ class ConversionTest extends TestCase
     {
         $this->conversion->setManipulations((new Manipulations())->width(10));
 
+        $manipulations = $this->conversion
+            ->getManipulations()
+            ->getManipulationSequence()
+            ->toArray();
+
+        $this->assertArrayHasKey('optimize', $manipulations[0]);
+
+        unset($manipulations[0]['optimize']);
+
         $this->assertEquals([[
             'width' => 10,
             'format' => 'jpg',
-        ]], $this->conversion
-            ->getManipulations()
-            ->getManipulationSequence()
-            ->toArray()
-        );
+        ]], $manipulations);
     }
 
     /** @test */
@@ -138,13 +143,41 @@ class ConversionTest extends TestCase
             $manipulations->width(10);
         });
 
+        $manipulations = $this->conversion
+            ->getManipulations()
+            ->getManipulationSequence()
+            ->toArray();
+
+        $this->assertArrayHasKey('optimize', $manipulations[0]);
+
+        unset($manipulations[0]['optimize']);
+
         $this->assertEquals([[
             'width' => 10,
             'format' => 'jpg',
-        ]], $this->conversion
+        ]], $manipulations);
+    }
+
+    /** @test */
+    public function it_will_optimize_the_converted_image_by_default()
+    {
+        $manipulations = (new Conversion('test'))
             ->getManipulations()
             ->getManipulationSequence()
-            ->toArray()
-        );
+            ->toArray();
+
+        $this->assertArrayHasKey('optimize', $manipulations[0]);
+    }
+
+    /** @test */
+    public function it_can_remove_the_optimization()
+    {
+        $manipulations = (new Conversion('test'))
+            ->nonOptimized()
+            ->getManipulations()
+            ->getManipulationSequence()
+            ->toArray();
+
+        $this->assertArrayNotHasKey('optimize', $manipulations[0]);
     }
 }

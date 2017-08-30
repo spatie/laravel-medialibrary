@@ -70,7 +70,7 @@ class MultipleDiskTest extends TestCase
 
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaLibraryOnCloudDisk($collectionName);
+            ->toMediaCollectionOnCloudDisk($collectionName);
 
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);

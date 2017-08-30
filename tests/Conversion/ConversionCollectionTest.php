@@ -33,15 +33,20 @@ class ConversionCollectionTest extends TestCase
 
         $this->assertEquals('thumb', $conversion->getName());
 
+        $manipulationSequence = $conversion
+            ->getManipulations()
+            ->getManipulationSequence()
+            ->toArray();
+
+        $this->assertArrayHasKey('optimize', $manipulationSequence[0]);
+
+        unset($manipulationSequence[0]['optimize']);
+
         $this->assertEquals([[
             'filter' => 'greyscale',
             'height' => 10,
             'width' => 50,
             'format' => 'jpg',
-        ]], $conversion
-            ->getManipulations()
-            ->getManipulationSequence()
-            ->toArray()
-        );
+        ]], $manipulationSequence);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test;
 
+use Spatie\MediaLibrary\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -15,7 +16,7 @@ class TestModelWithSoftDeletes extends Model implements HasMediaConversions
     protected $guarded = [];
     public $timestamps = false;
 
-    public function registerMediaConversions()
+    public function registerMediaConversions(Media $media = null)
     {
     }
 }

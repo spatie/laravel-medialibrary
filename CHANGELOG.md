@@ -2,10 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.0.0 - 2017-08-30
+
+- add compatiblity for Laravel 5.5
+- dropped support for older Laravel versions
+- the signature of `registerMediaConversions` has been changed
+- the default disk has changed from `media` to `public`
+- `defaultFilesystem` config option has been renamed to `default_filesystem`
+
 ## 5.14.0 - 2017-08-25
+
 - add `getPath` to `S3UrlGenerator`
 
 ## 5.13.2 - 2017-08-03
+
 - fix error when try to close a file that was already closed by flysystem
 
 ## 5.13.1 - 2017-08-03

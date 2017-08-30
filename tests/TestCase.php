@@ -69,7 +69,7 @@ abstract class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        $app['config']->set('filesystems.disks.media', [
+        $app['config']->set('filesystems.disks.public', [
             'driver' => 'local',
             'root' => $this->getMediaDirectory(),
         ]);
@@ -184,5 +184,12 @@ abstract class TestCase extends Orchestra
             'medialibrary.s3.domain',
             'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
         );
+    }
+
+    public function skipOnTravis()
+    {
+        if (! empty(getenv('TRAVIS_BUILD_ID'))) {
+            $this->markTestSkipped('Skipping because this test does not run properly on Travis');
+        }
     }
 }

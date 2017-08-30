@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
 
 use Carbon\Carbon;
+use Spatie\MediaLibrary\Media;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
@@ -61,7 +62,7 @@ class AddMediaTest extends TestCase
     public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
     {
         $modelClass = new class() extends TestModelWithConversion {
-            public function registerMediaConversions()
+            public function registerMediaConversions(Media $media = null)
             {
                 $this->addMediaConversion('my-conversion')
                     ->setManipulations(function (Manipulations $manipulations) {
@@ -123,7 +124,7 @@ class AddMediaTest extends TestCase
              *
              * @return array
              */
-            public function registerMediaConversions()
+            public function registerMediaConversions(Media $media = null)
             {
                 $this->addMediaConversion('thumb')
                     ->width($this->width)

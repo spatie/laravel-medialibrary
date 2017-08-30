@@ -44,19 +44,11 @@ trait SortableTrait
         }
     }
 
-    /**
-     * Determine the column name of the order column.
-     *
-     * @return string
-     */
     protected function determineOrderColumnName(): string
     {
         return $this->sortable['order_column_name'] ?? 'order_column';
     }
 
-    /*
-     * Determine if the order column should be set when saving a new model instance.
-     */
     public function shouldSortWhenCreating(): bool
     {
         return $this->sortable['sort_when_creating'] ?? true;
