@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 6.0.0 - 2017-XX-XX
+## 6.0.0 - 2017-08-30
 
 - add compatiblity for Laravel 5.5
 - dropped support for older Laravel versions
