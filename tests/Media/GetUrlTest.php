@@ -3,9 +3,9 @@
 namespace Spatie\MediaLibrary\Test\Media;
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
+use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 
 class GetUrlTest extends TestCase
 {
