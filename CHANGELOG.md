@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.1.0 - 2017-09-19
+
+- add `getTemporaryUrl` method for media stored on S3
+
 ## 6.0.0 - 2017-08-30
 
 - add compatiblity for Laravel 5.5

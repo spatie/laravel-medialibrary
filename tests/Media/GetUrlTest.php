@@ -2,8 +2,10 @@
 
 namespace Spatie\MediaLibrary\Test\Media;
 
+use Carbon\Carbon;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
+use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 
 class GetUrlTest extends TestCase
 {
@@ -59,5 +61,15 @@ class GetUrlTest extends TestCase
         $conversionName = 'thumb';
 
         $this->assertEquals("http://localhost/media/{$media->id}/conversions/{$conversionName}.jpg", $media->getFullUrl($conversionName));
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_trying_to_get_a_temporary_url_on_local_disk()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
+
+        $this->expectException(UrlCannotBeDetermined::class);
+
+        $media->getTemporaryUrl(Carbon::now()->addMinutes(5));
     }
 }

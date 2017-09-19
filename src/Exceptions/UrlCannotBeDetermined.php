@@ -10,4 +10,9 @@ class UrlCannotBeDetermined extends Exception
     {
         return new static("Storagepath `{$storagePath}` is not part of public path `{$publicPath}`");
     }
+
+    public static function temporaryUrlOnlyWorksOnS3()
+    {
+        return new static('Generating temporary URLs only works on the S3 filesystem driver');
+    }
 }
