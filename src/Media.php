@@ -68,15 +68,6 @@ class Media extends Model
         return $urlGenerator->getUrl();
     }
 
-    /**
-     * Get a temporary url to a original media file.
-     *
-     * @param string             $conversionName
-     * @param \DateTimeInterface $expiration
-     * @param array              $options
-     *
-     * @return string
-     */
     public function getTemporaryUrl(DateTimeInterface $expiration, string $conversionName = '', array $options = []): string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);

@@ -35,7 +35,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
     {
-        throw UrlCannotBeDetermined::temporaryUrlOnlyWorksOnS3();
+        throw UrlCannotBeDetermined::filesystemDoesNotSupportTemporaryUrls();
     }
 
     /*
