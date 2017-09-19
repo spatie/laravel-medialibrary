@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
+use DateTimeInterface;
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 
 class LocalUrlGenerator extends BaseUrlGenerator
@@ -22,6 +23,19 @@ class LocalUrlGenerator extends BaseUrlGenerator
         $url = $this->rawUrlEncodeFilename($url);
 
         return $url;
+    }
+
+    /**
+     * @param \DateTimeInterface $expiration
+     * @param array              $options
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined
+     */
+    public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
+    {
+        throw UrlCannotBeDetermined::temporaryUrlOnlyWorksOnS3();
     }
 
     /*

@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test\FileAdder;
 
+use Carbon\Carbon;
 use Spatie\MediaLibrary\Test\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Test\S3Integration\S3TestPathGenerator;
@@ -113,6 +114,38 @@ class S3IntegrationTest extends TestCase
         $this->assertEquals(
             $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
             $media->getUrl('thumb')
+        );
+    }
+
+    /** @test */
+    public function it_retrieves_a_temporary_media_url_from_s3()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('default', 's3');
+
+        $this->assertContains(
+            "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
+            $media->getTemporaryUrl(Carbon::now()->addMinutes(5))
+        );
+
+        $this->assertEquals(
+            sha1(file_get_contents($this->getTestJpg())),
+            sha1(file_get_contents($media->getTemporaryUrl(Carbon::now()->addMinutes(5))))
+        );
+    }
+
+    /** @test */
+    public function it_retrieve_a_temporary_media_conversion_url_from_s3()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection('default', 's3');
+
+        $this->assertContains(
+            "/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
+            $media->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb')
         );
     }
 

@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
@@ -62,15 +63,25 @@ class Media extends Model
      */
     public function getUrl(string $conversionName = ''): string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
-        if ($conversionName !== '') {
-            $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
-
-            $urlGenerator->setConversion($conversion);
-        }
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
 
         return $urlGenerator->getUrl();
+    }
+
+    /**
+     * Get a temporary url to a original media file.
+     *
+     * @param string             $conversionName
+     * @param \DateTimeInterface $expiration
+     * @param array              $options
+     *
+     * @return string
+     */
+    public function getTemporaryUrl(DateTimeInterface $expiration, string $conversionName = '', array $options = []): string
+    {
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
+
+        return $urlGenerator->getTemporaryUrl($expiration, $options);
     }
 
     /**
@@ -84,13 +95,7 @@ class Media extends Model
      */
     public function getPath(string $conversionName = ''): string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this);
-
-        if ($conversionName != '') {
-            $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
-
-            $urlGenerator->setConversion($conversion);
-        }
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
 
         return $urlGenerator->getPath();
     }

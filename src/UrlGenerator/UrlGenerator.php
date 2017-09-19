@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
+use DateTimeInterface;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
@@ -14,6 +15,16 @@ interface UrlGenerator
      * @return string
      */
     public function getUrl(): string;
+
+    /**
+     * Get the temporary url for the profile of a media item.
+     *
+     * @param \DateTimeInterface $expiration
+     * @param array              $options
+     *
+     * @return string
+     */
+    public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string;
 
     /**
      * @param \Spatie\MediaLibrary\Media $media
