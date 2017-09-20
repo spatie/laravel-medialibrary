@@ -8,7 +8,7 @@ class MediaObserver
 {
     public function creating(Media $media)
     {
-        if(is_null($media->order_column)) {
+        if (is_null($media->order_column)) {
             $media->setHighestOrderNumber();
         }
     }
