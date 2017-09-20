@@ -370,6 +370,21 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_save_media_in_the_predefined_order()
+    {
+        $media = [];
+        foreach (range(3, 0) as $index) {
+            $media[] = $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->usingOrder($index)
+                ->preservingOriginal()
+                ->toMediaCollection();
+
+            $this->assertEquals($index, $media[3 - $index]->order_column);
+        }
+    }
+
+    /** @test */
     public function it_can_add_properties_to_the_saved_media()
     {
         $media = $this->testModel
