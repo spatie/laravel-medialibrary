@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.1.1 - 2017-09-19
+
+- bugfix: remove `getTemporaryUrl` method from `UrlGenerator` interface
+
 ## 6.1.0 - 2017-09-19
 
 - add `getTemporaryUrl` method for media stored on S3
