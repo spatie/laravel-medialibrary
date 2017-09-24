@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use DateTimeInterface;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
