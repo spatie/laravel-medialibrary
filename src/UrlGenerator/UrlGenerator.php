@@ -17,16 +17,6 @@ interface UrlGenerator
     public function getUrl(): string;
 
     /**
-     * Get the temporary url for the profile of a media item.
-     *
-     * @param \DateTimeInterface $expiration
-     * @param array $options
-     *
-     * @return string
-     */
-    public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string;
-
-    /**
      * @param \Spatie\MediaLibrary\Media $media
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
