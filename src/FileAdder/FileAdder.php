@@ -35,6 +35,9 @@ class FileAdder
     /** @var array */
     protected $customProperties = [];
 
+    /** @var int */
+    protected $orderColumnValue;
+
     /** @var string */
     protected $pathToFile;
 
@@ -171,6 +174,32 @@ class FileAdder
     }
 
     /**
+     * Set the order of the media.
+     *
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function usingOrder(int $value)
+    {
+        return $this->setOrder($value);
+    }
+
+    /**
+     * Set the order of the media.
+     *
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function setOrder(int $value)
+    {
+        $this->orderColumnValue = $value;
+
+        return $this;
+    }
+
+    /**
      * Set the metadata.
      *
      * @param array $customProperties
@@ -268,6 +297,7 @@ class FileAdder
         $media->mime_type = File::getMimetype($this->pathToFile);
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
+        $media->order_column = $this->orderColumnValue;
         $media->manipulations = [];
 
         $media->fill($this->properties);
