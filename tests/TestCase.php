@@ -179,7 +179,7 @@ abstract class TestCase extends Orchestra
             'bucket' => getenv('S3_BUCKET_NAME'),
         ];
 
-        $app['config']->set('filesystems.disks.s3', $s3Configuration);
+        $app['config']->set('filesystems.disks.s3_disk', $s3Configuration);
         $app['config']->set(
             'medialibrary.s3.domain',
             'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'

@@ -39,9 +39,9 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
     }
 
     /** @test */
@@ -49,10 +49,10 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
-        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
     }
 
     /** @test */
@@ -60,13 +60,13 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
 
         $media->delete();
 
-        $this->assertFalse(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertFalse(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
     }
 
     /** @test */
@@ -74,15 +74,15 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
-        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
-        $this->assertTrue(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
 
         $media->delete();
 
-        $this->assertFalse(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
-        $this->assertFalse(Storage::disk('s3')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
+        $this->assertFalse(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
+        $this->assertFalse(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
     }
 
     /** @test */
@@ -91,7 +91,7 @@ class S3IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals(
             $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
@@ -109,7 +109,7 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals(
             $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
@@ -123,7 +123,7 @@ class S3IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
         $this->assertContains(
             "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
@@ -141,7 +141,7 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
-            ->toMediaCollection('default', 's3');
+            ->toMediaCollection('default', 's3_disk');
 
         $this->assertContains(
             "/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
@@ -151,8 +151,8 @@ class S3IntegrationTest extends TestCase
 
     protected function cleanUpS3()
     {
-        collect(Storage::disk('s3')->allDirectories(self::getS3BaseTestDirectory()))->each(function ($directory) {
-            Storage::disk('s3')->deleteDirectory($directory);
+        collect(Storage::disk('s3_disk')->allDirectories(self::getS3BaseTestDirectory()))->each(function ($directory) {
+            Storage::disk('s3_disk')->deleteDirectory($directory);
         });
     }
 
