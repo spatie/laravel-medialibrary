@@ -40,7 +40,7 @@ class S3UrlGenerator extends BaseUrlGenerator
     {
         return $this
             ->filesystemManager
-            ->disk($this->media->getDiskDriverName())
+            ->disk($this->media->disk)
             ->temporaryUrl($this->getPath(), $expiration, $options);
     }
 

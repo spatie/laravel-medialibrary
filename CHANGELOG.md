@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.1.2 - 2017-09-25
+
+- bugfix: `getTemporaryUrl` now uses disk name instead of disk driver
+
 ## 6.1.1 - 2017-09-19
 
 - bugfix: remove `getTemporaryUrl` method from `UrlGenerator` interface
