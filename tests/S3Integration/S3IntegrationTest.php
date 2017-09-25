@@ -137,7 +137,7 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_retrieve_a_temporary_media_conversion_url_from_s3()
+    public function it_retrieves_a_temporary_media_conversion_url_from_s3()
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
