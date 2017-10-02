@@ -77,4 +77,9 @@ abstract class BaseUrlGenerator implements UrlGenerator
         .'.'
         .$this->conversion->getResultExtension($this->media->extension);
     }
+
+    public function rawUrlEncodeFilename(string $path = ''): string
+    {
+        return pathinfo($path, PATHINFO_DIRNAME).'/'.rawurlencode(pathinfo($path, PATHINFO_BASENAME));
+    }
 }
