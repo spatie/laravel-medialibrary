@@ -25,7 +25,11 @@ class S3UrlGenerator extends BaseUrlGenerator
      */
     public function getUrl(): string
     {
-        return config('medialibrary.s3.domain').'/'.$this->getPathRelativeToRoot();
+        $url = $this->getPathRelativeToRoot();
+
+        $url = $this->rawUrlEncodeFilename($url);
+
+        return config('medialibrary.s3.domain').'/'.$url;
     }
 
     /**
