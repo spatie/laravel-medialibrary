@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.1.3 - 2017-10-02
+
+- fixed URL-encoding for S3 files
+
 ## 6.1.2 - 2017-09-25
 
 - bugfix: `getTemporaryUrl` now uses disk name instead of disk driver
