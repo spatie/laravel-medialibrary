@@ -85,9 +85,4 @@ class LocalUrlGenerator extends BaseUrlGenerator
 
         return $url;
     }
-
-    public function rawUrlEncodeFilename(string $path = ''): string
-    {
-        return pathinfo($path, PATHINFO_DIRNAME).'/'.rawurlencode(pathinfo($path, PATHINFO_BASENAME));
-    }
 }
