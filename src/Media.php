@@ -15,6 +15,8 @@ class Media extends Model
     use SortableTrait;
 
     const TYPE_OTHER = 'other';
+    
+    protected $connection = 'mysql';
 
     protected $guarded = [];
 
