@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Test\Events;
 
 use Event;
 use Exception;
+use Spatie\MediaLibrary\Events\ConversionWillStart;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
@@ -29,6 +30,17 @@ class EventTest extends TestCase
 
         $this->addToAssertionCount(1);
     }
+
+    /** @test */
+    public function it_will_fire_the_conversion_will_start_event()
+    {
+        $this->expectsEvent(ConversionWillStart::class);
+
+        $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $this->addToAssertionCount(1);
+    }
+
 
     /** @test */
     public function it_will_fire_the_conversion_complete_event()
