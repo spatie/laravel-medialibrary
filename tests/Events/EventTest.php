@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Test\Events;
 
-use Event;
 use Exception;
+use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Events\ConversionWillStart;
@@ -12,43 +12,35 @@ use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 
 class EventTest extends TestCase
 {
-    protected $firedEvents = [];
-
     public function setUp()
     {
         parent::setup();
 
-        $this->firedEvents = [];
+        Event::fake();
     }
 
     /** @test */
     public function it_will_fire_the_media_added_event()
     {
-        $this->expectsEvent(MediaHasBeenAdded::class);
-
         $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $this->addToAssertionCount(1);
+        Event::assertDispatched(MediaHasBeenAdded::class);
     }
 
     /** @test */
     public function it_will_fire_the_conversion_will_start_event()
     {
-        $this->expectsEvent(ConversionWillStart::class);
-
         $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $this->addToAssertionCount(1);
+        Event::assertDispatched(ConversionWillStart::class);
     }
 
     /** @test */
     public function it_will_fire_the_conversion_complete_event()
     {
-        $this->expectsEvent(ConversionHasBeenCompleted::class);
-
         $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $this->addToAssertionCount(1);
+        Event::assertDispatched(ConversionHasBeenCompleted::class);
     }
 
     /** @test */
@@ -59,23 +51,8 @@ class EventTest extends TestCase
             ->preservingOriginal()
             ->toMediaCollection('images');
 
-        $this->expectsEvent(CollectionHasBeenCleared::class);
-
         $this->testModel->clearMediaCollection('images');
 
-        $this->addToAssertionCount(1);
-    }
-
-    protected function expectsEvent($eventClassName)
-    {
-        Event::listen($eventClassName, function ($event) use ($eventClassName) {
-            $this->firedEvents[] = $eventClassName;
-        });
-
-        $this->beforeApplicationDestroyed(function () use ($eventClassName) {
-            if (! in_array($eventClassName, $this->firedEvents)) {
-                throw new Exception("Event {$eventClassName} not fired");
-            }
-        });
+        Event::assertDispatched(CollectionHasBeenCleared::class);
     }
 }
