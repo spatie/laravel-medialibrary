@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
+use Spatie\MediaLibrary\Events\ConversionWillStart;
 use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
@@ -63,6 +64,8 @@ class FileManipulator
         );
 
         foreach ($conversions as $conversion) {
+            event(new ConversionWillStart($media, $conversion));
+
             $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
             $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
