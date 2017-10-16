@@ -56,6 +56,10 @@ class FileAdder
     public function __construct(Filesystem $fileSystem)
     {
         $this->filesystem = $fileSystem;
+
+        $this->fileNameSanitizer = function($fileName) {
+            return $this->defaultSanitizer($fileName);
+        };
     }
 
     /**
@@ -168,7 +172,7 @@ class FileAdder
      */
     public function setFileName(string $fileName)
     {
-        $this->fileName = $this->sanitizeFileName($fileName);
+        $this->fileName = $fileName;
 
         return $this;
     }
@@ -264,9 +268,7 @@ class FileAdder
 
         $media->name = $this->mediaName;
 
-        if ($this->fileNameSanitizer) {
-            $this->fileName = ($this->fileNameSanitizer)($this->fileName);
-        }
+        $this->fileName = ($this->fileNameSanitizer)($this->fileName);
 
         $media->file_name = $this->fileName;
         $media->disk = $this->determineDiskName($diskName);
@@ -310,7 +312,7 @@ class FileAdder
      *
      * @return string
      */
-    protected function sanitizeFileName(string $fileName): string
+    public function defaultSanitizer(string $fileName): string
     {
         return str_replace(['#', '/', '\\'], '-', $fileName);
     }
