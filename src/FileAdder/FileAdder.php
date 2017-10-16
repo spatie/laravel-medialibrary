@@ -307,7 +307,6 @@ class FileAdder
         return str_replace(['#', '/', '\\'], '-', $fileName);
     }
 
-
     /**
      * Set the fileName of the file using a callable.
      *
