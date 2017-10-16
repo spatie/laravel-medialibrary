@@ -95,7 +95,7 @@ class Media extends Model implements Responsable
     /**
      * Collection of all ImageGenerator drivers.
      */
-    public function getImageGenerators() : Collection
+    public function getImageGenerators(): Collection
     {
         return collect(config('medialibrary.image_generators'));
     }
@@ -229,12 +229,15 @@ class Media extends Model implements Responsable
     /**
      * Create an HTTP response that represents the object.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function toResponse($request)
     {
         return response()
-            ->file($this->getPath(), ['Content-Type' => $this->mime_type]);
+            ->file($this->getPath(), [
+                'Content-Type' => $this->mime_type,
+            ]);
     }
 }

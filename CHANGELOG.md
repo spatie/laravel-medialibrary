@@ -2,8 +2,9 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 6.3.3 - 2017-10-16
+## 6.4.0 - 2017-10-16
 
+- implement `Responsable` interface
 - improve sanitizing filenames
 
 ## 6.3.0 - 2017-10-16
