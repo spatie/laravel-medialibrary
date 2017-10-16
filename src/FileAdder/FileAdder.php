@@ -308,15 +308,15 @@ class FileAdder
     }
 
     /**
-     * Set the fileName of the file using a callable.
+     * Sanitize the fileName of the file using a callable.
      *
-     * @param callable $function
+     * @param callable $sanitizer
      *
      * @return $this
      */
-    public function sanitizingFileName(callable $function)
+    public function sanitizingFileName(callable $sanitizer)
     {
-        $this->fileName = $function($this->fileName);
+        $this->fileName = $sanitizer($this->fileName);
 
         return $this;
     }
