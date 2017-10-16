@@ -47,6 +47,9 @@ class FileAdder
     /** @var string */
     protected $diskName = '';
 
+    /** @var null|callable */
+    protected $fileNameSanitizer;
+
     /**
      * @param Filesystem $fileSystem
      */
@@ -260,6 +263,11 @@ class FileAdder
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
+
+        if ($this->fileNameSanitizer) {
+            $this->fileName = ($this->fileNameSanitizer)($this->fileName);
+        }
+
         $media->file_name = $this->fileName;
         $media->disk = $this->determineDiskName($diskName);
 
@@ -310,13 +318,13 @@ class FileAdder
     /**
      * Sanitize the fileName of the file using a callable.
      *
-     * @param callable $sanitizer
+     * @param callable $fileNameSanitizer
      *
      * @return $this
      */
-    public function sanitizingFileName(callable $sanitizer)
+    public function sanitizingFileName(callable $fileNameSanitizer)
     {
-        $this->fileName = $sanitizer($this->fileName);
+        $this->fileNameSanitizer = $fileNameSanitizer;
 
         return $this;
     }
