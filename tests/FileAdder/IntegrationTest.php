@@ -361,7 +361,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->sanitizingFileName(function ($fileName) {
-                return "new_file_name.jpg";
+                return 'new_file_name.jpg';
             })
             ->toMediaCollection();
 

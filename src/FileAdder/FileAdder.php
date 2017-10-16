@@ -309,7 +309,7 @@ class FileAdder
 
 
     /**
-     * Set the fileName of the file using a callable
+     * Set the fileName of the file using a callable.
      *
      * @param callable $function
      *
