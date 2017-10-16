@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.2.1 - 2017-10-16
+
+- fix for working with large files
+
 ## 6.2.0 - 2017-10-10
 
 - add `ConversionWillStart` event
