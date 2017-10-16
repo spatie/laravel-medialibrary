@@ -96,13 +96,13 @@ class DefaultFilesystem implements Filesystem
         touch($targetFile);
 
         $stream = $this->filesystem->disk($media->disk)->readStream($sourceFile);
-        
+
         $targetFileStream = fopen($targetFile, 'a');
-        while (!feof($stream)) {
+        while (! feof($stream)) {
             $chunk = fread($stream, 1024);
             fwrite($targetFileStream, $chunk);
         }
-        
+
         fclose($stream);
         fclose($targetFileStream);
 
