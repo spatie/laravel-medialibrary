@@ -57,7 +57,7 @@ class FileAdder
     {
         $this->filesystem = $fileSystem;
 
-        $this->fileNameSanitizer = function($fileName) {
+        $this->fileNameSanitizer = function ($fileName) {
             return $this->defaultSanitizer($fileName);
         };
     }
