@@ -348,11 +348,11 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->usingFileName('other#test.jpg')
+            ->usingFileName('other#test With Uppercase.jpg')
             ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/other-test.jpg'));
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/other-test-with-uppercase.jpg'));
     }
 
     /** @test */

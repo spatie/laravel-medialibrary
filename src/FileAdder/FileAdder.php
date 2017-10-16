@@ -304,7 +304,7 @@ class FileAdder
      */
     protected function sanitizeFileName(string $fileName): string
     {
-        return str_replace(['#', '/', '\\'], '-', $fileName);
+        return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
     }
 
     /**
