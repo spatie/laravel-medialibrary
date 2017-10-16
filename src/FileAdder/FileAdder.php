@@ -307,6 +307,21 @@ class FileAdder
         return str_replace(['#', '/', '\\'], '-', $fileName);
     }
 
+
+    /**
+     * Set the fileName of the file using a callable
+     *
+     * @param callable $function
+     *
+     * @return $this
+     */
+    public function sanitizingFileName(callable $function)
+    {
+        $this->fileName = $function($this->fileName);
+
+        return $this;
+    }
+
     /**
      * @param Media $media
      */
