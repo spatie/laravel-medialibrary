@@ -308,6 +308,20 @@ class FileAdder
     }
 
     /**
+     * Set the fileName of the file using a callable.
+     *
+     * @param callable $function
+     *
+     * @return $this
+     */
+    public function sanitizingFileName(callable $function)
+    {
+        $this->fileName = $function($this->fileName);
+
+        return $this;
+    }
+
+    /**
      * @param Media $media
      */
     protected function attachMedia(Media $media)

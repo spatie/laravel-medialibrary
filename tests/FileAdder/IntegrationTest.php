@@ -356,6 +356,20 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_will_sanitize_the_file_name_using_callable()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->sanitizingFileName(function ($fileName) {
+                return 'new_file_name.jpg';
+            })
+            ->toMediaCollection();
+
+        $this->assertEquals('test', $media->name);
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/new_file_name.jpg'));
+    }
+
+    /** @test */
     public function it_can_save_media_in_the_right_order()
     {
         $media = [];
