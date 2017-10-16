@@ -6,11 +6,12 @@ use DateTimeInterface;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Responsable;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
-class Media extends Model
+class Media extends Model implements Responsable
 {
     use SortableTrait;
 
@@ -223,5 +224,17 @@ class Media extends Model
         return $conversions->map(function (Conversion $conversion) {
             return $conversion->getName();
         })->toArray();
+    }
+
+    /**
+     * Create an HTTP response that represents the object.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function toResponse($request)
+    {
+        return response()
+            ->file($this->getPath(), ['Content-Type' => $this->mime_type]);
     }
 }
