@@ -21,7 +21,7 @@ class ResponsableTest extends TestCase
         $result->assertHeader('Content-Type', 'image/jpeg');
         $this->assertEquals(29085, $result->baseResponse->getFile()->getSize());
     }
-    
+
     /** @test */
     public function it_can_return_a_text_as_a_response()
     {
