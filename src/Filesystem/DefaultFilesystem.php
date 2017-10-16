@@ -98,12 +98,14 @@ class DefaultFilesystem implements Filesystem
         $stream = $this->filesystem->disk($media->disk)->readStream($sourceFile);
         
         $targetFileStream = fopen($targetFile, 'a');
+
         while (!feof($stream)) {
             $chunk = fread($stream, 1024);
             fwrite($targetFileStream, $chunk);
         }
         
         fclose($stream);
+
         fclose($targetFileStream);
 
         return $targetFile;
