@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Test\Events;
 
-use Exception;
 use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
