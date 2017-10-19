@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.4.1 - 2017-10-19
+
+- fix deletion of files when using a custom path generator
+
 ## 6.4.0 - 2017-10-16
 
 - implement `Responsable` interface
