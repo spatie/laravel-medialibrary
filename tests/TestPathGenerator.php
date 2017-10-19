@@ -12,11 +12,12 @@ class TestPathGenerator implements PathGenerator
         $entry = TestModel::find($media->model_id);
 
         $fileFolder = md5($media->id);
+
         return "{$entry->id}/{$fileFolder}/";
     }
 
     public function getPathForConversions(Media $media): string
     {
-        return $this->getPath($media) . '/convertions/';
+        return $this->getPath($media).'/convertions/';
     }
 }
