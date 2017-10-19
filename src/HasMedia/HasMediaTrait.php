@@ -32,7 +32,7 @@ trait HasMediaTrait
 
     public static function bootHasMediaTrait()
     {
-        static::deleted(function (HasMedia $entity) {
+        static::deleting(function (HasMedia $entity) {
             if ($entity->shouldDeletePreservingMedia()) {
                 return;
             }
