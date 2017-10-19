@@ -9,12 +9,10 @@ class TestPathGenerator implements PathGenerator
 {
     public function getPath(Media $media): string
     {
-        $game = TestModel::find($media->model_id);
+        $entry = TestModel::find($media->model_id);
 
         $fileFolder = md5($media->id);
-        $path = "{$game->id}/{$fileFolder}/";
-
-        return $path;
+        return "{$entry->id}/{$fileFolder}/";
     }
 
     public function getPathForConversions(Media $media): string
