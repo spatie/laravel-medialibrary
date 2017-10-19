@@ -17,6 +17,6 @@ class TestPathGenerator implements PathGenerator
 
     public function getPathForConversions(Media $media): string
     {
-        return $this->getPath($media) . '/convertions/';
+        return $this->getPath($media).'/convertions/';
     }
 }
