@@ -6,6 +6,7 @@ use File;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
+use Spatie\MediaLibrary\Test\TestPathGenerator;
 
 class DeleteTest extends TestCase
 {
@@ -19,6 +20,23 @@ class DeleteTest extends TestCase
         $this->testModel->delete();
 
         $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+    }
+
+    /** @test */
+    public function it_will_remove_files_when_deleting_a_media_object_with_a_custom_path_generator()
+    {
+        config(['medialibrary.custom_path_generator_class' => TestPathGenerator::class]);
+
+        $pathGenerator = new TestPathGenerator();
+
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+        $path = $pathGenerator->getPath($media);
+
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+
+        $this->testModel->delete();
+
+        $this->assertFalse(File::isDirectory($this->getTempDirectory($path)));
     }
 
     /**
