@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.4.2 - 2017-10-20
+
+- fix correct minimal versions for `league/flysystem` and `spatie/image` when using `--prefer-lowest` option with composer
+
 ## 6.4.1 - 2017-10-19
 
 - fix deletion of files when using a custom path generator
