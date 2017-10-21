@@ -27,7 +27,7 @@ class FileManipulator
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
-        if (!empty($only)) {
+        if (! empty($only)) {
             $profileCollection = $profileCollection->filter(function ($collection) use ($only) {
                 return in_array($collection->getName(), $only);
             });

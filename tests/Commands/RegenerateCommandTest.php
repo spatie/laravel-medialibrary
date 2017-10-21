@@ -100,7 +100,7 @@ class RegenerateCommandTest extends TestCase
 
         Artisan::call('medialibrary:regenerate', [
             '--only-missing' => true,
-            '--only' => 'thumb'
+            '--only' => 'thumb',
         ]);
 
         $this->assertFileExists($derivedMissingImage);
