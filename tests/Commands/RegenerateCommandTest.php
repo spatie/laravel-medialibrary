@@ -85,16 +85,16 @@ class RegenerateCommandTest extends TestCase
 
         $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg");
         $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
-        $derivedMissingImageXl = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb_xl.jpg");
+        $derivedMissingImageOriginal = $this->getMediaDirectory("{$mediaMissing->id}/conversions/keep_original_format.png");
 
         $existsCreatedAt = filemtime($derivedImageExists);
         $missingCreatedAt = filemtime($derivedMissingImage);
 
         unlink($derivedMissingImage);
-        unlink($derivedMissingImageXl);
+        unlink($derivedMissingImageOriginal);
 
         $this->assertFileNotExists($derivedMissingImage);
-        $this->assertFileNotExists($derivedMissingImageXl);
+        $this->assertFileNotExists($derivedMissingImageOriginal);
 
         sleep(1);
 
@@ -104,7 +104,7 @@ class RegenerateCommandTest extends TestCase
         ]);
 
         $this->assertFileExists($derivedMissingImage);
-        $this->assertFileNotExists($derivedMissingImageXl);
+        $this->assertFileNotExists($derivedMissingImageOriginal);
         $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
         $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
     }
