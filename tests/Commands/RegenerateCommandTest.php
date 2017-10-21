@@ -13,14 +13,18 @@ class RegenerateCommandTest extends TestCase
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
 
         $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
+        $createdAt = filemtime($derivedImage);
 
         unlink($derivedImage);
 
         $this->assertFileNotExists($derivedImage);
 
+        sleep(1);
+
         Artisan::call('medialibrary:regenerate');
 
         $this->assertFileExists($derivedImage);
+        $this->assertGreaterThan($createdAt, filemtime($derivedImage));
     }
 
     /** @test */
@@ -29,14 +33,15 @@ class RegenerateCommandTest extends TestCase
         $mediaExists = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
         $mediaMissing = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.png'))->toMediaCollection('images');
 
-        $existsCreatedAt = filemtime($this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg"));
-        $missingCreatedAt = filemtime($this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg"));
+        $derivedImageMissing = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
+        $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg");
 
-        $derivedImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
+        $existsCreatedAt = filemtime($derivedImageExists);
+        $missingCreatedAt = filemtime($derivedImageMissing);
 
-        unlink($derivedImage);
+        unlink($derivedImageMissing);
 
-        $this->assertFileNotExists($derivedImage);
+        $this->assertFileNotExists($derivedImageMissing);
 
         sleep(1);
 
@@ -44,17 +49,10 @@ class RegenerateCommandTest extends TestCase
             '--only-missing' => true
         ]);
 
-        $this->assertFileExists($derivedImage);
+        $this->assertFileExists($derivedImageMissing);
 
-        $this->assertSame(
-            $existsCreatedAt,
-            filemtime($this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg"))
-        );
-
-        $this->assertGreaterThan(
-            $missingCreatedAt,
-            filemtime($this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg"))
-        );
+        $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
+        $this->assertGreaterThan($missingCreatedAt, filemtime($derivedImageMissing));
     }
 
     /** @test */
