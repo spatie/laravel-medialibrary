@@ -28,7 +28,7 @@ class RegenerateCommandTest extends TestCase
     }
 
     /** @test */
-    function it_can_regenerate_only_missing_files()
+    public function it_can_regenerate_only_missing_files()
     {
         $mediaExists = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
         $mediaMissing = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.png'))->toMediaCollection('images');
@@ -46,7 +46,7 @@ class RegenerateCommandTest extends TestCase
         sleep(1);
 
         Artisan::call('medialibrary:regenerate', [
-            '--only-missing' => true
+            '--only-missing' => true,
         ]);
 
         $this->assertFileExists($derivedImageMissing);
