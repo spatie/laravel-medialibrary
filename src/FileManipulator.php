@@ -23,9 +23,15 @@ class FileManipulator
      * @param \Spatie\MediaLibrary\Media $media
      * @param bool $onlyIfMissing
      */
-    public function createDerivedFiles(Media $media, $onlyIfMissing = false)
+    public function createDerivedFiles(Media $media, array $only = [], $onlyIfMissing = false)
     {
         $profileCollection = ConversionCollection::createForMedia($media);
+
+        if (!empty($only)) {
+            $profileCollection = $profileCollection->filter(function ($collection) use ($only) {
+                return in_array($collection->getName(), $only);
+            });
+        }
 
         $this->performConversions(
             $profileCollection->getNonQueuedConversions($media->collection_name),

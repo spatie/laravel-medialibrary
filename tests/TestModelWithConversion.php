@@ -17,6 +17,10 @@ class TestModelWithConversion extends TestModel
             ->width(50)
             ->nonQueued();
 
+        $this->addMediaConversion('thumb_xl')
+            ->width(150)
+            ->nonQueued();
+
         $this->addMediaConversion('keep_original_format')
             ->keepOriginalImageFormat()
             ->nonQueued();
