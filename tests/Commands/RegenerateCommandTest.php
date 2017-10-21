@@ -56,6 +56,28 @@ class RegenerateCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_regenerate_all_files_of_named_conversions()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
+        $derivedMissingImage = $this->getMediaDirectory("{$media->id}/conversions/keep_original_format.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedMissingImage);
+
+        $this->assertFileNotExists($derivedImage);
+        $this->assertFileNotExists($derivedMissingImage);
+
+        Artisan::call('medialibrary:regenerate', [
+            '--only' => 'thumb',
+        ]);
+
+        $this->assertFileExists($derivedImage);
+        $this->assertFileNotExists($derivedMissingImage);
+    }
+
+    /** @test */
     public function it_can_regenerate_files_by_media_ids()
     {
         $media = $this->testModelWithConversion
