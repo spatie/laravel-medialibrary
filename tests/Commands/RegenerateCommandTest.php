@@ -33,15 +33,15 @@ class RegenerateCommandTest extends TestCase
         $mediaExists = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
         $mediaMissing = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.png'))->toMediaCollection('images');
 
-        $derivedImageMissing = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
+        $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
         $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg");
 
         $existsCreatedAt = filemtime($derivedImageExists);
-        $missingCreatedAt = filemtime($derivedImageMissing);
+        $missingCreatedAt = filemtime($derivedMissingImage);
 
-        unlink($derivedImageMissing);
+        unlink($derivedMissingImage);
 
-        $this->assertFileNotExists($derivedImageMissing);
+        $this->assertFileNotExists($derivedMissingImage);
 
         sleep(1);
 
@@ -49,10 +49,10 @@ class RegenerateCommandTest extends TestCase
             '--only-missing' => true,
         ]);
 
-        $this->assertFileExists($derivedImageMissing);
+        $this->assertFileExists($derivedMissingImage);
 
         $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
-        $this->assertGreaterThan($missingCreatedAt, filemtime($derivedImageMissing));
+        $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
     }
 
     /** @test */
@@ -75,6 +75,38 @@ class RegenerateCommandTest extends TestCase
 
         $this->assertFileExists($derivedImage);
         $this->assertFileNotExists($derivedMissingImage);
+    }
+
+    /** @test */
+    public function it_can_regenerate_only_missing_files_of_named_conversions()
+    {
+        $mediaExists = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
+        $mediaMissing = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.png'))->toMediaCollection('images');
+
+        $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg");
+        $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
+        $derivedMissingImageXl = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb_xl.jpg");
+
+        $existsCreatedAt = filemtime($derivedImageExists);
+        $missingCreatedAt = filemtime($derivedMissingImage);
+
+        unlink($derivedMissingImage);
+        unlink($derivedMissingImageXl);
+
+        $this->assertFileNotExists($derivedMissingImage);
+        $this->assertFileNotExists($derivedMissingImageXl);
+
+        sleep(1);
+
+        Artisan::call('medialibrary:regenerate', [
+            '--only-missing' => true,
+            '--only' => 'thumb'
+        ]);
+
+        $this->assertFileExists($derivedMissingImage);
+        $this->assertFileNotExists($derivedMissingImageXl);
+        $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
+        $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
     }
 
     /** @test */
