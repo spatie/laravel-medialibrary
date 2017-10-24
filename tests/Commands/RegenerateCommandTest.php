@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Conversion;
+namespace Spatie\MediaLibrary\Test\Commands;
 
 use Spatie\MediaLibrary\Test\TestCase;
 use Illuminate\Support\Facades\Artisan;
@@ -30,13 +30,22 @@ class RegenerateCommandTest extends TestCase
     /** @test */
     public function it_can_regenerate_only_missing_files()
     {
-        $mediaExists = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
-        $mediaMissing = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.png'))->toMediaCollection('images');
+        $mediaExists = $this
+            ->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $mediaMissing = $this
+            ->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.png'))
+            ->toMediaCollection('images');
 
         $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
+
         $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg");
 
         $existsCreatedAt = filemtime($derivedImageExists);
+
         $missingCreatedAt = filemtime($derivedMissingImage);
 
         unlink($derivedMissingImage);
@@ -52,13 +61,17 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileExists($derivedMissingImage);
 
         $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
+
         $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
     }
 
     /** @test */
     public function it_can_regenerate_all_files_of_named_conversions()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
+        $media = $this
+            ->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
 
         $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
         $derivedMissingImage = $this->getMediaDirectory("{$media->id}/conversions/keep_original_format.jpg");
@@ -80,8 +93,15 @@ class RegenerateCommandTest extends TestCase
     /** @test */
     public function it_can_regenerate_only_missing_files_of_named_conversions()
     {
-        $mediaExists = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
-        $mediaMissing = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.png'))->toMediaCollection('images');
+        $mediaExists = $this
+            ->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $mediaMissing = $this
+            ->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.png'))
+            ->toMediaCollection('images');
 
         $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg");
         $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
@@ -139,7 +159,10 @@ class RegenerateCommandTest extends TestCase
     /** @test */
     public function it_can_regenerate_files_even_if_there_are_files_missing()
     {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
+        $media = $this
+            ->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
 
         unlink($this->getMediaDirectory($media->id.'/test.jpg'));
 

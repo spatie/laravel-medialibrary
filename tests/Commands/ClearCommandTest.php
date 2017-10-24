@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Conversion;
+namespace Spatie\MediaLibrary\Test\Commands;
 
 use Spatie\MediaLibrary\Test\TestCase;
 use Illuminate\Support\Facades\Artisan;

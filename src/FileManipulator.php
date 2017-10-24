@@ -72,27 +72,27 @@ class FileManipulator
             $temporaryDirectory->path(str_random(16).'.'.$media->extension)
         );
 
-        foreach ($conversions as $conversion) {
-            if ($onlyIfMissing && file_exists($media->getPath($conversion->getName()))) {
-                continue;
-            }
+        $conversions
+            ->reject(function(Conversion $conversion) use ($onlyIfMissing, $media) {
+                return $onlyIfMissing && file_exists($media->getPath($conversion->getName()));
+            })
+            ->each(function(Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
+                event(new ConversionWillStart($media, $conversion));
 
-            event(new ConversionWillStart($media, $conversion));
+                $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
-            $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
+                $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-            $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
+                $newFileName = $conversion->getName()
+                    .'.'
+                    .$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
 
-            $newFileName = $conversion->getName()
-                .'.'
-                .$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
+                $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
 
-            $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
+                app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
 
-            app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
-
-            event(new ConversionHasBeenCompleted($media, $conversion));
-        }
+                event(new ConversionHasBeenCompleted($media, $conversion));
+            });
 
         $temporaryDirectory->delete();
     }
