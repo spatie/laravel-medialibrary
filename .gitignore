@@ -3,3 +3,4 @@ docs
 vendor
 tests/temp
 composer.lock
+phpunit.xml

@@ -21,14 +21,22 @@ class FileManipulator
      * Create all derived files for the given media.
      *
      * @param \Spatie\MediaLibrary\Media $media
+     * @param bool $onlyIfMissing
      */
-    public function createDerivedFiles(Media $media)
+    public function createDerivedFiles(Media $media, array $only = [], $onlyIfMissing = false)
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
+        if (! empty($only)) {
+            $profileCollection = $profileCollection->filter(function ($collection) use ($only) {
+                return in_array($collection->getName(), $only);
+            });
+        }
+
         $this->performConversions(
             $profileCollection->getNonQueuedConversions($media->collection_name),
-            $media
+            $media,
+            $onlyIfMissing
         );
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
@@ -43,8 +51,9 @@ class FileManipulator
      *
      * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
      * @param \Spatie\MediaLibrary\Media $media
+     * @param bool $onlyIfMissing
      */
-    public function performConversions(ConversionCollection $conversions, Media $media)
+    public function performConversions(ConversionCollection $conversions, Media $media, $onlyIfMissing = false)
     {
         if ($conversions->isEmpty()) {
             return;
@@ -64,6 +73,10 @@ class FileManipulator
         );
 
         foreach ($conversions as $conversion) {
+            if ($onlyIfMissing && file_exists($media->getPath($conversion->getName()))) {
+                continue;
+            }
+
             event(new ConversionWillStart($media, $conversion));
 
             $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);

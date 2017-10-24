@@ -15,6 +15,8 @@ class RegenerateCommand extends Command
     use ConfirmableTrait;
 
     protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}
+    {--only=* : Regenerate specific conversions}
+    {--only-missing : Regenerate only missing conversions}
     {-- force : Force the operation to run when in production}';
 
     protected $description = 'Regenerate the derived images of media';
@@ -50,7 +52,9 @@ class RegenerateCommand extends Command
 
         $mediaFiles->each(function (Media $media) use ($progressBar) {
             try {
-                $this->fileManipulator->createDerivedFiles($media);
+                $this->fileManipulator->createDerivedFiles(
+                    $media, array_wrap($this->option('only')), $this->option('only-missing')
+                );
             } catch (Exception $exception) {
                 $this->errorMessages[$media->id] = $exception->getMessage();
             }
