@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.5.0 - 2017-10-24
+
+- add `only-missing` and `only` options to the `medialibrary:regenerate` command
+
 ## 6.4.2 - 2017-10-20
 
 - fix correct minimal versions for `league/flysystem` and `spatie/image` when using `--prefer-lowest` option with composer
