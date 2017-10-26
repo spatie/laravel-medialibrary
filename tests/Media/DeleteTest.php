@@ -11,13 +11,25 @@ use Spatie\MediaLibrary\Test\TestPathGenerator;
 class DeleteTest extends TestCase
 {
     /** @test */
-    public function it_will_remove_the_files_when_deleting_a_media_object()
+    public function it_will_remove_the_files_when_deleting_an_object_that_has_media()
     {
         $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
 
         $this->testModel->delete();
+
+        $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+    }
+    
+    /** @test */
+    public function it_will_remove_the_files_when_deleting_a_media_instance()
+    {
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+
+        $media->delete();
 
         $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
     }
