@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use DateTimeInterface;
 use Illuminate\Http\File;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
