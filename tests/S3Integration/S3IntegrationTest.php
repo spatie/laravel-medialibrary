@@ -148,7 +148,6 @@ class S3IntegrationTest extends TestCase
         $this->assertEquals($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)), $this->testModel->getFirstTemporyUrl(Carbon::now()->addMinutes(5), 'images'));
     }
 
-    
     /** @test */
     public function it_retrieves_a_temporary_media_conversion_url_from_s3()
     {
