@@ -21,7 +21,7 @@ class DeleteTest extends TestCase
 
         $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
     }
-    
+
     /** @test */
     public function it_will_remove_the_files_when_deleting_a_media_instance()
     {
