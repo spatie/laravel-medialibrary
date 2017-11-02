@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.6.0 - 2017-11-02
+
+- add `getFirstTemporyUrl`
+
 ## 6.5.0 - 2017-10-24
 
 - add `only-missing` and `only` options to the `medialibrary:regenerate` command
