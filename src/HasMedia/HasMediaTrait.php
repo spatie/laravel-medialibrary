@@ -245,7 +245,7 @@ trait HasMediaTrait
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstTemporyUrl(DateTimeInterface $expiration, string $collectionName = 'default', string $conversionName = ''): string
+    public function getFirstTemporaryUrl(DateTimeInterface $expiration, string $collectionName = 'default', string $conversionName = ''): string
     {
         $media = $this->getFirstMedia($collectionName);
 

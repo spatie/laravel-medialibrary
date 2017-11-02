@@ -4,7 +4,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 6.6.0 - 2017-11-02
 
-- add `getFirstTemporyUrl`
+- add `getFirstTemporaryUrl`
 
 ## 6.5.0 - 2017-10-24
 
