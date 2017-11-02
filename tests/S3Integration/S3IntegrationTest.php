@@ -137,6 +137,18 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_temporary_url_to_first_media_in_a_collection()
+    {
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstMedia->save();
+
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia->save();
+
+        $this->assertEquals($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)), $this->testModel->getFirstTemporyUrl(Carbon::now()->addMinutes(5), 'images'));
+    }
+
+    /** @test */
     public function it_retrieves_a_temporary_media_conversion_url_from_s3()
     {
         $media = $this->testModelWithConversion

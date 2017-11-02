@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use DateTimeInterface;
 use Illuminate\Http\File;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
@@ -237,6 +238,22 @@ trait HasMediaTrait
         }
 
         return $media->getUrl($conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for first media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getFirstTemporyUrl(DateTimeInterface $expiration, string $collectionName = 'default', string $conversionName = ''): string
+    {
+        $media = $this->getFirstMedia($collectionName);
+
+        if (! $media) {
+            return '';
+        }
+
+        return $media->getTemporaryUrl($expiration, $conversionName);
     }
 
     /*
