@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-# 6.6.1 - 2017-11-02
+## 6.6.2 - 2017-11-07
+
+- improve config comments
+
+## 6.6.1 - 2017-11-02
 
 - fixed the spelling of the `getFirstTemporaryUrl` method
 
