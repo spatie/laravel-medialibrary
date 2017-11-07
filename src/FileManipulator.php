@@ -73,10 +73,10 @@ class FileManipulator
         );
 
         $conversions
-            ->reject(function(Conversion $conversion) use ($onlyIfMissing, $media) {
+            ->reject(function (Conversion $conversion) use ($onlyIfMissing, $media) {
                 return $onlyIfMissing && file_exists($media->getPath($conversion->getName()));
             })
-            ->each(function(Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
+            ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
                 event(new ConversionWillStart($media, $conversion));
 
                 $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
