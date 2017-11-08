@@ -49,7 +49,7 @@ class Conversion
      * Set the timecode in seconds to extract a video thumbnail.
      * Only used on video media.
      */
-    public function extractVideoFrameAtSecond(int $timecode): Conversion
+    public function extractVideoFrameAtSecond(int $timecode): self
     {
         $this->extractVideoFrameAtSecond = $timecode;
 
@@ -61,7 +61,7 @@ class Conversion
         return $this->extractVideoFrameAtSecond;
     }
 
-    public function keepOriginalImageFormat(): Conversion
+    public function keepOriginalImageFormat(): self
     {
         $this->keepOriginalImageFormat = true;
 
