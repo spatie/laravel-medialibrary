@@ -31,6 +31,19 @@ class MediaObserver
 
     public function deleted(Media $media)
     {
-        app(Filesystem::class)->removeFiles($media);
+        $softDeleted = false;
+        
+        if (in_array('Illuminate\\Database\\Eloquent\\SoftDeletes', class_uses($media))){
+            $softDeleted = $this->isSoftDeleted($media);
+        }
+        
+        if(!$softDeleted){
+            app(Filesystem::class)->removeFiles($media);
+        }
+    }
+
+    private function isSoftDeleted(Media $media)
+    {
+        return $media->isDirty($media->getDeletedAtColumn());
     }
 }
