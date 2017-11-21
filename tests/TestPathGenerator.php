@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test;
+namespace Spatie\MediaLibrary\Tests;
 
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;

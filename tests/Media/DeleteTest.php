@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Media;
+namespace Spatie\MediaLibrary\Tests\Media;
 
 use File;
 use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\Test\TestCase;
-use Spatie\MediaLibrary\Test\TestModel;
-use Spatie\MediaLibrary\Test\TestPathGenerator;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestModel;
+use Spatie\MediaLibrary\Tests\TestPathGenerator;
 
 class DeleteTest extends TestCase
 {

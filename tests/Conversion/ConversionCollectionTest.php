@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Conversion;
+namespace Spatie\MediaLibrary\Tests\Conversion;
 
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 class ConversionCollectionTest extends TestCase

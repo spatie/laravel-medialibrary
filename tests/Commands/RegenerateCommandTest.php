@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Commands;
+namespace Spatie\MediaLibrary\Tests\Commands;
 
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 
 class RegenerateCommandTest extends TestCase
@@ -141,8 +141,8 @@ class RegenerateCommandTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('test.jpg'))
             ->toMediaCollection('images');
 
-        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
-        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/thumb.jpg");
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
 
         unlink($derivedImage);
         unlink($derivedImage2);

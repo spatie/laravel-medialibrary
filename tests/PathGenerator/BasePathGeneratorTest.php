@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\PathGenerator;
+namespace Spatie\MediaLibrary\Tests\PathGenerator;
 
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 

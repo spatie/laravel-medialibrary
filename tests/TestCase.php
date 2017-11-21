@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test;
+namespace Spatie\MediaLibrary\Tests;
 
 use File;
 use Illuminate\Database\Schema\Blueprint;
@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var \Spatie\MediaLibrary\Test\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\TestModel */
     protected $testModel;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\TestModel */
     protected $testUnsavedModel;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModelWithConversion */
+    /** @var \Spatie\MediaLibrary\Tests\TestModelWithConversion */
     protected $testModelWithConversion;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions */
+    /** @var \Spatie\MediaLibrary\Tests\TestModelWithoutMediaConversions */
     protected $testModelWithoutMediaConversions;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModelWithMorphMap */
+    /** @var \Spatie\MediaLibrary\Tests\TestModelWithMorphMap */
     protected $testModelWithMorphMap;
 
     public function setUp()

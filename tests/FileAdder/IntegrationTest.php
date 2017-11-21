@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\FileAdder;
+namespace Spatie\MediaLibrary\Tests\FileAdder;
 
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;

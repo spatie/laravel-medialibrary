@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
+namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
 
 use Carbon\Carbon;
 use Spatie\MediaLibrary\Media;
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Test\TestCase;
-use Spatie\MediaLibrary\Test\TestModel;
-use Spatie\MediaLibrary\Test\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestModel;
+use Spatie\MediaLibrary\Tests\TestModelWithConversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 class AddMediaTest extends TestCase

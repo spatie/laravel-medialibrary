@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test;
+namespace Spatie\MediaLibrary\Tests;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;

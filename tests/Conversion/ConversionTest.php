@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Conversion;
+namespace Spatie\MediaLibrary\Tests\Conversion;
 
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
 class ConversionTest extends TestCase

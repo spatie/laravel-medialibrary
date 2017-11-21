@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
+namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
 
 use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\Test\TestCase;
-use Spatie\MediaLibrary\Test\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestModelWithConversion;
 
 class MediaCollectionTest extends TestCase
 {

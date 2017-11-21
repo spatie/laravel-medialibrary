@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Media;
+namespace Spatie\MediaLibrary\Tests\Media;
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 

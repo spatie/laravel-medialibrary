@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\FileSystem;
+namespace Spatie\MediaLibrary\Tests\FileSystem;
 
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
 
 class FileSystemTest extends TestCase

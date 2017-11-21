@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Events;
+namespace Spatie\MediaLibrary\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Events\ConversionWillStart;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;

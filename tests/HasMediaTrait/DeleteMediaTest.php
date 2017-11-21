@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\HasMediaTrait;
+namespace Spatie\MediaLibrary\Tests\HasMediaTrait;
 
 use File;
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
 {

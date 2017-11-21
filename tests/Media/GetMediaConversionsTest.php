@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Media;
+namespace Spatie\MediaLibrary\Tests\Media;
 
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class GetMediaConversionsTest extends TestCase
 {

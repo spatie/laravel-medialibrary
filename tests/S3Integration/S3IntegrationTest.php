@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\FileAdder;
+namespace Spatie\MediaLibrary\Tests\FileAdder;
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\Test\S3Integration\S3TestPathGenerator;
+use Spatie\MediaLibrary\Tests\S3Integration\S3TestPathGenerator;
 
 class S3IntegrationTest extends TestCase
 {

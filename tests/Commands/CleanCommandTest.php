@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\Commands;
+namespace Spatie\MediaLibrary\Tests\Commands;
 
 use DB;
-use Spatie\MediaLibrary\Test\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\MediaLibrary\Test\TestModel;
-use Spatie\MediaLibrary\Test\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestModel;
+use Spatie\MediaLibrary\Tests\TestModelWithConversion;
 
 class CleanCommandTest extends TestCase
 {

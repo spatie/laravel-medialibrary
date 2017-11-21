@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test\HasMediaConversionsTrait;
+namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
 
 use File;
-use Spatie\MediaLibrary\Test\TestCase;
-use Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestModelWithoutMediaConversions;
 
 class DeleteMediaTest extends TestCase
 {

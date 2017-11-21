@@ -55,7 +55,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Spatie\\MediaLibrary\\Test\\": "tests"
+      "Spatie\\MediaLibrary\\Tests\\": "tests"
     }
   },
   "extra": {
