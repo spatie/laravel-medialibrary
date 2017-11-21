@@ -86,7 +86,6 @@ interface HasMedia
      */
     public function registerMediaConversions();
 
-
     /**
      * Register the media collections.
      */

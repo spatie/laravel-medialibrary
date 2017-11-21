@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
@@ -95,7 +95,7 @@ class FileAdder
         }
 
         if ($file instanceof UploadedFile) {
-            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
+            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
             $this->setFileName($file->getClientOriginalName());
             $this->mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -103,7 +103,7 @@ class FileAdder
         }
 
         if ($file instanceof SymfonyFile) {
-            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
+            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
             $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
@@ -256,7 +256,7 @@ class FileAdder
      */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
     {
-        if (!is_file($this->pathToFile)) {
+        if (! is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
@@ -309,8 +309,6 @@ class FileAdder
             $collectionDiskName = $collection->diskName;
 
             if ($collectionDiskName !== '') {
-
-
                 return $collectionDiskName;
             }
         }
@@ -347,7 +345,7 @@ class FileAdder
      */
     protected function attachMedia(Media $media)
     {
-        if (!$this->subject->exists) {
+        if (! $this->subject->exists) {
             $this->subject->prepareToAttachMedia($media, $this);
 
             $class = get_class($this->subject);
@@ -369,13 +367,13 @@ class FileAdder
      * @param Media $media
      * @param FileAdder $fileAdder
      */
-    protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
+    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
     {
         $model->media()->save($media);
 
         $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
 
-        if (!$fileAdder->preserveOriginal) {
+        if (! $fileAdder->preserveOriginal) {
             unlink($fileAdder->pathToFile);
         }
     }

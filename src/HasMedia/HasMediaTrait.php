@@ -6,7 +6,6 @@ use DateTimeInterface;
 use Illuminate\Http\File;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
@@ -17,6 +16,7 @@ use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
@@ -510,11 +510,9 @@ trait HasMediaTrait
 
     public function registerMediaConversions(Media $media = null)
     {
-
     }
 
     public function registerMediaCollections()
     {
-
     }
 }
