@@ -66,7 +66,7 @@ class BasePathGeneratorTest extends TestCase
             ->setMedia($media)
             ->setConversion($conversion);
 
-        $pathRelativeToRoot = md5($media->id).'/c/'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
+        $pathRelativeToRoot = md5($media->id).'/c/test-'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
 
         $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
     }

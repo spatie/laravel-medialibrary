@@ -52,7 +52,7 @@ class GetUrlTest extends TestCase
 
         $conversionName = 'thumb';
 
-        $this->assertEquals("http://localhost/media/{$media->id}/conversions/{$conversionName}.jpg", $media->getFullUrl($conversionName));
+        $this->assertEquals("http://localhost/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getFullUrl($conversionName));
     }
 
     /** @test */

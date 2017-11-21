@@ -61,7 +61,7 @@ class BaseUrlGeneratorTest extends TestCase
     /** @test */
     public function it_can_get_the_path_relative_to_the_root_of_media_folder()
     {
-        $pathRelativeToRoot = $this->media->id.'/conversions/'.$this->conversion->getName().'.jpg';
+        $pathRelativeToRoot = $this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 
         $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
     }
