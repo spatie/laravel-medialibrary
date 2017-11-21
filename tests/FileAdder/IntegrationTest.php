@@ -344,7 +344,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_will_sanitize_the_file_name()
+    public function it_will_remove_strange_characters_from_the_file_name()
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
@@ -354,6 +354,19 @@ class IntegrationTest extends TestCase
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/other-test.jpg'));
     }
+
+    /** @test */
+    public function it_will_lower_case_the_file_name_by_default()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->usingFileName('sTrAngE CaSiNg.jpg')
+            ->toMediaCollection();
+
+        $this->assertEquals('test', $media->name);
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/strange-casing.jpg'));
+    }
+
 
     /** @test */
     public function it_will_sanitize_the_file_name_using_callable()
