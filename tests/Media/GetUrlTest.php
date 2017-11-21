@@ -38,14 +38,6 @@ class GetUrlTest extends TestCase
     }
 
     /** @test */
-    public function it_wil_url_encode_the_file_name_when_generating_an_url()
-    {
-        $this->testModel->addMedia($this->getTestFilesDirectory('test with space.jpg'))->toMediaCollection();
-
-        $this->assertEquals('/media/1/test%20with%20space.jpg', $this->testModel->getFirstMediaUrl());
-    }
-
-    /** @test */
     public function it_can_get_the_full_url_of_an_original_item()
     {
         $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
