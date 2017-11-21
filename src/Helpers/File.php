@@ -23,7 +23,7 @@ class File
             return '0 '.$units[1];
         }
 
-        for ($i = 0; $sizeInBytes > 1024; ++$i) {
+        for ($i = 0; $sizeInBytes > 1024; $i++) {
             $sizeInBytes /= 1024;
         }
 
