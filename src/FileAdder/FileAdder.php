@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
@@ -94,7 +95,7 @@ class FileAdder
         }
 
         if ($file instanceof UploadedFile) {
-            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
+            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
             $this->setFileName($file->getClientOriginalName());
             $this->mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -102,7 +103,7 @@ class FileAdder
         }
 
         if ($file instanceof SymfonyFile) {
-            $this->pathToFile = $file->getPath().'/'.$file->getFilename();
+            $this->pathToFile = $file->getPath() . '/' . $file->getFilename();
             $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
@@ -255,7 +256,7 @@ class FileAdder
      */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
     {
-        if (! is_file($this->pathToFile)) {
+        if (!is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
@@ -271,7 +272,12 @@ class FileAdder
         $this->fileName = ($this->fileNameSanitizer)($this->fileName);
 
         $media->file_name = $this->fileName;
-        $media->disk = $this->determineDiskName($diskName);
+
+        $media->disk = $this->determineDiskName($diskName, $collectionName);
+
+        if (is_null(config("filesystems.disks.{$media->disk}"))) {
+            throw DiskDoesNotExist::create($media->disk);
+        }
 
         $media->collection_name = $collectionName;
 
@@ -289,22 +295,27 @@ class FileAdder
 
     /**
      * @param string $diskName
+     * @param string $collectionName
      *
      * @return string
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    protected function determineDiskName(string $diskName)
+    protected function determineDiskName(string $diskName, $collectionName): string
     {
-        if ($diskName === '') {
-            $diskName = config('medialibrary.default_filesystem');
+        if ($diskName !== '') {
+            return $diskName;
         }
 
-        if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw DiskDoesNotExist::create($diskName);
+        if ($collection = $this->getMediaCollection($collectionName)) {
+            $collectionDiskName = $collection->diskName;
+
+            if ($collectionDiskName !== '') {
+
+
+                return $collectionDiskName;
+            }
         }
 
-        return $diskName;
+        return config('medialibrary.default_filesystem');
     }
 
     /**
@@ -336,7 +347,7 @@ class FileAdder
      */
     protected function attachMedia(Media $media)
     {
-        if (! $this->subject->exists) {
+        if (!$this->subject->exists) {
             $this->subject->prepareToAttachMedia($media, $this);
 
             $class = get_class($this->subject);
@@ -364,8 +375,17 @@ class FileAdder
 
         $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
 
-        if (! $fileAdder->preserveOriginal) {
+        if (!$fileAdder->preserveOriginal) {
             unlink($fileAdder->pathToFile);
         }
+    }
+
+    protected function getMediaCollection(string $collectionName):  ?MediaCollection
+    {
+        $this->subject->registerMediaCollections();
+
+        return collect($this->subject->mediaCollections)->first(function (MediaCollection $collection) use ($collectionName) {
+            return $collection->name === $collectionName;
+        });
     }
 }

@@ -80,4 +80,15 @@ interface HasMedia
      * @return mixed
      */
     public function loadMedia(string $collectionName);
+
+    /**
+     * Register the media conversions.
+     */
+    public function registerMediaConversions();
+
+
+    /**
+     * Register the media collections.
+     */
+    public function registerMediaCollections();
 }

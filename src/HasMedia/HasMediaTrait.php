@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Illuminate\Http\File;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
@@ -24,6 +25,9 @@ trait HasMediaTrait
 {
     /** @var array */
     public $mediaConversions = [];
+
+    /** @var array */
+    public $mediaCollections = [];
 
     /** @var bool */
     protected $deletePreservingMedia = false;
@@ -411,6 +415,15 @@ trait HasMediaTrait
         return $conversion;
     }
 
+    public function addMediaCollection(string $name): MediaCollection
+    {
+        $mediaCollection = MediaCollection::create($name);
+
+        $this->mediaCollections[] = $mediaCollection;
+
+        return $mediaCollection;
+    }
+
     /**
      * Delete the model, but preserve all the associated media.
      *
@@ -493,5 +506,15 @@ trait HasMediaTrait
         if ($validation->fails()) {
             throw MimeTypeNotAllowed::create($file, $allowedMimeTypes);
         }
+    }
+
+    public function registerMediaConversions(Media $media = null)
+    {
+
+    }
+
+    public function registerMediaCollections()
+    {
+
     }
 }

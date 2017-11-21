@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.0.0 - 2018-XX-XX
+
+- dropped support for soft deletes
+- added `MediaCollections`
+- removed distinction between `HasMedia` and `HasMediaConversions`
+
 ## 6.6.2 - 2017-11-07
 
 - improve config comments

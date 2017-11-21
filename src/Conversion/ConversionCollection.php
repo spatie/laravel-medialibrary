@@ -8,7 +8,6 @@ use Spatie\Image\Manipulations;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 class ConversionCollection extends Collection
 {
@@ -87,9 +86,8 @@ class ConversionCollection extends Collection
             $model->mediaConversion = [];
         }
 
-        if ($model instanceof HasMediaConversions) {
-            $model->registerMediaConversions($media);
-        }
+        $model->registerMediaConversions($media);
+
 
         $this->items = $model->mediaConversions;
     }
