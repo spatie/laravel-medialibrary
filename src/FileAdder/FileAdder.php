@@ -358,7 +358,7 @@ class FileAdder
      * @param Media $media
      * @param FileAdder $fileAdder
      */
-    protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
+    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
     {
         $model->media()->save($media);
 
