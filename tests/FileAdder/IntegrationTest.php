@@ -367,7 +367,6 @@ class IntegrationTest extends TestCase
         $this->assertFileExists($this->getMediaDirectory($media->id.'/strange-casing.jpg'));
     }
 
-
     /** @test */
     public function it_will_sanitize_the_file_name_using_callable()
     {
