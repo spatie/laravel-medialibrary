@@ -11,6 +11,9 @@ use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 
 class ConversionCollection extends Collection
 {
+    /** @var \Spatie\MediaLibrary\Media  */
+    protected $media;
+
     /**
      * @param \Spatie\MediaLibrary\Media $media
      *
@@ -28,6 +31,8 @@ class ConversionCollection extends Collection
      */
     public function setMedia(Media $media)
     {
+        $this->media = $media;
+
         $this->items = [];
 
         $this->addConversionsFromRelatedModel($media);
@@ -151,8 +156,10 @@ class ConversionCollection extends Collection
      */
     public function getConversionsFiles(string $collectionName = ''): ConversionCollection
     {
-        return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
-            return "{$conversion->getName()}.{$conversion->getResultExtension()}";
+        $fileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
+
+        return $this->getConversions($collectionName)->map(function (Conversion $conversion) use ($fileName) {
+            return "{$fileName}-{$conversion->getName()}.{$conversion->getResultExtension()}";
         });
     }
 }

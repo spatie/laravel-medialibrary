@@ -47,10 +47,10 @@ class CleanCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_can_clean_deprecated_conversion_files()
+    public function it_can_clean_deprecated_conversion_files_with_none_arguments_given()
     {
         $media = $this->media['model2']['collection1'];
-        $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/deprecated.jpg");
+        $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
 
         touch($deprecatedImage);
         $this->assertFileExists($deprecatedImage);
@@ -58,7 +58,7 @@ class CleanCommandTest extends TestCase
         Artisan::call('medialibrary:clean');
 
         $this->assertFileNotExists($deprecatedImage);
-        $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/thumb.jpg"));
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
     }
 
     /** @test */

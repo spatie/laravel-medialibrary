@@ -101,12 +101,12 @@ class CleanCommand extends Command
         $this->getMediaItems()->each(function (Media $media) {
             $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
 
-            $path = $this->basePathGenerator->getPathForConversions($media);
-            $currentFilePaths = $this->fileSystem->disk($media->disk)->files($path);
+            $conversionPath = $this->basePathGenerator->getPathForConversions($media);
+            $currentFilePaths = $this->fileSystem->disk($media->disk)->files($conversionPath);
 
             collect($currentFilePaths)
                 ->reject(function (string $currentFilePath) use ($conversionFilePaths) {
-                    return  $conversionFilePaths->contains(basename($currentFilePath));
+                    return $conversionFilePaths->contains(basename($currentFilePath));
                 })
                 ->each(function (string $currentFilePath) use ($media) {
                     if (! $this->isDryRun) {

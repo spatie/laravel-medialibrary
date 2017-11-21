@@ -42,7 +42,7 @@ class RegenerateCommandTest extends TestCase
 
         $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/test-thumb.jpg");
 
-        $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/-testthumb.jpg");
+        $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/test-thumb.jpg");
 
         $existsCreatedAt = filemtime($derivedImageExists);
 
@@ -103,9 +103,9 @@ class RegenerateCommandTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('test.png'))
             ->toMediaCollection('images');
 
-        $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/thumb.jpg");
-        $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/thumb.jpg");
-        $derivedMissingImageOriginal = $this->getMediaDirectory("{$mediaMissing->id}/conversions/keep_original_format.png");
+        $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/test-thumb.jpg");
+        $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/test-thumb.jpg");
+        $derivedMissingImageOriginal = $this->getMediaDirectory("{$mediaMissing->id}/conversions/test-keep_original_format.png");
 
         $existsCreatedAt = filemtime($derivedImageExists);
         $missingCreatedAt = filemtime($derivedMissingImage);
