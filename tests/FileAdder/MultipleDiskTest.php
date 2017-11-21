@@ -45,7 +45,7 @@ class MultipleDiskTest extends TestCase
         $this->assertEquals($collectionName, $media->collection_name);
         $this->assertEquals($diskName, $media->disk);
         $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/conversions/thumb.jpg');
+        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/conversions/test-thumb.jpg');
     }
 
     /** @test */

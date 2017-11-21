@@ -12,7 +12,7 @@ class RegenerateCommandTest extends TestCase
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
 
-        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
         $createdAt = filemtime($derivedImage);
 
         unlink($derivedImage);
@@ -73,8 +73,8 @@ class RegenerateCommandTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('test.jpg'))
             ->toMediaCollection('images');
 
-        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
-        $derivedMissingImage = $this->getMediaDirectory("{$media->id}/conversions/keep_original_format.jpg");
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedMissingImage = $this->getMediaDirectory("{$media->id}/conversions/test-keep_original_format.jpg");
 
         unlink($derivedImage);
         unlink($derivedMissingImage);
