@@ -22,7 +22,10 @@ class GetPathTest extends TestCase
 
         $conversionName = 'thumb';
 
-        $this->assertEquals($this->getMediaDirectory()."/{$media->id}/conversions/{$conversionName}.jpg", $media->getPath($conversionName));
+        $this->assertEquals(
+            $this->getMediaDirectory()."/{$media->id}/conversions/test-{$conversionName}.jpg",
+            $media->getPath($conversionName)
+        );
     }
 
     /** @test */

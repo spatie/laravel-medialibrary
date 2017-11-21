@@ -49,14 +49,14 @@ class MultipleDiskTest extends TestCase
     }
 
     /** @test */
-    public function it_can_handle_generate_urls_to_media_on_an_alternative_disk()
+    public function it_can_generate_urls_to_media_on_an_alternative_disk()
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
             ->toMediaCollection('', 'secondMediaDisk');
 
         $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
-        $this->assertEquals("/media2/{$media->id}/conversions/thumb.jpg", $media->getUrl('thumb'));
+        $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
     }
 
     /** @test */

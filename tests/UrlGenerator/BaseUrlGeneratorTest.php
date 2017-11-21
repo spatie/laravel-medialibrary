@@ -71,7 +71,10 @@ class BaseUrlGeneratorTest extends TestCase
     {
         $this->urlGenerator->setConversion($this->conversionKeepingOriginalImageFormat);
 
-        $pathRelativeToRoot = $this->media->id.'/conversions/'.$this->conversionKeepingOriginalImageFormat->getName().'.png';
+        $pathRelativeToRoot = $this->media->id
+            .'/conversions/'.
+            'test-'.$this->conversionKeepingOriginalImageFormat->getName()
+            .'.png';
 
         $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
     }

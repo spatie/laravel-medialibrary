@@ -24,7 +24,7 @@ class GetUrlTest extends TestCase
 
         $conversionName = 'thumb';
 
-        $this->assertEquals("/media/{$media->id}/conversions/{$conversionName}.jpg", $media->getUrl($conversionName));
+        $this->assertEquals("/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getUrl($conversionName));
     }
 
     /** @test */
