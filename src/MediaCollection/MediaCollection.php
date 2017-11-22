@@ -40,9 +40,11 @@ class MediaCollection
         return $this;
     }
 
-    public function acceptsFile(callable $acceptsFile): bool
+    public function acceptsFile(callable $acceptsFile)
     {
         $this->acceptsFile = $acceptsFile;
+
+        return $this;
     }
 
     public function registerMediaConversions(callable $mediaConversionRegistrations)

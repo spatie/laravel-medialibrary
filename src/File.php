@@ -27,5 +27,10 @@ class File
         $this->mimeType = $mimeType;
     }
 
+    public function __toString()
+    {
+        return "name: {$this->name}, size: {$this->size}, mime: {$this->mimeType}";
+    }
+
 
 }

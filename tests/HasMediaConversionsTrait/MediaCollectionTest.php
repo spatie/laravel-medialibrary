@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
 
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\File;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
@@ -26,13 +28,13 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertFileNotExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
+        $this->assertFileNotExists($this->getTempDirectory('media') . '/' . $media->id . '/test.jpg');
 
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+        $this->assertFileExists($this->getTempDirectory('media2') . '/' . $media->id . '/test.jpg');
 
         $media = $model->addMedia($this->getTestJpg())->toMediaCollection('other-images');
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
+        $this->assertFileExists($this->getTempDirectory('media') . '/' . $media->id . '/test.jpg');
     }
 
     /** @test */
@@ -51,9 +53,9 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
+        $this->assertFileExists($this->getTempDirectory('media') . '/' . $media->id . '/test.jpg');
 
-        $this->assertFileNotExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+        $this->assertFileNotExists($this->getTempDirectory('media2') . '/' . $media->id . '/test.jpg');
     }
 
     /** @test */
@@ -65,7 +67,7 @@ class MediaCollectionTest extends TestCase
             {
                 $this
                     ->addMediaCollection('images')
-                    ->registerMediaConversions(function(Media $media) {
+                    ->registerMediaConversions(function (Media $media) {
                         $this
                             ->addMediaConversion('thumb')
                             ->greyscale();
@@ -77,7 +79,7 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
+        $this->assertFileExists($this->getTempDirectory('media') . '/' . $media->id . '/conversions/test-thumb.jpg');
     }
 
     /** @test */
@@ -89,7 +91,7 @@ class MediaCollectionTest extends TestCase
             {
                 $this
                     ->addMediaCollection('images')
-                    ->registerMediaConversions(function(Media $media) {
+                    ->registerMediaConversions(function (Media $media) {
                         $this
                             ->addMediaConversion('thumb')
                             ->greyscale();
@@ -101,7 +103,7 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->addMedia($this->getTestJpg())->toMediaCollection('unrelated-collection');
 
-        $this->assertFileNotExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
+        $this->assertFileNotExists($this->getTempDirectory('media') . '/' . $media->id . '/conversions/test-thumb.jpg');
     }
 
     /** @test */
@@ -120,7 +122,7 @@ class MediaCollectionTest extends TestCase
             {
                 $this
                     ->addMediaCollection('images')
-                    ->registerMediaConversions(function(Media $media = null) {
+                    ->registerMediaConversions(function (Media $media = null) {
                         $this
                             ->addMediaConversion('thumb')
                             ->greyscale();
@@ -132,8 +134,32 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
+        $this->assertFileExists($this->getTempDirectory('media') . '/' . $media->id . '/conversions/test-thumb.jpg');
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-another-thumb.jpg');
+        $this->assertFileExists($this->getTempDirectory('media') . '/' . $media->id . '/conversions/test-another-thumb.jpg');
+    }
+
+    /** @test */
+    public function it_can_accept_certain_files()
+    {
+        $testModel = new class extends TestModelWithConversion
+        {
+            public function registerMediaCollections()
+            {
+                $this
+                    ->addMediaCollection('images')
+                    ->acceptsFile(function (File $file) {
+                        return $file->mimeType === 'image/jpeg';
+                    });
+            }
+        };
+
+        $model = $testModel::create(['name' => 'testmodel']);
+
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+        $this->expectException(FileUnacceptableForCollection::class);
+
+        $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
     }
 }
