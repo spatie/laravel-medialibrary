@@ -33,7 +33,7 @@ class MediaCollection
         return new static($name);
     }
 
-    public function disk(string $diskName)
+    public function useDisk(string $diskName)
     {
         $this->diskName = $diskName;
 

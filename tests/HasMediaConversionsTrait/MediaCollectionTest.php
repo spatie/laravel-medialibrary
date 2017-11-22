@@ -20,7 +20,7 @@ class MediaCollectionTest extends TestCase
             public function registerMediaCollections()
             {
                 $this->addMediaCollection('images')
-                    ->disk('secondMediaDisk');
+                    ->useDisk('secondMediaDisk');
             }
         };
 
@@ -45,7 +45,7 @@ class MediaCollectionTest extends TestCase
             public function registerMediaCollections()
             {
                 $this->addMediaCollection('images')
-                    ->disk('secondMediaDisk');
+                    ->useDisk('secondMediaDisk');
             }
         };
 
