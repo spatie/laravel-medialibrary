@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollection;
 
+use Spatie\MediaLibrary\File;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 class MediaCollection
@@ -15,11 +16,16 @@ class MediaCollection
     /** @var callable */
     public $mediaConversionRegistrations;
 
+    /** @var callable */
+    public $acceptsFile;
+
     public function __construct(string $name)
     {
         $this->name = $name;
 
         $this->mediaConversionRegistrations = function() {};
+
+        $this->acceptsFile = function() { return true; };
     }
 
     public static function create($name)
@@ -32,6 +38,11 @@ class MediaCollection
         $this->diskName = $diskName;
 
         return $this;
+    }
+
+    public function acceptsFile(callable $acceptsFile): bool
+    {
+        $this->acceptsFile = $acceptsFile;
     }
 
     public function registerMediaConversions(callable $mediaConversionRegistrations)

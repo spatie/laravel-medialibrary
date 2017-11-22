@@ -35,7 +35,7 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_store_a_file_on_s3()
+    public function it_can_store_a_file_on_s3()
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
@@ -52,7 +52,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
-        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg"));
     }
 
     /** @test */
@@ -77,12 +77,12 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
-        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
+        $this->assertTrue(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg"));
 
         $media->delete();
 
         $this->assertFalse(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/test.jpg"));
-        $this->assertFalse(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg"));
+        $this->assertFalse(Storage::disk('s3_disk')->has("{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg"));
     }
 
     /** @test */
@@ -112,7 +112,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
             $media->getUrl('thumb')
         );
     }
@@ -156,7 +156,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertContains(
-            "/{$this->s3BaseDirectory}/{$media->id}/conversions/thumb.jpg",
+            "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
             $media->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb')
         );
     }

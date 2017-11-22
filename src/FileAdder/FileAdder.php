@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\File as PendingFile;
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
@@ -351,6 +353,8 @@ class FileAdder
 
     protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
     {
+        $this->guardAgainstDisallowedFileAdditions($media, $model);
+
         $model->media()->save($media);
 
         $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
@@ -368,5 +372,18 @@ class FileAdder
             ->first(function (MediaCollection $collection) use ($collectionName) {
                 return $collection->name === $collectionName;
             });
+    }
+
+    protected function guardAgainstDisallowedFileAdditions(Media $media)
+    {
+        $file = PendingFile::createFromMedia($media);
+
+        if (! $collection = $this->getMediaCollection($media->collection_name)) {
+            return;
+        }
+
+        if (! ($collection->acceptsFile)($file, $this->subject)) {
+            throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
+        }
     }
 }
