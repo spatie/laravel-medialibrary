@@ -13,7 +13,7 @@ use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
@@ -43,7 +43,7 @@ trait HasMediaTrait
             }
 
             if (in_array(SoftDeletes::class, trait_uses_recursive($entity))) {
-                if (! $entity->forceDeleting) {
+                if (!$entity->forceDeleting) {
                     return;
                 }
             }
@@ -120,7 +120,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes)
     {
-        if (! $stream = @fopen($url, 'r')) {
+        if (!$stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -237,7 +237,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -253,7 +253,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -269,7 +269,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -396,7 +396,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (! $media) {
+        if (!$media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 
@@ -500,7 +500,7 @@ trait HasMediaTrait
 
         $validation = Validator::make(
             ['file' => new File($file)],
-            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
+            ['file' => 'mimetypes:' . implode(',', $allowedMimeTypes)]
         );
 
         if ($validation->fails()) {
@@ -516,5 +516,29 @@ trait HasMediaTrait
     public function registerMediaCollections()
     {
 
+    }
+
+    public function registerAllMediaConversions(Media $media = null)
+    {
+        $this->registerMediaCollections();
+
+        collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) use ($media) {
+            $actualMediaConversions = $this->mediaConversions;
+
+            $this->mediaConversions = [];
+
+            ($mediaCollection->mediaConversionRegistrations)($media);
+
+            $preparedMediaConversions = collect($this->mediaConversions)
+                ->each(function (Conversion $conversion) use ($mediaCollection) {
+                    $conversion->performOnCollections($mediaCollection->name);
+                })
+                ->values()
+                ->toArray();
+
+            $this->mediaConversions = array_merge($actualMediaConversions, $preparedMediaConversions);
+        });
+
+        $this->registerMediaConversions($media);
     }
 }

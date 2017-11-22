@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Arr;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Media;
 use Spatie\Image\Manipulations;
 use Illuminate\Support\Collection;
@@ -78,6 +79,8 @@ class ConversionCollection extends Collection
          * To prevent an sql query create a new model instead
          * of the using the associated one.
          */
+
+        /** @var \Spatie\MediaLibrary\HasMedia\HasMedia $model */
         $model = new $modelName();
 
         /*
@@ -91,7 +94,7 @@ class ConversionCollection extends Collection
             $model->mediaConversion = [];
         }
 
-        $model->registerMediaConversions($media);
+        $model->registerAllMediaConversions($media);
 
 
         $this->items = $model->mediaConversions;

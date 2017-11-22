@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -318,23 +318,11 @@ class FileAdder
         return config('medialibrary.default_filesystem');
     }
 
-    /**
-     * @param $fileName
-     *
-     * @return string
-     */
     public function defaultSanitizer(string $fileName): string
     {
         return str_replace(['#', '/', '\\', ' '], '-', $fileName);
     }
 
-    /**
-     * Sanitize the fileName of the file using a callable.
-     *
-     * @param callable $fileNameSanitizer
-     *
-     * @return $this
-     */
     public function sanitizingFileName(callable $fileNameSanitizer)
     {
         $this->fileNameSanitizer = $fileNameSanitizer;
@@ -342,9 +330,6 @@ class FileAdder
         return $this;
     }
 
-    /**
-     * @param Media $media
-     */
     protected function attachMedia(Media $media)
     {
         if (!$this->subject->exists) {
@@ -364,11 +349,6 @@ class FileAdder
         $this->processMediaItem($this->subject, $media, $this);
     }
 
-    /**
-     * @param HasMedia $model
-     * @param Media $media
-     * @param FileAdder $fileAdder
-     */
     protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
     {
         $model->media()->save($media);
@@ -384,8 +364,9 @@ class FileAdder
     {
         $this->subject->registerMediaCollections();
 
-        return collect($this->subject->mediaCollections)->first(function (MediaCollection $collection) use ($collectionName) {
-            return $collection->name === $collectionName;
-        });
+        return collect($this->subject->mediaCollections)
+            ->first(function (MediaCollection $collection) use ($collectionName) {
+                return $collection->name === $collectionName;
+            });
     }
 }

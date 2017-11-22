@@ -1,6 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\HasMedia\Interfaces;
+namespace Spatie\MediaLibrary\HasMedia;
+
+use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Media;
 
 interface HasMedia
 {
@@ -81,14 +84,25 @@ interface HasMedia
      */
     public function loadMedia(string $collectionName);
 
-    /**
+
+    /*
+     * Add a conversion.
+     */
+    public function addMediaConversion(string $name): Conversion;
+
+    /*
      * Register the media conversions.
      */
-    public function registerMediaConversions();
+    public function registerMediaConversions(Media $media = null);
 
 
-    /**
+    /*
      * Register the media collections.
      */
     public function registerMediaCollections();
+
+    /*
+     * Register the media conversions and conversions set in media collections.
+     */
+    public function registerAllMediaConversions();
 }

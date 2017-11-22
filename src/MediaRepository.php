@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
 
 class MediaRepository
@@ -22,7 +22,7 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param \Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMedia\HasMedia $model
      * @param string $collectionName
      * @param array|callable $filter
      *
