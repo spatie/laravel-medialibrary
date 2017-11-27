@@ -292,6 +292,16 @@ class FileAdder
 
         $this->attachMedia($media);
 
+        $mediaCollections = $this->subject->mediaCollections;
+
+        if (!empty($mediaCollections)) {
+            foreach ($mediaCollections as $mediaCollection) {
+                if ($mediaCollection->singleFile) {
+                    $this->subject->clearMediaCollectionExcept($mediaCollection->name, $this->subject->getMedia($mediaCollection->name)->last());
+                }
+            }
+        }
+
         return $media;
     }
 

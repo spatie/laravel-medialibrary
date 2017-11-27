@@ -162,4 +162,25 @@ class MediaCollectionTest extends TestCase
 
         $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
     }
+
+    /** @test */
+    public function if_the_single_file_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_new_one()
+    {
+        $testModel = new class extends TestModelWithConversion
+        {
+            public function registerMediaCollections()
+            {
+                $this
+                    ->addMediaCollection('images')
+                    ->singleFile();
+            }
+        };
+
+        $model = $testModel::create(['name' => 'testmodel']);
+
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+        $this->assertCount(1, $model->getMedia('images'));
+    }
 }
