@@ -19,6 +19,9 @@ class MediaCollection
     /** @var callable */
     public $acceptsFile;
 
+    /** @var bool */
+    public $singleFile = false;
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -50,5 +53,12 @@ class MediaCollection
     public function registerMediaConversions(callable $mediaConversionRegistrations)
     {
         $this->mediaConversionRegistrations = $mediaConversionRegistrations;
+    }
+
+    public function singleFile()
+    {
+        $this->singleFile = true;
+
+        return $this;
     }
 }
