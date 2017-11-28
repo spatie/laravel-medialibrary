@@ -6,6 +6,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - dropped support for soft deletes
 - added `MediaCollections`
+- added support for single file collections
 - removed distinction between `HasMedia` and `HasMediaConversions`
 - file names will be lowercases when adding them to the medialibrary
 - the names of converted images will now start with the name of the original file
