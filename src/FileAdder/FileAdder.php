@@ -290,11 +290,7 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        $newMedia = $this->attachMedia($media);
-
-        if(isset($this->getMediaCollection($collectionName)->singleFile) && $this->getMediaCollection($collectionName)->singleFile) {
-            $this->subject->clearMediaCollectionExcept($collectionName, $newMedia);
-        }
+        $this->attachMedia($media);
 
         return $media;
     }
@@ -365,6 +361,10 @@ class FileAdder
 
         if (!$fileAdder->preserveOriginal) {
             unlink($fileAdder->pathToFile);
+        }
+
+        if(isset($this->getMediaCollection($media->collection_name)->singleFile) && $this->getMediaCollection($media->collection_name)->singleFile) {
+            $model->clearMediaCollectionExcept($media->collection_name, $media);
         }
 
         return $media;
