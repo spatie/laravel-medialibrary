@@ -290,16 +290,10 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        $this->attachMedia($media);
+        $newMedia = $this->attachMedia($media);
 
-        $mediaCollections = $this->subject->mediaCollections;
-
-        if (!empty($mediaCollections)) {
-            foreach ($mediaCollections as $mediaCollection) {
-                if ($mediaCollection->singleFile) {
-                    $this->subject->clearMediaCollectionExcept($mediaCollection->name, $this->subject->getMedia($mediaCollection->name)->last());
-                }
-            }
+        if(isset($this->getMediaCollection($collectionName)->singleFile) && $this->getMediaCollection($collectionName)->singleFile) {
+            $this->subject->clearMediaCollectionExcept($collectionName, $newMedia);
         }
 
         return $media;
@@ -358,7 +352,7 @@ class FileAdder
             return;
         }
 
-        $this->processMediaItem($this->subject, $media, $this);
+        return $this->processMediaItem($this->subject, $media, $this);
     }
 
     protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
@@ -372,6 +366,8 @@ class FileAdder
         if (!$fileAdder->preserveOriginal) {
             unlink($fileAdder->pathToFile);
         }
+
+        return $media;
     }
 
     protected function getMediaCollection(string $collectionName):  ?MediaCollection
