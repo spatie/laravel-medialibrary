@@ -362,7 +362,7 @@ trait HasMediaTrait
     public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = [])
     {
         if ($excludedMedia instanceof Media) {
-            return $this->clearMediaCollectionExceptMedia($collectionName, $excludedMedia);
+            $excludedMedia = collect()->push($excludedMedia);
         }
 
         $excludedMedia = collect($excludedMedia);
@@ -374,29 +374,6 @@ trait HasMediaTrait
         $this->getMedia($collectionName)
             ->reject(function (Media $media) use ($excludedMedia) {
                 return $excludedMedia->where('id', $media->id)->count();
-            })
-            ->each->delete();
-
-        if ($this->mediaIsPreloaded()) {
-            unset($this->media);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove all media in the given collection except the given media instance.
-     *
-     * @param string $collectionName
-     * @param \Spatie\MediaLibrary\Media $excludedMedia
-     *
-     * @return $this
-     */
-    public function clearMediaCollectionExceptMedia(string $collectionName, Media $excludedMedia)
-    {
-        $this->getMedia($collectionName)
-            ->reject(function (Media $media) use ($excludedMedia) {
-                return $excludedMedia->id === $media->id;
             })
             ->each->delete();
 
