@@ -384,6 +384,14 @@ trait HasMediaTrait
         return $this;
     }
 
+    /**
+     * Remove all media in the given collection except the given media instance.
+     *
+     * @param string $collectionName
+     * @param \Spatie\MediaLibrary\Media $excludedMedia
+     *
+     * @return $this
+     */
     public function clearMediaCollectionExceptMedia(string $collectionName, Media $excludedMedia)
     {
         $this->getMedia($collectionName)
