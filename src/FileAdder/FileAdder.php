@@ -362,6 +362,10 @@ class FileAdder
         if (!$fileAdder->preserveOriginal) {
             unlink($fileAdder->pathToFile);
         }
+
+        if(optional($this->getMediaCollection($media->collection_name))->singleFile) {
+            $model->clearMediaCollectionExcept($media->collection_name, $media);
+        }
     }
 
     protected function getMediaCollection(string $collectionName):  ?MediaCollection
