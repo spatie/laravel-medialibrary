@@ -361,6 +361,10 @@ trait HasMediaTrait
      */
     public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = [])
     {
+        if ($excludedMedia instanceof Media) {
+            $excludedMedia = collect()->push($excludedMedia);
+        }
+
         $excludedMedia = collect($excludedMedia);
 
         if ($excludedMedia->isEmpty()) {
