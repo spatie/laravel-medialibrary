@@ -348,7 +348,7 @@ class FileAdder
             return;
         }
 
-        return $this->processMediaItem($this->subject, $media, $this);
+        $this->processMediaItem($this->subject, $media, $this);
     }
 
     protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
@@ -366,8 +366,6 @@ class FileAdder
         if(optional($this->getMediaCollection($media->collection_name))->singleFile) {
             $model->clearMediaCollectionExcept($media->collection_name, $media);
         }
-
-        return $media;
     }
 
     protected function getMediaCollection(string $collectionName):  ?MediaCollection
