@@ -551,10 +551,10 @@ class IntegrationTest extends TestCase
                 ->withResponsiveImages()
                 ->toMediaCollection();
     
-            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_152.jpg'));
-            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_215.jpg'));
-            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_263.jpg'));
-            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_304.jpg'));
-            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_340.jpg'));
+            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_thumb_22.jpg'));
+            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_thumb_31.jpg'));
+            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_thumb_38.jpg'));
+            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_thumb_44.jpg'));
+            $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_thumb_50.jpg'));
         }
 }

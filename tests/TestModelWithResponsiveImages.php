@@ -18,8 +18,7 @@ class TestModelWithResponsiveImages extends TestModel
             ->width(50)
             ->nonQueued();
 
-        $this->addMediaConversion('keep_original_format')
-            ->keepOriginalImageFormat()
-            ->nonQueued();
+        $this->addMediaConversion('otherImageConversion')
+            ->greyscale();
     }
 }
