@@ -74,6 +74,15 @@ return [
     ],
 
     /*
+     * This class is responsible for calculating the target widths of the responsive
+     * images. By default we optimize for filesize and create variations that each are 20%
+     * smaller than the previous one. More info in the documentation.
+     * 
+     * https://docs.spatie.be/laravel-medialibrary/v7/advanced-usage/generating-responsive-images   
+     */
+    'responsive_images_width_calculator' => Spatie\MediaLibrary\ResponsiveImages\FileSizeOptimizedWidthCalculator::class,
+
+    /*
      * Medialibrary will try to optimize all converted images by removing
      * metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.

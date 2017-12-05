@@ -17,6 +17,8 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\MediaLibrary\Jobs\GenerateResponsiveImages;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
 
 class FileAdder
 {
@@ -52,6 +54,9 @@ class FileAdder
 
     /** @var null|callable */
     protected $fileNameSanitizer;
+
+    /** @var bool */
+    protected $generateResponsiveImages = false;
 
     /**
      * @param Filesystem $fileSystem
@@ -220,6 +225,19 @@ class FileAdder
         return $this->withProperties($properties);
     }
 
+
+    /**
+     * Generate responsive images.
+     *
+     * @return $this
+     */
+    public function generateResponsiveImages()
+    {
+        $this->generateResponsiveImages = true;
+
+        return $this;
+    }
+
     /**
      * Add the given additional headers when copying the file to a remote filesystem.
      *
@@ -311,8 +329,6 @@ class FileAdder
             $collectionDiskName = $collection->diskName;
 
             if ($collectionDiskName !== '') {
-
-
                 return $collectionDiskName;
             }
         }
@@ -363,7 +379,11 @@ class FileAdder
             unlink($fileAdder->pathToFile);
         }
 
-        if(optional($this->getMediaCollection($media->collection_name))->singleFile) {
+        if ($this->generateResponsiveImages() && (new ImageGenerator())->canConvert($media)) {
+            dispatch(new GenerateResponsiveImages($media));
+        }
+        
+        if (optional($this->getMediaCollection($media->collection_name))->singleFile) {
             $model->clearMediaCollectionExcept($media->collection_name, $media);
         }
     }

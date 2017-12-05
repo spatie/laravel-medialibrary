@@ -8,12 +8,12 @@ use Illuminate\Contracts\Bus\Dispatcher;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
-use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\MediaLibrary\Events\ConversionWillStart;
 use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
+use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 
 class FileManipulator
 {
@@ -65,7 +65,7 @@ class FileManipulator
             return;
         }
 
-        $temporaryDirectory = new TemporaryDirectory($this->getTemporaryDirectoryPath());
+        $temporaryDirectory = TemporaryDirectory::create();
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
@@ -73,10 +73,10 @@ class FileManipulator
         );
 
         $conversions
-            ->reject(function(Conversion $conversion) use ($onlyIfMissing, $media) {
+            ->reject(function (Conversion $conversion) use ($onlyIfMissing, $media) {
                 return $onlyIfMissing && file_exists($media->getPath($conversion->getName()));
             })
-            ->each(function(Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
+            ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
                 event(new ConversionWillStart($media, $conversion));
 
                 $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
@@ -89,7 +89,7 @@ class FileManipulator
 
                 $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
 
-                app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, true);
+                app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
 
                 event(new ConversionHasBeenCompleted($media, $conversion));
             });
@@ -128,15 +128,6 @@ class FileManipulator
         }
 
         app(Dispatcher::class)->dispatch($job);
-    }
-
-    protected function getTemporaryDirectoryPath(): string
-    {
-        $path = is_null(config('medialibrary.temporary_directory_path'))
-            ? storage_path('medialibrary/temp')
-            : config('medialibrary.temporary_directory_path');
-
-        return $path.DIRECTORY_SEPARATOR.str_random(32);
     }
 
     /**

@@ -8,12 +8,11 @@ use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application events.
-     */
     public function boot()
     {
         $this->publishes([
@@ -31,9 +30,6 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $mediaClass::observe(new MediaObserver());
     }
 
-    /**
-     * Register the service provider.
-     */
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', 'medialibrary');
@@ -49,6 +45,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
 
         $this->app->bind(Filesystem::class, DefaultFilesystem::class);
+        $this->app->bind(WidthCalculator::class, FileSizeOptimizedWidthCalculator::class);
 
         $this->commands([
             'command.medialibrary:regenerate',

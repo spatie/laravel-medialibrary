@@ -20,4 +20,9 @@ class TestPathGenerator implements PathGenerator
     {
         return $this->getPath($media).'/custom_conversions/';
     }
+
+    public function getPathForResponsiveImages(Media $media): string
+    {
+        return $this->getPath($media).'/custom_responsive_images/';
+    }
 }

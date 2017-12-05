@@ -27,7 +27,7 @@ class DefaultFilesystem implements Filesystem
      */
     public function add(string $file, Media $media, string $targetFileName = '')
     {
-        $this->copyToMediaLibrary($file, $media, false, $targetFileName);
+        $this->copyToMediaLibrary($file, $media, '', $targetFileName);
 
         event(new MediaHasBeenAdded($media));
 
@@ -37,13 +37,13 @@ class DefaultFilesystem implements Filesystem
     /*
      * Copy a file to the medialibrary for the given $media.
      */
-    public function copyToMediaLibrary(string $pathToFile, Media $media, bool $conversions = false, string $targetFileName = '')
+    public function copyToMediaLibrary(string $pathToFile, Media $media, string $type = '', string $targetFileName = '')
     {
         $destinationFileName = $targetFileName == ''
             ? pathinfo($pathToFile, PATHINFO_BASENAME)
             : $targetFileName;
 
-        $destination = $this->getMediaDirectory($media, $conversions).$destinationFileName;
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         $file = fopen($pathToFile, 'r');
 
@@ -121,9 +121,11 @@ class DefaultFilesystem implements Filesystem
     {
         $mediaDirectory = $this->getMediaDirectory($media);
 
-        $conversionsDirectory = $this->getConversionDirectory($media);
+        $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
 
-        collect([$mediaDirectory, $conversionsDirectory])
+        $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
+
+        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
             ->each(function ($directory) use ($media) {
                 $this->filesystem->disk($media->disk)->deleteDirectory($directory);
             });
@@ -143,13 +145,21 @@ class DefaultFilesystem implements Filesystem
     /*
      * Return the directory where all files of the given media are stored.
      */
-    public function getMediaDirectory(Media $media, bool $conversion = false) : string
+    public function getMediaDirectory(Media $media, string $type = '') : string
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        $directory = $conversion
-            ? $pathGenerator->getPathForConversions($media)
-            : $pathGenerator->getPath($media);
+        if ($type === '') {
+            $directory = $pathGenerator->getPath($media);
+        }
+
+        if ($type === 'conversions') {
+            $directory = $pathGenerator->getPathForConversions($media);
+        }
+
+        if ($type === 'responsiveImages') {
+            $directory = $pathGenerator->getPathForResponsiveImages($media);
+        }
 
         if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
             $this->filesystem->disk($media->disk)->makeDirectory($directory);
@@ -163,6 +173,14 @@ class DefaultFilesystem implements Filesystem
      */
     public function getConversionDirectory(Media $media) : string
     {
-        return $this->getMediaDirectory($media, true);
+        return $this->getMediaDirectory($media, 'conversions');
+    }
+
+    /*
+     * Return the directory where all responsive images of the given media are stored.
+     */
+    public function getResponsiveImagesDirectory(Media $media) : string
+    {
+        return $this->getMediaDirectory($media, 'responsiveImages');
     }
 }
