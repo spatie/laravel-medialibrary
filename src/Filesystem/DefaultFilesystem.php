@@ -39,8 +39,11 @@ class DefaultFilesystem implements Filesystem
      */
     public function copyToMediaLibrary(string $pathToFile, Media $media, bool $conversions = false, string $targetFileName = '')
     {
-        $destination = $this->getMediaDirectory($media, $conversions).
-            ($targetFileName == '' ? pathinfo($pathToFile, PATHINFO_BASENAME) : $targetFileName);
+        $destinationFileName = $targetFileName == ''
+            ? pathinfo($pathToFile, PATHINFO_BASENAME)
+            : $targetFileName;
+
+        $destination = $this->getMediaDirectory($media, $conversions).$destinationFileName;
 
         $file = fopen($pathToFile, 'r');
 
