@@ -24,6 +24,9 @@ abstract class TestCase extends Orchestra
     /** @var \Spatie\MediaLibrary\Tests\TestModelWithMorphMap */
     protected $testModelWithMorphMap;
 
+    /** @var \Spatie\MediaLibrary\Tests\TestModelWithResponsiveImages */
+    protected $testModelWithResponsiveImages;
+
     public function setUp()
     {
         parent::setUp();
@@ -37,6 +40,7 @@ abstract class TestCase extends Orchestra
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
+        $this->testModelWithResponsiveImages = TestModelWithResponsiveImages::first();
     }
 
     /**

@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryFactory;
+use Spatie\MediaLibrary\Conversion\Conversion;
 
 class ResponsiveImageGenerator
 {
@@ -38,15 +39,31 @@ class ResponsiveImageGenerator
         );
 
         foreach ($this->widthCalculator->calculateWidths($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, $width, $temporaryDirectory);
+            $this->generateResponsiveImage($media, $baseImage,'medialibrary_original', $width, $temporaryDirectory);
         }
 
         $temporaryDirectory->delete();
     }
 
-    public function generateResponsiveImage(Media $media, string $baseImage, int $targetWidth, BaseTemporaryFactory $temporaryDirectory)
+    public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage)
     {
-        $responsiveImageFileName = $this->appendToFileName($media->file_name, "medialibrary_original_{$targetWidth}");
+        $temporaryDirectory = TemporaryDirectory::create();
+
+        foreach ($this->widthCalculator->calculateWidths($baseImage) as $width) {
+            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory);
+        }
+
+        $temporaryDirectory->delete();
+    }
+
+    public function generateResponsiveImage(
+        Media $media, 
+        string $baseImage, 
+        string $suffix, 
+        int $targetWidth, 
+        BaseTemporaryFactory $temporaryDirectory
+        ) {
+        $responsiveImageFileName = $this->appendToFileName($media->file_name, "{$suffix}_{$targetWidth}");
    
         $tempDestination = $temporaryDirectory->path($responsiveImageFileName);
 

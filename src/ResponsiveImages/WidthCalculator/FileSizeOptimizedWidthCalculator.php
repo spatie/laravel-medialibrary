@@ -26,7 +26,9 @@ class FileSizeOptimizedWidthCalculator implements WidthCalculator
         while ($fileSize > 0) {
             $newWidth = floor(sqrt(($fileSize / $pixelPrice) / $ratio));
 
-            $targetWidths->push($newWidth);
+            if ($newWidth > 0) {
+                $targetWidths->push($newWidth);
+            }
 
             $fileSize -= $stepModifier;
         }

@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
+use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 
 class FileManipulator
 {
@@ -88,6 +89,12 @@ class FileManipulator
                     '.'.$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
 
                 $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
+
+                if ($conversion->shouldGenerateResponsiveImages()) {
+                    app(ResponsiveImageGenerator::class)->generateResponsiveImagesForConversion(
+                        $media, $conversion, $renamedFile
+                    );
+                }
 
                 app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
 

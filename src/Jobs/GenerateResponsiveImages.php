@@ -14,9 +14,6 @@ class GenerateResponsiveImages implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, Queueable;
 
-    /** @var \Spatie\MediaLibrary\Conversion\ConversionCollection */
-    protected $conversions;
-
     /** @var \Spatie\MediaLibrary\Media */
     protected $media;
 
