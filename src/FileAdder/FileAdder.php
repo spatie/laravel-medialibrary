@@ -231,7 +231,7 @@ class FileAdder
      *
      * @return $this
      */
-    public function generateResponsiveImages()
+    public function withResponsiveImages()
     {
         $this->generateResponsiveImages = true;
 
@@ -379,7 +379,7 @@ class FileAdder
             unlink($fileAdder->pathToFile);
         }
 
-        if ($this->generateResponsiveImages() && (new ImageGenerator())->canConvert($media)) {
+        if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
             dispatch(new GenerateResponsiveImages($media));
         }
         
