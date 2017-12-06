@@ -20,6 +20,8 @@ class ResponsiveImage
         $this->media = $media;
     }
 
+
+
     public function generatedFor(): string
     {
         $originalFileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
@@ -47,7 +49,18 @@ class ResponsiveImage
         return (int)$this->stringBetween($shortenedFileName, '_', '.');
     }
 
-    public function stringBefore(string $subject, string $needle)
+    public static function register(Media $media, $fileName)
+    {
+        $responsiveImages = $media->responsive_images ?? [];
+
+        $responsiveImages[] = $fileName;
+
+        $media->responsive_images = $responsiveImages;
+    
+        $media->save();
+    }
+
+    protected function stringBefore(string $subject, string $needle)
     {
         return substr($subject, 0, strrpos($subject, $needle));
     }

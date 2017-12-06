@@ -48,5 +48,22 @@ class ResponsiveImageTest extends TestCase
         $this->assertEquals('/media/1/responsive-images/test_thumb_50.jpg', $responsiveImage->url());
     }
 
+    /** @test */
+    public function a_media_instance_has_a_shorthand_method_for_getting_responsive_image_urls()
+    {
+        $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
+            ->toMediaCollection();
 
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $this->assertEquals([
+            '/media/1/responsive-images/test_medialibrary_original_340.jpg',
+            '/media/1/responsive-images/test_medialibrary_original_304.jpg',
+            '/media/1/responsive-images/test_medialibrary_original_263.jpg',
+            '/media/1/responsive-images/test_medialibrary_original_215.jpg',
+            '/media/1/responsive-images/test_medialibrary_original_152.jpg',
+        ], $media->getResponsiveImageUrls());
+    }
 }

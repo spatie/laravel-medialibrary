@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Tests\ResponsiveImages;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class RegisteredResponsiveImagesTest extends TestCase
+class ResponsiveImagesTest extends TestCase
 {
     /** @test */
     public function it_will_register_generated_responsive_images_in_the_db()
