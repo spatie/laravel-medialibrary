@@ -4,12 +4,15 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 7.0.0 - 2018-XX-XX
 
-- dropped support for soft deletes
+- added support for responsive images
 - added `MediaCollections`
 - added support for single file collections
-- removed distinction between `HasMedia` and `HasMediaConversions`
+
 - file names will be lowercases when adding them to the medialibrary
 - the names of converted images will now start with the name of the original file
+
+- dropped support for soft deletes
+- removed distinction between `HasMedia` and `HasMediaConversions`
 
 ## 6.6.2 - 2017-11-07
 

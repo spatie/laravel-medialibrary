@@ -59,17 +59,19 @@ class ResponsiveImageGenerator
     public function generateResponsiveImage(
         Media $media, 
         string $baseImage, 
-        string $suffix, 
+        string $conversionName, 
         int $targetWidth, 
         BaseTemporaryFactory $temporaryDirectory
         ) {
-        $responsiveImageFileName = $this->appendToFileName($media->file_name, "{$suffix}_{$targetWidth}");
+        $ResponsiveImage = $this->appendToFileName($media->file_name, "{$conversionName}_{$targetWidth}");
    
-        $tempDestination = $temporaryDirectory->path($responsiveImageFileName);
+        $tempDestination = $temporaryDirectory->path($ResponsiveImage);
 
         Image::load($baseImage)->width($targetWidth)->save($tempDestination);
 
         $this->filesystem->copyToMediaLibrary($tempDestination, $media, 'responsiveImages');
+
+        $media->responsiveImages()->register($ResponsiveImage);
     }
 
     protected function appendToFileName(string $filePath, string $suffix): string

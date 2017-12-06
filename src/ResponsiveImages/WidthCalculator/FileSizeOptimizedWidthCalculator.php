@@ -14,10 +14,11 @@ class FileSizeOptimizedWidthCalculator implements WidthCalculator
 
         $width = $image->getWidth();
         $height = $image->getHeight();
-        $fileSize = filesize($imagePath);
-
+       
         $ratio = $height / $width;
         $area = $width * $width * $ratio;
+
+        $fileSize = filesize($imagePath);
         $pixelPrice = $fileSize / $area;
         $stepModifier = $fileSize * 0.2;
 

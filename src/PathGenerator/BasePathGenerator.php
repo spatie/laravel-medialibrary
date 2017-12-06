@@ -31,7 +31,7 @@ class BasePathGenerator implements PathGenerator
     }
 
     /*
-     * Get a (unique) base path for the given media.
+     * Get a unique base path for the given media.
      */
     protected function getBasePath(Media $media): string
     {
