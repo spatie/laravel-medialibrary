@@ -233,25 +233,18 @@ class Media extends Model implements Responsable
             ]);
     }
 
-    public function responsiveImages(): ResponsiveImages
-    {
-        return ResponsiveImages::createForMedia($this);
-    }
-
     public function getResponsiveImageUrls(string $conversionName = ''): array
     {
-        $generatedFor = $conversionName === ''
-            ? 'medialibrary_original'
-            : $conversionName;
+        return $this->responsiveImages($conversionName)->getUrls();
+    }
 
-        return $this->responsiveImages()
-            ->filter(function(ResponsiveImage $responsiveImage) use ($generatedFor) {
-                return $responsiveImage->generatedFor() === $generatedFor;
-            })
-            ->map(function(ResponsiveImage $responsiveImage) {
-                return $responsiveImage->url();
-            })
-            ->values()
-            ->toArray();
+    public function getSrcset(string $conversionName = ''): string
+    {
+        return $this->responsiveImages($conversionName)->getSrcset();
+    }
+
+    protected function responsiveImages(string $conversionName = ''): ResponsiveImages
+    {
+        return ResponsiveImages::createForMedia($this, $conversionName);
     }
 }
