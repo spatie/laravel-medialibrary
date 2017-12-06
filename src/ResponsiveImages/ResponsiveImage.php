@@ -20,8 +20,6 @@ class ResponsiveImage
         $this->media = $media;
     }
 
-
-
     public function generatedFor(): string
     {
         $originalFileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
