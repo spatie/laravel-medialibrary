@@ -305,6 +305,7 @@ class FileAdder
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
         $media->manipulations = [];
+        $media->responsive_images = [];
 
         $media->fill($this->properties);
 

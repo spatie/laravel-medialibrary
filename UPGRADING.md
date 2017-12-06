@@ -2,6 +2,13 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v6 to v7
+
+- add the `responsive_images` column
+- rename the `HasMediaConversions` interface to `HasMedia`
+- all converted files should not start with the name of the original file. TODO: add instructions / or maybe a script
+
+
 ## From v5 to v6
 
 - the signature of `registerMediaConversions` has been changed. 

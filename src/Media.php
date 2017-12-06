@@ -10,6 +10,8 @@ use Illuminate\Contracts\Support\Responsable;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
+use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 
 class Media extends Model implements Responsable
 {
@@ -27,6 +29,7 @@ class Media extends Model implements Responsable
     protected $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
+        'responsive_images' => 'array',
     ];
 
     /**
@@ -92,20 +95,12 @@ class Media extends Model implements Responsable
         return $urlGenerator->getPath();
     }
 
-    /**
-     * Collection of all ImageGenerator drivers.
-     */
     public function getImageGenerators(): Collection
     {
         return collect(config('medialibrary.image_generators'));
     }
 
-    /**
-     * Determine the type of a file.
-     *
-     * @return string
-     */
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
         $type = $this->getTypeFromExtension();
 
@@ -129,9 +124,6 @@ class Media extends Model implements Responsable
             : static::TYPE_OTHER;
     }
 
-    /*
-     * Determine the type of a file from its mime type
-     */
     public function getTypeFromMime(): string
     {
         $imageGenerator = $this->getImageGenerators()
@@ -239,5 +231,27 @@ class Media extends Model implements Responsable
             ->file($this->getPath(), [
                 'Content-Type' => $this->mime_type,
             ]);
+    }
+
+    public function responsiveImages(): ResponsiveImages
+    {
+        return ResponsiveImages::createForMedia($this);
+    }
+
+    public function getResponsiveImageUrls(string $conversionName = ''): array
+    {
+        $generatedFor = $conversionName === ''
+            ? 'medialibrary_original'
+            : $conversionName;
+
+        return $this->responsiveImages()
+            ->filter(function(ResponsiveImage $responsiveImage) use ($generatedFor) {
+                return $responsiveImage->generatedFor() === $generatedFor;
+            })
+            ->map(function(ResponsiveImage $responsiveImage) {
+                return $responsiveImage->url();
+            })
+            ->values()
+            ->toArray();
     }
 }

@@ -11,6 +11,7 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryFactory;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 
 class ResponsiveImageGenerator
 {
@@ -59,17 +60,19 @@ class ResponsiveImageGenerator
     public function generateResponsiveImage(
         Media $media, 
         string $baseImage, 
-        string $suffix, 
+        string $conversionName, 
         int $targetWidth, 
         BaseTemporaryFactory $temporaryDirectory
         ) {
-        $responsiveImageFileName = $this->appendToFileName($media->file_name, "{$suffix}_{$targetWidth}");
+        $responsiveImagePath = $this->appendToFileName($media->file_name, "{$conversionName}_{$targetWidth}");
    
-        $tempDestination = $temporaryDirectory->path($responsiveImageFileName);
+        $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
         Image::load($baseImage)->width($targetWidth)->save($tempDestination);
 
         $this->filesystem->copyToMediaLibrary($tempDestination, $media, 'responsiveImages');
+
+        ResponsiveImage::register($media, $responsiveImagePath);
     }
 
     protected function appendToFileName(string $filePath, string $suffix): string
