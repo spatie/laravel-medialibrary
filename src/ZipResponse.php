@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Spatie\MediaLibrary\Media;
 use Illuminate\Contracts\Support\Responsable;
 use ZipStream\ZipStream;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ZipResponse implements Responsable
 {
@@ -35,12 +36,14 @@ class ZipResponse implements Responsable
 
     public function toResponse(Request $request): Response
     {
-        $zip = new ZipStream($this->zipName);
-
-        $this->mediaItems->each(function (Media $media) {
-            $zip->addFileFromStream($media->name, $media->stream());
+        return new StreamedResponse(function() {
+            $zip = new ZipStream($this->zipName);
+            
+            $this->mediaItems->each(function (Media $media) use ($zip) {
+                $zip->addFileFromStream($media->name, $media->stream());
+            });
+            
+            $zip->finish();
         });
-
-        $zip->finish();
     }
 }
