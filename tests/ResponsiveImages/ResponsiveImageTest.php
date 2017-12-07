@@ -61,7 +61,7 @@ class ResponsiveImageTest extends TestCase
 
         $media = $this->testModel->getFirstMedia();
 
-        $responsiveImage = $media->responsiveImages()->first();
+        $responsiveImage = $media->responsiveImages()->files->first();
 
         $this->assertEquals('medialibrary_original', $responsiveImage->generatedFor());
 

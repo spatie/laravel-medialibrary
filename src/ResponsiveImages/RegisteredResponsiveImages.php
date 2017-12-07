@@ -7,28 +7,37 @@ use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 
-class ResponsiveImages extends Collection
+class RegisteredResponsiveImages
 {
-    public static function createForMedia(Media $media, string $conversionName = '')
+    /** Spatie\Medialibrary\Media */
+    protected $media;
+
+    /** Illuminate\Support\Collection */
+    public $files;
+
+    /** string */
+    protected $generatedFor;
+
+    public function __construct(Media $media, string $conversionName = '')
     {
-        $generatedFor = $conversionName === ''
+        $this->media = $media;
+
+        $this->generatedFor = $conversionName === ''
             ? 'medialibrary_original'
             : $conversionName;
 
-        $items = collect($media->responsive_images[$generatedFor]['urls'] ?? [])
+        $this->files = collect($media->responsive_images[$this->generatedFor]['urls'] ?? [])
             ->map(function (string $fileName) use ($media) {
                 return new ResponsiveImage($fileName, $media);
             })
-            ->filter(function (ResponsiveImage $responsiveImage) use ($generatedFor) {
-                return $responsiveImage->generatedFor() === $generatedFor;
-            })->toArray();
-
-        return new static($items);
+            ->filter(function (ResponsiveImage $responsiveImage) {
+                return $responsiveImage->generatedFor() === $this->generatedFor;
+            });
     }
 
     public function getUrls(): array
     {
-        return $this
+        return $this->files
             ->map(function (ResponsiveImage $responsiveImage) {
                 return $responsiveImage->url();
             })
@@ -38,7 +47,7 @@ class ResponsiveImages extends Collection
 
     public function getSrcset(): string
     {
-        return $this
+        return $this->files
             ->map(function (ResponsiveImage $responsiveImage) {
                 return "{$responsiveImage->url()} {$responsiveImage->width()}w";
             })

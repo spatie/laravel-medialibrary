@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
+use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class Media extends Model implements Responsable
 {
@@ -243,8 +244,8 @@ class Media extends Model implements Responsable
         return $this->responsiveImages($conversionName)->getSrcset();
     }
 
-    public function responsiveImages(string $conversionName = ''): ResponsiveImages
+    public function responsiveImages(string $conversionName = ''): RegisteredResponsiveImages
     {
-        return ResponsiveImages::createForMedia($this, $conversionName);
+        return new RegisteredResponsiveImages($this, $conversionName);
     }
 }
