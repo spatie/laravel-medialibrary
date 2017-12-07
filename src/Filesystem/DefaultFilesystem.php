@@ -17,9 +17,9 @@ class DefaultFilesystem implements Filesystem
     /** @var array */
     protected $customRemoteHeaders = [];
 
-    public function __construct(Factory $filesystems)
+    public function __construct(Factory $filesystem)
     {
-        $this->filesystem = $filesystems;
+        $this->filesystem = $filesystem;
     }
 
     /*
@@ -89,16 +89,21 @@ class DefaultFilesystem implements Filesystem
         return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
     }
 
+    public function getStream(Media $media)
+    {
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+
+        return $this->filesystem->disk($media->disk)->readStream($sourceFile);
+    }
+
     /*
      * Copy a file from the medialibrary to the given targetFile.
      */
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
-        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
-
         touch($targetFile);
 
-        $stream = $this->filesystem->disk($media->disk)->readStream($sourceFile);
+        $stream = $this->getStream($media);
 
         $targetFileStream = fopen($targetFile, 'a');
 

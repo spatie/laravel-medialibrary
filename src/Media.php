@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 
 class Media extends Model implements Responsable
 {
@@ -247,5 +248,12 @@ class Media extends Model implements Responsable
     public function responsiveImages(string $conversionName = ''): RegisteredResponsiveImages
     {
         return new RegisteredResponsiveImages($this, $conversionName);
+    }
+
+    public function stream()
+    {
+        $filesystem = app(Filesystem::class);
+
+        return $filesystem->getStream($this);
     }
 }

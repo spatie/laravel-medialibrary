@@ -31,7 +31,8 @@
     "league/flysystem": "^1.0.8",
     "spatie/pdf-to-image": "^1.2",
     "spatie/image": "^1.4.0",
-    "spatie/temporary-directory": "^1.1"
+    "spatie/temporary-directory": "^1.1",
+    "maennchen/zipstream-php": "^0.5.0"
   },
   "require-dev": {
     "guzzlehttp/guzzle": "^6.3",

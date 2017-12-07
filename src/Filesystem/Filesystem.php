@@ -14,6 +14,8 @@ interface Filesystem
 
     public function getRemoteHeadersForFile(string $file) : array;
 
+    public function getStream(Media $media);
+
     public function copyFromMediaLibrary(Media $media, string $targetFile): string;
 
     public function renameFile(Media $media, string $oldName);
