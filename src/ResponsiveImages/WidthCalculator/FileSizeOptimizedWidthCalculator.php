@@ -10,30 +10,45 @@ class FileSizeOptimizedWidthCalculator implements WidthCalculator
 {
     public function calculateWidths(string $imagePath): Collection
     {
+        $targetWidths = collect();
+
         $image = Image::load($imagePath);
 
         $width = $image->getWidth();
         $height = $image->getHeight();
-       
+
+        $targetWidths->push($width);
+
         $ratio = $height / $width;
         $area = $width * $width * $ratio;
 
-        $fileSize = filesize($imagePath);
-        $pixelPrice = $fileSize / $area;
-        $stepModifier = $fileSize * 0.2;
+        $predictedFileSize = filesize($imagePath);
+        $pixelPrice = $predictedFileSize / $area;
+        $stepModifier = $predictedFileSize * 0.2;
 
-        $targetWidths = collect();
+        while (true) {
+            $predictedFileSize -= $stepModifier;
 
-        while ($fileSize > 0) {
-            $newWidth = floor(sqrt(($fileSize / $pixelPrice) / $ratio));
+            $newWidth = (int)floor(sqrt(($predictedFileSize / $pixelPrice) / $ratio));
 
-            if ($newWidth > 0) {
-                $targetWidths->push($newWidth);
+            if ($this->finishedCalulating($predictedFileSize, $newWidth)) {
+                return $targetWidths;
             }
 
-            $fileSize -= $stepModifier;
+            $targetWidths->push($newWidth);
+        }
+    }
+
+    protected function finishedCalulating(int $predictedFileSize, int $newWidth): bool
+    {
+        if ($newWidth < 50) {
+            return true;
         }
 
-        return $targetWidths;
+        if ($predictedFileSize < (1024 / 20)) {
+            return true;
+        }
+
+        return false;
     }
 }

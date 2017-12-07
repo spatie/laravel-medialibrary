@@ -27,10 +27,6 @@ class ResponsiveImageTest extends TestCase
 
         $this->assertEquals([
             '/media/1/responsive-images/test_thumb_50.jpg',
-            '/media/1/responsive-images/test_thumb_44.jpg',
-            '/media/1/responsive-images/test_thumb_38.jpg',
-            '/media/1/responsive-images/test_thumb_31.jpg',
-            '/media/1/responsive-images/test_thumb_22.jpg',
         ], $media->getResponsiveImageUrls('thumb'));
 
         $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
@@ -52,7 +48,7 @@ class ResponsiveImageTest extends TestCase
         );
 
         $this->assertEquals(
-            '/media/1/responsive-images/test_thumb_50.jpg 50w, /media/1/responsive-images/test_thumb_44.jpg 44w, /media/1/responsive-images/test_thumb_38.jpg 38w, /media/1/responsive-images/test_thumb_31.jpg 31w, /media/1/responsive-images/test_thumb_22.jpg 22w',
+            '/media/1/responsive-images/test_thumb_50.jpg 50w',
              $media->getSrcset('thumb')
         );
     }
