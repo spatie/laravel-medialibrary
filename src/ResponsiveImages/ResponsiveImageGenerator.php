@@ -72,13 +72,15 @@ class ResponsiveImageGenerator
 
         $responsiveImageHeight = Image::load($tempDestination)->getHeight();
 
-        $finalResponsiveImagePath = $this->appendToFileName($responsiveImagePath, "_{$responsiveImageHeight}");
+        $finalImageFileName = $this->appendToFileName($responsiveImagePath, "_{$responsiveImageHeight}");
+
+        $finalResponsiveImagePath = $temporaryDirectory->path($finalImageFileName);
 
         rename($tempDestination, $finalResponsiveImagePath);
 
         $this->filesystem->copyToMediaLibrary($finalResponsiveImagePath, $media, 'responsiveImages');
 
-        ResponsiveImage::register($media, $finalResponsiveImagePath);
+        ResponsiveImage::register($media, $finalImageFileName);
     }
 
     protected function appendToFileName(string $filePath, string $suffix): string
