@@ -39,8 +39,8 @@ class ResponsiveImageGenerator
             $temporaryDirectory->path(str_random(16).'.'.$media->extension)
         );
 
-        foreach ($this->widthCalculator->calculateWidths($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage,'medialibrary_original', $width, $temporaryDirectory);
+        foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
+            $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
         }
 
         $temporaryDirectory->delete();
@@ -50,7 +50,7 @@ class ResponsiveImageGenerator
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
-        foreach ($this->widthCalculator->calculateWidths($baseImage) as $width) {
+        foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory);
         }
 
@@ -58,10 +58,10 @@ class ResponsiveImageGenerator
     }
 
     public function generateResponsiveImage(
-        Media $media, 
-        string $baseImage, 
-        string $conversionName, 
-        int $targetWidth, 
+        Media $media,
+        string $baseImage,
+        string $conversionName,
+        int $targetWidth,
         BaseTemporaryFactory $temporaryDirectory
         ) {
         $responsiveImagePath = $this->appendToFileName($media->file_name, "{$conversionName}_{$targetWidth}");

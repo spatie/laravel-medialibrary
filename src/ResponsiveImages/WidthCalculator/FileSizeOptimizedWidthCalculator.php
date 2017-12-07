@@ -8,26 +8,31 @@ use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
 class FileSizeOptimizedWidthCalculator implements WidthCalculator
 {
-    public function calculateWidths(string $imagePath): Collection
+    public function calculateWidthsFromFile(string $imagePath): Collection
     {
-        $targetWidths = collect();
-
         $image = Image::load($imagePath);
-
+        
         $width = $image->getWidth();
         $height = $image->getHeight();
+        $filesize = filesize($imagePath);
+
+        return $this->calculateWidths($filesize, $width, $height);
+    }
+
+    public function calculateWidths(int $filesize, int $width, int $height): Collection
+    {
+        $targetWidths = collect();
 
         $targetWidths->push($width);
 
         $ratio = $height / $width;
         $area = $width * $width * $ratio;
 
-        $predictedFileSize = filesize($imagePath);
+        $predictedFileSize = $filesize;
         $pixelPrice = $predictedFileSize / $area;
-        $stepModifier = $predictedFileSize * 0.2;
 
         while (true) {
-            $predictedFileSize -= $stepModifier;
+            $predictedFileSize *= 0.7;
 
             $newWidth = (int)floor(sqrt(($predictedFileSize / $pixelPrice) / $ratio));
 
@@ -41,11 +46,11 @@ class FileSizeOptimizedWidthCalculator implements WidthCalculator
 
     protected function finishedCalulating(int $predictedFileSize, int $newWidth): bool
     {
-        if ($newWidth < 50) {
+        if ($newWidth < 20) {
             return true;
         }
 
-        if ($predictedFileSize < (1024 / 20)) {
+        if ($predictedFileSize < (1024 * 10)) {
             return true;
         }
 

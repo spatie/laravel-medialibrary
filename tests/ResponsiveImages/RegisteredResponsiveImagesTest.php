@@ -18,10 +18,8 @@ class ResponsiveImagesTest extends TestCase
 
         $this->assertEquals($media->responsive_images, [
             0 => 'test_medialibrary_original_340.jpg',
-            1 => 'test_medialibrary_original_304.jpg',
-            2 => 'test_medialibrary_original_263.jpg',
-            3 => 'test_medialibrary_original_215.jpg',
-            4 => 'test_medialibrary_original_152.jpg',
+            1 => 'test_medialibrary_original_284.jpg',
+            2 => 'test_medialibrary_original_237.jpg',
         ]);
     }
 }

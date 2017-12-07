@@ -19,10 +19,8 @@ class ResponsiveImageTest extends TestCase
 
         $this->assertEquals([
             '/media/1/responsive-images/test_medialibrary_original_340.jpg',
-            '/media/1/responsive-images/test_medialibrary_original_304.jpg',
-            '/media/1/responsive-images/test_medialibrary_original_263.jpg',
-            '/media/1/responsive-images/test_medialibrary_original_215.jpg',
-            '/media/1/responsive-images/test_medialibrary_original_152.jpg',
+            '/media/1/responsive-images/test_medialibrary_original_284.jpg',
+            '/media/1/responsive-images/test_medialibrary_original_237.jpg',
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([
@@ -43,7 +41,7 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals(
-            '/media/1/responsive-images/test_medialibrary_original_340.jpg 340w, /media/1/responsive-images/test_medialibrary_original_304.jpg 304w, /media/1/responsive-images/test_medialibrary_original_263.jpg 263w, /media/1/responsive-images/test_medialibrary_original_215.jpg 215w, /media/1/responsive-images/test_medialibrary_original_152.jpg 152w',
+            '/media/1/responsive-images/test_medialibrary_original_340.jpg 340w, /media/1/responsive-images/test_medialibrary_original_284.jpg 284w, /media/1/responsive-images/test_medialibrary_original_237.jpg 237w',
              $media->getSrcset()
         );
 

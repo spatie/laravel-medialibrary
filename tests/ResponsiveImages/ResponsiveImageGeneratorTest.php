@@ -13,11 +13,9 @@ class ResponsiveImageGeneratorTest extends TestCase
                 ->addMedia($this->getTestJpg())
                 ->withResponsiveImages()
                 ->toMediaCollection();
-    
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_152.jpg'));
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_215.jpg'));
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_263.jpg'));
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_304.jpg'));
+
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_237.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_284.jpg'));
         $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_340.jpg'));
     }
     
