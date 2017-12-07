@@ -47,10 +47,24 @@ class RegisteredResponsiveImages
 
     public function getSrcset(): string
     {
-        return $this->files
+        $filesSrcset = $this->files
             ->map(function (ResponsiveImage $responsiveImage) {
                 return "{$responsiveImage->url()} {$responsiveImage->width()}w";
             })
             ->implode(', ');
+
+        return $filesSrcset . ', ' . $this->getPlaceholderSvg() . ' 1w';
+    }
+
+    public function getPlaceholderSvg(): string
+    {
+        $largestResponsiveImage = $this->files->first();
+
+        $tinyJpgBase64 = $this->media->responsive_images[$this->generatedFor]['tinyJpgBase64'];
+
+        return view('medialibrary::placeholderSvg', compact(
+            'largestResponsiveImage',
+            'tinyJpgBase64'
+        ));
     }
 }
