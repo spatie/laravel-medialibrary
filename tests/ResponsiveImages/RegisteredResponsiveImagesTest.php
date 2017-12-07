@@ -20,6 +20,6 @@ class ResponsiveImagesTest extends TestCase
             'test___medialibrary_original_340_280.jpg',
             'test___medialibrary_original_284_233.jpg',
             'test___medialibrary_original_237_195.jpg',
-        ], $media->responsive_images['urls']);
+        ], $media->responsive_images['medialibrary_original']['urls']);
     }
 }

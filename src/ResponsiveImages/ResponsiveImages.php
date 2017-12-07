@@ -15,7 +15,7 @@ class ResponsiveImages extends Collection
             ? 'medialibrary_original'
             : $conversionName;
 
-        $items = collect($media->responsive_images['urls'])
+        $items = collect($media->responsive_images[$generatedFor]['urls'] ?? [])
             ->map(function (string $fileName) use ($media) {
                 return new ResponsiveImage($fileName, $media);
             })
@@ -29,7 +29,7 @@ class ResponsiveImages extends Collection
     public function getUrls(): array
     {
         return $this
-            ->map(function(ResponsiveImage $responsiveImage) {
+            ->map(function (ResponsiveImage $responsiveImage) {
                 return $responsiveImage->url();
             })
             ->values()
@@ -39,7 +39,7 @@ class ResponsiveImages extends Collection
     public function getSrcset(): string
     {
         return $this
-            ->map(function(ResponsiveImage $responsiveImage) {
+            ->map(function (ResponsiveImage $responsiveImage) {
                 return "{$responsiveImage->url()} {$responsiveImage->width()}w";
             })
             ->implode(', ');

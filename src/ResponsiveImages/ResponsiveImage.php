@@ -11,13 +11,28 @@ class ResponsiveImage
     public $fileName = '';
 
     /** @var \Spatie\MediaLibrary\Media */
-    protected $media;
+    public $media;
 
-    public static function register(Media $media, $fileName)
+    public static function register(Media $media, $fileName, $conversionName)
     {
         $responsiveImages = $media->responsive_images;
 
-        $responsiveImages['urls'][] = $fileName;
+        $responsiveImages[$conversionName]['urls'][] = $fileName;
+
+        $media->responsive_images = $responsiveImages;
+    
+        $media->save();
+    }
+
+    public static function registerTinyJpg(Media $media, string $filePath, string $conversionName)
+    {
+        $responsiveImages = $media->responsive_images;
+
+        $imageData = file_get_contents($filePath);
+
+        $base64 = 'data:image/jpeg;base64,' . base64_encode($imageData);
+        
+        $responsiveImages[$conversionName]['tinyJpgBase64'] = $base64;
 
         $media->responsive_images = $responsiveImages;
     

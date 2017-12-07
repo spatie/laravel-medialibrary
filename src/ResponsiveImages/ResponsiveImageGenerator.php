@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
-use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryFactory;
+use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 
@@ -43,6 +43,8 @@ class ResponsiveImageGenerator
             $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
         }
 
+        $this->generateTinyJpg($media, $baseImage, 'medialibrary_original', $temporaryDirectory);
+
         $temporaryDirectory->delete();
     }
 
@@ -54,6 +56,8 @@ class ResponsiveImageGenerator
             $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory);
         }
 
+        $this->generateTinyJpg($media, $baseImage, $conversion->getName(), $temporaryDirectory);
+
         $temporaryDirectory->delete();
     }
 
@@ -62,7 +66,7 @@ class ResponsiveImageGenerator
         string $baseImage,
         string $conversionName,
         int $targetWidth,
-        BaseTemporaryFactory $temporaryDirectory
+        BaseTemporaryDirectory $temporaryDirectory
         ) {
         $responsiveImagePath = $this->appendToFileName($media->file_name, "___{$conversionName}_{$targetWidth}");
    
@@ -80,7 +84,16 @@ class ResponsiveImageGenerator
 
         $this->filesystem->copyToMediaLibrary($finalResponsiveImagePath, $media, 'responsiveImages');
 
-        ResponsiveImage::register($media, $finalImageFileName);
+        ResponsiveImage::register($media, $finalImageFileName, $conversionName);
+    }
+
+    public function generateTinyJpg(Media $media, string $baseImage, string $conversionName, BaseTemporaryDirectory $temporaryDirectory)
+    {
+        $tempDestination = $temporaryDirectory->path('tiny.jpg');
+
+        Image::load($baseImage)->width(32)->blur(10)->save($tempDestination);
+
+        ResponsiveImage::registerTinyJpg($media, $tempDestination, $conversionName);
     }
 
     protected function appendToFileName(string $filePath, string $suffix): string
