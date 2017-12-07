@@ -15,9 +15,9 @@ class ResponsiveImage
 
     public static function register(Media $media, $fileName)
     {
-        $responsiveImages = $media->responsive_images ?? [];
+        $responsiveImages = $media->responsive_images;
 
-        $responsiveImages[] = $fileName;
+        $responsiveImages['urls'][] = $fileName;
 
         $media->responsive_images = $responsiveImages;
     
@@ -36,11 +36,6 @@ class ResponsiveImage
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media);
 
         return $urlGenerator->getResponsiveImagesDirectoryUrl() . $this->fileName;
-    }
-
-    public function placeholderSvg(): string
-    {
-        return '';
     }
 
     public function generatedFor(): string

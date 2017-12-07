@@ -16,7 +16,7 @@ class ResponsiveImagesTest extends TestCase
 
         $media = $this->testModel->getFirstMedia();
 
-        $this->assertEquals($media->responsive_images, [
+        $this->assertEquals($media->responsive_images['urls'], [
             'test___medialibrary_original_340_280.jpg',
             'test___medialibrary_original_284_233.jpg',
             'test___medialibrary_original_237_195.jpg',

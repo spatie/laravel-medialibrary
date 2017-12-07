@@ -15,7 +15,7 @@ class ResponsiveImages extends Collection
             ? 'medialibrary_original'
             : $conversionName;
 
-        $items = collect($media->responsive_images)
+        $items = collect($media->responsive_images['urls'])
             ->map(function (string $fileName) use ($media) {
                 return new ResponsiveImage($fileName, $media);
             })
