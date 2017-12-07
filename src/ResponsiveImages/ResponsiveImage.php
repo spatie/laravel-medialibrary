@@ -20,15 +20,6 @@ class ResponsiveImage
         $this->media = $media;
     }
 
-    public function generatedFor(): string
-    {
-        $originalFileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
-
-        $shortenedFileName = str_replace_first($originalFileName . '_', '', $this->fileName);
-
-        return $this->stringBefore($shortenedFileName, '_');
-    }
-
     public function url(): string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media);
@@ -36,15 +27,31 @@ class ResponsiveImage
         return $urlGenerator->getResponsiveImagesDirectoryUrl() . $this->fileName;
     }
 
+    public function generatedFor(): string
+    {
+        $propertyParts = $this->getPropertyParts();
+
+        array_pop($propertyParts);
+
+        array_pop($propertyParts);
+
+        return implode('_', $propertyParts);
+    }
+
     public function width(): int
     {
-        $originalFileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
-        
-        $shortenedFileName = str_replace_first($originalFileName . '_', '', $this->fileName);
+        $propertyParts = $this->getPropertyParts();
 
-        $shortenedFileName = str_replace($this->generatedFor() . '_', '', $shortenedFileName);
+        array_pop($propertyParts);
 
-        return (int)$this->stringBetween($shortenedFileName, '_', '.');
+        return (int) last($propertyParts);
+    }
+
+    public function height(): int
+    {
+        $propertyParts = $this->getPropertyParts();
+
+        return (int) last($propertyParts);
     }
 
     public static function register(Media $media, $fileName)
@@ -58,16 +65,20 @@ class ResponsiveImage
         $media->save();
     }
 
-    protected function stringBefore(string $subject, string $needle)
+    protected function getPropertyParts(): array
     {
-        return substr($subject, 0, strrpos($subject, $needle));
+        $propertyString =  $this->stringBetween($this->fileName, '___', '.');
+
+        return explode('_', $propertyString);
     }
 
     protected function stringBetween(string $subject, string $startCharacter, string $endCharacter): string
     {
         $between = strstr($subject, $startCharacter);
 
-        $between = strstr($subject, $endCharacter, true);
+        $between = str_replace('___', '', $between);
+
+        $between = strstr($between, $endCharacter, true);
 
         return $between;
     }

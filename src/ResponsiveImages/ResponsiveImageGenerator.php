@@ -64,15 +64,21 @@ class ResponsiveImageGenerator
         int $targetWidth,
         BaseTemporaryFactory $temporaryDirectory
         ) {
-        $responsiveImagePath = $this->appendToFileName($media->file_name, "{$conversionName}_{$targetWidth}");
+        $responsiveImagePath = $this->appendToFileName($media->file_name, "___{$conversionName}_{$targetWidth}");
    
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
         Image::load($baseImage)->width($targetWidth)->save($tempDestination);
 
-        $this->filesystem->copyToMediaLibrary($tempDestination, $media, 'responsiveImages');
+        $responsiveImageHeight = Image::load($tempDestination)->getHeight();
 
-        ResponsiveImage::register($media, $responsiveImagePath);
+        $finalResponsiveImagePath = $this->appendToFileName($responsiveImagePath, "_{$responsiveImageHeight}");
+
+        rename($tempDestination, $finalResponsiveImagePath);
+
+        $this->filesystem->copyToMediaLibrary($finalResponsiveImagePath, $media, 'responsiveImages');
+
+        ResponsiveImage::register($media, $finalResponsiveImagePath);
     }
 
     protected function appendToFileName(string $filePath, string $suffix): string
@@ -81,6 +87,6 @@ class ResponsiveImageGenerator
 
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
   
-        return $baseName . '_' . $suffix . '.' . $extension;
+        return $baseName . $suffix . '.' . $extension;
     }
 }

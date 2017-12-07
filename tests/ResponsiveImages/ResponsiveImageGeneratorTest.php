@@ -14,9 +14,9 @@ class ResponsiveImageGeneratorTest extends TestCase
                 ->withResponsiveImages()
                 ->toMediaCollection();
 
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_237.jpg'));
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_284.jpg'));
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_medialibrary_original_340.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___medialibrary_original_237_195.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___medialibrary_original_284_233.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___medialibrary_original_340_280.jpg'));
     }
     
     /** @test */
@@ -27,6 +27,6 @@ class ResponsiveImageGeneratorTest extends TestCase
                     ->withResponsiveImages()
                     ->toMediaCollection();
         
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test_thumb_50.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___thumb_50_41.jpg'));
     }
 }

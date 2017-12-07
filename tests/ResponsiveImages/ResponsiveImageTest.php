@@ -18,13 +18,13 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals([
-            '/media/1/responsive-images/test_medialibrary_original_340.jpg',
-            '/media/1/responsive-images/test_medialibrary_original_284.jpg',
-            '/media/1/responsive-images/test_medialibrary_original_237.jpg',
+            '/media/1/responsive-images/test___medialibrary_original_340_280.jpg',
+            '/media/1/responsive-images/test___medialibrary_original_284_233.jpg',
+            '/media/1/responsive-images/test___medialibrary_original_237_195.jpg',
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([
-            '/media/1/responsive-images/test_thumb_50.jpg',
+            '/media/1/responsive-images/test___thumb_50_41.jpg',
         ], $media->getResponsiveImageUrls('thumb'));
 
         $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
@@ -41,13 +41,32 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals(
-            '/media/1/responsive-images/test_medialibrary_original_340.jpg 340w, /media/1/responsive-images/test_medialibrary_original_284.jpg 284w, /media/1/responsive-images/test_medialibrary_original_237.jpg 237w',
+            '/media/1/responsive-images/test___medialibrary_original_340_280.jpg 340w, /media/1/responsive-images/test___medialibrary_original_284_233.jpg 284w, /media/1/responsive-images/test___medialibrary_original_237_195.jpg 237w',
              $media->getSrcset()
         );
 
         $this->assertEquals(
-            '/media/1/responsive-images/test_thumb_50.jpg 50w',
+            '/media/1/responsive-images/test___thumb_50_41.jpg 50w',
              $media->getSrcset('thumb')
         );
+    }
+
+    /** @test */
+    public function a_responsive_image_can_return_some_properties()
+    {
+        $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $media = $this->testModel->getFirstMedia();
+
+        $responsiveImage = $media->responsiveImages()->first();
+
+        $this->assertEquals('medialibrary_original', $responsiveImage->generatedFor());
+
+        $this->assertEquals(340, $responsiveImage->width());
+
+        $this->assertEquals(280, $responsiveImage->height());
     }
 }

@@ -243,7 +243,7 @@ class Media extends Model implements Responsable
         return $this->responsiveImages($conversionName)->getSrcset();
     }
 
-    protected function responsiveImages(string $conversionName = ''): ResponsiveImages
+    public function responsiveImages(string $conversionName = ''): ResponsiveImages
     {
         return ResponsiveImages::createForMedia($this, $conversionName);
     }
