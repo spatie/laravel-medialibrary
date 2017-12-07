@@ -13,6 +13,17 @@ class ResponsiveImage
     /** @var \Spatie\MediaLibrary\Media */
     protected $media;
 
+    public static function register(Media $media, $fileName)
+    {
+        $responsiveImages = $media->responsive_images ?? [];
+
+        $responsiveImages[] = $fileName;
+
+        $media->responsive_images = $responsiveImages;
+    
+        $media->save();
+    }
+
     public function __construct(string $fileName, Media $media)
     {
         $this->fileName = $fileName;
@@ -25,6 +36,11 @@ class ResponsiveImage
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media);
 
         return $urlGenerator->getResponsiveImagesDirectoryUrl() . $this->fileName;
+    }
+
+    public function placeholderSvg(): string
+    {
+        return '';
     }
 
     public function generatedFor(): string
@@ -52,17 +68,6 @@ class ResponsiveImage
         $propertyParts = $this->getPropertyParts();
 
         return (int) last($propertyParts);
-    }
-
-    public static function register(Media $media, $fileName)
-    {
-        $responsiveImages = $media->responsive_images ?? [];
-
-        $responsiveImages[] = $fileName;
-
-        $media->responsive_images = $responsiveImages;
-    
-        $media->save();
     }
 
     protected function getPropertyParts(): array
