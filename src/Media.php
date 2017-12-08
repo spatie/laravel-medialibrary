@@ -294,7 +294,7 @@ class Media extends Model implements Responsable, Htmlable
         $viewName = 'image';
 
         if ($this->hasResponsiveImages()) {
-            $viewName = config('responsive_images.use_tiny_placeholder')
+            $viewName = config('medialibrary.responsive_images.use_tiny_placeholders')
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
         }

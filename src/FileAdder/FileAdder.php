@@ -274,7 +274,7 @@ class FileAdder
      * @throws FileCannotBeAdded
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function toMediaCollection(string $collectionName = 'default', string $diskName = '')
+    public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         if (!is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);

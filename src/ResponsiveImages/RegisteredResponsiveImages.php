@@ -52,7 +52,12 @@ class RegisteredResponsiveImages
                 return "{$responsiveImage->url()} {$responsiveImage->width()}w";
             })
             ->implode(', ');
-        return $filesSrcset . ', ' . $this->getPlaceholderSvg() . ' 32w';
+
+        if (config('medialibrary.responsive_images.use_tiny_placeholders')) {
+            $filesSrcset .= ', ' . $this->getPlaceholderSvg() . ' 32w';
+        }
+
+        return $filesSrcset;
     }
 
     public function getPlaceholderSvg(): string
