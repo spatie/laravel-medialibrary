@@ -7,7 +7,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - added support for responsive images
 - added `MediaCollections`
 - added support for single file collections
-- added `ZipResponse`
+- added `ZipStreamResponse`
 
 - file names will be lowercases when adding them to the medialibrary
 - the names of converted images will now start with the name of the original file
