@@ -34,9 +34,9 @@ class ZipResponse implements Responsable
         return $this;
     }
 
-    public function toResponse(Request $request): Response
+    public function toResponse($request)
     {
-        return new StreamedResponse(function() {
+        return new StreamedResponse(function () {
             $zip = new ZipStream($this->zipName);
             
             $this->mediaItems->each(function (Media $media) use ($zip) {
