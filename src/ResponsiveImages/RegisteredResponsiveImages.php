@@ -53,7 +53,7 @@ class RegisteredResponsiveImages
             })
             ->implode(', ');
 
-        return $filesSrcset . ', ' . $this->getPlaceholderSvg() . ' 1w';
+        return $filesSrcset . ', ' . $this->getPlaceholderSvg() . ' 32w';
     }
 
     public function getPlaceholderSvg(): string
