@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Tests;
 
 use File;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -87,6 +88,8 @@ abstract class TestCase extends Orchestra
 
         $this->setupS3($app);
         $this->setUpMorphMap();
+
+        $app['config']->set('view.paths', [__DIR__.'/resources/views']);
     }
 
     /**
@@ -196,5 +199,16 @@ abstract class TestCase extends Orchestra
         if (! empty(getenv('TRAVIS_BUILD_ID'))) {
             $this->markTestSkipped('Skipping because this test does not run properly on Travis');
         }
+    }
+
+    public function renderView($view, $parameters)
+    {
+        Artisan::call('view:clear');
+
+        if (is_string($view)) {
+            $view = view($view)->with($parameters);
+        }
+
+        return trim((string) ($view));
     }
 }

@@ -16,6 +16,7 @@ use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Illuminate\Contracts\Support\Htmlable;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Illuminate\Support\HtmlString;
 
 class Media extends Model implements Responsable, Htmlable
 {
@@ -315,5 +316,10 @@ class Media extends Model implements Responsable, Htmlable
         $filesystem = app(Filesystem::class);
 
         return $filesystem->getStream($this);
+    }
+
+    public function __invoke()
+    {
+        return new HtmlString($this->img(...func_get_args()));
     }
 }

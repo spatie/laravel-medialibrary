@@ -54,4 +54,14 @@ class ToHtmlTest extends TestCase
              Media::first()->img(['class' => 'my-class', 'id' => 'my-id', 'conversion' => 'thumb'])
         );
     }
+
+    /** @test */
+    public function a_media_instance_is_htmlable()
+    {
+        $media = Media::first();
+
+        $renderedView = $this->renderView('media', compact('media'));
+
+        $this->assertEquals('<img src="/media/1/test.jpg" alt="test"> <img src="/media/1/conversions/test-thumb.jpg" alt="test">', $renderedView);
+    }
 }
