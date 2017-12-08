@@ -40,7 +40,7 @@ class ZipResponse implements Responsable
             $zip = new ZipStream($this->zipName);
             
             $this->mediaItems->each(function (Media $media) use ($zip) {
-                $zip->addFileFromStream($media->name, $media->stream());
+                $zip->addFileFromStream($media->file_name, $media->stream());
             });
             
             $zip->finish();
