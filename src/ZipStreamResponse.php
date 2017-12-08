@@ -9,7 +9,7 @@ use Illuminate\Contracts\Support\Responsable;
 use ZipStream\ZipStream;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class ZipResponse implements Responsable
+class ZipStreamResponse implements Responsable
 {
     /** string */
     protected $zipName;
