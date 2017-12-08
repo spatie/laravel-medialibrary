@@ -37,9 +37,7 @@ class ZipStreamResponse implements Responsable
     public function toResponse($request)
     {
         return new StreamedResponse(function () {
-            $zip = new ZipStream($this->zipName, [
-                'large_file_size' => 1
-            ]);
+            $zip = new ZipStream($this->zipName);
             
             $this->mediaItems->each(function (Media $media) use ($zip) {
                 $stream = $media->stream();

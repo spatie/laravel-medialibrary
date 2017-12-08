@@ -242,6 +242,11 @@ class Media extends Model implements Responsable, Htmlable
         return $this->responsiveImages($conversionName)->getUrls();
     }
 
+    public function hasResponsiveImages(string $conversionName = ''): bool
+    {
+        return count($this->getResponsiveImageUrls());
+    }
+
     public function getSrcset(string $conversionName = ''): string
     {
         return $this->responsiveImages($conversionName)->getSrcset();
@@ -260,22 +265,28 @@ class Media extends Model implements Responsable, Htmlable
      */
     public function img($conversion = '', array $extraAttributes = []): string
     {
-        if ( ! (new Image())->canHandleMime($this->mime_type)) {
+        if (! (new Image())->canHandleMime($this->mime_type)) {
             return '';
         }
 
         if (is_array($conversion)) {
-            $conversion = $conversion['conversion'] ?? '';
+            $attributes = $conversion;
 
-            unset($conversion['conversion']);
+            $conversion = $attributes['conversion'] ?? '';
 
-            $extraAttributes = array_merge($conversion, $extraAttributes);
+            unset($attributes['conversion']);
+
+            $extraAttributes = array_merge($attributes, $extraAttributes);
         }
 
         $attributeString = collect($extraAttributes)
-            ->map(function($value, $name) {
-                return '$name="' . $value . '"';
+            ->map(function ($value, $name) {
+                return $name . '="' . $value . '"';
             })->implode(' ');
+
+        if (strlen($attributeString)) {
+            $attributeString = ' ' . $attributeString;
+        }
 
         $media = $this;
 
@@ -287,7 +298,7 @@ class Media extends Model implements Responsable, Htmlable
                 : 'responsiveImage';
         }
 
-        return view("medialibrary.{$viewName}", compact(
+        return view("medialibrary::{$viewName}", compact(
             'media',
             'conversion',
             'attributeString'
