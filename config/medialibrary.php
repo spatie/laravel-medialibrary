@@ -73,8 +73,6 @@ return [
         Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
     ],
 
-
-
     'responsive_images' => [
 
         /*
@@ -91,7 +89,7 @@ return [
          * By default rendering media to a response image will add some javascript and a tiny placeholder.
          * This ensures that the browser can already determine the correct layout.
          */
-        'use_tiny_placeholders' => true
+        'use_tiny_placeholders' => true,
     ],
 
     /*
