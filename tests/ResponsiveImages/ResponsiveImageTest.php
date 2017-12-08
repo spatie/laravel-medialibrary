@@ -40,15 +40,17 @@ class ResponsiveImageTest extends TestCase
 
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
-        $this->assertEquals(
+        $this->assertContains(
             '/media/1/responsive-images/test___medialibrary_original_340_280.jpg 340w, /media/1/responsive-images/test___medialibrary_original_284_233.jpg 284w, /media/1/responsive-images/test___medialibrary_original_237_195.jpg 237w',
              $media->getSrcset()
         );
+        $this->assertContains('data:image/svg+xml;base64', $media->getSrcset());
 
-        $this->assertEquals(
+        $this->assertContains(
             '/media/1/responsive-images/test___thumb_50_41.jpg 50w',
              $media->getSrcset('thumb')
         );
+        $this->assertContains('data:image/svg+xml;base64,', $media->getSrcset('thumb'));
     }
 
     /** @test */

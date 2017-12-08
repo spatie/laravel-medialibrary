@@ -47,7 +47,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
 
         $this->app->bind(Filesystem::class, DefaultFilesystem::class);
-        $this->app->bind(WidthCalculator::class, FileSizeOptimizedWidthCalculator::class);
+        $this->app->bind(WidthCalculator::class, config('medialibrary.responsive_images.width_calculator'));
 
         $this->commands([
             'command.medialibrary:regenerate',

@@ -14,8 +14,10 @@ use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Illuminate\Contracts\Support\Htmlable;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 
-class Media extends Model implements Responsable
+class Media extends Model implements Responsable, Htmlable
 {
     use SortableTrait;
 
@@ -243,6 +245,53 @@ class Media extends Model implements Responsable
     public function getSrcset(string $conversionName = ''): string
     {
         return $this->responsiveImages($conversionName)->getSrcset();
+    }
+
+    public function toHtml()
+    {
+        return $this->img();
+    }
+
+    /**
+     * @param string|array $conversion
+     * @param array $extraAttributes
+     *
+     * @return string
+     */
+    public function img($conversion = '', array $extraAttributes = []): string
+    {
+        if ( ! (new Image())->canHandleMime($this->mime_type)) {
+            return '';
+        }
+
+        if (is_array($conversion)) {
+            $conversion = $conversion['conversion'] ?? '';
+
+            unset($conversion['conversion']);
+
+            $extraAttributes = array_merge($conversion, $extraAttributes);
+        }
+
+        $attributeString = collect($extraAttributes)
+            ->map(function($value, $name) {
+                return '$name="' . $value . '"';
+            })->implode(' ');
+
+        $media = $this;
+
+        $viewName = 'image';
+
+        if ($this->hasResponsiveImages()) {
+            $viewName = config('responsive_images.use_tiny_placeholder')
+                ? 'responsiveImageWithPlaceholder'
+                : 'responsiveImage';
+        }
+
+        return view("medialibrary.{$viewName}", compact(
+            'media',
+            'conversion',
+            'attributeString'
+        ));
     }
 
     public function responsiveImages(string $conversionName = ''): RegisteredResponsiveImages
