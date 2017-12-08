@@ -62,9 +62,11 @@ class RegisteredResponsiveImages
 
         $tinyJpgBase64 = $this->media->responsive_images[$this->generatedFor]['tinyJpgBase64'];
 
-        return view('medialibrary::placeholderSvg', compact(
+        $svg = view('medialibrary::placeholderSvg', compact(
             'largestResponsiveImage',
             'tinyJpgBase64'
         ));
+
+        return 'data:image/svg+xml;base64,' . base64_encode($svg);
     }
 }
