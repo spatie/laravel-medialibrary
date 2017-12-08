@@ -87,13 +87,31 @@ class ResponsiveImageGenerator
         ResponsiveImage::register($media, $finalImageFileName, $conversionName);
     }
 
-    public function generateTinyJpg(Media $media, string $baseImage, string $conversionName, BaseTemporaryDirectory $temporaryDirectory)
+    public function generateTinyJpg(Media $media, string $originalImage, string $conversionName, BaseTemporaryDirectory $temporaryDirectory)
     {
         $tempDestination = $temporaryDirectory->path('tiny.jpg');
 
-        Image::load($baseImage)->width(32)->blur(10)->save($tempDestination);
+        $originalImage = Image::load($originalImage);
 
-        ResponsiveImage::registerTinyJpg($media, $tempDestination, $conversionName);
+        $originalImageWidth = $originalImage->getWidth();
+
+        $originalImageHeight = $originalImage->getHeight();
+
+        $originalImage->width(32)->blur(5)->save($tempDestination);
+
+        $tinyImageDataBase64 = base64_encode(file_get_contents($tempDestination));
+        
+        $tinyImageBase64 = 'data:image/jpeg;base64,' . $tinyImageDataBase64;
+
+        $svg = view('medialibrary::placeholderSvg', compact(
+            'originalImageWidth',
+            'originalImageHeight',
+            'tinyImageBase64'
+        ));
+
+        $base64Svg = 'data:image/svg+xml;base64,' . base64_encode($svg);
+
+        ResponsiveImage::registerTinySvg($media, $base64Svg, $conversionName);
     }
 
     protected function appendToFileName(string $filePath, string $suffix): string

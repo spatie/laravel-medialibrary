@@ -52,21 +52,11 @@ class RegisteredResponsiveImages
                 return "{$responsiveImage->url()} {$responsiveImage->width()}w";
             })
             ->implode(', ');
-
         return $filesSrcset . ', ' . $this->getPlaceholderSvg() . ' 32w';
     }
 
     public function getPlaceholderSvg(): string
     {
-        $largestResponsiveImage = $this->files->first();
-
-        $tinyJpgBase64 = $this->media->responsive_images[$this->generatedFor]['tinyJpgBase64'];
-
-        $svg = view('medialibrary::placeholderSvg', compact(
-            'largestResponsiveImage',
-            'tinyJpgBase64'
-        ));
-
-        return 'data:image/svg+xml;base64,' . base64_encode($svg);
+        return $this->media->responsive_images[$this->generatedFor]['base64svg'];
     }
 }

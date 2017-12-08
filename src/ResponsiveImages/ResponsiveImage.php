@@ -24,15 +24,11 @@ class ResponsiveImage
         $media->save();
     }
 
-    public static function registerTinyJpg(Media $media, string $filePath, string $conversionName)
+    public static function registerTinySvg(Media $media, string $base64Svg, string $conversionName)
     {
         $responsiveImages = $media->responsive_images;
-
-        $imageData = file_get_contents($filePath);
-
-        $base64 = 'data:image/jpeg;base64,' . base64_encode($imageData);
         
-        $responsiveImages[$conversionName]['tinyJpgBase64'] = $base64;
+        $responsiveImages[$conversionName]['base64svg'] = $base64Svg;
 
         $media->responsive_images = $responsiveImages;
     
