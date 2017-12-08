@@ -293,16 +293,21 @@ class Media extends Model implements Responsable, Htmlable
 
         $viewName = 'image';
 
+        $width = '';
+
         if ($this->hasResponsiveImages()) {
             $viewName = config('medialibrary.responsive_images.use_tiny_placeholders')
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
+
+            $width = $this->responsiveImages($conversion)->files->first()->width();
         }
 
         return view("medialibrary::{$viewName}", compact(
             'media',
             'conversion',
-            'attributeString'
+            'attributeString',
+            'width'
         ));
     }
 
