@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php" : "^7.0",
+    "php": "^7.0",
     "illuminate/bus": "~5.5.0",
     "illuminate/console": "~5.5.0",
     "illuminate/database": "~5.5.0",
@@ -32,12 +32,12 @@
     "spatie/pdf-to-image": "^1.2",
     "spatie/image": "^1.4.0",
     "spatie/temporary-directory": "^1.1",
-    "maennchen/zipstream-php": "^0.5.0"
+    "maennchen/zipstream-php": "0.4.1"
   },
   "require-dev": {
     "guzzlehttp/guzzle": "^6.3",
     "league/flysystem-aws-s3-v3": "^1.0.13",
-    "phpunit/phpunit" : "^6.2",
+    "phpunit/phpunit": "^6.2",
     "mockery/mockery": "^1.0",
     "orchestra/testbench": "~3.5.0",
     "doctrine/dbal": "^2.5.2"
@@ -60,11 +60,11 @@
     }
   },
   "extra": {
-      "laravel": {
-          "providers": [
-              "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
-          ]
-      }
+    "laravel": {
+      "providers": [
+        "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
+      ]
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true
