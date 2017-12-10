@@ -323,8 +323,8 @@ class Media extends Model implements Responsable, Htmlable
         return $filesystem->getStream($this);
     }
 
-    public function __invoke()
+    public function __invoke(...$arguments)
     {
-        return new HtmlString($this->img(...func_get_args()));
+        return new HtmlString($this->img(...$arguments));
     }
 }
