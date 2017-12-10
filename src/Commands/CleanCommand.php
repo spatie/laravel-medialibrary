@@ -68,7 +68,7 @@ class CleanCommand extends Command
 
         $this->deleteFilesGeneratedForDeprecatedConversions();
 
-        $this->deleteOrphanedFiles();
+        $this->deleteOrphanedDirectories();
 
         $this->info('All done!');
     }
@@ -118,7 +118,7 @@ class CleanCommand extends Command
         });
     }
 
-    protected function deleteOrphanedFiles()
+    protected function deleteOrphanedDirectories()
     {
         $diskName = $this->argument('disk') ?: config('medialibrary.default_filesystem');
 
