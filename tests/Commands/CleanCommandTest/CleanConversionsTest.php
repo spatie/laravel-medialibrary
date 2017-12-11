@@ -158,7 +158,7 @@ class CleanConversionsTest extends TestCase
         Artisan::call('medialibrary:clean');
 
         $media->refresh();
-        dd($media->responsive_images);
+
         $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
         $this->assertFileNotExists($deprecatedReponsiveImagesPath);
     }

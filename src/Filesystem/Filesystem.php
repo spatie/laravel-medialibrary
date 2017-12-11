@@ -20,7 +20,7 @@ interface Filesystem
 
     public function renameFile(Media $media, string $oldName);
 
-    public function removeFiles(Media $media);
+    public function removeAllFiles(Media $media);
 
     public function removeFile(Media $media, string $path);
 

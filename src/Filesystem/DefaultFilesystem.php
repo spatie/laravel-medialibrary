@@ -122,7 +122,7 @@ class DefaultFilesystem implements Filesystem
     /*
      * Remove all files for the given media.
      */
-    public function removeFiles(Media $media)
+    public function removeAllFiles(Media $media)
     {
         $mediaDirectory = $this->getMediaDirectory($media);
 

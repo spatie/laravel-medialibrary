@@ -31,6 +31,6 @@ class MediaObserver
 
     public function deleted(Media $media)
     {
-        app(Filesystem::class)->removeFiles($media);
+        app(Filesystem::class)->removeAllFiles($media);
     }
 }
