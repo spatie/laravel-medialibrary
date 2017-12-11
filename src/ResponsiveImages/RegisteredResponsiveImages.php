@@ -16,7 +16,7 @@ class RegisteredResponsiveImages
     public $files;
 
     /** string */
-    protected $generatedFor;
+    public $generatedFor;
 
     public function __construct(Media $media, string $conversionName = '')
     {
@@ -63,5 +63,18 @@ class RegisteredResponsiveImages
     public function getPlaceholderSvg(): string
     {
         return $this->media->responsive_images[$this->generatedFor]['base64svg'];
+    }
+
+    public function delete()
+    {
+        $this->files->each->delete();
+
+        $responsiveImages = $this->media->responsive_images;
+
+        unset($responsiveImages[$this->generatedFor]);
+
+        $this->media->responsive_images = $responsiveImages;
+
+        $this->media->save();
     }
 }

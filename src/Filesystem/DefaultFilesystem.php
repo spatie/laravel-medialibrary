@@ -136,6 +136,11 @@ class DefaultFilesystem implements Filesystem
             });
     }
 
+    public function removeFile(Media $media, string $path)
+    {
+        $this->filesystem->disk($media->disk)->delete($path);
+    }
+
     /*
      * Rename a file for the given media.
      */

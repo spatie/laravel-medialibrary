@@ -3,7 +3,9 @@
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Spatie\MediaLibrary\Media;
+use \Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class ResponsiveImage
 {
@@ -92,5 +94,26 @@ class ResponsiveImage
         $between = strstr($between, $endCharacter, true);
 
         return $between;
+    }
+
+    public function delete()
+    {
+        $pathGenerator = PathGeneratorFactory::create();
+
+        $path = $pathGenerator->getPathForResponsiveImages($this->media);
+
+        $fullPath = $path . $this->fileName;
+
+        app(Filesystem::class)->removeFile($this->media, $fullPath);
+
+        $responsiveImages = $this->media->responsive_images;
+
+        unset($responsiveImages[$this->generatedFor()]);
+        
+        $this->media->responsive_images = $responsiveImages;
+            
+        $this->media->save();
+
+        return $this;
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Tests\TestModel;
 use Spatie\MediaLibrary\Tests\TestModelWithConversion;
 
-class CleanCommandTest extends TestCase
+class CleanConversionsTest extends TestCase
 {
     /** @var array */
     protected $media;
@@ -134,5 +134,32 @@ class CleanCommandTest extends TestCase
 
         $this->assertFileNotExists($this->getMediaDirectory($this->media['model1']['collection1']->id));
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+    }
+
+    /** @test */
+    public function it_can_clean_responsive_images()
+    {
+        $media = $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection();
+
+        $deprecatedResponsiveImageFileName = 'test___deprecatedConversion_50_41.jpg';
+        $deprecatedReponsiveImagesPath = $this->getMediaDirectory("5/responsive-images/{$deprecatedResponsiveImageFileName}");
+        touch($deprecatedReponsiveImagesPath);
+
+        $originalResponsiveImagesContent = $media->responsive_images;
+        $newResponsiveImages = $originalResponsiveImagesContent;
+        $newResponsiveImages['deprecatedConversion'] = $originalResponsiveImagesContent['thumb'];
+        $newResponsiveImages['deprecatedConversion']['urls'][0] = $deprecatedResponsiveImageFileName;
+        $media->responsive_images = $newResponsiveImages;
+        $media->save();
+
+        Artisan::call('medialibrary:clean');
+
+        $media->refresh();
+        dd($media->responsive_images);
+        $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
+        $this->assertFileNotExists($deprecatedReponsiveImagesPath);
     }
 }

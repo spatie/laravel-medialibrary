@@ -22,6 +22,8 @@ interface Filesystem
 
     public function removeFiles(Media $media);
 
+    public function removeFile(Media $media, string $path);
+
     public function getMediaDirectory(Media $media, string $type) : string;
 
     public function getConversionDirectory(Media $media) : string;
