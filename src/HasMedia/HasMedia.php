@@ -95,7 +95,6 @@ interface HasMedia
      */
     public function registerMediaConversions(Media $media = null);
 
-
     /*
      * Register the media collections.
      */
