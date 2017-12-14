@@ -209,6 +209,14 @@ abstract class TestCase extends Orchestra
             'medialibrary.s3.domain',
             'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
         );
+        $app['config']->set(
+            'medialibrary.s3.cdn_domain',
+            'https://spatie.cdn.com'
+        );
+        $app['config']->set(
+            'medialibrary.s3.cdn_domain_after',
+            30
+        );
     }
 
     public function skipOnTravis()

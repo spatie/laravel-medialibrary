@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
+use Carbon\Carbon;
 use DateTimeInterface;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Contracts\Config\Repository as Config;
@@ -29,7 +30,17 @@ class S3UrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
-        return config('medialibrary.s3.domain').'/'.$url;
+        /* @var Carbon $createdAt */
+        $createdAt = $this->media->created_at;
+        $domain = config('medialibrary.s3.domain');
+        $cdnDomain = config('medialibrary.s3.cdn_domain');
+        $cdnDomainAfter = (int) config('medialibrary.s3.cdn_domain_after', 30);
+
+        if (!empty($cdnDomain) && $createdAt->copy()->addMinutes($cdnDomainAfter)->isPast()) {
+            $domain = $cdnDomain;
+        }
+
+        return $domain.'/'.$url;
     }
 
     /**
