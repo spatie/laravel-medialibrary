@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Commands;
+namespace Spatie\MediaLibrary\Tests\Feature\Commands;
 
 use DB;
 use Spatie\MediaLibrary\Tests\TestCase;
