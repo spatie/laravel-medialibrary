@@ -15,8 +15,8 @@ class Video extends BaseGenerator
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
         $ffmpeg = FFMpeg::create([
-            'ffmpeg.binaries' => config('medialibrary.ffmpeg_binaries'),
-            'ffprobe.binaries' => config('medialibrary.ffprobe_binaries'),
+            'ffmpeg.binaries' => config('medialibrary.ffmpeg_path'),
+            'ffprobe.binaries' => config('medialibrary.ffprobe_path'),
         ]);
 
         $video = $ffmpeg->open($file);

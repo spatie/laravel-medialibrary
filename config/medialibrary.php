@@ -126,10 +126,10 @@ return [
     'temporary_directory_path' => null,
 
     /*
-     * FFMPEG & FFProbe binaries path, only used if you try to generate video
+     * FFMPEG & FFProbe binaries paths, only used if you try to generate video
      * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
      * dependency.
      */
-    'ffmpeg_binaries' => '/usr/bin/ffmpeg',
-    'ffprobe_binaries' => '/usr/bin/ffprobe',
+    'ffmpeg_path' => env('FFMPEG_PATH', '/usr/bin/ffmpeg'),
+    'ffprobe_path' => env('FFPROBE_PATH', '/usr/bin/ffmpeg'),
 ];

@@ -16,6 +16,8 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - dropped support for soft deletes
 - removed distinction between `HasMedia` and `HasMediaConversions`
 
+- `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
+
 ## 6.6.3 - 2017-11-28
 
 - fix clearing entire media collection except a single media instance
