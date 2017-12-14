@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use Carbon\Carbon;
 use Spatie\MediaLibrary\Models\Media;
@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
-class AddMediaTest extends TestCase
+class AddMedia extends TestCase
 {
     /** @test */
     public function it_can_add_an_file_to_the_default_collection()

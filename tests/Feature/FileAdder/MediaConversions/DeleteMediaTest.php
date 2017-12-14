@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use File;
 use Spatie\MediaLibrary\Tests\TestCase;

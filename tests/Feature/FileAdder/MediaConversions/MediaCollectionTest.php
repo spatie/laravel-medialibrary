@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\HasMediaConversionsTrait;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\File;

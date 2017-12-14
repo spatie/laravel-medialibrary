@@ -6,7 +6,7 @@ use File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestPathGenerator;
+use Spatie\MediaLibrary\Tests\Support\TestPathGenerator;
 
 class DeleteTest extends TestCase
 {

@@ -104,7 +104,7 @@ abstract class TestCase extends Orchestra
         $this->setupS3($app);
         $this->setUpMorphMap();
 
-        $app['config']->set('view.paths', [__DIR__.'/resources/views']);
+        $app['config']->set('view.paths', [__DIR__.'/Support/resources/views']);
     }
 
     /**
