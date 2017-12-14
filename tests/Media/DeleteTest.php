@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Media;
 
 use File;
 use Spatie\MediaLibrary\Models\Media;

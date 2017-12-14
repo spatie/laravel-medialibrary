@@ -3,30 +3,35 @@
 namespace Spatie\MediaLibrary\Tests;
 
 use File;
+use Dotenv\Dotenv;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\MediaLibrary\Tests\TestModels\TestModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Dotenv\Dotenv;
+use Spatie\MediaLibrary\Tests\TestModels\TestModelWithMorphMap;
+use Spatie\MediaLibrary\Tests\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestModels\TestModelWithResponsiveImages;
+use Spatie\MediaLibrary\Tests\TestModels\TestModelWithoutMediaConversions;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var \Spatie\MediaLibrary\Tests\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModel */
     protected $testModel;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModel */
     protected $testUnsavedModel;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModelWithConversion */
+    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithConversion */
     protected $testModelWithConversion;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModelWithoutMediaConversions */
+    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithoutMediaConversions */
     protected $testModelWithoutMediaConversions;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModelWithMorphMap */
+    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithMorphMap */
     protected $testModelWithMorphMap;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModelWithResponsiveImages */
+    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithResponsiveImages */
     protected $testModelWithResponsiveImages;
 
     public function setUp()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests;
+namespace Spatie\MediaLibrary\Tests\TestModels;
 
 class TestModelWithMorphMap extends TestModel
 {

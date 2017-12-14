@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
 
 use File;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\Tests\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\TestModels\TestModelWithoutMediaConversions;
 
 class DeleteMediaTest extends TestCase
 {

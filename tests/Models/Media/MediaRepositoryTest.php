@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Tests\Models\Media;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\MediaRepository;
-use Spatie\MediaLibrary\Tests\TestCustomMediaModel;
+use Spatie\MediaLibrary\Tests\TestModels\TestCustomMediaModel;
 
 class MediaRepositoryTest extends TestCase
 {

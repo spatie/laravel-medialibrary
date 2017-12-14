@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Tests\Commands;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\MediaLibrary\Tests\TestModel;
+use Spatie\MediaLibrary\Tests\TestModels\TestModel;
 
 class ClearCommandTest extends TestCase
 {

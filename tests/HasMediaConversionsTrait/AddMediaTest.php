@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\Tests\TestModel;
-use Spatie\MediaLibrary\Tests\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 class AddMediaTest extends TestCase
