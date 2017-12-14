@@ -24,6 +24,11 @@ class S3TestPathGenerator implements PathGenerator
         return $this->getBasePath($media).'/conversions/';
     }
 
+    public function getPathForResponsiveImages(Media $media): string
+    {
+        return $this->getBasePath($media).'/responsive-images/';
+    }
+
     /*
      * Get a (unique) base path for the given media.
      */
