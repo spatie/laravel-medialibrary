@@ -10,6 +10,7 @@ use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
+use Spatie\MediaLibrary\Commands\DeleteOldTemporaryUploads;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -23,12 +24,16 @@ class MediaLibraryServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
             ], 'migrations');
+
+            $this->publishes([
+                __DIR__.'/../database/migrations/create_temporary_uploads_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_temporary_uploads_table.php'),
+            ], 'migrations');
         }
 
         $mediaClass = config('medialibrary.media_model');
 
         $mediaClass::observe(new MediaObserver());
-   
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'medialibrary');
     }
 
@@ -45,6 +50,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
+        $this->app->bind('command.medialibrary:delete-old-temporary-uploads', DeleteOldTemporaryUploads::class);
 
         $this->app->bind(Filesystem::class, DefaultFilesystem::class);
         $this->app->bind(WidthCalculator::class, config('medialibrary.responsive_images.width_calculator'));
@@ -53,6 +59,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             'command.medialibrary:regenerate',
             'command.medialibrary:clear',
             'command.medialibrary:clean',
+            'command.medialibrary:delete-old-temporary-uploads',
         ]);
     }
 }

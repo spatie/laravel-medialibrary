@@ -117,8 +117,10 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
 
         include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
-
         (new \CreateMediaTable())->up();
+
+        include_once __DIR__.'/../database/migrations/create_temporary_uploads_table.php.stub';
+        (new \CreateTemporaryUploads())->up();
     }
 
     protected function setUpTempTestFiles()

@@ -7,8 +7,9 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - add the `responsive_images` column
 - rename the `HasMediaConversions` interface to `HasMedia`
 - all converted files should not start with the name of the original file. TODO: add instructions / or maybe a script
-- `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app.
-
+- `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app
+- publish and run the `create_temporary_uploads_table` migration
+- schedule the `medialibrary:delete-old-temporary-uploads` command to run daily
 
 ## From v5 to v6
 
