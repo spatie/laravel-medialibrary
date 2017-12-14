@@ -139,6 +139,8 @@ class S3IntegrationTest extends TestCase
     /** @test */
     public function it_can_get_the_temporary_url_to_first_media_in_a_collection()
     {
+        dd(config('medialibrary'));
+
         $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
         $firstMedia->save();
 
