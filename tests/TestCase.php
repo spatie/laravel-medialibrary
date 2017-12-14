@@ -131,7 +131,7 @@ abstract class TestCase extends Orchestra
     protected function setUpTempTestFiles()
     {
         $this->initializeDirectory($this->getTestFilesDirectory());
-        File::copyDirectory(__DIR__.'/testfiles', $this->getTestFilesDirectory());
+        File::copyDirectory(__DIR__.'/Support/testfiles', $this->getTestFilesDirectory());
     }
 
     protected function initializeDirectory($directory)
@@ -144,7 +144,7 @@ abstract class TestCase extends Orchestra
 
     public function getTempDirectory($suffix = '')
     {
-        return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);
+        return __DIR__.'/Support/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getMediaDirectory($suffix = '')
