@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\FileAdder;
+namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
 use Carbon\Carbon;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\Tests\S3Integration\S3TestPathGenerator;
+use Spatie\MediaLibrary\Tests\Feature\S3Integration\S3TestPathGenerator;
 
 class S3IntegrationTest extends TestCase
 {
@@ -45,7 +45,7 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_store_a_file_and_its_conversion_on_s3()
+    public function it_can_store_a_file_and_its_conversion_on_s3()
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())

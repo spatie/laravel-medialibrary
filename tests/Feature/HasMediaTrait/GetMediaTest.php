@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\HasMediaTrait;
+namespace Spatie\MediaLibrary\Tests\Feature\HasMediaTrait;
 
 use DB;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\Tests\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 
 class GetMediaTest extends TestCase
 {

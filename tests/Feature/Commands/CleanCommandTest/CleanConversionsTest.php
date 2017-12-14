@@ -5,8 +5,8 @@ namespace Spatie\MediaLibrary\Tests\Feature\Commands;
 use DB;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\MediaLibrary\Tests\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
 
 class CleanConversionsTest extends TestCase
 {

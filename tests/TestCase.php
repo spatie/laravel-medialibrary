@@ -7,31 +7,31 @@ use Dotenv\Dotenv;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\MediaLibrary\Tests\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Spatie\MediaLibrary\Tests\TestModels\TestModelWithMorphMap;
-use Spatie\MediaLibrary\Tests\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\TestModels\TestModelWithResponsiveImages;
-use Spatie\MediaLibrary\Tests\TestModels\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModels\TestModel */
     protected $testModel;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModels\TestModel */
     protected $testUnsavedModel;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithConversion */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModels\TestModelWithConversion */
     protected $testModelWithConversion;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithoutMediaConversions */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModels\TestModelWithoutMediaConversions */
     protected $testModelWithoutMediaConversions;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithMorphMap */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModels\TestModelWithMorphMap */
     protected $testModelWithMorphMap;
 
-    /** @var \Spatie\MediaLibrary\Tests\TestModels\TestModels\TestModelWithResponsiveImages */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModels\TestModelWithResponsiveImages */
     protected $testModelWithResponsiveImages;
 
     public function setUp()

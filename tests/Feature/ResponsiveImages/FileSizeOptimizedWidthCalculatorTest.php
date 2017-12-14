@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
@@ -63,7 +63,7 @@ class FileSizeOptimizedWidthCalculatorTest extends TestCase
             14 => 197,
             15 => 165,
         ], $dimensions->toArray());
-        
+
         $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidths(12000 * 1024, 8200, 5500);
 
         $this->assertEquals([

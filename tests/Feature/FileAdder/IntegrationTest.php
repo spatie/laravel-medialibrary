@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\FileAdder;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

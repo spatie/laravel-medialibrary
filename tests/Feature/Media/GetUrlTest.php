@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
 
 use Carbon\Carbon;
 use Spatie\MediaLibrary\Tests\TestCase;

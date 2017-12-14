@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\HasMediaConversionsTrait;
+namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
 
 use Carbon\Carbon;
 use Spatie\MediaLibrary\Models\Media;

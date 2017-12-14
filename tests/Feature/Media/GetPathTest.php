@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;

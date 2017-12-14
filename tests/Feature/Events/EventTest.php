@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Events;
+namespace Spatie\MediaLibrary\Tests\Feature\Events;
 
 use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\Tests\TestCase;

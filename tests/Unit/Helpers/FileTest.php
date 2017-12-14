@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Helpers;
+namespace Spatie\MediaLibrary\Tests\Unit\Helpers;
 
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Tests\TestCase;

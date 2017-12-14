@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\PathGenerator;
+namespace Spatie\MediaLibrary\Tests\Unit\PathGenerator;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\UrlGenerator;
+namespace Spatie\MediaLibrary\Tests\Unit\UrlGenerator;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
