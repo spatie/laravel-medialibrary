@@ -6,8 +6,9 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - added support for responsive images
 - added `MediaCollections`
-- added support for single file collections
+- added single file collections
 - added `ZipStreamResponse`
+- added upload api + support for first party upload vue components
 
 - file names will be lowercases when adding them to the medialibrary
 - the names of converted images will now start with the name of the original file
@@ -17,7 +18,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 6.6.3 - 2017-11-28
 
-- fix clearing entire media collection except a single media instance 
+- fix clearing entire media collection except a single media instance
 
 ## 6.6.2 - 2017-11-07
 
@@ -196,9 +197,9 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 5.0.1 - 2017-02-06
 
-- fix for `getFirstMediaUrl()` always returning the url for the first conversion 
+- fix for `getFirstMediaUrl()` always returning the url for the first conversion
 
-## 5.0.0 - 2017-02-06 
+## 5.0.0 - 2017-02-06
 
 - add `toMediaLibraryOnCloudDisk`
 - image generators may now be specified in the config file
@@ -455,7 +456,7 @@ $media = $this->testModel->addMediaFromUrl($url)
 
 ## 3.2.1
 - Add index to morphable fields in migration which could improve performance.
-NOTE: if you started out using this version, the tests will be broken. You should make sure 
+NOTE: if you started out using this version, the tests will be broken. You should make sure
 model_id and model_type are nullable in your database.
 
 ## 3.2.0
@@ -548,7 +549,7 @@ This version is a complete rewrite. Though there are lots of breaking changes mo
 - Bugfix: make compatible with Laravel 5.1
 
 ## 1.5.5
-- Bugfix: Renamed the boot method of MedialibraryModeltrait so it plays nice with the boot method of 
+- Bugfix: Renamed the boot method of MedialibraryModeltrait so it plays nice with the boot method of
 other traits and the base model.
 
 ## 1.5.4

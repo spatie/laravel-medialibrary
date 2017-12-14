@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Dotenv\Dotenv;
 
 abstract class TestCase extends Orchestra
 {
@@ -32,6 +33,8 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
+        $this->loadEnvironmentVariables();
+
         $this->setUpDatabase($this->app);
 
         $this->setUpTempTestFiles();
@@ -42,6 +45,13 @@ abstract class TestCase extends Orchestra
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
         $this->testModelWithResponsiveImages = TestModelWithResponsiveImages::first();
+    }
+
+    protected function loadEnvironmentVariables()
+    {
+        $dotenv = new Dotenv(__DIR__ . '/..');
+
+        $dotenv->load();
     }
 
     /**

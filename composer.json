@@ -41,7 +41,8 @@
     "phpunit/phpunit": "^6.2",
     "mockery/mockery": "^1.0",
     "orchestra/testbench": "~3.5.0",
-    "doctrine/dbal": "^2.5.2"
+    "doctrine/dbal": "^2.5.2",
+    "vlucas/phpdotenv": "^2.4"
   },
   "conflict": {
     "php-ffmpeg/php-ffmpeg": "<0.6.1"
