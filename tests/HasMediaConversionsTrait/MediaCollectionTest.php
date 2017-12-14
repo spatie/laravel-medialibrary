@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\Tests\HasMediaConversionsTrait;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\File;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestModelWithoutMediaConversions;

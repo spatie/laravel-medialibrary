@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\PathGenerator;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 interface PathGenerator
 {

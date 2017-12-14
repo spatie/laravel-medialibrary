@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use \Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
@@ -22,18 +22,18 @@ class ResponsiveImage
         $responsiveImages[$conversionName]['urls'][] = $fileName;
 
         $media->responsive_images = $responsiveImages;
-    
+
         $media->save();
     }
 
     public static function registerTinySvg(Media $media, string $base64Svg, string $conversionName)
     {
         $responsiveImages = $media->responsive_images;
-        
+
         $responsiveImages[$conversionName]['base64svg'] = $base64Svg;
 
         $media->responsive_images = $responsiveImages;
-    
+
         $media->save();
     }
 
@@ -109,9 +109,9 @@ class ResponsiveImage
         $responsiveImages = $this->media->responsive_images;
 
         unset($responsiveImages[$this->generatedFor()]);
-        
+
         $this->media->responsive_images = $responsiveImages;
-            
+
         $this->media->save();
 
         return $this;

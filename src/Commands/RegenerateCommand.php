@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Commands;
 
 use Exception;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Console\ConfirmableTrait;

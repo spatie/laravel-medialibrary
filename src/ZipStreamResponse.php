@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Support\Responsable;
 use ZipStream\ZipStream;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -38,7 +38,7 @@ class ZipStreamResponse implements Responsable
     {
         return new StreamedResponse(function () {
             $zip = new ZipStream($this->zipName);
-            
+
             $this->mediaItems->each(function (Media $media) use ($zip) {
                 $stream = $media->stream();
 
@@ -46,7 +46,7 @@ class ZipStreamResponse implements Responsable
 
                 fclose($stream);
             });
-            
+
             $zip->finish();
         });
     }

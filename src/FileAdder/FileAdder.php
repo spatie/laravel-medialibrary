@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\FileAdder;
 
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\File as PendingFile;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
@@ -383,7 +383,7 @@ class FileAdder
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
             dispatch(new GenerateResponsiveImages($media));
         }
-        
+
         if (optional($this->getMediaCollection($media->collection_name))->singleFile) {
             $model->clearMediaCollectionExcept($media->collection_name, $media);
         }

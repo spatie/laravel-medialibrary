@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 
 class MediaObserver

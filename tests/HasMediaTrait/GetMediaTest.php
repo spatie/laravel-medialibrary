@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Tests\HasMediaTrait;
 
 use DB;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestModel;
 
@@ -48,7 +48,7 @@ class GetMediaTest extends TestCase
     {
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
 
-        $this->assertInstanceOf(\Spatie\MediaLibrary\Media::class, $this->testModel->getMedia()->first());
+        $this->assertInstanceOf(Media::class, $this->testModel->getMedia()->first());
     }
 
     /** @test */

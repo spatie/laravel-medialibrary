@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use DateTimeInterface;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
@@ -51,7 +51,7 @@ interface UrlGenerator
 
     /**
      * Get the url to the directory containing responsive images.
-     * 
+     *
      * @return string
      */
     public function getResponsiveImagesDirectoryUrl(): string;

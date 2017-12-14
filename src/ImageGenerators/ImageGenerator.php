@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\ImageGenerators;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
 interface ImageGenerator

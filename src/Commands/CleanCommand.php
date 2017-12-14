@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Spatie\MediaLibrary\FileManipulator;
@@ -20,7 +20,7 @@ class CleanCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} 
+    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?}
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production}';
 
@@ -110,7 +110,7 @@ class CleanCommand extends Command
     protected function deleteConversionFilesForDeprecatedConversions(Media $media)
     {
         $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
-      
+
         $conversionPath = $this->basePathGenerator->getPathForConversions($media);
         $currentFilePaths = $this->fileSystem->disk($media->disk)->files($conversionPath);
 

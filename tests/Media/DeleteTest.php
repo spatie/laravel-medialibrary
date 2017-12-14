@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Tests\Media;
 
 use File;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestModel;
 use Spatie\MediaLibrary\Tests\TestPathGenerator;
@@ -21,7 +21,7 @@ class DeleteTest extends TestCase
 
         $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
     }
-    
+
     /** @test */
     public function it_will_remove_the_files_when_deleting_a_media_instance()
     {

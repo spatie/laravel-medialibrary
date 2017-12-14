@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
@@ -33,7 +33,7 @@ class ResponsiveImageGenerator
     public function generateResponsiveImages(Media $media)
     {
         $temporaryDirectory = TemporaryDirectory::create();
-        
+
         $baseImage = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
             $temporaryDirectory->path(str_random(16).'.'.$media->extension)
@@ -69,7 +69,7 @@ class ResponsiveImageGenerator
         BaseTemporaryDirectory $temporaryDirectory
         ) {
         $responsiveImagePath = $this->appendToFileName($media->file_name, "___{$conversionName}_{$targetWidth}");
-   
+
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
         Image::load($baseImage)->width($targetWidth)->save($tempDestination);
@@ -100,7 +100,7 @@ class ResponsiveImageGenerator
         $originalImage->width(32)->blur(5)->save($tempDestination);
 
         $tinyImageDataBase64 = base64_encode(file_get_contents($tempDestination));
-        
+
         $tinyImageBase64 = 'data:image/jpeg;base64,' . $tinyImageDataBase64;
 
         $svg = view('medialibrary::placeholderSvg', compact(
@@ -119,7 +119,7 @@ class ResponsiveImageGenerator
         $baseName = pathinfo($filePath, PATHINFO_FILENAME);
 
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-  
+
         return $baseName . $suffix . '.' . $extension;
     }
 }

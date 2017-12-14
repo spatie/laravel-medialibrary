@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Route;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\ZipStreamResponse;

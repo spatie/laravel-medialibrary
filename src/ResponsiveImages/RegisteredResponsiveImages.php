@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;

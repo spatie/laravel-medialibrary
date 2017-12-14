@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Media;
+namespace Spatie\MediaLibrary\Models\Media;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -93,7 +93,7 @@ class ToHtmlTest extends TestCase
     /** @test */
     public function it_will_not_rendering_extra_javascript_or_including_base64_svg_when_tiny_placeholders_are_turned_off()
     {
-        config()->set('medialibrary.responsive_images.use_tiny_placeholders', false); 
+        config()->set('medialibrary.responsive_images.use_tiny_placeholders', false);
 
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
@@ -101,7 +101,7 @@ class ToHtmlTest extends TestCase
             ->toMediaCollection();
 
         $imgTag = $media->refresh()->img();
-        
+
         $this->assertEquals('<img srcset="/media/2/responsive-images/test___medialibrary_original_340_280.jpg 340w, /media/2/responsive-images/test___medialibrary_original_284_233.jpg 284w, /media/2/responsive-images/test___medialibrary_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
     }
 }

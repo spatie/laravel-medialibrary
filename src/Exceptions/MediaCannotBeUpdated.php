@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 class MediaCannotBeUpdated extends Exception
 {

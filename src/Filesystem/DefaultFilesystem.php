@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Filesystem\Factory;

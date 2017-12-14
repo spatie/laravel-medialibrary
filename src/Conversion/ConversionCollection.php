@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Arr;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\Image\Manipulations;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;

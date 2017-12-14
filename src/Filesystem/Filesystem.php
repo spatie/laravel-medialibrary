@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 interface Filesystem
 {

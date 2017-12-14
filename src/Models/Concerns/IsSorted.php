@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 
-trait SortableTrait
+trait IsSorted
 {
     public function setHighestOrderNumber()
     {

@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests\S3Integration;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 use Spatie\MediaLibrary\Tests\FileAdder\S3IntegrationTest;
 

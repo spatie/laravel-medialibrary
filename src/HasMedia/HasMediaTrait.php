@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\HasMedia;
 
 use DateTimeInterface;
 use Illuminate\Http\File;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\MediaRepository;

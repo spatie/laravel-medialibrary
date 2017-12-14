@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Spatie\MediaLibrary\FileManipulator;

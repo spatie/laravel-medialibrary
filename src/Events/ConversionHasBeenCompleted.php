@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Events;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\Conversion\Conversion;
 

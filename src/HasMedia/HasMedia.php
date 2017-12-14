@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\HasMedia;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 interface HasMedia
 {

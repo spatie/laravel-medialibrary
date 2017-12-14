@@ -1,26 +1,27 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\MediaLibrary\Models;
 
 use DateTimeInterface;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\Models\Concerns\IsSorted;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Illuminate\Contracts\Support\Htmlable;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
-use Illuminate\Support\HtmlString;
 
 class Media extends Model implements Responsable, Htmlable
 {
-    use SortableTrait;
+    use IsSorted;
 
     const TYPE_OTHER = 'other';
 
