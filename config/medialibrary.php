@@ -48,7 +48,7 @@ return [
          */
         'domain' => 'https://xxxxxxx.s3.amazonaws.com',
 
-        /**
+        /*
          * The cdn domain that should be prepended when generating urls after the given amount of time has passed
          *
          * Sometimes a cdn can take a while to sync across all of the servers.
@@ -57,7 +57,7 @@ return [
          */
         'cdn_domain' => null,
 
-        /**
+        /*
          * In minutes when should the cdn domain be used after the file was created
          */
         'cdn_domain_after' => 30,

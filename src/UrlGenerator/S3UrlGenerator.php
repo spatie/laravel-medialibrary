@@ -30,17 +30,7 @@ class S3UrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
-        /* @var Carbon $createdAt */
-        $createdAt = $this->media->created_at;
-        $domain = config('medialibrary.s3.domain');
-        $cdnDomain = config('medialibrary.s3.cdn_domain');
-        $cdnDomainAfter = (int) config('medialibrary.s3.cdn_domain_after', 30);
-
-        if (!empty($cdnDomain) && $createdAt->copy()->addMinutes($cdnDomainAfter)->isPast()) {
-            $domain = $cdnDomain;
-        }
-
-        return $domain.'/'.$url;
+        return $this->getDomainName().'/'.$url;
     }
 
     /**
@@ -76,6 +66,26 @@ class S3UrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return config('medialibrary.s3.domain').'/'. $this->pathGenerator->getPathForResponsiveImages($this->media);
+        return $this->getDomainName().'/'. $this->pathGenerator->getPathForResponsiveImages($this->media);
+    }
+
+    /**
+     * Get the domain name based on the created at time of the file
+     *
+     * @return string
+     */
+    protected function getDomainName(): string
+    {
+        /* @var Carbon $createdAt */
+        $createdAt = $this->media->created_at;
+        $domain = config('medialibrary.s3.domain');
+        $cdnDomain = config('medialibrary.s3.cdn_domain');
+        $cdnDomainAfter = (int) config('medialibrary.s3.cdn_domain_after', 30);
+
+        if (! empty($cdnDomain) && $createdAt->copy()->addMinutes($cdnDomainAfter)->isPast()) {
+            $domain = $cdnDomain;
+        }
+
+        return $domain;
     }
 }
