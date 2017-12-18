@@ -54,6 +54,10 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables()
     {
+        if (! file_exists(__DIR__ . '/../.env')) {
+            return;
+        }
+
         $dotenv = new Dotenv(__DIR__ . '/..');
 
         $dotenv->load();
