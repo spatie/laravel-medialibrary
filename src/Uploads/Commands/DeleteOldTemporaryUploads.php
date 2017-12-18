@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Commands;
+namespace Spatie\MediaLibrary\Uploads\Commands;
 
 use App\Models\TemporaryUpload;
 
@@ -22,7 +22,7 @@ class DeleteOldTemporaryUploads extends Command
     {
         $this->info('Start removing old temporary uploads...');
 
-        $temporaryUploadClass = config('medialibrary.models.temporary_upload');
+        $temporaryUploadClass = config('medialibrary.uploads.temporary_upload_model');
 
         $temporaryUploads = $temporaryUploadClass::old()->get();
 

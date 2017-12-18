@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Command;
+namespace Spatie\MediaLibrary\Tests\Feature\Uploads\Commands;
 
 use Carbon\Carbon;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\Models\TemporaryUpload;
+use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 
 class DeleteOldTemporaryUploadsTest extends TestCase
 {

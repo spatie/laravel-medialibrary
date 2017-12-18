@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests;
+namespace Spatie\MediaLibrary\Tests\Feature;
 
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Route;

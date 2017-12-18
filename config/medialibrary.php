@@ -23,28 +23,8 @@ return [
     /*
      * The class names of the models that should be used.
      */
-    'models' => [
-        'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
-        'temporary_upload' => Spatie\MediaLibrary\Models\TemporaryUpload::class,
-    ],
-
-    /*
-     * The engine that should perform the image conversions.
-     * Should be either `gd` or `imagick`.
-     */
-    'image_driver' => 'gd',
-
-    /*
-     * When urls to files get generated, this class will be called. Leave empty
-     * if your files are stored locally above the site root or on s3.
-     */
-    'custom_url_generator_class' => null,
-
-    /*
-     * The class that contains the strategy for determining a media file's path.
-     */
-    'custom_path_generator_class' => null,
+    'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
     's3' => [
         /*
@@ -67,14 +47,8 @@ return [
         ],
     ],
 
-    /*
-     * These generators will be used to create an image of media files.
-     */
-    'image_generators' => [
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
+    'uploads' => [
+        'temporary_upload_model' => Spatie\MediaLibrary\Uploads\Models\TemporaryUpload::class,
     ],
 
     'responsive_images' => [
@@ -95,6 +69,17 @@ return [
          */
         'use_tiny_placeholders' => true,
     ],
+
+    /*
+        * When urls to files get generated, this class will be called. Leave empty
+        * if your files are stored locally above the site root or on s3.
+        */
+    'custom_url_generator_class' => null,
+
+    /*
+        * The class that contains the strategy for determining a media file's path.
+        */
+    'custom_path_generator_class' => null,
 
     /*
      * Medialibrary will try to optimize all converted images by removing
@@ -124,10 +109,20 @@ return [
     ],
 
     /*
-     * The path where to store temporary files while performing image conversions.
-     * If set to null, storage_path('medialibrary/temp') will be used.
+     * These generators will be used to create an image of media files.
      */
-    'temporary_directory_path' => null,
+    'image_generators' => [
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
+        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
+    ],
+
+    /*
+     * The engine that should perform the image conversions.
+     * Should be either `gd` or `imagick`.
+     */
+    'image_driver' => 'gd',
 
     /*
      * FFMPEG & FFProbe binaries paths, only used if you try to generate video
@@ -136,4 +131,10 @@ return [
      */
     'ffmpeg_path' => env('FFMPEG_PATH', '/usr/bin/ffmpeg'),
     'ffprobe_path' => env('FFPROBE_PATH', '/usr/bin/ffmpeg'),
+
+    /*
+     * The path where to store temporary files while performing image conversions.
+     * If set to null, storage_path('medialibrary/temp') will be used.
+     */
+    'temporary_directory_path' => null,
 ];

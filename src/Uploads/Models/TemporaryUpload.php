@@ -1,10 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\Models;
+namespace Spatie\MediaLibrary\Uploads\Models;
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\Models\Media;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Http\UploadedFile;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -16,6 +17,17 @@ class TemporaryUpload extends Model implements HasMedia
     use HasMediaTrait;
 
     protected $guarded = [];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (TemporaryUpload $temporaryUpload) {
+            $uuid4 = Uuid::uuid4();
+
+            $temporaryUpload->id = $uuid4->toString();
+        });
+    }
 
     public static function findById(string $uploadId, string $sessionId): ?TemporaryUpload
     {
@@ -33,10 +45,11 @@ class TemporaryUpload extends Model implements HasMedia
             ->optimize();
     }
 
-    public static function createForFile(UploadedFile $file, string $sessionId): TemporaryUpload
+    public static function createForFile(UploadedFile $file, string $sessionId, string $requestUrl): TemporaryUpload
     {
         $temporaryUpload = static::create([
-            'sessionId' => $sessionId
+            'sessionId' => $sessionId,
+            'upload_url' => $requestUrl,
         ]);
 
         $temporaryUpload
