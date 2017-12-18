@@ -12,7 +12,7 @@ class MediaRepositoryTest extends TestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('medialibrary.media_model', TestCustomMediaModel::class);
+        $app['config']->set('medialibrary.models.media_model', TestCustomMediaModel::class);
     }
 
     /** @test */

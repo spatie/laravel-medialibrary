@@ -2,15 +2,16 @@
 
 namespace Spatie\MediaLibrary;
 
+use Spatie\MediaLibrary\MediaObserver;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
+use Spatie\MediaLibrary\Commands\DeleteOldTemporaryUploads;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
-use Spatie\MediaLibrary\Commands\DeleteOldTemporaryUploads;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -30,7 +31,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             ], 'migrations');
         }
 
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = config('medialibrary.models.media_model');
 
         $mediaClass::observe(new MediaObserver());
 
@@ -42,7 +43,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', 'medialibrary');
 
         $this->app->singleton(MediaRepository::class, function () {
-            $mediaClass = $this->app['config']['medialibrary']['media_model'];
+            $mediaClass = config('medialibrary.models.media_model');
 
             return new MediaRepository(new $mediaClass);
         });

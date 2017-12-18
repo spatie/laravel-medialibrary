@@ -59,7 +59,7 @@ trait HasMediaTrait
      */
     public function media()
     {
-        return $this->morphMany(config('medialibrary.media_model'), 'model');
+        return $this->morphMany(config('medialibrary.models.media_model'), 'model');
     }
 
     /**
@@ -294,7 +294,7 @@ trait HasMediaTrait
             ->map(function (array $newMediaItem) use ($collectionName) {
                 static $orderColumn = 1;
 
-                $mediaClass = config('medialibrary.media_model');
+                $mediaClass = config('medialibrary.models.media_model');
                 $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
                 if ($currentMedia->collection_name != $collectionName) {

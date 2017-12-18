@@ -284,7 +284,7 @@ class FileAdder
             throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = config('medialibrary.models.media_model');
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;

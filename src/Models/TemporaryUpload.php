@@ -1,23 +1,25 @@
 <?php
 
-namespace Spatie\MediaLibrary\Models\TemporaryUpload;
+namespace Spatie\MediaLibrary\Models;
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
-class TemporaryUpload extends BaseModel implements HasMediaConversions
+class TemporaryUpload extends Model implements HasMedia
 {
     use HasMediaTrait;
 
+    protected $guarded = [];
+
     public static function findById(string $uploadId, string $sessionId): ?TemporaryUpload
     {
-        return TemporaryUpload::where('id', $uploadId)
+        return static::where('id', $uploadId)
             ->where('session_id', session()->getId())
             ->first();
     }

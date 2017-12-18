@@ -22,10 +22,12 @@ class DeleteOldTemporaryUploads extends Command
     {
         $this->info('Start removing old temporary uploads...');
 
-        TemporaryUpload::old()
-            ->get()
-            ->each->delete();
+        $temporaryUploadClass = config('medialibrary.models.temporary_upload');
 
-        $this->comment('Old temporary uploads deleted!');
+        $temporaryUploads = $temporaryUploadClass::old()->get();
+
+        $temporaryUploads->each->delete();
+
+        $this->comment($temporaryUploads . ' old temporary upload(s) deleted!');
     }
 }

@@ -15,15 +15,19 @@ return [
     'max_file_size' => 1024 * 1024 * 10,
 
     /*
-     * This queue will be used to generate derived images.
+     * This queue will be used to generate derived and responsive images.
      * Leave empty to use the default queue.
      */
     'queue_name' => '',
 
     /*
-     * The class name of the media model that should be used.
+     * The class names of the models that should be used.
      */
-    'media_model' => Spatie\MediaLibrary\Models\Media::class,
+    'models' => [
+        'media_model' => Spatie\MediaLibrary\Models\Media::class,
+
+        'temporary_upload' => Spatie\MediaLibrary\Models\TemporaryUpload::class,
+    ],
 
     /*
      * The engine that should perform the image conversions.
