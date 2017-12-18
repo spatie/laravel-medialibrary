@@ -3,19 +3,21 @@
 namespace Spatie\MediaLibrary\Models;
 
 use DateTimeInterface;
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Contracts\Support\Responsable;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Models\Concerns\IsSorted;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
+use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 
@@ -310,6 +312,28 @@ class Media extends Model implements Responsable, Htmlable
             'attributeString',
             'width'
         ));
+    }
+
+    public function move(HasMedia $model, $collectionName = 'default'): Media
+    {
+        $temporaryDirectory = TemporaryDirectory::create();
+
+        $temporaryFile = $temporaryDirectory->path($this->file_name);
+
+        app(Filesystem::class)->copyFromMediaLibrary($this, $temporaryFile);
+
+        $newMedia = $model
+            ->addMedia($temporaryFile)
+            ->usingName($this->name)
+            ->toMediaCollection($collectionName);
+
+        $newMedia->custom_properties = $this->custom_properties;
+
+        $this->delete();
+
+        $temporaryDirectory->delete();
+
+        return $newMedia;
     }
 
     public function responsiveImages(string $conversionName = ''): RegisteredResponsiveImages

@@ -18,7 +18,7 @@ class TemporaryUpload extends BaseModel implements HasMediaConversions
     public static function findById(string $uploadId, string $sessionId): ?TemporaryUpload
     {
         return TemporaryUpload::where('id', $uploadId)
-            ->where('sessino_id', session()->getId())
+            ->where('session_id', session()->getId())
             ->first();
     }
 
@@ -43,15 +43,6 @@ class TemporaryUpload extends BaseModel implements HasMediaConversions
             ->save();
 
         return $temporaryUpload->fresh();
-    }
-
-    public function transferTo(HasMedia $model, string $collectionName = null)
-    {
-        $path = $this->getFirstMediaPath();
-
-        $model->addMedia($path)->toMediaCollection($collectionName);
-
-        $this->delete();
     }
 
     public function scopeOld(Builder $builder)
