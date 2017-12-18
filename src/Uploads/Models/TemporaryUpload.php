@@ -16,6 +16,8 @@ class TemporaryUpload extends Model implements HasMedia
 {
     use HasMediaTrait;
 
+    public $incrementing = false;
+
     protected $guarded = [];
 
     public static function boot()
@@ -48,7 +50,7 @@ class TemporaryUpload extends Model implements HasMedia
     public static function createForFile(UploadedFile $file, string $sessionId, string $requestUrl): TemporaryUpload
     {
         $temporaryUpload = static::create([
-            'sessionId' => $sessionId,
+            'session_id' => $sessionId,
             'upload_url' => $requestUrl,
         ]);
 
@@ -57,11 +59,11 @@ class TemporaryUpload extends Model implements HasMedia
             ->toMediaCollection()
             ->save();
 
-        return $temporaryUpload->fresh();
+        return $temporaryUpload->refresh();
     }
 
     public function scopeOld(Builder $builder)
     {
-        $builder->where('created_at', '<=', Carbon::now()->subDays(1)->toDateTimeString());
+        $builder->where('created_at', '<=', Carbon::now()->subDays(1));
     }
 }

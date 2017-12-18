@@ -3,12 +3,13 @@
 namespace Spatie\MediaLibrary\Tests;
 
 use File;
+use Carbon\Carbon;
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
@@ -231,5 +232,23 @@ abstract class TestCase extends Orchestra
         }
 
         return trim((string) ($view));
+    }
+
+    protected function setNow($year, int $month = 1, int $day = 1)
+    {
+        $newNow = $year instanceof Carbon
+            ? $year
+            : Carbon::createFromDate($year, $month, $day);
+
+        Carbon::setTestNow($newNow);
+    }
+
+    protected function progressTime(int $minutes)
+    {
+        $newNow = now()->copy()->addMinutes($minutes);
+
+        Carbon::setTestNow($newNow);
+
+        return $this;
     }
 }

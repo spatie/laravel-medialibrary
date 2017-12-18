@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Uploads\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TemporaryUpload;
+use Illuminate\Support\Facades\Session;
 use App\Http\Resources\TemporaryUpload as TemporaryUploadResource;
 
 class TemporaryUploadController extends Controller
@@ -14,9 +15,11 @@ class TemporaryUploadController extends Controller
             'file' => 'required|max:' . config('medialibrary.max_file_size'),
         ]);
 
-        $temporaryUpload = TemporaryUpload::createForFile(
+        $temporaryUploadClass = config('medialibrary.uploads.temporary_upload_model');
+
+        $temporaryUpload = $temporaryUploadClass::createForFile(
             $request->file('file'),
-            session()->getId()
+            Session::getId()
         );
 
         return new TemporaryUploadResource($temporaryUpload);
