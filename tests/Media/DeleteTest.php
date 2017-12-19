@@ -4,9 +4,11 @@ namespace Spatie\MediaLibrary\Test\Media;
 
 use File;
 use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\MediaObserver;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Test\TestModel;
 use Spatie\MediaLibrary\Test\TestPathGenerator;
+use Spatie\MediaLibrary\Test\TestCustomModelWithSoftDeletes;
 
 class DeleteTest extends TestCase
 {
@@ -127,5 +129,41 @@ class DeleteTest extends TestCase
         $testModel->delete();
 
         $this->assertNull(Media::find($media->id));
+    }
+
+    /** @test */
+    public function it_will_keep_soft_deleted_files_on_the_system()
+    {
+        config(['medialibrary.media_model' => TestCustomModelWithSoftDeletes::class]);
+
+        TestCustomModelWithSoftDeletes::observe(MediaObserver::class);
+
+        $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $file = TestCustomModelWithSoftDeletes::first();
+         
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($file->id)));
+
+        $file->delete();
+
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($file->id)));
+    }
+
+    /** @test */
+    public function it_will_remove_force_deleted_files_from_the_system()
+    {
+        config(['medialibrary.media_model' => TestCustomModelWithSoftDeletes::class]);
+
+        TestCustomModelWithSoftDeletes::observe(MediaObserver::class);
+
+        $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $file = TestCustomModelWithSoftDeletes::first();
+         
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($file->id)));
+
+        $file->forceDelete();
+
+        $this->assertFalse(File::isDirectory($this->getMediaDirectory($file->id)));
     }
 }
