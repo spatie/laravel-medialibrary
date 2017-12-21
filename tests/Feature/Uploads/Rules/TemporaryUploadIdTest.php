@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Rules;
+namespace Tests\Feature\Uploads\Rules;
 
 use App\Models\User;
 use Illuminate\Http\UploadedFile;

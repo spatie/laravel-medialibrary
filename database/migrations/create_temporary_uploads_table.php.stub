@@ -16,7 +16,6 @@ class CreateTemporaryUploads extends Migration
         Schema::create('temporary_uploads', function (Blueprint $table) {
             $table->string('id');
             $table->string('session_id')->nullable();
-            $table->string('upload_url')->nullable();
             $table->timestamps();
         });
     }

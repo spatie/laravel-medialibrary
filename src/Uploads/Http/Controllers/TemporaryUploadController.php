@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\Uploads\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TemporaryUpload;
 use Illuminate\Support\Facades\Session;
-use App\Http\Resources\TemporaryUpload as TemporaryUploadResource;
+use Spatie\MediaLibrary\Uploads\Http\Resources\TemporaryUpload as TemporaryUploadResource;
 
 class TemporaryUploadController extends Controller
 {

@@ -2,7 +2,9 @@
 
 namespace Spatie\MediaLibrary\Uploads\Http\Resources;
 
-class Company extends Resource
+use Illuminate\Http\Resources\Json\Resource;
+
+class TemporaryUpload extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -13,8 +15,8 @@ class Company extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $temporaryUpload->id,
-            'previewUrl' => $temporaryUpload->getFirstMediaUrl('default', 'preview'),
+            'id' => $this->id,
+            'previewUrl' => $this->getFirstMediaUrl('default', 'preview'),
         ];
     }
 }
