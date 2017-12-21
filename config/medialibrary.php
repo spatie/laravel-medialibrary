@@ -31,6 +31,20 @@ return [
          * The domain that should be prepended when generating urls.
          */
         'domain' => 'https://xxxxxxx.s3.amazonaws.com',
+
+        /*
+         * The cdn domain that should be prepended when generating urls after the given amount of time has passed
+         *
+         * Sometimes a cdn can take a while to sync across all of the servers.
+         * By setting this you can define the cdn address to use once the file is x minutes old,
+         * but still have a fallback with the direct url listed in the domain key.
+         */
+        'cdn_domain' => null,
+
+        /*
+         * In minutes when should the cdn domain be used after the file was created
+         */
+        'cdn_domain_after' => 30,
     ],
 
     'remote' => [

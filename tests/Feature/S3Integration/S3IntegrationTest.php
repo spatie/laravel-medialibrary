@@ -118,6 +118,68 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_retrieve_a_media_url_from_s3_cdn()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('default', 's3_disk');
+
+        Carbon::setTestNow(Carbon::now()->addMinutes($this->app['config']->get('medialibrary.s3.cdn_domain_after')));
+
+        /*
+         * Check to see if moved over to cdn domain
+         */
+        $this->assertEquals(
+            $this->app['config']->get('medialibrary.s3.cdn_domain')."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
+            $media->getUrl()
+        );
+
+        Carbon::setTestNow(null);
+    }
+
+    /** @test */
+    public function it_retrieve_a_media_url_from_s3_when_blank_cdn()
+    {
+        $cdnDomain = $this->app['config']->get('medialibrary.s3.cdn_domain');
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('default', 's3_disk');
+
+        Carbon::setTestNow(Carbon::now()->addMinutes($this->app['config']->get('medialibrary.s3.cdn_domain_after')));
+
+        $this->app['config']->set('medialibrary.s3.cdn_domain', null);
+
+        $this->assertEquals(
+            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
+            $media->getUrl()
+        );
+
+        $this->app['config']->set('medialibrary.s3.cdn_domain', $cdnDomain);
+
+        Carbon::setTestNow(null);
+    }
+
+    /** @test */
+    public function it_retrieve_a_media_conversion_url_from_s3_cdn()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection('default', 's3_disk');
+
+        Carbon::setTestNow(Carbon::now()->addMinutes($this->app['config']->get('medialibrary.s3.cdn_domain_after')));
+
+        $this->assertEquals(
+            $this->app['config']->get('medialibrary.s3.cdn_domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
+            $media->getUrl('thumb')
+        );
+
+        Carbon::setTestNow(null);
+    }
+
+    /** @test */
     public function it_retrieves_a_temporary_media_url_from_s3()
     {
         $media = $this->testModel
