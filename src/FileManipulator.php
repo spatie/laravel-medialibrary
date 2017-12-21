@@ -93,7 +93,9 @@ class FileManipulator
 
                 if ($conversion->shouldGenerateResponsiveImages()) {
                     app(ResponsiveImageGenerator::class)->generateResponsiveImagesForConversion(
-                        $media, $conversion, $renamedFile
+                        $media,
+                        $conversion,
+                        $renamedFile
                     );
                 }
 
