@@ -98,6 +98,11 @@ trait HasMediaTrait
         return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
     }
 
+    public function addMediaFromTemporaryUpload(string $requestKeyName)
+    {
+        return app(FileAdderFactory::class)->createFromTemporaryUpload($this, $requestKeyName);
+    }
+
     /**
      * Add all files from a request.
      *
