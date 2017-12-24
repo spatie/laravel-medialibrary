@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.6.4 - 2017-12-24
+
+- update `spatie/image` dep
+
 ## 6.6.3 - 2017-11-28
 
 - fix clearing entire media collection except a single media instance 
