@@ -13,6 +13,8 @@ use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
+use Spatie\MediaLibrary\Helpers\File;
 
 class ResponsiveImageGenerator
 {
@@ -100,6 +102,8 @@ class ResponsiveImageGenerator
 
         $this->tinyPlaceholderGenerator->generateTinyPlaceholder($originalImagePath, $tempDestination);
 
+        $this->guardAgainstInvalidTinyPlaceHolder($tempDestination);
+
         $tinyImageDataBase64 = base64_encode(file_get_contents($tempDestination));
 
         $tinyImageBase64 = 'data:image/jpeg;base64,' . $tinyImageDataBase64;
@@ -128,5 +132,18 @@ class ResponsiveImageGenerator
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
 
         return $baseName . $suffix . '.' . $extension;
+    }
+
+    protected function guardAgainstInvalidTinyPlaceHolder(string $tinyPlaceholderPath)
+    {
+        if (! file_exists($tinyPlaceholderPath)) {
+            throw InvalidTinyJpg::doesNotExist($tinyPlaceholderPath);
+        }
+
+        $mimeType = File::getMimetype($tinyPlaceholderPath);
+
+        if ($mimeType !== 'image/jpeg') {
+            throw InvalidTinyJpg::hasWrongMimeType($tinyPlaceholderPath);
+        }
     }
 }
