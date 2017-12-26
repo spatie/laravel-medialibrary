@@ -63,6 +63,6 @@ class FileAdderFactory
 
         return $model
             ->addMedia($temporaryFile)
-            ->usingName($this->name)
+            ->usingName($this->name);
     }
 }
