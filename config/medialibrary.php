@@ -70,7 +70,7 @@ return [
         'use_tiny_placeholders' => true,
 
         /**
-         * This class will generated the tiny placeholder used for progressive image loading. By default
+         * This class will generate the tiny placeholder used for progressive image loading. By default
          * the medialibrary will use a tiny blurred jpg image.
          */
         'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
