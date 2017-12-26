@@ -16,6 +16,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - dropped support for soft deletes
 - removed distinction between `HasMedia` and `HasMediaConversions`
+- dropped support for PHP 7.0
 
 - `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
 

@@ -157,8 +157,8 @@ trait HasMediaTrait
     {
         // strip out data uri scheme information (see RFC 2397)
         if (strpos($base64data, ';base64') !== false) {
-            list(, $base64data) = explode(';', $base64data);
-            list(, $base64data) = explode(',', $base64data);
+            [$_, $base64data] = explode(';', $base64data);
+            [$_, $base64data] = explode(',', $base64data);
         }
 
         // strict mode filters for non-base64 alphabet characters
@@ -179,8 +179,7 @@ trait HasMediaTrait
 
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
-        $file = app(FileAdderFactory::class)
-            ->create($this, $tmpFile);
+        $file = app(FileAdderFactory::class)->create($this, $tmpFile);
 
         return $file;
     }
@@ -218,15 +217,7 @@ trait HasMediaTrait
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
-    /**
-     * Get the first media item of a media collection.
-     *
-     * @param string $collectionName
-     * @param array $filters
-     *
-     * @return Media|null
-     */
-    public function getFirstMedia(string $collectionName = 'default', array $filters = [])
+    public function getFirstMedia(string $collectionName = 'default', array $filters = []): ?Media
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -519,12 +510,10 @@ trait HasMediaTrait
 
     public function registerMediaConversions(Media $media = null)
     {
-
     }
 
     public function registerMediaCollections()
     {
-
     }
 
     public function registerAllMediaConversions(Media $media = null)
