@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
+use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 
 class ResponsiveImageGenerator
 {
@@ -21,13 +22,19 @@ class ResponsiveImageGenerator
     /** \Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator */
     protected $widthCalculator;
 
+    /** \Spatie\MediaLibrary\ResponsiveImages\TinyPlaceHolderGenerator\TinyPlaceHolderGenerator */
+    protected $tinyPlaceholderGenerator;
+
     public function __construct(
         Filesystem $filesystem,
-        WidthCalculator $widthCalculator
+        WidthCalculator $widthCalculator,
+        TinyPlaceholderGenerator $tinyPlaceholderGenerator
     ) {
         $this->filesystem = $filesystem;
 
         $this->widthCalculator = $widthCalculator;
+
+        $this->tinyPlaceholderGenerator = $tinyPlaceholderGenerator;
     }
 
     public function generateResponsiveImages(Media $media)
@@ -87,21 +94,21 @@ class ResponsiveImageGenerator
         ResponsiveImage::register($media, $finalImageFileName, $conversionName);
     }
 
-    public function generateTinyJpg(Media $media, string $originalImage, string $conversionName, BaseTemporaryDirectory $temporaryDirectory)
+    public function generateTinyJpg(Media $media, string $originalImagePath, string $conversionName, BaseTemporaryDirectory $temporaryDirectory)
     {
         $tempDestination = $temporaryDirectory->path('tiny.jpg');
 
-        $originalImage = Image::load($originalImage);
-
-        $originalImageWidth = $originalImage->getWidth();
-
-        $originalImageHeight = $originalImage->getHeight();
-
-        $originalImage->width(32)->blur(5)->save($tempDestination);
+        $this->tinyPlaceholderGenerator->generateTinyPlaceholder($originalImagePath, $tempDestination);
 
         $tinyImageDataBase64 = base64_encode(file_get_contents($tempDestination));
 
         $tinyImageBase64 = 'data:image/jpeg;base64,' . $tinyImageDataBase64;
+
+        $originalImage = Image::load($originalImagePath);
+
+        $originalImageWidth = $originalImage->getWidth();
+
+        $originalImageHeight = $originalImage->getHeight();
 
         $svg = view('medialibrary::placeholderSvg', compact(
             'originalImageWidth',

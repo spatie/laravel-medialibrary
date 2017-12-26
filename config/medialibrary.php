@@ -68,6 +68,9 @@ return [
          * This ensures that the browser can already determine the correct layout.
          */
         'use_tiny_placeholders' => true,
+
+
+        'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
 
     /*

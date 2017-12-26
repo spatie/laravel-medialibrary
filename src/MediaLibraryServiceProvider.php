@@ -3,16 +3,17 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Facades\Route;
+use Spatie\MediaLibrary\MediaObserver;
 use Illuminate\Support\ServiceProvider;
-use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\MediaObserver;
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\Uploads\Commands\DeleteOldTemporaryUploads;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
+use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -59,7 +60,9 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:delete-old-temporary-uploads', DeleteOldTemporaryUploads::class);
 
         $this->app->bind(Filesystem::class, DefaultFilesystem::class);
+
         $this->app->bind(WidthCalculator::class, config('medialibrary.responsive_images.width_calculator'));
+        $this->app->bind(TinyPlaceholderGenerator::class, config('medialibrary.responsive_images.tiny_placeholder_generator'));
 
         $this->commands([
             'command.medialibrary:regenerate',
