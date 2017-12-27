@@ -58,6 +58,9 @@ class FileAdder
     /** @var bool */
     protected $generateResponsiveImages = false;
 
+    /** @var callable */
+    protected $afterFileHasBeenAdded;
+
     /**
      * @param Filesystem $fileSystem
      */
@@ -67,6 +70,9 @@ class FileAdder
 
         $this->fileNameSanitizer = function ($fileName) {
             return $this->defaultSanitizer($fileName);
+        };
+
+        $this->afterFileHasBeenAdded = function () {
         };
     }
 
@@ -253,6 +259,16 @@ class FileAdder
     }
 
     /**
+     * Perform the given callable after the file has been added.
+     */
+    public function afterFileHasBeenAdded(callable $callable)
+    {
+        $this->afterFileHasBeenAdded = $callable;
+
+        return $this;
+    }
+
+    /**
      * @param string $collectionName
      *
      * @return \Spatie\MediaLibrary\Media
@@ -387,6 +403,8 @@ class FileAdder
         if (optional($this->getMediaCollection($media->collection_name))->singleFile) {
             $model->clearMediaCollectionExcept($media->collection_name, $media);
         }
+
+        ($this->afterFileHasBeenAdded)();
     }
 
     protected function getMediaCollection(string $collectionName):  ?MediaCollection

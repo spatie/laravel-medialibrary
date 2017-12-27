@@ -28,8 +28,7 @@ class TemporaryUploadIdTest extends TestCase
 
         $this->temporaryUpload = TemporaryUpload::createForFile(
             $fakeUpload,
-            1,
-            '/upload'
+            1
         );
 
         $this->rule = new TemporaryUploadId();

@@ -20,6 +20,7 @@ use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
+use Spatie\MediaLibrary\Uploads\TemporaryUploadRequestEntry;
 
 trait HasMediaTrait
 {
@@ -98,9 +99,20 @@ trait HasMediaTrait
         return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
     }
 
-    public function addMediaFromTemporaryUpload(string $requestKeyName)
+    public function addMediaFromTemporaryUploads(string $requestKeyName): Collection
     {
-        return app(FileAdderFactory::class)->createFromTemporaryUpload($this, $requestKeyName);
+        $temporaryUploadRequestEntries = TemporaryUploadRequestEntry::createFromRequest(request(), $requestKeyName);
+
+        return app(FileAdderFactory::class)->createFromTemporaryUploads($this, $temporaryUploadRequestEntries);
+    }
+
+    public function addMediaFromTemporaryUpload(string $requestKeyName): FileAdder
+    {
+        $temporaryUploadRequestEntries = TemporaryUploadRequestEntry::createFromRequest(request(), $requestKeyName);
+
+        $temporaryUploadRequestEntry = $temporaryUploadRequestEntries->first();
+
+        return app(FileAdderFactory::class)->createFromTemporaryUpload($this, $temporaryUploadRequestEntry);
     }
 
     /**

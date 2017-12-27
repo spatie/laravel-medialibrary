@@ -2,10 +2,12 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
+use Spatie\MediaLibrary\Uploads\TemporaryUploadRequestEntry;
 
 class FileAdderFactory
 {
@@ -53,16 +55,32 @@ class FileAdderFactory
         return static::createMultipleFromRequest($subject, $fileKeys);
     }
 
-    public static function createFromTemporaryUpload(Model $subject, string $requestKeyName): FileAdder
+    public static function createFromTemporaryUploads(Model $subject, Collection $temporaryUploadRequestEntries): Collection
     {
-        TemporaryDirectory::create();
+        return $temporaryUploadRequestEntries->map(function (TemporaryUploadRequestEntry $temporaryUploadRequestEntry) use ($subject) {
+            return static::createFromTemporaryUpload(subject, $temporaryUploadRequestEntry);
+        });
+    }
 
-        $temporaryFile = $temporaryDirectory->path($this->file_name);
+    public static function createFromTemporaryUpload(Model $subject, TemporaryUploadRequestEntry $temporaryUploadRequestEntry): FileAdder
+    {
+        $temporaryDirectory = TemporaryDirectory::create();
 
-        app(Filesystem::class)->copyFromMediaLibrary($this, $temporaryFile);
+        $temporaryUploadMedia = $temporaryUploadRequestEntry->media();
 
-        return $model
+        $temporaryFile = $temporaryDirectory->path($temporaryUploadMedia->file_name);
+
+        app(Filesystem::class)->copyFromMediaLibrary($temporaryUploadMedia, $temporaryFile);
+
+        $fileAdder = $subject
             ->addMedia($temporaryFile)
-            ->usingName($this->name);
+            ->usingName($temporaryUploadRequestEntry->name);
+
+        $fileAdder->afterFileHasBeenAdded(function () use ($temporaryDirectory, $temporaryUploadRequestEntry) {
+            $temporaryDirectory->delete();
+            $temporaryUploadRequestEntry->temporaryUpload->delete();
+        });
+
+        return $fileAdder;
     }
 }

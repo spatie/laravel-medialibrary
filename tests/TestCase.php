@@ -130,7 +130,7 @@ abstract class TestCase extends Orchestra
         (new \CreateMediaTable())->up();
 
         include_once __DIR__.'/../database/migrations/create_temporary_uploads_table.php.stub';
-        (new \CreateTemporaryUploads())->up();
+        (new \CreateTemporaryUploadsTable())->up();
     }
 
     protected function setUpTempTestFiles()
