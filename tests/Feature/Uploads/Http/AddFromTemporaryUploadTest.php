@@ -38,8 +38,6 @@ class AddFromTemporaryUploadTest extends TestCase
     /** @test */
     public function it_can_process_a_valid_temporary_upload_id()
     {
-        $this->withoutExceptionHandling();
-
         $this->assertCount(1, TemporaryUpload::all());
         $this->assertCount(0, $this->testModel->getMedia());
 
