@@ -53,7 +53,7 @@ class FileAdderFactory
         return static::createMultipleFromRequest($subject, $fileKeys);
     }
 
-    public static function createFromTemporaryUpload(Model $subject): FileAdder
+    public static function createFromTemporaryUpload(Model $subject, string $requestKeyName): FileAdder
     {
         TemporaryDirectory::create();
 
