@@ -153,7 +153,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes)
+    public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
     {
         // strip out data uri scheme information (see RFC 2397)
         if (strpos($base64data, ';base64') !== false) {
@@ -313,10 +313,6 @@ trait HasMediaTrait
             });
     }
 
-    /**
-     * @param array $newMediaArray
-     * @param string $collectionName
-     */
     protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
     {
         $this->getMedia($collectionName)
@@ -333,7 +329,7 @@ trait HasMediaTrait
      *
      * @return $this
      */
-    public function clearMediaCollection(string $collectionName = 'default')
+    public function clearMediaCollection(string $collectionName = 'default'): self
     {
         $this->getMedia($collectionName)
             ->each->delete();
