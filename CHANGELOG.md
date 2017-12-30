@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.6.6 - 2017-12-30
+
+- fix download error
+
 ## 6.6.5 - 2017-12-30
 
 - make returning media in controllers always download the associated file
