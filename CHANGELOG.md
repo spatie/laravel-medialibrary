@@ -20,6 +20,15 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
 
+
+## 6.6.5 - 2017-12-30
+
+- make returning media in controllers always download the associated file
+
+## 6.6.4 - 2017-12-24
+
+- update `spatie/image` dep
+
 ## 6.6.3 - 2017-11-28
 
 - fix clearing entire media collection except a single media instance
