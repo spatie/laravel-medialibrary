@@ -316,6 +316,15 @@ class Media extends Model implements Responsable, Htmlable
 
     public function move(HasMedia $model, $collectionName = 'default'): Media
     {
+        $newMedia = $this->copy($model, $collectionName);
+
+        $this->delete();
+
+        return $newMedia;
+    }
+
+    public function copy(HasMedia $model, $collectionName = 'default'): Media
+    {
         $temporaryDirectory = TemporaryDirectory::create();
 
         $temporaryFile = $temporaryDirectory->path($this->file_name);
@@ -328,8 +337,6 @@ class Media extends Model implements Responsable, Htmlable
             ->toMediaCollection($collectionName);
 
         $newMedia->custom_properties = $this->custom_properties;
-
-        $this->delete();
 
         $temporaryDirectory->delete();
 

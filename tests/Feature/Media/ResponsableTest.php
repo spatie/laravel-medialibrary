@@ -9,6 +9,8 @@ class ResponsableTest extends TestCase
     /** @test */
     public function it_can_return_an_image_as_a_response()
     {
+        $this->withoutExceptionHandling();
+
         $this->app['router']->get('/upload', function () {
             return $this->testModel
                 ->addMedia($this->getTestJpg())
