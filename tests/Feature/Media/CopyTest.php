@@ -5,10 +5,10 @@ namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 
-class MoveTest extends TestCase
+class CopyTest extends TestCase
 {
     /** @test */
-    public function it_can_move_media_from_one_model_to_another()
+    public function it_can_copy_media_from_one_model_to_another()
     {
         $model = TestModel::create(['name' => 'test']);
 
@@ -22,10 +22,10 @@ class MoveTest extends TestCase
 
         $anotherModel = TestModel::create(['name' => 'another-test']);
 
-        $movedMedia = $media->move($anotherModel, 'images');
+        $movedMedia = $media->copy($anotherModel, 'images');
 
-        $this->assertCount(0, $model->getMedia('default'));
-        $this->assertFileNotExists($this->getMediaDirectory($media->id.'/test.jpg'));
+        $this->assertCount(1, $model->getMedia('default'));
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 
         $this->assertCount(1, $anotherModel->getMedia('images'));
         $this->assertFileExists($this->getMediaDirectory($movedMedia->id.'/test.jpg'));
