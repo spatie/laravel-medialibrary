@@ -20,6 +20,10 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
 
+## 6.6.6 - 2017-12-30
+
+- fix download error
+
 
 ## 6.6.5 - 2017-12-30
 
