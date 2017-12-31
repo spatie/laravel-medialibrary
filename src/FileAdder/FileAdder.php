@@ -397,7 +397,13 @@ class FileAdder
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
-            dispatch(new GenerateResponsiveImages($media));
+            $job = new GenerateResponsiveImages($media);
+
+            if ($customQueue = config('medialibrary.queue_name')) {
+                $job->onQueue($customQueue);
+            }
+
+            dispatch($job);
         }
 
         if (optional($this->getMediaCollection($media->collection_name))->singleFile) {
