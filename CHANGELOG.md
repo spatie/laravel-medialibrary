@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.6.7 - 2018-01-07
+
+- use better default for s3 domain
+
 ## 6.6.6 - 2017-12-30
 
 - fix download error
