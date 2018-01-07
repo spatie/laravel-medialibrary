@@ -2,6 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+<<<<<<< HEAD
 ## 7.0.0 - 2018-XX-XX
 
 - added support for responsive images
@@ -19,6 +20,11 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - dropped support for PHP 7.0
 
 - `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
+=======
+## 6.6.7 - 2018-01-07
+
+- use better default for s3 domain
+>>>>>>> master
 
 ## 6.6.6 - 2017-12-30
 
