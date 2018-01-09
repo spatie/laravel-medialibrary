@@ -84,7 +84,9 @@ abstract class TestCase extends Orchestra
         });
 
         $mediaLibraryTemp = $this->getTempDirectory('medialibrary-temp');
-        if(!File::isDirectory($mediaLibraryTemp)) File::makeDirectory($mediaLibraryTemp);
+        if (! File::isDirectory($mediaLibraryTemp)) {
+            File::makeDirectory($mediaLibraryTemp);
+        }
         $app['config']->set('medialibrary.temporary_directory_path', $mediaLibraryTemp);
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
@@ -129,17 +131,17 @@ abstract class TestCase extends Orchestra
     public function getTempDirectory($suffix = '')
     {
         $tempPath = __DIR__.DIRECTORY_SEPARATOR.'temp';
-        if($realTempPath = realpath($tempPath)) {
+        if ($realTempPath = realpath($tempPath)) {
             // path exists and real path is platform-agnostic.
             $tempPath = $realTempPath;
         }
 
-        if(!$suffix) {
+        if (! $suffix) {
             return $tempPath;
         }
 
         $suffixedTempPath = $tempPath.DIRECTORY_SEPARATOR.$suffix;
-        if($realSuffixedTempPath = realpath($suffixedTempPath)) {
+        if ($realSuffixedTempPath = realpath($suffixedTempPath)) {
             // suffixed path exists and real path is platform-agnostic.
             $suffixedTempPath = $realSuffixedTempPath;
         }
@@ -150,17 +152,17 @@ abstract class TestCase extends Orchestra
     public function getMediaDirectory($suffix = '')
     {
         $mediaPath = $this->getTempDirectory('media');
-        if($realMediaPath = realpath($mediaPath)) {
+        if ($realMediaPath = realpath($mediaPath)) {
             // path exists and real path is platform-agnostic.
             $mediaPath = $realMediaPath;
         }
 
-        if(!$suffix) {
+        if (! $suffix) {
             return $mediaPath;
         }
 
         $suffixedMediaPath = $mediaPath.DIRECTORY_SEPARATOR.$suffix;
-        if($realSuffixedMediaPath = realpath($suffixedMediaPath)) {
+        if ($realSuffixedMediaPath = realpath($suffixedMediaPath)) {
             // suffixed path exists and real path is platform-agnostic.
             $suffixedMediaPath = $realSuffixedMediaPath;
         }
@@ -171,17 +173,17 @@ abstract class TestCase extends Orchestra
     public function getTestFilesDirectory($suffix = '')
     {
         $testFilesPath = $this->getTempDirectory('testfiles');
-        if($realTestFilesPath = realpath($testFilesPath)) {
+        if ($realTestFilesPath = realpath($testFilesPath)) {
             // path exists and real path is platform-agnostic.
             $testFilesPath = $realTestFilesPath;
         }
 
-        if(!$suffix) {
+        if (! $suffix) {
             return $testFilesPath;
         }
 
         $suffixedTestFilesPath = $testFilesPath.DIRECTORY_SEPARATOR.$suffix;
-        if($realSuffixedTestFilesPath = realpath($suffixedTestFilesPath)) {
+        if ($realSuffixedTestFilesPath = realpath($suffixedTestFilesPath)) {
             // suffixed path exists and real path is platform-agnostic.
             $suffixedTestFilesPath = $realSuffixedTestFilesPath;
         }
