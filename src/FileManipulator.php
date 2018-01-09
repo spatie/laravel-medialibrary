@@ -66,6 +66,7 @@ class FileManipulator
         }
 
         $temporaryDirectory = new TemporaryDirectory($this->getTemporaryDirectoryPath());
+        $temporaryDirectory->create();
 
         $targetFileName = str_random(16);
         if($media->extension) {
@@ -74,7 +75,7 @@ class FileManipulator
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path($targetFileName)
+            $temporaryDirectory->path().'/'.$targetFileName
         );
 
         $conversions
