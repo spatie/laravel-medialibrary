@@ -66,10 +66,16 @@ class FileManipulator
         }
 
         $temporaryDirectory = new TemporaryDirectory($this->getTemporaryDirectoryPath());
+        $temporaryDirectory->create();
+
+        $targetFileName = str_random(16);
+        if ($media->extension) {
+            $targetFileName .= ('.'.$media->extension);
+        }
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(str_random(16).'.'.$media->extension)
+            $temporaryDirectory->path().'/'.$targetFileName
         );
 
         $conversions
@@ -83,9 +89,11 @@ class FileManipulator
 
                 $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-                $newFileName = $conversion->getName()
-                    .'.'
-                    .$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
+                $newFileName = $conversion->getName();
+                $newExtension = $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
+                if ($newExtension) {
+                    $newFileName .= ('.'.$newExtension);
+                }
 
                 $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
 
@@ -99,10 +107,10 @@ class FileManipulator
 
     public function performConversion(Media $media, Conversion $conversion, string $imageFile): string
     {
-        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.str_random(16)
-            .$conversion->getName()
-            .'.'
-            .$media->extension;
+        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.str_random(16).$conversion->getName();
+        if ($media->extension) {
+            $conversionTempFile .= ('.'.$media->extension);
+        }
 
         File::copy($imageFile, $conversionTempFile);
 

@@ -83,6 +83,12 @@ abstract class TestCase extends Orchestra
             return $this->getTempDirectory();
         });
 
+        $mediaLibraryTemp = $this->getTempDirectory('medialibrary-temp');
+        if (! File::isDirectory($mediaLibraryTemp)) {
+            File::makeDirectory($mediaLibraryTemp);
+        }
+        $app['config']->set('medialibrary.temporary_directory_path', $mediaLibraryTemp);
+
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
 
         $this->setupS3($app);
@@ -124,17 +130,65 @@ abstract class TestCase extends Orchestra
 
     public function getTempDirectory($suffix = '')
     {
-        return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);
+        $tempPath = __DIR__.DIRECTORY_SEPARATOR.'temp';
+        if ($realTempPath = realpath($tempPath)) {
+            // path exists and real path is platform-agnostic.
+            $tempPath = $realTempPath;
+        }
+
+        if (! $suffix) {
+            return $tempPath;
+        }
+
+        $suffixedTempPath = $tempPath.DIRECTORY_SEPARATOR.$suffix;
+        if ($realSuffixedTempPath = realpath($suffixedTempPath)) {
+            // suffixed path exists and real path is platform-agnostic.
+            $suffixedTempPath = $realSuffixedTempPath;
+        }
+
+        return $suffixedTempPath;
     }
 
     public function getMediaDirectory($suffix = '')
     {
-        return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
+        $mediaPath = $this->getTempDirectory('media');
+        if ($realMediaPath = realpath($mediaPath)) {
+            // path exists and real path is platform-agnostic.
+            $mediaPath = $realMediaPath;
+        }
+
+        if (! $suffix) {
+            return $mediaPath;
+        }
+
+        $suffixedMediaPath = $mediaPath.DIRECTORY_SEPARATOR.$suffix;
+        if ($realSuffixedMediaPath = realpath($suffixedMediaPath)) {
+            // suffixed path exists and real path is platform-agnostic.
+            $suffixedMediaPath = $realSuffixedMediaPath;
+        }
+
+        return $suffixedMediaPath;
     }
 
     public function getTestFilesDirectory($suffix = '')
     {
-        return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
+        $testFilesPath = $this->getTempDirectory('testfiles');
+        if ($realTestFilesPath = realpath($testFilesPath)) {
+            // path exists and real path is platform-agnostic.
+            $testFilesPath = $realTestFilesPath;
+        }
+
+        if (! $suffix) {
+            return $testFilesPath;
+        }
+
+        $suffixedTestFilesPath = $testFilesPath.DIRECTORY_SEPARATOR.$suffix;
+        if ($realSuffixedTestFilesPath = realpath($suffixedTestFilesPath)) {
+            // suffixed path exists and real path is platform-agnostic.
+            $suffixedTestFilesPath = $realSuffixedTestFilesPath;
+        }
+
+        return $suffixedTestFilesPath;
     }
 
     public function getTestJpg()
