@@ -69,7 +69,7 @@ class FileManipulator
         $temporaryDirectory->create();
 
         $targetFileName = str_random(16);
-        if($media->extension) {
+        if ($media->extension) {
             $targetFileName .= ('.'.$media->extension);
         }
 
@@ -91,7 +91,7 @@ class FileManipulator
 
                 $newFileName = $conversion->getName();
                 $newExtension = $conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
-                if($newExtension) {
+                if ($newExtension) {
                     $newFileName .= ('.'.$newExtension);
                 }
 
@@ -108,7 +108,7 @@ class FileManipulator
     public function performConversion(Media $media, Conversion $conversion, string $imageFile): string
     {
         $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.str_random(16).$conversion->getName();
-        if($media->extension) {
+        if ($media->extension) {
             $conversionTempFile .= ('.'.$media->extension);
         }
 
