@@ -83,6 +83,10 @@ abstract class TestCase extends Orchestra
             return $this->getTempDirectory();
         });
 
+        $mediaLibraryTemp = $this->getTempDirectory('medialibrary-temp');
+        if(!File::isDirectory($mediaLibraryTemp)) File::makeDirectory($mediaLibraryTemp);
+        $app['config']->set('medialibrary.temporary_directory_path', $mediaLibraryTemp);
+
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
 
         $this->setupS3($app);
