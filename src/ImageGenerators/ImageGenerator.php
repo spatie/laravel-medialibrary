@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\Media;
-use Spatie\MediaLibrary\Conversion\Conversion;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Conversion\Conversion;
 
 interface ImageGenerator
 {

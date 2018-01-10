@@ -15,7 +15,7 @@ class Pdf extends BaseGenerator
         $pdf = new \Spatie\PdfToImage\Pdf($file);
 
         $pdf->setPage($conversion ? $conversion->getPage() : 1);
-        
+
         $pdf->saveImage($imageFile);
 
         return $imageFile;

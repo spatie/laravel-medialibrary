@@ -3,11 +3,11 @@
 namespace Spatie\MediaLibrary\Test\Conversion;
 
 use Spatie\Image\Manipulations;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\App;
 
 class ConversionTest extends TestCase
 {
@@ -188,20 +188,20 @@ class ConversionTest extends TestCase
     public function it_can_store_params_for_image_generators()
     {
         $mockImageGenerator = $this->getMockBuilder(ImageGenerator::class)
-            ->setMockClassName("MockImageGenerator")
+            ->setMockClassName('MockImageGenerator')
             ->getMock();
 
-        Config::set("medialibrary.image_generators", [ "MockImageGenerator" ]);
-        App::instance("MockImageGenerator", $mockImageGenerator);
+        Config::set('medialibrary.image_generators', [ 'MockImageGenerator' ]);
+        App::instance('MockImageGenerator', $mockImageGenerator);
 
-        $mockImageGenerator->method("getParams")->will($this->returnValue(collect([ "testparam" => "default-example" ])));
+        $mockImageGenerator->method('getParams')->will($this->returnValue(collect(['testparam' => 'default-example'])));
 
         $conversion = new Conversion('test');
 
-        $this->assertSame("default-example", $conversion->getTestParam());
+        $this->assertSame('default-example', $conversion->getTestParam());
 
-        $conversion->TestParam("example");
+        $conversion->TestParam('example');
 
-        $this->assertSame("example", $conversion->getTestParam());
+        $this->assertSame('example', $conversion->getTestParam());
     }
 }

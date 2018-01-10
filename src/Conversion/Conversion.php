@@ -4,8 +4,8 @@ namespace Spatie\MediaLibrary\Conversion;
 
 use BadMethodCallException;
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
@@ -21,7 +21,7 @@ class Conversion
 
     /** @var Illuminate\Support\Collection */
     protected $generatorParams;
-    
+
     /** @var array */
     protected $performOnCollections = [];
 
@@ -87,6 +87,7 @@ class Conversion
         // Manipulation call
         if (method_exists($this->manipulations, $name)) {
             $this->manipulations->$name(...$arguments);
+
             return $this;
         }
 
@@ -97,7 +98,7 @@ class Conversion
                 ->filter(function ($generatorParams) use ($paramName) {
                     return $generatorParams->has($paramName);
                 });
-            
+
             if (count($validGeneratorParams)) {
                 $firstValidGeneratorParams = $validGeneratorParams->first();
                 if ($firstValidGeneratorParams) {
@@ -114,15 +115,15 @@ class Conversion
             ->filter(function ($generatorParams) use ($paramName) {
                 return $generatorParams->has($paramName);
             });
-        
+
         if (count($settableGeneratorParamGroups)) {
             $value = $arguments[0];
             $settableGeneratorParamGroups
                 ->map(function ($settableGeneratorParams) use ($paramName, $value) {
                     $settableGeneratorParams[$paramName] = $value;
                 });
-            
-            return $this;
+
+                return $this;
         }
 
         throw new BadMethodCallException("Manipulation or Generator Parameter `{$name}` does not exist");
