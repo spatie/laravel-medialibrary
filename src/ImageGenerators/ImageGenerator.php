@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Illuminate\Support\Collection;
 
 interface ImageGenerator
 {
@@ -25,5 +26,5 @@ interface ImageGenerator
 
     public function getType(): string;
 
-    public function getParams(): array;
+    public function getParams(): Collection;
 }
