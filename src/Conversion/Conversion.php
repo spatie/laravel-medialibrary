@@ -41,7 +41,7 @@ class Conversion
 
         $this->generatorParams = collect();
         $this->getImageGenerators()
-            ->map(function(string $className) {
+            ->map(function (string $className) {
                 $generator = app($className);
 
                 $this->generatorParams[$className] = collect($generator->getParams());
@@ -91,16 +91,16 @@ class Conversion
         }
 
         // Get ImageGenerator param call
-        if(preg_match('/^get(.*)$/', $name, $getParamMatch)) {
+        if (preg_match('/^get(.*)$/', $name, $getParamMatch)) {
             $paramName = strtolower($getParamMatch[1]);
             $validGeneratorParams = $this->generatorParams
-                ->filter(function($generatorParams) use ($paramName) {
+                ->filter(function ($generatorParams) use ($paramName) {
                     return $generatorParams->has($paramName);
                 });
             
-            if(count($validGeneratorParams)) {
+            if (count($validGeneratorParams)) {
                 $firstValidGeneratorParams = $validGeneratorParams->first();
-                if($firstValidGeneratorParams) {
+                if ($firstValidGeneratorParams) {
                     return $firstValidGeneratorParams[$paramName];
                 }
             }
@@ -111,14 +111,14 @@ class Conversion
         // Set ImageGenerator param call
         $paramName = strtolower($name);
         $settableGeneratorParamGroups = $this->generatorParams
-            ->filter(function($generatorParams) use ($paramName) {
+            ->filter(function ($generatorParams) use ($paramName) {
                 return $generatorParams->has($paramName);
             });
         
-        if(count($settableGeneratorParamGroups)) {
+        if (count($settableGeneratorParamGroups)) {
             $value = $arguments[0];
             $settableGeneratorParamGroups
-                ->map(function($settableGeneratorParams) use ($paramName, $value) {
+                ->map(function ($settableGeneratorParams) use ($paramName, $value) {
                     $settableGeneratorParams[$paramName] = $value;
                 });
             

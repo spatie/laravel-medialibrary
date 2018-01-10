@@ -46,6 +46,6 @@ class Video extends BaseGenerator
 
     public function getParams(): Collection
     {
-        return collect( [ "extractvideoframeatsecond" => 0 ] );
+        return collect([ "extractvideoframeatsecond" => 0 ]);
     }
 }
