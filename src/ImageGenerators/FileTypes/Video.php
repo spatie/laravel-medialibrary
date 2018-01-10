@@ -43,4 +43,9 @@ class Video extends BaseGenerator
     {
         return collect(['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime']);
     }
+
+    public function getParams(): Collection
+    {
+        return collect(['extractvideoframeatsecond' => 0]);
+    }
 }

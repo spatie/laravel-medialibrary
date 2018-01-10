@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\ImageGenerators;
 
 use Spatie\MediaLibrary\Media;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
 interface ImageGenerator
@@ -24,4 +25,6 @@ interface ImageGenerator
     public function canHandleExtension(string $extension = ''): bool;
 
     public function getType(): string;
+
+    public function getParams(): Collection;
 }

@@ -4,6 +4,8 @@ namespace Spatie\MediaLibrary\Conversion;
 
 use BadMethodCallException;
 use Spatie\Image\Manipulations;
+use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
@@ -16,6 +18,9 @@ class Conversion
 
     /** @var \Spatie\Image\Manipulations */
     protected $manipulations;
+
+    /** @var Illuminate\Support\Collection */
+    protected $generatorParams;
 
     /** @var array */
     protected $performOnCollections = [];
@@ -33,6 +38,14 @@ class Conversion
         $this->manipulations = (new Manipulations())
             ->optimize(config('medialibrary.image_optimizers'))
             ->format('jpg');
+
+        $this->generatorParams = collect();
+        $this->getImageGenerators()
+            ->map(function (string $className) {
+                $generator = app($className);
+
+                $this->generatorParams[$className] = collect($generator->getParams());
+            });
     }
 
     public static function create(string $name)
@@ -43,22 +56,6 @@ class Conversion
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /*
-     * Set the timecode in seconds to extract a video thumbnail.
-     * Only used on video media.
-     */
-    public function extractVideoFrameAtSecond(int $timecode): Conversion
-    {
-        $this->extractVideoFrameAtSecond = $timecode;
-
-        return $this;
-    }
-
-    public function getExtractVideoFrameAtSecond(): int
-    {
-        return $this->extractVideoFrameAtSecond;
     }
 
     public function keepOriginalImageFormat(): Conversion
@@ -87,13 +84,49 @@ class Conversion
 
     public function __call($name, $arguments)
     {
-        if (! method_exists($this->manipulations, $name)) {
-            throw new BadMethodCallException("Manipulation `{$name}` does not exist");
+        // Manipulation call
+        if (method_exists($this->manipulations, $name)) {
+            $this->manipulations->$name(...$arguments);
+
+            return $this;
         }
 
-        $this->manipulations->$name(...$arguments);
+        // Get ImageGenerator param call
+        if (preg_match('/^get(.*)$/', $name, $getParamMatch)) {
+            $paramName = strtolower($getParamMatch[1]);
+            $validGeneratorParams = $this->generatorParams
+                ->filter(function ($generatorParams) use ($paramName) {
+                    return $generatorParams->has($paramName);
+                });
 
-        return $this;
+            if (count($validGeneratorParams)) {
+                $firstValidGeneratorParams = $validGeneratorParams->first();
+                if ($firstValidGeneratorParams) {
+                    return $firstValidGeneratorParams[$paramName];
+                }
+            }
+
+            throw new BadMethodCallException("Generator Parameter `{$paramName}` does not exist");
+        }
+
+        // Set ImageGenerator param call
+        $paramName = strtolower($name);
+        $settableGeneratorParamGroups = $this->generatorParams
+            ->filter(function ($generatorParams) use ($paramName) {
+                return $generatorParams->has($paramName);
+            });
+
+        if (count($settableGeneratorParamGroups)) {
+            $value = $arguments[0];
+            $settableGeneratorParamGroups
+                ->map(function ($settableGeneratorParams) use ($paramName, $value) {
+                    $settableGeneratorParams[$paramName] = $value;
+                });
+
+                return $this;
+        }
+
+        throw new BadMethodCallException("Manipulation or Generator Parameter `{$name}` does not exist");
     }
 
     /**
@@ -224,5 +257,13 @@ class Conversion
         }
 
         return $originalFileExtension;
+    }
+
+    /**
+     * Collection of all ImageGenerator drivers.
+     */
+    protected function getImageGenerators(): Collection
+    {
+        return collect(config('medialibrary.image_generators'));
     }
 }

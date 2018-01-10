@@ -12,7 +12,11 @@ class Pdf extends BaseGenerator
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        (new \Spatie\PdfToImage\Pdf($file))->saveImage($imageFile);
+        $pdf = new \Spatie\PdfToImage\Pdf($file);
+
+        $pdf->setPage($conversion ? $conversion->getPage() : 1);
+
+        $pdf->saveImage($imageFile);
 
         return $imageFile;
     }
@@ -38,5 +42,10 @@ class Pdf extends BaseGenerator
     public function supportedMimeTypes(): Collection
     {
         return collect(['application/pdf']);
+    }
+
+    public function getParams(): Collection
+    {
+        return collect(['page' => 1]);
     }
 }
