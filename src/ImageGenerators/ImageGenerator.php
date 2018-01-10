@@ -25,5 +25,5 @@ interface ImageGenerator
 
     public function getType(): string;
 
-    public function hasParam(string $name): bool;
+    public function getParams(): array;
 }

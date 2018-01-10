@@ -194,9 +194,11 @@ class ConversionTest extends TestCase
         Config::set("medialibrary.image_generators", [ "MockImageGenerator" ]);
         App::instance("MockImageGenerator", $mockImageGenerator);
 
-        $mockImageGenerator->method("hasParam")->with("testparam")->will($this->returnValue(true));
+        $mockImageGenerator->method("getParams")->will($this->returnValue( [ "testparam" => "default-example" ]));
 
         $conversion = new Conversion('test');
+
+        $this->assertSame("default-example", $conversion->getTestParam());
 
         $conversion->TestParam("example");
 

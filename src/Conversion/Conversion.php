@@ -19,11 +19,8 @@ class Conversion
     /** @var \Spatie\Image\Manipulations */
     protected $manipulations;
 
-    /** @var array(\Spatie\MediaLibrary\ImageGenerators\ImageGenerator) */
-    protected $generators;
-
-    /** @var array(array(mixed)) */
-    protected $generatorParams = [];
+    /** @var Illuminate\Support\Collection */
+    protected $generatorParams;
     
     /** @var array */
     protected $performOnCollections = [];
@@ -42,9 +39,12 @@ class Conversion
             ->optimize(config('medialibrary.image_optimizers'))
             ->format('jpg');
 
-        $this->generators = $this->getImageGenerators()
+        $this->generatorParams = collect();
+        $this->getImageGenerators()
             ->map(function(string $className) {
-                return app($className);
+                $generator = app($className);
+
+                $this->generatorParams[$className] = collect($generator->getParams());
             });
     }
 
@@ -109,23 +109,15 @@ class Conversion
         // Get ImageGenerator param call
         if(preg_match('/^get(.*)$/', $name, $getParamMatch)) {
             $paramName = strtolower($getParamMatch[1]);
-            $getParammedGenerators = $this->generators
-                ->filter(function(ImageGenerator $generator) use ($paramName) {
-                    return $generator->hasParam($paramName);
+            $validGeneratorParams = $this->generatorParams
+                ->filter(function($generatorParams) use ($paramName) {
+                    return $generatorParams->has($paramName);
                 });
             
-            if(count($getParammedGenerators)) {
-                $validGenerators = $getParammedGenerators
-                    ->filter(function($getParammedGenerator) use ($paramName) {
-                        $className = get_class($getParammedGenerator);
-                        return array_key_exists($className, $this->generatorParams)
-                            && array_key_exists($paramName, $this->generatorParams[$className]);
-                    });
-                
-                $firstValidGenerator = $validGenerators->first();
-                if($firstValidGenerator) {
-                    $class = get_class($firstValidGenerator);
-                    return $this->generatorParams[$class][$paramName];
+            if(count($validGeneratorParams)) {
+                $firstValidGeneratorParams = $validGeneratorParams->first();
+                if($firstValidGeneratorParams) {
+                    return $firstValidGeneratorParams[$paramName];
                 }
             }
 
@@ -134,21 +126,16 @@ class Conversion
 
         // Set ImageGenerator param call
         $paramName = strtolower($name);
-        $setParammedGenerators = $this->generators
-            ->filter(function(ImageGenerator $generator) use ($paramName) {
-                return $generator->hasParam($paramName);
+        $settableGeneratorParamGroups = $this->generatorParams
+            ->filter(function($generatorParams) use ($paramName) {
+                return $generatorParams->has($paramName);
             });
         
-        if(count($setParammedGenerators)) {
+        if(count($settableGeneratorParamGroups)) {
             $value = $arguments[0];
-            $setParammedGenerators
-                ->map(function($setParammedGenerator) use ($paramName, $value) {
-                    $class = get_class($setParammedGenerator);
-                    if(!array_key_exists($class, $this->generatorParams)) {
-                        $this->generatorParams[$class] = [];
-                    }
-
-                    $this->generatorParams[$class][$paramName] = $value;
+            $settableGeneratorParamGroups
+                ->map(function($settableGeneratorParams) use ($paramName, $value) {
+                    $settableGeneratorParams[$paramName] = $value;
                 });
             
             return $this;
