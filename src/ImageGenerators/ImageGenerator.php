@@ -24,4 +24,6 @@ interface ImageGenerator
     public function canHandleExtension(string $extension = ''): bool;
 
     public function getType(): string;
+
+    public function hasParam(string $name): bool;
 }

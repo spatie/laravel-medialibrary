@@ -5,6 +5,9 @@ namespace Spatie\MediaLibrary\Test\Conversion;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Test\TestCase;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\App;
 
 class ConversionTest extends TestCase
 {
@@ -179,5 +182,24 @@ class ConversionTest extends TestCase
             ->toArray();
 
         $this->assertArrayNotHasKey('optimize', $manipulations[0]);
+    }
+
+    /** @test */
+    public function it_can_store_params_for_image_generators()
+    {
+        $mockImageGenerator = $this->getMockBuilder(ImageGenerator::class)
+            ->setMockClassName("MockImageGenerator")
+            ->getMock();
+
+        Config::set("medialibrary.image_generators", [ "MockImageGenerator" ]);
+        App::instance("MockImageGenerator", $mockImageGenerator);
+
+        $mockImageGenerator->method("hasParam")->with("testparam")->will($this->returnValue(true));
+
+        $conversion = new Conversion('test');
+
+        $conversion->TestParam("example");
+
+        $this->assertSame("example", $conversion->getTestParam());
     }
 }
