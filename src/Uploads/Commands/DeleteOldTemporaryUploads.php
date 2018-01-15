@@ -28,6 +28,6 @@ class DeleteOldTemporaryUploads extends Command
 
         $temporaryUploads->each->delete();
 
-        $this->comment($temporaryUploads . ' old temporary upload(s) deleted!');
+        $this->comment("{$temporaryUploads} old temporary upload(s) deleted!");
     }
 }
