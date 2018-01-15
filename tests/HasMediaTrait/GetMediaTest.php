@@ -99,7 +99,7 @@ class GetMediaTest extends TestCase
 
         $collection = $this->testModel->getMedia('images', ['filter2' => 'value1']);
         $this->assertCount(1, $collection);
-        $this->assertTrue($collection->first()->id == $media3->id);
+        $this->assertSame($collection->first()->id, $media3->id);
     }
 
     /** @test */
@@ -134,7 +134,7 @@ class GetMediaTest extends TestCase
         });
 
         $this->assertCount(1, $collection);
-        $this->assertTrue($collection->first()->id == $media2->id);
+        $this->assertSame($collection->first()->id, $media2->id);
     }
 
     /** @test */
