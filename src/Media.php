@@ -17,6 +17,8 @@ class Media extends Model implements Responsable
 
     const TYPE_OTHER = 'other';
 
+    protected $table = config('medialibrary.table_name', 'media');
+
     protected $guarded = [];
 
     /**
