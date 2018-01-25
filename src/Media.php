@@ -17,7 +17,16 @@ class Media extends Model implements Responsable
 
     const TYPE_OTHER = 'other';
 
+    protected $table = 'media';
+
     protected $guarded = [];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->table = config('medialibrary.table_name', 'media');
+    }
 
     /**
      * The attributes that should be casted to native types.
