@@ -1,3 +1,5 @@
+sudo: required
+
 language: php
 
 php:
@@ -18,7 +20,7 @@ install:
   - travis_retry composer update --prefer-source $COMPOSER_FLAGS
   - travis_retry composer require php-ffmpeg/php-ffmpeg
   - travis_retry composer require league/flysystem-aws-s3-v3
-  - printf "\n" | pecl install imagick
+  - yes | pecl install imagick
   - sudo apt-get install -y ghostscript
 
 script:
