@@ -5,10 +5,10 @@ namespace Spatie\MediaLibrary\Tests\Feature;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Route;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\ZipStreamResponse;
+use Spatie\MediaLibrary\MediaStream;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class ZipStreamResponseTest extends TestCase
+class MediaStreamTest extends TestCase
 {
     public function setUp()
     {
@@ -25,7 +25,7 @@ class ZipStreamResponseTest extends TestCase
     /** @test */
     public function it_can_return_a_stream_of_media()
     {
-        $zipStreamResponse = ZipStreamResponse::create('my-media.zip')->addMedia(Media::all());
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
 
         $this->assertEquals(count(Media::all()), $zipStreamResponse->getMediaItems()->count());
 
@@ -41,7 +41,7 @@ class ZipStreamResponseTest extends TestCase
     /** @test */
     public function media_can_be_added_to_it_one_by_one()
     {
-        $zipStreamResponse = ZipStreamResponse::create('my-media.zip')
+        $zipStreamResponse = MediaStream::create('my-media.zip')
             ->addMedia(Media::find(1))
             ->addMedia(Media::find(2));
 
@@ -51,7 +51,7 @@ class ZipStreamResponseTest extends TestCase
     /** @test */
     public function an_array_of_media_can_be_added_to_it()
     {
-        $zipStreamResponse = ZipStreamResponse::create('my-media.zip')
+        $zipStreamResponse = MediaStream::create('my-media.zip')
             ->addMedia([Media::find(1), Media::find(2)]);
 
         $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
