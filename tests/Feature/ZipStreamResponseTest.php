@@ -25,12 +25,35 @@ class ZipStreamResponseTest extends TestCase
     /** @test */
     public function it_can_return_a_stream_of_media()
     {
-        Route::get('stream-test', function () {
-            return ZipStreamResponse::create('my-media.zip')->addMedia(Media::all());
+        $zipStreamResponse = ZipStreamResponse::create('my-media.zip')->addMedia(Media::all());
+
+        $this->assertEquals(count(Media::all()), $zipStreamResponse->getMediaItems()->count());
+
+        Route::get('stream-test', function () use ($zipStreamResponse) {
+            return $zipStreamResponse;
         });
 
         $response = $this->get('stream-test');
 
         $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    }
+
+    /** @test */
+    public function media_can_be_added_to_it_one_by_one()
+    {
+        $zipStreamResponse = ZipStreamResponse::create('my-media.zip')
+            ->addMedia(Media::find(1))
+            ->addMedia(Media::find(2));
+
+        $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
+    }
+
+    /** @test */
+    public function an_array_of_media_can_be_added_to_it()
+    {
+        $zipStreamResponse = ZipStreamResponse::create('my-media.zip')
+            ->addMedia([Media::find(1), Media::find(2)]);
+
+        $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
     }
 }

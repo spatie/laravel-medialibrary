@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Support\Responsable;
 use ZipStream\ZipStream;
@@ -25,13 +26,38 @@ class ZipStreamResponse implements Responsable
     public function __construct(string $zipName)
     {
         $this->zipName = $zipName;
+
+        $this->mediaItems = collect();
     }
 
-    public function addMedia($mediaItems)
+    public function addMedia(...$mediaItems)
     {
-        $this->mediaItems = $mediaItems;
+        collect($mediaItems)
+            ->flatMap(function ($item) {
+                if ($item instanceof Media) {
+                    return [$item];
+                }
+
+                if ($item instanceof Collection) {
+                    return $item->reduce(function(array $carry, Media $media) {
+                        $carry[] = $media;
+
+                        return $carry;
+                    }, []);
+                }
+
+                return $item;
+            })
+            ->each(function(Media $media) {
+                $this->mediaItems->push($media);
+            });
 
         return $this;
+    }
+
+    public function getMediaItems(): Collection
+    {
+        return $this->mediaItems;
     }
 
     public function toResponse($request)
