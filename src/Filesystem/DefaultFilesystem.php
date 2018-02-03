@@ -120,7 +120,7 @@ class DefaultFilesystem implements Filesystem
 
         $conversionsDirectory = $this->getConversionDirectory($media);
 
-        collect([$mediaDirectory, $conversionsDirectory])
+        collect([$conversionsDirectory, $mediaDirectory])
             ->each(function ($directory) use ($media) {
                 $this->filesystem->disk($media->disk)->deleteDirectory($directory);
             });
