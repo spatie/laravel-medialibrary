@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.6.8 - 2018-02-05
+
+- change the directory deletion order
+
 ## 6.6.7 - 2018-01-07
 
 - use better default for s3 domain
