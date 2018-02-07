@@ -200,8 +200,8 @@ class GetMediaTest extends TestCase
         $secondMedia->name = 'second';
         $secondMedia->save();
 
-        $this->assertEquals($secondMedia->getUrl(), $this->testModel->getFirstMediaUrl('images', '', function($value, $key) {
-            return $value->name=='second';
+        $this->assertEquals($secondMedia->getUrl(), $this->testModel->getFirstMediaUrl('images', '', function ($value, $key) {
+            return $value->name == 'second';
         }));
     }
 
