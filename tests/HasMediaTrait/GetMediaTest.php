@@ -190,6 +190,22 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_url_to_first_media_in_a_collection_using_a_filter()
+    {
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstMedia->name = 'first';
+        $firstMedia->save();
+
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia->name = 'second';
+        $secondMedia->save();
+
+        $this->assertEquals($secondMedia->getUrl(), $this->testModel->getFirstMediaUrl('images', '', function($value, $key) {
+            return $value->name=='second';
+        }));
+    }
+
+    /** @test */
     public function it_can_get_the_path_to_first_media_in_a_collection()
     {
         $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
