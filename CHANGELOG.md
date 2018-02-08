@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 6.6.9 - 2018-02-08
+
+- add support for L5.6
+
 ## 6.6.8 - 2018-02-05
 
 - change the directory deletion order
