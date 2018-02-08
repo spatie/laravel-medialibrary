@@ -384,6 +384,7 @@ class FileAdder
         $this->processMediaItem($this->subject, $media, $this);
     }
 
+
     protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
     {
         $this->guardAgainstDisallowedFileAdditions($media, $model);

@@ -131,6 +131,7 @@ class DefaultFilesystem implements Filesystem
         $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
 
         collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
+
             ->each(function ($directory) use ($media) {
                 $this->filesystem->disk($media->disk)->deleteDirectory($directory);
             });
