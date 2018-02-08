@@ -217,7 +217,7 @@ trait HasMediaTrait
      *
      * @return Media|null
      */
-    public function getFirstMedia(string $collectionName = 'default', array $filters = [])
+    public function getFirstMedia(string $collectionName = 'default', $filters = [])
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -229,9 +229,9 @@ trait HasMediaTrait
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = '', callable $filter = null): string
     {
-        $media = $this->getFirstMedia($collectionName);
+        $media = $this->getFirstMedia($collectionName, $filter);
 
         if (! $media) {
             return '';
