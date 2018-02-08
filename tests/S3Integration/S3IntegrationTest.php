@@ -139,13 +139,24 @@ class S3IntegrationTest extends TestCase
     /** @test */
     public function it_can_get_the_temporary_url_to_first_media_in_a_collection()
     {
-        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstMedia = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('images', 's3_disk');
+
         $firstMedia->save();
 
-        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('images', 's3_disk');
+
         $secondMedia->save();
 
-        $this->assertEquals($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)), $this->testModel->getFirstTemporyUrl(Carbon::now()->addMinutes(5), 'images'));
+        $this->assertEquals(
+            $firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)),
+            $this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images')
+        );
     }
 
     /** @test */
@@ -170,7 +181,7 @@ class S3IntegrationTest extends TestCase
 
     public function canTestS3()
     {
-        return ! empty(getenv('S3_ACCESS_KEY_ID'));
+        return ! empty(getenv('AWS_KEY'));
     }
 
     public static function getS3BaseTestDirectory(): string

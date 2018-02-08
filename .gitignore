@@ -4,3 +4,4 @@ vendor
 tests/temp
 composer.lock
 phpunit.xml
+.env

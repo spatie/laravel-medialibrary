@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Test;
 
+use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -29,6 +30,8 @@ abstract class TestCase extends Orchestra
 
     public function setUp()
     {
+        $this->loadEnvironmentVariables();
+
         parent::setUp();
 
         $this->setUpDatabase($this->app);
@@ -41,6 +44,17 @@ abstract class TestCase extends Orchestra
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
         $this->testModelWithSoftDeletes = TestModelWithSoftDeletes::first();
+    }
+
+    protected function loadEnvironmentVariables()
+    {
+        if (! file_exists(__DIR__ . '/../.env')) {
+            return;
+        }
+
+        $dotenv = new Dotenv(__DIR__ . '/..');
+
+        $dotenv->load();
     }
 
     /**
@@ -173,10 +187,10 @@ abstract class TestCase extends Orchestra
     {
         $s3Configuration = [
             'driver' => 's3',
-            'key' => getenv('S3_ACCESS_KEY_ID'),
-            'secret' => getenv('S3_SECRET_ACCESS_KEY'),
-            'region' => getenv('S3_BUCKET_REGION'),
-            'bucket' => getenv('S3_BUCKET_NAME'),
+            'key' => getenv('AWS_KEY'),
+            'secret' => getenv('AWS_SECRET'),
+            'region' => getenv('AWS_REGION'),
+            'bucket' => getenv('AWS_BUCKET'),
         ];
 
         $app['config']->set('filesystems.disks.s3_disk', $s3Configuration);
