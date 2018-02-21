@@ -357,17 +357,28 @@ trait HasMediaTrait
      */
     public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = [])
     {
-        $excludedMedia = collect($excludedMedia);
+        /**
+         * If the method receive only Media object, the "where" condition
+         * below can not be met because of there is not a key in a collection,
+         * thus it finds nothing and returns empty collection (count = 0).
+         * Therefore it deletes all files and does not respect excluded media.
+         * It is critical to wrap $excludedMedia into an array to create the key
+         * and prevent accidental deletion of all files.
+         */
+        if ($excludedMedia instanceof Media) {
+            $excludedMedia = collect([$excludedMedia]);
+        }
 
         if ($excludedMedia->isEmpty()) {
             return $this->clearMediaCollection($collectionName);
         }
 
-        $this->getMedia($collectionName)
+        $filtered = $this->getMedia($collectionName)
             ->reject(function (Media $media) use ($excludedMedia) {
                 return $excludedMedia->where('id', $media->id)->count();
-            })
-            ->each->delete();
+            });
+
+        $filtered->each->delete();
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
