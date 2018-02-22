@@ -81,7 +81,11 @@ class ResponsiveImageGenerator
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
-        Image::load($baseImage)->width($targetWidth)->save($tempDestination);
+        Image::load($baseImage)
+            ->useImageDriver(config('medialibrary.image_driver'))
+            ->optimize()
+            ->width($targetWidth)
+            ->save($tempDestination);
 
         $responsiveImageHeight = Image::load($tempDestination)->getHeight();
 
