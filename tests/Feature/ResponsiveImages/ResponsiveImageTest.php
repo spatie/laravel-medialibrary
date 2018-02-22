@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
 
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 
 class ResponsiveImageTest extends TestCase
 {

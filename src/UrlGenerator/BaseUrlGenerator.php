@@ -69,18 +69,18 @@ abstract class BaseUrlGenerator implements UrlGenerator
     public function getPathRelativeToRoot(): string
     {
         if (is_null($this->conversion)) {
-            return $this->pathGenerator->getPath($this->media) . ($this->media->file_name);
+            return $this->pathGenerator->getPath($this->media).($this->media->file_name);
         }
 
         return $this->pathGenerator->getPathForConversions($this->media)
-            . pathinfo($this->media->file_name, PATHINFO_FILENAME)
-            . '-' . $this->conversion->getName()
-            . '.'
-            . $this->conversion->getResultExtension($this->media->extension);
+            .pathinfo($this->media->file_name, PATHINFO_FILENAME)
+            .'-'.$this->conversion->getName()
+            .'.'
+            .$this->conversion->getResultExtension($this->media->extension);
     }
 
     public function rawUrlEncodeFilename(string $path = ''): string
     {
-        return pathinfo($path, PATHINFO_DIRNAME) . '/' . rawurlencode(pathinfo($path, PATHINFO_BASENAME));
+        return pathinfo($path, PATHINFO_DIRNAME).'/'.rawurlencode(pathinfo($path, PATHINFO_BASENAME));
     }
 }

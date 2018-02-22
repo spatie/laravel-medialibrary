@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Spatie\MediaLibrary\Models\Media;
-use \Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
@@ -48,7 +48,7 @@ class ResponsiveImage
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media);
 
-        return $urlGenerator->getResponsiveImagesDirectoryUrl() . $this->fileName;
+        return $urlGenerator->getResponsiveImagesDirectoryUrl().$this->fileName;
     }
 
     public function generatedFor(): string
@@ -80,7 +80,7 @@ class ResponsiveImage
 
     protected function getPropertyParts(): array
     {
-        $propertyString =  $this->stringBetween($this->fileName, '___', '.');
+        $propertyString = $this->stringBetween($this->fileName, '___', '.');
 
         return explode('_', $propertyString);
     }
@@ -102,7 +102,7 @@ class ResponsiveImage
 
         $path = $pathGenerator->getPathForResponsiveImages($this->media);
 
-        $fullPath = $path . $this->fileName;
+        $fullPath = $path.$this->fileName;
 
         app(Filesystem::class)->removeFile($this->media, $fullPath);
 

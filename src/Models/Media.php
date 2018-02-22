@@ -239,7 +239,7 @@ class Media extends Model implements Responsable, Htmlable
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => 'attachment; filename="' . $this->file_name . '"',
+            'Content-Disposition' => 'attachment; filename="'.$this->file_name.'"',
             'Pragma' => 'public',
         ];
 
@@ -298,11 +298,11 @@ class Media extends Model implements Responsable, Htmlable
 
         $attributeString = collect($extraAttributes)
             ->map(function ($value, $name) {
-                return $name . '="' . $value . '"';
+                return $name.'="'.$value.'"';
             })->implode(' ');
 
         if (strlen($attributeString)) {
-            $attributeString = ' ' . $attributeString;
+            $attributeString = ' '.$attributeString;
         }
 
         $media = $this;
@@ -327,7 +327,7 @@ class Media extends Model implements Responsable, Htmlable
         ));
     }
 
-    public function move(HasMedia $model, $collectionName = 'default'): Media
+    public function move(HasMedia $model, $collectionName = 'default'): self
     {
         $newMedia = $this->copy($model, $collectionName);
 
@@ -336,7 +336,7 @@ class Media extends Model implements Responsable, Htmlable
         return $newMedia;
     }
 
-    public function copy(HasMedia $model, $collectionName = 'default'): Media
+    public function copy(HasMedia $model, $collectionName = 'default'): self
     {
         $temporaryDirectory = TemporaryDirectory::create();
 

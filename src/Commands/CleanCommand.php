@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\Command;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\ConfirmableTrait;
 use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\MediaRepository;
@@ -13,7 +13,6 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
-use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class CleanCommand extends Command

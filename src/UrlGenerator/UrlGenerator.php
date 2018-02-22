@@ -21,14 +21,14 @@ interface UrlGenerator
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setMedia(Media $media): UrlGenerator;
+    public function setMedia(Media $media): self;
 
     /**
      * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setConversion(Conversion $conversion): UrlGenerator;
+    public function setConversion(Conversion $conversion): self;
 
     /**
      * Set the path generator class.
@@ -37,7 +37,7 @@ interface UrlGenerator
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setPathGenerator(PathGenerator $pathGenerator): UrlGenerator;
+    public function setPathGenerator(PathGenerator $pathGenerator): self;
 
     /**
      * Get the temporary url for a media item.

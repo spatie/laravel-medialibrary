@@ -2,9 +2,8 @@
 
 namespace Spatie\MediaLibrary\Uploads\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
-use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Contracts\Validation\Rule;
 
 class TemporaryUploadId implements Rule
 {

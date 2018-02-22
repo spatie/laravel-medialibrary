@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TemporaryUpload extends Model implements HasMedia
 {
@@ -31,7 +30,7 @@ class TemporaryUpload extends Model implements HasMedia
         });
     }
 
-    public static function findById(string $uploadId, string $sessionId): ?TemporaryUpload
+    public static function findById(string $uploadId, string $sessionId): ?self
     {
         return static::where('id', $uploadId)
             ->where('session_id', session()->getId())
@@ -47,7 +46,7 @@ class TemporaryUpload extends Model implements HasMedia
             ->optimize();
     }
 
-    public static function createForFile(UploadedFile $file, string $sessionId): TemporaryUpload
+    public static function createForFile(UploadedFile $file, string $sessionId): self
     {
         $temporaryUpload = static::create([
             'session_id' => $sessionId,

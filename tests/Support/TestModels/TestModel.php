@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary\Tests\Support\TestModels;
 
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class TestModel extends Model implements HasMedia

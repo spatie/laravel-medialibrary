@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\Uploads\Http;
 
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
-use Spatie\MediaLibrary\Uploads\Rules\TemporaryUploadId;
 
 class TemporaryUploadControllerTest extends TestCase
 {
@@ -24,7 +21,7 @@ class TemporaryUploadControllerTest extends TestCase
     {
         $this
             ->post('temporary-uploads', [
-                'file' => UploadedFile::fake()->image('image.jpg', 600, 600)
+                'file' => UploadedFile::fake()->image('image.jpg', 600, 600),
             ])
             ->assertSuccessful();
 

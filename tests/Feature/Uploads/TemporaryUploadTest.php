@@ -2,12 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\Uploads;
 
-use Carbon\Carbon;
-use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Support\Facades\Route;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\MediaStream;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 
 class TemporaryUploadTest extends TestCase

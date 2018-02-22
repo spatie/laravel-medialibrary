@@ -3,9 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\Tests\Feature\S3Integration\S3TestPathGenerator;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class S3IntegrationTest extends TestCase
 {
