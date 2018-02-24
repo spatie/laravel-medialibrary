@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 
 class TemporaryUploadRequestEntry
 {
-    /** @var Spatie\MediaLibrary\Uploads\Models\TemporaryUpload */
+    /** @var \Spatie\MediaLibrary\Uploads\Models\TemporaryUpload */
     public $temporaryUpload;
 
     /** @var string */

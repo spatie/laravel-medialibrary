@@ -12,12 +12,6 @@ class DeleteOldTemporaryUploads extends Command
 
     protected $description = 'Delete old temporary uploads';
 
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         $this->info('Start removing old temporary uploads...');
