@@ -40,7 +40,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'medialibrary');
 
         Route::macro('temporaryUploads', function ($url) {
-            return Route::post($url, 'Spatie\MediaLibrary\Uploads\Http\Controllers\TemporaryUploadController@store');
+            return Route::post($url, '\Spatie\MediaLibrary\Uploads\Http\Controllers\TemporaryUploadController@store');
         });
     }
 
