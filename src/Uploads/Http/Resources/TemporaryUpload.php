@@ -15,7 +15,7 @@ class TemporaryUpload extends Resource
     public function toArray($request)
     {
         return [
-            'upload_id' => $this->upload_id,
+            'uploadId' => $this->upload_id,
             'previewUrl' => $this->getFirstMediaUrl('default', 'preview'),
         ];
     }
