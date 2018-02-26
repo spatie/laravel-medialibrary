@@ -58,7 +58,7 @@ class FileAdderFactory
     public static function createFromTemporaryUploads(Model $subject, Collection $temporaryUploadRequestEntries): Collection
     {
         return $temporaryUploadRequestEntries->map(function (TemporaryUploadRequestEntry $temporaryUploadRequestEntry) use ($subject) {
-            return static::createFromTemporaryUpload(subject, $temporaryUploadRequestEntry);
+            return static::createFromTemporaryUpload($subject, $temporaryUploadRequestEntry);
         });
     }
 
