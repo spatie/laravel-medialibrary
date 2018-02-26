@@ -21,11 +21,11 @@ class AddFromTemporaryUploadTest extends TestCase
 
         $fakeUpload = UploadedFile::fake()->image('test.jpg');
 
-        Session::shouldReceive('getId')->andReturn(1);
+        Session::shouldReceive('getId')->andReturn('abc');
 
         $this->temporaryUpload = TemporaryUpload::createForFile(
             $fakeUpload,
-            1
+            'abc'
         );
 
         Route::post('add-from-temporary-upload', function () {
