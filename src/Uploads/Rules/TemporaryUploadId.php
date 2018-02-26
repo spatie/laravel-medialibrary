@@ -19,7 +19,7 @@ class TemporaryUploadId implements Rule
     {
         $temporaryUploadClass = config('medialibrary.uploads.temporary_upload_model');
 
-        return $temporaryUploadClass::findById($value, session()->getId())
+        return $temporaryUploadClass::findByUploadId($value, session()->getId())
             ? true
             : false;
     }

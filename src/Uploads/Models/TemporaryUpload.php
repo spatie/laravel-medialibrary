@@ -16,25 +16,12 @@ class TemporaryUpload extends Model implements HasMedia
 {
     use HasMediaTrait;
 
-    public $incrementing = false;
-
     protected $guarded = [];
 
-    public static function boot()
+    public static function findByUploadId(string $uploadId, string $sessionId): ?TemporaryUpload
     {
-        parent::boot();
-
-        static::creating(function (TemporaryUpload $temporaryUpload) {
-            $uuid4 = Uuid::uuid4();
-
-            $temporaryUpload->id = $uuid4->toString();
-        });
-    }
-
-    public static function findById(string $uploadId, string $sessionId): ?TemporaryUpload
-    {
-        return static::where('id', $uploadId)
-            ->where('session_id', session()->getId())
+        return static::where('upload_id', $uploadId)
+            ->where('session_id', $sessionId)
             ->first();
     }
 
@@ -50,6 +37,7 @@ class TemporaryUpload extends Model implements HasMedia
     public static function createForFile(UploadedFile $file, string $sessionId): TemporaryUpload
     {
         $temporaryUpload = static::create([
+            'upload_id' => Uuid::uuid4(),
             'session_id' => $sessionId,
         ]);
 

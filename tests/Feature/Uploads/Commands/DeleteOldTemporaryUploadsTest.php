@@ -13,6 +13,7 @@ class DeleteOldTemporaryUploadsTest extends TestCase
     {
         foreach (range(1, 5) as $index) {
             TemporaryUpload::create([
+                'upload_id' => 'abc',
                 'session_id' => rand(),
             ]);
         }

@@ -14,8 +14,9 @@ class CreateTemporaryUploadsTable extends Migration
     public function up()
     {
         Schema::create('temporary_uploads', function (Blueprint $table) {
-            $table->string('id');
-            $table->string('session_id')->nullable();
+            $table->increments('id');
+            $table->string('upload_id');
+            $table->string('session_id');
             $table->timestamps();
         });
     }

@@ -35,23 +35,23 @@ class TemporaryUploadIdTest extends TestCase
     }
 
     /** @test */
-    public function it_succeed_when_the_id_is_valid_an_the_current_session_matches_the_session_on_the_temporary_upload()
+    public function it_succeed_when_the_upload_id_is_valid_an_the_current_session_matches_the_session_on_the_temporary_upload()
     {
         Session::shouldReceive('getId')->andReturn(1);
 
-        $this->assertTrue($this->rule->passes('upload_id', $this->temporaryUpload->id));
+        $this->assertTrue($this->rule->passes('upload_id', $this->temporaryUpload->upload_id));
     }
 
     /** @test */
-    public function it_fails_when_the_id_is_valid_an_the_current_session_does_not_match_the_session_on_the_temporary_upload()
+    public function it_fails_when_the_upload_id_is_valid_an_the_current_session_does_not_match_the_session_on_the_temporary_upload()
     {
         Session::shouldReceive('getId')->andReturn(2);
 
-        $this->assertFalse($this->rule->passes('upload_id', $this->temporaryUpload->id));
+        $this->assertFalse($this->rule->passes('upload_id', $this->temporaryUpload->upload_id));
     }
 
     /** @test */
-    public function it_fails_when_the_id_is_invalid_an_the_current_session_matches_the_session_on_the_temporary_upload()
+    public function it_fails_when_the_upload_id_is_invalid_an_the_current_session_matches_the_session_on_the_temporary_upload()
     {
         Session::shouldReceive('getId')->andReturn(1);
 

@@ -22,6 +22,8 @@ class TemporaryUploadControllerTest extends TestCase
     /** @test */
     public function it_can_accept_a_temporary_upload()
     {
+        $this->withoutExceptionHandling();
+
         $this
             ->post('temporary-uploads', [
                 'file' => UploadedFile::fake()->image('image.jpg', 600, 600)
