@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Uploads\Rules;
 
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
@@ -11,9 +10,6 @@ use Spatie\MediaLibrary\Uploads\Rules\TemporaryUploadId;
 
 class TemporaryUploadIdTest extends TestCase
 {
-    /** @var \App\Models\User */
-    protected $user;
-
     /** @var \Spatie\MediaLibrary\Uploads\Models\TemporaryUpload */
     protected $temporaryUpload;
 

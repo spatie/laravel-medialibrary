@@ -44,7 +44,7 @@ class AddFromTemporaryUploadTest extends TestCase
         $this
             ->post('add-from-temporary-upload', [
                 'files' => [
-                    ['upload_id' => $this->temporaryUpload->upload_id, 'name' => 'my-name'],
+                    ['uploadId' => $this->temporaryUpload->upload_id, 'name' => 'my-name'],
                 ],
             ])
             ->assertSuccessful();
