@@ -10,7 +10,7 @@ class PathGeneratorFactory
     {
         $pathGeneratorClass = BasePathGenerator::class;
 
-        $customPathClass = config('medialibrary.custom_path_generator_class');
+        $customPathClass = config('medialibrary.path_generator');
 
         if ($customPathClass) {
             $pathGeneratorClass = $customPathClass;
