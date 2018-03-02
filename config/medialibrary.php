@@ -77,14 +77,14 @@ return [
     ],
 
     /*
-        * When urls to files get generated, this class will be called. Leave empty
-        * if your files are stored locally above the site root or on s3.
-        */
+     * When urls to files get generated, this class will be called. Leave empty
+     * if your files are stored locally above the site root or on s3.
+     */
     'custom_url_generator_class' => null,
 
     /*
-        * The class that contains the strategy for determining a media file's path.
-        */
+     * The class that contains the strategy for determining a media file's path.
+     */
     'custom_path_generator_class' => null,
 
     /*
