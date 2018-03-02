@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+
+## 6.7.0 - 2018-03-02
+
+- add support for `root` config key for s3 disks.
+
 ## 6.6.9 - 2018-02-08
 
 - add support for L5.6
