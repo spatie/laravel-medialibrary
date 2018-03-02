@@ -22,14 +22,14 @@ class S3IntegrationTest extends TestCase
 
         $this->s3BaseDirectory = self::getS3BaseTestDirectory();
 
-        $this->app['config']->set('medialibrary.custom_path_generator_class', S3TestPathGenerator::class);
+        $this->app['config']->set('medialibrary.path_generator', S3TestPathGenerator::class);
     }
 
     public function tearDown()
     {
         $this->cleanUpS3();
 
-        $this->app['config']->set('medialibrary.custom_path_generator_class', null);
+        $this->app['config']->set('medialibrary.path_generator', null);
 
         parent::tearDown();
     }
