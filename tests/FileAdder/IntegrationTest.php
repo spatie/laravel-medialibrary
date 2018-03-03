@@ -412,7 +412,7 @@ class IntegrationTest extends TestCase
             ->withManipulations(['thumb' => ['width' => '10']])
             ->toMediaCollection();
 
-       $this->assertEquals('10', $media->manipulations['thumb']['width']);
+        $this->assertEquals('10', $media->manipulations['thumb']['width']);
     }
 
     /** @test */
