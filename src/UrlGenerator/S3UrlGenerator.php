@@ -27,6 +27,10 @@ class S3UrlGenerator extends BaseUrlGenerator
     {
         $url = $this->getPathRelativeToRoot();
 
+        if ($root = config('filesystems.disks.'.$this->media->disk.'.root')) {
+            $url = $root.'/'.$url;
+        }
+
         $url = $this->rawUrlEncodeFilename($url);
 
         return config('medialibrary.s3.domain').'/'.$url;

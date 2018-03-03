@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\Tests;
 
-use Dotenv\Dotenv;
 use File;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Dotenv\Dotenv;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -55,11 +55,11 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables()
     {
-        if (! file_exists(__DIR__ . '/../.env')) {
+        if (! file_exists(__DIR__.'/../.env')) {
             return;
         }
 
-        $dotenv = new Dotenv(__DIR__ . '/..');
+        $dotenv = new Dotenv(__DIR__.'/..');
 
         $dotenv->load();
     }

@@ -417,6 +417,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_manipulations_to_the_saved_media()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->withManipulations(['thumb' => ['width' => '10']])
+            ->toMediaCollection();
+
+        $this->assertEquals('10', $media->manipulations['thumb']['width']);
+    }
+
+    /** @test */
     public function it_can_add_file_to_model_with_morph_map()
     {
         $media = $this->testModelWithMorphMap

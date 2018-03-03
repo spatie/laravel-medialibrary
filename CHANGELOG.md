@@ -20,6 +20,14 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
 
+## 6.8.0 - 2018-03-03
+
+- add `withManipulations` to `FileAdder`
+
+## 6.7.0 - 2018-03-02
+
+- add support for `root` config key for s3 disks.
+
 ## 6.6.9 - 2018-02-08
 
 - add support for L5.6
