@@ -35,6 +35,9 @@ class FileAdder
     /** @var array */
     protected $customProperties = [];
 
+    /** @var array */
+    protected $manipulations = [];
+
     /** @var string */
     protected $pathToFile;
 
@@ -192,6 +195,20 @@ class FileAdder
     }
 
     /**
+     * Set the manipulations.
+     *
+     * @param array $manipulations
+     *
+     * @return $this
+     */
+    public function withManipulations(array $manipulations)
+    {
+        $this->manipulations = $manipulations;
+
+        return $this;
+    }
+
+    /**
      * Set properties on the model.
      *
      * @param array $properties
@@ -278,7 +295,7 @@ class FileAdder
         $media->mime_type = File::getMimetype($this->pathToFile);
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
-        $media->manipulations = [];
+        $media->manipulations = $this->manipulations;
 
         $media->fill($this->properties);
 
