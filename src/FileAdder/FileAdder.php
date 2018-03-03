@@ -195,9 +195,9 @@ class FileAdder
     }
 
     /**
-     * Set the metadata.
+     * Set the manipulations.
      *
-     * @param array $customProperties
+     * @param array $manipulations
      *
      * @return $this
      */
