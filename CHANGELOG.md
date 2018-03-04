@@ -11,7 +11,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - added upload api + support for first party upload vue components
 - added `move` and `copy` methods on `Media`
 
-- file names will be lowercases when adding them to the medialibrary
+- file names will be lowercased when adding them to the medialibrary
 - the names of converted images will now start with the name of the original file
 
 - dropped support for soft deletes
@@ -19,6 +19,11 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - dropped support for PHP 7.0
 
 - `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
+
+## 6.9.0 - 2018-03-04
+
+- add wildcard manipulations
+
 
 ## 6.8.0 - 2018-03-03
 

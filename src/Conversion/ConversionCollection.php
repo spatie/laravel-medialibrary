@@ -141,9 +141,13 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        $this->first(function (Conversion $conversion) use ($conversionName) {
+        optional($this->first(function (Conversion $conversion) use ($conversionName) {
             return $conversion->getName() === $conversionName;
-        })->addAsFirstManipulations($manipulations);
+        }))->addAsFirstManipulations($manipulations);
+
+        if ($conversionName === '*') {
+            $this->each->addAsFirstManipulations(clone $manipulations);
+        }
     }
 
     /*
