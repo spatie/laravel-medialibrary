@@ -4,7 +4,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 6.9.0 - 2018-03-04
 
-- add `withManipulations` to `FileAdder`
+- add wildcard manipulations
 
 ## 6.8.0 - 2018-03-03
 
