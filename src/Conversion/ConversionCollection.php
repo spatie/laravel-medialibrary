@@ -135,7 +135,7 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        if ($conversionName === 'all') {
+        if ($conversionName === '*') {
             $this->each->addAsFirstManipulations(clone $manipulations);
         } 
     
