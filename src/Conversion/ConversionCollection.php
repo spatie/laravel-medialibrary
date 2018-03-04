@@ -138,7 +138,7 @@ class ConversionCollection extends Collection
         if ($conversionName === '*') {
             $this->each->addAsFirstManipulations(clone $manipulations);
         } 
-    
+
         optional($this->first(function (Conversion $conversion) use ($conversionName) {
             return $conversion->getName() === $conversionName;
         }))->addAsFirstManipulations($manipulations);
