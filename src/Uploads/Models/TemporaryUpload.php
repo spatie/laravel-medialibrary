@@ -37,7 +37,6 @@ class TemporaryUpload extends Model implements HasMedia
     public static function createForFile(UploadedFile $file, string $sessionId): TemporaryUpload
     {
         $temporaryUpload = static::create([
-            'upload_id' => Uuid::uuid4(),
             'session_id' => $sessionId,
         ]);
 

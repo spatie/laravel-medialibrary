@@ -22,8 +22,7 @@ class TemporaryUploadTest extends TestCase
     /** @test */
     public function it_has_a_scope_to_get_old_records()
     {
-        $temporaryUpload = TemporaryUpload::create([
-            'upload_id' => 'abc',
+        TemporaryUpload::create([
             'session_id' => rand(),
         ]);
 

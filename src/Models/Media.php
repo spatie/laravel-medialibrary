@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
+use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
@@ -371,5 +372,16 @@ class Media extends Model implements Responsable, Htmlable
     public function __invoke(...$arguments)
     {
         return new HtmlString($this->img(...$arguments));
+    }
+
+    public function belongsToSession(string $sessionId): bool
+    {
+        $temporaryUploadClass = config('medialibrary.uploads.temporary_upload_model');
+
+        if (! $this->model instanceof $temporaryUploadClass) {
+            return false;
+        }
+
+        return $this->model->session_id === $sessionId;
     }
 }

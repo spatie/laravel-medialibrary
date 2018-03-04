@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Uploads\Http\Resources;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class TemporaryUpload extends Resource
+class MediaResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,9 @@ class TemporaryUpload extends Resource
      */
     public function toArray($request)
     {
-        return [
-            'uploadId' => $this->upload_id,
-            'previewUrl' => $this->getFirstMediaUrl('default', 'preview'),
-        ];
+        return array_merge(
+            parent::toArray($request),
+            ['previewUrl' => $this->model->getFirstMediaUrl('default', 'preview')]
+        );
     }
 }

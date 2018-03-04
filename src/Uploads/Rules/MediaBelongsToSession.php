@@ -3,10 +3,11 @@
 namespace Spatie\MediaLibrary\Uploads\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 use Illuminate\Contracts\Session\Session;
 
-class TemporaryUploadId implements Rule
+class MediaBelongsToSession implements Rule
 {
     /**
      * Determine if the validation rule passes.
@@ -17,11 +18,14 @@ class TemporaryUploadId implements Rule
      */
     public function passes($attribute, $value)
     {
-        $temporaryUploadClass = config('medialibrary.uploads.temporary_upload_model');
+        $mediaClass = config('medialibrary.media_model');
 
-        return $temporaryUploadClass::findByUploadId($value, session()->getId())
-            ? true
-            : false;
+        if (! $media = $mediaClass::find($value)) {
+
+            return false;
+        }
+
+        return $media->belongsToSession(session()->getId());
     }
 
     /**
