@@ -31,21 +31,23 @@ class FileAdderFactory
 
     public static function createMultipleFromRequest(Model $subject, array $keys = []): Collection
     {
-        return collect($keys)->map(function (string $key) use ($subject) {
-            if (! request()->hasFile($key)) {
-                throw RequestDoesNotHaveFile::create($key);
-            }
+        return collect($keys)
+            ->map(function (string $key) use ($subject) {
+                if (!request()->hasFile($key)) {
+                    throw RequestDoesNotHaveFile::create($key);
+                }
 
-            $files = request()->file($key);
+                $files = request()->file($key);
 
-            if (! is_array($files)) {
-                return static::create($subject, $files);
-            }
+                if (!is_array($files)) {
+                    return static::create($subject, $files);
+                }
 
-            return array_map(function ($file) use ($subject) {
-                return static::create($subject, $file);
-            }, $files);
-        })->flatten();
+                return array_map(function ($file) use ($subject) {
+                    return static::create($subject, $file);
+                }, $files);
+            })
+            ->flatten();
     }
 
     public static function createAllFromRequest(Model $subject): Collection
@@ -60,27 +62,5 @@ class FileAdderFactory
         return $temporaryUploadRequestEntries->map(function (TemporaryUploadRequestEntry $temporaryUploadRequestEntry) use ($subject) {
             return static::createFromTemporaryUpload($subject, $temporaryUploadRequestEntry);
         });
-    }
-
-    public static function createFromTemporaryUpload(Model $subject, TemporaryUploadRequestEntry $temporaryUploadRequestEntry): FileAdder
-    {
-        $temporaryDirectory = TemporaryDirectory::create();
-
-        $temporaryUploadMedia = $temporaryUploadRequestEntry->media();
-
-        $temporaryFile = $temporaryDirectory->path($temporaryUploadMedia->file_name);
-
-        app(Filesystem::class)->copyFromMediaLibrary($temporaryUploadMedia, $temporaryFile);
-
-        $fileAdder = $subject
-            ->addMedia($temporaryFile)
-            ->usingName($temporaryUploadRequestEntry->name);
-
-        $fileAdder->afterFileHasBeenAdded(function () use ($temporaryDirectory, $temporaryUploadRequestEntry) {
-            $temporaryDirectory->delete();
-            $temporaryUploadRequestEntry->temporaryUpload->delete();
-        });
-
-        return $fileAdder;
     }
 }

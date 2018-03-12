@@ -61,9 +61,6 @@ class FileAdder
     /** @var bool */
     protected $generateResponsiveImages = false;
 
-    /** @var callable */
-    protected $afterFileHasBeenAdded;
-
     /**
      * @param Filesystem $fileSystem
      */
@@ -73,9 +70,6 @@ class FileAdder
 
         $this->fileNameSanitizer = function ($fileName) {
             return $this->defaultSanitizer($fileName);
-        };
-
-        $this->afterFileHasBeenAdded = function () {
         };
     }
 
@@ -429,8 +423,6 @@ class FileAdder
         if (optional($this->getMediaCollection($media->collection_name))->singleFile) {
             $model->clearMediaCollectionExcept($media->collection_name, $media);
         }
-
-        ($this->afterFileHasBeenAdded)();
     }
 
     protected function getMediaCollection(string $collectionName):  ?MediaCollection
