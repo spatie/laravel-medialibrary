@@ -87,7 +87,10 @@ class ToHtmlTest extends TestCase
             ->withResponsiveImages()
             ->toMediaCollection();
 
-        $this->assertMatchesSnapshot($media->refresh()->img());
+        $image = $media->refresh()->img();
+
+        $this->assertEquals(3, substr_count($image, '/media/2/responsive-images/'));
+        $this->assertTrue(str_contains($image, 'data:image/svg+xml;base64,'));
     }
 
     /** @test */
