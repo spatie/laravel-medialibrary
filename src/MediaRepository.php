@@ -14,7 +14,7 @@ class MediaRepository
     /** @var \Spatie\MediaLibrary\Models\Media */
     protected $model;
 
-    /** @param \Spatie\MediaLibrary\Media $model */
+    /** @param \Spatie\MediaLibrary\Models\Media $model */
     public function __construct(Media $model)
     {
         $this->model = $model;
