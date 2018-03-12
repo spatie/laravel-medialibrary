@@ -38,10 +38,6 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $mediaClass::observe(new MediaObserver());
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'medialibrary');
-
-        Route::macro('temporaryUploads', function ($url) {
-            return Route::post($url, '\Spatie\MediaLibrary\Uploads\Http\Controllers\TemporaryUploadController@store');
-        });
     }
 
     public function register()
@@ -57,7 +53,6 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
-        $this->app->bind('command.medialibrary:delete-old-temporary-uploads', DeleteOldTemporaryUploads::class);
 
         $this->app->bind(Filesystem::class, DefaultFilesystem::class);
 
@@ -68,7 +63,6 @@ class MediaLibraryServiceProvider extends ServiceProvider
             'command.medialibrary:regenerate',
             'command.medialibrary:clear',
             'command.medialibrary:clean',
-            'command.medialibrary:delete-old-temporary-uploads',
         ]);
     }
 }
