@@ -23,7 +23,6 @@ return [
     /*
      * The class names of the models that should be used.
      */
-
     'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
     's3' => [
@@ -56,7 +55,6 @@ return [
         *
         * https://docs.spatie.be/laravel-medialibrary/v7/advanced-usage/generating-responsive-images
         */
-
         'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
         /**
