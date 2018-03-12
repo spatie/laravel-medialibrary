@@ -341,15 +341,4 @@ class Media extends Model implements Responsable, Htmlable
     {
         return new HtmlString($this->img(...$arguments));
     }
-
-    public function belongsToSession(string $sessionId): bool
-    {
-        $temporaryUploadClass = config('medialibrary.uploads.temporary_upload_model');
-
-        if (! $this->model instanceof $temporaryUploadClass) {
-            return false;
-        }
-
-        return $this->model->session_id === $sessionId;
-    }
 }
