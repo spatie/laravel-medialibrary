@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Models;
 
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\MediaLibrary\Helpers\File;
@@ -30,49 +31,27 @@ class Media extends Model implements Responsable, Htmlable
 
     protected $guarded = [];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
         'responsive_images' => 'array',
     ];
 
-    /**
-     * Create the polymorphic relation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    public function model()
+    public function model(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
+    /*
      * Get the full url to a original media file.
-     *
-     * @param string $conversionName
-     *
-     * @return string
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
-     */
+    */
     public function getFullUrl(string $conversionName = ''): string
     {
         return url($this->getUrl($conversionName));
     }
 
-    /**
+    /*
      * Get the url to a original media file.
-     *
-     * @param string $conversionName
-     *
-     * @return string
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function getUrl(string $conversionName = ''): string
     {
@@ -88,14 +67,8 @@ class Media extends Model implements Responsable, Htmlable
         return $urlGenerator->getTemporaryUrl($expiration, $options);
     }
 
-    /**
+    /*
      * Get the path to the original media file.
-     *
-     * @param string $conversionName
-     *
-     * @return string
-     *
-     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function getPath(string $conversionName = ''): string
     {
@@ -170,7 +143,7 @@ class Media extends Model implements Responsable, Htmlable
     }
 
     /**
-     * Get if the value of custom property with the given name.
+     * Get the value of custom property with the given name.
      *
      * @param string $propertyName
      * @param mixed $default
@@ -188,7 +161,7 @@ class Media extends Model implements Responsable, Htmlable
      *
      * @return $this
      */
-    public function setCustomProperty(string $name, $value)
+    public function setCustomProperty(string $name, $value): self
     {
         $customProperties = $this->custom_properties;
 
@@ -199,12 +172,7 @@ class Media extends Model implements Responsable, Htmlable
         return $this;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function forgetCustomProperty(string $name)
+    public function forgetCustomProperty(string $name): self
     {
         $customProperties = $this->custom_properties;
 
