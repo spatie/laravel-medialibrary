@@ -16,10 +16,6 @@ class ConversionHasBeenCompleted
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */
     public $conversion;
 
-    /**
-     * @param \Spatie\MediaLibrary\Media                 $media
-     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
-     */
     public function __construct(Media $media, Conversion $conversion)
     {
         $this->media = $media;

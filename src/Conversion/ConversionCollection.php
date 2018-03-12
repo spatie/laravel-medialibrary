@@ -69,16 +69,11 @@ class ConversionCollection extends Collection
      * Add the conversion that are defined on the related model of
      * the given media.
      *
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      */
     protected function addConversionsFromRelatedModel(Media $media)
     {
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
-
-        /*
-         * To prevent an sql query create a new model instead
-         * of the using the associated one.
-         */
 
         /** @var \Spatie\MediaLibrary\HasMedia\HasMedia $model */
         $model = new $modelName();
@@ -96,14 +91,13 @@ class ConversionCollection extends Collection
 
         $model->registerAllMediaConversions($media);
 
-
         $this->items = $model->mediaConversions;
     }
 
     /**
      * Add the extra manipulations that are defined on the given media.
      *
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      */
     protected function addManipulationsFromDb(Media $media)
     {
@@ -112,14 +106,7 @@ class ConversionCollection extends Collection
         });
     }
 
-    /**
-     * Get all the conversions in the collection.
-     *
-     * @param string $collectionName
-     *
-     * @return $this
-     */
-    public function getConversions(string $collectionName = '')
+    public function getConversions(string $collectionName = ''): self
     {
         if ($collectionName === '') {
             return $this;
@@ -158,7 +145,7 @@ class ConversionCollection extends Collection
         return $this->getConversions($collectionName)->reject->shouldBeQueued();
     }
 
-    /**
+    /*
      * Return the list of conversion files.
      */
     public function getConversionsFiles(string $collectionName = ''): self
