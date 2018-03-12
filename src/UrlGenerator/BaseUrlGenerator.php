@@ -9,7 +9,7 @@ use Illuminate\Contracts\Config\Repository as Config;
 
 abstract class BaseUrlGenerator implements UrlGenerator
 {
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */
@@ -28,7 +28,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
     }
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */

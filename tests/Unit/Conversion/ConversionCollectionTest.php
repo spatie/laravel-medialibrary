@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 class ConversionCollectionTest extends TestCase
 {
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
     public function setUp()

@@ -17,7 +17,7 @@ class PerformConversions implements ShouldQueue
     /** @var \Spatie\MediaLibrary\Conversion\ConversionCollection */
     protected $conversions;
 
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
     public function __construct(ConversionCollection $conversions, Media $media)

@@ -92,7 +92,7 @@ class FileAdder
      *
      * @return $this
      */
-    public function setFile($file)
+    public function setFile($file): self
     {
         $this->file = $file;
 
@@ -123,184 +123,82 @@ class FileAdder
         throw UnknownType::create();
     }
 
-    /**
-     * When adding the file to the media library, the original file
-     * will be preserved.
-     *
-     * @return $this
-     */
-    public function preservingOriginal()
+    public function preservingOriginal(): self
     {
         $this->preserveOriginal = true;
 
         return $this;
     }
 
-    /**
-     * Set the name of the media object.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function usingName(string $name)
+    public function usingName(string $name): self
     {
         return $this->setName($name);
     }
 
-    /**
-     * Set the name of the media object.
-     *
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName(string $name)
+    public function setName(string $name): self
     {
         $this->mediaName = $name;
 
         return $this;
     }
 
-    /**
-     * Set the name of the file that is stored on disk.
-     *
-     * @param string $fileName
-     *
-     * @return $this
-     */
-    public function usingFileName(string $fileName)
+    public function usingFileName(string $fileName): self
     {
         return $this->setFileName($fileName);
     }
 
-    /**
-     * Set the name of the file that is stored on disk.
-     *
-     * @param string $fileName
-     *
-     * @return $this
-     */
-    public function setFileName(string $fileName)
+    public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
 
         return $this;
     }
 
-    /**
-     * Set the metadata.
-     *
-     * @param array $customProperties
-     *
-     * @return $this
-     */
-    public function withCustomProperties(array $customProperties)
+    public function withCustomProperties(array $customProperties): self
     {
         $this->customProperties = $customProperties;
 
         return $this;
     }
 
-    /**
-     * Set the manipulations.
-     *
-     * @param array $manipulations
-     *
-     * @return $this
-     */
-    public function withManipulations(array $manipulations)
+    public function withManipulations(array $manipulations): self
     {
         $this->manipulations = $manipulations;
 
         return $this;
     }
 
-    /**
-     * Set properties on the model.
-     *
-     * @param array $properties
-     *
-     * @return $this
-     */
-    public function withProperties(array $properties)
+    public function withProperties(array $properties): self
     {
         $this->properties = $properties;
 
         return $this;
     }
 
-    /**
-     * Set attributes on the model.
-     *
-     * @param array $properties
-     *
-     * @return $this
-     */
-    public function withAttributes(array $properties)
+    public function withAttributes(array $properties): self
     {
         return $this->withProperties($properties);
     }
 
-
-    /**
-     * Generate responsive images.
-     *
-     * @return $this
-     */
-    public function withResponsiveImages()
+    public function withResponsiveImages(): self
     {
         $this->generateResponsiveImages = true;
 
         return $this;
     }
 
-    /**
-     * Add the given additional headers when copying the file to a remote filesystem.
-     *
-     * @param array $customRemoteHeaders
-     *
-     * @return $this
-     */
-    public function addCustomHeaders(array $customRemoteHeaders)
+    public function addCustomHeaders(array $customRemoteHeaders): self
     {
         $this->filesystem->addCustomRemoteHeaders($customRemoteHeaders);
 
         return $this;
     }
 
-    /**
-     * Perform the given callable after the file has been added.
-     */
-    public function afterFileHasBeenAdded(callable $callable)
-    {
-        $this->afterFileHasBeenAdded = $callable;
-
-        return $this;
-    }
-
-    /**
-     * @param string $collectionName
-     *
-     * @return \Spatie\MediaLibrary\Media
-     *
-     * @throws FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     */
-    public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
+    public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
     {
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
-    /**
-     * @param string $collectionName
-     * @param string $diskName
-     *
-     * @return \Spatie\MediaLibrary\Media
-     *
-     * @throws FileCannotBeAdded
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-     */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         if (!is_file($this->pathToFile)) {
@@ -343,13 +241,7 @@ class FileAdder
         return $media;
     }
 
-    /**
-     * @param string $diskName
-     * @param string $collectionName
-     *
-     * @return string
-     */
-    protected function determineDiskName(string $diskName, $collectionName): string
+    protected function determineDiskName(string $diskName, string $collectionName): string
     {
         if ($diskName !== '') {
             return $diskName;
@@ -371,7 +263,7 @@ class FileAdder
         return str_replace(['#', '/', '\\', ' '], '-', $fileName);
     }
 
-    public function sanitizingFileName(callable $fileNameSanitizer)
+    public function sanitizingFileName(callable $fileNameSanitizer): self
     {
         $this->fileNameSanitizer = $fileNameSanitizer;
 
@@ -396,7 +288,6 @@ class FileAdder
 
         $this->processMediaItem($this->subject, $media, $this);
     }
-
 
     protected function processMediaItem(HasMedia $model, Media $media, FileAdder $fileAdder)
     {
@@ -425,7 +316,7 @@ class FileAdder
         }
     }
 
-    protected function getMediaCollection(string $collectionName):  ?MediaCollection
+    protected function getMediaCollection(string $collectionName): ?MediaCollection
     {
         $this->subject->registerMediaCollections();
 

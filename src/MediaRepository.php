@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection as DbCollection;
 
 class MediaRepository
 {
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $model;
 
     /** @param \Spatie\MediaLibrary\Media $model */

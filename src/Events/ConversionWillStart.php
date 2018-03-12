@@ -10,7 +10,7 @@ class ConversionWillStart
 {
     use SerializesModels;
 
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     public $media;
 
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */

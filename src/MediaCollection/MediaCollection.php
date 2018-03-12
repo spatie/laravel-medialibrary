@@ -36,16 +36,23 @@ class MediaCollection
         return new static($name);
     }
 
-    public function useDisk(string $diskName)
+    public function useDisk(string $diskName): self
     {
         $this->diskName = $diskName;
 
         return $this;
     }
 
-    public function acceptsFile(callable $acceptsFile)
+    public function acceptsFile(callable $acceptsFile): self
     {
         $this->acceptsFile = $acceptsFile;
+
+        return $this;
+    }
+
+    public function singleFile(): self
+    {
+        $this->singleFile = true;
 
         return $this;
     }
@@ -53,12 +60,5 @@ class MediaCollection
     public function registerMediaConversions(callable $mediaConversionRegistrations)
     {
         $this->mediaConversionRegistrations = $mediaConversionRegistrations;
-    }
-
-    public function singleFile()
-    {
-        $this->singleFile = true;
-
-        return $this;
     }
 }

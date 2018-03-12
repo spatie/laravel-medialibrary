@@ -6,10 +6,10 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class CustomPropertyTest extends TestCase
 {
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $mediaWithoutCustomProperty;
 
     public function setUp()

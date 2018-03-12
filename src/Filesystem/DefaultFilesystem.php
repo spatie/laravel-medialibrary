@@ -22,9 +22,6 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem = $filesystem;
     }
 
-    /*
-     * Add a file to the mediaLibrary for the given media.
-     */
     public function add(string $file, Media $media, string $targetFileName = '')
     {
         $this->copyToMediaLibrary($file, $media, '', $targetFileName);
@@ -34,9 +31,6 @@ class DefaultFilesystem implements Filesystem
         app(FileManipulator::class)->createDerivedFiles($media);
     }
 
-    /*
-     * Copy a file to the medialibrary for the given $media.
-     */
     public function copyToMediaLibrary(string $pathToFile, Media $media, string $type = '', string $targetFileName = '')
     {
         $destinationFileName = $targetFileName == ''
@@ -66,20 +60,11 @@ class DefaultFilesystem implements Filesystem
         }
     }
 
-    /**
-     * Add custom remote headers on runtime.
-     *
-     * @param array $customRemoteHeaders
-     */
     public function addCustomRemoteHeaders(array $customRemoteHeaders)
     {
         $this->customRemoteHeaders = $customRemoteHeaders;
     }
 
-    /*
-     * Get the headers to be used when copying the
-     * given file to a remote filesytem.
-     */
     public function getRemoteHeadersForFile(string $file) : array
     {
         $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
@@ -96,9 +81,6 @@ class DefaultFilesystem implements Filesystem
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
 
-    /*
-     * Copy a file from the medialibrary to the given targetFile.
-     */
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         touch($targetFile);
@@ -119,9 +101,6 @@ class DefaultFilesystem implements Filesystem
         return $targetFile;
     }
 
-    /*
-     * Remove all files for the given media.
-     */
     public function removeAllFiles(Media $media)
     {
         $mediaDirectory = $this->getMediaDirectory($media);
@@ -142,9 +121,6 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    /*
-     * Rename a file for the given media.
-     */
     public function renameFile(Media $media, string $oldName)
     {
         $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
@@ -153,9 +129,6 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
 
-    /*
-     * Return the directory where all files of the given media are stored.
-     */
     public function getMediaDirectory(Media $media, string $type = '') : string
     {
         $pathGenerator = PathGeneratorFactory::create();
@@ -179,17 +152,11 @@ class DefaultFilesystem implements Filesystem
         return $directory;
     }
 
-    /*
-     * Return the directory where all conversions of the given media are stored.
-     */
     public function getConversionDirectory(Media $media) : string
     {
         return $this->getMediaDirectory($media, 'conversions');
     }
 
-    /*
-     * Return the directory where all responsive images of the given media are stored.
-     */
     public function getResponsiveImagesDirectory(Media $media) : string
     {
         return $this->getMediaDirectory($media, 'responsiveImages');

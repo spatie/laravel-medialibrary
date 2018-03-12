@@ -16,7 +16,7 @@ class ConversionCollection extends Collection
     protected $media;
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return static
      */
@@ -26,7 +26,7 @@ class ConversionCollection extends Collection
     }
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return $this
      */

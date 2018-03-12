@@ -12,7 +12,7 @@ class ResponsiveImage
     /** @var string */
     public $fileName = '';
 
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     public $media;
 
     public static function register(Media $media, $fileName, $conversionName)

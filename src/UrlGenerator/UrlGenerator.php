@@ -17,7 +17,7 @@ interface UrlGenerator
     public function getUrl(): string;
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */

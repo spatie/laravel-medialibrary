@@ -392,7 +392,7 @@ trait HasMediaTrait
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     * @param int|\Spatie\MediaLibrary\Media $mediaId
+     * @param int|\Spatie\MediaLibrary\Models\Media $mediaId
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted
      */
