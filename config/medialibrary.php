@@ -47,10 +47,6 @@ return [
         ],
     ],
 
-    'uploads' => [
-        'temporary_upload_model' => Spatie\MediaLibrary\Uploads\Models\TemporaryUpload::class,
-    ],
-
     'responsive_images' => [
 
         /*
