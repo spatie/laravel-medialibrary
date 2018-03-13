@@ -13,14 +13,12 @@ use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\Uploads\TemporaryUploadRequestEntry;
 
 trait HasMediaTrait
 {
@@ -97,22 +95,6 @@ trait HasMediaTrait
     public function addMultipleMediaFromRequest(array $keys)
     {
         return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
-    }
-
-    public function addMediaFromTemporaryUploads(string $requestKeyName): Collection
-    {
-        $temporaryUploadRequestEntries = TemporaryUploadRequestEntry::createFromRequest(request(), $requestKeyName);
-
-        return app(FileAdderFactory::class)->createFromTemporaryUploads($this, $temporaryUploadRequestEntries);
-    }
-
-    public function addMediaFromTemporaryUpload(string $requestKeyName): FileAdder
-    {
-        $temporaryUploadRequestEntries = TemporaryUploadRequestEntry::createFromRequest(request(), $requestKeyName);
-
-        $temporaryUploadRequestEntry = $temporaryUploadRequestEntries->first();
-
-        return app(FileAdderFactory::class)->createFromTemporaryUpload($this, $temporaryUploadRequestEntry);
     }
 
     /**
