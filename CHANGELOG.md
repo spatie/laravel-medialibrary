@@ -8,7 +8,6 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - added `MediaCollections`
 - added single file collections
 - added `ZipStreamResponse`
-- added upload api + support for first party upload vue components
 - added `move` and `copy` methods on `Media`
 
 - file names will be lowercased when adding them to the medialibrary
