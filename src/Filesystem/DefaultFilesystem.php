@@ -22,20 +22,18 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem = $filesystem;
     }
 
-    public function add(string $file, Media $media, string $targetFileName = '')
+    public function add(string $file, Media $media, ?string $targetFileName = null)
     {
-        $this->copyToMediaLibrary($file, $media, '', $targetFileName);
+        $this->copyToMediaLibrary($file, $media, null, $targetFileName);
 
         event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }
 
-    public function copyToMediaLibrary(string $pathToFile, Media $media, string $type = '', string $targetFileName = '')
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
     {
-        $destinationFileName = $targetFileName == ''
-            ? pathinfo($pathToFile, PATHINFO_BASENAME)
-            : $targetFileName;
+        $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
         $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
@@ -129,11 +127,11 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
 
-    public function getMediaDirectory(Media $media, string $type = '') : string
+    public function getMediaDirectory(Media $media, ?string $type = null) : string
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        if ($type === '') {
+        if (!$type) {
             $directory = $pathGenerator->getPath($media);
         }
 

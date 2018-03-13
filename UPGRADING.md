@@ -8,6 +8,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - rename the `HasMediaConversions` interface to `HasMedia`
 - all converted files should now start with the name of the original file. TODO: add instructions / or maybe a script
 - `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app
+- The method definitions of `Spatie\MediaLibrary\Filesystem\Filesystem::add` and `Spatie\MediaLibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
 
 ## From v5 to v6
 
