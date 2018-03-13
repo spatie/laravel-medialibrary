@@ -45,7 +45,7 @@ class ResponsiveImageGenerator
 
         $baseImage = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(str_random(16).'.'.$media->extension)
+            $temporaryDirectory->path(str_random(16) . '.' . $media->extension)
         );
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
@@ -76,7 +76,7 @@ class ResponsiveImageGenerator
         string $conversionName,
         int $targetWidth,
         BaseTemporaryDirectory $temporaryDirectory
-        ) {
+    ) {
         $responsiveImagePath = $this->appendToFileName($media->file_name, "___{$conversionName}_{$targetWidth}");
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
