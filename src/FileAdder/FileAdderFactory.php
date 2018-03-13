@@ -4,10 +4,7 @@ namespace Spatie\MediaLibrary\FileAdder;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
-use Spatie\MediaLibrary\Uploads\TemporaryUploadRequestEntry;
 
 class FileAdderFactory
 {
@@ -55,12 +52,5 @@ class FileAdderFactory
         $fileKeys = array_keys(request()->allFiles());
 
         return static::createMultipleFromRequest($subject, $fileKeys);
-    }
-
-    public static function createFromTemporaryUploads(Model $subject, Collection $temporaryUploadRequestEntries): Collection
-    {
-        return $temporaryUploadRequestEntries->map(function (TemporaryUploadRequestEntry $temporaryUploadRequestEntry) use ($subject) {
-            return static::createFromTemporaryUpload($subject, $temporaryUploadRequestEntry);
-        });
     }
 }

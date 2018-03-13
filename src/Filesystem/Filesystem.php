@@ -6,9 +6,9 @@ use Spatie\MediaLibrary\Models\Media;
 
 interface Filesystem
 {
-    public function add(string $file, Media $media, string $targetFileName = '');
+    public function add(string $file, Media $media, ?string $targetFileName = null);
 
-    public function copyToMediaLibrary(string $file, Media $media, string $type, string $targetFileName = '');
+    public function copyToMediaLibrary(string $file, Media $media, ?string $type = null, ?string $targetFileName = null);
 
     public function addCustomRemoteHeaders(array $customRemoteHeaders);
 

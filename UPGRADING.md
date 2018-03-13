@@ -4,12 +4,11 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## From v6 to v7
 
-- add the `responsive_images` column
+- add the `responsive_images` column in the media table: `$table->json('responsive_images');`
 - rename the `HasMediaConversions` interface to `HasMedia`
-- all converted files should not start with the name of the original file. TODO: add instructions / or maybe a script
+- all converted files should now start with the name of the original file. TODO: add instructions / or maybe a script
 - `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app
-- publish and run the `create_temporary_uploads_table` migration
-- schedule the `medialibrary:delete-old-temporary-uploads` command to run daily
+- The method definitions of `Spatie\MediaLibrary\Filesystem\Filesystem::add` and `Spatie\MediaLibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
 
 ## From v5 to v6
 
