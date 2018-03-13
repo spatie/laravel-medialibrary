@@ -13,9 +13,7 @@ class TemporaryDirectory
 
     protected static function getTemporaryDirectoryPath(): string
     {
-        $path = is_null(config('medialibrary.temporary_directory_path'))
-            ? storage_path('medialibrary/temp')
-            : config('medialibrary.temporary_directory_path');
+        $path = config('medialibrary.temporary_directory_path') ?? storage_path('medialibrary/temp');
 
         return $path.DIRECTORY_SEPARATOR.str_random(32);
     }
