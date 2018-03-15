@@ -2,32 +2,33 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Media;
+use DateTimeInterface;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 interface UrlGenerator
 {
     /**
-     * Get the url for the profile of a media item.
+     * Get the url for a media item.
      *
      * @return string
      */
     public function getUrl(): string;
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setMedia(Media $media): self;
+    public function setMedia(Media $media): UrlGenerator;
 
     /**
      * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setConversion(Conversion $conversion): self;
+    public function setConversion(Conversion $conversion): UrlGenerator;
 
     /**
      * Set the path generator class.
@@ -36,5 +37,22 @@ interface UrlGenerator
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
-    public function setPathGenerator(PathGenerator $pathGenerator): self;
+    public function setPathGenerator(PathGenerator $pathGenerator): UrlGenerator;
+
+    /**
+     * Get the temporary url for a media item.
+     *
+     * @param DateTimeInterface $expiration
+     * @param array              $options
+     *
+     * @return string
+     */
+    public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string;
+
+    /**
+     * Get the url to the directory containing responsive images.
+     *
+     * @return string
+     */
+    public function getResponsiveImagesDirectoryUrl(): string;
 }

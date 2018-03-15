@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\ImageGenerators;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Collection;
 
 abstract class BaseGenerator implements ImageGenerator

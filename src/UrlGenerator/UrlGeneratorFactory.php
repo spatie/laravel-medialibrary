@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Exceptions\InvalidUrlGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
@@ -11,7 +11,7 @@ class UrlGeneratorFactory
 {
     public static function createForMedia(Media $media, string $conversionName = '') : UrlGenerator
     {
-        $urlGeneratorClass = config('medialibrary.custom_url_generator_class')
+        $urlGeneratorClass = config('medialibrary.url_generator')
             ?: 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($media->getDiskDriverName()).'UrlGenerator';
 
         static::guardAgainstInvalidUrlGenerator($urlGeneratorClass);

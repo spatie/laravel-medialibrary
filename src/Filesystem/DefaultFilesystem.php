@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Filesystem\Factory;
@@ -17,30 +17,25 @@ class DefaultFilesystem implements Filesystem
     /** @var array */
     protected $customRemoteHeaders = [];
 
-    public function __construct(Factory $filesystems)
+    public function __construct(Factory $filesystem)
     {
-        $this->filesystem = $filesystems;
+        $this->filesystem = $filesystem;
     }
 
-    /*
-     * Add a file to the mediaLibrary for the given media.
-     */
-    public function add(string $file, Media $media, string $targetFileName = '')
+    public function add(string $file, Media $media, ?string $targetFileName = null)
     {
-        $this->copyToMediaLibrary($file, $media, false, $targetFileName);
+        $this->copyToMediaLibrary($file, $media, null, $targetFileName);
 
         event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }
 
-    /*
-     * Copy a file to the medialibrary for the given $media.
-     */
-    public function copyToMediaLibrary(string $pathToFile, Media $media, bool $conversions = false, string $targetFileName = '')
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
     {
-        $destination = $this->getMediaDirectory($media, $conversions).
-            ($targetFileName == '' ? pathinfo($pathToFile, PATHINFO_BASENAME) : $targetFileName);
+        $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
+
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         $file = fopen($pathToFile, 'r');
 
@@ -63,20 +58,11 @@ class DefaultFilesystem implements Filesystem
         }
     }
 
-    /**
-     * Add custom remote headers on runtime.
-     *
-     * @param array $customRemoteHeaders
-     */
     public function addCustomRemoteHeaders(array $customRemoteHeaders)
     {
         $this->customRemoteHeaders = $customRemoteHeaders;
     }
 
-    /*
-     * Get the headers to be used when copying the
-     * given file to a remote filesytem.
-     */
     public function getRemoteHeadersForFile(string $file) : array
     {
         $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
@@ -86,16 +72,18 @@ class DefaultFilesystem implements Filesystem
         return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
     }
 
-    /*
-     * Copy a file from the medialibrary to the given targetFile.
-     */
-    public function copyFromMediaLibrary(Media $media, string $targetFile): string
+    public function getStream(Media $media)
     {
         $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
+        return $this->filesystem->disk($media->disk)->readStream($sourceFile);
+    }
+
+    public function copyFromMediaLibrary(Media $media, string $targetFile): string
+    {
         touch($targetFile);
 
-        $stream = $this->filesystem->disk($media->disk)->readStream($sourceFile);
+        $stream = $this->getStream($media);
 
         $targetFileStream = fopen($targetFile, 'a');
 
@@ -111,24 +99,26 @@ class DefaultFilesystem implements Filesystem
         return $targetFile;
     }
 
-    /*
-     * Remove all files for the given media.
-     */
-    public function removeFiles(Media $media)
+    public function removeAllFiles(Media $media)
     {
         $mediaDirectory = $this->getMediaDirectory($media);
 
-        $conversionsDirectory = $this->getConversionDirectory($media);
+        $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
 
-        collect([$conversionsDirectory, $mediaDirectory])
+        $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
+
+        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
+
             ->each(function ($directory) use ($media) {
                 $this->filesystem->disk($media->disk)->deleteDirectory($directory);
             });
     }
 
-    /*
-     * Rename a file for the given media.
-     */
+    public function removeFile(Media $media, string $path)
+    {
+        $this->filesystem->disk($media->disk)->delete($path);
+    }
+
     public function renameFile(Media $media, string $oldName)
     {
         $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
@@ -137,16 +127,21 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
 
-    /*
-     * Return the directory where all files of the given media are stored.
-     */
-    public function getMediaDirectory(Media $media, bool $conversion = false) : string
+    public function getMediaDirectory(Media $media, ?string $type = null) : string
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        $directory = $conversion
-            ? $pathGenerator->getPathForConversions($media)
-            : $pathGenerator->getPath($media);
+        if (!$type) {
+            $directory = $pathGenerator->getPath($media);
+        }
+
+        if ($type === 'conversions') {
+            $directory = $pathGenerator->getPathForConversions($media);
+        }
+
+        if ($type === 'responsiveImages') {
+            $directory = $pathGenerator->getPathForResponsiveImages($media);
+        }
 
         if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
             $this->filesystem->disk($media->disk)->makeDirectory($directory);
@@ -155,11 +150,13 @@ class DefaultFilesystem implements Filesystem
         return $directory;
     }
 
-    /*
-     * Return the directory where all conversions of the given media are stored.
-     */
     public function getConversionDirectory(Media $media) : string
     {
-        return $this->getMediaDirectory($media, true);
+        return $this->getMediaDirectory($media, 'conversions');
+    }
+
+    public function getResponsiveImagesDirectory(Media $media) : string
+    {
+        return $this->getMediaDirectory($media, 'responsiveImages');
     }
 }

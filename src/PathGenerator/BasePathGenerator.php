@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\PathGenerator;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 class BasePathGenerator implements PathGenerator
 {
@@ -23,7 +23,15 @@ class BasePathGenerator implements PathGenerator
     }
 
     /*
-     * Get a (unique) base path for the given media.
+     * Get the path for responsive images of the given media, relative to the root storage path.
+     */
+    public function getPathForResponsiveImages(Media $media): string
+    {
+        return $this->getBasePath($media).'/responsive-images/';
+    }
+
+    /*
+     * Get a unique base path for the given media.
      */
     protected function getBasePath(Media $media): string
     {

@@ -3,13 +3,13 @@
 namespace Spatie\MediaLibrary\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 
 class CollectionHasBeenCleared
 {
     use SerializesModels;
 
-    /** @var \Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia */
+    /** @var \Spatie\MediaLibrary\HasMedia\HasMedia */
     public $model;
 
     /** @var string */

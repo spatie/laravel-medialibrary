@@ -1,32 +1,39 @@
 <?php
 
-namespace Spatie\MediaLibrary\Test;
+namespace Spatie\MediaLibrary\Tests;
 
 use File;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Dotenv\Dotenv;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var \Spatie\MediaLibrary\Test\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModel */
     protected $testModel;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModel */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModel */
     protected $testUnsavedModel;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModelWithConversion */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion */
     protected $testModelWithConversion;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModelWithoutMediaConversions */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions */
     protected $testModelWithoutMediaConversions;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModelWithMorphMap */
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap */
     protected $testModelWithMorphMap;
 
-    /** @var \Spatie\MediaLibrary\Test\TestModelWithSoftDeletes */
-    protected $testModelWithSoftDeletes;
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages */
+    protected $testModelWithResponsiveImages;
 
     public function setUp()
     {
@@ -43,7 +50,7 @@ abstract class TestCase extends Orchestra
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
-        $this->testModelWithSoftDeletes = TestModelWithSoftDeletes::first();
+        $this->testModelWithResponsiveImages = TestModelWithResponsiveImages::first();
     }
 
     protected function loadEnvironmentVariables()
@@ -101,6 +108,8 @@ abstract class TestCase extends Orchestra
 
         $this->setupS3($app);
         $this->setUpMorphMap();
+
+        $app['config']->set('view.paths', [__DIR__.'/Support/resources/views']);
     }
 
     /**
@@ -118,14 +127,13 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
 
         include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
-
         (new \CreateMediaTable())->up();
     }
 
     protected function setUpTempTestFiles()
     {
         $this->initializeDirectory($this->getTestFilesDirectory());
-        File::copyDirectory(__DIR__.'/testfiles', $this->getTestFilesDirectory());
+        File::copyDirectory(__DIR__.'/Support/testfiles', $this->getTestFilesDirectory());
     }
 
     protected function initializeDirectory($directory)
@@ -138,7 +146,7 @@ abstract class TestCase extends Orchestra
 
     public function getTempDirectory($suffix = '')
     {
-        return __DIR__.'/temp'.($suffix == '' ? '' : '/'.$suffix);
+        return __DIR__.'/Support/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getMediaDirectory($suffix = '')
@@ -154,6 +162,11 @@ abstract class TestCase extends Orchestra
     public function getTestJpg()
     {
         return $this->getTestFilesDirectory('test.jpg');
+    }
+
+    public function getSmallTestJpg()
+    {
+        return $this->getTestFilesDirectory('smallTest.jpg');
     }
 
     public function getTestPng()
@@ -205,5 +218,34 @@ abstract class TestCase extends Orchestra
         if (! empty(getenv('TRAVIS_BUILD_ID'))) {
             $this->markTestSkipped('Skipping because this test does not run properly on Travis');
         }
+    }
+
+    public function renderView($view, $parameters)
+    {
+        Artisan::call('view:clear');
+
+        if (is_string($view)) {
+            $view = view($view)->with($parameters);
+        }
+
+        return trim((string) ($view));
+    }
+
+    protected function setNow($year, int $month = 1, int $day = 1)
+    {
+        $newNow = $year instanceof Carbon
+            ? $year
+            : Carbon::createFromDate($year, $month, $day);
+
+        Carbon::setTestNow($newNow);
+    }
+
+    protected function progressTime(int $minutes)
+    {
+        $newNow = now()->copy()->addMinutes($minutes);
+
+        Carbon::setTestNow($newNow);
+
+        return $this;
     }
 }

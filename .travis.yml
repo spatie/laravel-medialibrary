@@ -3,7 +3,6 @@ sudo: required
 language: php
 
 php:
-  - 7.0
   - 7.1
   - 7.2
 

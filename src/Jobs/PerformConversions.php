@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Spatie\MediaLibrary\FileManipulator;
@@ -17,7 +17,7 @@ class PerformConversions implements ShouldQueue
     /** @var \Spatie\MediaLibrary\Conversion\ConversionCollection */
     protected $conversions;
 
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
     public function __construct(ConversionCollection $conversions, Media $media)
