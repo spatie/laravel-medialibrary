@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Models;
 
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\MediaLibrary\Helpers\File;
@@ -14,11 +13,11 @@ use Illuminate\Contracts\Support\Responsable;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Models\Concerns\IsSorted;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
-use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
@@ -208,7 +207,7 @@ class Media extends Model implements Responsable, Htmlable
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => 'attachment; filename="' . $this->file_name . '"',
+            'Content-Disposition' => 'attachment; filename="'.$this->file_name.'"',
             'Pragma' => 'public',
         ];
 
@@ -267,11 +266,11 @@ class Media extends Model implements Responsable, Htmlable
 
         $attributeString = collect($extraAttributes)
             ->map(function ($value, $name) {
-                return $name . '="' . $value . '"';
+                return $name.'="'.$value.'"';
             })->implode(' ');
 
         if (strlen($attributeString)) {
-            $attributeString = ' ' . $attributeString;
+            $attributeString = ' '.$attributeString;
         }
 
         $media = $this;
@@ -296,7 +295,7 @@ class Media extends Model implements Responsable, Htmlable
         ));
     }
 
-    public function move(HasMedia $model, $collectionName = 'default'): Media
+    public function move(HasMedia $model, $collectionName = 'default'): self
     {
         $newMedia = $this->copy($model, $collectionName);
 
@@ -305,7 +304,7 @@ class Media extends Model implements Responsable, Htmlable
         return $newMedia;
     }
 
-    public function copy(HasMedia $model, $collectionName = 'default'): Media
+    public function copy(HasMedia $model, $collectionName = 'default'): self
     {
         $temporaryDirectory = TemporaryDirectory::create();
 

@@ -2,9 +2,6 @@
 
 namespace Spatie\MediaLibrary\MediaCollection;
 
-use Spatie\MediaLibrary\File;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-
 class MediaCollection
 {
     /** @var string */
@@ -26,9 +23,12 @@ class MediaCollection
     {
         $this->name = $name;
 
-        $this->mediaConversionRegistrations = function() {};
+        $this->mediaConversionRegistrations = function () {
+        };
 
-        $this->acceptsFile = function() { return true; };
+        $this->acceptsFile = function () {
+            return true;
+        };
     }
 
     public static function create($name)
