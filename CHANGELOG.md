@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 7.0.0 - 2018-XX-XX
+## 7.0.0 - 2018-03-17
 
 - added support for responsive images
 - added `MediaCollections`
