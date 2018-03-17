@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Support;
 
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 
 class TestPathGenerator implements PathGenerator
 {

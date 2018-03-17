@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
@@ -131,7 +131,7 @@ class DefaultFilesystem implements Filesystem
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        if (!$type) {
+        if (! $type) {
             $directory = $pathGenerator->getPath($media);
         }
 

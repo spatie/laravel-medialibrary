@@ -4,8 +4,8 @@ namespace Spatie\MediaLibrary\Tests;
 
 use File;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Artisan;
 use Dotenv\Dotenv;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Relations\Relation;

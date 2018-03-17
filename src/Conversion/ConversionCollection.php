@@ -3,16 +3,15 @@
 namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Arr;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\Image\Manipulations;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 
 class ConversionCollection extends Collection
 {
-    /** @var \Spatie\MediaLibrary\Media  */
+    /** @var \Spatie\MediaLibrary\Media */
     protected $media;
 
     /**

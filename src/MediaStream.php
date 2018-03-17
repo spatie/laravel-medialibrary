@@ -2,12 +2,10 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use ZipStream\ZipStream;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Support\Responsable;
-use ZipStream\ZipStream;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MediaStream implements Responsable
@@ -39,7 +37,7 @@ class MediaStream implements Responsable
                 }
 
                 if ($item instanceof Collection) {
-                    return $item->reduce(function(array $carry, Media $media) {
+                    return $item->reduce(function (array $carry, Media $media) {
                         $carry[] = $media;
 
                         return $carry;
@@ -48,7 +46,7 @@ class MediaStream implements Responsable
 
                 return $item;
             })
-            ->each(function(Media $media) {
+            ->each(function (Media $media) {
                 $this->mediaItems->push($media);
             });
 

@@ -3,12 +3,12 @@
 namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 class AddMedia extends TestCase
 {

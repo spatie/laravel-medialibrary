@@ -8,7 +8,7 @@ class TemporaryDirectory
 {
     public static function create(): BaseTemporaryDirectory
     {
-        return (new BaseTemporaryDirectory(static::getTemporaryDirectoryPath()));
+        return new BaseTemporaryDirectory(static::getTemporaryDirectoryPath());
     }
 
     protected static function getTemporaryDirectoryPath(): string

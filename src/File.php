@@ -31,6 +31,4 @@ class File
     {
         return "name: {$this->name}, size: {$this->size}, mime: {$this->mimeType}";
     }
-
-
 }

@@ -30,13 +30,13 @@ class FileAdderFactory
     {
         return collect($keys)
             ->map(function (string $key) use ($subject) {
-                if (!request()->hasFile($key)) {
+                if (! request()->hasFile($key)) {
                     throw RequestDoesNotHaveFile::create($key);
                 }
 
                 $files = request()->file($key);
 
-                if (!is_array($files)) {
+                if (! is_array($files)) {
                     return static::create($subject, $files);
                 }
 
