@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 
 class MediaObserver
@@ -31,6 +32,6 @@ class MediaObserver
 
     public function deleted(Media $media)
     {
-        app(Filesystem::class)->removeFiles($media);
+        app(Filesystem::class)->removeAllFiles($media);
     }
 }

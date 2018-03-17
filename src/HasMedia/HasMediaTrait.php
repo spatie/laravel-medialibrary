@@ -4,15 +4,15 @@ namespace Spatie\MediaLibrary\HasMedia;
 
 use DateTimeInterface;
 use Illuminate\Http\File;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
@@ -24,6 +24,9 @@ trait HasMediaTrait
 {
     /** @var array */
     public $mediaConversions = [];
+
+    /** @var array */
+    public $mediaCollections = [];
 
     /** @var bool */
     protected $deletePreservingMedia = false;
@@ -39,7 +42,7 @@ trait HasMediaTrait
             }
 
             if (in_array(SoftDeletes::class, trait_uses_recursive($entity))) {
-                if (! $entity->forceDeleting) {
+                if (!$entity->forceDeleting) {
                     return;
                 }
             }
@@ -116,7 +119,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes)
     {
-        if (! $stream = @fopen($url, 'r')) {
+        if (!$stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -144,12 +147,12 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes)
+    public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
     {
         // strip out data uri scheme information (see RFC 2397)
         if (strpos($base64data, ';base64') !== false) {
-            list(, $base64data) = explode(';', $base64data);
-            list(, $base64data) = explode(',', $base64data);
+            [$_, $base64data] = explode(';', $base64data);
+            [$_, $base64data] = explode(',', $base64data);
         }
 
         // strict mode filters for non-base64 alphabet characters
@@ -170,8 +173,7 @@ trait HasMediaTrait
 
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
-        $file = app(FileAdderFactory::class)
-            ->create($this, $tmpFile);
+        $file = app(FileAdderFactory::class)->create($this, $tmpFile);
 
         return $file;
     }
@@ -209,15 +211,7 @@ trait HasMediaTrait
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
-    /**
-     * Get the first media item of a media collection.
-     *
-     * @param string $collectionName
-     * @param array $filters
-     *
-     * @return Media|null
-     */
-    public function getFirstMedia(string $collectionName = 'default', array $filters = [])
+    public function getFirstMedia(string $collectionName = 'default', array $filters = []): ?Media
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -233,7 +227,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -249,7 +243,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -265,7 +259,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -313,10 +307,6 @@ trait HasMediaTrait
             });
     }
 
-    /**
-     * @param array $newMediaArray
-     * @param string $collectionName
-     */
     protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
     {
         $this->getMedia($collectionName)
@@ -333,7 +323,7 @@ trait HasMediaTrait
      *
      * @return $this
      */
-    public function clearMediaCollection(string $collectionName = 'default')
+    public function clearMediaCollection(string $collectionName = 'default'): self
     {
         $this->getMedia($collectionName)
             ->each->delete();
@@ -357,6 +347,10 @@ trait HasMediaTrait
      */
     public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = [])
     {
+        if ($excludedMedia instanceof Media) {
+            $excludedMedia = collect()->push($excludedMedia);
+        }
+
         $excludedMedia = collect($excludedMedia);
 
         if ($excludedMedia->isEmpty()) {
@@ -380,7 +374,7 @@ trait HasMediaTrait
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     * @param int|\Spatie\MediaLibrary\Media $mediaId
+     * @param int|\Spatie\MediaLibrary\Models\Media $mediaId
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted
      */
@@ -392,7 +386,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (! $media) {
+        if (!$media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 
@@ -409,6 +403,15 @@ trait HasMediaTrait
         $this->mediaConversions[] = $conversion;
 
         return $conversion;
+    }
+
+    public function addMediaCollection(string $name): MediaCollection
+    {
+        $mediaCollection = MediaCollection::create($name);
+
+        $this->mediaCollections[] = $mediaCollection;
+
+        return $mediaCollection;
     }
 
     /**
@@ -487,11 +490,43 @@ trait HasMediaTrait
 
         $validation = Validator::make(
             ['file' => new File($file)],
-            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
+            ['file' => 'mimetypes:' . implode(',', $allowedMimeTypes)]
         );
 
         if ($validation->fails()) {
             throw MimeTypeNotAllowed::create($file, $allowedMimeTypes);
         }
+    }
+
+    public function registerMediaConversions(Media $media = null)
+    {
+    }
+
+    public function registerMediaCollections()
+    {
+    }
+
+    public function registerAllMediaConversions(Media $media = null)
+    {
+        $this->registerMediaCollections();
+
+        collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) use ($media) {
+            $actualMediaConversions = $this->mediaConversions;
+
+            $this->mediaConversions = [];
+
+            ($mediaCollection->mediaConversionRegistrations)($media);
+
+            $preparedMediaConversions = collect($this->mediaConversions)
+                ->each(function (Conversion $conversion) use ($mediaCollection) {
+                    $conversion->performOnCollections($mediaCollection->name);
+                })
+                ->values()
+                ->toArray();
+
+            $this->mediaConversions = array_merge($actualMediaConversions, $preparedMediaConversions);
+        });
+
+        $this->registerMediaConversions($media);
     }
 }

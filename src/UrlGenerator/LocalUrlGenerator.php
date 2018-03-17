@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 class LocalUrlGenerator extends BaseUrlGenerator
 {
     /**
-     * Get the url for the profile of a media item.
+     * Get the url for a media item.
      *
      * @return string
      *
@@ -84,5 +84,15 @@ class LocalUrlGenerator extends BaseUrlGenerator
         }
 
         return $url;
+    }
+
+    /**
+     * Get the url to the directory containing responsive images.
+     * 
+     * @return string
+     */
+    public function getResponsiveImagesDirectoryUrl(): string
+    {
+        return $this->getBaseMediaDirectoryUrl() . '/' . $this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }

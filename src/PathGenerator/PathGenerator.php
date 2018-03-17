@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\PathGenerator;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 interface PathGenerator
 {
@@ -15,4 +15,9 @@ interface PathGenerator
      * Get the path for conversions of the given media, relative to the root storage path.
      */
     public function getPathForConversions(Media $media): string;
+
+    /*
+     * Get the path for responsive images of the given media, relative to the root storage path.
+     */
+    public function getPathForResponsiveImages(Media $media): string;
 }

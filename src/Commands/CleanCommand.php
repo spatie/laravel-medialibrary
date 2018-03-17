@@ -2,22 +2,25 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Database\Eloquent\Collection;
+use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
+use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
+use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class CleanCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?} 
+    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?}
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production}';
 
@@ -68,7 +71,7 @@ class CleanCommand extends Command
 
         $this->deleteFilesGeneratedForDeprecatedConversions();
 
-        $this->deleteOrphanedFiles();
+        $this->deleteOrphanedDirectories();
 
         $this->info('All done!');
     }
@@ -99,26 +102,56 @@ class CleanCommand extends Command
     protected function deleteFilesGeneratedForDeprecatedConversions()
     {
         $this->getMediaItems()->each(function (Media $media) {
-            $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
-
-            $path = $this->basePathGenerator->getPathForConversions($media);
-            $currentFilePaths = $this->fileSystem->disk($media->disk)->files($path);
-
-            collect($currentFilePaths)
-                ->reject(function (string $currentFilePath) use ($conversionFilePaths) {
-                    return  $conversionFilePaths->contains(basename($currentFilePath));
-                })
-                ->each(function (string $currentFilePath) use ($media) {
-                    if (! $this->isDryRun) {
-                        $this->fileSystem->disk($media->disk)->delete($currentFilePath);
-                    }
-
-                    $this->info("Deprecated conversion file `{$currentFilePath}` ".($this->isDryRun ? 'found' : 'has been removed'));
-                });
+            $this->deleteConversionFilesForDeprecatedConversions($media);
+            $this->deleteResponsiveImagesForDeprecatedConversions($media);
         });
     }
 
-    protected function deleteOrphanedFiles()
+    protected function deleteConversionFilesForDeprecatedConversions(Media $media)
+    {
+        $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
+
+        $conversionPath = $this->basePathGenerator->getPathForConversions($media);
+        $currentFilePaths = $this->fileSystem->disk($media->disk)->files($conversionPath);
+
+        collect($currentFilePaths)
+            ->reject(function (string $currentFilePath) use ($conversionFilePaths) {
+                return $conversionFilePaths->contains(basename($currentFilePath));
+            })
+            ->each(function (string $currentFilePath) use ($media) {
+                if (! $this->isDryRun) {
+                    $this->fileSystem->disk($media->disk)->delete($currentFilePath);
+                }
+
+                $this->info("Deprecated conversion file `{$currentFilePath}` ".($this->isDryRun ? 'found' : 'has been removed'));
+            });
+    }
+
+    protected function deleteResponsiveImagesForDeprecatedConversions(Media $media)
+    {
+        $conversionNames = ConversionCollection::createForMedia($media)
+            ->map(function (Conversion $conversion) {
+                return $conversion->getName();
+            })
+            ->push('medialibrary_original');
+
+        $responsiveImagesGeneratedFor = array_keys($media->responsive_images);
+
+        collect($responsiveImagesGeneratedFor)
+            ->map(function (string $generatedFor) use ($media) {
+                return $media->responsiveImages($generatedFor);
+            })
+            ->reject(function (RegisteredResponsiveImages $responsiveImages) use ($conversionNames) {
+                return $conversionNames->contains($responsiveImages->generatedFor);
+            })
+            ->each(function (RegisteredResponsiveImages $responsiveImages) {
+                if (! $this->isDryRun) {
+                    $responsiveImages->delete();
+                }
+            });
+    }
+
+    protected function deleteOrphanedDirectories()
     {
         $diskName = $this->argument('disk') ?: config('medialibrary.default_filesystem');
 

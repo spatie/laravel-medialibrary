@@ -3,7 +3,7 @@
 namespace Spatie\MediaLibrary\Commands;
 
 use Exception;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Console\ConfirmableTrait;
@@ -17,7 +17,7 @@ class RegenerateCommand extends Command
     protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}
     {--only=* : Regenerate specific conversions}
     {--only-missing : Regenerate only missing conversions}
-    {-- force : Force the operation to run when in production}';
+    {--force : Force the operation to run when in production}';
 
     protected $description = 'Regenerate the derived images of media';
 

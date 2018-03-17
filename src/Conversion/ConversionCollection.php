@@ -3,17 +3,20 @@
 namespace Spatie\MediaLibrary\Conversion;
 
 use Illuminate\Support\Arr;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\Image\Manipulations;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 
 class ConversionCollection extends Collection
 {
+    /** @var \Spatie\MediaLibrary\Media  */
+    protected $media;
+
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return static
      */
@@ -23,12 +26,14 @@ class ConversionCollection extends Collection
     }
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return $this
      */
     public function setMedia(Media $media)
     {
+        $this->media = $media;
+
         $this->items = [];
 
         $this->addConversionsFromRelatedModel($media);
@@ -64,16 +69,13 @@ class ConversionCollection extends Collection
      * Add the conversion that are defined on the related model of
      * the given media.
      *
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      */
     protected function addConversionsFromRelatedModel(Media $media)
     {
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
-        /*
-         * To prevent an sql query create a new model instead
-         * of the using the associated one.
-         */
+        /** @var \Spatie\MediaLibrary\HasMedia\HasMedia $model */
         $model = new $modelName();
 
         /*
@@ -87,9 +89,7 @@ class ConversionCollection extends Collection
             $model->mediaConversion = [];
         }
 
-        if ($model instanceof HasMediaConversions) {
-            $model->registerMediaConversions($media);
-        }
+        $model->registerAllMediaConversions($media);
 
         $this->items = $model->mediaConversions;
     }
@@ -97,7 +97,7 @@ class ConversionCollection extends Collection
     /**
      * Add the extra manipulations that are defined on the given media.
      *
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      */
     protected function addManipulationsFromDb(Media $media)
     {
@@ -106,14 +106,7 @@ class ConversionCollection extends Collection
         });
     }
 
-    /**
-     * Get all the conversions in the collection.
-     *
-     * @param string $collectionName
-     *
-     * @return $this
-     */
-    public function getConversions(string $collectionName = '')
+    public function getConversions(string $collectionName = ''): self
     {
         if ($collectionName === '') {
             return $this;
@@ -152,13 +145,15 @@ class ConversionCollection extends Collection
         return $this->getConversions($collectionName)->reject->shouldBeQueued();
     }
 
-    /**
+    /*
      * Return the list of conversion files.
      */
     public function getConversionsFiles(string $collectionName = ''): self
     {
-        return $this->getConversions($collectionName)->map(function (Conversion $conversion) {
-            return "{$conversion->getName()}.{$conversion->getResultExtension()}";
+        $fileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
+
+        return $this->getConversions($collectionName)->map(function (Conversion $conversion) use ($fileName) {
+            return "{$fileName}-{$conversion->getName()}.{$conversion->getResultExtension()}";
         });
     }
 }

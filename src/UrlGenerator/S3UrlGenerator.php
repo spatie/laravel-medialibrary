@@ -19,7 +19,7 @@ class S3UrlGenerator extends BaseUrlGenerator
     }
 
     /**
-     * Get the url for the profile of a media item.
+     * Get the url for a media item.
      *
      * @return string
      */
@@ -37,7 +37,7 @@ class S3UrlGenerator extends BaseUrlGenerator
     }
 
     /**
-     * Get the temporary url for the profile of a media item.
+     * Get the temporary url for a media item.
      *
      * @param \DateTimeInterface $expiration
      * @param array $options
@@ -60,5 +60,15 @@ class S3UrlGenerator extends BaseUrlGenerator
     public function getPath(): string
     {
         return $this->getPathRelativeToRoot();
+    }
+
+    /**
+     * Get the url to the directory containing responsive images.
+     * 
+     * @return string
+     */
+    public function getResponsiveImagesDirectoryUrl(): string
+    {
+        return config('medialibrary.s3.domain').'/'. $this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }

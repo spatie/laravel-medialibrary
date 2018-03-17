@@ -2,18 +2,21 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Support\Facades\Route;
+use Spatie\MediaLibrary\MediaObserver;
 use Illuminate\Support\ServiceProvider;
-use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
+use Spatie\MediaLibrary\Uploads\Commands\DeleteOldTemporaryUploads;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
+use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application events.
-     */
     public function boot()
     {
         $this->publishes([
@@ -29,17 +32,16 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $mediaClass = config('medialibrary.media_model');
 
         $mediaClass::observe(new MediaObserver());
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'medialibrary');
     }
 
-    /**
-     * Register the service provider.
-     */
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', 'medialibrary');
 
         $this->app->singleton(MediaRepository::class, function () {
-            $mediaClass = $this->app['config']['medialibrary']['media_model'];
+            $mediaClass = config('medialibrary.media_model');
 
             return new MediaRepository(new $mediaClass);
         });
@@ -49,6 +51,9 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
 
         $this->app->bind(Filesystem::class, DefaultFilesystem::class);
+
+        $this->app->bind(WidthCalculator::class, config('medialibrary.responsive_images.width_calculator'));
+        $this->app->bind(TinyPlaceholderGenerator::class, config('medialibrary.responsive_images.tiny_placeholder_generator'));
 
         $this->commands([
             'command.medialibrary:regenerate',

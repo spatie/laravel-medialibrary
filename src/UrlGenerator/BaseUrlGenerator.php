@@ -2,14 +2,14 @@
 
 namespace Spatie\MediaLibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 use Illuminate\Contracts\Config\Repository as Config;
 
 abstract class BaseUrlGenerator implements UrlGenerator
 {
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */
@@ -28,7 +28,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
     }
 
     /**
-     * @param \Spatie\MediaLibrary\Media $media
+     * @param \Spatie\MediaLibrary\Models\Media $media
      *
      * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
      */
@@ -69,17 +69,18 @@ abstract class BaseUrlGenerator implements UrlGenerator
     public function getPathRelativeToRoot(): string
     {
         if (is_null($this->conversion)) {
-            return $this->pathGenerator->getPath($this->media).($this->media->file_name);
+            return $this->pathGenerator->getPath($this->media) . ($this->media->file_name);
         }
 
         return $this->pathGenerator->getPathForConversions($this->media)
-        .$this->conversion->getName()
-        .'.'
-        .$this->conversion->getResultExtension($this->media->extension);
+            . pathinfo($this->media->file_name, PATHINFO_FILENAME)
+            . '-' . $this->conversion->getName()
+            . '.'
+            . $this->conversion->getResultExtension($this->media->extension);
     }
 
     public function rawUrlEncodeFilename(string $path = ''): string
     {
-        return pathinfo($path, PATHINFO_DIRNAME).'/'.rawurlencode(pathinfo($path, PATHINFO_BASENAME));
+        return pathinfo($path, PATHINFO_DIRNAME) . '/' . rawurlencode(pathinfo($path, PATHINFO_BASENAME));
     }
 }

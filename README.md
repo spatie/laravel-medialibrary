@@ -97,7 +97,7 @@ return [
     'default_filesystem' => 'public',
 
     /*
-     * The maximum file size of an item in bytes. 
+     * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
     'max_file_size' => 1024 * 1024 * 10,
@@ -123,12 +123,12 @@ return [
      * When urls to files get generated, this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */
-    'custom_url_generator_class' => null,
+    'url_generator' => null,
 
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'custom_path_generator_class' => null,
+    'path_generator' => null,
 
     's3' => [
         /*
@@ -328,7 +328,7 @@ A big thank you to [Nicolas Beauvais](https://github.com/nicolasbeauvais) for he
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
-Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
+Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie).
 All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
 
 ## License

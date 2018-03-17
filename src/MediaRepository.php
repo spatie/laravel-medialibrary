@@ -5,15 +5,16 @@ namespace Spatie\MediaLibrary;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
 
 class MediaRepository
 {
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $model;
 
-    /** @param \Spatie\MediaLibrary\Media $model */
+    /** @param \Spatie\MediaLibrary\Models\Media $model */
     public function __construct(Media $model)
     {
         $this->model = $model;
@@ -22,7 +23,7 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param \Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia $model
+     * @param \Spatie\MediaLibrary\HasMedia\HasMedia $model
      * @param string $collectionName
      * @param array|callable $filter
      *

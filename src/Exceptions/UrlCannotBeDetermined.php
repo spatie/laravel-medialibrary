@@ -8,7 +8,7 @@ class UrlCannotBeDetermined extends Exception
 {
     public static function mediaNotPubliclyAvailable(string $storagePath, string $publicPath)
     {
-        return new static("Storagepath `{$storagePath}` is not part of public path `{$publicPath}`");
+        return new static("Storage path `{$storagePath}` is not part of public path `{$publicPath}`");
     }
 
     public static function filesystemDoesNotSupportTemporaryUrls()
