@@ -85,8 +85,8 @@ class FileManipulator
 
                 $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
 
-                $newFileName = pathinfo($media->file_name, PATHINFO_FILENAME) .
-                    '-' .$conversion->getName() .
+                $newFileName = pathinfo($media->file_name, PATHINFO_FILENAME).
+                    '-'.$conversion->getName().
                     '.'.$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
 
                 $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);

@@ -88,11 +88,11 @@ class LocalUrlGenerator extends BaseUrlGenerator
 
     /**
      * Get the url to the directory containing responsive images.
-     * 
+     *
      * @return string
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return $this->getBaseMediaDirectoryUrl() . '/' . $this->pathGenerator->getPathForResponsiveImages($this->media);
+        return $this->getBaseMediaDirectoryUrl().'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }

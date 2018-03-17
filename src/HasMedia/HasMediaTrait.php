@@ -4,9 +4,8 @@ namespace Spatie\MediaLibrary\HasMedia;
 
 use DateTimeInterface;
 use Illuminate\Http\File;
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
@@ -16,6 +15,7 @@ use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
@@ -42,7 +42,7 @@ trait HasMediaTrait
             }
 
             if (in_array(SoftDeletes::class, trait_uses_recursive($entity))) {
-                if (!$entity->forceDeleting) {
+                if (! $entity->forceDeleting) {
                     return;
                 }
             }
@@ -119,7 +119,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes)
     {
-        if (!$stream = @fopen($url, 'r')) {
+        if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -227,7 +227,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -243,7 +243,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -259,7 +259,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -386,7 +386,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (!$media) {
+        if (! $media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 
@@ -490,7 +490,7 @@ trait HasMediaTrait
 
         $validation = Validator::make(
             ['file' => new File($file)],
-            ['file' => 'mimetypes:' . implode(',', $allowedMimeTypes)]
+            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
         );
 
         if ($validation->fails()) {

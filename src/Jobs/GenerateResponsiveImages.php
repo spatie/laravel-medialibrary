@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 

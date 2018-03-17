@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature;
 
-use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Support\Facades\Route;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\MediaStream;
+use Illuminate\Support\Facades\Route;
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MediaStreamTest extends TestCase

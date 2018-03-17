@@ -31,7 +31,7 @@ class ConversionCollectionTest extends TestCase
                 '*' => ['brightness' => '-80'],
                 'thumb' => ['filter' => 'greyscale', 'height' => 10],
             ];
-        
+
         $conversionCollection = ConversionCollection::createForMedia($this->media);
 
         $conversion = $conversionCollection->getConversions()[0];
@@ -55,6 +55,7 @@ class ConversionCollectionTest extends TestCase
             'format' => 'jpg',
         ]], $manipulationSequence);
     }
+
     /** @test */
     public function it_will_prepend_the_manipulation_saved_on_the_model()
     {

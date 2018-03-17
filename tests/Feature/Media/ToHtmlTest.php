@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Models\Media;
 
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ToHtmlTest extends TestCase
 {

@@ -64,11 +64,11 @@ class S3UrlGenerator extends BaseUrlGenerator
 
     /**
      * Get the url to the directory containing responsive images.
-     * 
+     *
      * @return string
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return config('medialibrary.s3.domain').'/'. $this->pathGenerator->getPathForResponsiveImages($this->media);
+        return config('medialibrary.s3.domain').'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }

@@ -3,9 +3,6 @@
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
-use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 
 class RegisteredResponsiveImages
 {
@@ -54,7 +51,7 @@ class RegisteredResponsiveImages
             ->implode(', ');
 
         if (config('medialibrary.responsive_images.use_tiny_placeholders')) {
-            $filesSrcset .= ', ' . $this->getPlaceholderSvg() . ' 32w';
+            $filesSrcset .= ', '.$this->getPlaceholderSvg().' 32w';
         }
 
         return $filesSrcset;
