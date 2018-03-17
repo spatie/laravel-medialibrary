@@ -41,12 +41,14 @@ This version of the medialibrary is compatible with Laravel 5.5 and newer.
 
 If you use an older version of Laravel you can use an older version of the package. These aren't maintained anymore, but they should be pretty stable. We still accept small bugfixes.
 
+
+- [Medialibrary v5 for Laravel 5.5 / PHP 7.0](https://docs.spatie.be/laravel-medialibrary/v6)
 - [Medialibrary v5 for Laravel 5.4](https://docs.spatie.be/laravel-medialibrary/v5)
 - [Medialibray v4 for Laravel 5.1 - 5.3](https://docs.spatie.be/laravel-medialibrary/v4)
 
 ## Documentation
 
-You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v6](https://docs.spatie.be/laravel-medialibrary/v6).
+You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v6](https://docs.spatie.be/laravel-medialibrary/v7).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
 
@@ -62,7 +64,7 @@ For the creation of thumbnails of svg's or pdf's you should also install [Imagic
 You can install this package via composer using this command:
 
 ```bash
-composer require spatie/laravel-medialibrary:^6.0.0
+composer require spatie/laravel-medialibrary:^7.0.0
 ```
 
 The package will automatically register itself.
