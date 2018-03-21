@@ -17,14 +17,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
-use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImage;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
+use Spatie\MediaLibrary\Models\Traits\CustomMediaProperties;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class Media extends Model implements Responsable, Htmlable
 {
-    use IsSorted;
+    use IsSorted,
+        CustomMediaProperties;
 
     const TYPE_OTHER = 'other';
 

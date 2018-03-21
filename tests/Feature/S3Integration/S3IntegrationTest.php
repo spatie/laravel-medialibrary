@@ -3,8 +3,10 @@
 namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
 use Carbon\Carbon;
+use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Illuminate\Contracts\Filesystem\Factory;
 
 class S3IntegrationTest extends TestCase
 {
@@ -160,6 +162,35 @@ class S3IntegrationTest extends TestCase
         );
     }
 
+    /** @test */
+    public function custom_headers_are_used_for_all_conversions()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->addCustomHeaders([
+                'ACL' => 'public-read',
+            ])
+            ->toMediaCollection('default', 's3_disk');
+
+        $client = $this->getS3Client();
+
+        /** @var \Aws\Result $responseForMainItem */
+        $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
+            'Bucket' => getenv('AWS_BUCKET'),
+            'Key' => $media->getPath(),
+        ]));
+
+        $this->assertEquals('READ', $responseForMainItem->get('Grants')[1]['Permission'] ?? null);
+
+        /** @var \Aws\Result $responseForConversion* */
+        $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
+            'Bucket' => getenv('AWS_BUCKET'),
+            'Key' => $media->getPath('thumb'),
+        ]));
+
+        $this->assertEquals('READ', $responseForConversion->get('Grants')[1]['Permission'] ?? null);
+    }
+
     protected function cleanUpS3()
     {
         collect(Storage::disk('s3_disk')->allDirectories(self::getS3BaseTestDirectory()))->each(function ($directory) {
@@ -170,6 +201,17 @@ class S3IntegrationTest extends TestCase
     public function canTestS3()
     {
         return ! empty(getenv('AWS_KEY'));
+    }
+
+    protected function getS3Client(): S3Client
+    {
+        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+        $disk = app(Factory::class)->disk('s3_disk');
+
+        /** @var \Aws\S3\S3Client $client */
+        $client = $disk->getDriver()->getAdapter()->getClient();
+
+        return $client;
     }
 
     public static function getS3BaseTestDirectory(): string
