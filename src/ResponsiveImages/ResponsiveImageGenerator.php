@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Spatie\Image\Image;
+use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
@@ -48,6 +49,8 @@ class ResponsiveImageGenerator
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
         }
+
+        event(new ResponsiveImagesGenerated($media));
 
         $this->generateTinyJpg($media, $baseImage, 'medialibrary_original', $temporaryDirectory);
 

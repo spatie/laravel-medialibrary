@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
 
+use Illuminate\Support\Facades\Event;
+use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class ResponsiveImageGeneratorTest extends TestCase
@@ -28,5 +30,18 @@ class ResponsiveImageGeneratorTest extends TestCase
                     ->toMediaCollection();
 
         $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___thumb_50_41.jpg'));
+    }
+
+    /** @test */
+    public function it_triggers_an_event_when_the_responsive_images_are_generated()
+    {
+        Event::fake([ResponsiveImagesGenerated::class]);
+
+        $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        Event::assertDispatched(ResponsiveImagesGenerated::class);
     }
 }
