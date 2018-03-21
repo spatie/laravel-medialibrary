@@ -51,7 +51,7 @@ class DefaultFilesystem implements Filesystem
 
         $this->filesystem
             ->disk($media->disk)
-            ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile));
+            ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()));
 
         if (is_resource($file)) {
             fclose($file);
@@ -63,13 +63,13 @@ class DefaultFilesystem implements Filesystem
         $this->customRemoteHeaders = $customRemoteHeaders;
     }
 
-    public function getRemoteHeadersForFile(string $file) : array
+    public function getRemoteHeadersForFile(string $file, array $mediaCustomHeaders = []) : array
     {
         $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
 
         $extraHeaders = config('medialibrary.remote.extra_headers');
 
-        return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders);
+        return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders, $mediaCustomHeaders);
     }
 
     public function getStream(Media $media)

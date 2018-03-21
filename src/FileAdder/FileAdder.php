@@ -60,6 +60,9 @@ class FileAdder
     /** @var bool */
     protected $generateResponsiveImages = false;
 
+    /** @var array */
+    protected $customHeaders = [];
+
     /**
      * @param Filesystem $fileSystem
      */
@@ -188,6 +191,8 @@ class FileAdder
 
     public function addCustomHeaders(array $customRemoteHeaders): self
     {
+        $this->customHeaders = $customRemoteHeaders;
+
         $this->filesystem->addCustomRemoteHeaders($customRemoteHeaders);
 
         return $this;
@@ -209,6 +214,7 @@ class FileAdder
         }
 
         $mediaClass = config('medialibrary.media_model');
+        /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -232,6 +238,8 @@ class FileAdder
         $media->responsive_images = [];
 
         $media->manipulations = $this->manipulations;
+
+        $media->setCustomHeaders($this->customHeaders);
 
         $media->fill($this->properties);
 
