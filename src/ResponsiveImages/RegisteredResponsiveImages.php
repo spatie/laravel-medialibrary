@@ -50,10 +50,10 @@ class RegisteredResponsiveImages
             })
             ->implode(', ');
 
-        $mayAddPlaceholderSvg = config('medialibrary.responsive_images.use_tiny_placeholders')
+        $shouldAddPlaceholderSvg = config('medialibrary.responsive_images.use_tiny_placeholders')
             && $this->getPlaceholderSvg();
 
-        if ($mayAddPlaceholderSvg) {
+        if ($shouldAddPlaceholderSvg) {
             $filesSrcset .= ', ' . $this->getPlaceholderSvg() . ' 32w';
         }
 
