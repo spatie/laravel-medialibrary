@@ -229,7 +229,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function hasResponsiveImages(string $conversionName = ''): bool
     {
-        return count($this->getResponsiveImageUrls());
+        return count($this->getResponsiveImageUrls($conversionName));
     }
 
     public function getSrcset(string $conversionName = ''): string
@@ -279,7 +279,7 @@ class Media extends Model implements Responsable, Htmlable
 
         $width = '';
 
-        if ($this->hasResponsiveImages()) {
+        if ($this->hasResponsiveImages($conversion)) {
             $viewName = config('medialibrary.responsive_images.use_tiny_placeholders')
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
