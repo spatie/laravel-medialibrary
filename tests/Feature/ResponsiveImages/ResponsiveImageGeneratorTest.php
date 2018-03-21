@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
 
 class ResponsiveImageGeneratorTest extends TestCase
 {
