@@ -294,7 +294,7 @@ class IntegrationTest extends TestCase
         $this->assertEquals('header', $media->name);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/header.jpg"));
     }
-    
+
     /** @test */
     public function it_can_add_a_remote_file_with_no_name_to_the_medialibrary()
     {
@@ -303,7 +303,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMediaFromUrl($url)
             ->toMediaCollection();
-        
+
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/file.jpeg"));
     }
 
