@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.0.2 - 2018-03-21
+
+- Support custom headers for conversions (#868)
+
 ## 7.0.0 - 2018-03-17
 
 - added support for responsive images
@@ -22,7 +26,6 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 6.9.0 - 2018-03-04
 
 - add wildcard manipulations
-
 
 ## 6.8.0 - 2018-03-03
 
