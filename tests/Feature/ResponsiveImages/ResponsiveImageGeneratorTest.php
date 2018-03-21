@@ -35,7 +35,7 @@ class ResponsiveImageGeneratorTest extends TestCase
     /** @test */
     public function it_triggers_an_event_when_the_responsive_images_are_generated()
     {
-        Event::fake([ResponsiveImagesGenerated::class]);
+        Event::fake(ResponsiveImagesGenerated::class);
 
         $this->testModelWithResponsiveImages
             ->addMedia($this->getTestJpg())
