@@ -10,10 +10,10 @@ class ResponsiveImagesGenerated
     use SerializesModels;
 
     /** @var \Spatie\MediaLibrary\Models\Media */
-    public $model;
+    public $media;
 
-    public function __construct(Media $model)
+    public function __construct(Media $media)
     {
-        $this->model = $model;
+        $this->media = $media;
     }
 }
