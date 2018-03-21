@@ -102,7 +102,7 @@ class ToHtmlTest extends TestCase
 
         $image = $media->refresh()->img('thumb');
 
-        $this->assertEquals(1, substr_count($image, '/media/2/responsive-images/'));
+        $this->assertContains('/media/2/responsive-images/', $image);
         $this->assertTrue(str_contains($image, 'data:image/svg+xml;base64,'));
     }
 
