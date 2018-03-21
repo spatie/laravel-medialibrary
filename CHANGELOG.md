@@ -5,6 +5,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 7.0.3 - 2018-03-21
 
 - Add null fallback when placeholder SVG isn't rendered yet (#967)
+- Add ResponsiveImagesGenerated event
 
 ## 7.0.2 - 2018-03-21
 
