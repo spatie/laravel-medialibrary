@@ -17,13 +17,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\Models\Traits\CustomMediaProperties;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImages;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class Media extends Model implements Responsable, Htmlable
 {
-    use IsSorted;
+    use IsSorted,
+        CustomMediaProperties;
 
     const TYPE_OTHER = 'other';
 
@@ -326,18 +328,6 @@ class Media extends Model implements Responsable, Htmlable
     public function responsiveImages(string $conversionName = ''): RegisteredResponsiveImages
     {
         return new RegisteredResponsiveImages($this, $conversionName);
-    }
-
-    public function setCustomHeaders(array $customHeaders): self
-    {
-        $this->setCustomProperty('custom_headers', $customHeaders);
-
-        return $this;
-    }
-
-    public function getCustomHeaders(): array
-    {
-        return $this->getCustomProperty('custom_headers', []);
     }
 
     public function stream()
