@@ -129,7 +129,12 @@ trait HasMediaTrait
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
-
+        
+        if($filename == ''){
+            $mediaExt = explode('/',mime_content_type($tmpFile));
+            $filename = 'file.'.$mediaExt[1];
+        }
+        
         return app(FileAdderFactory::class)
             ->create($this, $tmpFile)
             ->usingName(pathinfo($filename, PATHINFO_FILENAME))
