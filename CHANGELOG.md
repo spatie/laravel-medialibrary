@@ -2,14 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.0.4 - 2018-03-21
+
+- fix responsive images rendering of conversions
+
 ## 7.0.3 - 2018-03-21
 
-- Add null fallback when placeholder SVG isn't rendered yet (#967)
-- Add ResponsiveImagesGenerated event
+- add null fallback when placeholder SVG isn't rendered yet (#967)
+- add ResponsiveImagesGenerated event
 
 ## 7.0.2 - 2018-03-21
 
-- Support custom headers for conversions (#868)
+- support custom headers for conversions (#868)
 
 ## 7.0.0 - 2018-03-17
 
