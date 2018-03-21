@@ -94,6 +94,19 @@ class ToHtmlTest extends TestCase
     }
 
     /** @test */
+    public function it_can_render_itself_with_responsive_images_of_a_conversion_and_a_placeholder()
+    {
+        $media = $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection();
+
+        $image = $media->refresh()->img('thumb');
+
+        $this->assertEquals(1, substr_count($image, '/media/2/responsive-images/'));
+        $this->assertTrue(str_contains($image, 'data:image/svg+xml;base64,'));
+    }
+
+    /** @test */
     public function it_will_not_rendering_extra_javascript_or_including_base64_svg_when_tiny_placeholders_are_turned_off()
     {
         config()->set('medialibrary.responsive_images.use_tiny_placeholders', false);
