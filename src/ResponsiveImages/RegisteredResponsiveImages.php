@@ -50,16 +50,19 @@ class RegisteredResponsiveImages
             })
             ->implode(', ');
 
-        if (config('medialibrary.responsive_images.use_tiny_placeholders')) {
+        $shouldAddPlaceholderSvg = config('medialibrary.responsive_images.use_tiny_placeholders')
+            && $this->getPlaceholderSvg();
+
+        if ($shouldAddPlaceholderSvg) {
             $filesSrcset .= ', '.$this->getPlaceholderSvg().' 32w';
         }
 
         return $filesSrcset;
     }
 
-    public function getPlaceholderSvg(): string
+    public function getPlaceholderSvg(): ?string
     {
-        return $this->media->responsive_images[$this->generatedFor]['base64svg'];
+        return $this->media->responsive_images[$this->generatedFor]['base64svg'] ?? null;
     }
 
     public function delete()

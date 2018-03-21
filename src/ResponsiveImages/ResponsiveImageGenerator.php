@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
+use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
 use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
@@ -48,6 +49,8 @@ class ResponsiveImageGenerator
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
         }
+
+        event(new ResponsiveImagesGenerated($media));
 
         $this->generateTinyJpg($media, $baseImage, 'medialibrary_original', $temporaryDirectory);
 
