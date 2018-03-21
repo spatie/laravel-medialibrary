@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
-use Aws\S3\S3Client;
 use Carbon\Carbon;
-use Illuminate\Contracts\Filesystem\Factory;
+use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Illuminate\Contracts\Filesystem\Factory;
 
 class S3IntegrationTest extends TestCase
 {
@@ -182,7 +182,7 @@ class S3IntegrationTest extends TestCase
 
         $this->assertEquals('READ', $responseForMainItem->get('Grants')[1]['Permission'] ?? null);
 
-        /** @var \Aws\Result $responseForConversion**/
+        /** @var \Aws\Result $responseForConversion* */
         $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
             'Bucket' => getenv('AWS_BUCKET'),
             'Key' => $media->getPath('thumb'),
