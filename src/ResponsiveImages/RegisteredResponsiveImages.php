@@ -54,7 +54,7 @@ class RegisteredResponsiveImages
             && $this->getPlaceholderSvg();
 
         if ($mayAddPlaceholderSvg) {
-            $filesSrcset .= ', ' . $this->getPlaceholderSvg() . ' 32w';
+            $filesSrcset .= ', '.$this->getPlaceholderSvg().' 32w';
         }
 
         return $filesSrcset;
