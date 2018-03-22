@@ -296,6 +296,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_a_remote_file_with_no_name_to_the_medialibrary()
+    {
+        $url = 'https://dthumb-phinf.pstatic.net/?src=%22https%3A%2F%2Fshop-phinf.pstatic.net%2F20180116_81%2Flovelyamie_1516031621836Wd9JR_JPEG%2F39338801478811043_156275708.jpg%3Ftype%3Dm450%22&amp;type=ff120';
+
+        $media = $this->testModel
+            ->addMediaFromUrl($url)
+            ->toMediaCollection();
+
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/file.jpeg"));
+    }
+
+    /** @test */
     public function it_wil_thrown_an_exception_when_a_remote_file_could_not_be_added()
     {
         $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
