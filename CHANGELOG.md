@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.0.5 - 2018-03-22
+
+- fix for adding remote files with no name
+
 ## 7.0.4 - 2018-03-21
 
 - fix responsive images rendering of conversions

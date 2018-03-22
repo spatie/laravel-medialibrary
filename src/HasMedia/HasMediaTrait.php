@@ -131,6 +131,7 @@ trait HasMediaTrait
         $filename = basename(parse_url($url, PHP_URL_PATH));
         if ($filename == '') {
             $mediaExt = explode('/', mime_content_type($tmpFile));
+
             $filename = 'file.'.$mediaExt[1];
         }
 
