@@ -129,7 +129,7 @@ trait HasMediaTrait
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
-        if ($filename == '') {
+        if (! str_contains($filename, '.')) {
             $mediaExt = explode('/', mime_content_type($tmpFile));
 
             $filename = 'file.'.$mediaExt[1];
