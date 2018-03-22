@@ -42,7 +42,7 @@ This version of the medialibrary is compatible with Laravel 5.5 and newer.
 If you use an older version of Laravel you can use an older version of the package. These aren't maintained anymore, but they should be pretty stable. We still accept small bugfixes.
 
 
-- [Medialibrary v5 for Laravel 5.5 / PHP 7.0](https://docs.spatie.be/laravel-medialibrary/v6)
+- [Medialibrary v6 for Laravel 5.5 / PHP 7.0](https://docs.spatie.be/laravel-medialibrary/v6)
 - [Medialibrary v5 for Laravel 5.4](https://docs.spatie.be/laravel-medialibrary/v5)
 - [Medialibray v4 for Laravel 5.1 - 5.3](https://docs.spatie.be/laravel-medialibrary/v4)
 
