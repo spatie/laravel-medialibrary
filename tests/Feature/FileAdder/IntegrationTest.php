@@ -296,9 +296,21 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_remote_file_with_no_name_to_the_medialibrary()
+    public function it_can_add_a_remote_file_with_the_name_of_the_last_directory_to_the_medialibrary()
     {
         $url = 'https://docs.spatie.be/laravel-medialibrary/test-image';
+
+        $media = $this->testModel
+            ->addMediaFromUrl($url)
+            ->toMediaCollection();
+
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/test-image.jpeg"));
+    }
+
+    /** @test */
+    public function it_can_add_a_remote_file_with_no_name_or_directory_to_the_medialibrary()
+    {
+        $url = 'https://docs.spatie.be/?test-image=true';
 
         $media = $this->testModel
             ->addMediaFromUrl($url)
