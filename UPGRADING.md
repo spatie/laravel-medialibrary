@@ -4,6 +4,8 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## 7.1.0
 
+- The `Filesystem` interface is removed, and the `DefaultFilesystem` implementation is renamed to `Filesystem`.
+If you want your own filesystem implementation, you should extend the `Filesystem` class.
 - The method `Filesytem::renameFile(Media $media, string $oldFileName)` was renamed to `Filesystem::syncFileNames(Media $media)`. If you're using your own implementation of `Filesystem`, please update the method signature.
 
 ## From v6 to v7

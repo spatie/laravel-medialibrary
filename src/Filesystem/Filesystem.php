@@ -2,31 +2,193 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
+use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\FileManipulator;
+use Illuminate\Contracts\Filesystem\Factory;
+use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
-interface Filesystem
+class Filesystem
 {
-    public function add(string $file, Media $media, ?string $targetFileName = null);
+    /** @var \Illuminate\Contracts\Filesystem\Factory */
+    protected $filesystem;
 
-    public function copyToMediaLibrary(string $file, Media $media, ?string $type = null, ?string $targetFileName = null);
+    /** @var array */
+    protected $customRemoteHeaders = [];
 
-    public function addCustomRemoteHeaders(array $customRemoteHeaders);
+    public function __construct(Factory $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
 
-    public function getRemoteHeadersForFile(string $file) : array;
+    public function add(string $file, Media $media, ?string $targetFileName = null)
+    {
+        $this->copyToMediaLibrary($file, $media, null, $targetFileName);
 
-    public function getStream(Media $media);
+        event(new MediaHasBeenAdded($media));
 
-    public function copyFromMediaLibrary(Media $media, string $targetFile): string;
+        app(FileManipulator::class)->createDerivedFiles($media);
+    }
 
-    public function syncFileNames(Media $media);
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
+    {
+        $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
-    public function removeAllFiles(Media $media);
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
-    public function removeFile(Media $media, string $path);
+        $file = fopen($pathToFile, 'r');
 
-    public function getMediaDirectory(Media $media, string $type) : string;
+        if ($media->getDiskDriverName() === 'local') {
+            $this->filesystem
+                ->disk($media->disk)
+                ->put($destination, $file);
 
-    public function getConversionDirectory(Media $media) : string;
+            fclose($file);
 
-    public function getResponsiveImagesDirectory(Media $media) : string;
+            return;
+        }
+
+        $this->filesystem
+            ->disk($media->disk)
+            ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()));
+
+        if (is_resource($file)) {
+            fclose($file);
+        }
+    }
+
+    public function addCustomRemoteHeaders(array $customRemoteHeaders)
+    {
+        $this->customRemoteHeaders = $customRemoteHeaders;
+    }
+
+    public function getRemoteHeadersForFile(string $file, array $mediaCustomHeaders = []) : array
+    {
+        $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
+
+        $extraHeaders = config('medialibrary.remote.extra_headers');
+
+        return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders, $mediaCustomHeaders);
+    }
+
+    public function getStream(Media $media)
+    {
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+
+        return $this->filesystem->disk($media->disk)->readStream($sourceFile);
+    }
+
+    public function copyFromMediaLibrary(Media $media, string $targetFile): string
+    {
+        touch($targetFile);
+
+        $stream = $this->getStream($media);
+
+        $targetFileStream = fopen($targetFile, 'a');
+
+        while (! feof($stream)) {
+            $chunk = fread($stream, 1024);
+            fwrite($targetFileStream, $chunk);
+        }
+
+        fclose($stream);
+
+        fclose($targetFileStream);
+
+        return $targetFile;
+    }
+
+    public function removeAllFiles(Media $media)
+    {
+        $mediaDirectory = $this->getMediaDirectory($media);
+
+        $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
+
+        $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
+
+        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
+
+            ->each(function ($directory) use ($media) {
+                $this->filesystem->disk($media->disk)->deleteDirectory($directory);
+            });
+    }
+
+    public function removeFile(Media $media, string $path)
+    {
+        $this->filesystem->disk($media->disk)->delete($path);
+    }
+
+    public function syncFileNames(Media $media)
+    {
+        $this->renameMediaFile($media);
+
+        $this->renameConversionFiles($media);
+    }
+
+    protected function renameMediaFile(Media $media)
+    {
+        $newFileName = $media->file_name;
+        $oldFileName = $media->getOriginal('file_name');
+
+        $mediaDirectory = $this->getMediaDirectory($media);
+
+        $oldFile = $mediaDirectory.'/'.$oldFileName;
+        $newFile = $mediaDirectory.'/'.$newFileName;
+
+        $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
+    }
+
+    protected function renameConversionFiles(Media $media)
+    {
+        $newFileName = $media->file_name;
+        $oldFileName = $media->getOriginal('file_name');
+
+        $conversionDirectory = $this->getConversionDirectory($media);
+
+        $conversionCollection = ConversionCollection::createForMedia($media);
+
+        foreach ($media->getMediaConversionNames() as $conversionName) {
+            $conversion = $conversionCollection->getByName($conversionName);
+
+            $oldFile = $conversionDirectory.$conversion->getConversionFile($oldFileName);
+            $newFile = $conversionDirectory.$conversion->getConversionFile($newFileName);
+
+            $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
+        }
+    }
+
+    public function getMediaDirectory(Media $media, ?string $type = null) : string
+    {
+        $pathGenerator = PathGeneratorFactory::create();
+
+        if (! $type) {
+            $directory = $pathGenerator->getPath($media);
+        }
+
+        if ($type === 'conversions') {
+            $directory = $pathGenerator->getPathForConversions($media);
+        }
+
+        if ($type === 'responsiveImages') {
+            $directory = $pathGenerator->getPathForResponsiveImages($media);
+        }
+
+        if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
+            $this->filesystem->disk($media->disk)->makeDirectory($directory);
+        }
+
+        return $directory;
+    }
+
+    public function getConversionDirectory(Media $media) : string
+    {
+        return $this->getMediaDirectory($media, 'conversions');
+    }
+
+    public function getResponsiveImagesDirectory(Media $media) : string
+    {
+        return $this->getMediaDirectory($media, 'responsiveImages');
+    }
 }
