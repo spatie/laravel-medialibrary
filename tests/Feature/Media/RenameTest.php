@@ -21,4 +21,20 @@ class RenameTest extends TestCase
         $this->assertFileNotExists($this->getMediaDirectory($media->id.'/test.jpg'));
         $this->assertFileExists($this->getMediaDirectory($media->id.'/test-new-name.jpg'));
     }
+
+    /** @test */
+    public function it_will_rename_conversions()
+    {
+        $testFile = $this->getTestFilesDirectory('test.jpg');
+
+        $media = $this->testModelWithConversion->addMedia($testFile)->toMediaCollection();
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+
+        $media->file_name = 'test-new-name.jpg';
+
+        $media->save();
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-new-name-thumb.jpg'));
+    }
 }
