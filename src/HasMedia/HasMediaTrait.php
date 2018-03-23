@@ -136,14 +136,8 @@ trait HasMediaTrait
 
         $mediaExt = explode('/', mime_content_type($tmpFile));
 
-        $extension = $mediaExt[1] ?? null;
-
-        if (! $extension) {
-            throw MimeTypeNotAllowed::create($filename, $allowedMimeTypes);
-        }
-
         if (! str_contains($filename, '.')) {
-            $filename = "{$filename}.{$extension}";
+            $filename = "{$filename}.{$mediaExt[1]}";
         }
 
         return app(FileAdderFactory::class)
