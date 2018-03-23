@@ -2,6 +2,10 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## 7.1.0
+
+- The method `Filesytem::renameFile(Media $media, string $oldFileName)` was renamed to `Filesystem::syncFileNames(Media $media)`. If you're using your own implementation of `Filesystem`, please update the method signature.
+
 ## From v6 to v7
 
 - add the `responsive_images` column in the media table: `$table->json('responsive_images');`
