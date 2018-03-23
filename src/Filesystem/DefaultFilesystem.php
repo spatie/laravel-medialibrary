@@ -2,13 +2,12 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Filesystem\Factory;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class DefaultFilesystem implements Filesystem
@@ -134,8 +133,8 @@ class DefaultFilesystem implements Filesystem
 
         $mediaDirectory = $this->getMediaDirectory($media);
 
-        $oldFile = $mediaDirectory .'/'.$oldFileName;
-        $newFile = $mediaDirectory .'/'.$newFileName;
+        $oldFile = $mediaDirectory.'/'.$oldFileName;
+        $newFile = $mediaDirectory.'/'.$newFileName;
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
@@ -151,8 +150,8 @@ class DefaultFilesystem implements Filesystem
         foreach ($media->getMediaConversionNames() as $conversionName) {
             $conversion = $conversionCollection->getByName($conversionName);
 
-            $oldFile = $conversionDirectory . $conversion->getConversionFile($oldFileName);
-            $newFile = $conversionDirectory . $conversion->getConversionFile($newFileName);
+            $oldFile = $conversionDirectory.$conversion->getConversionFile($oldFileName);
+            $newFile = $conversionDirectory.$conversion->getConversionFile($newFileName);
 
             $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
         }
