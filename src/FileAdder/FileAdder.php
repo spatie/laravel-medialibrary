@@ -262,7 +262,7 @@ class FileAdder
             }
         }
 
-        return config('medialibrary.default_filesystem');
+        return config('medialibrary.disk_name');
     }
 
     public function defaultSanitizer(string $fileName): string

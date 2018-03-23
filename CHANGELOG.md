@@ -6,6 +6,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - `Filesystem` interface removed.
 - Rename `Filesytem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
+- The `default_filesystem` config key has been changed to `disk_name`.
 
 ## 7.0.6 - 2018-03-22
 

@@ -59,5 +59,14 @@ class MediaLibraryServiceProvider extends ServiceProvider
             'command.medialibrary:clear',
             'command.medialibrary:clean',
         ]);
+
+        $this->registerDeprecatedConfig();
+    }
+
+    protected function registerDeprecatedConfig()
+    {
+        if (! config('medialibary.disk_name')) {
+            config(['medialibrary.disk_name' => config('medialibrary.default_filesystem')]);
+        }
     }
 }
