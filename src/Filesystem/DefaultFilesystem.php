@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
+use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
@@ -119,12 +121,41 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    public function renameFile(Media $media, string $oldName)
+    public function renameFile(Media $media, string $oldFileName)
     {
-        $oldFile = $this->getMediaDirectory($media).'/'.$oldName;
-        $newFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $this->renameMediaFile($media, $oldFileName);
+
+        $this->renameConversionFiles($media, $oldFileName);
+    }
+
+    protected function renameMediaFile(Media $media, string $oldFileName)
+    {
+        $newFileName = $media->file_name;
+
+        $mediaDirectory = $this->getMediaDirectory($media);
+
+        $oldFile = $mediaDirectory .'/'.$oldFileName;
+        $newFile = $mediaDirectory .'/'.$newFileName;
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
+    }
+
+    protected function renameConversionFiles(Media $media, string $oldFileName)
+    {
+        $newFileName = $media->file_name;
+
+        $conversionDirectory = $this->getConversionDirectory($media);
+
+        $conversionCollection = ConversionCollection::createForMedia($media);
+
+        foreach ($media->getMediaConversionNames() as $conversionName) {
+            $conversion = $conversionCollection->getByName($conversionName);
+
+            $oldFile = $conversionDirectory . $conversion->getConversionFile($oldFileName);
+            $newFile = $conversionDirectory . $conversion->getConversionFile($newFileName);
+
+            $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
+        }
     }
 
     public function getMediaDirectory(Media $media, ?string $type = null) : string

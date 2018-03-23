@@ -246,4 +246,17 @@ class Conversion
 
         return $originalFileExtension;
     }
+
+    public function getConversionFile(string $file): string
+    {
+        $fileName = pathinfo($file, PATHINFO_FILENAME);
+
+        $extension = $this->getResultExtension();
+
+        if (! $extension) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+        }
+
+        return "{$fileName}-{$this->getName()}.{$extension}";
+    }
 }
