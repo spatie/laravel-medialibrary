@@ -51,7 +51,7 @@ class ConversionCollection extends Collection
      *
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function getByName(string $name)
+    public function getByName(string $name): Conversion
     {
         $conversion = $this->first(function (Conversion $conversion) use ($name) {
             return $conversion->getName() === $name;
@@ -152,7 +152,7 @@ class ConversionCollection extends Collection
         $fileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
 
         return $this->getConversions($collectionName)->map(function (Conversion $conversion) use ($fileName) {
-            return "{$fileName}-{$conversion->getName()}.{$conversion->getResultExtension()}";
+            return $conversion->getConversionFile($fileName);
         });
     }
 }
