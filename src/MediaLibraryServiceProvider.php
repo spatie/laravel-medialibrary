@@ -66,7 +66,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
     protected function registerDeprecatedConfig()
     {
         if (! config('medialibary.disk_name')) {
-            config(['medialibrary.disk_name' => config('medialibrary.default_filesystem')]);
+            config(['medialibrary.disk_name' => config('medialibrary.default_filesystem', 'public')]);
         }
     }
 }
