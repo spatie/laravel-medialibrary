@@ -4,6 +4,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 7.1.0 - 2018-03-22
 
+- `Filesystem` interface removed.
 - Rename `Filesytem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
 
 ## 7.0.6 - 2018-03-22
