@@ -96,7 +96,7 @@ return [
      * The filesystems on which to store added files and derived images by default. Choose
      * one or more of the filesystems you've configured in config/filesystems.php.
      */
-    'default_filesystem' => 'public',
+    'disk_name' => 'public',
 
     /*
      * The maximum file size of an item in bytes.
