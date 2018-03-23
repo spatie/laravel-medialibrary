@@ -130,14 +130,20 @@ trait HasMediaTrait
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
 
-        $mediaExt = explode('/', mime_content_type($tmpFile));
-
         if ($filename === '') {
             $filename = 'file';
         }
 
+        $mediaExt = explode('/', mime_content_type($tmpFile));
+
+        $extension = $mediaExt[1] ?? null;
+
+        if (! $extension) {
+            throw MimeTypeNotAllowed::create($filename, $allowedMimeTypes);
+        }
+
         if (! str_contains($filename, '.')) {
-            $filename = "{$filename}.{$mediaExt[1]}";
+            $filename = "{$filename}.{$extension}";
         }
 
         return app(FileAdderFactory::class)
