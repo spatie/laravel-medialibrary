@@ -18,7 +18,7 @@ interface Filesystem
 
     public function copyFromMediaLibrary(Media $media, string $targetFile): string;
 
-    public function renameFile(Media $media, string $oldName);
+    public function syncFileNames(Media $media);
 
     public function removeAllFiles(Media $media);
 
