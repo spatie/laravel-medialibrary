@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.0.6 - 2018-03-22
+
+- fix publishing views
+
 ## 7.0.5 - 2018-03-22
 
 - fix for adding remote files with no name
