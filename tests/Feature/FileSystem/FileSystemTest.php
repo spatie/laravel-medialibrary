@@ -3,12 +3,12 @@
 namespace Spatie\MediaLibrary\Tests\Feature\FileSystem;
 
 use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\Filesystem\DefaultFilesystem;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 
 class FileSystemTest extends TestCase
 {
     /**
-     * @var \Spatie\MediaLibrary\DefaultFilesystem
+     * @var \Spatie\MediaLibrary\Filesystem\Filesystem
      */
     protected $filesystem;
 
@@ -16,7 +16,7 @@ class FileSystemTest extends TestCase
     {
         parent::setUp();
 
-        $this->filesystem = $this->app->make(DefaultFilesystem::class);
+        $this->filesystem = $this->app->make(Filesystem::class);
     }
 
     /** @test */
