@@ -123,10 +123,10 @@ trait HasMediaTrait
             throw UnreachableUrl::create($url);
         }
 
-        $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
-        file_put_contents($tmpFile, $stream);
+        $temporaryFile = tempnam(sys_get_temp_dir(), 'media-library');
+        file_put_contents($temporaryFile, $stream);
 
-        $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
+        $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
 
@@ -134,14 +134,14 @@ trait HasMediaTrait
             $filename = 'file';
         }
 
-        $mediaExt = explode('/', mime_content_type($tmpFile));
+        $mediaExtension = explode('/', mime_content_type($temporaryFile));
 
         if (! str_contains($filename, '.')) {
-            $filename = "{$filename}.{$mediaExt[1]}";
+            $filename = "{$filename}.{$mediaExtension[1]}";
         }
 
         return app(FileAdderFactory::class)
-            ->create($this, $tmpFile)
+            ->create($this, $temporaryFile)
             ->usingName(pathinfo($filename, PATHINFO_FILENAME))
             ->usingFileName($filename);
     }
@@ -297,7 +297,7 @@ trait HasMediaTrait
                 $mediaClass = config('medialibrary.media_model');
                 $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
-                if ($currentMedia->collection_name != $collectionName) {
+                if ($currentMedia->collection_name !== $collectionName) {
                     throw MediaCannotBeUpdated::doesNotBelongToCollection($collectionName, $currentMedia);
                 }
 
@@ -351,7 +351,7 @@ trait HasMediaTrait
      * Remove all media in the given collection except some.
      *
      * @param string $collectionName
-     * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
+     * @param \Spatie\MediaLibrary\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
      *
      * @return $this
      */
@@ -439,7 +439,7 @@ trait HasMediaTrait
     /**
      * Determines if the media files should be preserved when the media object gets deleted.
      *
-     * @return \Spatie\MediaLibrary\Media
+     * @return bool
      */
     public function shouldDeletePreservingMedia()
     {
