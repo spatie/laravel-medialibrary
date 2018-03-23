@@ -120,16 +120,17 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    public function renameFile(Media $media, string $oldFileName)
+    public function syncFileNames(Media $media)
     {
-        $this->renameMediaFile($media, $oldFileName);
+        $this->renameMediaFile($media);
 
-        $this->renameConversionFiles($media, $oldFileName);
+        $this->renameConversionFiles($media);
     }
 
-    protected function renameMediaFile(Media $media, string $oldFileName)
+    protected function renameMediaFile(Media $media)
     {
         $newFileName = $media->file_name;
+        $oldFileName = $media->getOriginal('file_name');
 
         $mediaDirectory = $this->getMediaDirectory($media);
 
@@ -139,9 +140,10 @@ class DefaultFilesystem implements Filesystem
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
 
-    protected function renameConversionFiles(Media $media, string $oldFileName)
+    protected function renameConversionFiles(Media $media)
     {
         $newFileName = $media->file_name;
+        $oldFileName = $media->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);
 
