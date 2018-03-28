@@ -8,6 +8,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 If you want your own filesystem implementation, you should extend the `Filesystem` class.
 - The method `Filesytem::renameFile(Media $media, string $oldFileName)` was renamed to `Filesystem::syncFileNames(Media $media)`. If you're using your own implementation of `Filesystem`, please update the method signature.
 - The `default_filesystem` config key has been changed to `disk_name`.
+- The `custom_url_generator_class` and `custom_path_generator_class` config keys have been changed to `url_generator` and `path_generator`. (commit ba46d8008d26542c9a5ef0e39f779de801cd4f8f)
 
 ## From v6 to v7
 
