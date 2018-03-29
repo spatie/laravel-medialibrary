@@ -78,8 +78,7 @@ class FileManipulator
 
         $conversions
             ->reject(function (Conversion $conversion) use ($onlyIfMissing, $media) {
-//                var_dump(Storage::disk($media->disk)->exists($media->getPath($conversion->getName())));
-                return $onlyIfMissing && file_exists($media->getPath($conversion->getName()));
+                return $onlyIfMissing && Storage::disk($media->disk)->exists($media->getPath($conversion->getName()));
             })
             ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
                 event(new ConversionWillStart($media, $conversion));
