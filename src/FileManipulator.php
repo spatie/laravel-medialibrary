@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Storage;
 use Spatie\Image\Image;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Models\Media;
@@ -23,6 +24,7 @@ class FileManipulator
      * Create all derived files for the given media.
      *
      * @param \Spatie\MediaLibrary\Models\Media $media
+     * @param array $only
      * @param bool $onlyIfMissing
      */
     public function createDerivedFiles(Media $media, array $only = [], $onlyIfMissing = false)
@@ -76,6 +78,7 @@ class FileManipulator
 
         $conversions
             ->reject(function (Conversion $conversion) use ($onlyIfMissing, $media) {
+//                var_dump(Storage::disk($media->disk)->exists($media->getPath($conversion->getName())));
                 return $onlyIfMissing && file_exists($media->getPath($conversion->getName()));
             })
             ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
