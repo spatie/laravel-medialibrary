@@ -2,6 +2,10 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Filesystem\FilesystemAdapter;
+use League\Flysystem\FilesystemInterface;
+use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
@@ -75,7 +79,7 @@ class Filesystem
 
     public function getStream(Media $media)
     {
-        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).$media->file_name;
 
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
@@ -134,8 +138,8 @@ class Filesystem
 
         $mediaDirectory = $this->getMediaDirectory($media);
 
-        $oldFile = $mediaDirectory.'/'.$oldFileName;
-        $newFile = $mediaDirectory.'/'.$newFileName;
+        $oldFile = $mediaDirectory.$oldFileName;
+        $newFile = $mediaDirectory.$newFileName;
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
@@ -164,6 +168,81 @@ class Filesystem
 
             $disk->move($oldFile, $newFile);
         }
+    }
+
+    public function syncDisk(Media $media)
+    {
+        // Retrieve the disks to move between
+        $newDisk = $this->filesystem->disk(
+            $newDiskIdentifier = $media->disk
+        );
+        $oldDisk = $this->filesystem->disk(
+            $oldDiskIdentifier = $media->getOriginal('disk')
+        );
+
+        // Use the original filename, renaming is the next step
+        $fileName = $media->getOriginal('file_name');
+
+        // Determine the old media and conversion directories with the old disk
+        $media->disk = $oldDiskIdentifier;
+        $oldConversionDirectory = $this->getConversionDirectory( $media );
+        $oldMediaDirectory = $this->getMediaDirectory( $media );
+        $media->disk = $newDiskIdentifier;
+
+        // Do the actual moving
+        $this->moveBetweenDisks(
+            $oldDisk,
+            $oldMediaDirectory.$fileName,
+            $newDisk,
+            $this->getMediaDirectory($media).$fileName
+        );
+
+        // Also move all conversions to the new disk
+        $conversionCollection = ConversionCollection::createForMedia($media);
+        $newConversionDirectory = $this->getConversionDirectory($media);
+
+        foreach ($media->getMediaConversionNames() as $conversionName) {
+            $conversion = $conversionCollection->getByName($conversionName);
+
+            try {
+                $this->moveBetweenDisks(
+                    $oldDisk,
+                    $oldConversionDirectory.$conversion->getConversionFile($fileName),
+                    $newDisk,
+                    $newConversionDirectory.$conversion->getConversionFile($fileName)
+                );
+            } catch ( FileNotFoundException $e ) {
+                // A media conversion file might be missing, waiting to be generated, failed etc.
+            }
+        }
+    }
+
+    protected function moveBetweenDisks( \Illuminate\Contracts\Filesystem\Filesystem $oldDisk, $oldFile, \Illuminate\Contracts\Filesystem\Filesystem $newDisk, $newFile = null )
+    {
+        $newFile = $newFile ?? $oldFile;
+
+        if( !$oldDisk->exists( $oldFile ) ) {
+            throw new FileNotFoundException;
+        }
+
+        $oldFileStream = null;
+
+        // Try to extract a stream, if we know how
+        if( $oldDisk instanceof FilesystemAdapter ) {
+            $oldDiskDriver = $oldDisk->getDriver();
+            if( $oldDiskDriver instanceof FilesystemInterface ) {
+                $oldFileStream = $oldDiskDriver->readStream( $oldFile );
+            }
+        }
+
+        // Use the stream if exists or get the full content
+        $oldSource = $oldFileStream ?? $oldDisk->get( $oldFile );
+
+        // Filesystem knows how to handle both streams and content
+        $newDisk->put( $newFile, $oldSource );
+
+        // Delete the old file resource
+        $oldDisk->delete( $oldFile );
     }
 
     public function getMediaDirectory(Media $media, ?string $type = null) : string

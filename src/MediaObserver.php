@@ -14,6 +14,10 @@ class MediaObserver
 
     public function updating(Media $media)
     {
+        if ($media->disk !== $media->getOriginal('disk')) {
+            app(Filesystem::class)->syncDisk($media);
+        }
+
         if ($media->file_name !== $media->getOriginal('file_name')) {
             app(Filesystem::class)->syncFileNames($media);
         }
