@@ -15,11 +15,7 @@ class ChangeDiskTest extends TestCase
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        $media->file_name = 'test-new-name.jpg';
-        $media->save();
-
-        $this->assertFileNotExists($this->getMediaDirectory($media->id.'/test.jpg'));
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/test-new-name.jpg'));
+        // TODO... test
     }
 
 }
