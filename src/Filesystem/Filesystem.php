@@ -120,49 +120,57 @@ class Filesystem
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    public function syncFileNames(Media $media)
+    public function syncFiles(Media $media)
     {
-        $this->renameMediaFile($media);
+        $this->syncMediaFile($media);
 
-        $this->renameConversionFiles($media);
+        $this->syncConversionFiles($media);
     }
 
-    protected function renameMediaFile(Media $media)
+    protected function syncMediaFile(Media $media)
     {
         $newFileName = $media->file_name;
         $oldFileName = $media->getOriginal('file_name');
+
+        $newDisk = $media->disk;
+        $oldDisk = $media->getOriginal('disk');
 
         $mediaDirectory = $this->getMediaDirectory($media);
+        $oldMediaDirectory = $this->getMediaDirectory($media->setAttribute('disk', $oldDisk));
+        $media->setAttribute('disk', $newDisk);
 
-        $oldFile = $mediaDirectory.'/'.$oldFileName;
-        $newFile = $mediaDirectory.'/'.$newFileName;
+        $oldFile = $oldMediaDirectory.$oldFileName;
+        $newFile = $mediaDirectory.$newFileName;
 
-        $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
+        $this->move($oldDisk, $oldFile, $newDisk, $newFile);
     }
 
-    protected function renameConversionFiles(Media $media)
+    protected function syncConversionFiles(Media $media)
     {
         $newFileName = $media->file_name;
         $oldFileName = $media->getOriginal('file_name');
 
+        $newDisk = $media->disk;
+        $oldDisk = $media->getOriginal('disk');
+
         $conversionDirectory = $this->getConversionDirectory($media);
+        $oldConversionDirectory = $this->getConversionDirectory($media->setAttribute('disk', $oldDisk));
+        $media->setAttribute('disk', $newDisk);
 
         $conversionCollection = ConversionCollection::createForMedia($media);
 
         foreach ($media->getMediaConversionNames() as $conversionName) {
             $conversion = $conversionCollection->getByName($conversionName);
 
-            $oldFile = $conversionDirectory.$conversion->getConversionFile($oldFileName);
+            $oldFile = $oldConversionDirectory.$conversion->getConversionFile($oldFileName);
             $newFile = $conversionDirectory.$conversion->getConversionFile($newFileName);
 
-            $disk = $this->filesystem->disk($media->disk);
-
             // A media conversion file might be missing, waiting to be generated, failed etc.
-            if (! $disk->exists($oldFile)) {
+            if (! $this->filesystem->disk($oldDisk)->exists($oldFile)) {
                 continue;
             }
 
-            $disk->move($oldFile, $newFile);
+            $this->move($oldDisk, $oldFile, $newDisk, $newFile);
         }
     }
 
@@ -197,5 +205,21 @@ class Filesystem
     public function getResponsiveImagesDirectory(Media $media) : string
     {
         return $this->getMediaDirectory($media, 'responsiveImages');
+    }
+
+    protected function move($fromDisk, $fromPath, $toDisk, $toPath)
+    {
+        if ($fromDisk == $toDisk) {
+            $this->filesystem->disk($fromDisk)->move($fromPath, $toPath);
+
+            return;
+        }
+
+        $this->filesystem->disk($toDisk)->getDriver()->writeStream(
+            $toPath,
+            $this->filesystem->disk($fromDisk)->getDriver()->readStream($fromPath)
+        );
+
+        $this->filesystem->disk($fromDisk)->delete($fromPath);
     }
 }
