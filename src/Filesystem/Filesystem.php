@@ -2,15 +2,15 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Filesystem\FilesystemAdapter;
-use League\Flysystem\FilesystemInterface;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
+use League\Flysystem\FilesystemInterface;
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
@@ -184,8 +184,8 @@ class Filesystem
 
         // Determine the old media and conversion directories with the old disk
         $media->disk = $oldDiskIdentifier;
-        $oldConversionDirectory = $this->getConversionDirectory( $media );
-        $oldMediaDirectory = $this->getMediaDirectory( $media );
+        $oldConversionDirectory = $this->getConversionDirectory($media);
+        $oldMediaDirectory = $this->getMediaDirectory($media);
         $media->disk = $newDiskIdentifier;
 
         // Do the actual moving
@@ -210,38 +210,38 @@ class Filesystem
                     $newDisk,
                     $newConversionDirectory.$conversion->getConversionFile($fileName)
                 );
-            } catch ( FileNotFoundException $e ) {
+            } catch (FileNotFoundException $e) {
                 // A media conversion file might be missing, waiting to be generated, failed etc.
             }
         }
     }
 
-    protected function moveBetweenDisks( \Illuminate\Contracts\Filesystem\Filesystem $oldDisk, $oldFile, \Illuminate\Contracts\Filesystem\Filesystem $newDisk, $newFile = null )
+    protected function moveBetweenDisks(\Illuminate\Contracts\Filesystem\Filesystem $oldDisk, $oldFile, \Illuminate\Contracts\Filesystem\Filesystem $newDisk, $newFile = null)
     {
         $newFile = $newFile ?? $oldFile;
 
-        if( !$oldDisk->exists( $oldFile ) ) {
+        if (! $oldDisk->exists($oldFile)) {
             throw new FileNotFoundException;
         }
 
         $oldFileStream = null;
 
         // Try to extract a stream, if we know how
-        if( $oldDisk instanceof FilesystemAdapter ) {
+        if ($oldDisk instanceof FilesystemAdapter) {
             $oldDiskDriver = $oldDisk->getDriver();
-            if( $oldDiskDriver instanceof FilesystemInterface ) {
-                $oldFileStream = $oldDiskDriver->readStream( $oldFile );
+            if ($oldDiskDriver instanceof FilesystemInterface) {
+                $oldFileStream = $oldDiskDriver->readStream($oldFile);
             }
         }
 
         // Use the stream if exists or get the full content
-        $oldSource = $oldFileStream ?? $oldDisk->get( $oldFile );
+        $oldSource = $oldFileStream ?? $oldDisk->get($oldFile);
 
         // Filesystem knows how to handle both streams and content
-        $newDisk->put( $newFile, $oldSource );
+        $newDisk->put($newFile, $oldSource);
 
         // Delete the old file resource
-        $oldDisk->delete( $oldFile );
+        $oldDisk->delete($oldFile);
     }
 
     public function getMediaDirectory(Media $media, ?string $type = null) : string
