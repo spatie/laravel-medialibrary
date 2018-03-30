@@ -96,7 +96,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain') . "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
             $media->getUrl()
         );
 
@@ -114,7 +114,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain') . "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
+            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
             $media->getUrl('thumb')
         );
     }
