@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.1.3 - 2018-03-30
+
+- Fix for renaming files when not all conversions are present
+- Fix bugs when working with remote filesystems
+
 ## 7.1.2 - 2018-03-22
 
 - Fix a typo in `medialibrary.disk_name`.
