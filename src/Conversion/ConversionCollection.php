@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 
 class ConversionCollection extends Collection
 {
-    /** @var \Spatie\MediaLibrary\Media */
+    /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
     /**
