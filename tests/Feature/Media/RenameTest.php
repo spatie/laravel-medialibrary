@@ -37,4 +37,28 @@ class RenameTest extends TestCase
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-new-name-thumb.jpg'));
     }
+
+    /** @test */
+    public function it_keeps_valid_file_name_when_renaming_with_missing_conversions()
+    {
+        $testFile = $this->getTestFilesDirectory('test.jpg');
+
+        $media = $this->testModelWithConversion->addMedia($testFile)->toMediaCollection();
+
+        $this->assertFileExists(
+            $thumb_conversion = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg')
+        );
+
+        unlink($thumb_conversion);
+
+        $media->file_name = $new_filename = 'test-new-name.jpg';
+
+        $media->save();
+
+        // Reload attributes from the database
+        $media = $media->fresh();
+
+        $this->assertFileExists($media->getPath());
+        $this->assertEquals($new_filename, $media->file_name);
+    }
 }

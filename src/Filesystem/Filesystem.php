@@ -155,7 +155,14 @@ class Filesystem
             $oldFile = $conversionDirectory.$conversion->getConversionFile($oldFileName);
             $newFile = $conversionDirectory.$conversion->getConversionFile($newFileName);
 
-            $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
+            $disk = $this->filesystem->disk($media->disk);
+
+            // A media conversion file might be missing, waiting to be generated, failed etc.
+            if (! $disk->exists($oldFile)) {
+                continue;
+            }
+
+            $disk->move($oldFile, $newFile);
         }
     }
 
