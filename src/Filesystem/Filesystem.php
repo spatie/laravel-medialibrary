@@ -5,7 +5,6 @@ namespace Spatie\MediaLibrary\Filesystem;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\FilesystemAdapter;
 use League\Flysystem\FilesystemInterface;
-use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
