@@ -158,7 +158,7 @@ class Filesystem
             $disk = $this->filesystem->disk($media->disk);
 
             // A media conversion file might be missing, waiting to be generated, failed etc.
-            if (!$disk->exists($oldFile)) {
+            if (! $disk->exists($oldFile)) {
                 continue;
             }
 
