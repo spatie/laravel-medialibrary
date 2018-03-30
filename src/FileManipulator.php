@@ -78,7 +78,15 @@ class FileManipulator
 
         $conversions
             ->reject(function (Conversion $conversion) use ($onlyIfMissing, $media) {
-                return $onlyIfMissing && Storage::disk($media->disk)->exists($media->getPath($conversion->getName()));
+                $relativePath = $media->getPath($conversion->getName());
+
+                $rootPath = config('filesystems.disks.'.$media->disk.'.root');
+
+                if ($rootPath) {
+                    $relativePath = str_replace($rootPath, '', $relativePath);
+                }
+
+                return $onlyIfMissing && Storage::disk($media->disk)->exists($relativePath);
             })
             ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
                 event(new ConversionWillStart($media, $conversion));

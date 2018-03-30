@@ -225,8 +225,6 @@ class S3IntegrationTest extends TestCase
 
         $this->assertSame($existsCreatedAt, Storage::disk('s3_disk')->lastModified($derivedImageExists));
         $this->assertGreaterThan($missingCreatedAt, Storage::disk('s3_disk')->lastModified($derivedMissingImage));
-
-
     }
 
     /** @test */
