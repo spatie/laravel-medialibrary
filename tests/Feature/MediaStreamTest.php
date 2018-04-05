@@ -14,7 +14,7 @@ class MediaStreamTest extends TestCase
     {
         parent::setUp();
 
-        if ($this->canTestS3()){
+        if ($this->canTestS3()) {
             foreach (range(1, 3) as $i) {
                 $this->testModel
                     ->addMedia($this->getTestJpg())
