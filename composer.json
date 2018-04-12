@@ -29,7 +29,7 @@
     "illuminate/pipeline": "~5.5.0|~5.6.0",
     "illuminate/support": "~5.5.0|~5.6.0",
     "league/flysystem": "^1.0.8",
-    "maennchen/zipstream-php": "0.4.1",
+    "maennchen/zipstream-php": "~0.4",
     "spatie/image": "^1.4.0",
     "spatie/pdf-to-image": "^1.2",
     "spatie/temporary-directory": "^1.1"
