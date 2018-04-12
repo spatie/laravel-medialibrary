@@ -47,7 +47,7 @@ interface HasMedia
      * @param string         $collectionName
      * @param array|callable $filters
      *
-     * @return \Spatie\MediaLibrary\Media
+     * @return \Illuminate\Support\Collection
      */
     public function getMedia(string $collectionName = 'default', $filters = []);
 
