@@ -14,6 +14,15 @@ class MediaStreamTest extends TestCase
     {
         parent::setUp();
 
+        if ($this->canTestS3()) {
+            foreach (range(1, 3) as $i) {
+                $this->testModel
+                    ->addMedia($this->getTestJpg())
+                    ->preservingOriginal()
+                    ->toMediaCollection('default', 's3_disk');
+            }
+        }
+
         foreach (range(1, 3) as $i) {
             $this->testModel
                 ->addMedia($this->getTestJpg())
@@ -55,5 +64,10 @@ class MediaStreamTest extends TestCase
             ->addMedia([Media::find(1), Media::find(2)]);
 
         $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
+    }
+
+    public function canTestS3()
+    {
+        return ! empty(getenv('AWS_KEY'));
     }
 }
