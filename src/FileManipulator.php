@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
-use Spatie\Image\Image;
 use Illuminate\Support\Facades\File;
+use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Spatie\MediaLibrary\Conversion\Conversion;
@@ -121,8 +121,7 @@ class FileManipulator
             $conversion->format($media->extension);
         }
 
-        Image::load($conversionTempFile)
-            ->useImageDriver(config('medialibrary.image_driver'))
+        ImageFactory::load($conversionTempFile)
             ->manipulate($conversion->getManipulations())
             ->save();
 
