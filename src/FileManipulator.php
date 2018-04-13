@@ -3,9 +3,9 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\Facades\File;
-use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
