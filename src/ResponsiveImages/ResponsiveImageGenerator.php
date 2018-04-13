@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
