@@ -11,7 +11,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - Fix for renaming files when not all conversions are present
 - Fix bugs when working with remote filesystems
 
-## 7.1.3 - 2018-04-13
+## 7.1.5 - 2018-04-13
 
 - Always use the correct image driver.
 
