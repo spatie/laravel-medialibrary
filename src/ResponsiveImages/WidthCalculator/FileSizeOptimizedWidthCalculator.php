@@ -2,14 +2,14 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages\WidthCalculator;
 
-use Spatie\Image\Image;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Helpers\ImageFactory;
 
 class FileSizeOptimizedWidthCalculator implements WidthCalculator
 {
     public function calculateWidthsFromFile(string $imagePath): Collection
     {
-        $image = Image::load($imagePath);
+        $image = ImageFactory::load($imagePath);
 
         $width = $image->getWidth();
         $height = $image->getHeight();
