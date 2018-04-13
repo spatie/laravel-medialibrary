@@ -3,10 +3,10 @@
 namespace Spatie\MediaLibrary;
 
 use Storage;
-use Spatie\Image\Image;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Jobs\PerformConversions;
@@ -131,8 +131,7 @@ class FileManipulator
             $conversion->format($media->extension);
         }
 
-        Image::load($conversionTempFile)
-            ->useImageDriver(config('medialibrary.image_driver'))
+        ImageFactory::load($conversionTempFile)
             ->manipulate($conversion->getManipulations())
             ->save();
 
