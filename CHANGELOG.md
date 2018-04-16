@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.1.6 - 2018-04-16
+
+- Fix `ffprobe` path
+
 ## 7.1.5 - 2018-04-13
 
 - Always use the correct image driver.
