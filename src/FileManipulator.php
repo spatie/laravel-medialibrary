@@ -111,6 +111,8 @@ class FileManipulator
 
                 app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
 
+                $media->setConversionIsGenerated($conversion->getName(), true);
+
                 event(new ConversionHasBeenCompleted($media, $conversion));
             });
 
