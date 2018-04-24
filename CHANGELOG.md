@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.1.7 - 2018-04-24
+
+- improve checking applied traits on the Media model
+
 ## 7.1.6 - 2018-04-16
 
 - Fix `ffprobe` path
