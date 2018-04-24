@@ -41,7 +41,7 @@ trait HasMediaTrait
                 return;
             }
 
-            if (in_array(SoftDeletes::class, trait_uses_recursive($entity))) {
+            if (in_array(SoftDeletes::class, class_uses_recursive($entity))) {
                 if (! $entity->forceDeleting) {
                     return;
                 }
