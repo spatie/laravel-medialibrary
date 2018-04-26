@@ -190,6 +190,8 @@ class CleanCommand extends Command
 
             $media->markAsConversionGenerated($generatedConversionName, false);
 
+            $media->save();
+
             break;
         }
     }

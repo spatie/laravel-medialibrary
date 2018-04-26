@@ -72,6 +72,8 @@ class CleanConversionsTest extends TestCase
 
         $media->markAsConversionGenerated('test-deprecated', true);
 
+        $media->save();
+
         $this->assertTrue($media->hasGeneratedConversion('test-deprecated'));
 
         $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
