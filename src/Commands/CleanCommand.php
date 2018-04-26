@@ -120,6 +120,8 @@ class CleanCommand extends Command
             ->each(function (string $currentFilePath) use ($media) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($media->disk)->delete($currentFilePath);
+
+                    $this->markConversionAsRemoved($media, $currentFilePath);
                 }
 
                 $this->info("Deprecated conversion file `{$currentFilePath}` ".($this->isDryRun ? 'found' : 'has been removed'));
@@ -173,5 +175,22 @@ class CleanCommand extends Command
 
                 $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));
             });
+    }
+
+    protected function markConversionAsRemoved(Media $media, string $conversionPath)
+    {
+        $conversionFile = pathinfo($conversionPath, PATHINFO_FILENAME);
+
+        $generatedConversionName = null;
+
+        foreach ($media->getGeneratedConversions() as $generatedConversionName => $isGenerated) {
+            if (! str_contains($conversionFile, $generatedConversionName)) {
+                continue;
+            }
+
+            $media->markAsConvertionGenerated($generatedConversionName, false);
+
+            break;
+        }
     }
 }

@@ -205,6 +205,8 @@ class Media extends Model implements Responsable, Htmlable
     {
         $this->setCustomProperty("generated_conversions.{$conversionName}", $generated);
 
+        $this->save();
+
         return $this;
     }
 

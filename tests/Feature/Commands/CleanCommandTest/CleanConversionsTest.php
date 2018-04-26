@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Tests\Feature\Commands;
 
 use DB;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
@@ -59,6 +60,29 @@ class CleanConversionsTest extends TestCase
 
         $this->assertFileNotExists($deprecatedImage);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
+    }
+
+    /** @test */
+    public function generated_conversion_are_cleared_after_cleanup()
+    {
+        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        $media = $this->media['model2']['collection1'];
+
+        Media::where('id' , '<>', $media->id)->delete();
+
+        $media->markAsConvertionGenerated('test-deprecated', true);
+
+        $this->assertTrue($media->hasGeneratedConversion('test-deprecated'));
+
+        $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
+
+        touch($deprecatedImage);
+
+        Artisan::call('medialibrary:clean');
+
+        $media->refresh();
+
+        $this->assertFalse($media->hasGeneratedConversion('test-deprecated'));
     }
 
     /** @test */
