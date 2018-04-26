@@ -188,7 +188,7 @@ class CleanCommand extends Command
                 continue;
             }
 
-            $media->markAsConvertionGenerated($generatedConversionName, false);
+            $media->markAsConversionGenerated($generatedConversionName, false);
 
             break;
         }

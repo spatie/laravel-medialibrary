@@ -201,7 +201,7 @@ class Media extends Model implements Responsable, Htmlable
         return $generatedConversions[$conversionName] ?? false;
     }
 
-    public function markAsConvertionGenerated(string $conversionName, bool $generated): self
+    public function markAsConversionGenerated(string $conversionName, bool $generated): self
     {
         $this->setCustomProperty("generated_conversions.{$conversionName}", $generated);
 
