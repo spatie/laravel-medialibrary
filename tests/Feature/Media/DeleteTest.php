@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
 use File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Tests\Support\TestPathGenerator;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 
@@ -95,5 +96,23 @@ class DeleteTest extends TestCase
         $testModel->delete();
 
         $this->assertNull(Media::find($media->id));
+    }
+
+    /** @test */
+    public function it_will_not_remove_the_file_when_model_uses_softdelete()
+    {
+        $testModelClass = new class() extends TestModel {
+            use SoftDeletes;
+        };
+
+        $testModel = $testModelClass::find($this->testModel->id);
+
+        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $testModel = $testModel->fresh();
+
+        $testModel->delete();
+
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
     }
 }
