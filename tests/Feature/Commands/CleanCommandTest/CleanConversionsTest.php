@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Feature\Commands;
 
 use DB;
-use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
@@ -68,7 +68,7 @@ class CleanConversionsTest extends TestCase
         /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = $this->media['model2']['collection1'];
 
-        Media::where('id' , '<>', $media->id)->delete();
+        Media::where('id', '<>', $media->id)->delete();
 
         $media->markAsConvertionGenerated('test-deprecated', true);
 
