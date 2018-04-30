@@ -2,6 +2,12 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## 7.2.0
+
+- Before `hasGeneratedConversion` will work, the custom properties 
+of every media item will have to be re-written in the database, or all conversions must be regenerated.
+This won't break any existing code, but in order to use the new feature, you will need to do a manual update of your media items.
+
 ## 7.1.0
 
 - The `Filesystem` interface is removed, and the `DefaultFilesystem` implementation is renamed to `Filesystem`.
