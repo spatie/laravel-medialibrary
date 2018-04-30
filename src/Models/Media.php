@@ -208,9 +208,9 @@ class Media extends Model implements Responsable, Htmlable
         return $this;
     }
 
-    public function getGeneratedConversions(): array
+    public function getGeneratedConversions(): Collection
     {
-        return $this->getCustomProperty('generated_conversions', []);
+        return collect($this->getCustomProperty('generated_conversions', []));
     }
 
     /**

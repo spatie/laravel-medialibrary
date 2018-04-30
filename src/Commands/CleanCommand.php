@@ -183,16 +183,14 @@ class CleanCommand extends Command
 
         $generatedConversionName = null;
 
-        foreach ($media->getGeneratedConversions() as $generatedConversionName => $isGenerated) {
-            if (! str_contains($conversionFile, $generatedConversionName)) {
-                continue;
-            }
+        $media->getGeneratedConversions()
+            ->filter(function (bool $isGenerated, string $generatedConversionName) use ($conversionFile) {
+                return str_contains($conversionFile, $generatedConversionName);
+            })
+            ->each(function (bool $isGenerated, string $generatedConversionName) use ($media) {
+                $media->markAsConversionGenerated($generatedConversionName, false);
+            });
 
-            $media->markAsConversionGenerated($generatedConversionName, false);
-
-            $media->save();
-
-            break;
-        }
+        $media->save();
     }
 }
