@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.0 - 2018-04-30
+
+- Add `hasGeneratedConversion`
+
 ## 7.2.0 - 2018-04-30
 
 - Add `hasGeneratedConversion` helper on `Media` model.
