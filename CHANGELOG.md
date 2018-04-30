@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.2.0 - 2018-04-30
+
+- Add `hasGeneratedConversion` helper on `Media` model.
+
 ## 7.1.8 - 2018-04-06
 
 - avoid removing the file when the model uses `SoftDeletes`
