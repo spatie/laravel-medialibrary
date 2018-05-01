@@ -129,6 +129,7 @@ trait HasMediaTrait
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
+        $filename = str_replace('%20', ' ', $filename);
 
         if ($filename === '') {
             $filename = 'file';
