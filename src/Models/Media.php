@@ -334,9 +334,8 @@ class Media extends Model implements Responsable, Htmlable
         $newMedia = $model
             ->addMedia($temporaryFile)
             ->usingName($this->name)
+            ->withCustomProperties($this->custom_properties)
             ->toMediaCollection($collectionName);
-
-        $newMedia->custom_properties = $this->custom_properties;
 
         $temporaryDirectory->delete();
 

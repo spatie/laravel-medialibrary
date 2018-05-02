@@ -2,13 +2,13 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.1 - 2018-05-02
+
+- Fix custom properties not saved on copy (#1073)
+
 ## 7.3.0 - 2018-04-30
 
 - Add `hasGeneratedConversion`
-
-## 7.2.0 - 2018-04-30
-
-- Add `hasGeneratedConversion` helper on `Media` model.
 
 ## 7.1.8 - 2018-04-06
 

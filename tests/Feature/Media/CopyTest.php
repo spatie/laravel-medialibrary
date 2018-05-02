@@ -10,8 +10,10 @@ class CopyTest extends TestCase
     /** @test */
     public function it_can_copy_media_from_one_model_to_another()
     {
+        /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);
 
+        /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = $model
             ->addMedia($this->getTestJpg())
             ->usingName('custom-name')
@@ -23,6 +25,8 @@ class CopyTest extends TestCase
         $anotherModel = TestModel::create(['name' => 'another-test']);
 
         $movedMedia = $media->copy($anotherModel, 'images');
+
+        $movedMedia->refresh();
 
         $this->assertCount(1, $model->getMedia('default'));
         $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
