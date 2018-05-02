@@ -47,8 +47,8 @@
     "php-ffmpeg/php-ffmpeg": "<0.6.1"
   },
   "suggest": {
-    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails",
-    "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage"
+    "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage",
+    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
   },
   "autoload": {
     "psr-4": {
