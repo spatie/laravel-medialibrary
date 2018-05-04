@@ -19,7 +19,8 @@ If you want your own filesystem implementation, you should extend the `Filesyste
 ## From v6 to v7
 
 - add the `responsive_images` column in the media table: `$table->json('responsive_images');`
-- rename the `use Spatie\MediaLibrary\HasMedia\interface\HasMedia;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;`
+- rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;`
+- rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;` as well (the distinction was [removed](https://github.com/spatie/laravel-medialibrary/commit/48f371a7b10cc82bbee5b781ab8784acc5ad0fc3#diff-f12df6f7f30b5ee54d9ccc6e56e8f93e)).
 - all converted files should now start with the name of the original file. TODO: add instructions / or maybe a script
 - `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app
 - The method definitions of `Spatie\MediaLibrary\Filesystem\Filesystem::add` and `Spatie\MediaLibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
