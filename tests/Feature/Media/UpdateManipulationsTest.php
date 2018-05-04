@@ -3,16 +3,15 @@
 namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 
 class UpdateManipulationsTest extends TestCase
 {
     /** @test */
     public function it_will_create_derived_files_when_manipulations_have_changed()
     {
-        $testModelClass = new class() extends TestModel
-        {
+        $testModelClass = new class() extends TestModel {
             public function registerMediaConversions(Media $media = null)
             {
                 $this->addMediaConversion('update_test');
@@ -29,8 +28,8 @@ class UpdateManipulationsTest extends TestCase
         $media->manipulations = [
             'update_test' => [
                 'width' => 1,
-                'height' => 1
-            ]
+                'height' => 1,
+            ],
         ];
         $media->save();
         $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
@@ -41,8 +40,7 @@ class UpdateManipulationsTest extends TestCase
     /** @test */
     public function it_will_not_create_derived_files_when_manipulations_have_not_changed()
     {
-        $testModelClass = new class() extends TestModel
-        {
+        $testModelClass = new class() extends TestModel {
             public function registerMediaConversions(Media $media = null)
             {
                 $this->addMediaConversion('update_test');
@@ -56,8 +54,8 @@ class UpdateManipulationsTest extends TestCase
         $media->manipulations = [
             'update_test' => [
                 'width' => 1,
-                'height' => 1
-            ]];
+                'height' => 1,
+            ], ];
         $media->save();
 
         touch($media->getPath('update_test'), time() - 1);
@@ -66,8 +64,8 @@ class UpdateManipulationsTest extends TestCase
         $media->manipulations = [
             'update_test' => [
                 'width' => 1,
-                'height' => 1
-            ]];
+                'height' => 1,
+            ], ];
         $media->updated_at = now()->addSecond();
         $media->save();
 
