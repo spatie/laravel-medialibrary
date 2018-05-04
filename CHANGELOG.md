@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.3 - 2018-05-04
+
+- Add dev dependency on pdo SQLite to prevent confusing errors.
+
 ## 7.3.2 - 2018-05-04
 
 - Fix #1076
