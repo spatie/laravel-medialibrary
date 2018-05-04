@@ -22,7 +22,9 @@ class UpdateManipulationsTest extends TestCase
 
         /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
         touch($media->getPath('update_test'), time() - 1);
+
         $conversionModificationTime = filemtime($media->getPath('update_test'));
 
         $media->manipulations = [
@@ -31,7 +33,9 @@ class UpdateManipulationsTest extends TestCase
                 'height' => 1,
             ],
         ];
+
         $media->save();
+
         $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
 
         $this->assertGreaterThan($conversionModificationTime, $modificationTimeAfterManipulationChanged);
@@ -51,14 +55,17 @@ class UpdateManipulationsTest extends TestCase
 
         /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
         $media->manipulations = [
             'update_test' => [
                 'width' => 1,
                 'height' => 1,
             ], ];
+
         $media->save();
 
         touch($media->getPath('update_test'), time() - 1);
+
         $conversionModificationTime = filemtime($media->getPath('update_test'));
 
         $media->manipulations = [
@@ -66,7 +73,9 @@ class UpdateManipulationsTest extends TestCase
                 'width' => 1,
                 'height' => 1,
             ], ];
+
         $media->updated_at = now()->addSecond();
+
         $media->save();
 
         $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
