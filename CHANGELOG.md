@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.2 - 2018-05-04
+
+- Fix #1076
+
 ## 7.3.1 - 2018-05-02
 
 - Fix custom properties not saved on copy (#1073)
