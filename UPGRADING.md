@@ -2,7 +2,7 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
-## 7.2.0
+## 7.3.0
 
 - Before `hasGeneratedConversion` will work, the custom properties 
 of every media item will have to be re-written in the database, or all conversions must be regenerated.
