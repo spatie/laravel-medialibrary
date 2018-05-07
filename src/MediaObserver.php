@@ -34,7 +34,7 @@ class MediaObserver
     public function deleted(Media $media)
     {
         if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
-            if (! $media->forceDeleting) {
+            if (! $media->isForceDeleting()) {
                 return;
             }
         }

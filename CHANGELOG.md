@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.4 - 2018-05-07
+
+- Proper check and tests on forced deletion with soft delete models.
+
 ## 7.3.3 - 2018-05-04
 
 - Add dev dependency on pdo SQLite to prevent confusing errors.
