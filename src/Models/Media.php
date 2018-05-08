@@ -194,6 +194,25 @@ class Media extends Model implements Responsable, Htmlable
         })->toArray();
     }
 
+    public function hasGeneratedConversion(string $conversionName): bool
+    {
+        $generatedConversions = $this->getGeneratedConversions();
+
+        return $generatedConversions[$conversionName] ?? false;
+    }
+
+    public function markAsConversionGenerated(string $conversionName, bool $generated): self
+    {
+        $this->setCustomProperty("generated_conversions.{$conversionName}", $generated);
+
+        return $this;
+    }
+
+    public function getGeneratedConversions(): Collection
+    {
+        return collect($this->getCustomProperty('generated_conversions', []));
+    }
+
     /**
      * Create an HTTP response that represents the object.
      *
@@ -315,9 +334,8 @@ class Media extends Model implements Responsable, Htmlable
         $newMedia = $model
             ->addMedia($temporaryFile)
             ->usingName($this->name)
+            ->withCustomProperties($this->custom_properties)
             ->toMediaCollection($collectionName);
-
-        $newMedia->custom_properties = $this->custom_properties;
 
         $temporaryDirectory->delete();
 

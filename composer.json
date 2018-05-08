@@ -29,12 +29,13 @@
     "illuminate/pipeline": "~5.5.0|~5.6.0",
     "illuminate/support": "~5.5.0|~5.6.0",
     "league/flysystem": "^1.0.8",
-    "maennchen/zipstream-php": "0.4.1",
+    "maennchen/zipstream-php": "~0.4",
     "spatie/image": "^1.4.0",
     "spatie/pdf-to-image": "^1.2",
     "spatie/temporary-directory": "^1.1"
   },
   "require-dev": {
+    "ext-pdo_sqlite": "*",
     "doctrine/dbal": "^2.5.2",
     "guzzlehttp/guzzle": "^6.3",
     "league/flysystem-aws-s3-v3": "^1.0.13",
@@ -47,8 +48,8 @@
     "php-ffmpeg/php-ffmpeg": "<0.6.1"
   },
   "suggest": {
-    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails",
-    "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage"
+    "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage",
+    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
   },
   "autoload": {
     "psr-4": {

@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
-use Spatie\Image\Image;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
@@ -81,13 +81,12 @@ class ResponsiveImageGenerator
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
-        Image::load($baseImage)
-            ->useImageDriver(config('medialibrary.image_driver'))
+        ImageFactory::load($baseImage)
             ->optimize()
             ->width($targetWidth)
             ->save($tempDestination);
 
-        $responsiveImageHeight = Image::load($tempDestination)->getHeight();
+        $responsiveImageHeight = ImageFactory::load($tempDestination)->getHeight();
 
         $finalImageFileName = $this->appendToFileName($responsiveImagePath, "_{$responsiveImageHeight}");
 
@@ -112,7 +111,7 @@ class ResponsiveImageGenerator
 
         $tinyImageBase64 = 'data:image/jpeg;base64,'.$tinyImageDataBase64;
 
-        $originalImage = Image::load($originalImagePath);
+        $originalImage = ImageFactory::load($originalImagePath);
 
         $originalImageWidth = $originalImage->getWidth();
 

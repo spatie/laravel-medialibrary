@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 
 class MediaObserver
@@ -25,13 +26,19 @@ class MediaObserver
             return;
         }
 
-        if ($media->manipulations !== json_decode($media->getOriginal('manipulations'))) {
+        if ($media->manipulations !== json_decode($media->getOriginal('manipulations'), true)) {
             app(FileManipulator::class)->createDerivedFiles($media);
         }
     }
 
     public function deleted(Media $media)
     {
+        if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
+            if (! $media->isForceDeleting()) {
+                return;
+            }
+        }
+
         app(Filesystem::class)->removeAllFiles($media);
     }
 }
