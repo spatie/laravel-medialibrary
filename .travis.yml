@@ -27,4 +27,3 @@ script:
 branches:
   only:
     - master
-    - laravel55
