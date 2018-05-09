@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.5 - 2018-05-08
+
+- fix bug where `addMediaFromUrl` would not work if the file contained a space
+
 ## 7.3.4 - 2018-05-07
 
 - Proper check and tests on forced deletion with soft delete models.
