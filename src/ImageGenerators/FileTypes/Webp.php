@@ -23,6 +23,18 @@ class Webp extends BaseGenerator
 
     public function requirementsAreInstalled() : bool
     {
+        if (! function_exists('imagecreatefromwebp')) {
+            return false;
+        }
+
+        if (! function_exists('imagepng')) {
+            return false;
+        }
+
+        if (! function_exists('imagedestroy')) {
+            return false;
+        }
+
         return true;
     }
 
