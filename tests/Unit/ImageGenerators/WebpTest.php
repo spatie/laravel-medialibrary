@@ -8,9 +8,13 @@ use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
 class WebpTest extends TestCase
 {
     /** @test */
-    public function it_can_convert_an_image()
+    public function it_can_convert_a_webp()
     {
         $imageGenerator = new Webp();
+
+        if (! $imageGenerator->requirementsAreInstalled()) {
+            $this->markTestSkipped('Skipping pdf test because requirements to run it are not met');
+        }
 
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestWebp())->toMediaCollection();
 
