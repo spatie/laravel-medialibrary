@@ -89,6 +89,8 @@ class RegenerateCommand extends Command
         if ($mediaIds) {
             if (! is_array($mediaIds)) {
                 $mediaIds = explode(',', $mediaIds);
+            } elseif (count($mediaIds) === 1 && str_contains($mediaIds[0], ',')) {
+                $mediaIds = explode(',', $mediaIds[0]);
             }
 
             return $this->mediaRepository->getByIds($mediaIds);
