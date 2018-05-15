@@ -189,6 +189,11 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('test.svg');
     }
 
+    public function getTestWebp()
+    {
+        return $this->getTestFilesDirectory('test.webp');
+    }
+
     private function setUpMorphMap()
     {
         Relation::morphMap([
