@@ -40,7 +40,7 @@ class RegenerateCommand extends Command
 
     public function handle()
     {
-        if (!$this->confirmToProceed()) {
+        if (! $this->confirmToProceed()) {
             return;
         }
 
@@ -86,7 +86,7 @@ class RegenerateCommand extends Command
             return $this->mediaRepository->all();
         }
 
-        if (!count($mediaIds)) {
+        if (! count($mediaIds)) {
             return $this->mediaRepository->getByModelType($modelType);
         }
 
@@ -97,7 +97,7 @@ class RegenerateCommand extends Command
     {
         $mediaIds = $this->option('ids');
 
-        if (!is_array($mediaIds)) {
+        if (! is_array($mediaIds)) {
             $mediaIds = explode(',', $mediaIds);
         }
 
