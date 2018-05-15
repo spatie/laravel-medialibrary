@@ -40,7 +40,7 @@ class RegenerateCommand extends Command
 
     public function handle()
     {
-        if (! $this->confirmToProceed()) {
+        if (!$this->confirmToProceed()) {
             return;
         }
 
@@ -80,22 +80,31 @@ class RegenerateCommand extends Command
     public function getMediaToBeRegenerated(): Collection
     {
         $modelType = $this->argument('modelType') ?? '';
-        $mediaIds = $this->option('ids');
+        $mediaIds = $this->getMediaIds();
 
-        if ($modelType === '' && ! $mediaIds) {
+        if ($modelType === '' && count($mediaIds) === 0) {
             return $this->mediaRepository->all();
         }
 
-        if ($mediaIds) {
-            if (! is_array($mediaIds)) {
-                $mediaIds = explode(',', $mediaIds);
-            } elseif (count($mediaIds) === 1 && str_contains($mediaIds[0], ',')) {
-                $mediaIds = explode(',', $mediaIds[0]);
-            }
-
-            return $this->mediaRepository->getByIds($mediaIds);
+        if (!count($mediaIds)) {
+            return $this->mediaRepository->getByModelType($modelType);
         }
 
-        return $this->mediaRepository->getByModelType($modelType);
+        return $this->mediaRepository->getByIds($mediaIds);
+    }
+
+    protected function getMediaIds(): array
+    {
+        $mediaIds = $this->option('ids');
+
+        if (!is_array($mediaIds)) {
+            $mediaIds = explode(',', $mediaIds);
+        }
+
+        if (count($mediaIds) === 1 && str_contains($mediaIds[0], ',')) {
+            $mediaIds = explode(',', $mediaIds[0]);
+        }
+
+        return $mediaIds;
     }
 }
