@@ -21,7 +21,7 @@ return [
     'queue_name' => '',
 
     /*
-     * The class names of the models that should be used.
+     * The fully qualified class name of the media model.
      */
     'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
