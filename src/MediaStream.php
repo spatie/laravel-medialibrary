@@ -63,15 +63,51 @@ class MediaStream implements Responsable
         return new StreamedResponse(function () {
             $zip = new ZipStream($this->zipName);
 
-            $this->mediaItems->each(function (Media $media) use ($zip) {
-                $stream = $media->stream();
+            $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
+                $stream = $mediaInZip['media']->stream();
 
-                $zip->addFileFromStream($media->file_name, $stream);
+                $zip->addFileFromStream($mediaInZip['fileNameInZip'], $stream);
 
                 fclose($stream);
             });
 
             $zip->finish();
         });
+    }
+
+    protected function getZipStreamContents(): Collection
+    {
+        return $this->mediaItems->map(function (Media $media, $mediaItemIndex) {
+            return [
+                'fileNameInZip' => $this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
+                'media' => $media,
+            ];
+        });
+    }
+
+    protected function getFileNameWithSuffix(Collection $mediaItems, int $currentIndex): string
+    {
+        $fileNameCount = 0;
+
+        $fileName = $mediaItems[$currentIndex]->file_name;
+
+        foreach($mediaItems as $index => $media) {
+            if ($index >= $currentIndex) {
+                break;
+            }
+
+            if ($media->file_name === $fileName) {
+                $fileNameCount++;
+            }
+        }
+
+        if ($fileNameCount === 0) {
+            return $fileName;
+        }
+
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        $fileNameWithoutExtension = pathinfo($fileName, PATHINFO_FILENAME);
+
+        return "{$fileNameWithoutExtension} ({$fileNameCount}).{$extension}";
     }
 }
