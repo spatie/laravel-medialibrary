@@ -46,6 +46,8 @@ class ResponsiveImageGenerator
             $temporaryDirectory->path(str_random(16).'.'.$media->extension)
         );
 
+        $media = $this->cleanResponsiveImagesUrls($media, 'medialibrary_original');
+
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
         }
@@ -60,6 +62,8 @@ class ResponsiveImageGenerator
     public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage)
     {
         $temporaryDirectory = TemporaryDirectory::create();
+
+        $media = $this->cleanResponsiveImagesUrls($media, $conversion->getName());
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory);
@@ -148,5 +152,14 @@ class ResponsiveImageGenerator
         if ($mimeType !== 'image/jpeg') {
             throw InvalidTinyJpg::hasWrongMimeType($tinyPlaceholderPath);
         }
+    }
+
+    private function cleanResponsiveImagesUrls(Media $media, string $conversionName)
+    {
+        $responsiveImages = $media->responsive_images;
+        $responsiveImages[$conversionName]['urls'] = [];
+        $media->responsive_images = $responsiveImages;
+
+        return $media;
     }
 }
