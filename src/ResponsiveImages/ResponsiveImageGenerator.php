@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Illuminate\Support\Facades\Storage;
 
 class ResponsiveImageGenerator
 {
@@ -46,7 +47,7 @@ class ResponsiveImageGenerator
             $temporaryDirectory->path(str_random(16).'.'.$media->extension)
         );
 
-        $media = $this->cleanResponsiveImagesUrls($media, 'medialibrary_original');
+        $media = $this->cleanResponsiveImages($media);
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
@@ -63,7 +64,7 @@ class ResponsiveImageGenerator
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $media = $this->cleanResponsiveImagesUrls($media, $conversion->getName());
+        $media = $this->cleanResponsiveImages($media, $conversion->getName());
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory);
@@ -154,11 +155,19 @@ class ResponsiveImageGenerator
         }
     }
 
-    private function cleanResponsiveImagesUrls(Media $media, string $conversionName)
+    private function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original'): Media
     {
         $responsiveImages = $media->responsive_images;
         $responsiveImages[$conversionName]['urls'] = [];
         $media->responsive_images = $responsiveImages;
+
+        $files = array_filter(
+            Storage::disk('media')->allFiles("{$media->id}/responsive-images"),
+            function ($path) use ($conversionName) {
+                return str_contains($path, $conversionName);
+            }
+        );
+        Storage::disk('media')->delete($files);
 
         return $media;
     }
