@@ -155,19 +155,23 @@ class ResponsiveImageGenerator
         }
     }
 
-    private function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original'): Media
+    private function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original') : Media
     {
         $responsiveImages = $media->responsive_images;
         $responsiveImages[$conversionName]['urls'] = [];
         $media->responsive_images = $responsiveImages;
 
+        $responsiveImagesDirectory = $this->filesystem->getResponsiveImagesDirectory($media);
+        $storage = Storage::disk($media->disk);
+
         $files = array_filter(
-            Storage::disk('media')->allFiles("{$media->id}/responsive-images"),
+            $storage->allFiles($responsiveImagesDirectory),
             function ($path) use ($conversionName) {
                 return str_contains($path, $conversionName);
             }
         );
-        Storage::disk('media')->delete($files);
+
+        $storage->delete($files);
 
         return $media;
     }
