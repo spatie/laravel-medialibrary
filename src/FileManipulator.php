@@ -89,7 +89,7 @@ class FileManipulator
                 return $onlyIfMissing && Storage::disk($media->disk)->exists($relativePath);
             })
             ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
-                event(new ConversionWillStart($media, $conversion));
+                event(new ConversionWillStart($media, $conversion, $copiedOriginalFile));
 
                 $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 

@@ -16,10 +16,15 @@ class ConversionWillStart
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */
     public $conversion;
 
-    public function __construct(Media $media, Conversion $conversion)
+    /** @var String */
+    public $copiedOriginalFile;
+
+    public function __construct(Media $media, Conversion $conversion, String $copiedOriginalFile)
     {
         $this->media = $media;
 
         $this->conversion = $conversion;
+
+        $this->copiedOriginalFile = $copiedOriginalFile;
     }
 }
