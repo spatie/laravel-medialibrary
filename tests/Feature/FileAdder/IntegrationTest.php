@@ -564,7 +564,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    function it_can_set_relations_to_the_saved_media()
+    public function it_can_set_relations_to_the_saved_media()
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
