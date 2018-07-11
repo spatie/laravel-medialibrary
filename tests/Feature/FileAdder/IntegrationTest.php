@@ -562,4 +562,15 @@ class IntegrationTest extends TestCase
 
         $this->assertCount(2, $media);
     }
+
+    /** @test */
+    function it_can_set_relations_to_the_saved_media()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withRelations(['model' => $this->testModel])
+            ->toMediaCollection();
+
+        $this->assertSame($this->testModel, $media->model);
+    }
 }
