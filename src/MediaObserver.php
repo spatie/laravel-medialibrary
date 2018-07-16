@@ -27,7 +27,12 @@ class MediaObserver
         }
 
         if ($media->manipulations !== json_decode($media->getOriginal('manipulations'), true)) {
+            $eventDispatcher = Media::getEventDispatcher();
+            Media::unsetEventDispatcher();
+
             app(FileManipulator::class)->createDerivedFiles($media);
+
+            Media::setEventDispatcher($eventDispatcher);
         }
     }
 
