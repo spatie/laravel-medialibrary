@@ -7,7 +7,9 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - Fix for multiple files with the same filename in one ZIP archive
 - Fix `markAsConversionGenerated`: disable model events when saving extra properties in Media::updated event
 
-## 7.3.9 - 2018-06-16
+## 7.3.9 - 2018-06-16 
+
+**do not use - broken**
 
 - fix `markAsConversionGenerated`
 
