@@ -91,7 +91,7 @@ class MediaStream implements Responsable
 
         $fileName = $mediaItems[$currentIndex]->file_name;
 
-        foreach($mediaItems as $index => $media) {
+        foreach ($mediaItems as $index => $media) {
             if ($index >= $currentIndex) {
                 break;
             }

@@ -2,13 +2,13 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature;
 
+use ZipArchive;
 use Spatie\MediaLibrary\MediaStream;
 use Illuminate\Support\Facades\Route;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use ZipArchive;
 
 class MediaStreamTest extends TestCase
 {
@@ -81,10 +81,12 @@ class MediaStreamTest extends TestCase
     {
         $this->assertTrue($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} contains a file name {$filename}");
     }
+
     protected function assertFileDoesntExistsInZip($zipPath, $filename)
     {
         $this->assertFalse($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} doesn't contain a file name {$filename}");
     }
+
     protected function fileExistsInZip($zipPath, $filename): bool
     {
         $zip = new ZipArchive();
@@ -92,6 +94,7 @@ class MediaStreamTest extends TestCase
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
         }
+
         return false;
     }
 }
