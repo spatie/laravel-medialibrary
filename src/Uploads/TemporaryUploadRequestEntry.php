@@ -30,6 +30,7 @@ class TemporaryUploadRequestEntry
     public function __construct(TemporaryUpload $temporaryUpload, string $name)
     {
         $this->temporaryUpload = $temporaryUpload;
+
         $this->name = $name;
     }
 
