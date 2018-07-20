@@ -19,7 +19,7 @@ class TemporaryUploadRequestEntry
     {
         return collect($request->get($keyName))
             ->map(function ($temporaryUploadProperties) {
-                $temporaryUpload = TemporaryUpload::findBySessionId($temporaryUploadProperties['id'], session()->getId());
+                $temporaryUpload = TemporaryUpload::findByUploadId($temporaryUploadProperties['upload_id'], session()->getId());
 
                 //TODO: throw exception when temporary upload is not found
 

@@ -17,6 +17,17 @@ class TemporaryUpload extends Model implements HasMedia
 
     protected $guarded = [];
 
+    public static function boot()
+    {
+        self::creating(function (TemporaryUpload $temporaryUpload) {
+            if ($temporaryUpload->upload_id !== null) {
+                return;
+            }
+
+            $temporaryUpload->upload_id = Uuid::uuid4();
+        });
+    }
+
     public static function findById(string $uploadId): ?TemporaryUpload
     {
         return static::where('id', $uploadId)
@@ -24,9 +35,9 @@ class TemporaryUpload extends Model implements HasMedia
             ->first();
     }
 
-    public static function findBySessionId(string $id, string $sessionId): ?TemporaryUpload
+    public static function findByUploadId(string $uploadId, string $sessionId): ?TemporaryUpload
     {
-        return static::where('id', $id)
+        return static::where('upload_id', $uploadId)
             ->where('session_id', $sessionId)
             ->first();
     }

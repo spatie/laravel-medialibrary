@@ -57,6 +57,13 @@ class FileAdderFactory
         return static::createMultipleFromRequest($subject, $fileKeys);
     }
 
+    public static function createFromTemporaryUploads(Model $subject, Collection $temporaryUploadRequestEntries): Collection
+    {
+        return $temporaryUploadRequestEntries->map(function (TemporaryUploadRequestEntry $temporaryUploadRequestEntry) use ($subject) {
+            return self::createFromTemporaryUpload($subject, $temporaryUploadRequestEntry);
+        });
+    }
+
     public static function createFromTemporaryUpload(Model $subject, TemporaryUploadRequestEntry $temporaryUploadRequestEntry): FileAdder
     {
         $temporaryDirectory = TemporaryDirectory::create();
@@ -74,6 +81,7 @@ class FileAdderFactory
 
         $fileAdder->afterFileHasBeenAdded(function () use ($temporaryDirectory, $temporaryUploadRequestEntry) {
             $temporaryDirectory->delete();
+
             $temporaryUploadRequestEntry->temporaryUpload->delete();
         });
 
