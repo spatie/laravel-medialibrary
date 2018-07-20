@@ -35,7 +35,7 @@ class TemporaryUpload extends Model implements HasMedia
             ->first();
     }
 
-    public static function findByUploadId(string $uploadId, string $sessionId): ?TemporaryUpload
+    public static function findBySessionId(string $uploadId, string $sessionId): ?TemporaryUpload
     {
         return static::where('upload_id', $uploadId)
             ->where('session_id', $sessionId)
