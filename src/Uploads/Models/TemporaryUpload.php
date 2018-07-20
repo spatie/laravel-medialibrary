@@ -42,15 +42,6 @@ class TemporaryUpload extends Model implements HasMedia
             ->first();
     }
 
-    public function registerMediaConversions(Media $media = null)
-    {
-        $this->addMediaConversion('preview')
-            ->width(300)
-            ->height(300)
-            ->nonQueued()
-            ->optimize();
-    }
-
     public static function createForFile(UploadedFile $file, string $sessionId): TemporaryUpload
     {
         $temporaryUpload = static::create([
@@ -63,6 +54,15 @@ class TemporaryUpload extends Model implements HasMedia
             ->save();
 
         return $temporaryUpload->fresh();
+    }
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('preview')
+            ->width(300)
+            ->height(300)
+            ->nonQueued()
+            ->optimize();
     }
 
     public function scopeOld(Builder $builder)
