@@ -32,6 +32,7 @@ class TemporaryUploadControllerTest extends TestCase
         $temporaryUpload = TemporaryUpload::first();
 
         $this->assertCount(1, $temporaryUpload->getMedia());
-        $this->assertNotEmpty($temporaryUpload->session_id);
+
+        $this->assertEquals(session()->getId(), $temporaryUpload->session_id);
     }
 }
