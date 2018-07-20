@@ -25,6 +25,11 @@ return [
      */
     'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
+    /**
+     * The fully qualified class name of the temporary upload model.
+     */
+    'temporary_upload_model' => Spatie\MediaLibrary\Uploads\Models\TemporaryUpload::class,
+
     's3' => [
         /*
          * The domain that should be prepended when generating urls.

@@ -349,6 +349,17 @@ class Media extends Model implements Responsable, Htmlable
         return new RegisteredResponsiveImages($this, $conversionName);
     }
 
+    public function belongsToSession(string $sessionId): bool
+    {
+        $temporaryUploadClass = config('medialibrary.temporary_upload_model');
+
+        if (! $this->model instanceof $temporaryUploadClass) {
+            return false;
+        }
+
+        return $this->model->session_id === $sessionId;
+    }
+
     public function stream()
     {
         $filesystem = app(Filesystem::class);

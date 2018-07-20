@@ -19,6 +19,7 @@ use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
+use Spatie\MediaLibrary\Uploads\TemporaryUploadRequestEntry;
 
 trait HasMediaTrait
 {
@@ -539,5 +540,21 @@ trait HasMediaTrait
         });
 
         $this->registerMediaConversions($media);
+    }
+
+    public function addMediaFromTemporaryUploads(string $requestKeyName): Collection
+    {
+        $temporaryUploadRequestEntries = TemporaryUploadRequestEntry::createFromRequest(request(), $requestKeyName);
+
+        return app(FileAdderFactory::class)->createFromTemporaryUploads($this, $temporaryUploadRequestEntries);
+    }
+
+    public function addMediaFromTemporaryUpload(string $requestKeyName): FileAdder
+    {
+        $temporaryUploadRequestEntries = TemporaryUploadRequestEntry::createFromRequest(request(), $requestKeyName);
+
+        $temporaryUploadRequestEntry = $temporaryUploadRequestEntries->first();
+
+        return app(FileAdderFactory::class)->createFromTemporaryUpload($this, $temporaryUploadRequestEntry);
     }
 }

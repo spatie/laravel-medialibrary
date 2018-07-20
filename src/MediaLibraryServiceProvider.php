@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
@@ -9,6 +10,7 @@ use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Spatie\MediaLibrary\Uploads\Commands\DeleteOldTemporaryUploads;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,16 @@ class MediaLibraryServiceProvider extends ServiceProvider
                 __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
             ], 'migrations');
         }
+
+        if (! class_exists('CreateTemporaryUploadsTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_temporary_uploads_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_temporary_uploads_table.php'),
+            ], 'migrations');
+        }
+
+        Route::macro('temporaryUploads', function ($url) {
+            return Route::post($url, '\Spatie\MediaLibrary\Uploads\Http\Controllers\TemporaryUploadController@store');
+        });
 
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/medialibrary'),
@@ -48,6 +60,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.medialibrary:regenerate', RegenerateCommand::class);
         $this->app->bind('command.medialibrary:clear', ClearCommand::class);
         $this->app->bind('command.medialibrary:clean', CleanCommand::class);
+        $this->app->bind('command.medialibrary:delete-old-temporary-uploads', DeleteOldTemporaryUploads::class);
 
         $this->app->bind(Filesystem::class, Filesystem::class);
 
@@ -58,6 +71,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             'command.medialibrary:regenerate',
             'command.medialibrary:clear',
             'command.medialibrary:clean',
+            'command.medialibrary:delete-old-temporary-uploads',
         ]);
 
         $this->registerDeprecatedConfig();
