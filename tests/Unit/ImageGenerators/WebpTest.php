@@ -13,7 +13,7 @@ class WebpTest extends TestCase
         $imageGenerator = new Webp();
 
         if (! $imageGenerator->requirementsAreInstalled()) {
-            $this->markTestSkipped('Skipping pdf test because requirements to run it are not met');
+            $this->markTestSkipped('Skipping webp test because requirements to run it are not met');
         }
 
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestWebp())->toMediaCollection();
