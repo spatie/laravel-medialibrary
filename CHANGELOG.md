@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.11 - 2018-07-27
+
+- Add `$copiedOriginalFile` to the `ConversionWillStart` event
+
 ## 7.3.10 - 2018-06-16
 
 - Fix for multiple files with the same filename in one ZIP archive
