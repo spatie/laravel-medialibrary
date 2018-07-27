@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\MediaLibrary\Helpers\File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Contracts\Support\Htmlable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Contracts\Support\Responsable;
@@ -24,7 +25,8 @@ use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 class Media extends Model implements Responsable, Htmlable
 {
     use IsSorted,
-        CustomMediaProperties;
+        CustomMediaProperties,
+        Macroable;
 
     const TYPE_OTHER = 'other';
 
