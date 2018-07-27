@@ -89,7 +89,7 @@ class ToHtmlTest extends TestCase
 
         $image = $media->refresh()->img();
 
-        $this->assertEquals(3, substr_count($image, '/media/2/responsive-images/'));
+        $this->assertEquals(3, substr_count($image, DIRECTORY_SEPARATOR . 'media/2/responsive-images/'));
         $this->assertTrue(str_contains($image, 'data:image/svg+xml;base64,'));
     }
 
@@ -102,7 +102,7 @@ class ToHtmlTest extends TestCase
 
         $image = $media->refresh()->img('thumb');
 
-        $this->assertContains('/media/2/responsive-images/', $image);
+        $this->assertContains(DIRECTORY_SEPARATOR . 'media/2/responsive-images/', $image);
         $this->assertContains('data:image/svg+xml;base64,', $image);
     }
 

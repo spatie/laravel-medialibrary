@@ -17,13 +17,13 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals([
-            '/media/1/responsive-images/test___medialibrary_original_340_280.jpg',
-            '/media/1/responsive-images/test___medialibrary_original_284_233.jpg',
-            '/media/1/responsive-images/test___medialibrary_original_237_195.jpg',
+            DIRECTORY_SEPARATOR . 'media/1/responsive-images/test___medialibrary_original_340_280.jpg',
+            DIRECTORY_SEPARATOR . 'media/1/responsive-images/test___medialibrary_original_284_233.jpg',
+            DIRECTORY_SEPARATOR . 'media/1/responsive-images/test___medialibrary_original_237_195.jpg',
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([
-            '/media/1/responsive-images/test___thumb_50_41.jpg',
+            DIRECTORY_SEPARATOR . 'media/1/responsive-images/test___thumb_50_41.jpg',
         ], $media->getResponsiveImageUrls('thumb'));
 
         $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));

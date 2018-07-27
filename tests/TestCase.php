@@ -146,17 +146,17 @@ abstract class TestCase extends Orchestra
 
     public function getTempDirectory($suffix = '')
     {
-        return __DIR__.'/Support/temp'.($suffix == '' ? '' : '/'.$suffix);
+        return __DIR__ . DIRECTORY_SEPARATOR . 'Support' . DIRECTORY_SEPARATOR . 'temp' . ($suffix == '' ? '' : DIRECTORY_SEPARATOR . $suffix);
     }
 
     public function getMediaDirectory($suffix = '')
     {
-        return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
+        return $this->getTempDirectory() . DIRECTORY_SEPARATOR . 'media' . ($suffix == '' ? '' : DIRECTORY_SEPARATOR . $suffix);
     }
 
     public function getTestFilesDirectory($suffix = '')
     {
-        return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
+        return $this->getTempDirectory() . DIRECTORY_SEPARATOR . 'testfiles' . ($suffix == '' ? '' : DIRECTORY_SEPARATOR . $suffix);
     }
 
     public function getTestJpg()
