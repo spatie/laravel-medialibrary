@@ -16,7 +16,7 @@ class ConversionWillStart
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */
     public $conversion;
 
-    /** @var String */
+    /** @var string */
     public $copiedOriginalFile;
 
     public function __construct(Media $media, Conversion $conversion, String $copiedOriginalFile)
