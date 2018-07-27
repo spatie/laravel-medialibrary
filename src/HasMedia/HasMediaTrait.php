@@ -246,6 +246,22 @@ trait HasMediaTrait
     }
 
     /*
+     * Get the full url of the image for the given conversionName
+     * for first media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getFirstMediaFullUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        $media = $this->getFirstMedia($collectionName);
+
+        if (! $media) {
+            return '';
+        }
+
+        return $media->getFullUrl($conversionName);
+    }
+
+    /*
      * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
