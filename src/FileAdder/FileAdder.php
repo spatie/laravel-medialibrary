@@ -63,6 +63,9 @@ class FileAdder
     /** @var array */
     protected $customHeaders = [];
 
+    /** @var array */
+    protected $relations = [];
+
     /**
      * @param Filesystem $fileSystem
      */
@@ -182,6 +185,13 @@ class FileAdder
         return $this->withProperties($properties);
     }
 
+    public function withRelations(array $relations): self
+    {
+        $this->relations = $relations;
+
+        return $this;
+    }
+
     public function withResponsiveImages(): self
     {
         $this->generateResponsiveImages = true;
@@ -242,6 +252,8 @@ class FileAdder
         $media->setCustomHeaders($this->customHeaders);
 
         $media->fill($this->properties);
+
+        $media->setRelations($this->relations);
 
         $this->attachMedia($media);
 
