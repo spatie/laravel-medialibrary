@@ -161,17 +161,7 @@ class ResponsiveImageGenerator
         $responsiveImages[$conversionName]['urls'] = [];
         $media->responsive_images = $responsiveImages;
 
-        $responsiveImagesDirectory = $this->filesystem->getResponsiveImagesDirectory($media);
-        $storage = Storage::disk($media->disk);
-
-        $files = array_filter(
-            $storage->allFiles($responsiveImagesDirectory),
-            function ($path) use ($conversionName) {
-                return str_contains($path, $conversionName);
-            }
-        );
-
-        $storage->delete($files);
+        $this->filesystem->removeResponsiveImages($media, $conversionName);
 
         return $media;
     }

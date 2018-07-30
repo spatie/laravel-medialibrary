@@ -56,8 +56,6 @@ class ResponsiveImageGeneratorTest extends TestCase
 
         $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
 
-        sleep(1);
-
         Artisan::call('medialibrary:regenerate');
 
         $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
