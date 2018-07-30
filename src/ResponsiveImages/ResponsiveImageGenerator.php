@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
@@ -13,7 +14,6 @@ use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
-use Illuminate\Support\Facades\Storage;
 
 class ResponsiveImageGenerator
 {
@@ -155,7 +155,7 @@ class ResponsiveImageGenerator
         }
     }
 
-    private function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original') : Media
+    protected function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original') : Media
     {
         $responsiveImages = $media->responsive_images;
         $responsiveImages[$conversionName]['urls'] = [];
