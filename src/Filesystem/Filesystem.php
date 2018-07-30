@@ -120,7 +120,8 @@ class Filesystem
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    public function removeResponsiveImages(Media $media, string $conversionName = 'medialibrary_original') {
+    public function removeResponsiveImages(Media $media, string $conversionName = 'medialibrary_original')
+    {
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
         $allFilePaths = $this->filesystem->allFiles($responsiveImagesDirectory);
