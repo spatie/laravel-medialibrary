@@ -2,14 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.3.12 - 2018-07-30
+
+- make sure previews responsive images db entries get cleaned up before regenerating
+
 ## 7.3.11 - 2018-07-27
 
-- Add `$copiedOriginalFile` to the `ConversionWillStart` event
+- add `$copiedOriginalFile` to the `ConversionWillStart` event
 
 ## 7.3.10 - 2018-06-16
 
-- Fix for multiple files with the same filename in one ZIP archive
-- Fix `markAsConversionGenerated`: disable model events when saving extra properties in Media::updated event
+- fix for multiple files with the same filename in one ZIP archive
+- fix `markAsConversionGenerated`: disable model events when saving extra properties in Media::updated event
 
 ## 7.3.9 - 2018-06-16 
 
@@ -35,19 +39,19 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 7.3.4 - 2018-05-07
 
-- Proper check and tests on forced deletion with soft delete models.
+- proper check and tests on forced deletion with soft delete models.
 
 ## 7.3.3 - 2018-05-04
 
-- Add dev dependency on pdo SQLite to prevent confusing errors.
+- add dev dependency on pdo SQLite to prevent confusing errors.
 
 ## 7.3.2 - 2018-05-04
 
-- Fix #1076
+- fix #1076
 
 ## 7.3.1 - 2018-05-02
 
-- Fix custom properties not saved on copy (#1073)
+- fix custom properties not saved on copy (#1073)
 
 ## 7.3.0 - 2018-04-30
 
@@ -63,11 +67,11 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 7.1.6 - 2018-04-16
 
-- Fix `ffprobe` path
+- fix `ffprobe` path
 
 ## 7.1.5 - 2018-04-13
 
-- Always use the correct image driver.
+- always use the correct image driver.
 
 ## 7.1.4 - 2018-04-13
 
@@ -80,12 +84,12 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 7.1.2 - 2018-03-22
 
-- Fix a typo in `medialibrary.disk_name`.
+- fix a typo in `medialibrary.disk_name`.
 
 ## 7.1.0 - 2018-03-22
 
 - `Filesystem` interface removed.
-- Rename `Filesytem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
+- rename `Filesytem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
 - The `default_filesystem` config key has been changed to `disk_name`.
 
 ## 7.0.6 - 2018-03-22
