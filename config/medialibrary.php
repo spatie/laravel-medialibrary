@@ -68,6 +68,12 @@ return [
          * the medialibrary will use a tiny blurred jpg image.
          */
         'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
+
+        /*
+         * By enabling this setting, the sources generated for the responsive images
+         * will include the domain based on the app url.
+         */
+        'generate_absolute_urls' => false,
     ],
 
     /*
