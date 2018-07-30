@@ -57,7 +57,25 @@ class ResponsiveImageGeneratorTest extends TestCase
         $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
 
         Artisan::call('medialibrary:regenerate');
+        $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
+    }
 
+    /** @test */
+    public function it_will_add_responsive_image_entries_when_there_were_none_when_regenerating()
+    {
+        $media = $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        // remove all responsive image db entries
+        $responsiveImages = $media->responsive_images;
+        $responsiveImages['thumb']['urls'] = [];
+        $media->responsive_images = $responsiveImages;
+        $media->save();
+        $this->assertCount(0, $media->fresh()->responsive_images['thumb']['urls']);
+
+        Artisan::call('medialibrary:regenerate');
         $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
     }
 }
