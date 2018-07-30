@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
@@ -46,6 +47,8 @@ class ResponsiveImageGenerator
             $temporaryDirectory->path(str_random(16).'.'.$media->extension)
         );
 
+        $media = $this->cleanResponsiveImages($media);
+
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
         }
@@ -60,6 +63,8 @@ class ResponsiveImageGenerator
     public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage)
     {
         $temporaryDirectory = TemporaryDirectory::create();
+
+        $media = $this->cleanResponsiveImages($media, $conversion->getName());
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory);
@@ -148,5 +153,26 @@ class ResponsiveImageGenerator
         if ($mimeType !== 'image/jpeg') {
             throw InvalidTinyJpg::hasWrongMimeType($tinyPlaceholderPath);
         }
+    }
+
+    protected function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original') : Media
+    {
+        $responsiveImages = $media->responsive_images;
+        $responsiveImages[$conversionName]['urls'] = [];
+        $media->responsive_images = $responsiveImages;
+
+        $responsiveImagesDirectory = $this->filesystem->getResponsiveImagesDirectory($media);
+        $storage = Storage::disk($media->disk);
+
+        $files = array_filter(
+            $storage->allFiles($responsiveImagesDirectory),
+            function ($path) use ($conversionName) {
+                return str_contains($path, $conversionName);
+            }
+        );
+
+        $storage->delete($files);
+
+        return $media;
     }
 }

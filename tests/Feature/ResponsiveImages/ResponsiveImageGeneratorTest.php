@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
 
@@ -43,5 +44,22 @@ class ResponsiveImageGeneratorTest extends TestCase
             ->toMediaCollection();
 
         Event::assertDispatched(ResponsiveImagesGenerated::class);
+    }
+
+    /** @test */
+    public function it_cleans_the_responsive_images_urls_from_the_db_before_regeneration()
+    {
+        $media = $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
+
+        sleep(1);
+
+        Artisan::call('medialibrary:regenerate');
+
+        $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
     }
 }
