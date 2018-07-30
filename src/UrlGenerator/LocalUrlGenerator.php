@@ -93,11 +93,11 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     protected function getResponsiveDomain(): string
     {
-        if (!$this->config->get('medialibrary.responsive_images.generate_absolute_urls')) {
-            return '';
+        if ($this->config->get('medialibrary.responsive_images.generate_absolute_urls')) {
+            return url('');
         }
 
-        return url('');
+        return '';
     }
 
     /**
