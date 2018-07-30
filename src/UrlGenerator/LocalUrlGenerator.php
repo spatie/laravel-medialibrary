@@ -87,7 +87,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
     }
 
     /*
-     * Returns the base url if settings allow for it
+     * Returns the base url if the setting allows for it
      *
      * @return string
      */
