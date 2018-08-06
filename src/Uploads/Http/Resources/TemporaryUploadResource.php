@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\Resource;
 /**
  * @mixin \Spatie\MediaLibrary\Uploads\Models\TemporaryUpload
  */
-class MediaResource extends Resource
+class TemporaryUploadResource extends Resource
 {
     public function toArray($request): array
     {
