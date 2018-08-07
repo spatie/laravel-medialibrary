@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Unit\ImageGenerators;
 
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestImageGenerator;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\Support\TestImageGenerator;
 
 class DualTypeCheckingTest extends TestCase
 {
@@ -18,8 +18,8 @@ class DualTypeCheckingTest extends TestCase
         $generator->supportedExtensions->push('supported-extension');
 
         $media = new Media();
-        $media->mime_type = "supported-mime-type";
-        $media->file_name = "some-file.supported-extension";
+        $media->mime_type = 'supported-mime-type';
+        $media->file_name = 'some-file.supported-extension';
 
         $this->assertTrue($generator->canConvert($media));
     }
@@ -34,8 +34,8 @@ class DualTypeCheckingTest extends TestCase
         $generator->supportedExtensions->push('supported-extension');
 
         $media = new Media();
-        $media->mime_type = "invalid-mime-type";
-        $media->file_name = "some-file.invalid-extension";
+        $media->mime_type = 'invalid-mime-type';
+        $media->file_name = 'some-file.invalid-extension';
 
         $this->assertFalse($generator->canConvert($media));
     }
@@ -50,8 +50,8 @@ class DualTypeCheckingTest extends TestCase
         $generator->supportedExtensions->push('supported-extension');
 
         $media = new Media();
-        $media->mime_type = "supported-mime-type";
-        $media->file_name = "some-file.invalid-extension";
+        $media->mime_type = 'supported-mime-type';
+        $media->file_name = 'some-file.invalid-extension';
 
         $this->assertFalse($generator->canConvert($media));
     }
@@ -66,8 +66,8 @@ class DualTypeCheckingTest extends TestCase
         $generator->supportedMimetypes->push('supported-mime-type');
 
         $media = new Media();
-        $media->mime_type = "invalid-mime-type";
-        $media->file_name = "some-file.supported-extension";
+        $media->mime_type = 'invalid-mime-type';
+        $media->file_name = 'some-file.supported-extension';
 
         $this->assertFalse($generator->canConvert($media));
     }
