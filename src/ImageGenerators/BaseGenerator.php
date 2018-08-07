@@ -13,15 +13,14 @@ abstract class BaseGenerator implements ImageGenerator
             return false;
         }
 
-        if ($this->supportedExtensions()->contains(strtolower($media->extension))) {
-            return true;
+        $validExtension = $this->canHandleExtension(strtolower($media->extension));
+        $validMimeType = $this->canHandleMime(strtolower($media->mime_type));
+
+        if ($this->shouldMatchBothExtensionsAndMimeTypes()) {
+            return $validExtension && $validMimeType;
         }
 
-        if ($this->supportedMimetypes()->contains(strtolower($media->mime_type))) {
-            return true;
-        }
-
-        return false;
+        return $validExtension || $validMimeType;
     }
 
     public function canHandleMime(string $mime = ''): bool
@@ -32,6 +31,11 @@ abstract class BaseGenerator implements ImageGenerator
     public function canHandleExtension(string $extension = ''): bool
     {
         return $this->supportedExtensions()->contains($extension);
+    }
+
+    public function shouldMatchBothExtensionsAndMimeTypes(): bool
+    {
+        return false;
     }
 
     public function getType(): string
