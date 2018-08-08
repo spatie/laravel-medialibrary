@@ -16,6 +16,7 @@ class TemporaryUploadResource extends Resource
         return array_merge(
             parent::toArray($request),
             [
+                'name' => $firstMedia->name,
                 'previewUrl' => $firstMedia->hasGeneratedConversion('preview')
                     ? $firstMedia->getUrl('preview')
                     : null,
