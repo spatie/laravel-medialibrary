@@ -335,7 +335,7 @@ trait HasMediaTrait
      *
      * @return $this
      */
-    public function clearMediaCollection(string $collectionName = 'default'): self
+    public function clearMediaCollection(string $collectionName = 'default'): HasMedia
     {
         $this->getMedia($collectionName)
             ->each->delete();
