@@ -11,9 +11,15 @@ class TemporaryUploadResource extends Resource
 {
     public function toArray($request): array
     {
+        $firstMedia = $this->getFirstMedia();
+
         return array_merge(
             parent::toArray($request),
-            ['previewUrl' => $this->getFirstMediaUrl('default', 'preview')]
+            [
+                'previewUrl' => $firstMedia->hasGeneratedConversion('preview')
+                    ? $firstMedia->getUrl('preview')
+                    : null,
+            ]
         );
     }
 }
