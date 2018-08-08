@@ -59,8 +59,8 @@ class TemporaryUpload extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('preview')
-            ->width(300)
-            ->height(300)
+            ->width(config('medialibrary.temporary_upload_preview.width', 300))
+            ->height(config('medialibrary.temporary_upload_preview.height', 300))
             ->nonQueued()
             ->optimize();
     }

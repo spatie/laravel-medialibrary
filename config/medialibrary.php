@@ -30,6 +30,14 @@ return [
      */
     'temporary_upload_model' => Spatie\MediaLibrary\Uploads\Models\TemporaryUpload::class,
 
+    /**
+     * The dimensions used to render the temporary upload preview.
+     */
+    'temporary_upload_preview' => [
+        'width' => 300,
+        'height' => 300,
+    ],
+
     's3' => [
         /*
          * The domain that should be prepended when generating urls.
