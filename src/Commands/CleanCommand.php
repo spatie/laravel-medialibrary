@@ -102,7 +102,9 @@ class CleanCommand extends Command
     {
         $this->getMediaItems()->each(function (Media $media) {
             $this->deleteConversionFilesForDeprecatedConversions($media);
-            $this->deleteResponsiveImagesForDeprecatedConversions($media);
+            if ($media->responsive_images) {
+                $this->deleteResponsiveImagesForDeprecatedConversions($media);
+            }
         });
     }
 
