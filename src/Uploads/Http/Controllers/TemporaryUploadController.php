@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Uploads\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Spatie\MediaLibrary\Uploads\Http\Resources\TemporaryUploadResource;
+use Spatie\MediaLibrary\Uploads\Http\Resources\MediaResource;
 
 class TemporaryUploadController extends Controller
 {
@@ -22,6 +22,6 @@ class TemporaryUploadController extends Controller
             Session::getId()
         );
 
-        return new TemporaryUploadResource($temporaryUpload);
+        return $temporaryUpload->getFirstMedia();
     }
 }
