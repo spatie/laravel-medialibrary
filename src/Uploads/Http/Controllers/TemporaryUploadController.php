@@ -22,6 +22,16 @@ class TemporaryUploadController extends Controller
             Session::getId()
         );
 
-        return $temporaryUpload->getFirstMedia();
+        $media = $temporaryUpload->getFirstMedia();
+
+        return array_merge(
+            $media->toArray(),
+            [
+                'preview_url' => $media->hasGeneratedConversion('preview')
+                    ? $media->getUrl('preview')
+                    : null,
+                'upload_id' => $temporaryUpload->upload_id,
+            ]
+        );
     }
 }

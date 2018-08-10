@@ -258,7 +258,7 @@ class Media extends Model implements Responsable, Htmlable
         return $this->responsiveImages($conversionName)->getSrcset();
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->img();
     }
