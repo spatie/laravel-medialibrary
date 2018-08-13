@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.4.0 - 2018-08-13
+
+- allow the jobs classes to be overridden in the config file
+
 ## 7.3.12 - 2018-07-30
 
 - make sure previews responsive images db entries get cleaned up before regenerating

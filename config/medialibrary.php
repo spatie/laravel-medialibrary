@@ -138,4 +138,13 @@ return [
      * If set to null, storage_path('medialibrary/temp') will be used.
      */
     'temporary_directory_path' => null,
+
+    /**
+     * Here you can override the class names of the jobs used by this package. Make sure
+     * your custom jobs extend the ones provided by the package.
+     */
+    'jobs' => [
+        'perform_conversions' => Spatie\MediaLibrary\Jobs\PerformConversions::class,
+        'generate_responsive_images' => Spatie\MediaLibrary\Jobs\GenerateResponsiveImages::class,
+    ],
 ];
