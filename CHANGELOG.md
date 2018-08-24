@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.4.1 - 2018-08-24
+
+- add support for Laravel 5.7
+
 ## 7.4.0 - 2018-08-13
 
 - allow the job classes to be overridden in the config file
