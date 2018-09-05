@@ -107,8 +107,11 @@ class CleanCommand extends Command
     {
         $this->getMediaItems()->each(function (Media $media) {
             $this->deleteConversionFilesForDeprecatedConversions($media);
-            $this->deleteResponsiveImagesForDeprecatedConversions($media);
-
+          
+            if ($media->responsive_images) {
+                $this->deleteResponsiveImagesForDeprecatedConversions($media);
+            }
+          
             if ($this->rateLimit) {
                 usleep((1 / $this->rateLimit) * 1000000 * 2);
             }
