@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.4.2 - 2018-09-05
+
+- fix a bug in clean command when no responsive images were generated
+
 ## 7.4.1 - 2018-08-24
 
 - add support for Laravel 5.7
