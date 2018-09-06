@@ -71,7 +71,7 @@ class CleanCommand extends Command
         }
 
         $this->isDryRun = $this->option('dry-run');
-        $this->rateLimit = (int)$this->option('rate-limit');
+        $this->rateLimit = (int) $this->option('rate-limit');
 
         $this->deleteFilesGeneratedForDeprecatedConversions();
 
@@ -107,11 +107,11 @@ class CleanCommand extends Command
     {
         $this->getMediaItems()->each(function (Media $media) {
             $this->deleteConversionFilesForDeprecatedConversions($media);
-          
+
             if ($media->responsive_images) {
                 $this->deleteResponsiveImagesForDeprecatedConversions($media);
             }
-          
+
             if ($this->rateLimit) {
                 usleep((1 / $this->rateLimit) * 1000000 * 2);
             }
