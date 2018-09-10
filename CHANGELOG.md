@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 7.4.4 - 2018-09-10
+## 7.5.0 - 2018-09-10
 
 - add rate limiting to clean command
 
