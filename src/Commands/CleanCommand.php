@@ -21,7 +21,8 @@ class CleanCommand extends Command
 
     protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?}
     {--dry-run : List files that will be removed without removing them},
-    {--force : Force the operation to run when in production}';
+    {--force : Force the operation to run when in production},
+    {--rate-limit= : Limit the number of request per second }';
 
     protected $description = 'Clean deprecated conversions and files without related model.';
 
@@ -39,6 +40,9 @@ class CleanCommand extends Command
 
     /** @var bool */
     protected $isDryRun = false;
+
+    /** @var int */
+    protected $rateLimit = 0;
 
     /**
      * @param \Spatie\MediaLibrary\MediaRepository                 $mediaRepository
@@ -67,6 +71,7 @@ class CleanCommand extends Command
         }
 
         $this->isDryRun = $this->option('dry-run');
+        $this->rateLimit = (int) $this->option('rate-limit');
 
         $this->deleteFilesGeneratedForDeprecatedConversions();
 
@@ -102,8 +107,13 @@ class CleanCommand extends Command
     {
         $this->getMediaItems()->each(function (Media $media) {
             $this->deleteConversionFilesForDeprecatedConversions($media);
+
             if ($media->responsive_images) {
                 $this->deleteResponsiveImagesForDeprecatedConversions($media);
+            }
+
+            if ($this->rateLimit) {
+                usleep((1 / $this->rateLimit) * 1000000 * 2);
             }
         });
     }
@@ -173,6 +183,10 @@ class CleanCommand extends Command
             })->each(function (string $directory) use ($diskName) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
+                }
+
+                if ($this->rateLimit) {
+                    usleep((1 / $this->rateLimit) * 1000000);
                 }
 
                 $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));
