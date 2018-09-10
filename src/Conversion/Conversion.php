@@ -236,9 +236,10 @@ class Conversion
      */
     public function getResultExtension(string $originalFileExtension = ''): string
     {
-        $supportedFormats = ['jpg', 'pjpg', 'png', 'gif'];
-        if ($this->shouldKeepOriginalImageFormat() && in_array($originalFileExtension, $supportedFormats)) {
-            return $originalFileExtension;
+        if ($this->shouldKeepOriginalImageFormat()) {
+            if (in_array($originalFileExtension, ['jpg', 'pjpg', 'png', 'gif'])) {
+                return $originalFileExtension;
+            }
         }
 
         if ($manipulationArgument = $this->manipulations->getManipulationArgument('format')) {
