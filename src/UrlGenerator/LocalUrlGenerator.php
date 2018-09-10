@@ -86,20 +86,6 @@ class LocalUrlGenerator extends BaseUrlGenerator
         return $url;
     }
 
-    /*
-     * Returns the base url if the setting allows for it
-     *
-     * @return string
-     */
-    protected function getResponsiveDomain(): string
-    {
-        if ($this->config->get('medialibrary.responsive_images.generate_absolute_urls')) {
-            return url('');
-        }
-
-        return '';
-    }
-
     /**
      * Get the url to the directory containing responsive images.
      *
@@ -107,6 +93,6 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return $this->getResponsiveDomain().$this->getBaseMediaDirectoryUrl().'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
+        return url().$this->getBaseMediaDirectoryUrl().'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }
