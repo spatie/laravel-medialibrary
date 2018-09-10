@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.4.4 - 2018-09-10
+
+- add rate limiting to clean command
+
 ## 7.4.3 - 2018-09-10
 
 - fix for determining extension for non-image filetypes
