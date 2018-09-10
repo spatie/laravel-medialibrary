@@ -25,7 +25,7 @@ class FileSizeOptimizedWidthCalculator implements WidthCalculator
         $targetWidths->push($width);
 
         $ratio = $height / $width;
-        $area = $width * $width * $ratio;
+        $area = $height * $width;
 
         $predictedFileSize = $fileSize;
         $pixelPrice = $predictedFileSize / $area;
