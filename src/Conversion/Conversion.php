@@ -236,7 +236,8 @@ class Conversion
      */
     public function getResultExtension(string $originalFileExtension = ''): string
     {
-        if ($this->shouldKeepOriginalImageFormat()) {
+        $supportedFormats = ['jpg', 'pjpg', 'png', 'gif'];
+        if ($this->shouldKeepOriginalImageFormat() && in_array($originalFileExtension, $supportedFormats)) {
             return $originalFileExtension;
         }
 
