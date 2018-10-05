@@ -140,6 +140,13 @@ return [
     'temporary_directory_path' => null,
 
     /*
+     * When using S3 you can set this to use temporary urls for responsive images. Set the expiration time in minutes.
+     * If set to null, no temporary urls will be used.
+     */
+
+    's3_responsive_images_expiration' => 5,
+
+    /*
      * Here you can override the class names of the jobs used by this package. Make sure
      * your custom jobs extend the ones provided by the package.
      */

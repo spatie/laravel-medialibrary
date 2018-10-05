@@ -71,4 +71,21 @@ class S3UrlGenerator extends BaseUrlGenerator
     {
         return config('medialibrary.s3.domain').'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
+
+    /**
+     * Get the temporary url for a responsive media item.
+     *
+     * @param string $filename
+     * @param \DateTimeInterface $expiration
+     * @param array $options
+     *
+     * @return string
+     */
+    public function getTemporaryResponsiveImageUrl(string $filename, DateTimeInterface $expiration, array $options = []): string
+    {
+        return $this
+            ->filesystemManager
+            ->disk($this->media->disk)
+            ->temporaryUrl($this->pathGenerator->getPathForResponsiveImages($this->media) . $filename, $expiration, $options);
+    }
 }

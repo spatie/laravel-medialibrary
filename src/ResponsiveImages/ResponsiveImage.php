@@ -48,6 +48,10 @@ class ResponsiveImage
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media);
 
+        if(config('medialibrary.s3_responsive_images_expiration')) {
+            return $urlGenerator->getTemporaryResponsiveImageUrl($this->fileName, \Carbon\Carbon::now()->addMinutes(config('medialibrary.s3_responsive_images_expiration')));
+        }
+
         return $urlGenerator->getResponsiveImagesDirectoryUrl().$this->fileName;
     }
 
