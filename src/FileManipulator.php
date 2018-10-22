@@ -93,13 +93,17 @@ class FileManipulator
 
                 $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
-                $conversionResult = $this->performConversion($media, $conversion, $copiedOriginalFile);
+                if (!$conversion->getManipulations()->isEmpty()) {
+                    $manipulationResult = $this->performManipulations($media, $conversion, $copiedOriginalFile);
+                } else {
+                    $manipulationResult = $copiedOriginalFile;
+                }
 
                 $newFileName = pathinfo($media->file_name, PATHINFO_FILENAME).
                     '-'.$conversion->getName().
                     '.'.$conversion->getResultExtension(pathinfo($copiedOriginalFile, PATHINFO_EXTENSION));
 
-                $renamedFile = MediaLibraryFileHelper::renameInDirectory($conversionResult, $newFileName);
+                $renamedFile = MediaLibraryFileHelper::renameInDirectory($manipulationResult, $newFileName);
 
                 if ($conversion->shouldGenerateResponsiveImages()) {
                     app(ResponsiveImageGenerator::class)->generateResponsiveImagesForConversion(
@@ -119,7 +123,7 @@ class FileManipulator
         $temporaryDirectory->delete();
     }
 
-    public function performConversion(Media $media, Conversion $conversion, string $imageFile): string
+    public function performManipulations(Media $media, Conversion $conversion, string $imageFile): string
     {
         $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.str_random(16)
             .$conversion->getName()
