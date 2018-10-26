@@ -93,7 +93,7 @@ class FileManipulator
 
                 $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
-                if (!$conversion->getManipulations()->isEmpty()) {
+                if (! $conversion->getManipulations()->isEmpty()) {
                     $manipulationResult = $this->performManipulations($media, $conversion, $copiedOriginalFile);
                 } else {
                     $manipulationResult = $copiedOriginalFile;
