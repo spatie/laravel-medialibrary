@@ -6,6 +6,10 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - add support for Laravel 5.7
 
+## 6.9.1 - 2018-10-30
+
+**BROKEN RELEASE, DO NOT USE**
+
 ## 6.9.0 - 2018-03-04
 
 - add wildcard manipulations
