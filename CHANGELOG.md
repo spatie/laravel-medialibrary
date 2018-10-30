@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 6.9.1 - 2018-10-29
+## 6.9.2 - 2018-10-30
 
 - add support for Laravel 5.7
 
