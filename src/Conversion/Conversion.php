@@ -81,7 +81,7 @@ class Conversion
         return $this->manipulations;
     }
 
-    public function removeManipulation(string $manipulationName)
+    public function removeManipulation(string $manipulationName) : self
     {
         $this->manipulations->removeManipulation($manipulationName);
 
@@ -106,7 +106,7 @@ class Conversion
      *
      * @return $this
      */
-    public function setManipulations($manipulations)
+    public function setManipulations($manipulations) : self
     {
         if ($manipulations instanceof Manipulations) {
             $this->manipulations = $this->manipulations->mergeManipulations($manipulations);
@@ -126,7 +126,7 @@ class Conversion
      *
      * @return $this
      */
-    public function addAsFirstManipulations(Manipulations $manipulations)
+    public function addAsFirstManipulations(Manipulations $manipulations) : self
     {
         $manipulationSequence = $manipulations->getManipulationSequence()->toArray();
 
@@ -144,7 +144,7 @@ class Conversion
      *
      * @return $this
      */
-    public function performOnCollections(...$collectionNames)
+    public function performOnCollections(...$collectionNames) : self
     {
         $this->performOnCollections = $collectionNames;
 
@@ -174,7 +174,7 @@ class Conversion
      *
      * @return $this
      */
-    public function queued()
+    public function queued() : self
     {
         $this->performOnQueue = true;
 
@@ -186,7 +186,7 @@ class Conversion
      *
      * @return $this
      */
-    public function nonQueued()
+    public function nonQueued() : self
     {
         $this->performOnQueue = false;
 
@@ -198,7 +198,7 @@ class Conversion
      *
      * @return $this
      */
-    public function nonOptimized()
+    public function nonOptimized() : self
     {
         $this->removeManipulation('optimize');
 
@@ -208,7 +208,7 @@ class Conversion
     /**
      * When creating the converted image, responsive images will be created as well.
      */
-    public function withResponsiveImages()
+    public function withResponsiveImages() : self
     {
         $this->generateResponsiveImages = true;
 
