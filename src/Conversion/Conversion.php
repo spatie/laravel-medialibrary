@@ -88,6 +88,13 @@ class Conversion
         return $this;
     }
 
+    public function withoutManipulations() : self
+    {
+        $this->manipulations = new Manipulations();
+
+        return $this;
+    }
+
     public function __call($name, $arguments)
     {
         if (! method_exists($this->manipulations, $name)) {
