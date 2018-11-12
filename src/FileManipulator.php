@@ -93,11 +93,7 @@ class FileManipulator
 
                 $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
-                if (! $conversion->getManipulations()->isEmpty()) {
-                    $manipulationResult = $this->performManipulations($media, $conversion, $copiedOriginalFile);
-                } else {
-                    $manipulationResult = $copiedOriginalFile;
-                }
+                $manipulationResult = $this->performManipulations($media, $conversion, $copiedOriginalFile);
 
                 $newFileName = pathinfo($media->file_name, PATHINFO_FILENAME).
                     '-'.$conversion->getName().
@@ -125,6 +121,10 @@ class FileManipulator
 
     public function performManipulations(Media $media, Conversion $conversion, string $imageFile): string
     {
+        if ($conversion->getManipulations()->isEmpty()) {
+            return $imageFile;
+        }
+
         $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.str_random(16)
             .$conversion->getName()
             .'.'
