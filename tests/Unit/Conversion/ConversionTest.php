@@ -109,6 +109,16 @@ class ConversionTest extends TestCase
     }
 
     /** @test */
+    public function it_can_remove_all_previously_set_manipulations()
+    {
+        $this->assertFalse($this->conversion->getManipulations()->isEmpty());
+
+        $this->conversion->withoutManipulations();
+
+        $this->assertTrue($this->conversion->getManipulations()->isEmpty());
+    }
+
+    /** @test */
     public function it_will_use_the_extract_duration_parameter_if_it_was_given()
     {
         $this->conversion->extractVideoFrameAtSecond(10);
