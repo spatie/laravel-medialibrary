@@ -54,7 +54,7 @@ trait HasMediaTrait
     /**
      * Set the polymorphic relation.
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function media()
     {
