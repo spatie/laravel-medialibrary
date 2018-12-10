@@ -171,7 +171,7 @@ trait HasMediaTrait
             throw InvalidBase64Data::create();
         }
 
-        // decoding and then reeconding should not change the data
+        // decoding and then reencoding should not change the data
         if (base64_encode(base64_decode($base64data)) !== $base64data) {
             throw InvalidBase64Data::create();
         }
