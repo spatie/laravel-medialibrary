@@ -103,4 +103,49 @@ interface HasMedia
      * Register the media conversions and conversions set in media collections.
      */
     public function registerAllMediaConversions();
+
+    /**
+     * Get the mime types constraints validation string for a media collection.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function mimeTypesValidationConstraints(string $collectionName): string;
+
+    /**
+     * Get the constraints validation string for a media collection.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function validationConstraints(string $collectionName): string;
+
+    /**
+     * Get the constraints legend string for a media collection.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function constraintsLegend(string $collectionName): string;
+
+    /**
+     * Get the dimensions constraints legend string for a media collection.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function collectionDimensionsLegend(string $collectionName): string;
+
+    /**
+     * Get the mime types constraints legend string for a media collection.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function collectionMimeTypesLegend(string $collectionName): string;
 }

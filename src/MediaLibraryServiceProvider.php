@@ -28,11 +28,17 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views' => resource_path('views/vendor/medialibrary'),
         ], 'views');
 
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => resource_path('lang'),
+        ], 'translations');
+
         $mediaClass = config('medialibrary.media_model');
 
         $mediaClass::observe(new MediaObserver());
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'medialibrary');
+        
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'medialibrary');
     }
 
     public function register()

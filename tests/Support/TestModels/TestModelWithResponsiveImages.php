@@ -10,6 +10,7 @@ class TestModelWithResponsiveImages extends TestModel
      * Register the conversions that should be performed.
      *
      * @return array
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
     public function registerMediaConversions(Media $media = null)
     {

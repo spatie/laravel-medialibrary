@@ -18,7 +18,9 @@ class TestModel extends Model implements HasMedia
     /**
      * Register the conversions that should be performed.
      *
-     * @return array
+     * @param \Spatie\MediaLibrary\Models\Media|null $media
+     *
+     * @return void
      */
     public function registerMediaConversions(Media $media = null)
     {

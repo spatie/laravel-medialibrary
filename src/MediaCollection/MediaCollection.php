@@ -16,6 +16,9 @@ class MediaCollection
     /** @var callable */
     public $acceptsFile;
 
+    /** @var array */
+    public $acceptsMimeTypes = [];
+
     /** @var bool */
     public $singleFile = false;
 
@@ -40,6 +43,13 @@ class MediaCollection
     {
         $this->diskName = $diskName;
 
+        return $this;
+    }
+    
+    public function acceptsMimeTypes(array $mimeTypes): self
+    {
+        $this->acceptsMimeTypes = $mimeTypes;
+        
         return $this;
     }
 

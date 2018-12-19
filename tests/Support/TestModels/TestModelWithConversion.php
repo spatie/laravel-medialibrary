@@ -9,7 +9,10 @@ class TestModelWithConversion extends TestModel
     /**
      * Register the conversions that should be performed.
      *
-     * @return array
+     * @param \Spatie\MediaLibrary\Models\Media|null $media
+     *
+     * @return void
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
      */
     public function registerMediaConversions(Media $media = null)
     {
