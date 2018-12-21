@@ -16,7 +16,7 @@ class TestModelWithGlobalConversionWithOnlyWidth extends TestModel
     {
         $this->addMediaCollection('logo')->acceptsMimeTypes(['image/jpeg', 'image/png']);
     }
-    
+
     /**
      * Register the media conversions.
      *

@@ -29,7 +29,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang'),
+            __DIR__.'/../resources/lang' => resource_path('lang'),
         ], 'translations');
 
         $mediaClass = config('medialibrary.media_model');
@@ -37,8 +37,8 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $mediaClass::observe(new MediaObserver());
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'medialibrary');
-        
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'medialibrary');
+
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'medialibrary');
     }
 
     public function register()

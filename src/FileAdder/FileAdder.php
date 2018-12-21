@@ -342,8 +342,8 @@ class FileAdder
             return;
         }
         $acceptsFile = ($collection->acceptsFile)($file, $this->subject);
-        $acceptsMimeTypes = ! empty($collection->acceptsMimeTypes) 
-            ? in_array($file->mimeType, $collection->acceptsMimeTypes) 
+        $acceptsMimeTypes = ! empty($collection->acceptsMimeTypes)
+            ? in_array($file->mimeType, $collection->acceptsMimeTypes)
             : true;
         if (! $acceptsFile || ! $acceptsMimeTypes) {
             throw FileUnacceptableForCollection::create($file, $collection, $this->subject);

@@ -45,11 +45,11 @@ class MediaCollection
 
         return $this;
     }
-    
+
     public function acceptsMimeTypes(array $mimeTypes): self
     {
         $this->acceptsMimeTypes = $mimeTypes;
-        
+
         return $this;
     }
 

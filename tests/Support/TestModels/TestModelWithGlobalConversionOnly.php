@@ -17,7 +17,7 @@ class TestModelWithGlobalConversionOnly extends TestModel
     {
         $this->addMediaCollection('logo');
     }
-    
+
     /**
      * Register the media conversions.
      *

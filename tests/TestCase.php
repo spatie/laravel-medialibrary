@@ -10,19 +10,19 @@ use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithCollectionConversionsOnly;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithCollectionWithoutConversions;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalAndCollectionConversions;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionOnly;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionOnlyWithoutCollection;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithNoSize;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithNoSizeAndNoMimeTypes;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithOnlyHeight;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithOnlyWidth;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionOnly;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithCollectionConversionsOnly;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithNoSize;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithCollectionWithoutConversions;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithOnlyWidth;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalAndCollectionConversions;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithOnlyHeight;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionOnlyWithoutCollection;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithNoSizeAndNoMimeTypes;
 
 abstract class TestCase extends Orchestra
 {
@@ -49,25 +49,25 @@ abstract class TestCase extends Orchestra
 
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionOnlyWithoutCollection */
     protected $testModelWithGlobalConversionOnlyWithoutCollection;
-    
+
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithCollectionWithoutConversions */
     protected $testModelWithCollectionWithoutConversions;
-    
+
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithCollectionConversionsOnly */
     protected $testModelWithCollectionConversionsOnly;
-    
+
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalAndCollectionConversions */
     protected $testModelWithGlobalAndCollectionConversions;
-    
+
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithOnlyWidth */
     protected $testModelWithGlobalConversionWithOnlyWidth;
-    
+
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithOnlyHeight */
     protected $testModelWithGlobalConversionWithOnlyHeight;
-    
+
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithNoSize */
     protected $testModelWithGlobalConversionWithNoSize;
-    
+
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithGlobalConversionWithNoSizeAndNoMimeTypes */
     protected $testModelWithGlobalConversionWithNoSizeAndNoMimeTypes;
 

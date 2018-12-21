@@ -68,7 +68,7 @@ class CollectionDimensionValidationConstraintsTest extends TestCase
         $dimensionsValidationConstraintsString = $this->testModelWithGlobalConversionWithNoSize->dimensionValidationConstraints('logo');
         $this->assertEquals('', $dimensionsValidationConstraintsString);
     }
-    
+
     /**
      * @test
      */

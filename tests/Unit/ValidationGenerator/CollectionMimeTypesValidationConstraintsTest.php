@@ -30,7 +30,7 @@ class CollectionMimeTypesValidationConstraintsTest extends TestCase
         $mimeTypesValidationConstraintsString = $this->testModelWithGlobalAndCollectionConversions->mimeTypesValidationConstraints('logo');
         $this->assertEquals('mimetypes:image/jpeg,image/png', $mimeTypesValidationConstraintsString);
     }
-    
+
     /**
      * @test
      */

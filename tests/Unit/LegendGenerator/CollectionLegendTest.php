@@ -41,7 +41,7 @@ class CollectionLegendTest extends TestCase
         $legendString = $this->testModelWithGlobalConversionWithNoSizeAndNoMimeTypes->constraintsLegend('logo');
         $this->assertEquals('', $legendString);
     }
-    
+
     /**
      * @test
      */

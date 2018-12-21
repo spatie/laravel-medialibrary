@@ -41,7 +41,7 @@ class CollectionValidationConstraintsTest extends TestCase
         $validationConstraintsString = $this->testModelWithGlobalConversionWithNoSizeAndNoMimeTypes->validationConstraints('logo');
         $this->assertEquals('', $validationConstraintsString);
     }
-    
+
     /**
      * @test
      */

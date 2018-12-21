@@ -17,7 +17,7 @@ class TestModelWithCollectionConversionsOnly extends TestModel
     {
         $this->addMediaCollection('logo')
             ->acceptsMimeTypes(['image/jpeg', 'image/png'])
-            ->registerMediaConversions(function(Media $media = null) {
+            ->registerMediaConversions(function (Media $media = null) {
                 $this->addMediaConversion('admin-panel')
                     ->crop(Manipulations::CROP_CENTER, 100, 140);
                 $this->addMediaConversion('mail')

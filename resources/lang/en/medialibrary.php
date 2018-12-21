@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'constraint' => [
         'dimensions' => [
             'both'   => 'Min. width : :width px / Min. height : :height px.',
@@ -9,4 +10,5 @@ return [
         ],
         'mimeTypes'  => 'Accepted MIME Type(s) : :mimetypes.',
     ],
+
 ];

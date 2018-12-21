@@ -3,24 +3,24 @@
 namespace Spatie\MediaLibrary\HasMedia;
 
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Exceptions\CollectionNotFound;
 use Spatie\MediaLibrary\Exceptions\ConversionsNotFound;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
+use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
-use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
-use Spatie\MediaLibrary\MediaRepository;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 
 trait HasMediaTrait
 {
@@ -35,7 +35,7 @@ trait HasMediaTrait
 
     public static function bootHasMediaTrait()
     {
-        static::deleting(function(HasMedia $entity) {
+        static::deleting(function (HasMedia $entity) {
             if ($entity->shouldDeletePreservingMedia()) {
                 return;
             }
@@ -143,7 +143,7 @@ trait HasMediaTrait
 
         $validation = Validator::make(
             ['file' => new File($file)],
-            ['file' => 'mimetypes:' . implode(',', $allowedMimeTypes)]
+            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
         );
 
         if ($validation->fails()) {
@@ -313,7 +313,7 @@ trait HasMediaTrait
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
         return collect($newMediaArray)
-            ->map(function(array $newMediaItem) use ($collectionName) {
+            ->map(function (array $newMediaItem) use ($collectionName) {
                 static $orderColumn = 1;
 
                 $mediaClass = config('medialibrary.media_model');
@@ -342,7 +342,7 @@ trait HasMediaTrait
     protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
     {
         $this->getMedia($collectionName)
-            ->reject(function(Media $currentMediaItem) use ($newMediaArray) {
+            ->reject(function (Media $currentMediaItem) use ($newMediaArray) {
                 return in_array($currentMediaItem->id, array_column($newMediaArray, 'id'));
             })
             ->each->delete();
@@ -369,7 +369,7 @@ trait HasMediaTrait
         }
 
         $this->getMedia($collectionName)
-            ->reject(function(Media $media) use ($excludedMedia) {
+            ->reject(function (Media $media) use ($excludedMedia) {
                 return $excludedMedia->where('id', $media->id)->count();
             })
             ->each->delete();
@@ -488,7 +488,7 @@ trait HasMediaTrait
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection
-            ->filter(function(Media $mediaItem) use ($collectionName) {
+            ->filter(function (Media $mediaItem) use ($collectionName) {
                 if ($collectionName == '') {
                     return true;
                 }
@@ -526,7 +526,7 @@ trait HasMediaTrait
         $mimeTypes = $this->mimeTypesValidationConstraints($collectionName);
         $separator = $dimensions && $mimeTypes ? '|' : '';
 
-        return ($dimensions ? $dimensions . $separator : '') . ($mimeTypes);
+        return ($dimensions ? $dimensions.$separator : '').($mimeTypes);
     }
 
     /**
@@ -539,11 +539,11 @@ trait HasMediaTrait
     public function dimensionValidationConstraints(string $collectionName): string
     {
         $maxSizes = $this->collectionMaxSizes($collectionName);
-        $width = $maxSizes['width'] ? 'min_width=' . $maxSizes['width'] : '';
-        $height = $maxSizes['height'] ? 'min_height=' . $maxSizes['height'] : '';
+        $width = $maxSizes['width'] ? 'min_width='.$maxSizes['width'] : '';
+        $height = $maxSizes['height'] ? 'min_height='.$maxSizes['height'] : '';
         $separator = $width && $height ? ',' : '';
 
-        return $width || $height ? 'dimensions:' . $width . $separator . $height : '';
+        return $width || $height ? 'dimensions:'.$width.$separator.$height : '';
     }
 
     /**
@@ -556,13 +556,13 @@ trait HasMediaTrait
     public function collectionMaxSizes(string $collectionName = 'default'): array
     {
         $this->registerAllMediaConversions();
-        $collection = array_where($this->mediaCollections, function($collection) use ($collectionName) {
+        $collection = array_where($this->mediaCollections, function ($collection) use ($collectionName) {
             return $collection->name === $collectionName;
         });
         if (! $collection) {
             throw CollectionNotFound::notDeclaredInModel($this, $collectionName);
         }
-        $conversions = array_where($this->mediaConversions, function($conversion) use ($collectionName) {
+        $conversions = array_where($this->mediaConversions, function ($conversion) use ($collectionName) {
             return $conversion->shouldBePerformedOn($collectionName);
         });
         if (empty($conversions)) {
@@ -584,7 +584,7 @@ trait HasMediaTrait
     {
         $this->registerMediaCollections();
 
-        collect($this->mediaCollections)->each(function(MediaCollection $mediaCollection) use ($media) {
+        collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) use ($media) {
             $actualMediaConversions = $this->mediaConversions;
 
             $this->mediaConversions = [];
@@ -592,7 +592,7 @@ trait HasMediaTrait
             ($mediaCollection->mediaConversionRegistrations)($media);
 
             $preparedMediaConversions = collect($this->mediaConversions)
-                ->each(function(Conversion $conversion) use ($mediaCollection) {
+                ->each(function (Conversion $conversion) use ($mediaCollection) {
                     $conversion->performOnCollections($mediaCollection->name);
                 })
                 ->values()
@@ -637,7 +637,7 @@ trait HasMediaTrait
     public function mimeTypesValidationConstraints(string $collectionName): string
     {
         $this->registerMediaCollections();
-        $collection = head(array_where($this->mediaCollections, function($collection) use ($collectionName) {
+        $collection = head(array_where($this->mediaCollections, function ($collection) use ($collectionName) {
             return $collection->name === $collectionName;
         }));
         if (! $collection) {
@@ -645,7 +645,7 @@ trait HasMediaTrait
         }
         $validationString = '';
         if (! empty($collection->acceptsMimeTypes)) {
-            $validationString .= 'mimetypes:' . implode(',', $collection->acceptsMimeTypes);
+            $validationString .= 'mimetypes:'.implode(',', $collection->acceptsMimeTypes);
         }
 
         return $validationString;
@@ -663,8 +663,8 @@ trait HasMediaTrait
         $dimensionsLegend = $this->collectionDimensionsLegend($collectionName);
         $mimeTypesLegend = $this->collectionMimeTypesLegend($collectionName);
         $separator = $dimensionsLegend && $mimeTypesLegend ? ' ' : '';
-        
-        return ($dimensionsLegend ? $dimensionsLegend . $separator : '') . $mimeTypesLegend;
+
+        return ($dimensionsLegend ? $dimensionsLegend.$separator : '').$mimeTypesLegend;
     }
 
     /**
@@ -708,7 +708,7 @@ trait HasMediaTrait
     public function collectionMimeTypesLegend(string $collectionName): string
     {
         $this->registerMediaCollections();
-        $collection = head(array_where($this->mediaCollections, function($collection) use ($collectionName) {
+        $collection = head(array_where($this->mediaCollections, function ($collection) use ($collectionName) {
             return $collection->name === $collectionName;
         }));
         if (! $collection) {
