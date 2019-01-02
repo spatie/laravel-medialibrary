@@ -7,6 +7,7 @@ use FFMpeg\Coordinate\TimeCode;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
+use Spatie\MediaLibrary\Exceptions\InvalidConversionParameter;
 
 class Video extends BaseGenerator
 {
@@ -22,6 +23,12 @@ class Video extends BaseGenerator
         $video = $ffmpeg->open($file);
 
         $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
+
+        $duration = $ffmpeg->getDuration();
+
+        if($duration < $seconds) {
+            throw InvalidConversionParameter::invalidFrameSecond($seconds, $duration);
+        }
 
         $frame = $video->frame(TimeCode::fromSeconds($seconds));
         $frame->save($imageFile);
