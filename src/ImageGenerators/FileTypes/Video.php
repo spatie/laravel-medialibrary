@@ -26,7 +26,7 @@ class Video extends BaseGenerator
 
         $duration = $ffmpeg->getDuration();
 
-        if($duration < $seconds) {
+        if ($duration < $seconds) {
             throw InvalidConversionParameter::invalidFrameSecond($seconds, $duration);
         }
 
