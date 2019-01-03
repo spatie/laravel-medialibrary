@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.5.3 - 2018-01-03
+
+- use absolute urls for responsive image sources
+- fix sortable
+
 ## 7.5.2 - 2018-10-19
 
 - fix for issue #1277
