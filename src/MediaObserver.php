@@ -10,7 +10,9 @@ class MediaObserver
 {
     public function creating(Media $media)
     {
-        $media->setHighestOrderNumber();
+        if ($media->shouldSortWhenCreating()) {
+            $media->setHighestOrderNumber();
+        }
     }
 
     public function updating(Media $media)
