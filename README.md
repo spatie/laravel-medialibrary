@@ -64,7 +64,7 @@ For the creation of thumbnails of svg's or pdf's you should also install [Imagic
 You can install this package via composer using this command:
 
 ```bash
-composer require spatie/laravel-medialibrary:^7.0.0
+composer require "spatie/laravel-medialibrary:^7.0.0"
 ```
 
 The package will automatically register itself.
