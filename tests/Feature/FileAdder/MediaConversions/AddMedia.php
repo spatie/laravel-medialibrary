@@ -105,7 +105,7 @@ class AddMedia extends TestCase
 
         Carbon::setTestNow(Carbon::now()->addMinute());
 
-        $media->order_column = $media->order_column + 1;
+        $media->order_column += 1;
         $media->save();
 
         $thumbsCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
