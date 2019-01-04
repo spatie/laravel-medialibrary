@@ -21,14 +21,10 @@ class Video extends BaseGenerator
         ]);
 
         $video = $ffmpeg->open($file);
-
-        $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
-
         $duration = $ffmpeg->getDuration();
-
-        if ($duration < $seconds) {
-            throw InvalidConversionParameter::invalidFrameSecond($seconds, $duration);
-        }
+        
+        $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
+        $seconds = $duration < $seconds ? 0 : $seconds;
 
         $frame = $video->frame(TimeCode::fromSeconds($seconds));
         $frame->save($imageFile);
