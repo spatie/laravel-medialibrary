@@ -164,6 +164,43 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_retrieves_a_temporary_responsive_image_url_from_s3()
+    {
+
+        $this->app['config']->set('medialibrary.s3_responsive_images_expiration', 5);
+
+        $media = $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
+            ->toMediaCollection('default', 's3_disk');
+
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $this->assertContains(
+            "/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___medialibrary_original_340_280.jpg",
+            $media->getResponsiveImageUrls()[0]
+        );
+
+        $this->assertContains(
+            "/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___medialibrary_original_284_233.jpg",
+            $media->getResponsiveImageUrls()[1]
+        );
+
+        $this->assertContains(
+            "/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___medialibrary_original_237_195.jpg",
+            $media->getResponsiveImageUrls()[2]
+        );
+
+        $this->assertContains(
+            "/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___thumb_50_41.jpg",
+            $media->getResponsiveImageUrls('thumb')[0]
+        );
+
+        $this->app['config']->set('medialibrary.s3_responsive_images_expiration', null);
+
+    }
+
+    /** @test */
     public function custom_headers_are_used_for_all_conversions()
     {
         $media = $this->testModelWithConversion
