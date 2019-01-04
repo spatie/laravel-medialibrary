@@ -16,11 +16,6 @@ class InvalidConversionParameter extends Exception
         return new static('Height should be numeric and greater than 0');
     }
 
-    public static function invalidFrameSecond(int $seconds, int $duration)
-    {
-        return new self("Specified frame second `{$seconds}` exceeds video length `{$duration}`");
-    }
-
     public static function invalidFormat(string $givenFormat, array $validFormats)
     {
         $validFormats = implode(', ', $validFormats);
