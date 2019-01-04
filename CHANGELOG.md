@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 7.5.3 - 2018-01-03
+## 7.5.4 - 2019-01-04
+
+- only set `custom_headers` property if explicitly set
+
+## 7.5.3 - 2019-01-03
 
 - use absolute urls for responsive image sources
 - fix sortable
