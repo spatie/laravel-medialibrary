@@ -144,7 +144,7 @@ return [
      * If set to null, no temporary urls will be used.
      */
 
-    's3_responsive_images_expiration' => 5,
+    's3_responsive_images_expiration' => null,
 
     /*
      * Here you can override the class names of the jobs used by this package. Make sure
