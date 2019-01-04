@@ -239,7 +239,9 @@ class FileAdder
 
         $media->manipulations = $this->manipulations;
 
-        $media->setCustomHeaders($this->customHeaders);
+        if (filled($this->customHeaders)) {
+            $media->setCustomHeaders($this->customHeaders);
+        }
 
         $media->fill($this->properties);
 
