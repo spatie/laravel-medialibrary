@@ -166,7 +166,6 @@ class S3IntegrationTest extends TestCase
     /** @test */
     public function it_retrieves_a_temporary_responsive_image_url_from_s3()
     {
-
         $this->app['config']->set('medialibrary.s3_responsive_images_expiration', 5);
 
         $media = $this->testModelWithResponsiveImages
@@ -197,7 +196,6 @@ class S3IntegrationTest extends TestCase
         );
 
         $this->app['config']->set('medialibrary.s3_responsive_images_expiration', null);
-
     }
 
     /** @test */
