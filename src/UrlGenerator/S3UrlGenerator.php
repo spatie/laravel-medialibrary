@@ -76,16 +76,16 @@ class S3UrlGenerator extends BaseUrlGenerator
      * Get the temporary url for a responsive media item.
      *
      * @param string $filename
-     * @param \DateTimeInterface $expiration
+     * @param \DateTimeInterface $expiresAt
      * @param array $options
      *
      * @return string
      */
-    public function getTemporaryResponsiveImageUrl(string $filename, DateTimeInterface $expiration, array $options = []): string
+    public function getTemporaryResponsiveImageUrl(string $filename, DateTimeInterface $expiresAt, array $options = []): string
     {
         return $this
             ->filesystemManager
             ->disk($this->media->disk)
-            ->temporaryUrl($this->pathGenerator->getPathForResponsiveImages($this->media) . $filename, $expiration, $options);
+            ->temporaryUrl($this->pathGenerator->getPathForResponsiveImages($this->media).$filename, $expiresAt, $options);
     }
 }

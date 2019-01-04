@@ -95,4 +95,20 @@ class LocalUrlGenerator extends BaseUrlGenerator
     {
         return $this->getBaseMediaDirectoryUrl().'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
+
+    /**
+     * Get the temporary url for a responsive media item.
+     *
+     * @param string $filename
+     * @param \DateTimeInterface $expiresAt
+     * @param array $options
+     *
+     * @return string
+     *
+     * @throws \Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined
+     */
+    public function getTemporaryResponsiveImageUrl(string $filename, DateTimeInterface $expiresAt, array $options = []): string
+    {
+        throw UrlCannotBeDetermined::filesystemDoesNotSupportTemporaryUrls();
+    }
 }
