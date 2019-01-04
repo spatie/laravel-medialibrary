@@ -51,7 +51,7 @@ to
 - rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file againt the one provided by this package
 - all calls to `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk` should be renamed to `toMediaLibrary`
 - media conversions are now handled by `spatie/image`. Convert all manipulations on your conversion to manipulations supported by `spatie/image`.
-- add a `mime_type` column to the `media` table, manually populate the column with the right values.
+- add a `mime_type` column to the `media` table, manually populate the column with the right values (you can leave the field empty for old media).
 - calls to `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty` should be replaced by their non-nested counterparts.
 - All exceptions have been renamed. If you were catching medialibrary specific exception please look up the new name in /src/Exceptions.
 - be aware`getMedia` and related functions now return only the media from the `default` collection
