@@ -228,7 +228,7 @@ class Media extends Model implements Responsable, Htmlable
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => 'attachment; filename="'.$this->file_name.'"',
+            'Content-Disposition' => 'inline; filename="'.$this->file_name.'"',
             'Pragma' => 'public',
         ];
 
