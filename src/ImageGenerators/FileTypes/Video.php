@@ -20,7 +20,7 @@ class Video extends BaseGenerator
         ]);
 
         $video = $ffmpeg->open($file);
-        $duration = $ffmpeg->getDuration();
+        $duration = $ffmpeg->getFFProbe()->format($file)->get('duration');
 
         $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
         $seconds = $duration < $seconds ? 0 : $seconds;
