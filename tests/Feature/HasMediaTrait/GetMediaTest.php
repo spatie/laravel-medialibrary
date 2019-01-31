@@ -202,6 +202,70 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_last_media_from_a_collection()
+    {
+        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $media->name = 'first';
+        $media->save();
+
+        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $media->name = 'second';
+        $media->save();
+
+        $this->assertEquals('second', $this->testModel->getLastMedia('images')->name);
+    }
+
+    /** @test */
+    public function it_can_get_the_last_media_from_a_collection_using_a_filter()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'first';
+        $media->save();
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withCustomProperties(['extra_property' => 'yes'])
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'second';
+        $media->save();
+
+        $this->assertEquals('second', $this->testModel->getLastMedia('images', ['extra_property' => 'yes'])->name);
+    }
+
+    public function it_returns_false_when_getting_last_media_for_an_empty_collection()
+    {
+        $this->assertFalse($this->testModel->getLastMedia());
+    }
+
+    /** @test */
+    public function it_can_get_the_url_to_last_media_in_a_collection()
+    {
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstMedia->save();
+
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia->save();
+
+        $this->assertEquals($secondMedia->getUrl(), $this->testModel->getLastMediaUrl('images'));
+    }
+
+    /** @test */
+    public function it_can_get_the_path_to_last_media_in_a_collection()
+    {
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstMedia->save();
+
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia->save();
+
+        $this->assertEquals($secondMedia->getPath(), $this->testModel->getLastMediaPath('images'));
+    }
+
+    /** @test */
     public function it_will_return_preloaded_media_sorting_on_order_column()
     {
         $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
