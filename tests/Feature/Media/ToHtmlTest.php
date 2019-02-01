@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Models\Media;
 
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\MediaLibrary\Tests\TestCase;
@@ -90,7 +91,7 @@ class ToHtmlTest extends TestCase
         $image = $media->refresh()->img();
 
         $this->assertEquals(3, substr_count($image, '/media/2/responsive-images/'));
-        $this->assertTrue(str_contains($image, 'data:image/svg+xml;base64,'));
+        $this->assertTrue(Str::contains($image, 'data:image/svg+xml;base64,'));
     }
 
     /** @test */

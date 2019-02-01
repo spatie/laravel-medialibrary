@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
+use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\ConfirmableTrait;
@@ -201,7 +202,7 @@ class CleanCommand extends Command
 
         $media->getGeneratedConversions()
             ->filter(function (bool $isGenerated, string $generatedConversionName) use ($conversionFile) {
-                return str_contains($conversionFile, $generatedConversionName);
+                return Str::contains($conversionFile, $generatedConversionName);
             })
             ->each(function (bool $isGenerated, string $generatedConversionName) use ($media) {
                 $media->markAsConversionGenerated($generatedConversionName, false);
