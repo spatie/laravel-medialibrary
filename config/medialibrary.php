@@ -19,7 +19,7 @@ return [
      * Leave empty to use the default queue.
      */
     'queue_name' => '',
-    
+
     /*
      * Define the desired delay for the queued job
      * If null, job will be processed with no delay. 
