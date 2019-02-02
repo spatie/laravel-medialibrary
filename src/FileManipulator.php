@@ -153,6 +153,11 @@ class FileManipulator
         if ($customQueue = config('medialibrary.queue_name')) {
             $job->onQueue($customQueue);
         }
+        
+        if ($queue_delay = config('medialibrary.queue_delay')) {
+            $job->delay($queue_delay);
+        }
+
 
         app(Dispatcher::class)->dispatch($job);
     }
