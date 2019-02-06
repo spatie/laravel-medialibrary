@@ -202,6 +202,18 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_default_path_to_the_first_media_in_a_collection()
+    {
+        $this->assertEquals('/default.jpg', $this->testModel->getFirstMediaPath('avatar'));
+    }
+
+    /** @test */
+    public function it_can_get_the_default_url_to_the_first_media_in_a_collection()
+    {
+        $this->assertEquals('/default.jpg', $this->testModel->getFirstMediaUrl('avatar'));
+    }
+
+    /** @test */
     public function it_will_return_preloaded_media_sorting_on_order_column()
     {
         $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');

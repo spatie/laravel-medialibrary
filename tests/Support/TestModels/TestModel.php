@@ -23,4 +23,17 @@ class TestModel extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null)
     {
     }
+
+    /**
+     * Register the media collections and conversions.
+     *
+     * @return void
+     */
+    public function registerMediaCollections()
+    {
+        $this
+            ->addMediaCollection('avatar')
+            ->withFallbackUrl('/default.jpg')
+            ->withFallbackPath('/default.jpg');
+    }
 }
