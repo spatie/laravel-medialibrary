@@ -14,7 +14,7 @@ class S3IntegrationTest extends TestCase
     /** @var @string */
     protected $s3BaseDirectory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

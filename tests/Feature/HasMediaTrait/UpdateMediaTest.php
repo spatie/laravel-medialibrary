@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class UpdateMediaTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

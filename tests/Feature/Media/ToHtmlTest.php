@@ -10,7 +10,7 @@ class ToHtmlTest extends TestCase
 {
     use MatchesSnapshots;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

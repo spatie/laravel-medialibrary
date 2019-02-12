@@ -12,7 +12,7 @@ class CustomPropertyTest extends TestCase
     /** @var \Spatie\MediaLibrary\Models\Media */
     protected $mediaWithoutCustomProperty;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
