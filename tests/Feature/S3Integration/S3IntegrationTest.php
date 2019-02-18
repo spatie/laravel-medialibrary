@@ -125,7 +125,7 @@ class S3IntegrationTest extends TestCase
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
             ->toMediaCollection('default', 's3_disk');
-
+        
         $this->assertEquals(
             $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
             $media->getResponsiveImagesDirectoryUrl('thumb')
