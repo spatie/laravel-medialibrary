@@ -25,6 +25,8 @@ return [
      */
     'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
+    'media_observer' => \Spatie\MediaLibrary\MediaObserver::class,
+
     's3' => [
         /*
          * The domain that should be prepended when generating urls.

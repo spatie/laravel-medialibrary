@@ -30,7 +30,9 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $mediaClass = config('medialibrary.media_model');
 
-        $mediaClass::observe(new MediaObserver());
+        $mediaObserver = config('medialibrary.media_observer');
+
+        $mediaClass::observe(new $mediaObserver);
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'medialibrary');
     }
