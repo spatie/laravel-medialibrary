@@ -4,8 +4,8 @@ namespace Tests\Unit\Media;
 
 use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class MediaDeleterTest extends TestCase
 {
