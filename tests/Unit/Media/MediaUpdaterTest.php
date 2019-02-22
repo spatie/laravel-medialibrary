@@ -22,9 +22,7 @@ class MediaUpdaterTest extends TestCase
             'model_id' => 1,
             'file_name' => 'file.jpg',
             'mime_type' => 'image/jpeg',
-            'custom_properties' => [
-                'some_prop' => 'property'
-            ],
+            'custom_properties' => [],
             'size' => '1000',
             'disk' => 'local',
             'responsive_images' => [],
@@ -37,9 +35,7 @@ class MediaUpdaterTest extends TestCase
 
         $media->update([
             'mime_type' => 'image/png',
-            'custom_properties' => [
-                'some_prop' => 'property'
-            ],
+            'custom_properties' => [],
             'size' => '1500',
             'disk' => 'local',
             'responsive_images' => [],
