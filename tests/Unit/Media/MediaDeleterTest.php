@@ -28,7 +28,7 @@ class MediaDeleterTest extends TestCase
             'file_name' => 'file.jpg',
             'mime_type' => 'image/jpeg',
             'custom_properties' => [
-                'some_prop' => 'property'
+                'some_prop' => 'property',
             ],
             'size' => '1000',
             'disk' => 'local',
