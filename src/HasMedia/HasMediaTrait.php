@@ -322,7 +322,7 @@ trait HasMediaTrait
     {
         $this->getMedia($collectionName)
             ->reject(function (Media $currentMediaItem) use ($newMediaArray) {
-                return in_array($currentMediaItem->id, array_column($newMediaArray, 'id'));
+                return in_array($currentMediaItem->getKey(), array_column($newMediaArray, 'id'));
             })
             ->each->delete();
     }
@@ -370,7 +370,7 @@ trait HasMediaTrait
 
         $this->getMedia($collectionName)
             ->reject(function (Media $media) use ($excludedMedia) {
-                return $excludedMedia->where('id', $media->id)->count();
+                return $excludedMedia->where($media->getKeyName(), $media->getKey())->count();
             })
             ->each->delete();
 
@@ -392,7 +392,7 @@ trait HasMediaTrait
     public function deleteMedia($mediaId)
     {
         if ($mediaId instanceof Media) {
-            $mediaId = $mediaId->id;
+            $mediaId = $mediaId->getKey();
         }
 
         $media = $this->media->find($mediaId);
