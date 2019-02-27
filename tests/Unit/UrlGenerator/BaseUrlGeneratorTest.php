@@ -36,7 +36,7 @@ class BaseUrlGeneratorTest extends TestCase
      */
     protected $pathGenerator;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

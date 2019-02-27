@@ -14,7 +14,7 @@ class S3IntegrationTest extends TestCase
     /** @var @string */
     protected $s3BaseDirectory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -27,7 +27,7 @@ class S3IntegrationTest extends TestCase
         $this->app['config']->set('medialibrary.path_generator', S3TestPathGenerator::class);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cleanUpS3();
 

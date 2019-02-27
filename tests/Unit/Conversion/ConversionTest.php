@@ -13,7 +13,7 @@ class ConversionTest extends TestCase
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */
     protected $conversion;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
