@@ -35,7 +35,7 @@ abstract class TestCase extends Orchestra
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages */
     protected $testModelWithResponsiveImages;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->loadEnvironmentVariables();
 

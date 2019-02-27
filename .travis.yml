@@ -23,7 +23,7 @@ install:
   - sudo apt-get install -y ghostscript
 
 script:
-  - phpunit
+  - vendor/bin/phpunit
 
 branches:
   only:
