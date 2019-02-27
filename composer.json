@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php": "^7.1",
+    "php": "^7.2",
     "illuminate/bus": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
     "illuminate/console": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
     "illuminate/database": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
@@ -40,8 +40,8 @@
     "guzzlehttp/guzzle": "^6.3",
     "league/flysystem-aws-s3-v3": "^1.0.13",
     "mockery/mockery": "^1.0.0",
-    "orchestra/testbench": "~3.5.0|~3.6.0|~3.7.0|~3.8.0",
-    "phpunit/phpunit" : "^7.0|^8.0",
+    "orchestra/testbench": "~3.8.0",
+    "phpunit/phpunit" : "^8.0",
     "spatie/phpunit-snapshot-assertions": "^2.0"
   },
   "conflict": {

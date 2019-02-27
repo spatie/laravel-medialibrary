@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## Unreleased
+
+- drop support for PHP 7.1
+
 ## 7.5.6 - 2019-02-19
 
 - add support for Laravel 5.8
