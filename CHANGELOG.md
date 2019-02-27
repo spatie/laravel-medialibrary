@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## Unreleased
+## 7.6.0 - 2019-02-27
 
 - drop support for PHP 7.1
 

@@ -127,7 +127,7 @@ class S3IntegrationTest extends TestCase
             ->preservingOriginal()
             ->toMediaCollection('default', 's3_disk');
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
             $media->getTemporaryUrl(Carbon::now()->addMinutes(5))
         );
@@ -157,7 +157,7 @@ class S3IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->toMediaCollection('default', 's3_disk');
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
             $media->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb')
         );
