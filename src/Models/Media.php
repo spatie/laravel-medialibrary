@@ -317,16 +317,16 @@ class Media extends Model implements Responsable, Htmlable
         ));
     }
 
-    public function move(HasMedia $model, $collectionName = 'default'): self
+    public function move(HasMedia $model, $collectionName = 'default', string $diskName = ''): self
     {
-        $newMedia = $this->copy($model, $collectionName);
+        $newMedia = $this->copy($model, $collectionName, $diskName);
 
         $this->delete();
 
         return $newMedia;
     }
 
-    public function copy(HasMedia $model, $collectionName = 'default'): self
+    public function copy(HasMedia $model, $collectionName = 'default', string $diskName = ''): self
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
@@ -338,7 +338,7 @@ class Media extends Model implements Responsable, Htmlable
             ->addMedia($temporaryFile)
             ->usingName($this->name)
             ->withCustomProperties($this->custom_properties)
-            ->toMediaCollection($collectionName);
+            ->toMediaCollection($collectionName, $diskName);
 
         $temporaryDirectory->delete();
 
