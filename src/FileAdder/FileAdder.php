@@ -217,6 +217,10 @@ class FileAdder
         /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = new $mediaClass();
 
+        if ($this->subject->getConnectionName() !== $media->getConnectionName()) {
+            $media->setConnection($this->subject->getConnectionName());
+        }
+
         $media->name = $this->mediaName;
 
         $this->fileName = ($this->fileNameSanitizer)($this->fileName);
