@@ -52,7 +52,7 @@ class Filesystem
 
         $this->filesystem
             ->disk($media->disk)
-            ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()));
+            ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders($type)));
 
         if (is_resource($file)) {
             fclose($file);

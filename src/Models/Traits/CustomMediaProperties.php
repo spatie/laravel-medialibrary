@@ -4,15 +4,19 @@ namespace Spatie\MediaLibrary\Models\Traits;
 
 trait CustomMediaProperties
 {
-    public function setCustomHeaders(array $customHeaders): self
-    {
-        $this->setCustomProperty('custom_headers', $customHeaders);
+	public function setCustomHeaders(array $customHeaders): self
+	{
+		$this->setCustomProperty('custom_headers', $customHeaders);
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function getCustomHeaders(): array
-    {
-        return $this->getCustomProperty('custom_headers', []);
-    }
+	public function getCustomHeaders($type): array
+	{
+		if (isset($type)) {
+			return ['ACL' => 'public-read'];
+		}
+
+		return $this->getCustomProperty('custom_headers', []);
+	}
 }
