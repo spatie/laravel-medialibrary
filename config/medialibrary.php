@@ -147,4 +147,9 @@ return [
         'perform_conversions' => Spatie\MediaLibrary\Jobs\PerformConversions::class,
         'generate_responsive_images' => Spatie\MediaLibrary\Jobs\GenerateResponsiveImages::class,
     ],
+
+    /*
+     * The separator character used to identify conversion files.
+     */
+    'conversion_name_separator' => '-',
 ];
