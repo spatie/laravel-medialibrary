@@ -34,7 +34,7 @@ class S3UrlGenerator extends BaseUrlGenerator
         $url = $this->rawUrlEncodeFilename($url);
 
         $base = config('medialibrary.s3.domain');
-        if ($root = config('filesystems.disks.'.$this->media->disk.'.generator_url')) {
+        if (config('filesystems.disks.'.$this->media->disk.'.generator_url')) {
             $base = config('filesystems.disks.'.$this->media->disk.'.generator_url');
         }
 
@@ -75,7 +75,7 @@ class S3UrlGenerator extends BaseUrlGenerator
     public function getResponsiveImagesDirectoryUrl(): string
     {
         $base = config('medialibrary.s3.domain');
-        if ($root = config('filesystems.disks.'.$this->media->disk.'.generator_url')) {
+        if (config('filesystems.disks.'.$this->media->disk.'.generator_url')) {
             $base = config('filesystems.disks.'.$this->media->disk.'.generator_url');
         }
         return $base.'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
