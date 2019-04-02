@@ -33,7 +33,12 @@ class S3UrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
-        return config('medialibrary.s3.domain').'/'.$url;
+        $base = config('medialibrary.s3.domain');
+        if ($root = config('filesystems.disks.'.$this->media->disk.'.generator_url')) {
+            $base = config('filesystems.disks.'.$this->media->disk.'.generator_url');
+        }
+
+        return $base.'/'.$url;
     }
 
     /**
@@ -69,6 +74,10 @@ class S3UrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return config('medialibrary.s3.domain').'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
+        $base = config('medialibrary.s3.domain');
+        if ($root = config('filesystems.disks.'.$this->media->disk.'.generator_url')) {
+            $base = config('filesystems.disks.'.$this->media->disk.'.generator_url');
+        }
+        return $base.'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }
