@@ -78,6 +78,7 @@ class S3UrlGenerator extends BaseUrlGenerator
         if (config('filesystems.disks.'.$this->media->disk.'.generator_url')) {
             $base = config('filesystems.disks.'.$this->media->disk.'.generator_url');
         }
+
         return $base.'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }
