@@ -150,8 +150,14 @@ class FileManipulator
 
         $job = new $performConversionsJobClass($queuedConversions, $media);
 
-        if ($customQueue = config('medialibrary.queue_name')) {
+        $customQueue = config('medialibrary.queue_name');
+
+        if (strlen($customQueue)>0 && $customQueue!='sync') {
             $job->onQueue($customQueue);
+        }
+        
+        if (isset($customQueue) && $customQueue=='sync') {
+            return app(Dispatcher::class)->dispatchNow($job);
         }
 
         app(Dispatcher::class)->dispatch($job);
