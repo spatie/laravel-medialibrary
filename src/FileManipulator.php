@@ -152,11 +152,11 @@ class FileManipulator
 
         $customQueue = config('medialibrary.queue_name');
 
-        if (strlen($customQueue)>0 && $customQueue!='sync') {
+        if (strlen($customQueue) > 0 && $customQueue != 'sync') {
             $job->onQueue($customQueue);
         }
         
-        if (isset($customQueue) && $customQueue=='sync') {
+        if (isset($customQueue) && $customQueue == 'sync') {
             return app(Dispatcher::class)->dispatchNow($job);
         }
 
