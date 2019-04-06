@@ -155,7 +155,7 @@ class FileManipulator
         if (strlen($customQueue) > 0 && $customQueue != 'sync') {
             $job->onQueue($customQueue);
         }
-        
+
         if (isset($customQueue) && $customQueue == 'sync') {
             return app(Dispatcher::class)->dispatchNow($job);
         }
