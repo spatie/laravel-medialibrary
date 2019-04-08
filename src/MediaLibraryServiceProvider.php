@@ -8,9 +8,9 @@ use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
+use Spatie\MediaLibrary\Uploads\Commands\DeleteOldTemporaryUploads;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
-use Spatie\MediaLibrary\Uploads\Commands\DeleteOldTemporaryUploads;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         if (! class_exists('CreateTemporaryUploadsTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_temporary_uploads_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_temporary_uploads_table.php'),
+                __DIR__.'/../database/migrations/create_temporary_uploads_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_temporary_uploads_table.php'),
             ], 'migrations');
         }
 

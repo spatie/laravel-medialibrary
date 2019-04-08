@@ -78,7 +78,8 @@ class FileAdder
             return $this->defaultSanitizer($fileName);
         };
 
-        $this->afterFileHasBeenAdded = function () {};
+        $this->afterFileHasBeenAdded = function () {
+        };
     }
 
     /**

@@ -4,8 +4,8 @@ namespace Spatie\MediaLibrary\Tests\Feature\Uploads\Http;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Route;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 
 class AddFromTemporaryUploadsTest extends TestCase

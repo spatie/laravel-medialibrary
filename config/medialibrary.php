@@ -25,12 +25,12 @@ return [
      */
     'media_model' => Spatie\MediaLibrary\Models\Media::class,
 
-    /**
+    /*
      * The fully qualified class name of the temporary upload model.
      */
     'temporary_upload_model' => Spatie\MediaLibrary\Uploads\Models\TemporaryUpload::class,
 
-    /**
+    /*
      * The dimensions used to render the temporary upload preview.
      */
     'temporary_upload_preview' => [

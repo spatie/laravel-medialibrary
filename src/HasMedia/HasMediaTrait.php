@@ -16,10 +16,10 @@ use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
+use Spatie\MediaLibrary\Uploads\TemporaryUploadRequestEntry;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\Uploads\TemporaryUploadRequestEntry;
 
 trait HasMediaTrait
 {
