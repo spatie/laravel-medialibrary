@@ -12,7 +12,7 @@ class AddFromTemporaryUploadTest extends TestCase
     /** Spatie\MediaLibrary\Uploads\Models\TemporaryUpload */
     protected $temporaryUpload;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

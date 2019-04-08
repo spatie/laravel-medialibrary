@@ -16,7 +16,7 @@ class MediaBelongsToSessionTest extends TestCase
     /** @var \Spatie\MediaLibrary\Uploads\Rules\MediaBelongsToSession */
     protected $rule;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 
 class TemporaryUploadTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

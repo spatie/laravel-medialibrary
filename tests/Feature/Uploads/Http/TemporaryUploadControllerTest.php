@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\Uploads\Models\TemporaryUpload;
 
 class TemporaryUploadControllerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

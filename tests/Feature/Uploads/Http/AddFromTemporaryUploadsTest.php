@@ -13,7 +13,7 @@ class AddFromTemporaryUploadsTest extends TestCase
     /** @var \Illuminate\Support\Collection */
     protected $temporaryUploads;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
