@@ -420,6 +420,10 @@ trait HasMediaTrait
     {
         $mediaCollection = MediaCollection::create($name);
 
+        if (! config('medialibrary.prepend_original_name_to_conversions')) {
+            $conversion->dontPrependOriginalName();
+        }
+
         $this->mediaCollections[] = $mediaCollection;
 
         return $mediaCollection;

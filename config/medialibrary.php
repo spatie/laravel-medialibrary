@@ -126,6 +126,11 @@ return [
     'image_driver' => 'gd',
 
     /*
+     * Disable this option to omit the original name from conversions.
+     */
+    'prepend_original_name_to_conversions' => true,
+
+    /*
      * FFMPEG & FFProbe binaries paths, only used if you try to generate video
      * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
      * dependency.

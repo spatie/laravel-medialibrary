@@ -27,6 +27,18 @@ class ConversionTest extends TestCase
     }
 
     /** @test */
+    public function it_can_generate_a_conversion_file_name()
+    {
+        $this->assertEquals('my-image-test.jpg', $this->conversion->getConversionFile('my-image.jpg'));
+    }
+
+    /** @test */
+    public function it_can_generate_a_conversion_file_name_without_the_original_name_prepended()
+    {
+        $this->assertEquals('test.jpg', $this->conversion->dontPrependOriginalName()->getConversionFile('my-image.jpg'));
+    }
+
+    /** @test */
     public function it_will_add_a_format_parameter_if_it_was_not_given()
     {
         $this->conversion->width(10);

@@ -27,6 +27,9 @@ class Conversion
     protected $keepOriginalImageFormat = false;
 
     /** @var bool */
+    protected $prependOriginalName = true;
+
+    /** @var bool */
     protected $generateResponsiveImages = false;
 
     public function __construct(string $name)
@@ -74,6 +77,13 @@ class Conversion
     public function shouldKeepOriginalImageFormat(): bool
     {
         return $this->keepOriginalImageFormat;
+    }
+
+    public function dontPrependOriginalName(): self
+    {
+        $this->prependOriginalName = false;
+
+        return $this;
     }
 
     public function getManipulations(): Manipulations
@@ -266,6 +276,6 @@ class Conversion
             $extension = pathinfo($file, PATHINFO_EXTENSION);
         }
 
-        return "{$fileName}-{$this->getName()}.{$extension}";
+        return ($this->prependOriginalName ? "{$fileName}-" : '')."{$this->getName()}.{$extension}";
     }
 }
