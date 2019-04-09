@@ -70,4 +70,21 @@ class BasePathGeneratorTest extends TestCase
 
         $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
     }
+
+    /** @test */
+    public function it_can_get_the_custom_path_for_media_with_conversions_without_the_original_filename_prepended()
+    {
+        config(['medialibrary.prepend_original_name_to_conversions' => false]);
+
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
+        $conversion = ConversionCollection::createForMedia($media)->getByName('thumb');
+
+        $this->urlGenerator
+            ->setMedia($media)
+            ->setConversion($conversion);
+
+        $pathRelativeToRoot = md5($media->id).'/c/'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
+
+        $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+    }
 }

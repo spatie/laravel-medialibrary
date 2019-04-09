@@ -36,6 +36,10 @@ class Conversion
     {
         $this->name = $name;
 
+        if (! config('medialibrary.prepend_original_name_to_conversions')) {
+            $this->dontPrependOriginalName();
+        }
+
         $this->manipulations = (new Manipulations())
             ->optimize(config('medialibrary.image_optimizers'))
             ->format('jpg');
