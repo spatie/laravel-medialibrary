@@ -32,7 +32,7 @@ class RegenerateCommandTest extends TestCase
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
 
-        $derivedImage  = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
         $derivedImageWithoutFilename = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
         $createdAt = filemtime($derivedImage);
 
