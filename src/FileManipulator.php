@@ -96,7 +96,7 @@ class FileManipulator
                 $manipulationResult = $this->performManipulations($media, $conversion, $copiedOriginalFile);
 
                 $originalFilename = config('medialibrary.prepend_original_name_to_conversions')
-                    ? pathinfo($media->file_name, PATHINFO_FILENAME) . '-'
+                    ? pathinfo($media->file_name, PATHINFO_FILENAME).'-'
                     : null;
 
                 $newFileName = $originalFilename.
