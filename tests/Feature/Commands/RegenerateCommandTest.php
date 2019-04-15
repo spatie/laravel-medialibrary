@@ -28,6 +28,31 @@ class RegenerateCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_regenerate_all_files_without_the_original_filename_prepended()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');
+
+        $derivedImage  = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImageWithoutFilename = $this->getMediaDirectory("{$media->id}/conversions/thumb.jpg");
+        $createdAt = filemtime($derivedImage);
+
+        unlink($derivedImage);
+
+        $this->assertFileNotExists($derivedImage);
+        $this->assertFileNotExists($derivedImageWithoutFilename);
+
+        sleep(1);
+
+        config(['medialibrary.prepend_original_name_to_conversions' => false]);
+
+        Artisan::call('medialibrary:regenerate');
+
+        $this->assertFileNotExists($derivedImage);
+        $this->assertFileExists($derivedImageWithoutFilename);
+        $this->assertGreaterThan($createdAt, filemtime($derivedImageWithoutFilename));
+    }
+
+    /** @test */
     public function it_can_regenerate_only_missing_files()
     {
         $mediaExists = $this
