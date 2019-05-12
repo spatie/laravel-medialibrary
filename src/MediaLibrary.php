@@ -61,6 +61,6 @@ class MediaLibrary
      */
     public static function setConfig(string $key, $value)
     {
-        config([ static::configFile() .'.'. $key => $value ]);
+        config([static::configFile().'.'.$key => $value]);
     }
 }

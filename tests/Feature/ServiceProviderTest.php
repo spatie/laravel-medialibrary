@@ -13,8 +13,8 @@ class ServiceProviderTest extends TestCase
     {
         $app = app();
 
-        $app['config']->set(MediaLibrary::configFile() . '.disk_name', null);
-        $app['config']->set(MediaLibrary::configFile() . '.default_filesystem', 'test');
+        $app['config']->set(MediaLibrary::configFile().'.disk_name', null);
+        $app['config']->set(MediaLibrary::configFile().'.default_filesystem', 'test');
 
         $provider = new MediaLibraryServiceProvider($app);
 
@@ -31,7 +31,7 @@ class ServiceProviderTest extends TestCase
         $config_file = 'medialibrary_custom';
 
         $app['config']->set($config_file, array_merge([
-            'disk_name' => 'custom_disk'
+            'disk_name' => 'custom_disk',
         ], $app['config']->get($config_file, [])));
 
         $provider = new MediaLibraryServiceProvider($app);
