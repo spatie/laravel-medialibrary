@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Filesystem;
 
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\MediaLibrary;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Filesystem\Factory;
@@ -68,7 +69,7 @@ class Filesystem
     {
         $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
 
-        $extraHeaders = config('medialibrary.remote.extra_headers');
+        $extraHeaders = MediaLibrary::config('remote.extra_headers');
 
         return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders, $mediaCustomHeaders);
     }

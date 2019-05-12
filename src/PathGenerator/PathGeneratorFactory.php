@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\PathGenerator;
 
+use Spatie\MediaLibrary\MediaLibrary;
 use Spatie\MediaLibrary\Exceptions\InvalidPathGenerator;
 
 class PathGeneratorFactory
@@ -10,7 +11,7 @@ class PathGeneratorFactory
     {
         $pathGeneratorClass = BasePathGenerator::class;
 
-        $customPathClass = config('medialibrary.path_generator');
+        $customPathClass = MediaLibrary::config('path_generator');
 
         if ($customPathClass) {
             $pathGeneratorClass = $customPathClass;

@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\MediaLibrary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Support\Htmlable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -78,7 +79,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function getImageGenerators(): Collection
     {
-        return collect(config('medialibrary.image_generators'));
+        return collect(MediaLibrary::config('image_generators'));
     }
 
     public function getTypeAttribute(): string
@@ -301,7 +302,7 @@ class Media extends Model implements Responsable, Htmlable
         $width = '';
 
         if ($this->hasResponsiveImages($conversion)) {
-            $viewName = config('medialibrary.responsive_images.use_tiny_placeholders')
+            $viewName = MediaLibrary::config('responsive_images.use_tiny_placeholders')
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
 

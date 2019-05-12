@@ -146,11 +146,11 @@ class FileManipulator
 
     protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions)
     {
-        $performConversionsJobClass = config('medialibrary.jobs.perform_conversions', PerformConversions::class);
+        $performConversionsJobClass = MediaLibrary::config('jobs.perform_conversions', PerformConversions::class);
 
         $job = new $performConversionsJobClass($queuedConversions, $media);
 
-        if ($customQueue = config('medialibrary.queue_name')) {
+        if ($customQueue = MediaLibrary::config('queue_name')) {
             $job->onQueue($customQueue);
         }
 

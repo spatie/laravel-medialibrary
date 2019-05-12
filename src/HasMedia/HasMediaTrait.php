@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\HasMedia;
 use DateTimeInterface;
 use Illuminate\Http\File;
 use Illuminate\Support\Collection;
+use Spatie\MediaLibrary\MediaLibrary;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
@@ -58,7 +59,7 @@ trait HasMediaTrait
      */
     public function media()
     {
-        return $this->morphMany(config('medialibrary.media_model'), 'model');
+        return $this->morphMany(MediaLibrary::config('media_model'), 'model');
     }
 
     /**
@@ -295,7 +296,7 @@ trait HasMediaTrait
             ->map(function (array $newMediaItem) use ($collectionName) {
                 static $orderColumn = 1;
 
-                $mediaClass = config('medialibrary.media_model');
+                $mediaClass = MediaLibrary::config('media_model');
                 $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
 
                 if ($currentMedia->collection_name !== $collectionName) {

@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use DateTimeInterface;
+use Spatie\MediaLibrary\MediaLibrary;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Contracts\Config\Repository as Config;
 
@@ -33,7 +34,7 @@ class S3UrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
-        return config('medialibrary.s3.domain').'/'.$url;
+        return MediaLibrary::config('s3.domain').'/'.$url;
     }
 
     /**
@@ -69,6 +70,6 @@ class S3UrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return config('medialibrary.s3.domain').'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
+        return MediaLibrary::config('s3.domain').'/'.$this->pathGenerator->getPathForResponsiveImages($this->media);
     }
 }
