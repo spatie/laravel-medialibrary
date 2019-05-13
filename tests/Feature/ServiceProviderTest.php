@@ -30,9 +30,9 @@ class ServiceProviderTest extends TestCase
 
         $config_file = 'medialibrary_custom';
 
-        $app['config']->set($config_file, array_merge([
-            'disk_name' => 'custom_disk',
-        ], $app['config']->get($config_file, [])));
+        $disk_name = 'custom_disk';
+
+        $app['config']->set($config_file, compact('disk_name'));
 
         $provider = new MediaLibraryServiceProvider($app);
 
@@ -40,6 +40,6 @@ class ServiceProviderTest extends TestCase
 
         MediaLibrary::setConfigFile($config_file);
 
-        $this->assertEquals('custom_disk', MediaLibrary::config('disk_name'));
+        $this->assertEquals($disk_name, MediaLibrary::config('disk_name'));
     }
 }
