@@ -39,28 +39,55 @@ class MediaLibrary
     }
 
     /**
-     * Get the config array, or a value from it.
+     * Get / set the specified configuration value.
      *
-     * @param  string|null  $key
-     * @param  mixed        $default
-     * @return mixed
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * @param  array|string  $key
+     * @param  mixed         $default
+     * @return mixed|array
      */
     public static function config($key = null, $default = null)
     {
-        $config = config(static::configFile());
+        if (is_null($key)) {
+            return config(static::configFile(), []);
+        }
 
-        return func_num_args() ? data_get($config, $key, $default) : $config;
+        if (is_array($key)) {
+            return static::setConfig($key);
+        }
+
+        return static::getConfig($key, $default);
+    }
+
+    /**
+     * Get the config value for the given key.
+     *
+     * @param  string  $key
+     * @param  mixed   $default
+     * @return mixed
+     */
+    public static function getConfig(string $key, $default = null)
+    {
+        return data_get(static::config(), $key, $default);
     }
 
     /**
      * Set a config value for the given key.
      *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @param  array|string  $key
+     * @param  mixed         $value
      * @return void
      */
-    public static function setConfig(string $key, $value)
+    public static function setConfig($key, $value = null)
     {
-        config([static::configFile().'.'.$key => $value]);
+        $keys = is_array($key) ? $key : [$key => $value];
+
+        // Here, we'll prepend the given keys with the config file that's being used.
+        $keys = collect($keys)->mapWithKeys(function ($value, $key) {
+            return [static::configFile().'.'.$key => $value];
+        })->all();
+
+        config($keys);
     }
 }
