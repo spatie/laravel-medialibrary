@@ -319,7 +319,7 @@ class FileAdder
      * @param  Media          $media
      * @param  HasMedia|null  $model
      */
-    protected function processMediaItem(FileAdder $fileAdder, Media $media, $model = null)
+    protected function processMediaItem(self $fileAdder, Media $media, $model = null)
     {
         $this->guardAgainstDisallowedFileAdditions($media);
 

@@ -16,8 +16,8 @@ use Spatie\MediaLibrary\Models\Concerns\IsSorted;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
-use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
@@ -95,7 +95,7 @@ class Media extends Model implements Responsable, Htmlable
 
         $excludedMedia = Collection::wrap($excludedMedia);
 
-        if ( ! $excludedMedia->isEmpty()) {
+        if (! $excludedMedia->isEmpty()) {
             $query->whereNotIn('id', $excludedMedia->pluck('id')->all());
         }
 
