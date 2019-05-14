@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
+use Spatie\MediaLibrary\MediaLibrary;
 use Spatie\MediaLibrary\Models\Media;
 
 class RegisteredResponsiveImages
@@ -50,7 +51,7 @@ class RegisteredResponsiveImages
             })
             ->implode(', ');
 
-        $shouldAddPlaceholderSvg = config('medialibrary.responsive_images.use_tiny_placeholders')
+        $shouldAddPlaceholderSvg = MediaLibrary::config('responsive_images.use_tiny_placeholders')
             && $this->getPlaceholderSvg();
 
         if ($shouldAddPlaceholderSvg) {

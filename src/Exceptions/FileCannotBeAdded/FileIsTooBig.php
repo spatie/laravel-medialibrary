@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\MediaLibrary;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 class FileIsTooBig extends FileCannotBeAdded
@@ -11,7 +12,7 @@ class FileIsTooBig extends FileCannotBeAdded
     {
         $fileSize = File::getHumanReadableSize(filesize($path));
 
-        $maxFileSize = File::getHumanReadableSize(config('medialibrary.max_file_size'));
+        $maxFileSize = File::getHumanReadableSize(MediaLibrary::config('max_file_size'));
 
         return new static("File `{$path}` has a size of {$fileSize} which is greater than the maximum allowed {$maxFileSize}");
     }

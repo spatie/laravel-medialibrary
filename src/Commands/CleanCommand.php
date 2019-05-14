@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Commands;
 
 use Illuminate\Console\Command;
+use Spatie\MediaLibrary\MediaLibrary;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\ConfirmableTrait;
 use Spatie\MediaLibrary\FileManipulator;
@@ -166,7 +167,7 @@ class CleanCommand extends Command
 
     protected function deleteOrphanedDirectories()
     {
-        $diskName = $this->argument('disk') ?: config('medialibrary.disk_name');
+        $diskName = $this->argument('disk') ?: MediaLibrary::config('disk_name');
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw FileCannotBeAdded::diskDoesNotExist($diskName);

@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\FileAdder;
 
 use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\MediaLibrary;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -209,11 +210,11 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('medialibrary.max_file_size')) {
+        if (filesize($this->pathToFile) > MediaLibrary::config('max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = MediaLibrary::config('media_model');
         /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = new $mediaClass();
 
@@ -264,7 +265,7 @@ class FileAdder
             }
         }
 
-        return config('medialibrary.disk_name');
+        return MediaLibrary::config('disk_name');
     }
 
     public function defaultSanitizer(string $fileName): string
@@ -311,11 +312,11 @@ class FileAdder
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
-            $generateResponsiveImagesJobClass = config('medialibrary.jobs.generate_responsive_images', GenerateResponsiveImages::class);
+            $generateResponsiveImagesJobClass = MediaLibrary::config('jobs.generate_responsive_images', GenerateResponsiveImages::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
 
-            if ($customQueue = config('medialibrary.queue_name')) {
+            if ($customQueue = MediaLibrary::config('queue_name')) {
                 $job->onQueue($customQueue);
             }
 

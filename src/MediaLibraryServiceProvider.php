@@ -28,7 +28,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views' => resource_path('views/vendor/medialibrary'),
         ], 'views');
 
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = MediaLibrary::config('media_model');
 
         $mediaClass::observe(new MediaObserver());
 
@@ -37,10 +37,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', 'medialibrary');
+        $this->mergeConfigFrom(__DIR__.'/../config/medialibrary.php', MediaLibrary::configFile());
 
         $this->app->singleton(MediaRepository::class, function () {
-            $mediaClass = config('medialibrary.media_model');
+            $mediaClass = MediaLibrary::config('media_model');
 
             return new MediaRepository(new $mediaClass);
         });
@@ -51,8 +51,8 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $this->app->bind(Filesystem::class, Filesystem::class);
 
-        $this->app->bind(WidthCalculator::class, config('medialibrary.responsive_images.width_calculator'));
-        $this->app->bind(TinyPlaceholderGenerator::class, config('medialibrary.responsive_images.tiny_placeholder_generator'));
+        $this->app->bind(WidthCalculator::class, MediaLibrary::config('responsive_images.width_calculator'));
+        $this->app->bind(TinyPlaceholderGenerator::class, MediaLibrary::config('responsive_images.tiny_placeholder_generator'));
 
         $this->commands([
             'command.medialibrary:regenerate',
@@ -65,8 +65,8 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
     protected function registerDeprecatedConfig()
     {
-        if (! config('medialibrary.disk_name')) {
-            config(['medialibrary.disk_name' => config('medialibrary.default_filesystem')]);
+        if (! MediaLibrary::config('disk_name')) {
+            MediaLibrary::setConfig('disk_name', MediaLibrary::config('default_filesystem'));
         }
     }
 }
