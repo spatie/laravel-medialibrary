@@ -48,7 +48,7 @@ class Media extends Model implements Responsable, Htmlable
      */
     public static function registerMediaCollections()
     {
-
+        // ...
     }
 
     /**
