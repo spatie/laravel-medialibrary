@@ -9,24 +9,24 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 class FileAdderFactory
 {
     /**
-     * @param \Illuminate\Database\Eloquent\Model $subject
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param \Illuminate\Database\Eloquent\Model|null $subject
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public static function create(Model $subject, $file)
+    public static function create($file, $subject = null)
     {
         return app(FileAdder::class)
             ->setSubject($subject)
             ->setFile($file);
     }
 
-    public static function createFromRequest(Model $subject, string $key): FileAdder
+    public static function createFromRequest(string $key, $subject = null): FileAdder
     {
-        return static::createMultipleFromRequest($subject, [$key])->first();
+        return static::createMultipleFromRequest([$key], $subject)->first();
     }
 
-    public static function createMultipleFromRequest(Model $subject, array $keys = []): Collection
+    public static function createMultipleFromRequest(array $keys = [], $subject = null): Collection
     {
         return collect($keys)
             ->map(function (string $key) use ($subject) {
@@ -37,20 +37,20 @@ class FileAdderFactory
                 $files = request()->file($key);
 
                 if (! is_array($files)) {
-                    return static::create($subject, $files);
+                    return static::create($files, $subject);
                 }
 
                 return array_map(function ($file) use ($subject) {
-                    return static::create($subject, $file);
+                    return static::create($file, $subject);
                 }, $files);
             })
             ->flatten();
     }
 
-    public static function createAllFromRequest(Model $subject): Collection
+    public static function createAllFromRequest($subject = null): Collection
     {
         $fileKeys = array_keys(request()->allFiles());
 
-        return static::createMultipleFromRequest($subject, $fileKeys);
+        return static::createMultipleFromRequest($fileKeys, $subject);
     }
 }

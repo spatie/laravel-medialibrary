@@ -21,7 +21,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollecti
 
 class FileAdder
 {
-    /** @var \Illuminate\Database\Eloquent\Model subject */
+    /** @var \Illuminate\Database\Eloquent\Model|null subject */
     protected $subject;
 
     /** @var \Spatie\MediaLibrary\Filesystem\Filesystem */
@@ -76,11 +76,21 @@ class FileAdder
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model $subject
+     * Get the media model class.
+     *
+     * @return string
+     */
+    public function mediaModel()
+    {
+        return config('medialibrary.media_model');
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model|null $subject
      *
      * @return FileAdder
      */
-    public function setSubject(Model $subject)
+    public function setSubject($subject)
     {
         $this->subject = $subject;
 
@@ -213,7 +223,7 @@ class FileAdder
             throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = $this->mediaModel();
         /** @var \Spatie\MediaLibrary\Models\Media $media */
         $media = new $mediaClass();
 
@@ -245,7 +255,11 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        $this->attachMedia($media);
+        if ($this->subject) {
+            $this->attachMedia($media);
+        } else {
+            $this->processMediaItem($this, $media);
+        }
 
         return $media;
     }
@@ -288,21 +302,32 @@ class FileAdder
 
             $class::created(function ($model) {
                 $model->processUnattachedMedia(function (Media $media, FileAdder $fileAdder) use ($model) {
-                    $this->processMediaItem($model, $media, $fileAdder);
+                    $this->processMediaItem($fileAdder, $media, $model);
                 });
             });
 
             return;
         }
 
-        $this->processMediaItem($this->subject, $media, $this);
+        $this->processMediaItem($this, $media, $this->subject);
     }
 
-    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
+    /**
+     * Process the media item.
+     *
+     * @param  FileAdder      $fileAdder
+     * @param  Media          $media
+     * @param  HasMedia|null  $model
+     */
+    protected function processMediaItem(FileAdder $fileAdder, Media $media, $model = null)
     {
-        $this->guardAgainstDisallowedFileAdditions($media, $model);
+        $this->guardAgainstDisallowedFileAdditions($media);
 
-        $model->media()->save($media);
+        if ($model) {
+            $model->media()->save($media);
+        } else {
+            $media->save();
+        }
 
         $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
 
@@ -323,18 +348,25 @@ class FileAdder
         }
 
         if (optional($this->getMediaCollection($media->collection_name))->singleFile) {
-            $model->clearMediaCollectionExcept($media->collection_name, $media);
+            $media->clearMediaCollection($model, $media);
         }
     }
 
     protected function getMediaCollection(string $collectionName): ?MediaCollection
     {
-        $this->subject->registerMediaCollections();
+        $media_model = $this->mediaModel();
+        $media_model::registerMediaCollections();
 
-        return collect($this->subject->mediaCollections)
-            ->first(function (MediaCollection $collection) use ($collectionName) {
-                return $collection->name === $collectionName;
-            });
+        $collections = $media_model::mediaCollections();
+
+        if ($this->subject) {
+            $this->subject->registerMediaCollections();
+            $collections = array_merge($collections, $this->subject->mediaCollections);
+        }
+
+        return collect($collections)->first(function (MediaCollection $collection) use ($collectionName) {
+            return $collection->name === $collectionName;
+        });
     }
 
     protected function guardAgainstDisallowedFileAdditions(Media $media)

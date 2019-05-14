@@ -14,9 +14,12 @@ use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Models\Concerns\IsSorted;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
+use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibrary\Models\Traits\CustomMediaProperties;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
@@ -36,9 +39,133 @@ class Media extends Model implements Responsable, Htmlable
         'responsive_images' => 'array',
     ];
 
+    protected static $mediaCollections = [];
+
+    /**
+     * Register global media collections.
+     *
+     * @return void
+     */
+    public static function registerMediaCollections()
+    {
+
+    }
+
+    /**
+     * Add a media collection.
+     *
+     * @param string $name
+     * @return MediaCollection
+     */
+    public static function addMediaCollection(string $name): MediaCollection
+    {
+        $mediaCollection = MediaCollection::create($name);
+
+        static::$mediaCollections[$name] = $mediaCollection;
+
+        return $mediaCollection;
+    }
+
+    /**
+     * Get the registered media collections.
+     *
+     * @return array
+     */
+    public static function mediaCollections()
+    {
+        return static::$mediaCollections;
+    }
+
+    /**
+     * Clear the media's entire media collection.
+     *
+     * @param null $model
+     * @param \Spatie\MediaLibrary\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
+     * @return $this
+     */
+    public function clearMediaCollection($model = null, $excludedMedia = [])
+    {
+        if ($model) {
+            $query = $model->media();
+        } else {
+            $query = static::query()->whereNull('model_type')->whereNull('model_id');
+        }
+
+        $query->where('collection_name', $this->collection_name);
+
+        $excludedMedia = Collection::wrap($excludedMedia);
+
+        if ( ! $excludedMedia->isEmpty()) {
+            $query->whereNotIn('id', $excludedMedia->pluck('id')->all());
+        }
+
+        // Chunk query for performance
+        $query->orderBy('id')->chunkById(100, function ($media) {
+            $media->each->delete();
+        });
+
+        if (optional($model)->relationLoaded('media')) {
+            unset($model->media);
+        }
+
+        if ($excludedMedia->isEmpty()) {
+            event(new CollectionHasBeenCleared($this->collection_name, $model));
+        }
+
+        return $this;
+    }
+
+    /**
+     * The model the media morphs to.
+     *
+     * @return MorphTo
+     */
     public function model(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Add media for the given file.
+     *
+     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public static function add($file)
+    {
+        return app(FileAdderFactory::class)->create($file);
+    }
+
+    /**
+     * Add media from the current request.
+     *
+     * @param string $key
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public static function addFromRequest($key)
+    {
+        return app(FileAdderFactory::class)->createFromRequest($key);
+    }
+
+    /**
+     * Add multiple media from the current request.
+     *
+     * @param array $keys
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
+     */
+    public static function addMultipleFromRequest(array $keys)
+    {
+        return app(FileAdderFactory::class)->createMultipleFromRequest($keys);
+    }
+
+    /**
+     * Add all media from the current request.
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
+     */
+    public static function addAllMediaFromRequest()
+    {
+        return app(FileAdderFactory::class)->createAllFromRequest();
     }
 
     /*

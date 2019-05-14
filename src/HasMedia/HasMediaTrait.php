@@ -70,7 +70,7 @@ trait HasMediaTrait
      */
     public function addMedia($file)
     {
-        return app(FileAdderFactory::class)->create($this, $file);
+        return app(FileAdderFactory::class)->create($file, $this);
     }
 
     /**
@@ -82,7 +82,7 @@ trait HasMediaTrait
      */
     public function addMediaFromRequest(string $key)
     {
-        return app(FileAdderFactory::class)->createFromRequest($this, $key);
+        return app(FileAdderFactory::class)->createFromRequest($key, $this);
     }
 
     /**
@@ -94,7 +94,7 @@ trait HasMediaTrait
      */
     public function addMultipleMediaFromRequest(array $keys)
     {
-        return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
+        return app(FileAdderFactory::class)->createMultipleFromRequest($keys, $this);
     }
 
     /**
@@ -142,7 +142,7 @@ trait HasMediaTrait
         }
 
         return app(FileAdderFactory::class)
-            ->create($this, $temporaryFile)
+            ->create($temporaryFile, $this)
             ->usingName(pathinfo($filename, PATHINFO_FILENAME))
             ->usingFileName($filename);
     }
@@ -184,7 +184,7 @@ trait HasMediaTrait
 
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
-        $file = app(FileAdderFactory::class)->create($this, $tmpFile);
+        $file = app(FileAdderFactory::class)->create($tmpFile, $this);
 
         return $file;
     }
@@ -339,7 +339,7 @@ trait HasMediaTrait
         $this->getMedia($collectionName)
             ->each->delete();
 
-        event(new CollectionHasBeenCleared($this, $collectionName));
+        event(new CollectionHasBeenCleared($collectionName, $this));
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -420,7 +420,7 @@ trait HasMediaTrait
     {
         $mediaCollection = MediaCollection::create($name);
 
-        $this->mediaCollections[] = $mediaCollection;
+        $this->mediaCollections[$name] = $mediaCollection;
 
         return $mediaCollection;
     }
