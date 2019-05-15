@@ -102,5 +102,5 @@ interface HasMedia
     /*
      * Register the media conversions and conversions set in media collections.
      */
-    public function registerAllMediaConversions();
+    public function registerAllMediaConversions(Media $media = null);
 }
