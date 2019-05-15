@@ -34,7 +34,7 @@ class ConversionCollectionTest extends TestCase
 
         $conversionCollection = ConversionCollection::createForMedia($this->media);
 
-        $conversion = $conversionCollection->getConversions()[0];
+        $conversion = $conversionCollection->getConversions()->first();
 
         $this->assertEquals('thumb', $conversion->getName());
 
