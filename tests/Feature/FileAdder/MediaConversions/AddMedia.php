@@ -143,7 +143,7 @@ class AddMedia extends TestCase
 
         $conversionCollection = ConversionCollection::createForMedia($media);
 
-        $conversion = $conversionCollection->getConversions()[0];
+        $conversion = $conversionCollection->getConversions()->first();
 
         $conversionManipulations = $conversion
             ->getManipulations()
