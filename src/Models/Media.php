@@ -373,11 +373,7 @@ class Media extends Model implements Responsable, Htmlable
      */
     public function getMediaConversionNames(): array
     {
-        $conversions = ConversionCollection::createForMedia($this);
-
-        return $conversions->map(function (Conversion $conversion) {
-            return $conversion->getName();
-        })->toArray();
+        return ConversionCollection::createForMedia($this)->keys()->all();
     }
 
     public function hasGeneratedConversion(string $conversionName): bool
