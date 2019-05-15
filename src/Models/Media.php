@@ -144,7 +144,7 @@ class Media extends Model implements Responsable, Htmlable
      * @param  Media|null  $media
      * @return void
      */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(self $media = null)
     {
         // ...
     }
