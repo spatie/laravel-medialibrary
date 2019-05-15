@@ -411,7 +411,7 @@ trait HasMediaTrait
     {
         $conversion = Conversion::create($name);
 
-        $this->mediaConversions[] = $conversion;
+        $this->mediaConversions[$name] = $conversion;
 
         return $conversion;
     }

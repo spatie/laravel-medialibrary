@@ -233,7 +233,7 @@ class FileAdder
 
         $media->file_name = $this->fileName;
 
-        $media->disk = $this->determineDiskName($diskName, $collectionName);
+        $media->disk = $this->determineDiskName($media, $diskName, $collectionName);
 
         if (is_null(config("filesystems.disks.{$media->disk}"))) {
             throw DiskDoesNotExist::create($media->disk);
@@ -264,13 +264,13 @@ class FileAdder
         return $media;
     }
 
-    protected function determineDiskName(string $diskName, string $collectionName): string
+    protected function determineDiskName(Media $media, string $diskName, string $collectionName): string
     {
         if ($diskName !== '') {
             return $diskName;
         }
 
-        if ($collection = $this->getMediaCollection($collectionName)) {
+        if ($collection = $this->getMediaCollection($media, $collectionName)) {
             $collectionDiskName = $collection->diskName;
 
             if ($collectionDiskName !== '') {
@@ -318,6 +318,8 @@ class FileAdder
      * @param  FileAdder      $fileAdder
      * @param  Media          $media
      * @param  HasMedia|null  $model
+     * @throws FileUnacceptableForCollection
+     * @return void
      */
     protected function processMediaItem(self $fileAdder, Media $media, $model = null)
     {
@@ -347,17 +349,25 @@ class FileAdder
             dispatch($job);
         }
 
-        if (optional($this->getMediaCollection($media->collection_name))->singleFile) {
+        if (optional($this->getMediaCollection($media))->singleFile) {
             $media->clearMediaCollection($model, $media);
         }
     }
 
-    protected function getMediaCollection(string $collectionName): ?MediaCollection
+    /**
+     * Get a media collection by its name, or via the Media model.
+     *
+     * @param Media $media
+     * @param string|null $collectionName
+     * @return MediaCollection|null
+     */
+    protected function getMediaCollection(Media $media, $collectionName = null): ?MediaCollection
     {
-        $media_model = $this->mediaModel();
-        $media_model::registerMediaCollections();
+        $collectionName = $collectionName ?? $media->collection_name;
 
-        $collections = $media_model::mediaCollections();
+        $media->registerMediaCollections();
+
+        $collections = $media->mediaCollections;
 
         if ($this->subject) {
             $this->subject->registerMediaCollections();
@@ -373,7 +383,7 @@ class FileAdder
     {
         $file = PendingFile::createFromMedia($media);
 
-        if (! $collection = $this->getMediaCollection($media->collection_name)) {
+        if (! $collection = $this->getMediaCollection($media)) {
             return;
         }
 

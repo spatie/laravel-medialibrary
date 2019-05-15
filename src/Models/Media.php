@@ -39,14 +39,18 @@ class Media extends Model implements Responsable, Htmlable
         'responsive_images' => 'array',
     ];
 
-    protected static $mediaCollections = [];
+    /** @var array */
+    public $mediaConversions = [];
+
+    /** @var array */
+    public $mediaCollections = [];
 
     /**
      * Register global media collections.
      *
      * @return void
      */
-    public static function registerMediaCollections()
+    public function registerMediaCollections()
     {
         // ...
     }
@@ -57,23 +61,13 @@ class Media extends Model implements Responsable, Htmlable
      * @param string $name
      * @return MediaCollection
      */
-    public static function addMediaCollection(string $name): MediaCollection
+    public function addMediaCollection(string $name): MediaCollection
     {
         $mediaCollection = MediaCollection::create($name);
 
-        static::$mediaCollections[$name] = $mediaCollection;
+        $this->mediaCollections[$name] = $mediaCollection;
 
         return $mediaCollection;
-    }
-
-    /**
-     * Get the registered media collections.
-     *
-     * @return array
-     */
-    public static function mediaCollections()
-    {
-        return static::$mediaCollections;
     }
 
     /**
@@ -116,6 +110,61 @@ class Media extends Model implements Responsable, Htmlable
     }
 
     /**
+     * Register all media conversions.
+     *
+     * @return void
+     */
+    public function registerAllMediaConversions()
+    {
+        $this->registerMediaCollections();
+
+        collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) {
+            $actualMediaConversions = $this->mediaConversions;
+
+            $this->mediaConversions = [];
+
+            ($mediaCollection->mediaConversionRegistrations)($this);
+
+            $preparedMediaConversions = collect($this->mediaConversions)
+                ->each(function (Conversion $conversion) use ($mediaCollection) {
+                    $conversion->performOnCollections($mediaCollection->name);
+                })
+                ->values()
+                ->toArray();
+
+            $this->mediaConversions = array_merge($actualMediaConversions, $preparedMediaConversions);
+        });
+
+        $this->registerMediaConversions($this);
+    }
+
+    /**
+     * Register global media conversions.
+     *
+     * @param  Media|null  $media
+     * @return void
+     */
+    public function registerMediaConversions(Media $media = null)
+    {
+        // ...
+    }
+
+    /**
+     * Add a conversion.
+     *
+     * @param string $name
+     * @return Conversion
+     */
+    public function addMediaConversion(string $name): Conversion
+    {
+        $conversion = Conversion::create($name);
+
+        $this->mediaConversions[$name] = $conversion;
+
+        return $conversion;
+    }
+
+    /**
      * The model the media morphs to.
      *
      * @return MorphTo
@@ -123,6 +172,16 @@ class Media extends Model implements Responsable, Htmlable
     public function model(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Determine whether the media is associated with a model, or not.
+     *
+     * @return bool
+     */
+    public function hasModel()
+    {
+        return ! (is_null($this->model_type) || is_null($this->model_id));
     }
 
     /**

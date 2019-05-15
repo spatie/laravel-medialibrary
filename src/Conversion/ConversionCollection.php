@@ -35,7 +35,7 @@ class ConversionCollection extends Collection
 
         $this->items = [];
 
-        $this->addConversionsFromRelatedModel($media);
+        $this->addConversions($media);
 
         $this->addManipulationsFromDb($media);
 
@@ -65,6 +65,23 @@ class ConversionCollection extends Collection
     }
 
     /**
+     * Add the conversions that are defined on the Media model, or on the related model.
+     *
+     * @param \Spatie\MediaLibrary\Models\Media $media
+     * @return void
+     */
+    protected function addConversions(Media $media)
+    {
+        $media->registerAllMediaConversions();
+
+        $this->items = $media->mediaConversions;
+
+        if ($media->hasModel()) {
+            $this->addConversionsFromRelatedModel($media);
+        }
+    }
+
+    /**
      * Add the conversion that are defined on the related model of
      * the given media.
      *
@@ -90,7 +107,7 @@ class ConversionCollection extends Collection
 
         $model->registerAllMediaConversions($media);
 
-        $this->items = $model->mediaConversions;
+        $this->items = array_merge($this->items, $model->mediaConversions);
     }
 
     /**
