@@ -22,10 +22,10 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 
 trait HasMediaTrait
 {
-    /** @var array */
+    /** @var Conversion[] */
     public $mediaConversions = [];
 
-    /** @var array */
+    /** @var MediaCollection[] */
     public $mediaCollections = [];
 
     /** @var bool */
