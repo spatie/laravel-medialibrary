@@ -3,32 +3,34 @@ title: Defining conversions
 weight: 1
 ---
 
-When adding files to the medialibrary it can automatically create derived versions such as thumbnails and banners.
+When adding files to the medialibrary it can automatically created derived versions such a thumbnails and banners.
+
+If you want to use this functionality your models should implement the `HasMediaConversions` interface instead of `HasMedia`. This interface expects an implementation of the `registerMediaConversions` method.
 
 Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `pdf`, `mp4 `, `mov` or `webm` file is added to the medialibrary. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
 
-Internally, [spatie/image](https://docs.spatie.be/image/v1/) is used to manipulate the images. You can use [any manipulation function](https://docs.spatie.be/image) from that package.
+Internally, [spatie/image](https://docs.spatie.be/image/v1/) is used to manipulate the images. You can use [any manipulation function](https://docs.spatie.be/image) from that package. 
 
 ## A single conversion
 
-You should add a method called `registerMediaConversions` to your model. In that model you can define the media conversion. Here's an example:
+Here's an example of how a model can implement this.
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class NewsItem extends Model implements HasMedia
+class NewsItem extends Model implements HasMediaConversions
 {
     use HasMediaTrait;
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions()
     {
         $this->addMediaConversion('thumb')
               ->width(368)
               ->height(232)
-              ->sharpen(10);
+              ->sharpen(10)
+              ->optimize();
     }
 }
 ```
@@ -49,6 +51,8 @@ $media->getUrl();  // the url to the where the original image is stored
 $media->getUrl('thumb') // the url to the converted image with dimensions 368x232
 ```
 
+Because we used `optimize` in the `registerMediaConversions` method, the converted image will have been optimized by [the underlying image-optimizer package](https://github.com/spatie/image-optimizer).
+
 ## Using multiple conversions
 
 You can register as many media conversions as you want
@@ -57,12 +61,12 @@ You can register as many media conversions as you want
 // in your model
 use Spatie\Image\Manipulations;
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions()
     {
         $this->addMediaConversion('thumb')
               ->width(368)
               ->height(232)
-              ->sharpen(10);
+              ->sharpen;
 
         $this->addMediaConversion('old-picture')
               ->sepia()
@@ -79,13 +83,13 @@ $media->getUrl('old-picture') // the url to the sepia, bordered version
 
 ## Performing conversions on specific collections
 
-By default a conversion will be performed on all files regardless of which [collection](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/working-with-collections) is used.  Conversions can also be performed on all specific collections by adding a call to  `performOnCollections`.
+By default a conversion will be performed on all files regardless of which [collection](https://docs.spatie.be/laravel-medialibrary/v5/basic-usage/working-with-collections) is used.  Conversions can also be performed on all specific collections by adding a call to  `performOnCollections`.
 
 This is how that looks like in the model:
 
 ```php
 // in your model
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions()
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -107,17 +111,17 @@ $media->getUrl('thumb') // returns ''
 
 ## Queuing conversions
 
-By default, a conversion will be added to the queue that you've [specified in the configuration](https://docs.spatie.be/laravel-medialibrary/v7/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
+By default, a conversion will be added to the queue that you've [specified in the configuration](https://docs.spatie.be/laravel-medialibrary/v5/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null)
-{
-    $this->addMediaConversion('thumb')
-            ->width(368)
-            ->height(232)
-            ->nonQueued();
-}
+    public function registerMediaConversions()
+    {
+        $this->addMediaConversion('thumb')
+              ->width(368)
+              ->height(232)
+              ->nonQueued();
+    }
 ```
 
 
@@ -130,7 +134,7 @@ true` on your model.
 // in your model
     public $registerMediaConversionsUsingModelInstance = true;
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions()
     {
         $this->addMediaConversion('thumb')
               ->width($this->width)

@@ -8,22 +8,14 @@ The medialibrary will fire the following events that your handlers can listen fo
 ### MediaHasBeenAdded
 This event is fired after the a file has been saved to disk.
 
-The event has a property `media` that holds the `\Spatie\MediaLibrary\Models\Media`-object of which the file has been stored.
-
-### ConversionWillStart
-This event is fired right before a conversion will start.
-
-The event has two public properties:
-
-- `media`: the `\Spatie\MediaLibrary\Models\Media`-object of which a conversion will be started
-- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversion\Conversion`) that will start
+The event has a property `media` that holds the `\Spatie\MediaLibrary\Media`-object of which the file has been stored.  
 
 ### ConversionHasBeenCompleted
 This event is fired when a conversion has been completed.
 
 The event has two public properties:
 
-- `media`: the `\Spatie\MediaLibrary\Models\Media`-object of which a conversion has been completed
+- `media`: the `\Spatie\MediaLibrary\Media`-object of which a conversion has been completed
 - `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversion\Conversion`) that has just been completed
 
 ### CollectionHasBeenCleared
@@ -48,7 +40,7 @@ class MediaLogger
 {
     public function handle(MediaHasBeenAdded $event)
     {
-        $media = $event->media;
+        $media = $event->getMedia();
         $path = $media->getPath();
         Log::info("file {$path} has been saved for media {$media->id}");
     }

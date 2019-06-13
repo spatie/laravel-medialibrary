@@ -9,8 +9,8 @@ To associate media with a model, the model must implement the following interfac
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 class News extends Model implements HasMedia
 {
@@ -18,3 +18,5 @@ class News extends Model implements HasMedia
    ...
 }
 ```
+
+If you want to leverage [image conversions](https://docs.spatie.be/laravel-medialibrary/v5/converting-images/defining-conversions), implement the `HasMediaConversions` interface instead of `HasMedia`.

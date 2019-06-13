@@ -1,9 +1,9 @@
 ---
-title: Simple media collections
-weight: 1
+title: Working with collections
 ---
 
-If you have different types of files that you want to associate, you can put them in their own collection.
+If you have different types of files that you want to associate,
+you can put them in their own collection.
 
 ```php
 $newsItem = News::find(1);
@@ -29,10 +29,4 @@ You can clear out a specific collection by passing the name to `clearMediaCollec
 
 ```php
 $newsItem->clearMediaCollection('images');
-```
-
-Also, there is a `clearMediaCollectionExcept` method which can be useful if you want to remove only few or some selected media in a collection. It accepts the collection name as the first argument and the media instance or collection of media instances which should not be removed as the second argument:
-
-```php
-$newsItem->clearMediaCollectionExcept('images', $newsItem->getFirstMedia()); // This will remove all associated media in the 'images' collection except the first media
 ```

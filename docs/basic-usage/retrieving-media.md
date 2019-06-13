@@ -11,20 +11,11 @@ $mediaItems = $newsItem->getMedia();
 
 The method returns a collection of `Media`-objects.
 
-You can retrieve the url and path to the file associated with the `Media`-object using  `getUrl`, `getTemporaryUrl` (for S3 only) and `getPath`:
+You can retrieve the url and path to the file associated with the `Media`-object using  `getUrl` and `getPath`:
 
 ```php
 $publicUrl = $mediaItems[0]->getUrl();
-$publicFullUrl = $mediaItems[0]->getFullUrl(); //url including domain
 $fullPathOnDisk = $mediaItems[0]->getPath();
-$temporaryS3Url = $mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5));
-```
-
-Since retrieving the first media and the url for the first media for an object is such a common scenario, the `getFirstMedia` and `getFirstMediaUrl` convenience-methods are also provided:
-
-```php
-$media = $newsItem->getFirstMedia();
-$url = $newsItem->getFirstMediaUrl();
 ```
 
 An instance of `Media` also has a name, by default its filename:
@@ -33,7 +24,7 @@ An instance of `Media` also has a name, by default its filename:
 echo $mediaItems[0]->name; // Display the name
 
 $mediaItems[0]->name = 'new name';
-$mediaItems[0]->save(); // The new name gets saved.
+$mediaItems[0]->save(); // The new name gets saved. Activerecord ftw!
 ```
 
 The name of a `Media` instance can be changed when it's added to the medialibrary:
@@ -58,17 +49,6 @@ The name of the uploaded file can also be changed when it gets added to the medi
 $newsItem
    ->addMedia($pathToFile)
    ->usingFileName('otherFileName.txt')
-   ->toMediaCollection();
-```
-
-You can sanitize the filename using a callable:
-
-```php
-$newsItem
-   ->addMedia($pathToFile)
-   ->sanitizingFileName(function($fileName) {
-      return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
-   })
    ->toMediaCollection();
 ```
 
@@ -99,16 +79,8 @@ Deleting a model with associated media, will also delete all associated files.
 $newsItem->delete(); // all associated files will be deleted as well
 ```
 
-If you want to remove all associated media in a specific collection you can use the `clearMediaCollection` method. It also accepts the collection name as an optional parameter:
+If you want to remove all associated media in a specific collection you can use the `clearMediaCollection` method:
 
 ```php
 $newsItem->clearMediaCollection(); // all media will be deleted
-
-$newsItem->clearMediaCollection('images'); // all media in the images collection will be deleted
-```
-
-Also, there is a `clearMediaCollectionExcept` method which can be useful if you want to remove only few or some selected media in a collection. It accepts the collection name as the first argument and the media instance or collection of media instances which should not be removed as the second argument:
-
-```php
-$newsItem->clearMediaCollectionExcept('images', $newsItem->getFirstMedia()); // This will remove all associated media in the 'images' collection except the first media
 ```
