@@ -1,5 +1,6 @@
 ---
 title: Optimizing converted images
+weight: 3
 ---
 
 The medialibrary will shave off some kilobyes of the converted images by running them through a chain of various image optimization tools.
