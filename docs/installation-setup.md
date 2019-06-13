@@ -6,20 +6,12 @@ weight: 4
 Medialibrary can be installed via composer:
 
 ```bash
-$ composer require spatie/laravel-medialibrary:^5.0.0
+$ composer require spatie/laravel-medialibrary:^6.0.0
 ```
 
-Next, you need to register the service provider:
+The package will automatically register a service provider.
 
-```php
-// config/app.php
-'providers' => [
-    ...
-    Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
-];
-```
-
-And publish and run the migration:
+You need to publish and run the migration:
 
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
@@ -32,20 +24,20 @@ Publishing the config file is optional:
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
 ```
 
-The config file contains a number of default values:
+This is the default content of the config file:
 
 ```php
 return [
 
     /*
      * The filesystems on which to store added files and derived images by default. Choose
-     * one or more of the filesystems you configured in app/config/filesystems.php
+     * one or more of the filesystems you've configured in config/filesystems.php.
      */
-    'defaultFilesystem' => 'media',
+    'default_filesystem' => 'public',
 
     /*
-     * The maximum file size of an item in bytes. Adding a file
-     * that is larger will result in an exception.
+     * The maximum file size of an item in bytes.
+     * Adding a larger file will result in an exception.
      */
     'max_file_size' => 1024 * 1024 * 10,
 
@@ -56,18 +48,18 @@ return [
     'queue_name' => '',
 
     /*
-     * The class name of the media model to be used.
+     * The class name of the media model that should be used.
      */
     'media_model' => Spatie\MediaLibrary\Media::class,
 
     /*
-     * The engine that will perform the image conversions.
-     * Should be either `gd` or `imagick`
+     * The engine that should perform the image conversions.
+     * Should be either `gd` or `imagick`.
      */
     'image_driver' => 'gd',
 
     /*
-     * When urls to files get generated this class will be called. Leave empty
+     * When urls to files get generated, this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */
     'custom_url_generator_class' => null,
@@ -99,7 +91,7 @@ return [
     ],
 
     /*
-     * These generators will be used to created conversion of media files.
+     * These generators will be used to create an image of media files.
      */
     'image_generators' => [
         Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
@@ -109,6 +101,39 @@ return [
     ],
 
     /*
+     * Medialibrary will try to optimize all converted images by removing
+     * metadata and applying a little bit of compression. These are
+     * the optimizers that will be used by default.
+     */
+    'image_optimizers' => [
+        Spatie\ImageOptimizer\Optimizers\Jpegoptim::class => [
+            '--strip-all', // this strips out all text information such as comments and EXIF data
+            '--all-progressive', // this will make sure the resulting image is a progressive one
+        ],
+        Spatie\ImageOptimizer\Optimizers\Pngquant::class => [
+            '--force', // required parameter for this package
+        ],
+        Spatie\ImageOptimizer\Optimizers\Optipng::class => [
+            '-i0', // this will result in a non-interlaced, progressive scanned image
+            '-o2', // this set the optimization level to two (multiple IDAT compression trials)
+            '-quiet', // required parameter for this package
+        ],
+        Spatie\ImageOptimizer\Optimizers\Svgo::class => [
+            '--disable=cleanupIDs', // disabling because it is known to cause troubles
+        ],
+        Spatie\ImageOptimizer\Optimizers\Gifsicle::class => [
+            '-b', // required parameter for this package
+            '-O3', // this produces the slowest but best results
+        ],
+    ],
+
+    /*
+     * The path where to store temporary files while performing image conversions.
+     * If set to null, storage_path('medialibrary/temp') will be used.
+     */
+    'temporary_directory_path' => null,
+
+    /*
      * FFMPEG & FFProbe binaries path, only used if you try to generate video
      * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
      * dependency.
@@ -116,26 +141,54 @@ return [
     'ffmpeg_binaries' => '/usr/bin/ffmpeg',
     'ffprobe_binaries' => '/usr/bin/ffprobe',
 ];
-
-
 ```
 
-Finally you should add a disk to `app/config/filesystems.php`. All files added to the media library will be stored on that disk, this would be a typical configuration:
+By default medialibrary will store it's files on Laravel's `public` disk. If you want a dedicated disk you should add a disk to `app/config/filesystems.php`. This would be a typical configuration:
 
 ```php
-return [
     ...
     'disks' => [
+        ...
+
         'media' => [
             'driver' => 'local',
             'root'   => public_path('media'),
         ],
-    ... 
-];   
+    ...
 ```
 
-Don't forget to ignore the directory of your media disk so the files won't end up in your git repo.
+Don't forget to ignore the directory of your configured disk so the files won't end up in your git repo.
 
-If you are planning on working with image manipulations it's recommended to configure a queue on your server and specify it in the config file. 
+If you are planning on working with image manipulations it's recommended to configure a queue on your server and specify it in the config file.
 
-Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/5.4/filesystem#configuration).
+Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/5.5/filesystem#configuration).
+
+### Optimization tools
+
+Medialibrary will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v6/converting-images/optimizing-converted-images) if they are present on your system:
+
+- [JpegOptim](http://freecode.com/projects/jpegoptim)
+- [Optipng](http://optipng.sourceforge.net/)
+- [Pngquant 2](https://pngquant.org/)
+- [SVGO](https://github.com/svg/svgo)
+- [Gifsicle](http://www.lcdf.org/gifsicle/)
+
+Here's how to install all the optimizers on Ubuntu:
+
+```bash
+sudo apt-get install jpegoptim
+sudo apt-get install optipng
+sudo apt-get install pngquant
+sudo npm install -g svgo
+sudo apt-get install gifsicle
+```
+
+And here's how to install the binaries on MacOS (using [Homebrew](https://brew.sh/)):
+
+```bash
+brew install jpegoptim
+brew install optipng
+brew install pngquant
+brew install svgo
+brew install gifsicle
+```

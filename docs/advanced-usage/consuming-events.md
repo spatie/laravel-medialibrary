@@ -10,6 +10,14 @@ This event is fired after the a file has been saved to disk.
 
 The event has a property `media` that holds the `\Spatie\MediaLibrary\Media`-object of which the file has been stored.  
 
+### ConversionWillStart
+This event is fired right before a conversion will start.
+
+The event has two public properties:
+
+- `media`: the `\Spatie\MediaLibrary\Media`-object of which a conversion will be started
+- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversion\Conversion`) that will start
+
 ### ConversionHasBeenCompleted
 This event is fired when a conversion has been completed.
 

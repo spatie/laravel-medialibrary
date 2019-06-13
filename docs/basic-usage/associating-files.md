@@ -14,7 +14,7 @@ $newsItem
 
 The file will now be associated with the `NewsItem` instance and will be moved to the disk you've configured.
 
-If you want to not move, but copy, the original file you can call `preservingOriginal`:
+If you want copy, rather than move the original file call `preservingOriginal`:
 
 ```php
 $newsItem
@@ -31,3 +31,5 @@ $newsItem
    ->addMediaFromUrl($url)
    ->toMediaCollection();
 ```
+
+The media library does not restrict what kinds of files may be uploaded or associated with models. If you are accepting file uploads from users, you should take steps to validate those uploads, to ensure you don't introduce security vulnerabilities into your project. Laravel has a [a rule to validate uploads based on MIME type or file extension](https://laravel.com/docs/validation).

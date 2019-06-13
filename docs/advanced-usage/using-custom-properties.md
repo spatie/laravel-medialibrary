@@ -1,6 +1,5 @@
 ---
-title: Adding custom properties
-weight: 2
+title: Using custom properties
 ---
 
 When adding a file to the medialibrary you can pass an array with custom properties:
@@ -12,14 +11,17 @@ $mediaItem = $newsItem
     ->toMediaCollection();
 ```
 
-There are some convenience methods to work with custom properties:
+There are some methods to work with custom properties:
 
 ```php
 $mediaItem->hasCustomProperty('primaryColor'); // returns true
 $mediaItem->getCustomProperty('primaryColor'); // returns 'red'
 
-$mediaItem->hasCustomProperty('does not exists'); // returns false
-$mediaItem->getCustomProperty('does not exists'); // returns null
+$mediaItem->hasCustomProperty('does not exist'); // returns false
+$mediaItem->getCustomProperty('does not exist'); // returns null
+
+$mediaItem->setCustomProperty('name', 'value'); // adds a new custom propery
+$mediaItem->forgetCustomProperty('name'); // removes a custom propery
 ```
 
 You can also specify a default value when retrieving a custom property.

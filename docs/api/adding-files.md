@@ -102,6 +102,23 @@ public function addAllMediaFromRequest(): Collection
 
 Please note the return type of `addAllMediaFromRequest` is a Collection of `FileAdder`s. This means you'll have to loop over every `FileAdder` to use any of the middle methods. See the `addMultipleMediaFromRequest` method above for an example.
 
+### addMediaFromBase64
+
+```php
+/**
+ * Add a base64 encoded file to the medialibrary.
+ *
+ * @param string $base64data
+ * @param string|array ...$allowedMimeTypes
+ *
+ * @throws InvalidBase64Data
+ * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+ *
+ * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+ */
+ public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
+```
+
 ### copyMedia
 
 
@@ -196,9 +213,9 @@ public function withCustomProperties(array $customProperties)
 public function toMediaCollection($collectionName = 'default', $diskName = '')
 ```
 
-### toMediaLibraryOnCloudDisk
+### toMediaCollectionOnCloudDisk
 
-This function does almost the same as `toMediaLibrary`. It'll store all media on the disk configured in the `cloud` key of `config/filesystems.php`
+This function does almost the same as `toMediaCollection`. It'll store all media on the disk configured in the `cloud` key of `config/filesystems.php`
 
 ```php
  /**
@@ -209,5 +226,5 @@ This function does almost the same as `toMediaLibrary`. It'll store all media on
   * @throws FileCannotBeAdded
   * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
   */
- public function toMediaLibraryOnCloudDisk(string $collectionName = 'default')
+ public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
 ```

@@ -3,7 +3,13 @@ title: Introduction
 weight: 1
 ---
 
-Medialibrary is a Laravel (5.4 and up) package that can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with. Here's a quick example:
+Medialibrary is a Laravel (5.5 and up) package that can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with.
+ 
+Are you a visual learner? Then watch this video that demonstrates what the package can do.
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/4lq_6JLR2H8?rel=0" frameborder="0" allowfullscreen></iframe> 
+ 
+Here are some quick code examples:
 
 ```php
 $newsItem = News::find(1);
@@ -25,7 +31,7 @@ $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 
 The storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.4/filesystem),  so you can plug in any compatible filesystem.
 
-The package can also generate derived images such as thumbnails for images, video's and pdf's. Once you've [set up your model](/laravel-medialibrary/v5/basic-usage/preparing-your-model), they're easily accessible:
+The package can also generate derived images such as thumbnails for images, video's and pdf's. Once you've [set up your model](/laravel-medialibrary/v6/basic-usage/preparing-your-model), they're easily accessible:
 
 ```php
 $newsItem->getMedia('images')->first()->getUrl('thumb');

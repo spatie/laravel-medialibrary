@@ -10,7 +10,7 @@ default `Spatie\MediaLibrary\Media`-class. Here's an example:
 
 ```php
 namespace App\Models;
-use Spatie\MediaLibrary\Media as BaseMedia;
+use Spatie\MediaLibrary\Models\Media as BaseMedia;
 
 class Media extends BaseMedia 
 {
@@ -22,6 +22,6 @@ In the config file of the package you must specify the name of your custom class
 ```php
 // config/medialibrary.php
 ...
-   'media_model' => App\Models\CustomMedia::class
+   'media_model' => App\Models\Media::class
 ...
 ```
