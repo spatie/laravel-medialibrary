@@ -7,7 +7,7 @@ Medialibrary is a Laravel (5.5 and up) package that can associate all sorts of f
  
 Are you a visual learner? Then watch this video that demonstrates what the package can do.
 
-<iframe width="640" height="360" src="https://www.youtube.com/embed/4lq_6JLR2H8?rel=0" frameborder="0" allowfullscreen></iframe> 
+{{< youtube 4lq_6JLR2H8 >}} 
  
 Here are some quick code examples:
 
