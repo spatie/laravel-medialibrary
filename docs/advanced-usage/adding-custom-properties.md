@@ -1,5 +1,6 @@
 ---
 title: Adding custom properties
+weight: 2
 ---
 
 When adding a file to the medialibrary you can pass an array with custom properties:

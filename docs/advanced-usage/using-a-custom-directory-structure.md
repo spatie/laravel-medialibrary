@@ -1,6 +1,6 @@
 ---
 title: Using a custom directory structure
-weight: 5
+weight: 6
 ---
 
 <span class="badge">v3.9+</span>

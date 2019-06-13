@@ -1,6 +1,6 @@
 ---
 title: Using your own model
-weight: 4
+weight: 5
 ---
 
 A custom model can be used in version 3.4.0 and higher.
