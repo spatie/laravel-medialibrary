@@ -1,6 +1,6 @@
 ---
-title: v7
+title: v3
 slogan: Associate files with Eloquent models.
 githubUrl: https://github.com/spatie/laravel-medialibrary
-branch: v7
+branch: v3
 ---
