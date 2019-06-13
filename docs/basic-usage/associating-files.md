@@ -6,30 +6,25 @@ weight: 2
 You can associate a file with a model like this:
 
 ```php
-$newsItem = NewsItem::find(1);
-$newsItem
-   ->addMedia($pathToFile)
-   ->toMediaCollection();
+$newsItem = News::find(1);
+$newsItem->addMedia($pathToFile)
+         ->toMediaLibrary();
 ```
 
-The file will now be associated with the `NewsItem` instance and will be moved to the disk you've configured.
+The file will now be associated with the newsitem and will be moved to the disk you've configured.
 
-If you want to not move, but copy, the original file you can call `preservingOriginal`:
+If you want to preserve the original file, you can call `preservingOriginal`:
 
 ```php
-$newsItem
-   ->addMedia($pathToFile)
-   ->preservingOriginal()
-   ->toMediaCollection();
+$newsItem->addMedia($pathToFile)
+         ->preservingOriginal()
+         ->toMediaLibrary();
 ```
 
-You can also add a remote file to the media library:
+<span class="badge">v3.8+</span> You can also add a remote file to the media library:
 
 ```php
 $url = 'http://medialibrary.spatie.be/assets/images/mountain.jpg';
-$newsItem
-   ->addMediaFromUrl($url)
-   ->toMediaCollection();
+$newsItem->addMediaFromUrl($url)
+         ->toMediaLibrary();
 ```
-
-The media library does not restrict what kinds of files may be uploaded or associated with models. If you are accepting file uploads from users, you should take steps to validate those uploads, to ensure you don't introduce security vulnerabilities into your project. Laravel has a [a rule to validate uploads based on MIME type or file extension](https://laravel.com/docs/validation).

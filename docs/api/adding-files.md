@@ -13,7 +13,7 @@ $yourModel
     ->addMedia($pathToFile) //starting method
     ->withCustomProperties(['mime-type' => 'image/jpeg']) //middle method
     ->preservingOriginal() //middle method
-    ->toMediaCollection(); //finishing method
+    ->toMediaLibrary(); //finishing method
 ```
 
 ## Starting methods
@@ -32,92 +32,21 @@ $yourModel
 public function addMedia($file)
 ```
 
-### addMediaFromUrl
+### <span class="badge">v3.8+</span> addMediaFromUrl
 
 ```php
 /**
  * Add a remote file to the medialibrary.
- *
- * @param string $url
+ * 
+ * @param $url
  *
  * @return mixed
  *
- * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+ * @throws \Spatie\MediaLibrary\Exceptions\UrlCouldNotBeOpened
  */
-public function addMediaFromUrl(string $url)
+public function addMediaFromUrl($url)
 ```
 
-### addMediaFromRequest
-
-```php
-/**
- * Add file from the current request to the medialibrary.
- *
- * @param string $keyName
- *
- * @return \Spatie\MediaLibrary\FileAdder\FileAdder
- *
- * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
- */
-public function addMediaFromRequest(string $keyName): FileAdder
-```
-
-### addMultipleMediaFromRequest
-
-```php
-/**
- * Add multiple files from the current request to the medialibrary.
- *
- * @param string[] $keys
- *
- * @return Collection
- *
- * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
- */
-public function addMultipleMediaFromRequest(array $keyNames): Collection
-```
-
-Please note the return type of `addMultipleMediaFromRequest` is a collection of `FileAdder`s. This means you'll have to loop over every `FileAdder` to use any of the middle methods. For example:
-
-```php
-$fileAdders = $this->model
-    ->addMultipleMediaFromRequest(['file-one', 'file-two'])
-    ->each(function ($fileAdder) {
-        $fileAdder->toMediaCollection();
-    });
-```
-
-### addAllMediaFromRequest
-
-```php
-/**
- * Add all files from the current request to the medialibrary.
- *
- * @return Collection
- *
- * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
- */
-public function addAllMediaFromRequest(): Collection
-```
-
-Please note the return type of `addAllMediaFromRequest` is a Collection of `FileAdder`s. This means you'll have to loop over every `FileAdder` to use any of the middle methods. See the `addMultipleMediaFromRequest` method above for an example.
-
-### addMediaFromBase64
-
-```php
-/**
- * Add a base64 encoded file to the medialibrary.
- *
- * @param string $base64data
- * @param string|array ...$allowedMimeTypes
- *
- * @throws InvalidBase64Data
- * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
- *
- * @return \Spatie\MediaLibrary\FileAdder\FileAdder
- */
- public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
-```
 
 ### copyMedia
 
@@ -196,7 +125,7 @@ public function withCustomProperties(array $customProperties)
 
 ## Finishing methods
 
-### toMediaCollection
+### toMediaLibrary
 
 ```php
 /**
@@ -208,23 +137,20 @@ public function withCustomProperties(array $customProperties)
  *
  * @return Media
  *
- * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+ * @throws FileDoesNotExist
+ * @throws FileTooBig
  */
-public function toMediaCollection($collectionName = 'default', $diskName = '')
+public function toMediaLibrary($collectionName = 'default', $diskName = ''
 ```
 
-### toMediaCollectionOnCloudDisk
+### toMediaLibraryOnDisk
 
-This function does almost the same as `toMediaCollection`. It'll store all media on the disk configured in the `cloud` key of `config/filesystems.php`
+This is an alias for `toMediaLibrary`
 
-```php
- /**
-  * @param string $collectionName
-  *
-  * @return \Spatie\MediaLibrary\Models\Media
-  *
-  * @throws FileCannotBeAdded
-  * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
-  */
- public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
-```
+### toCollection
+
+This is an alias for `toMediaLibrary`
+
+### toCollectionOnDisk
+
+This is an alias for `toMediaLibrary`
