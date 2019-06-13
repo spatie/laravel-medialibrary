@@ -1,6 +1,6 @@
 ---
 title: Generating custom urls
-weight: 9
+weight: 3
 ---
 
 When `getUrl` is called, the task of generating that url is passed to an implementation of `Spatie\MediaLibrary\UrlGenerator`.

@@ -1,6 +1,6 @@
 ---
 title: Using a custom directory structure
-weight: 5
+weight: 6
 ---
 
 By default, files will be stored inside a directory that uses the `id` of its `Media`-object as a name. Converted images will be stored inside a directory named `conversions`.

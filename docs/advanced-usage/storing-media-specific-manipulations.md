@@ -1,6 +1,6 @@
 ---
 title: Storing media specific manipulations
-weight: 3
+weight: 4
 ---
 
 A media object has a property `manipulations`, which can be set to an array of manipulation values, with their conversion name as key.

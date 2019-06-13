@@ -1,5 +1,6 @@
 ---
 title: Soft deleting
+weight: 10
 ---
 
 The medialibrary has support for [soft deleting](https://laravel.com/docs/eloquent#soft-deleting).

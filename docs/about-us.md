@@ -1,5 +1,6 @@
 ---
 title: About us
+weight: 7
 ---
 
 [Spatie](https://spatie.be) is a webdesign agency based in Antwerp, Belgium.
