@@ -79,7 +79,7 @@ $media->getUrl('old-picture') // the url to the sepia, bordered version
 
 ## Performing conversions on specific collections
 
-By default a conversion will be performed on all files regardless of which [collection](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/working-with-collections) is used.  Conversions can also be performed on all specific collections by adding a call to  `performOnCollections`.
+By default a conversion will be performed on all files regardless of which [collection](/laravel-medialibrary/v7/working-with-media-collections/simple-media-collections) is used.  Conversions can also be performed on all specific collections by adding a call to  `performOnCollections`.
 
 This is how that looks like in the model:
 
