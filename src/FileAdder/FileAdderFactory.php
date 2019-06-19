@@ -31,10 +31,10 @@ class FileAdderFactory
         return collect($keys)
 
             ->map(function (string $key) use ($subject) {
-                $search = ['[', ']', '"', "'" ] ;
-                $replace = ['.','','',''] ;
+                $search = ['[', ']', '"', "'"];
+                $replace = ['.', '', '', ''];
 
-                $key = str_replace( $search, $replace, $key );
+                $key = str_replace($search, $replace, $key);
 
                 if (! request()->hasFile($key)) {
                     throw RequestDoesNotHaveFile::create($key);
