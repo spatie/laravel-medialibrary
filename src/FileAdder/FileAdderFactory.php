@@ -21,7 +21,7 @@ class FileAdderFactory
             ->setFile($file);
     }
 
-    public static function createFromRequest(Model $subject, string $key): FileAdder
+    public static function createFromRequest(Model $subject, string $key): array
     {
         return static::createMultipleFromRequest($subject, [$key])->first();
     }
@@ -43,8 +43,7 @@ class FileAdderFactory
                 return array_map(function ($file) use ($subject) {
                     return static::create($subject, $file);
                 }, $files);
-            })
-            ->flatten();
+            });
     }
 
     public static function createAllFromRequest(Model $subject): Collection
