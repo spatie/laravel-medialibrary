@@ -6,10 +6,11 @@ weight: 3
 To retrieve files you can use the `getMedia`-method:
 
 ```php
+// getMedia(string $collectionName = 'default', $filters = [])
 $mediaItems = $newsItem->getMedia();
 ```
 
-The method returns a collection of `Media`-objects.
+The method returns a collection of `Media`-objects. You can define the collection name - if you are using many, and also have the option to filter out the customer properties: `['primaryColor' => 'red']`.
 
 You can retrieve the url and path to the file associated with the `Media`-object using  `getUrl`, `getTemporaryUrl` (for S3 only) and `getPath`:
 
@@ -23,9 +24,13 @@ $temporaryS3Url = $mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5));
 Since retrieving the first media and the url for the first media for an object is such a common scenario, the `getFirstMedia` and `getFirstMediaUrl` convenience-methods are also provided:
 
 ```php
+// getFirstMedia(string $collectionName = 'default', $filters = [])
+// getFirstMediaUrl(string $collectionName = 'default', $filters = [])
 $media = $newsItem->getFirstMedia();
 $url = $newsItem->getFirstMediaUrl();
 ```
+
+Here also have the option to use the collection name or filter parameter.
 
 An instance of `Media` also has a name, by default its filename:
 
