@@ -46,7 +46,7 @@ class FileManipulator
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
         if ($queuedConversions->isNotEmpty()) {
-            $this->dispatchQueuedConversions($media, $queuedConversions);
+            $this->dispatchQueuedConversions($media, $queuedConversions, $onlyIfMissing);
         }
     }
 
@@ -144,11 +144,11 @@ class FileManipulator
         return $conversionTempFile;
     }
 
-    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions)
+    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, $onlyMissing = false )
     {
         $performConversionsJobClass = config('medialibrary.jobs.perform_conversions', PerformConversions::class);
 
-        $job = new $performConversionsJobClass($queuedConversions, $media);
+        $job = new $performConversionsJobClass($queuedConversions, $media, $onlyMissing );
 
         if ($customQueue = config('medialibrary.queue_name')) {
             $job->onQueue($customQueue);
