@@ -144,11 +144,11 @@ class FileManipulator
         return $conversionTempFile;
     }
 
-    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, $onlyMissing = false )
+    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, $onlyMissing = false)
     {
         $performConversionsJobClass = config('medialibrary.jobs.perform_conversions', PerformConversions::class);
 
-        $job = new $performConversionsJobClass($queuedConversions, $media, $onlyMissing );
+        $job = new $performConversionsJobClass($queuedConversions, $media, $onlyMissing);
 
         if ($customQueue = config('medialibrary.queue_name')) {
             $job->onQueue($customQueue);
