@@ -14,7 +14,7 @@ class S3IntegrationTest extends TestCase
     /** @var @string */
     protected $s3BaseDirectory;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -27,7 +27,7 @@ class S3IntegrationTest extends TestCase
         $this->app['config']->set('medialibrary.path_generator', S3TestPathGenerator::class);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->cleanUpS3();
 
@@ -127,7 +127,7 @@ class S3IntegrationTest extends TestCase
             ->preservingOriginal()
             ->toMediaCollection('default', 's3_disk');
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
             $media->getTemporaryUrl(Carbon::now()->addMinutes(5))
         );
@@ -157,7 +157,7 @@ class S3IntegrationTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->toMediaCollection('default', 's3_disk');
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
             $media->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb')
         );

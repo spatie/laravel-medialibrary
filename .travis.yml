@@ -3,7 +3,6 @@ sudo: required
 language: php
 
 php:
-  - 7.1
   - 7.2
   - 7.3
 
@@ -23,7 +22,7 @@ install:
   - sudo apt-get install -y ghostscript
 
 script:
-  - phpunit
+  - vendor/bin/phpunit
 
 branches:
   only:

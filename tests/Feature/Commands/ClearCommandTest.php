@@ -11,7 +11,7 @@ class ClearCommandTest extends TestCase
     /** @var array */
     protected $media;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

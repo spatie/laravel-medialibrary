@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
