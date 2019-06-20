@@ -175,7 +175,7 @@ class IntegrationTest extends TestCase
     /** @test */
     public function it_can_add_a_remote_file_to_the_medialibrary()
     {
-        $url = 'https://docs.spatie.be/images/medialibrary/header.jpg';
+        $url = 'https://docs.spatie.be/laravel-medialibrary/v4/images/header.jpg';
 
         $media = $this->testModel
             ->addMediaFromUrl($url)
