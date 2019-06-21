@@ -63,7 +63,7 @@ class MediaRepository
 
     public function getByIds(array $ids): DbCollection
     {
-        return $this->model->whereIn('id', $ids)->get();
+        return $this->model->whereIn($this->model->getKeyName(), $ids)->get();
     }
 
     public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection

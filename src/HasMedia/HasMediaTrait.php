@@ -291,12 +291,15 @@ trait HasMediaTrait
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
+        $mediaClass = config('medialibrary.media_model');
+        $mediaInstance = new $mediaClass();
+        $keyName = $mediaInstance->getKeyName();
+
         return collect($newMediaArray)
-            ->map(function (array $newMediaItem) use ($collectionName) {
+            ->map(function (array $newMediaItem) use ($collectionName, $mediaClass, $keyName) {
                 static $orderColumn = 1;
 
-                $mediaClass = config('medialibrary.media_model');
-                $currentMedia = $mediaClass::findOrFail($newMediaItem['id']);
+                $currentMedia = $mediaClass::findOrFail($newMediaItem[$keyName]);
 
                 if ($currentMedia->collection_name !== $collectionName) {
                     throw MediaCannotBeUpdated::doesNotBelongToCollection($collectionName, $currentMedia);
@@ -322,7 +325,7 @@ trait HasMediaTrait
     {
         $this->getMedia($collectionName)
             ->reject(function (Media $currentMediaItem) use ($newMediaArray) {
-                return in_array($currentMediaItem->id, array_column($newMediaArray, 'id'));
+                return in_array($currentMediaItem->getKey(), array_column($newMediaArray, $currentMediaItem->getKeyName()));
             })
             ->each->delete();
     }
@@ -370,7 +373,7 @@ trait HasMediaTrait
 
         $this->getMedia($collectionName)
             ->reject(function (Media $media) use ($excludedMedia) {
-                return $excludedMedia->where('id', $media->id)->count();
+                return $excludedMedia->where($media->getKeyName(), $media->getKey())->count();
             })
             ->each->delete();
 
@@ -392,7 +395,7 @@ trait HasMediaTrait
     public function deleteMedia($mediaId)
     {
         if ($mediaId instanceof Media) {
-            $mediaId = $mediaId->id;
+            $mediaId = $mediaId->getKey();
         }
 
         $media = $this->media->find($mediaId);
