@@ -29,7 +29,6 @@ class FileAdderFactory
     public static function createMultipleFromRequest(Model $subject, array $keys = []): Collection
     {
         return collect($keys)
-
             ->map(function (string $key) use ($subject) {
                 $search = ['[', ']', '"', "'"];
                 $replace = ['.', '', '', ''];
