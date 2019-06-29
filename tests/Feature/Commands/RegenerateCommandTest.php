@@ -66,6 +66,44 @@ class RegenerateCommandTest extends TestCase
     }
 
     /** @test */
+    public function it_can_regenerate_missing_files_queued()
+    {
+        $mediaExists = $this
+            ->testModelWithConversionQueued
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $mediaMissing = $this
+            ->testModelWithConversionQueued
+            ->addMedia($this->getTestFilesDirectory('test.png'))
+            ->toMediaCollection('images');
+
+        $derivedImageExists = $this->getMediaDirectory("{$mediaExists->id}/conversions/test-thumb.jpg");
+
+        $derivedMissingImage = $this->getMediaDirectory("{$mediaMissing->id}/conversions/test-thumb.jpg");
+
+        $existsCreatedAt = filemtime($derivedImageExists);
+
+        $missingCreatedAt = filemtime($derivedMissingImage);
+
+        unlink($derivedMissingImage);
+
+        $this->assertFileNotExists($derivedMissingImage);
+
+        sleep(1);
+
+        Artisan::call('medialibrary:regenerate', [
+            '--only-missing' => true,
+        ]);
+
+        $this->assertFileExists($derivedMissingImage);
+
+        $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
+
+        $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
+    }
+
+    /** @test */
     public function it_can_regenerate_all_files_of_named_conversions()
     {
         $media = $this
