@@ -42,7 +42,7 @@ trait HasMediaTrait
             }
 
             if (in_array(SoftDeletes::class, class_uses_recursive($entity))) {
-                if (! $entity->forceDeleting) {
+                if (!$entity->forceDeleting) {
                     return;
                 }
             }
@@ -119,7 +119,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes)
     {
-        if (! $stream = @fopen($url, 'r')) {
+        if (!$stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -137,7 +137,7 @@ trait HasMediaTrait
 
         $mediaExtension = explode('/', mime_content_type($temporaryFile));
 
-        if (! str_contains($filename, '.')) {
+        if (!str_contains($filename, '.')) {
             $filename = "{$filename}.{$mediaExtension[1]}";
         }
 
@@ -209,6 +209,14 @@ trait HasMediaTrait
         return count($this->getMedia($collectionName)) ? true : false;
     }
 
+    /*
+     * Determine if there is any media attached to the model
+     */
+    public function hasAnyMedia(): bool
+    {
+        return count(app(MediaRepository::class)->getByModelTypeAndModelId($this->getMorphClass(), $this->getKey())) ? true : false;
+    }
+
     /**
      * Get media collection by its collectionName.
      *
@@ -238,7 +246,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -254,7 +262,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -270,7 +278,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return '';
         }
 
@@ -397,7 +405,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (! $media) {
+        if (!$media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 
@@ -501,7 +509,7 @@ trait HasMediaTrait
 
         $validation = Validator::make(
             ['file' => new File($file)],
-            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
+            ['file' => 'mimetypes:' . implode(',', $allowedMimeTypes)]
         );
 
         if ($validation->fails()) {
@@ -510,12 +518,10 @@ trait HasMediaTrait
     }
 
     public function registerMediaConversions(Media $media = null)
-    {
-    }
+    { }
 
     public function registerMediaCollections()
-    {
-    }
+    { }
 
     public function registerAllMediaConversions(Media $media = null)
     {

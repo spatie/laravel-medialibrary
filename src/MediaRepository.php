@@ -61,6 +61,14 @@ class MediaRepository
         return $this->model->where('model_type', $modelType)->get();
     }
 
+    public function getByModelTypeAndModelId(string $modelType, string $modelId): DbCollection
+    {
+        return $this->model
+            ->where('model_type', $modelType)
+            ->where('model_id', $modelId)
+            ->get();
+    }
+
     public function getByIds(array $ids): DbCollection
     {
         return $this->model->whereIn('id', $ids)->get();
@@ -92,7 +100,7 @@ class MediaRepository
     {
         return function (Media $media) use ($filters) {
             foreach ($filters as $property => $value) {
-                if (! Arr::has($media->custom_properties, $property)) {
+                if (!Arr::has($media->custom_properties, $property)) {
                     return false;
                 }
 
