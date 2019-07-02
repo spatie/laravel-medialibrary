@@ -509,7 +509,7 @@ trait HasMediaTrait
 
         $validation = Validator::make(
             ['file' => new File($file)],
-            ['file' => 'mimetypes:' . implode(',', $allowedMimeTypes)]
+            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
         );
 
         if ($validation->fails()) {
@@ -518,10 +518,12 @@ trait HasMediaTrait
     }
 
     public function registerMediaConversions(Media $media = null)
-    { }
+    {
+    }
 
     public function registerMediaCollections()
-    { }
+    {
+    }
 
     public function registerAllMediaConversions(Media $media = null)
     {
