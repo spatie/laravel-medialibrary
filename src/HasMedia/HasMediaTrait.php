@@ -42,7 +42,7 @@ trait HasMediaTrait
             }
 
             if (in_array(SoftDeletes::class, class_uses_recursive($entity))) {
-                if (!$entity->forceDeleting) {
+                if (! $entity->forceDeleting) {
                     return;
                 }
             }
@@ -119,7 +119,7 @@ trait HasMediaTrait
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes)
     {
-        if (!$stream = @fopen($url, 'r')) {
+        if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -137,7 +137,7 @@ trait HasMediaTrait
 
         $mediaExtension = explode('/', mime_content_type($temporaryFile));
 
-        if (!str_contains($filename, '.')) {
+        if (! str_contains($filename, '.')) {
             $filename = "{$filename}.{$mediaExtension[1]}";
         }
 
@@ -246,7 +246,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -262,7 +262,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -278,7 +278,7 @@ trait HasMediaTrait
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return '';
         }
 
@@ -405,7 +405,7 @@ trait HasMediaTrait
 
         $media = $this->media->find($mediaId);
 
-        if (!$media) {
+        if (! $media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 

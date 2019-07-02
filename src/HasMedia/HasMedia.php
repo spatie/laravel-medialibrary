@@ -39,7 +39,14 @@ interface HasMedia
      *
      * @return bool
      */
-    public function hasMedia(string $collectionMedia = '') : bool;
+    public function hasMedia(string $collectionMedia = ''): bool;
+
+    /**
+     * Determine if there is any media attached to the model
+     * 
+     * @return bool 
+     */
+    public function hasAnyMedia(): bool
 
     /**
      * Get media collection by its collectionName.

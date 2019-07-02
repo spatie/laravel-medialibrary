@@ -100,7 +100,7 @@ class MediaRepository
     {
         return function (Media $media) use ($filters) {
             foreach ($filters as $property => $value) {
-                if (!Arr::has($media->custom_properties, $property)) {
+                if (! Arr::has($media->custom_properties, $property)) {
                     return false;
                 }
 
