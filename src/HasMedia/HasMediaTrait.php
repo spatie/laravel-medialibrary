@@ -204,7 +204,7 @@ trait HasMediaTrait
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = 'default'): bool
+    public function hasMedia(string $collectionName = 'default') : bool
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
@@ -212,7 +212,7 @@ trait HasMediaTrait
     /*
      * Determine if there is any media attached to the model
      */
-    public function hasAnyMedia(): bool
+    public function hasAnyMedia() : bool
     {
         return count(app(MediaRepository::class)->getByModelTypeAndModelId($this->getMorphClass(), $this->getKey())) ? true : false;
     }

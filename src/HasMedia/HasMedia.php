@@ -46,7 +46,7 @@ interface HasMedia
      * 
      * @return bool 
      */
-    public function hasAnyMedia(): bool
+    public function hasAnyMedia(): bool;
 
     /**
      * Get media collection by its collectionName.
