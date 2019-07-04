@@ -19,7 +19,7 @@ class ConversionWillStart
     /** @var string */
     public $copiedOriginalFile;
 
-    public function __construct(Media $media, Conversion $conversion, String $copiedOriginalFile)
+    public function __construct(Media $media, Conversion $conversion, string $copiedOriginalFile)
     {
         $this->media = $media;
 
