@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 
 class MediaCannotBeDeleted extends Exception
