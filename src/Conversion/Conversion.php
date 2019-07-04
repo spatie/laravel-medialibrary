@@ -109,7 +109,7 @@ class Conversion
     /**
      * Set the manipulations for this conversion.
      *
-     * @param \Spatie\Image\Manipulations|closure $manipulations
+     * @param \Spatie\Image\Manipulations|\Closure $manipulations
      *
      * @return $this
      */
