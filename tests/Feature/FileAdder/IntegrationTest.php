@@ -566,4 +566,28 @@ class IntegrationTest extends TestCase
 
         $this->assertCount(2, $media);
     }
+
+    /** @test */
+    public function it_can_add_an_upload_to_the_medialibrary_using_dot_notation()
+    {
+        $this->app['router']->get('/upload', function () {
+            $media = $this->testModel
+                ->addMediaFromRequest('file.name')
+                ->toMediaCollection();
+
+            $this->assertEquals('alternativename', $media->name);
+            $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+        });
+
+        $fileUpload = new UploadedFile(
+            $this->getTestFilesDirectory('test.jpg'),
+            'alternativename.jpg',
+            'image/jpeg',
+            filesize($this->getTestFilesDirectory('test.jpg'))
+        );
+
+        $result = $this->call('get', 'upload', [], [], ['file' => ['name'=>$fileUpload]]);
+
+        $this->assertEquals(200, $result->getStatusCode());
+    }
 }

@@ -30,6 +30,11 @@ class FileAdderFactory
     {
         return collect($keys)
             ->map(function (string $key) use ($subject) {
+                $search = ['[', ']', '"', "'"];
+                $replace = ['.', '', '', ''];
+
+                $key = str_replace($search, $replace, $key);
+
                 if (! request()->hasFile($key)) {
                     throw RequestDoesNotHaveFile::create($key);
                 }
@@ -43,8 +48,7 @@ class FileAdderFactory
                 return array_map(function ($file) use ($subject) {
                     return static::create($subject, $file);
                 }, $files);
-            })
-            ->flatten();
+            })->flatten();
     }
 
     public static function createAllFromRequest(Model $subject): Collection
