@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.6.1 - 2019-07-11
+
+- Allow Uploading multiple files under the same name using array name (#1471)
+
 ## 7.6.0 - 2019-02-27
 
 - drop support for PHP 7.1
