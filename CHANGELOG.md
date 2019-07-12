@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 7.6.2 - 2019-07-12
+## 7.6.3 - 2019-07-12
 
 - `--only-missing` for queued conversions (#1465)
 
