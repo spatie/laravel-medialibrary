@@ -25,9 +25,9 @@ class FileManipulator
      *
      * @param \Spatie\MediaLibrary\Models\Media $media
      * @param array $only
-     * @param bool $onlyIfMissing
+     * @param bool $onlyMissing
      */
-    public function createDerivedFiles(Media $media, array $only = [], $onlyIfMissing = false)
+    public function createDerivedFiles(Media $media, array $only = [], $onlyMissing = false)
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
@@ -40,13 +40,13 @@ class FileManipulator
         $this->performConversions(
             $profileCollection->getNonQueuedConversions($media->collection_name),
             $media,
-            $onlyIfMissing
+            $onlyMissing
         );
 
         $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
 
         if ($queuedConversions->isNotEmpty()) {
-            $this->dispatchQueuedConversions($media, $queuedConversions, $onlyIfMissing);
+            $this->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
         }
     }
 
@@ -55,9 +55,9 @@ class FileManipulator
      *
      * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
      * @param \Spatie\MediaLibrary\Models\Media $media
-     * @param bool $onlyIfMissing
+     * @param bool $onlyMissing
      */
-    public function performConversions(ConversionCollection $conversions, Media $media, $onlyIfMissing = false)
+    public function performConversions(ConversionCollection $conversions, Media $media, $onlyMissing = false)
     {
         if ($conversions->isEmpty()) {
             return;
@@ -77,7 +77,7 @@ class FileManipulator
         );
 
         $conversions
-            ->reject(function (Conversion $conversion) use ($onlyIfMissing, $media) {
+            ->reject(function (Conversion $conversion) use ($onlyMissing, $media) {
                 $relativePath = $media->getPath($conversion->getName());
 
                 $rootPath = config('filesystems.disks.'.$media->disk.'.root');
@@ -86,7 +86,7 @@ class FileManipulator
                     $relativePath = str_replace($rootPath, '', $relativePath);
                 }
 
-                return $onlyIfMissing && Storage::disk($media->disk)->exists($relativePath);
+                return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
             })
             ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
                 event(new ConversionWillStart($media, $conversion, $copiedOriginalFile));

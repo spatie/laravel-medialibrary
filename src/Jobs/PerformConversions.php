@@ -23,13 +23,13 @@ class PerformConversions implements ShouldQueue
     /** @var bool */
     protected $onlyMissing;
 
-    public function __construct(ConversionCollection $conversions, Media $media, $onlyIfMissing = false)
+    public function __construct(ConversionCollection $conversions, Media $media, $onlyMissing = false)
     {
         $this->conversions = $conversions;
 
         $this->media = $media;
 
-        $this->onlyMissing = $onlyIfMissing;
+        $this->onlyMissing = $onlyMissing;
     }
 
     public function handle(): bool
