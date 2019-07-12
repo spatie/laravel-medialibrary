@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.6.2 - 2019-07-12
+
+- `--only-missing` for queued conversions (#1465)
+
 ## 7.6.2 - 2019-07-11
 
 - Allow Uploading multiple files under the same name using array name (#1471)
