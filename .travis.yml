@@ -16,10 +16,10 @@ before_install:
   - travis_retry composer self-update
 
 install:
-  - travis_retry composer update --prefer-source $COMPOSER_FLAGS
-  - travis_retry composer require league/flysystem-aws-s3-v3
   - yes | pecl install imagick
   - sudo apt-get install -y ghostscript
+  - travis_retry composer update --prefer-source $COMPOSER_FLAGS
+  - travis_retry composer require league/flysystem-aws-s3-v3
 
 script:
   - vendor/bin/phpunit
