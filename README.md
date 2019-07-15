@@ -56,8 +56,7 @@ If you've found a bug regarding security please mail [freek@spatie.be](mailto:fr
 
 ## Requirements
 
-To create derived images [GD](http://php.net/manual/en/book.image.php) should be installed on your server.
-For the creation of thumbnails of svg's or pdf's you should also install [Imagick](http://php.net/manual/en/imagick.setresolution.php).
+- [Imagick](http://php.net/manual/en/imagick.setresolution.php)
 
 ## Installation
 
