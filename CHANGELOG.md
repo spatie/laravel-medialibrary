@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.6.5 - 2019-07-16
+
+- Support `jpeg` in `\Spatie\MediaLibrary\Conversion\Conversion::getResultExtension`
+
 ## 7.6.4 - 2019-07-15
 
 - Add imagick as required extension, because of nested dependencies (#1480)
