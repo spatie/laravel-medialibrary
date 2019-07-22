@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Support\Str;
 use Storage;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Models\Media;
@@ -73,7 +74,7 @@ class FileManipulator
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(str_random(16).'.'.$media->extension)
+            $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
         );
 
         $conversions
@@ -125,7 +126,7 @@ class FileManipulator
             return $imageFile;
         }
 
-        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.str_random(16)
+        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.Str::random(16)
             .$conversion->getName()
             .'.'
             .$media->extension;

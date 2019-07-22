@@ -4,7 +4,9 @@ namespace Spatie\MediaLibrary\HasMedia;
 
 use DateTimeInterface;
 use Illuminate\Http\File;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
@@ -137,7 +139,7 @@ trait HasMediaTrait
 
         $mediaExtension = explode('/', mime_content_type($temporaryFile));
 
-        if (! str_contains($filename, '.')) {
+        if (! Str::contains($filename, '.')) {
             $filename = "{$filename}.{$mediaExtension[1]}";
         }
 
@@ -496,7 +498,7 @@ trait HasMediaTrait
 
     protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes)
     {
-        $allowedMimeTypes = array_flatten($allowedMimeTypes);
+        $allowedMimeTypes = Arr::flatten($allowedMimeTypes);
 
         if (empty($allowedMimeTypes)) {
             return;

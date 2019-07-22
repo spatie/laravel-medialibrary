@@ -4,7 +4,9 @@ namespace Spatie\MediaLibrary\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\ConfirmableTrait;
 use Spatie\MediaLibrary\FileManipulator;
@@ -54,7 +56,7 @@ class RegenerateCommand extends Command
             try {
                 $this->fileManipulator->createDerivedFiles(
                     $media,
-                    array_wrap($this->option('only')),
+                    Arr::wrap($this->option('only')),
                     $this->option('only-missing')
                 );
             } catch (Exception $exception) {
@@ -101,7 +103,7 @@ class RegenerateCommand extends Command
             $mediaIds = explode(',', $mediaIds);
         }
 
-        if (count($mediaIds) === 1 && str_contains($mediaIds[0], ',')) {
+        if (count($mediaIds) === 1 && Str::contains($mediaIds[0], ',')) {
             $mediaIds = explode(',', $mediaIds[0]);
         }
 
