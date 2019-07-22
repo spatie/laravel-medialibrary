@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.6.7 - 2019-07-22
+
+- allow stable version of zipstream
+
 ## 7.6.6 - 2019-07-22
 
 - fix absolute references to media.id
