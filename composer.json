@@ -33,7 +33,8 @@
     "maennchen/zipstream-php": "~0.4",
     "spatie/image": "^1.4.0",
     "spatie/pdf-to-image": "^1.2",
-    "spatie/temporary-directory": "^1.1"
+    "spatie/temporary-directory": "^1.1",
+    "ext-fileinfo": "*"
   },
   "require-dev": {
     "ext-pdo_sqlite": "*",
