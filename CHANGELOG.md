@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.6.6 - 2019-07-22
+
+- fix absolute references to media.id
+
 ## 7.6.5 - 2019-07-16
 
 - Support `jpeg` in `\Spatie\MediaLibrary\Conversion\Conversion::getResultExtension`
