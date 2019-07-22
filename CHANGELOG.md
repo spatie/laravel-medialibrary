@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.6.9 - 2019-07-22
+
+- avoid using deprecated str and arr functions
+
 ## 7.6.8 - 2019-07-22
 
 - fix for S3 Responsive Image URL Generator not using root
