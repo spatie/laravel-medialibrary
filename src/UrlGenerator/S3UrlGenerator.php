@@ -73,7 +73,7 @@ class S3UrlGenerator extends BaseUrlGenerator
         if ($root = config('filesystems.disks.'.$this->media->disk.'.root')) {
             $url = $root.'/'.$url;
         }
-        
+
         return config('medialibrary.s3.domain').'/'.$url;
     }
 }

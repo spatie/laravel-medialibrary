@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Support\Str;
 use Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Bus\Dispatcher;
