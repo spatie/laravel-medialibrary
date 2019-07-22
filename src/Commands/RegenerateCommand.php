@@ -58,7 +58,7 @@ class RegenerateCommand extends Command
                     $this->option('only-missing')
                 );
             } catch (Exception $exception) {
-                $this->errorMessages[$media->id] = $exception->getMessage();
+                $this->errorMessages[$media->getKey()] = $exception->getMessage();
             }
 
             $progressBar->advance();
