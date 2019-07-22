@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.6.8 - 2019-07-22
+
+- fix for S3 Responsive Image URL Generator not using root
+
 ## 7.6.7 - 2019-07-22
 
 - allow stable version of zipstream
