@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Helpers\ImageFactory;
@@ -43,7 +44,7 @@ class ResponsiveImageGenerator
 
         $baseImage = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(str_random(16).'.'.$media->extension)
+            $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
         );
 
         $media = $this->cleanResponsiveImages($media);

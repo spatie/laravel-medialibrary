@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\FileManipulator;
@@ -129,7 +130,7 @@ class Filesystem
         $responsiveImagePaths = array_filter(
             $allFilePaths,
             function (string $path) use ($conversionName) {
-                return str_contains($path, $conversionName);
+                return Str::contains($path, $conversionName);
             }
         );
 

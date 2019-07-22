@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Models;
 
 use DateTimeInterface;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\MediaLibrary\Helpers\File;
@@ -138,7 +139,7 @@ class Media extends Model implements Responsable, Htmlable
      */
     public function hasCustomProperty(string $propertyName): bool
     {
-        return array_has($this->custom_properties, $propertyName);
+        return Arr::has($this->custom_properties, $propertyName);
     }
 
     /**
@@ -151,7 +152,7 @@ class Media extends Model implements Responsable, Htmlable
      */
     public function getCustomProperty(string $propertyName, $default = null)
     {
-        return array_get($this->custom_properties, $propertyName, $default);
+        return Arr::get($this->custom_properties, $propertyName, $default);
     }
 
     /**
@@ -164,7 +165,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $customProperties = $this->custom_properties;
 
-        array_set($customProperties, $name, $value);
+        Arr::set($customProperties, $name, $value);
 
         $this->custom_properties = $customProperties;
 
@@ -175,7 +176,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $customProperties = $this->custom_properties;
 
-        array_forget($customProperties, $name);
+        Arr::forget($customProperties, $name);
 
         $this->custom_properties = $customProperties;
 

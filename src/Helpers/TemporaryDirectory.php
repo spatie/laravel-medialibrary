@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Helpers;
 
+use Illuminate\Support\Str;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 
 class TemporaryDirectory
@@ -15,6 +16,6 @@ class TemporaryDirectory
     {
         $path = config('medialibrary.temporary_directory_path') ?? storage_path('medialibrary/temp');
 
-        return $path.DIRECTORY_SEPARATOR.str_random(32);
+        return $path.DIRECTORY_SEPARATOR.Str::random(32);
     }
 }
