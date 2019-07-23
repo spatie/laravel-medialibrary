@@ -3,6 +3,10 @@
 namespace Spatie\MediaLibrary\Tests\Feature\HasMediaTrait;
 
 use File;
+use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestCustomMediaModel;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
@@ -11,17 +15,7 @@ class DeleteMediaTest extends TestCase
     {
         parent::setUp();
 
-        foreach (range(1, 3) as $index) {
-            $this->testModel
-                ->addMedia($this->getTestJpg())
-                ->preservingOriginal()
-                ->toMediaCollection();
-
-            $this->testModel
-                ->addMedia($this->getTestJpg())
-                ->preservingOriginal()
-                ->toMediaCollection('images');
-        }
+        $this->addMedia($this->testModel);
     }
 
     /** @test */
@@ -69,6 +63,32 @@ class DeleteMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_will_remove_the_files_when_using_a_custom_model_and_deleting_it()
+    {
+        config()->set('medialibrary.media_model', TestCustomMediaModel::class);
+
+        (new MediaLibraryServiceProvider($this->app))->boot();
+
+        $testModel = TestModel::create(['name' => 'test']);
+
+        $this->addMedia($testModel);
+
+        $this->assertInstanceOf(TestCustomMediaModel::class, $testModel->getFirstMedia());
+
+        $ids = $testModel->getMedia('images')->pluck('id');
+
+        $ids->map(function ($id) {
+            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        });
+
+        $testModel->delete();
+
+        $ids->map(function ($id) {
+            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
+        });
+    }
+
+    /** @test */
     public function it_will_not_remove_the_files_when_deleting_a_subject_and_preserving_media()
     {
         $ids = $this->testModel->getMedia('images')->pluck('id');
@@ -82,5 +102,20 @@ class DeleteMediaTest extends TestCase
         $ids->map(function ($id) {
             $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
         });
+    }
+
+    private function addMedia(TestModel $model)
+    {
+        foreach (range(1, 3) as $index) {
+            $model
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->toMediaCollection();
+
+            $model
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->toMediaCollection('images');
+        }
     }
 }
