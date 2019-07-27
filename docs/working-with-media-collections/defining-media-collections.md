@@ -25,7 +25,7 @@ public function registerMediaCollections()
 
 ## Defining a fallback url or path
 
-If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path 
+If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackMediaUrl` and `useFallbackMediaPath`.
 
 ```php
 use Spatie\MediaLibrary\File;
