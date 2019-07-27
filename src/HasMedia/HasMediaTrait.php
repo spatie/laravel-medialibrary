@@ -241,7 +241,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return '';
+            return $this->getDefaultMediaUrl($collectionName) ?: '';
         }
 
         return $media->getUrl($conversionName);
@@ -257,10 +257,45 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return '';
+            return $this->getDefaultMediaUrl($collectionName) ?: '';
         }
 
         return $media->getTemporaryUrl($expiration, $conversionName);
+    }
+
+    /**
+     * Gets the given media collection.
+     *
+     * @return \Spatie\MediaLibrary\MediaCollection\MediaCollection
+     */
+    public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection
+    {
+        $this->registerMediaCollections();
+
+        return collect($this->mediaCollections)
+            ->first(function (MediaCollection $collection) use ($collectionName) {
+                return $collection->name === $collectionName;
+            });
+    }
+
+    /**
+     * Gets the default path to return for the given collection.
+     *
+     * @return string
+     */
+    public function getDefaultMediaPath(string $collectionName = 'default')
+    {
+        return optional($this->getMediaCollection($collectionName))->fallbackPath;
+    }
+
+    /**
+     * Gets the default URL to return for the given collection.
+     *
+     * @return string
+     */
+    public function getDefaultMediaUrl(string $collectionName = 'default')
+    {
+        return optional($this->getMediaCollection($collectionName))->fallbackUrl;
     }
 
     /*
@@ -273,7 +308,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return '';
+            return $this->getDefaultMediaPath($collectionName) ?: '';
         }
 
         return $media->getPath($conversionName);

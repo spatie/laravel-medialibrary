@@ -19,6 +19,12 @@ class MediaCollection
     /** @var bool */
     public $singleFile = false;
 
+    /** @var string */
+    public $fallbackPath = null;
+
+    /** @var string */
+    public $fallbackUrl = null;
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -60,5 +66,19 @@ class MediaCollection
     public function registerMediaConversions(callable $mediaConversionRegistrations)
     {
         $this->mediaConversionRegistrations = $mediaConversionRegistrations;
+    }
+
+    public function withFallbackPath(string $path): self
+    {
+        $this->fallbackPath = $path;
+
+        return $this;
+    }
+
+    public function withFallbackUrl(string $url): self
+    {
+        $this->fallbackUrl = $url;
+
+        return $this;
     }
 }
