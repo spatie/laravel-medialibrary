@@ -35,7 +35,7 @@ public function registerMediaCollections()
     $this
         ->addMediaCollection('avatars')
         ->useFallbackMediaUrl('/images/anonymous-user.jpg')
-        ->useFallbackMediaUrl(public_path('/images/anonymous-user.jpg'));
+        ->useFallbackMediaPath(public_path('/images/anonymous-user.jpg'));
 }
 ```
 

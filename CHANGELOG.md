@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.7.0 - 2019-07-27
+
+- add `useFallbackMediaUrl` and `useFallbackMediaPath` to media collections
+
 ## 7.6.9 - 2019-07-22
 
 - avoid using deprecated str and arr functions
