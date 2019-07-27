@@ -23,6 +23,22 @@ public function registerMediaCollections()
 }
 ```
 
+## Defining a fallback url or path
+
+If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path 
+
+```php
+use Spatie\MediaLibrary\File;
+...
+public function registerMediaCollections()
+{
+    $this
+        ->addMediaCollection('avatars')
+        ->useFallbackMediaUrl('/images/anonymous-user.jpg')
+        ->useFallbackMediaUrl(public_path('/images/anonymous-user.jpg'));
+}
+```
+
 ## Only allow certain files in a collection
 
 You can pass a callback to `acceptsFile` that will check if a file is allowed into the collection. In this example we only accept `jpeg` files.

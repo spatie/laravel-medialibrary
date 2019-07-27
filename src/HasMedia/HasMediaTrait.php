@@ -241,7 +241,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return $this->getDefaultMediaUrl($collectionName) ?: '';
+            return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
         return $media->getUrl($conversionName);
@@ -250,6 +250,7 @@ trait HasMediaTrait
     /*
      * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
+     *
      * If no profile is given, return the source's url.
      */
     public function getFirstTemporaryUrl(DateTimeInterface $expiration, string $collectionName = 'default', string $conversionName = ''): string
@@ -257,17 +258,12 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return $this->getDefaultMediaUrl($collectionName) ?: '';
+            return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
         return $media->getTemporaryUrl($expiration, $conversionName);
     }
 
-    /**
-     * Gets the given media collection.
-     *
-     * @return \Spatie\MediaLibrary\MediaCollection\MediaCollection
-     */
     public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection
     {
         $this->registerMediaCollections();
@@ -278,24 +274,14 @@ trait HasMediaTrait
             });
     }
 
-    /**
-     * Gets the default path to return for the given collection.
-     *
-     * @return string
-     */
-    public function getDefaultMediaPath(string $collectionName = 'default')
-    {
-        return optional($this->getMediaCollection($collectionName))->fallbackPath;
-    }
-
-    /**
-     * Gets the default URL to return for the given collection.
-     *
-     * @return string
-     */
-    public function getDefaultMediaUrl(string $collectionName = 'default')
+    public function getFallbackMediaUrl(string $collectionName = 'default')
     {
         return optional($this->getMediaCollection($collectionName))->fallbackUrl;
+    }
+
+    public function getFallbackMediaPath(string $collectionName = 'default'): string
+    {
+        return optional($this->getMediaCollection($collectionName))->fallbackPath;
     }
 
     /*
@@ -308,7 +294,7 @@ trait HasMediaTrait
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return $this->getDefaultMediaPath($collectionName) ?: '';
+            return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
         return $media->getPath($conversionName);

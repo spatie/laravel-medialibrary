@@ -33,7 +33,7 @@ class TestModel extends Model implements HasMedia
     {
         $this
             ->addMediaCollection('avatar')
-            ->withFallbackUrl('/default.jpg')
-            ->withFallbackPath('/default.jpg');
+            ->useFallbackUrl('/default.jpg')
+            ->useFallbackPath('/default.jpg');
     }
 }
