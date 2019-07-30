@@ -102,7 +102,7 @@ class ConversionCollectionTest extends TestCase
             $conversionCollection = ConversionCollection::createForMedia($mediaItem);
 
             $conversion = $conversionCollection->getConversions()[0];
-            
+
             $manipulationSequence = $conversion
                 ->getManipulations()
                 ->getManipulationSequence()
