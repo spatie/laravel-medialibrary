@@ -100,9 +100,9 @@ class ConversionCollectionTest extends TestCase
 
         foreach ($mediaItems as $mediaItem) {
             $conversionCollection = ConversionCollection::createForMedia($mediaItem);
-           
-            $conversion = $conversionCollection->getConversions()[0];
 
+            $conversion = $conversionCollection->getConversions()[0];
+            
             $manipulationSequence = $conversion
                 ->getManipulations()
                 ->getManipulationSequence()
