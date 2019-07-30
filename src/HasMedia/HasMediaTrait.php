@@ -376,7 +376,7 @@ trait HasMediaTrait
                 return $excludedMedia->where($media->getKeyName(), $media->getKey())->count();
             })
             ->each->delete();
-        
+
         event(new CollectionHasBeenCleared($this, $collectionName));
 
         if ($this->mediaIsPreloaded()) {
