@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.8.2 - 2019-07-31
+
+- make sure `CollectionHasBeenCleared` will be called when using `clearMediaCollectionExcept`
+
 ## 7.8.1 - 2019-07-31
 
 - fix for custom manipulations not getting appllied to all relevant conversions with the same name
