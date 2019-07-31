@@ -158,6 +158,21 @@ class Conversion
         return $this;
     }
 
+    /**
+     * Returns the collection names on which this conversion must be performed.
+     * Assumes 'default' when none is present.
+     *
+     * @return array
+     */
+    public function getPerformOnCollections()
+    {
+        if (! count($this->performOnCollections)) {
+            return ['default'];
+        }
+
+        return $this->performOnCollections;
+    }
+
     /*
      * Determine if this conversion should be performed on the given
      * collection.

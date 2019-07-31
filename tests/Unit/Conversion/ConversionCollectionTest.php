@@ -16,12 +16,22 @@ class ConversionCollectionTest extends TestCase
 
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
             ->toMediaCollection();
 
         $media->manipulations = ['thumb' => ['filter' => 'greyscale', 'height' => 10]];
         $media->save();
 
+        $secondMedia = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection();
+
+        $secondMedia->manipulations = ['thumb' => ['filter' => 'greyscale', 'height' => 20]];
+        $secondMedia->save();
+
         $this->media = $media->fresh();
+        $this->secondMedia = $media->fresh();
     }
 
     /** @test */
@@ -80,5 +90,27 @@ class ConversionCollectionTest extends TestCase
             'width' => 50,
             'format' => 'jpg',
         ]], $manipulationSequence);
+    }
+
+    /** @test */
+    public function it_will_apply_the_manipulation_on_the_equally_named_conversion_of_every_model()
+    {
+        $mediaItems = [$this->media, $this->secondMedia];
+        $manipulations = [];
+
+        foreach ($mediaItems as $mediaItem) {
+            $conversionCollection = ConversionCollection::createForMedia($mediaItem);
+
+            $conversion = $conversionCollection->getConversions()[0];
+
+            $manipulationSequence = $conversion
+                ->getManipulations()
+                ->getManipulationSequence()
+                ->toArray();
+
+            array_push($manipulations, $manipulationSequence);
+        }
+
+        $this->assertEquals($manipulations[0], $manipulations[1]);
     }
 }

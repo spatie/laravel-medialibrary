@@ -127,9 +127,13 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        optional($this->first(function (Conversion $conversion) use ($conversionName) {
-            return $conversion->getName() === $conversionName;
-        }))->addAsFirstManipulations($manipulations);
+        optional($this->filter(
+            function ($conversion) use ($conversionName) {
+                return
+                    in_array($this->media->collection_name, $conversion->getPerformOnCollections())
+                    && $conversion->getName() === $conversionName;
+            }
+        )->first())->addAsFirstManipulations($manipulations);
 
         if ($conversionName === '*') {
             $this->each->addAsFirstManipulations(clone $manipulations);
