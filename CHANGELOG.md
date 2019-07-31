@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.8.0 - 2019-07-31
+
+- make media collection macroable
+
 ## 7.7.0 - 2019-07-27
 
 - add `useFallbackUrl` and `useFallbackPath` to media collections
