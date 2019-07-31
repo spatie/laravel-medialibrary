@@ -57,7 +57,7 @@ class ConversionCollection extends Collection
             return $conversion->getName() === $name;
         });
 
-        if (!$conversion) {
+        if (! $conversion) {
             throw InvalidConversion::unknownName($name);
         }
 
@@ -129,7 +129,7 @@ class ConversionCollection extends Collection
     {
         /** @var \Spatie\MediaLibrary\Conversion\Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
-            if (!in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
+            if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
                 return false;
             }
 
