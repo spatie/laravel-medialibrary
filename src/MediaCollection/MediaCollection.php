@@ -2,8 +2,12 @@
 
 namespace Spatie\MediaLibrary\MediaCollection;
 
+use Illuminate\Support\Traits\Macroable;
+
 class MediaCollection
 {
+    use Macroable;
+
     /** @var string */
     public $name = '';
 
