@@ -404,6 +404,10 @@ trait HasMediaTrait
             unset($this->media);
         }
 
+        if ($this->getMedia($collectionName)->isEmpty()) {
+            event(new CollectionHasBeenCleared($this, $collectionName));
+        }
+
         return $this;
     }
 
