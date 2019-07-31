@@ -10,6 +10,9 @@ class ConversionCollectionTest extends TestCase
     /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
+    /** @var \Spatie\MediaLibrary\Models\Media */
+    protected $secondMedia;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -108,7 +111,7 @@ class ConversionCollectionTest extends TestCase
                 ->getManipulationSequence()
                 ->toArray();
 
-            array_push($manipulations, $manipulationSequence);
+            $manipulations[] = $manipulationSequence;
         }
 
         $this->assertEquals($manipulations[0], $manipulations[1]);

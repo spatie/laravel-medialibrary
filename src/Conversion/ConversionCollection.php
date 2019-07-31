@@ -57,7 +57,7 @@ class ConversionCollection extends Collection
             return $conversion->getName() === $name;
         });
 
-        if (! $conversion) {
+        if (!$conversion) {
             throw InvalidConversion::unknownName($name);
         }
 
@@ -127,13 +127,22 @@ class ConversionCollection extends Collection
      */
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        optional($this->filter(
-            function ($conversion) use ($conversionName) {
-                return
-                    in_array($this->media->collection_name, $conversion->getPerformOnCollections())
-                    && $conversion->getName() === $conversionName;
+        /** @var \Spatie\MediaLibrary\Conversion\Conversion|null $conversion */
+        $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
+            if (!in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
+                return false;
             }
-        )->first())->addAsFirstManipulations($manipulations);
+
+            if ($conversion->getName() !== $conversionName) {
+                return false;
+            }
+
+            return true;
+        });
+
+        if ($conversion) {
+            $conversion->addAsFirstManipulations($manipulations);
+        }
 
         if ($conversionName === '*') {
             $this->each->addAsFirstManipulations(clone $manipulations);

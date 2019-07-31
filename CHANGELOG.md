@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.8.1 - 2019-07-31
+
+- fix for custom manipulations not getting appllied to all relevant conversions with the same name
+
 ## 7.8.0 - 2019-07-31
 
 - make media collection macroable

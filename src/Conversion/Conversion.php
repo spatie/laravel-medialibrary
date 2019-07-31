@@ -48,6 +48,15 @@ class Conversion
         return $this->name;
     }
 
+    public function getPerformOnCollections(): array
+    {
+        if (! count($this->performOnCollections)) {
+            return ['default'];
+        }
+
+        return $this->performOnCollections;
+    }
+
     /*
      * Set the timecode in seconds to extract a video thumbnail.
      * Only used on video media.
@@ -156,21 +165,6 @@ class Conversion
         $this->performOnCollections = $collectionNames;
 
         return $this;
-    }
-
-    /**
-     * Returns the collection names on which this conversion must be performed.
-     * Assumes 'default' when none is present.
-     *
-     * @return array
-     */
-    public function getPerformOnCollections()
-    {
-        if (! count($this->performOnCollections)) {
-            return ['default'];
-        }
-
-        return $this->performOnCollections;
     }
 
     /*
@@ -283,4 +277,6 @@ class Conversion
 
         return "{$fileName}-{$this->getName()}.{$extension}";
     }
+
+
 }
