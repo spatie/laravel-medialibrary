@@ -4,7 +4,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 7.7.0 - 2019-07-27
 
-- add `useFallbackMediaUrl` and `useFallbackMediaPath` to media collections
+- add `useFallbackUrl` and `useFallbackPath` to media collections
 
 ## 7.6.9 - 2019-07-22
 
@@ -100,7 +100,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - fix for multiple files with the same filename in one ZIP archive
 - fix `markAsConversionGenerated`: disable model events when saving extra properties in Media::updated event
 
-## 7.3.9 - 2018-06-16 
+## 7.3.9 - 2018-06-16
 
 **do not use - broken**
 
