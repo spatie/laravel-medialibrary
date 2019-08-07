@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\FileAdder;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Traits\Macroable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\File as PendingFile;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
@@ -21,6 +22,8 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollecti
 
 class FileAdder
 {
+    use Macroable;
+
     /** @var \Illuminate\Database\Eloquent\Model subject */
     protected $subject;
 
