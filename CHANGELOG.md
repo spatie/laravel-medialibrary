@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.9.0 - 2019-08-07
+
+- `FileAdder` now is macroable
+
 ## 7.8.2 - 2019-07-31
 
 - make sure `CollectionHasBeenCleared` will be called when using `clearMediaCollectionExcept`
