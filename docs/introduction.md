@@ -7,14 +7,15 @@ Medialibrary is a Laravel (5.6 and up) package that can associate all sorts of f
 
 Here are some quick code examples:
 
-First off add `HasMediaTrait` trait into a model.
+First off add `HasMediaTrait` trait into a model and also you should implement `HasMedia` interface
 
 ```php
 namespace App;
 
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class News extends Model
+class News extends Model implements HasMedia
 {
     use HasMediaTrait;
 }
