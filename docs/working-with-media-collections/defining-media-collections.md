@@ -127,6 +127,35 @@ $yourModel->getMedia('avatar')->count(); // returns 1
 $yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$anotherPathToImage` file
 ```
 
+## Limited file collections
+
+Whenever you want to limit the amount of files inside a collection you can use the `onlyKeepLatests(n)` method. Whenever you add a file to a collection and exceed the given limit, Medialibrary will delete the oldest file(s) and keep the collection size at `n`.
+
+```php
+// in your model
+
+public function registerMediaCollections()
+{
+    $this
+        ->addMediaCollection('limited-collection')
+        ->onlyKeepLatests(3);
+}
+```
+
+For the first 3 files, nothing strange happens. The files get added to the collection and the collection now holds all 3 files. Whenever you decide to add a 4th file, Medialibrary deletes the first file and keeps the latest 3.
+
+```php
+$yourModel->addMedia($firstFile)->toMediaCollection('limited-collection');
+$yourModel->getMedia('avatar')->count(); // returns 1
+$yourModel->addMedia($secondFile)->toMediaCollection('limited-collection');
+$yourModel->getMedia('avatar')->count(); // returns 2
+$yourModel->addMedia($thirdFile)->toMediaCollection('limited-collection');
+$yourModel->getMedia('avatar')->count(); // returns 3
+$yourModel->addMedia($fourthFile)->toMediaCollection('limited-collection');
+$yourModel->getMedia('avatar')->count(); // returns 3
+$yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$secondFile` file
+```
+
 ## Registering media conversions
 
 It's recommended that your first read the section on [converting images](/laravel-medialibrary/v7/converting-images/defining-conversions) before reading the following paragraphs.

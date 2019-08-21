@@ -20,8 +20,8 @@ class MediaCollection
     /** @var callable */
     public $acceptsFile;
 
-    /** @var bool */
-    public $singleFile = false;
+    /** @var int */
+    public $collectionSizeLimit = false;
 
     /** @var string */
     public $fallbackUrl = '';
@@ -62,7 +62,12 @@ class MediaCollection
 
     public function singleFile(): self
     {
-        $this->singleFile = true;
+        return $this->onlyKeepLatest(1);
+    }
+
+    public function onlyKeepLatest(int $int): self
+    {
+        $this->collectionSizeLimit = $int;
 
         return $this;
     }

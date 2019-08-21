@@ -172,7 +172,33 @@ class MediaCollectionTest extends TestCase
 
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
         $this->assertCount(1, $model->getMedia('images'));
+    }
+
+    /** @test */
+    public function if_the_only_keeps_latest_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_latest_n_ones()
+    {
+        $testModel = new class extends TestModelWithConversion {
+            public function registerMediaCollections()
+            {
+                $this
+                    ->addMediaCollection('images')
+                    ->onlyKeepLatest(3);
+            }
+        };
+
+        $model = $testModel::create(['name' => 'testmodel']);
+
+        $firstFile = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+        $this->assertFalse($model->getMedia('images')->contains(function ($model) use ($firstFile) {
+            return $model->is($firstFile);
+        }));
+        $this->assertCount(3, $model->getMedia('images'));
     }
 }
