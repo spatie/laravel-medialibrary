@@ -34,7 +34,7 @@ trait HasMediaTrait
     protected $deletePreservingMedia = false;
 
     /** @var bool */
-    protected $forceDeleteMediaWhenModelIsSoftDeleted = false;
+    protected $shouldDeleteMediaWhenSoftDeleting = false;
 
     /** @var array */
     protected $unAttachedMediaLibraryItems = [];
@@ -47,7 +47,7 @@ trait HasMediaTrait
             }
 
             if (in_array(SoftDeletes::class, class_uses_recursive($entity))) {
-                if (! $entity->forceDeleting && ! $entity->forceDeleteMediaWhenModelIsSoftDeleted) {
+                if (! $entity->forceDeleting && ! $entity->shouldDeleteMediaWhenSoftDeleting) {
                     return;
                 }
             }

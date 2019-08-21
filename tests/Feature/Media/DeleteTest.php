@@ -146,7 +146,7 @@ class DeleteTest extends TestCase
         $testModelClass = new class() extends TestModel {
             use SoftDeletes;
 
-            protected $forceDeleteMediaWhenModelIsSoftDeleted = true;
+            protected $shouldDeleteMediaWhenSoftDeleting = true;
         };
 
         /** @var TestModel $testModel */
