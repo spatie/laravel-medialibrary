@@ -139,4 +139,27 @@ class DeleteTest extends TestCase
 
         $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
     }
+
+    /** @test */
+    public function it_will_remove_the_file_when_model_uses_softdelete_but_has_media_trait_setting_is_set_to_force_delete_mode()
+    {
+        $testModelClass = new class() extends TestModel {
+            use SoftDeletes;
+
+            protected $forceDeleteMediaWhenModelIsSoftDeleted = true;
+        };
+
+        /** @var TestModel $testModel */
+        $testModel = $testModelClass::find($this->testModel->id);
+
+        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+
+        $testModel = $testModel->fresh();
+
+        $testModel->delete();
+
+        $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+    }
 }

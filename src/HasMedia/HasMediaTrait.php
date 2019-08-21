@@ -24,6 +24,9 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 
 trait HasMediaTrait
 {
+    /** @var $forceDeleteMediaWhenModelIsSoftDeleted */
+    protected $forceDeleteMediaWhenModelIsSoftDeleted = false;
+
     /** @var Conversion[] */
     public $mediaConversions = [];
 
@@ -44,7 +47,7 @@ trait HasMediaTrait
             }
 
             if (in_array(SoftDeletes::class, class_uses_recursive($entity))) {
-                if (! $entity->forceDeleting) {
+                if (! $entity->forceDeleting && ! $entity->forceDeleteMediaWhenModelIsSoftDeleted) {
                     return;
                 }
             }
