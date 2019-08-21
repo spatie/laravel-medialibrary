@@ -191,11 +191,14 @@ class MediaCollectionTest extends TestCase
 
         $model = $testModel::create(['name' => 'testmodel']);
 
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstFile = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
+        $this->assertFalse($model->getMedia('images')->contains(function($model) use($firstFile) {
+            return $model->is($firstFile);
+        }));
         $this->assertCount(3, $model->getMedia('images'));
     }
 }
