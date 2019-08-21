@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\MediaCollection;
 
 use Illuminate\Support\Traits\Macroable;
+use InvalidArgumentException;
 
 class MediaCollection
 {
@@ -69,6 +70,11 @@ class MediaCollection
 
     public function onlyKeepLatest(int $maximumNumberOfItemsInCollection): self
     {
+        if ($maximumNumberOfItemsInCollection < 1) {
+            throw new InvalidArgumentException("You should pass a value higher than 0. `{$maximumNumberOfItemsInCollection}` given.");
+        }
+
+
         $this->singleFile = ($maximumNumberOfItemsInCollection === 1);
 
         $this->collectionSizeLimit = $maximumNumberOfItemsInCollection;
