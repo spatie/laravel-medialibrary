@@ -95,9 +95,9 @@ You can still specify the disk name manually when adding media. In this example 
 $yourModel->addMedia($pathToFile)->toMediaCollection('big-files', 'alternative-disk');
 ```
 
-## Single file collections
+## Limited collections & single file collections
 
-If you want a collection to hold only one file you can use `singleFile` on the collection. A good use case for this would be an avatar collection on a `User` model. In most cases you'd want to have a user to only have one `avatar`.
+If you want a collection to hold only `n` file(s) you can use `onlyKeepLatests(n)` on the collection. A good use case for this would be an avatar collection on a `User` model. In most cases you'd want to have a user to only have one `avatar`. Whenever you add a file and the collection exceeds the limit, Medialibrary will delete the oldest files first and keep the latest file(s).
 
 ```php
 // in your model
@@ -106,9 +106,11 @@ public function registerMediaCollections()
 {
     $this
         ->addMediaCollection('avatar')
-        ->singleFile();
+        ->onlyKeepLatests(1);
 }
 ```
+
+You can also use the shorthand to `singleFile()` which is an alternative to `onlyKeepLatest(1)`.
 
 The first time you add a file to the collection it will be stored as usual.
 
