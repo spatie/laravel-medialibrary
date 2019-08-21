@@ -23,6 +23,8 @@ class MediaCollection
     /** @var int */
     public $collectionSizeLimit = false;
 
+    public $singleFile = false;
+
     /** @var string */
     public $fallbackUrl = '';
 
@@ -65,9 +67,11 @@ class MediaCollection
         return $this->onlyKeepLatest(1);
     }
 
-    public function onlyKeepLatest(int $int): self
+    public function onlyKeepLatest(int $maximumNumberOfItemsInCollection): self
     {
-        $this->collectionSizeLimit = $int;
+        $this->singleFile = ($maximumNumberOfItemsInCollection === 1);
+
+        $this->collectionSizeLimit = $maximumNumberOfItemsInCollection;
 
         return $this;
     }

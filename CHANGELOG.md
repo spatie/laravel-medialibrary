@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.10.0 - 2019-08-21
+
+- add `onlyKeepLatest` on `MediaCollection`
+
 ## 7.9.0 - 2019-08-07
 
 - `FileAdder` now is macroable
