@@ -110,7 +110,7 @@ public function registerMediaCollections()
 }
 ```
 
-You can also use the shorthand to `singleFile()` which is an alternative to `onlyKeepLatest(1)`.
+You can also use `singleFile()` which is an alternative to `onlyKeepLatest(1)`.
 
 The first time you add a file to the collection it will be stored as usual.
 
