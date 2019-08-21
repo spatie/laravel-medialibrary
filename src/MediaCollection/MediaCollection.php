@@ -20,7 +20,7 @@ class MediaCollection
     /** @var callable */
     public $acceptsFile;
 
-    /** @var bool */
+    /** @var integer */
     public $collectionSizeLimit = false;
 
     /** @var string */
