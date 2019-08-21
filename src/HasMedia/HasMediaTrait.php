@@ -24,9 +24,6 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 
 trait HasMediaTrait
 {
-    /** @var $forceDeleteMediaWhenModelIsSoftDeleted */
-    protected $forceDeleteMediaWhenModelIsSoftDeleted = false;
-
     /** @var Conversion[] */
     public $mediaConversions = [];
 
@@ -35,6 +32,9 @@ trait HasMediaTrait
 
     /** @var bool */
     protected $deletePreservingMedia = false;
+
+    /** @var bool */
+    protected $forceDeleteMediaWhenModelIsSoftDeleted = false;
 
     /** @var array */
     protected $unAttachedMediaLibraryItems = [];
