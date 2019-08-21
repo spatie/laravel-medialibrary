@@ -328,7 +328,7 @@ class FileAdder
         if ($collectionSizeLimit = optional($this->getMediaCollection($media->collection_name))->collectionSizeLimit) {
             $collectionMedia = $this->subject->fresh()->getMedia($media->collection_name);
 
-            if($collectionMedia->count() > $collectionSizeLimit) {
+            if ($collectionMedia->count() > $collectionSizeLimit) {
                 $model->clearMediaCollectionExcept($media->collection_name, $collectionMedia->reverse()->take($collectionSizeLimit));
             }
         }
