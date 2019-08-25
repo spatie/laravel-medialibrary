@@ -129,7 +129,7 @@ $yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$anotherPa
 
 ## Limited file collections
 
-Whenever you want to limit the amount of files inside a collection you can use the `onlyKeepLatests(n)` method. Whenever you add a file to a collection and exceed the given limit, Medialibrary will delete the oldest file(s) and keep the collection size at `n`.
+Whenever you want to limit the amount of files inside a collection you can use the `onlyKeepLatest(n)` method. Whenever you add a file to a collection and exceed the given limit, Medialibrary will delete the oldest file(s) and keep the collection size at `n`.
 
 ```php
 // in your model
@@ -138,7 +138,7 @@ public function registerMediaCollections()
 {
     $this
         ->addMediaCollection('limited-collection')
-        ->onlyKeepLatests(3);
+        ->onlyKeepLatest(3);
 }
 ```
 
