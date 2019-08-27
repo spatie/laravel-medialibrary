@@ -23,7 +23,7 @@ composer remove spatie/laravel-medialibrary
 
 Then, install the extension package via composer :
 ```bash
-composer require "okipa/laravel-medialibrary-ext:^7.0.0"
+composer require "okipa/laravel-medialibrary-ext:^7.11.0"
 ```
 
 Follow the original package installation instructions :
