@@ -15,15 +15,15 @@
     "type": "library",
     "authors": [
         {
+            "name": "Arthur LORENT",
+            "email": "arthur.lorent@gmail.com",
+            "role": "Extension developer"
+        },
+        {
             "name": "Freek Van der Herten",
             "email": "freek@spatie.be",
             "homepage": "https://murze.be",
             "role": "Developer"
-        },
-        {
-            "name": "Arthur LORENT",
-            "email": "arthur.lorent@gmail.com",
-            "role": "Extension developer"
         }
     ],
     "require": {
