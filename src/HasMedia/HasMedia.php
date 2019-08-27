@@ -175,14 +175,13 @@ interface HasMedia
     public function mimeTypesLegend(string $collectionName): string;
 
     /**
-     * Check if the given media collection should have dimension constraints, according to its declared accepted mime
-     * types.
+     * Check if the given media collection should handle dimensions, according to its declared accepted mime types.
      *
      * @param \Spatie\MediaLibrary\MediaCollection\MediaCollection $collection
      *
      * @return bool
      */
-    public function shouldHaveDimensionConstraints(MediaCollection $collection): bool;
+    public function shouldHandleDimensions(MediaCollection $collection): bool;
 
     /**
      * Get declared conversions from a media collection name.

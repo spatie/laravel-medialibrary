@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests\Support\TestModels;
 
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;

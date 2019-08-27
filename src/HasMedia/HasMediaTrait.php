@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Exceptions\CollectionNotFound;
 use Spatie\MediaLibrary\Exceptions\ConversionsNotFound;
+use Spatie\MediaLibrary\LegendGenerator\LegendGeneratorTrait;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
@@ -23,9 +24,13 @@ use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
+use Spatie\MediaLibrary\ValidationConstraintsGenerator\validationConstraintsGeneratorTrait;
 
 trait HasMediaTrait
 {
+    use LegendGeneratorTrait;
+    use validationConstraintsGeneratorTrait;
+
     /** @var Conversion[] */
     public $mediaConversions = [];
 
@@ -573,45 +578,7 @@ trait HasMediaTrait
         $this->registerMediaConversions($media);
     }
 
-    /**
-     * Get the constraints validation string for a media collection.
-     *
-     * @param string $collectionName
-     *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
-     */
-    public function validationConstraints(string $collectionName): string
-    {
-        $dimensions = $this->dimensionValidationConstraints($collectionName);
-        $mimeTypes = $this->mimeTypesValidationConstraints($collectionName);
-        $separator = $dimensions && $mimeTypes ? '|' : '';
 
-        return ($dimensions ? $dimensions . $separator : '') . ($mimeTypes);
-    }
-
-    /**
-     * Get a collection dimension validation constraints string from its name name.
-     *
-     * @param string $collectionName
-     *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
-     */
-    public function dimensionValidationConstraints(string $collectionName): string
-    {
-        $maxSizes = $this->collectionMaxSizes($collectionName);
-        if (empty($maxSizes)) {
-            return '';
-        }
-        $width = $maxSizes['width'] ? 'min_width=' . $maxSizes['width'] : '';
-        $height = $maxSizes['height'] ? 'min_height=' . $maxSizes['height'] : '';
-        $separator = $width && $height ? ',' : '';
-
-        return $width || $height ? 'dimensions:' . $width . $separator . $height : '';
-    }
 
     /**
      * Get registered collection max width and max height from its name.
@@ -630,7 +597,7 @@ trait HasMediaTrait
             /** @var \Illuminate\Database\Eloquent\Model $this */
             throw CollectionNotFound::notDeclaredInModel($this, $collectionName);
         }
-        if (! $this->shouldHaveDimensionConstraints($collection)) {
+        if (! $this->shouldHandleDimensions($collection)) {
             return [];
         }
         $conversions = $this->getConversions($collectionName);
@@ -667,14 +634,13 @@ trait HasMediaTrait
     }
 
     /**
-     * Check if the given media collection should have dimension constraints, according to its declared accepted mime
-     * types.
+     * Check if the given media collection should handle dimensions, according to its declared accepted mime types.
      *
      * @param \Spatie\MediaLibrary\MediaCollection\MediaCollection $collection
      *
      * @return bool
      */
-    public function shouldHaveDimensionConstraints(MediaCollection $collection): bool
+    public function shouldHandleDimensions(MediaCollection $collection): bool
     {
         return ! count($collection->acceptsMimeTypes)
             || ! count(array_filter($collection->acceptsMimeTypes, function ($mimeTypes) {
@@ -691,7 +657,7 @@ trait HasMediaTrait
      */
     public function getConversions(string $collectionName): array
     {
-        return Arr::where($this->mediaConversions, function ($conversion) use ($collectionName) {
+        return Arr::where($this->mediaConversions, function (Conversion $conversion) use ($collectionName) {
             return $conversion->shouldBePerformedOn($collectionName);
         });
     }
@@ -709,110 +675,5 @@ trait HasMediaTrait
         $height = ! empty($sizes) ? max(Arr::pluck($sizes, 'height')) : null;
 
         return compact('width', 'height');
-    }
-
-    /**
-     * Get a collection mime types constraints validation string from its name.
-     *
-     * @param string $collectionName
-     *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     */
-    public function mimeTypesValidationConstraints(string $collectionName): string
-    {
-        $this->registerMediaCollections();
-        $collection = head(Arr::where($this->mediaCollections, function ($collection) use ($collectionName) {
-            return $collection->name === $collectionName;
-        }));
-        if (! $collection) {
-            /** @var \Illuminate\Database\Eloquent\Model $this */
-            throw CollectionNotFound::notDeclaredInModel($this, $collectionName);
-        }
-        $validationString = '';
-        if (! empty($collection->acceptsMimeTypes)) {
-            $validationString .= 'mimetypes:' . implode(',', $collection->acceptsMimeTypes);
-        }
-
-        return $validationString;
-    }
-
-    /**
-     * Get the constraints legend string for a media collection.
-     *
-     * @param string $collectionName
-     *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
-     */
-    public function constraintsLegend(string $collectionName): string
-    {
-        $dimensionsLegend = $this->dimensionsLegend($collectionName);
-        $mimeTypesLegend = $this->mimeTypesLegend($collectionName);
-        $separator = $dimensionsLegend && $mimeTypesLegend ? ' ' : '';
-
-        return ($dimensionsLegend ? $dimensionsLegend . $separator : '') . $mimeTypesLegend;
-    }
-
-    /**
-     * Get a collection dimensions constraints legend string from its name.
-     *
-     * @param string $collectionName
-     *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
-     */
-    public function dimensionsLegend(string $collectionName): string
-    {
-        $sizes = $this->collectionMaxSizes($collectionName);
-        $width = Arr::get($sizes, 'width');
-        $height = Arr::get($sizes, 'height');
-        $legend = '';
-        if ($width && $height) {
-            $legend = (string) __('medialibrary::medialibrary.constraint.dimensions.both', [
-                'width'  => $width,
-                'height' => $height,
-            ]);
-        } elseif ($width && ! $height) {
-            $legend = (string) __('medialibrary::medialibrary.constraint.dimensions.width', [
-                'width' => $width,
-            ]);
-        } elseif (! $width && $height) {
-            $legend = (string) __('medialibrary::medialibrary.constraint.dimensions.height', [
-                'height' => $height,
-            ]);
-        }
-
-        return $legend;
-    }
-
-    /**
-     * Get a collection mime types constraints legend string from its name.
-     *
-     * @param string $collectionName
-     *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     */
-    public function mimeTypesLegend(string $collectionName): string
-    {
-        $this->registerMediaCollections();
-        $collection = head(Arr::where($this->mediaCollections, function ($collection) use ($collectionName) {
-            return $collection->name === $collectionName;
-        }));
-        if (! $collection) {
-            /** @var \Illuminate\Database\Eloquent\Model $this */
-            throw CollectionNotFound::notDeclaredInModel($this, $collectionName);
-        }
-        $legendString = '';
-        if (! empty($collection->acceptsMimeTypes)) {
-            $legendString .= __('medialibrary::medialibrary.constraint.mimeTypes', [
-                'mimetypes' => implode(', ', $collection->acceptsMimeTypes),
-            ]);
-        }
-
-        return $legendString;
     }
 }
