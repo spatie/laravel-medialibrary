@@ -32,7 +32,7 @@ Follow the original package installation instructions :
 
 Finally, you can publish the extension translation files if needed with :
 ```bash
-php artisan vendor:publish --provider="Okipa\MediaLibraryExtension\MediaLibraryExtensionServiceProvider" --tag="translations"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="translations"
 ```
 
 ## Extra features
@@ -114,7 +114,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
-- [Arthur LORENT](https://github.com/okipa)
+- [Spatie](https://github.com/spatie) (Original package creator and maintainer)
+- [Arthur LORENT](https://github.com/okipa) (Extension maintainer)
 - [All Contributors](../../contributors)
 
 ## License
