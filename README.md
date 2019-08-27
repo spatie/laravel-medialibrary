@@ -1,4 +1,4 @@
-# Associate files with Eloquent models
+# Extra features for [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) package
 
 [![Source Code](https://img.shields.io/badge/source-okipa/laravel--medialibrary--ext-blue.svg)](https://github.com/Okipa/laravel-medialibrary-ext)
 [![Latest Version](https://img.shields.io/packagist/v/okipa/laravel-medialibrary-ext.svg?style=flat-square)](https://packagist.org/packages/okipa/laravel-medialibrary-ext)
@@ -114,7 +114,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
-- [Spatie](https://github.com/spatie) (Original package creator and maintainer)
+- [Freek Van der Herten](https://github.com/freekmurze) (Package creator and maintainer)
 - [Arthur LORENT](https://github.com/okipa) (Extension maintainer)
 - [All Contributors](../../contributors)
 

@@ -1,83 +1,88 @@
 {
-  "name": "spatie/laravel-medialibrary",
-  "description": "Associate files with Eloquent models",
-  "keywords": [
-    "spatie",
-    "laravel-medialibrary",
-    "media",
-    "conversion",
-    "images",
-    "downloads",
-    "cms",
-    "laravel"
-  ],
-  "homepage": "https://github.com/spatie/laravel-medialibrary",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Freek Van der Herten",
-      "email": "freek@spatie.be",
-      "homepage": "https://murze.be",
-      "role": "Developer"
-    }
-  ],
-  "require": {
-    "php": "^7.2",
-    "ext-imagick" : "*",
-    "illuminate/bus": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-    "illuminate/console": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-    "illuminate/database": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-    "illuminate/pipeline": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-    "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-    "league/flysystem": "^1.0.8",
-    "maennchen/zipstream-php": "^0.4|^1.0",
-    "spatie/image": "^1.4.0",
-    "spatie/pdf-to-image": "^1.2",
-    "spatie/temporary-directory": "^1.1",
-    "ext-fileinfo": "*"
-  },
-  "require-dev": {
-    "ext-pdo_sqlite": "*",
-    "doctrine/dbal": "^2.5.2",
-    "guzzlehttp/guzzle": "^6.3",
-    "league/flysystem-aws-s3-v3": "^1.0.13",
-    "mockery/mockery": "^1.0.0",
-    "orchestra/testbench": "~3.8.0",
-    "phpunit/phpunit" : "^8.0",
-    "spatie/phpunit-snapshot-assertions": "^2.0"
-  },
-  "conflict": {
-    "php-ffmpeg/php-ffmpeg": "<0.6.1"
-  },
-  "suggest": {
-    "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage",
-    "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
-  },
-  "autoload": {
-    "psr-4": {
-      "Spatie\\MediaLibrary\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Spatie\\MediaLibrary\\Tests\\": "tests"
-    }
-  },
+    "name": "okipa/laravel-medialibrary-ext",
+    "description": "Extra features for https://github.com/spatie/laravel-medialibrary package.",
+    "keywords": [
+        "okipa",
+        "laravel-medialibrary-extension",
+        "laravel-medialibrary",
+        "laravel",
+        "media",
+        "library",
+        "package"
+    ],
+    "homepage": "https://github.com/okipa/laravel-medialibrary-ext",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://murze.be",
+            "role": "Developer"
+        },
+        {
+            "name": "Arthur LORENT",
+            "email": "arthur.lorent@gmail.com",
+            "role": "Extension developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "ext-imagick": "*",
+        "illuminate/bus": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+        "illuminate/console": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+        "illuminate/database": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+        "illuminate/pipeline": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+        "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
+        "league/flysystem": "^1.0.8",
+        "maennchen/zipstream-php": "^0.4|^1.0",
+        "spatie/image": "^1.4.0",
+        "spatie/pdf-to-image": "^1.2",
+        "spatie/temporary-directory": "^1.1",
+        "ext-fileinfo": "*"
+    },
+    "require-dev": {
+        "ext-pdo_sqlite": "*",
+        "doctrine/dbal": "^2.5.2",
+        "guzzlehttp/guzzle": "^6.3",
+        "league/flysystem-aws-s3-v3": "^1.0.13",
+        "mockery/mockery": "^1.0.0",
+        "orchestra/testbench": "~3.8.0",
+        "phpunit/phpunit": "^8.0",
+        "spatie/phpunit-snapshot-assertions": "^2.0"
+    },
+    "conflict": {
+        "php-ffmpeg/php-ffmpeg": "<0.6.1"
+    },
+    "suggest": {
+        "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage",
+        "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\MediaLibrary\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\MediaLibrary\\Tests\\": "tests"
+        }
+    },
     "scripts": {
         "test": [
             "vendor/bin/phpunit"
         ]
     },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
-      ]
-    }
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
