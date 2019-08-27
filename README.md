@@ -7,7 +7,7 @@
 [![Build Status](https://travis-ci.org/Okipa/laravel-medialibrary-ext.svg?branch=master)](https://travis-ci.org/Okipa/laravel-medialibrary-ext)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Okipa/laravel-medialibrary-ext.svg?style=flat-square)](https://scrutinizer-ci.com/g/Okipa/laravel-medialibrary-ext)
 
-This package provide extra features for the v7+ of [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) package.  
+This package provides extra features for the v7+ of [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) package.  
 
 ## Documentation
 
@@ -102,8 +102,8 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
-- [Freek Van der Herten](https://github.com/freekmurze) (Package creator and maintainer)
 - [Arthur LORENT](https://github.com/okipa) (Extension maintainer)
+- [Freek Van der Herten](https://github.com/freekmurze) (Package creator and maintainer)
 - [All Contributors](../../contributors)
 
 ## License
