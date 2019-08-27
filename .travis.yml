@@ -8,8 +8,8 @@ php:
 
 env:
   matrix:
-    - COMPOSER_FLAGS="--prefer-lowest"
-    - COMPOSER_FLAGS=""
+    - COMPOSER_FLAGS="--prefer-lowest --ignore-platform-reqs"
+    - COMPOSER_FLAGS="--ignore-platform-reqs"
 
 before_install:
   - sudo apt-get update

@@ -42,7 +42,6 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
   - [Collection validation constraints rules generation](#collection-validation-constraints-rules-generation)
   - [Collection validation constraints legend generation](#collection-validation-constraints-legend-generation)
 - [Global conversions queued status](#global-conversions-queued-status)
-- [Useful extra public methods](#useful-additional-public-methods)
 
 ### Constraints
 
@@ -84,19 +83,8 @@ Addition of the `constraintsLegend(string $collectionName): string` method, whic
 Rendering example : `Min. width : 150 px / Min. height : 70 px. Accepted MIME Type(s) : image/jpeg, image/png.`
 
 ### Global conversions queued status
-To manage the global conversions queued status, set the `config('medialibrary-extension.queuedConversions')` value. This will be the default queued status for all your defined conversions.  
+To manage the global conversions queued status, set the `config('medialibrary.queued_conversions')` value. This will be the default queued status for all your defined conversions.  
 You still will be able to manually define a [specific queued status for a conversion](https://docs.spatie.be/laravel-medialibrary/v7/converting-images/defining-conversions/#queuing-conversions). 
-
-## Useful additional public methods
-The following methods can also be used separately with a model using the `HasMediaTrait` :
-- `dimensionValidationConstraints(string $collectionName): string` : Get a collection dimension validation constraints string from its name.
-- `mimeTypesValidationConstraints(string $collectionName): string` : Get a collection mime types constraints validation string from its name.
-- `dimensionsLegend($collectionName): string` : Get a collection dimensions constraints legend string from its name.
-- `mimeTypesLegend($collectionName): string` : Get a collection mime types constraints legend string from its name.
-- `collectionMaxSizes(string $collectionName): array` : Get registered collection max width and max height from its name.
-- `getCollection(string $collectionName): ?MediaCollection` : Get a media collection object from its name.
-- `getConversions(string $collectionName): array` : Get declared conversions from a media collection name.
-- `shouldHaveDimensionConstraints(MediaCollection $collection): bool` : Check if the given media collection should have dimension constraints, according to its declared accepted mime types.
 
 ## Testing
 
