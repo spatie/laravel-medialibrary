@@ -21,7 +21,7 @@ class Conversion
     protected $performOnCollections = [];
 
     /** @var bool */
-    protected $performOnQueue = true;
+    protected $performOnQueue;
 
     /** @var bool */
     protected $keepOriginalImageFormat = false;
@@ -36,6 +36,8 @@ class Conversion
         $this->manipulations = (new Manipulations())
             ->optimize(config('medialibrary.image_optimizers'))
             ->format('jpg');
+
+        $this->performOnQueue = $this->performOnQueue ?: config('medialibrary.queued_conversions');
     }
 
     public static function create(string $name)

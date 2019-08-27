@@ -69,9 +69,22 @@ class ConversionTest extends TestCase
     }
 
     /** @test */
-    public function it_will_be_queued_by_default()
+    public function it_will_get_the_config_queued_status_by_default()
     {
-        $this->assertTrue($this->conversion->shouldBeQueued());
+        config()->set('medialibrary.queued_conversions', false);
+        $this->conversion = new Conversion($this->conversionName);
+        $this->assertFalse($this->conversion->shouldBeQueued());
+    }
+
+    /** @test */
+    public function it_can_override_the_default_config_queued_status()
+    {
+        config()->set('medialibrary.queued_conversions', false);
+        $this->conversion = new Conversion($this->conversionName);
+        $this->assertTrue($this->conversion->queued()->shouldBeQueued());
+        config()->set('medialibrary.queued_conversions', true);
+        $this->conversion = new Conversion($this->conversionName);
+        $this->assertFalse($this->conversion->nonQueued()->shouldBeQueued());
     }
 
     /** @test */

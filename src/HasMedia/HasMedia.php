@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
 
@@ -103,4 +104,101 @@ interface HasMedia
      * Register the media conversions and conversions set in media collections.
      */
     public function registerAllMediaConversions();
+
+    /**
+     * Get a collection mime types constraints validation string from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function mimeTypesValidationConstraints(string $collectionName): string;
+
+    /**
+     * Get a collection dimension validation constraints string from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
+     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
+     */
+    public function dimensionValidationConstraints(string $collectionName): string;
+
+    /**
+     * Get registered collection max width and max height from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return array
+     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
+     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
+     */
+    public function collectionMaxSizes(string $collectionName): array;
+
+    /**
+     * Get the constraints validation string for a media collection.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
+     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
+     */
+    public function validationConstraints(string $collectionName): string;
+
+    /**
+     * Get the constraints legend string for a media collection.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function constraintsLegend(string $collectionName): string;
+
+    /**
+     * Get a collection dimensions constraints legend string from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function dimensionsLegend(string $collectionName): string;
+
+    /**
+     * Get a collection mime types constraints legend string from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function mimeTypesLegend(string $collectionName): string;
+
+    /**
+     * Check if the given media collection should have dimension constraints, according to its declared accepted mime
+     * types.
+     *
+     * @param \Spatie\MediaLibrary\MediaCollection\MediaCollection $collection
+     *
+     * @return bool
+     */
+    public function shouldHaveDimensionConstraints(MediaCollection $collection): bool;
+
+    /**
+     * Get declared conversions from a media collection name.
+     *
+     * @param string $collectionName
+     *
+     * @return array
+     */
+    public function getConversions(string $collectionName): array;
+
+    /**
+     * Get a media collection object from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return \Spatie\MediaLibrary\MediaCollection\MediaCollection|null
+     */
+    public function getCollection(string $collectionName): ?MediaCollection;
 }

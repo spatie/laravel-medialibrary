@@ -21,6 +21,11 @@ return [
     'queue_name' => '',
 
     /*
+     * According to this configuration value, the conversions will be queued by default or will be handled synchronously.
+     */
+    'queued_conversions' => env('MEDIALIBRARY_QUEUED_CONVERSIONS', true),
+
+    /*
      * The fully qualified class name of the media model.
      */
     'media_model' => Spatie\MediaLibrary\Models\Media::class,

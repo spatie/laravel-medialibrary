@@ -21,6 +21,9 @@ class MediaCollection
     /** @var callable */
     public $acceptsFile;
 
+    /** @var array $acceptsMimeTypes */
+    public $acceptsMimeTypes = [];
+
     /** @var int */
     public $collectionSizeLimit = false;
 
@@ -59,6 +62,20 @@ class MediaCollection
     public function acceptsFile(callable $acceptsFile): self
     {
         $this->acceptsFile = $acceptsFile;
+
+        return $this;
+    }
+
+    /**
+     * Set the media collection accepted mime types.
+     *
+     * @param array $mimeTypes
+     *
+     * @return \Spatie\MediaLibrary\MediaCollection\MediaCollection
+     */
+    public function acceptsMimeTypes(array $mimeTypes): MediaCollection
+    {
+        $this->acceptsMimeTypes = $mimeTypes;
 
         return $this;
     }
