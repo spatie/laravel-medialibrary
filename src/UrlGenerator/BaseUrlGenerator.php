@@ -18,7 +18,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
     /** @var null|\Spatie\MediaLibrary\PathGenerator\PathGenerator */
     protected $pathGenerator;
 
-    /** @var null|\Illuminate\Contracts\Config\Repository */
+    /** @var \Illuminate\Contracts\Config\Repository */
     protected $config;
 
     /** @param \Illuminate\Contracts\Config\Repository $config */
