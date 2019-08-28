@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.10.1 - 2019-08-28
+
+- do not export docs
+
 ## 7.10.0 - 2019-08-21
 
 - add `onlyKeepLatest` on `MediaCollection`
