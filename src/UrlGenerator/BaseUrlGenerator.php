@@ -9,16 +9,16 @@ use Illuminate\Contracts\Config\Repository as Config;
 
 abstract class BaseUrlGenerator implements UrlGenerator
 {
-    /** @var \Spatie\MediaLibrary\Models\Media */
+    /** @var null|\Spatie\MediaLibrary\Models\Media */
     protected $media;
 
-    /** @var \Spatie\MediaLibrary\Conversion\Conversion */
+    /** @var null|\Spatie\MediaLibrary\Conversion\Conversion */
     protected $conversion;
 
-    /** @var \Spatie\MediaLibrary\PathGenerator\PathGenerator */
+    /** @var null|\Spatie\MediaLibrary\PathGenerator\PathGenerator */
     protected $pathGenerator;
 
-    /** @var \Illuminate\Contracts\Config\Repository */
+    /** @var null|\Illuminate\Contracts\Config\Repository */
     protected $config;
 
     /** @param \Illuminate\Contracts\Config\Repository $config */
