@@ -12,7 +12,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
     /** @var \Spatie\MediaLibrary\Models\Media */
     protected $media;
 
-    /** @var \Spatie\MediaLibrary\Conversion\Conversion */
+    /** @var \Spatie\MediaLibrary\Conversion\Conversion|null */
     protected $conversion;
 
     /** @var \Spatie\MediaLibrary\PathGenerator\PathGenerator */
