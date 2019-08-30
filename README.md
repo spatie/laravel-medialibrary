@@ -37,29 +37,37 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 
 ## Extra features
 
+- [Cache busting](#cache-busting)
+  - [Image name versioning](#image-name-versioning)
 - [Constraints](#constraints)
   - [Collection mime types constraint setup](#collection-mime-types-constraint-setup)
   - [Collection validation constraints rules generation](#collection-validation-constraints-rules-generation)
   - [Collection validation constraints legend generation](#collection-validation-constraints-legend-generation)
 - [Global conversions queued status](#global-conversions-queued-status)
 
+### Cache busting
+
+#### Image name versioning
+Active the image cache busting by setting a boolean value to `MEDIALIBRARY_IMAGE_NAME_VERSIONING` in your`.env` file, or directly to `config('medialibrary.image_name_versioning')` if you published the package config file.  
+When activated, the image URL will be suffixed by the last media (re)generation timestamp in order to bust the browser cache.  
+Example : `/storage/1/test.jpg` URL will be called as `/storage/1/test.jpg?id=1567178489`.
+
 ### Constraints
 
 #### Collection mime types constraint setup
-Addition of the `acceptsMimeTypes(array $mimeTypes): MediaCollection` which can be used with a media collection.  
-Once declared, the mime types constraints will be used to trigger the `FileUnacceptableForCollection` exception if not respected, and will also be used to generate validation constraints and legends (see bellow).
+Declare your media collections mime types constraints with `acceptsMimeTypes(array $mimeTypes): MediaCollection`.  
+If not respected during your file addition, the `FileUnacceptableForCollection` exception will be thrown.  
+This declaration will also be used to automatically generate validation constraints rules and legends to place under your `<input type="file" name="my_file">` (see bellow).
 ```php
 // example
 public function registerMediaCollections()
 {
-    $this->addMediaCollection('images')->acceptsFile(function (File $file) {
-        return $file->size <= 30000;
-    })->acceptsMimeTypes(['image/jpeg', 'image/png']);
+    $this->addMediaCollection('images')->acceptsMimeTypes(['image/jpeg', 'image/png']);
 }
 ```
 
 #### Collection validation constraints rules generation
-Addition of the `validationConstraints(string $collectionName): string` method, which can be used with a model using the `HasMediaTrait`.  
+Declare your media validation constraints in a breeze with `validationConstraints(string $collectionName): string`.  
 ```php
 // in your user storing form request for example
 public function rules()
@@ -69,21 +77,22 @@ public function rules()
         // your other validation rules
     ];
 }
+// rendering example : `dimensions:min_width=60,min_height=20|mimetypes:image/jpeg,image/png`
 ```
-Rendering example : `dimensions:min_width=60,min_height=20|mimetypes:image/jpeg,image/png`.
 
 #### Collection validation constraints legend generation
-Addition of the `constraintsLegend(string $collectionName): string` method, which can be used with a model using the `HasMediaTrait`.
+Easily add legends under your media inputs with `constraintsLegend(string $collectionName): string`.  
 ```html
-// in your HTML form
+<!-- in your HTML form -->
 <label for="avatar">Choose a profile picture :</label>
 <input type=" id="avatar" name="avatar" value="{{ $avatarFileName }}">
 <small>{{ (new User)->constraintsLegend('avatar') }}</small>
+<!-- Rendering example : `Min. width : 150 px / Min. height : 70 px. Accepted MIME Type(s) : image/jpeg, image/png.` -->
 ```
-Rendering example : `Min. width : 150 px / Min. height : 70 px. Accepted MIME Type(s) : image/jpeg, image/png.`
 
 ### Global conversions queued status
-To manage the global conversions queued status, set the `config('medialibrary.queued_conversions')` value. This will be the default queued status for all your defined conversions.  
+Manage the global conversions queued status by setting a boolean value to `MEDIALIBRARY_QUEUED_CONVERSIONS` in your`.env` file, or directly to `config('medialibrary.queued_conversions')` if you published the package config file.  
+This will set the default queued status for all your defined conversions.  
 You still will be able to manually define a [specific queued status for a conversion](https://docs.spatie.be/laravel-medialibrary/v7/converting-images/defining-conversions/#queuing-conversions). 
 
 ## Testing

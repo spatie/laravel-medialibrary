@@ -23,6 +23,8 @@ class LocalUrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
+        $url = $this->getVersionedUrl($url);
+
         return $url;
     }
 
@@ -95,5 +97,15 @@ class LocalUrlGenerator extends BaseUrlGenerator
     public function getResponsiveImagesDirectoryUrl(): string
     {
         return url($this->getBaseMediaDirectoryUrl().'/'.$this->pathGenerator->getPathForResponsiveImages($this->media)).'/';
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    protected function getVersionedUrl(string $url): string
+    {
+        return config('medialibrary.image_name_versioning') ? $url . '?id=' . $this->media->updated_at->timestamp : $url;
     }
 }

@@ -21,9 +21,15 @@ return [
     'queue_name' => '',
 
     /*
-     * According to this configuration value, the conversions will be queued by default or will be handled synchronously.
+     * The default conversions queuing status
+     * ("true" for default queued conversions and "false" for default synced conversions).
      */
     'queued_conversions' => env('MEDIALIBRARY_QUEUED_CONVERSIONS', true),
+
+    /*
+     * The image name versioning activation status for cache busting.
+     */
+    'image_name_versioning' => env('MEDIALIBRARY_IMAGE_NAME_VERSIONING', false),
 
     /*
      * The fully qualified class name of the media model.

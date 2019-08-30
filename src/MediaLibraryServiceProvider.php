@@ -18,6 +18,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/medialibrary.php' => config_path('medialibrary.php'),
         ], 'config');
 
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'medialibrary');
         $this->publishes([
             __DIR__.'/../resources/lang' => resource_path('lang'),
         ], 'translations');

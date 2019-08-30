@@ -18,6 +18,16 @@ class GetUrlTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_a_versioned_url_of_an_original_item()
+    {
+        config()->set('medialibrary.image_name_versioning', true);
+
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+
+        $this->assertEquals($media->getUrl(), "/media/{$media->id}/test.jpg?id=" . $media->updated_at->timestamp);
+    }
+
+    /** @test */
     public function it_can_get_an_url_of_a_derived_image()
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
