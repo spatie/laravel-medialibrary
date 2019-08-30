@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\MediaCollection;
 
-use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
+use Illuminate\Support\Traits\Macroable;
 
 class MediaCollection
 {
@@ -73,7 +73,6 @@ class MediaCollection
         if ($maximumNumberOfItemsInCollection < 1) {
             throw new InvalidArgumentException("You should pass a value higher than 0. `{$maximumNumberOfItemsInCollection}` given.");
         }
-
 
         $this->singleFile = ($maximumNumberOfItemsInCollection === 1);
 
