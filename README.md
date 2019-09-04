@@ -7,7 +7,12 @@
 [![Build Status](https://travis-ci.org/Okipa/laravel-medialibrary-ext.svg?branch=master)](https://travis-ci.org/Okipa/laravel-medialibrary-ext)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Okipa/laravel-medialibrary-ext.svg?style=flat-square)](https://scrutinizer-ci.com/g/Okipa/laravel-medialibrary-ext)
 
-This package provides extra features built on top of the [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) package.  
+This package provides extra features built on top of the [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) package.
+
+## Compatibility
+
+The extension package will follow the original package compatibilities and upgrades.  
+However, the minor and patch version numbers may differ, according to the feature additions or bug fixes required by this package.  
 
 ## Documentation
 
@@ -23,7 +28,7 @@ composer remove spatie/laravel-medialibrary
 
 Then, install the extension package via composer :
 ```bash
-composer require "okipa/laravel-medialibrary-ext:^7.11.0"
+composer require "okipa/laravel-medialibrary-ext:^7.0"
 ```
 
 Follow the original package installation instructions :
@@ -34,11 +39,6 @@ Finally, you can publish the extension translation files if needed with :
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="translations"
 ```
-
-## Versioning and upgrades
-
-The extension package will follow the original package upgrades and major version numbers.  
-However, the minor version numbers may differ, according to the feature additions or bug fixes.
 
 ## Extra features
 
