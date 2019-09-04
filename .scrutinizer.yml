@@ -13,6 +13,7 @@ tools:
             standard: PSR2
         filter:
             paths: ['src']
+    sensiolabs_security_checker: true
     php_loc:
         enabled: true
         excluded_dirs: [vendor, tests]
