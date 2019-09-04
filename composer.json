@@ -2,6 +2,7 @@
     "name": "okipa/laravel-medialibrary-ext",
     "description": "Extra features for https://github.com/spatie/laravel-medialibrary package.",
     "keywords": [
+        "spatie",
         "okipa",
         "laravel-medialibrary-extension",
         "laravel-medialibrary",
