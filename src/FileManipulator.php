@@ -28,7 +28,7 @@ class FileManipulator
      * @param array $only
      * @param bool $onlyMissing
      */
-    public function createDerivedFiles(Media $media, array $only = [], $onlyMissing = false)
+    public function createDerivedFiles(Media $media, array $only = [], bool $onlyMissing = false)
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
@@ -58,7 +58,7 @@ class FileManipulator
      * @param \Spatie\MediaLibrary\Models\Media $media
      * @param bool $onlyMissing
      */
-    public function performConversions(ConversionCollection $conversions, Media $media, $onlyMissing = false)
+    public function performConversions(ConversionCollection $conversions, Media $media, bool $onlyMissing = false)
     {
         if ($conversions->isEmpty()) {
             return;
@@ -145,7 +145,7 @@ class FileManipulator
         return $conversionTempFile;
     }
 
-    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, $onlyMissing = false)
+    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, bool $onlyMissing = false)
     {
         $performConversionsJobClass = config('medialibrary.jobs.perform_conversions', PerformConversions::class);
 
