@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.12.1 - 2019-09-12
+
+- remove imagick requirement
+
 ## 7.12.0 - 2019-09-04
 
 - add support for Laravel 6
