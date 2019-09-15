@@ -176,11 +176,8 @@ Medialibrary will use these tools to [optimize converted images](https://docs.sp
 Here's how to install all the optimizers on Ubuntu:
 
 ```bash
-sudo apt-get install jpegoptim
-sudo apt-get install optipng
-sudo apt-get install pngquant
-sudo npm install -g svgo
-sudo apt-get install gifsicle
+sudo apt install jpegoptim optipng pngquant gifsicle
+npm install -g svgo
 ```
 
 And here's how to install the binaries on MacOS (using [Homebrew](https://brew.sh/)):
