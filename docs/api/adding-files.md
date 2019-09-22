@@ -139,7 +139,7 @@ public function copyMedia($file)
 
 ```php
 /**
- * When adding the file the medialibrary, the original file
+ * When adding the file to the medialibrary, the original file
  * will be preserved.
  *
  * @return $this
