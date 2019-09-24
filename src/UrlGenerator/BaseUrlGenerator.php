@@ -86,7 +86,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
 
     public function versionUrl(string $path = ''): string
     {
-        if (!$this->config->get('medialibrary.versioning', false)) {
+        if (! $this->config->get('medialibrary.versioning', false)) {
             return $path;
         }
 
