@@ -77,6 +77,12 @@ return [
     'url_generator' => null,
 
     /*
+     * Whether to activate versioning when urls to files get generated.
+     * When activated, this attaches a ?v=xx query string to the URL.
+     */
+    'versioning' => false,
+
+    /*
      * The class that contains the strategy for determining a media file's path.
      */
     'path_generator' => null,

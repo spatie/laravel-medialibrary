@@ -83,4 +83,13 @@ abstract class BaseUrlGenerator implements UrlGenerator
     {
         return pathinfo($path, PATHINFO_DIRNAME).'/'.rawurlencode(pathinfo($path, PATHINFO_BASENAME));
     }
+
+    public function versionUrl(string $path = ''): string
+    {
+        if (!$this->config->get('medialibrary.versioning', false)) {
+            return $path;
+        }
+
+        return "{$path}?v={$this->media->updated_at->timestamp}";
+    }
 }

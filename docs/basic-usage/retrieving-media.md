@@ -20,6 +20,8 @@ $fullPathOnDisk = $mediaItems[0]->getPath();
 $temporaryS3Url = $mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5));
 ```
 
+If you want to retrieve versioned media urls you can enable versioning by setting the `versioning` config to `true` in your `medialibrary.php` config file.
+
 Since retrieving the first media and the url for the first media for an object is such a common scenario, the `getFirstMedia` and `getFirstMediaUrl` convenience-methods are also provided:
 
 ```php
