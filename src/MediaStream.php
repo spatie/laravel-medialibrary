@@ -88,6 +88,7 @@ class MediaStream implements Responsable
 
         return $zip;
     }
+
     protected function getZipStreamContents(): Collection
     {
         return $this->mediaItems->map(function (Media $media, $mediaItemIndex) {
