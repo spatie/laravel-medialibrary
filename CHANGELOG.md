@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.12.2 - 2019-09-24
+
+- fix upload for very large files
+
 ## 7.12.1 - 2019-09-12
 
 - remove imagick requirement
