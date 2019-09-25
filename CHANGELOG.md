@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.14.0 - 2019-09-25
+
+- add a config option to version urls (#1569)
+
 ## 7.13.0 - 2019-09-25
 
 - add a way to define accepted mime types (#1570)
