@@ -68,6 +68,33 @@ This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnaccept
 $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
 ```
 
+## Only allow certain mimetypes in a collection
+
+You can defined an array of accepted Mime types using `acceptsMimeTypes` that will check if a file with a certain Mime type is allowed into the collection. In this example we only accept `image/jpeg` files.
+
+```php
+use Spatie\MediaLibrary\File;
+...
+public function registerMediaCollections()
+{
+    $this
+        ->addMediaCollection('only-jpegs-please')
+        ->acceptsMimeTypes(['image/jpeg']);
+}
+```
+
+This will succeed:
+
+```php
+$yourModel->addMedia('beautiful.jpg')->toMediaCollection('only-jpegs-please');
+```
+
+This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
+
+```php
+$yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
+```
+
 ## Using a specific disk
 
 You can ensure that files added to a collection are automatically added to a certain disk.
