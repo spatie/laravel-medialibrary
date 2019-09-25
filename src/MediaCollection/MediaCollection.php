@@ -66,14 +66,7 @@ class MediaCollection
         return $this;
     }
 
-    /**
-     * Set the media collection accepted mime types.
-     *
-     * @param array $mimeTypes
-     *
-     * @return \Spatie\MediaLibrary\MediaCollection\MediaCollection
-     */
-    public function acceptsMimeTypes(array $mimeTypes): MediaCollection
+    public function acceptsMimeTypes(array $mimeTypes): self
     {
         $this->acceptsMimeTypes = $mimeTypes;
 

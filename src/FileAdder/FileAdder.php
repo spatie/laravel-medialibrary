@@ -363,5 +363,9 @@ class FileAdder
                 throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
             }
         }
+
+        if (! empty($collection->acceptsMimeTypes) && ! in_array($file->mimeType, $collection->acceptsMimeTypes)) {
+            throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
+        }
     }
 }
