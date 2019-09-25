@@ -156,6 +156,27 @@ class MediaCollectionTest extends TestCase
         $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
     }
 
+    /** @test * */
+    public function it_can_guard_against_invalid_mimetypes()
+    {
+        $testModel = new class extends TestModelWithConversion {
+            public function registerMediaCollections()
+            {
+                $this
+                    ->addMediaCollection('images')
+                    ->acceptsMimeTypes(['image/jpeg']);
+            }
+        };
+
+        $model = $testModel::create(['name' => 'testmodel']);
+
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+        $this->expectException(FileUnacceptableForCollection::class);
+
+        $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
+    }
+
     /** @test */
     public function if_the_single_file_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_new_one()
     {
@@ -200,39 +221,5 @@ class MediaCollectionTest extends TestCase
             return $model->is($firstFile);
         }));
         $this->assertCount(3, $model->getMedia('images'));
-    }
-
-    /** @test */
-    public function it_can_accept_certain_mime_types()
-    {
-        $testModel = new class extends TestModelWithConversion
-        {
-            public function registerMediaCollections()
-            {
-                $this->addMediaCollection('images')->acceptsMimeTypes(['image/jpeg']);
-            }
-        };
-        $model = $testModel::create(['name' => 'testmodel']);
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
-        $this->expectException(FileUnacceptableForCollection::class);
-        $model->addMedia($this->getTestPng())->preservingOriginal()->toMediaCollection('images');
-    }
-
-    /** @test */
-    public function it_can_accept_certain_files_and_mime_types()
-    {
-        $testModel = new class extends TestModelWithConversion
-        {
-            public function registerMediaCollections()
-            {
-                $this->addMediaCollection('images')->acceptsFile(function (File $file) {
-                    return $file->size <= 30000;
-                })->acceptsMimeTypes(['image/jpeg']);
-            }
-        };
-        $model = $testModel::create(['name' => 'testmodel']);
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
-        $this->expectException(FileUnacceptableForCollection::class);
-        $model->addMedia($this->getTestPng())->preservingOriginal()->toMediaCollection('images');
     }
 }

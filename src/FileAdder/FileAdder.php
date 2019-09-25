@@ -344,24 +344,20 @@ class FileAdder
             });
     }
 
-    /**
-     * @param \Spatie\MediaLibrary\Models\Media $media
-     *
-     * @return void
-     */
-    protected function guardAgainstDisallowedFileAdditions(Media $media): void
+    protected function guardAgainstDisallowedFileAdditions(Media $media)
     {
         $file = PendingFile::createFromMedia($media);
-        $collection = $this->getMediaCollection($media->collection_name);
-        if ($collection) {
-            $acceptsFileClosure = $collection->acceptsFile;
-            $acceptsFile = $acceptsFileClosure($file, $this->subject);
-            $acceptsMimeTypes = ! empty($collection->acceptsMimeTypes)
-                ? in_array($file->mimeType, $collection->acceptsMimeTypes)
-                : true;
-            if (! $acceptsFile || ! $acceptsMimeTypes) {
-                throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
-            }
+
+        if (! $collection = $this->getMediaCollection($media->collection_name)) {
+            return;
+        }
+
+        if (! ($collection->acceptsFile)($file, $this->subject)) {
+            throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
+        }
+
+        if (! empty($collection->acceptsMimeTypes) && ! in_array($file->mimeType, $collection->acceptsMimeTypes)) {
+            throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
         }
     }
 }
