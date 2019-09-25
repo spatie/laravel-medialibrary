@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.12.3 - 2019-09-25
+
+- fix media stream not working (#1571)
+
 ## 7.12.2 - 2019-09-24
 
 - fix upload for very large files
