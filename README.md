@@ -60,8 +60,7 @@ Example : `/storage/1/test.jpg` URL will be called as `/storage/1/test.jpg?id=15
 ### Constraints
 
 #### Collection mime types constraint setup
-This feature is now [part of the original package](https://docs.spatie.be/laravel-medialibrary/v7/working-with-media-collections/defining-media-collections/#only-allow-certain-mimetypes-in-a-collection).  
-(:thumbsup: Thanks to [Freek](https://github.com/freekmurze))
+This feature is now [part of the original package](https://docs.spatie.be/laravel-medialibrary/v7/working-with-media-collections/defining-media-collections/#only-allow-certain-mimetypes-in-a-collection).
 
 #### Collection validation constraints rules generation
 Declare your media validation constraints in a breeze with `validationConstraints(string $collectionName): string`.  
