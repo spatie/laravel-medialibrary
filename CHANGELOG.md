@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.12.4 - 2019-09-25
+
+- tidy up `getFallbackMediaUrl` and `getFallbackMediaPath`
+
 ## 7.12.3 - 2019-09-25
 
 - fix media stream not working (#1571)
