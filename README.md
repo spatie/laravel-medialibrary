@@ -60,16 +60,8 @@ Example : `/storage/1/test.jpg` URL will be called as `/storage/1/test.jpg?id=15
 ### Constraints
 
 #### Collection mime types constraint setup
-Declare your media collections mime types constraints with `acceptsMimeTypes(array $mimeTypes): MediaCollection`.  
-If not respected during your file addition, the `FileUnacceptableForCollection` exception will be thrown.  
-This declaration will also be used to automatically generate validation constraints rules and legends to place under your `<input type="file" name="my_file">` (see bellow).
-```php
-// example
-public function registerMediaCollections()
-{
-    $this->addMediaCollection('images')->acceptsMimeTypes(['image/jpeg', 'image/png']);
-}
-```
+This feature is now [part of the original package](https://docs.spatie.be/laravel-medialibrary/v7/working-with-media-collections/defining-media-collections/#only-allow-certain-mimetypes-in-a-collection).  
+(:thumbsup: Thanks to [Freek](https://github.com/freekmurze))
 
 #### Collection validation constraints rules generation
 Declare your media validation constraints in a breeze with `validationConstraints(string $collectionName): string`.  
