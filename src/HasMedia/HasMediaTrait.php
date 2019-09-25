@@ -274,14 +274,14 @@ trait HasMediaTrait
             });
     }
 
-    public function getFallbackMediaUrl(string $collectionName = 'default')
+    public function getFallbackMediaUrl(string $collectionName = 'default'): string
     {
-        return optional($this->getMediaCollection($collectionName))->fallbackUrl;
+        return optional($this->getMediaCollection($collectionName))->fallbackUrl ?? '';
     }
 
     public function getFallbackMediaPath(string $collectionName = 'default'): string
     {
-        return optional($this->getMediaCollection($collectionName))->fallbackPath;
+        return optional($this->getMediaCollection($collectionName))->fallbackPath ?? '';
     }
 
     /*
