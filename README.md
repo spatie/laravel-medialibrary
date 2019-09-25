@@ -53,9 +53,7 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 ### Cache busting
 
 #### Image name versioning
-Active the image cache busting by setting a boolean value to `MEDIALIBRARY_IMAGE_NAME_VERSIONING` in your`.env` file, or directly to `config('medialibrary.image_name_versioning')` if you published the package config file.  
-When activated, the image URL will be suffixed by the last media (re)generation timestamp in order to bust the browser cache.  
-Example : `/storage/1/test.jpg` URL will be called as `/storage/1/test.jpg?id=1567178489`.
+This feature is now [part of the original package](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/retrieving-media/#retrieving-media).
 
 ### Constraints
 

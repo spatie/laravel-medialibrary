@@ -27,11 +27,6 @@ return [
     'queued_conversions' => env('MEDIALIBRARY_QUEUED_CONVERSIONS', true),
 
     /*
-     * The image name versioning activation status for cache busting.
-     */
-    'image_name_versioning' => env('MEDIALIBRARY_IMAGE_NAME_VERSIONING', false),
-
-    /*
      * The fully qualified class name of the media model.
      */
     'media_model' => Spatie\MediaLibrary\Models\Media::class,
@@ -86,6 +81,12 @@ return [
      * if your files are stored locally above the site root or on s3.
      */
     'url_generator' => null,
+
+    /*
+     * Whether to activate versioning when urls to files get generated.
+     * When activated, this attaches a ?v=xx query string to the URL.
+     */
+    'version_urls' => false,
 
     /*
      * The class that contains the strategy for determining a media file's path.

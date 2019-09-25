@@ -1,5 +1,9 @@
 # Changelog
 
+## [7.13.4](https://github.com/Okipa/laravel-medialibrary-ext/releases/tag/7.13.4)
+- Implemented https://github.com/spatie/laravel-medialibrary/releases/tag/7.14.0 release.
+  - you now have to set `version_urls` to `true` in the config file in order to have your image urls versioned.
+
 ## [7.13.3](https://github.com/Okipa/laravel-medialibrary-ext/releases/tag/7.13.3)
 2019-09-25
 - Implemented https://github.com/spatie/laravel-medialibrary/releases/tag/7.13.0 release.
