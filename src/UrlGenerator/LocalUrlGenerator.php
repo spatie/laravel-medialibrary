@@ -23,6 +23,8 @@ class LocalUrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
+        $url = $this->versionUrl($url);
+
         return $url;
     }
 

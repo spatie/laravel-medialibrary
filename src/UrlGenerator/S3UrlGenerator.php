@@ -33,6 +33,8 @@ class S3UrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
+        $url = $this->versionUrl($url);
+
         return config('medialibrary.s3.domain').'/'.$url;
     }
 
