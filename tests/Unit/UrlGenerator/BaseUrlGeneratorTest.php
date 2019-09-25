@@ -82,13 +82,13 @@ class BaseUrlGeneratorTest extends TestCase
     /** @test * */
     public function it_appends_a_version_string_when_versioning_is_enabled()
     {
-        config()->set('medialibrary.versioning', true);
+        config()->set('medialibrary.version_urls', true);
 
         $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg?v='.$this->media->updated_at->timestamp;
 
         $this->assertEquals($url, $this->urlGenerator->getUrl());
 
-        config()->set('medialibrary.versioning', false);
+        config()->set('medialibrary.version_urls', false);
 
         $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 
