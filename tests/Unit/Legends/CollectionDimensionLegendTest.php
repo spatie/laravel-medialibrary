@@ -3,8 +3,6 @@
 namespace Spatie\MediaLibrary\Tests\Unit\Extension\UrlGenerator;
 
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Exceptions\CollectionNotFound;
-use Spatie\MediaLibrary\Exceptions\ConversionsNotFound;
 use Spatie\MediaLibrary\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
@@ -15,7 +13,7 @@ class CollectionDimensionLegendTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_exception_when_it_is_called_with_non_existing_collection()
+    public function it_returns_none_when_it_is_called_with_non_existing_collection()
     {
         $testModel = new class extends TestModel
         {
@@ -24,14 +22,14 @@ class CollectionDimensionLegendTest extends TestCase
                 $this->addMediaConversion('thumb')->crop(Manipulations::CROP_CENTER, 60, 20);
             }
         };
-        $this->expectException(CollectionNotFound::class);
-        $testModel->dimensionsLegend('logo');
+        $dimensionsLegendString = $testModel->dimensionsLegend('logo');
+        $this->assertEquals('', $dimensionsLegendString);
     }
 
     /**
      * @test
      */
-    public function it_throws_exception_when_it_is_called_with_non_existent_conversions()
+    public function it_returns_none_when_it_is_called_with_non_existent_conversions()
     {
         $testModel = new class extends TestModel
         {
@@ -40,8 +38,8 @@ class CollectionDimensionLegendTest extends TestCase
                 $this->addMediaCollection('logo')->acceptsMimeTypes(['image/jpeg', 'image/png']);
             }
         };
-        $this->expectException(ConversionsNotFound::class);
-        $testModel->dimensionsLegend('logo');
+        $dimensionsLegendString = $testModel->dimensionsLegend('logo');
+        $this->assertEquals('', $dimensionsLegendString);
     }
 
     /**

@@ -2,9 +2,8 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Models\Media;
 
 interface HasMedia
 {
@@ -40,12 +39,12 @@ interface HasMedia
      *
      * @return bool
      */
-    public function hasMedia(string $collectionMedia = '') : bool;
+    public function hasMedia(string $collectionMedia = ''): bool;
 
     /**
      * Get media collection by its collectionName.
      *
-     * @param string         $collectionName
+     * @param string $collectionName
      * @param array|callable $filters
      *
      * @return \Illuminate\Support\Collection
@@ -120,8 +119,6 @@ interface HasMedia
      * @param string $collectionName
      *
      * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
      */
     public function dimensionValidationConstraints(string $collectionName): string;
 
@@ -131,8 +128,6 @@ interface HasMedia
      * @param string $collectionName
      *
      * @return array
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
      */
     public function collectionMaxSizes(string $collectionName): array;
 
@@ -141,11 +136,9 @@ interface HasMedia
      *
      * @param string $collectionName
      *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
+     * @return array
      */
-    public function validationConstraints(string $collectionName): string;
+    public function validationConstraints(string $collectionName): array;
 
     /**
      * Get the constraints legend string for a media collection.
@@ -175,29 +168,20 @@ interface HasMedia
     public function mimeTypesLegend(string $collectionName): string;
 
     /**
-     * Check if the given media collection should handle dimensions, according to its declared accepted mime types.
-     *
-     * @param \Spatie\MediaLibrary\MediaCollection\MediaCollection $collection
-     *
-     * @return bool
-     */
-    public function shouldHandleDimensions(MediaCollection $collection): bool;
-
-    /**
      * Get declared conversions from a media collection name.
      *
      * @param string $collectionName
      *
      * @return array
      */
-    public function getConversions(string $collectionName): array;
+    public function getMediaConversions(string $collectionName): array;
 
     /**
-     * Get a media collection object from its name.
+     * Check if the given media collection should handle dimensions, according to its declared accepted mime types.
      *
      * @param string $collectionName
      *
-     * @return \Spatie\MediaLibrary\MediaCollection\MediaCollection|null
+     * @return bool
      */
-    public function getCollection(string $collectionName): ?MediaCollection;
+    public function shouldHandleDimensions(string $collectionName): bool;
 }

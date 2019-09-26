@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\ValidationConstraintsGenerator;
 
-use Illuminate\Support\Arr;
 use Spatie\MediaLibrary\Exceptions\CollectionNotFound;
 
 trait validationConstraintsGeneratorTrait
@@ -12,27 +11,70 @@ trait validationConstraintsGeneratorTrait
      *
      * @param string $collectionName
      *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
+     * @return array
      */
-    public function validationConstraints(string $collectionName): string
+    public function validationConstraints(string $collectionName): array
     {
-        $dimensions = $this->dimensionValidationConstraints($collectionName);
-        $mimeTypes = $this->mimeTypesValidationConstraints($collectionName);
-        $separator = $dimensions && $mimeTypes ? '|' : '';
+        $mimeTypeConstraints = $this->mimeTypesValidationConstraints($collectionName);
+        $mimesConstraints = $this->mimesValidationConstraints($collectionName);
+        $dimensionConstraints = $this->dimensionValidationConstraints($collectionName);
 
-        return ($dimensions ? $dimensions . $separator : '') . ($mimeTypes);
+        return array_values(array_filter([$mimeTypeConstraints, $mimesConstraints, $dimensionConstraints]));
     }
 
     /**
-     * Get a collection dimension validation constraints string from its name name.
+     * Get a collection mime types constraints validation string from its name.
      *
      * @param string $collectionName
      *
      * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
+     */
+    public function mimeTypesValidationConstraints(string $collectionName): string
+    {
+        $mediaConversions = $this->getMediaConversions($collectionName);
+        if (empty($mediaConversions)) {
+            return '';
+        }
+        $mediaCollection = $this->getMediaCollection($collectionName);
+        $validationString = '';
+        if (! empty($mediaCollection->acceptsMimeTypes)) {
+            $validationString .= 'mimetypes:' . implode(',', $mediaCollection->acceptsMimeTypes);
+        }
+
+        return $validationString;
+    }
+
+    /**
+     * Get a collection mime types constraints validation string from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return string
+     */
+    public function mimesValidationConstraints(string $collectionName): string
+    {
+        $mediaConversions = $this->getMediaConversions($collectionName);
+        if (empty($mediaConversions)) {
+            return '';
+        }
+        $mediaCollection = $this->getMediaCollection($collectionName);
+        $validationString = '';
+        if (! empty($mediaCollection->acceptsMimeTypes)) {
+            $acceptedExtensions = $this->extensionsFromMimeTypes($mediaCollection->acceptsMimeTypes);
+            if (! empty($acceptedExtensions)) {
+                $validationString .= 'mimes:' . implode(',', $acceptedExtensions);
+            }
+        }
+
+        return $validationString;
+    }
+
+    /**
+     * Get a collection dimension validation constraints string from its name.
+     *
+     * @param string $collectionName
+     *
+     * @return string
      */
     public function dimensionValidationConstraints(string $collectionName): string
     {
@@ -46,33 +88,5 @@ trait validationConstraintsGeneratorTrait
         $separator = $width && $height ? ',' : '';
 
         return $width || $height ? 'dimensions:' . $width . $separator . $height : '';
-    }
-
-    /**
-     * Get a collection mime types constraints validation string from its name.
-     *
-     * @param string $collectionName
-     *
-     * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     */
-    public function mimeTypesValidationConstraints(string $collectionName): string
-    {
-        /** @var \Spatie\MediaLibrary\HasMedia\HasMediaTrait $this */
-        $this->registerMediaCollections();
-        /** @var \Spatie\MediaLibrary\HasMedia\HasMediaTrait $this */
-        $collection = head(Arr::where($this->mediaCollections, function ($collection) use ($collectionName) {
-            return $collection->name === $collectionName;
-        }));
-        if (! $collection) {
-            /** @var \Illuminate\Database\Eloquent\Model $this */
-            throw CollectionNotFound::notDeclaredInModel($this, $collectionName);
-        }
-        $validationString = '';
-        if (! empty($collection->acceptsMimeTypes)) {
-            $validationString .= 'mimetypes:' . implode(',', $collection->acceptsMimeTypes);
-        }
-
-        return $validationString;
     }
 }

@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\LegendGenerator;
 
 use Illuminate\Support\Arr;
-use Spatie\MediaLibrary\Exceptions\CollectionNotFound;
 
 trait LegendGeneratorTrait
 {
@@ -13,8 +12,6 @@ trait LegendGeneratorTrait
      * @param string $collectionName
      *
      * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
      */
     public function constraintsLegend(string $collectionName): string
     {
@@ -31,8 +28,6 @@ trait LegendGeneratorTrait
      * @param string $collectionName
      *
      * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
-     * @throws \Spatie\MediaLibrary\Exceptions\ConversionsNotFound
      */
     public function dimensionsLegend(string $collectionName): string
     {
@@ -65,24 +60,22 @@ trait LegendGeneratorTrait
      * @param string $collectionName
      *
      * @return string
-     * @throws \Spatie\MediaLibrary\Exceptions\CollectionNotFound
      */
     public function mimeTypesLegend(string $collectionName): string
     {
-        /** @var \Spatie\MediaLibrary\HasMedia\HasMediaTrait $this */
-        $this->registerMediaCollections();
-        /** @var \Spatie\MediaLibrary\HasMedia\HasMediaTrait $this */
-        $collection = head(Arr::where($this->mediaCollections, function ($collection) use ($collectionName) {
-            return $collection->name === $collectionName;
-        }));
-        if (! $collection) {
-            /** @var \Illuminate\Database\Eloquent\Model $this */
-            throw CollectionNotFound::notDeclaredInModel($this, $collectionName);
+        $mediaConversions = $this->getMediaConversions($collectionName);
+        if (empty($mediaConversions)) {
+            return '';
         }
+        $mediaCollection = $this->getMediaCollection($collectionName);
         $legendString = '';
-        if (! empty($collection->acceptsMimeTypes)) {
-            $legendString .= __('medialibrary::medialibrary.constraint.mimeTypes', [
-                'mimetypes' => implode(', ', $collection->acceptsMimeTypes),
+
+        if (! empty($mediaCollection->acceptsMimeTypes)) {
+            $extensions = $this->extensionsFromMimeTypes($mediaCollection->acceptsMimeTypes);
+            $extensionsString = implode(',', $extensions);
+            $extensionsString = str_replace(',', ', ', $extensionsString);
+            $legendString .= trans_choice('medialibrary::medialibrary.constraint.types', count($extensions), [
+                'types' => $extensionsString,
             ]);
         }
 

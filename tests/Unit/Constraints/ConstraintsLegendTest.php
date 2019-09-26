@@ -3,8 +3,6 @@
 namespace Spatie\MediaLibrary\Tests\Unit\Extension\UrlGenerator;
 
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Exceptions\CollectionNotFound;
-use Spatie\MediaLibrary\Exceptions\ConversionsNotFound;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
@@ -14,7 +12,7 @@ class ConstraintsLegendTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_exception_when_it_is_called_with_non_existing_collection()
+    public function it_returns_none_when_it_is_called_with_non_existing_collection()
     {
         $testModel = new class extends TestModel
         {
@@ -23,14 +21,14 @@ class ConstraintsLegendTest extends TestCase
                 $this->addMediaConversion('thumb')->crop(Manipulations::CROP_CENTER, 60, 20);
             }
         };
-        $this->expectException(CollectionNotFound::class);
-        $testModel->constraintsLegend('logo');
+        $legendString = $testModel->constraintsLegend('logo');
+        $this->assertEquals('', $legendString);
     }
 
     /**
      * @test
      */
-    public function it_throws_exception_when_it_is_called_with_non_existing_conversions()
+    public function it_returns_none_when_it_is_called_with_non_existing_conversions()
     {
         $testModel = new class extends TestModel
         {
@@ -39,8 +37,8 @@ class ConstraintsLegendTest extends TestCase
                 $this->addMediaCollection('logo')->acceptsMimeTypes(['image/jpeg', 'image/png']);
             }
         };
-        $this->expectException(ConversionsNotFound::class);
-        $testModel->constraintsLegend('logo');
+        $legendString = $testModel->constraintsLegend('logo');
+        $this->assertEquals('', $legendString);
     }
 
     /**
@@ -106,8 +104,8 @@ class ConstraintsLegendTest extends TestCase
             }
         };
         $legendString = $testModel->constraintsLegend('logo');
-        $this->assertEquals(__('medialibrary::medialibrary.constraint.mimeTypes', [
-            'mimetypes' => 'image/jpeg, image/png',
+        $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 3, [
+            'types' => 'jpeg, jpg, png',
         ]), $legendString);
     }
 
@@ -129,8 +127,8 @@ class ConstraintsLegendTest extends TestCase
             }
         };
         $legendString = $testModel->constraintsLegend('logo');
-        $this->assertEquals(__('medialibrary::medialibrary.constraint.mimeTypes', [
-            'mimetypes' => 'application/pdf',
+        $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 1, [
+            'types' => 'pdf',
         ]), $legendString);
     }
 
@@ -152,8 +150,8 @@ class ConstraintsLegendTest extends TestCase
             }
         };
         $legendString = $testModel->constraintsLegend('logo');
-        $this->assertEquals(__('medialibrary::medialibrary.constraint.mimeTypes', [
-            'mimetypes' => 'image/jpeg, image/png, application/pdf',
+        $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 4, [
+            'types' => 'jpeg, jpg, png, pdf',
         ]), $legendString);
     }
 }

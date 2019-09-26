@@ -42,23 +42,12 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 
 ## Extra features
 
-- [Cache busting](#cache-busting)
-  - [Image name versioning](#image-name-versioning)
 - [Constraints](#constraints)
-  - [Collection mime types constraint setup](#collection-mime-types-constraint-setup)
   - [Collection validation constraints rules generation](#collection-validation-constraints-rules-generation)
   - [Collection validation constraints legend generation](#collection-validation-constraints-legend-generation)
 - [Global conversions queued status](#global-conversions-queued-status)
 
-### Cache busting
-
-#### Image name versioning
-This feature is now [part of the original package](https://docs.spatie.be/laravel-medialibrary/v7/basic-usage/retrieving-media/#retrieving-media).
-
 ### Constraints
-
-#### Collection mime types constraint setup
-This feature is now [part of the original package](https://docs.spatie.be/laravel-medialibrary/v7/working-with-media-collections/defining-media-collections/#only-allow-certain-mimetypes-in-a-collection).
 
 #### Collection validation constraints rules generation
 Declare your media validation constraints in a breeze with `validationConstraints(string $collectionName): string`.  
@@ -71,7 +60,7 @@ public function rules()
         // your other validation rules
     ];
 }
-// rendering example : `dimensions:min_width=60,min_height=20|mimetypes:image/jpeg,image/png`
+// rendering example : `['mimetypes:image/jpeg,image/png', 'mimes:jpeg,jpg,png', 'dimensions:min_width=60,min_height=20']`
 ```
 
 #### Collection validation constraints legend generation
@@ -81,7 +70,7 @@ Easily add legends under your media inputs with `constraintsLegend(string $colle
 <label for="avatar">Choose a profile picture :</label>
 <input type=" id="avatar" name="avatar" value="{{ $avatarFileName }}">
 <small>{{ (new User)->constraintsLegend('avatar') }}</small>
-<!-- Rendering example : `Min. width : 150 px / Min. height : 70 px. Accepted MIME Type(s) : image/jpeg, image/png.` -->
+<!-- Rendering example : `Min. width : 150 px / Min. height : 70 px. Accepted types : jpeg, jpg, png.` -->
 ```
 
 ### Global conversions queued status

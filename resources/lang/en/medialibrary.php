@@ -7,6 +7,6 @@ return [
             'width'  => 'Min. width : :width px.',
             'height' => 'Min. height : :height px.',
         ],
-        'mimeTypes'  => 'Accepted MIME Type(s) : :mimetypes.',
+        'types'      => '{1}Accepted type : :types.|[2,*]Accepted types : :types.',
     ],
 ];

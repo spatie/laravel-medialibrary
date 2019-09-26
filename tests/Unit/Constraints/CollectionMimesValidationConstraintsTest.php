@@ -2,19 +2,19 @@
 
 namespace Spatie\MediaLibrary\Tests\Unit\Extension\UrlGenerator;
 
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Exceptions\CollectionNotFound;
 use Spatie\MediaLibrary\File;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class CollectionMimeTypesValidationConstraintsTest extends TestCase
+class CollectionMimesValidationConstraintsTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_returns_none_when_it_is_called_with_non_existing_collection()
+    public function it_return_none_when_it_is_called_with_non_existing_collection()
     {
         $testModel = new class extends TestModel
         {
@@ -23,14 +23,14 @@ class CollectionMimeTypesValidationConstraintsTest extends TestCase
                 $this->addMediaConversion('thumb')->crop(Manipulations::CROP_CENTER, 60, 20);
             }
         };
-        $mimeTypesValidationConstraintsString = $testModel->mimeTypesValidationConstraints('logo');
-        $this->assertEquals('', $mimeTypesValidationConstraintsString);;
+        $mimesValidationConstraintsString = $testModel->mimesValidationConstraints('logo');
+        $this->assertEquals('', $mimesValidationConstraintsString);
     }
 
     /**
      * @test
      */
-    public function it_returns_mime_types_validation_constraints_when_declared_in_collection()
+    public function it_returns_mimes_validation_constraints_when_declared_in_collection()
     {
         $testModel = new class extends TestModel
         {
@@ -40,7 +40,7 @@ class CollectionMimeTypesValidationConstraintsTest extends TestCase
                     ->acceptsFile(function (File $file) {
                         return true;
                     })
-                    ->acceptsMimeTypes(['image/jpeg', 'image/png'])
+                    ->acceptsMimeTypes(['image/jpeg', 'image/png', 'application/pdf'])
                     ->registerMediaConversions(function (Media $media = null) {
                         $this->addMediaConversion('admin-panel')
                             ->crop(Manipulations::CROP_CENTER, 20, 80);
@@ -52,14 +52,14 @@ class CollectionMimeTypesValidationConstraintsTest extends TestCase
                 $this->addMediaConversion('thumb')->crop(Manipulations::CROP_CENTER, 100, 70);
             }
         };
-        $mimeTypesValidationConstraintsString = $testModel->mimeTypesValidationConstraints('logo');
-        $this->assertEquals('mimetypes:image/jpeg,image/png', $mimeTypesValidationConstraintsString);
+        $mimesValidationConstraintsString = $testModel->mimesValidationConstraints('logo');
+        $this->assertEquals('mimes:jpeg,jpg,png,pdf', $mimesValidationConstraintsString);
     }
 
     /**
      * @test
      */
-    public function it_returns_no_collection_mime_types_validation_constraints_when_none_declared()
+    public function it_returns_no_collection_mimes_validation_constraints_when_none_declared()
     {
         $testModel = new class extends TestModel
         {
@@ -73,7 +73,7 @@ class CollectionMimeTypesValidationConstraintsTest extends TestCase
                 $this->addMediaConversion('thumb')->crop(Manipulations::CROP_CENTER, 60, 20);
             }
         };
-        $mimeTypesValidationConstraintsString = $testModel->mimeTypesValidationConstraints('logo');
-        $this->assertEquals('', $mimeTypesValidationConstraintsString);
+        $mimesValidationConstraintsString = $testModel->mimesValidationConstraints('logo');
+        $this->assertEquals('', $mimesValidationConstraintsString);
     }
 }
