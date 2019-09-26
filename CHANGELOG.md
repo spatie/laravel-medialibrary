@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.14.1 - 2019-09-26
+
+- generate the name of the converted file in one place (#1577)
+
 ## 7.14.0 - 2019-09-25
 
 - add a config option to version urls (#1569)
