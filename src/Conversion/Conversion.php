@@ -270,12 +270,9 @@ class Conversion
     public function getConversionFile(string $file): string
     {
         $fileName = pathinfo($file, PATHINFO_FILENAME);
+        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
 
-        $extension = $this->getResultExtension();
-
-        if (! $extension) {
-            $extension = pathinfo($file, PATHINFO_EXTENSION);
-        }
+        $extension = $this->getResultExtension($fileExtension) ?: $fileExtension;
 
         return "{$fileName}-{$this->getName()}.{$extension}";
     }
