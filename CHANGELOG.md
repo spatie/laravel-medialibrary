@@ -1,6 +1,11 @@
 # Changelog
 
+## [7.14.1](https://github.com/Okipa/laravel-medialibrary-ext/releases/tag/7.14.1)
+2019-09-26
+- Implemented https://github.com/spatie/laravel-medialibrary/releases/tag/7.14.1 release.
+
 ## [7.14.0](https://github.com/Okipa/laravel-medialibrary-ext/releases/tag/7.14.0)
+2019-09-26
 - Added mimes validation generation : https://laravel.com/docs/validation#rule-mimes
 - Updated validation process order : mime types and mimes validations now happens before dimensions validation.
 - :warning: The `->validationConstraints()` method does now return an array, rather than a string before.
@@ -9,6 +14,7 @@
 - :warning: Replaced the `__('medialibrary.constraint.mimeTypes')` translation by `trans_choice('medialibrary.constraint.types')` translation, in order to provide clearer legends.
 
 ## [7.13.4](https://github.com/Okipa/laravel-medialibrary-ext/releases/tag/7.13.4)
+2019-09-25
 - Implemented https://github.com/spatie/laravel-medialibrary/releases/tag/7.14.0 release.
   - you now have to set `version_urls` to `true` in the config file in order to have your image urls versioned.
 
