@@ -210,7 +210,7 @@ trait HasMediaTrait
     {
         return count($this->getMedia($collectionName)) ? true : false;
     }
-    
+
     /*
      * Determine how many media is in the given collection.
      */
