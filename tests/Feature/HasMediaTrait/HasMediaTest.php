@@ -50,4 +50,18 @@ class HasMediaTest extends TestCase
         $this->assertTrue($this->testModel->hasMedia('images'));
         $this->assertFalse($this->testModel->hasMedia('downloads'));
     }
+
+    /** @test */
+    public function it_will_not_return_null_on_empty_collection()
+    {
+        $this->assertCount(0, $this->testModel->countMedia('images'));
+    }
+
+    /** @test */
+    public function it_will_return_integer_on_non_empty_collection()
+    {
+        $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+        $this->assertCount(1, $this->testModel->countMedia('images'));
+    }
 }
