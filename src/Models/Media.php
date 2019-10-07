@@ -330,7 +330,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $temporaryFile = $temporaryDirectory->path($this->file_name);
+        $temporaryFile = $temporaryDirectory->path('/') . DIRECTORY_SEPARATOR . $this->file_name;
 
         app(Filesystem::class)->copyFromMediaLibrary($this, $temporaryFile);
 

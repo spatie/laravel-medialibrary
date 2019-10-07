@@ -203,6 +203,11 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('test.mp4');
     }
 
+    public function getTestImageWithoutExtension()
+    {
+        return $this->getTestFilesDirectory('image');
+    }
+
     private function setUpMorphMap()
     {
         Relation::morphMap([
