@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\FileAdder;
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\Helpers\RemoteFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
 
 class FileAdderFactory
@@ -19,6 +20,13 @@ class FileAdderFactory
         return app(FileAdder::class)
             ->setSubject($subject)
             ->setFile($file);
+    }
+
+    public static function createFromDisk(Model $subject, string $key, string $disk): FileAdder
+    {
+        return app(FileAdder::class)
+            ->setSubject($subject)
+            ->setFile(new RemoteFile($key, $disk));
     }
 
     public static function createFromRequest(Model $subject, string $key): FileAdder

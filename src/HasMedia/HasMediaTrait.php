@@ -76,6 +76,19 @@ trait HasMediaTrait
     }
 
     /**
+     * Add a file from the given disk.
+     *
+     * @param string $key
+     * @param string $disk
+     *
+     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     */
+    public function addMediaFromDisk(string $key, string $disk)
+    {
+        return app(FileAdderFactory::class)->createFromDisk($this, $key, $disk);
+    }
+
+    /**
      * Add a file from a request.
      *
      * @param string $key
