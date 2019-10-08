@@ -37,6 +37,18 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_media_from_a_disk_to_s3()
+    {
+        Storage::disk('s3_disk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+
+        $media = $this->testModel
+            ->addMediaFromDisk('tmp/test.jpg', 's3_disk')
+            ->toMediaCollection('default', 's3_disk');
+
+        $this->assertS3FileExists("{$this->s3BaseDirectory}/{$media->id}/test.jpg");
+    }
+
+    /** @test */
     public function it_can_store_a_file_on_s3()
     {
         $media = $this->testModel

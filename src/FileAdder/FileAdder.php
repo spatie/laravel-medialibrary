@@ -377,7 +377,11 @@ class FileAdder
         }
 
         if (! $fileAdder->preserveOriginal) {
-            unlink($fileAdder->pathToFile);
+            if ($fileAdder->file instanceof RemoteFile) {
+                Storage::disk($fileAdder->file->getDisk())->delete($fileAdder->file->getKey());
+            } else {
+                unlink($fileAdder->pathToFile);
+            }
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
