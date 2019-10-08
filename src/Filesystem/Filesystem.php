@@ -5,8 +5,11 @@ namespace Spatie\MediaLibrary\Filesystem;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\Helpers\RemoteFile;
 use Illuminate\Contracts\Filesystem\Factory;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
@@ -31,6 +34,38 @@ class Filesystem
         event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
+    }
+
+    public function addRemote(RemoteFile $file, Media $media, ?string $targetFileName = null)
+    {
+        $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
+
+        event(new MediaHasBeenAdded($media));
+
+        app(FileManipulator::class)->createDerivedFiles($media);
+    }
+
+    public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null)
+    {
+        $storage = Storage::disk($file->getDisk());
+
+        $destinationFileName = $targetFileName ?: $file->getFilename();
+
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
+
+        $contents = $storage->get($file->getKey());
+
+        if ($media->getDiskDriverName() === 'local') {
+            $this->filesystem
+                ->disk($media->disk)
+                ->put($destination, $contents);
+
+            return;
+        }
+
+        $this->filesystem
+            ->disk($media->disk)
+            ->put($destination, $contents, $this->getRemoteHeadersForFile($file->getKey(), $media->getCustomHeaders(), $storage->mimeType($file->getKey())));
     }
 
     public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
@@ -65,9 +100,9 @@ class Filesystem
         $this->customRemoteHeaders = $customRemoteHeaders;
     }
 
-    public function getRemoteHeadersForFile(string $file, array $mediaCustomHeaders = []) : array
+    public function getRemoteHeadersForFile(string $file, array $mediaCustomHeaders = [], string $mimeType = null) : array
     {
-        $mimeTypeHeader = ['ContentType' => File::getMimeType($file)];
+        $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 
         $extraHeaders = config('medialibrary.remote.extra_headers');
 
