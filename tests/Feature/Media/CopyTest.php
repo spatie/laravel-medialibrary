@@ -41,7 +41,7 @@ class CopyTest extends TestCase
     /** @test */
     public function it_can_copy_file_without_extension()
     {
-        if(!file_exists(storage_path('medialibrary/temp'))){
+        if (! file_exists(storage_path('medialibrary/temp'))) {
             mkdir(storage_path('medialibrary/temp'), 0777, true);
         }
 
