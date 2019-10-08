@@ -83,9 +83,9 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromDisk(string $key, string $disk)
+    public function addMediaFromDisk(string $key, string $disk = null)
     {
-        return app(FileAdderFactory::class)->createFromDisk($this, $key, $disk);
+        return app(FileAdderFactory::class)->createFromDisk($this, $key, $disk ?: config('filesystems.default'));
     }
 
     /**
