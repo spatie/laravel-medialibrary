@@ -58,7 +58,7 @@ public function addMediaFromUrl(string $url)
  *
  * @return \Spatie\MediaLibrary\FileAdder\FileAdder
  */
-public function addMediaFromDisk(string $key, string $disk): FileAdder
+public function addMediaFromDisk(string $key, string $disk = null): FileAdder
 ```
 
 ### addMediaFromRequest
