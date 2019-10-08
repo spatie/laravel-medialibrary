@@ -17,6 +17,7 @@ before_install:
 
 install:
   - yes | pecl install imagick
+  - sudo sed -i -e 's/rights="none" pattern="PDF"/rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
   - sudo apt-get install -y ghostscript
   - travis_retry composer update --prefer-source $COMPOSER_FLAGS
   - travis_retry composer require league/flysystem-aws-s3-v3
