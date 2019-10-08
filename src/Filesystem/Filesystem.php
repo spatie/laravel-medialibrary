@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Helpers\RemoteFile;
 use Illuminate\Contracts\Filesystem\Factory;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
