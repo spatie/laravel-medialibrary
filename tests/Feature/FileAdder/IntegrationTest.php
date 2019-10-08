@@ -299,10 +299,10 @@ class IntegrationTest extends TestCase
     /** @test */
     public function it_can_add_a_file_from_a_separate_disk_to_the_medialibrary()
     {
-        Storage::disk('s3_disk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+        Storage::disk('secondMediaDisk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
 
         $media = $this->testModel
-            ->addMediaFromDisk('tmp/test.jpg', 's3_disk')
+            ->addMediaFromDisk('tmp/test.jpg', 'secondMediaDisk')
             ->toMediaCollection();
 
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
