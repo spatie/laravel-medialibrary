@@ -120,16 +120,16 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_retrieve_a_media_responsive_url_from_s3()
+    public function it_retrieve_a_media_responsive_urls_from_s3()
     {
-        $media = $this->testModelWithConversion
+        $media = $this->testModelWithResponsiveImages
             ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
             ->toMediaCollection('default', 's3_disk');
 
-        $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
-            $media->getResponsiveImagesDirectoryUrl('thumb')
-        );
+        $this->assertEquals([
+            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___thumb_50_41.jpg",
+        ], $media->getResponsiveImageUrls('thumb'));
     }
 
     /** @test */
