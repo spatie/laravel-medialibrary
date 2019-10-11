@@ -63,7 +63,7 @@ abstract class TestCase extends Orchestra
             return;
         }
 
-        $dotenv = new Dotenv(__DIR__.'/..');
+        $dotenv = Dotenv::create(__DIR__.'/..');
 
         $dotenv->load();
     }
