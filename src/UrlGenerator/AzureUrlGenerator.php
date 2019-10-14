@@ -33,8 +33,6 @@ class AzureUrlGenerator extends BaseUrlGenerator
 
         $url = $this->rawUrlEncodeFilename($url);
 
-        $url = $this->versionUrl($url);
-
         $domain = config('filesystems.disks.'.$this->media->disk.'.url');//'https://whatsnum.blob.core.windows.net/whatsnum'; //env('AZURE_STORAGE_URL')
 
         return $domain.'/'.$url;
