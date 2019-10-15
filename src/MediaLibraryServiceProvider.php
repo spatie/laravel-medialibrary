@@ -20,7 +20,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'medialibrary');
         $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang'),
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/medialibrary'),
         ], 'translations');
 
         if (! class_exists('CreateMediaTable')) {
