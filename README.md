@@ -22,11 +22,13 @@ Find the complete package documentation here : https://docs.spatie.be/laravel-me
 
 This extension package is a fork from the original [spatie/laravel-medialibrary](https://github.com/spatie/laravel-medialibrary) one.  
 As so, you should uninstall the original package if you installed it to avoid conflicts :
+
 ```bash
 composer remove spatie/laravel-medialibrary
 ```
 
 Then, install the extension package via composer :
+
 ```bash
 composer require "okipa/laravel-medialibrary-ext:^7.0"
 ```
@@ -36,6 +38,7 @@ Follow the original package installation instructions :
 - https://docs.spatie.be/laravel-medialibrary/v7/installation-setup
 
 Finally, you can publish the extension translation files if needed with :
+
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="translations"
 ```
