@@ -63,7 +63,7 @@ abstract class TestCase extends Orchestra
             return;
         }
 
-        $dotenv = new Dotenv(__DIR__.'/..');
+        $dotenv = Dotenv::create(__DIR__.'/..');
 
         $dotenv->load();
     }
@@ -201,6 +201,11 @@ abstract class TestCase extends Orchestra
     public function getTestMp4()
     {
         return $this->getTestFilesDirectory('test.mp4');
+    }
+
+    public function getTestImageWithoutExtension()
+    {
+        return $this->getTestFilesDirectory('image');
     }
 
     private function setUpMorphMap()
