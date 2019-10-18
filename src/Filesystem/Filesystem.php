@@ -55,19 +55,17 @@ class Filesystem
         if ($file->getDisk() === $media->getDiskDriverName()) {
             $storage->copy($file->getKey(), $destination);
         } else {
-            $contents = $storage->get($file->getKey());
-
-            if ($media->getDiskDriverName() === 'local') {
-                $this->filesystem
-                    ->disk($media->disk)
-                    ->put($destination, $contents);
-
-                return;
-            }
-
-            $this->filesystem
-                ->disk($media->disk)
-                ->put($destination, $contents, $this->getRemoteHeadersForFile($file->getKey(), $media->getCustomHeaders(), $storage->mimeType($file->getKey())));
+            $this->filesystem->disk($media->disk)
+                ->getDriver()->writeStream(
+                    $destination,
+                    $storage->getDriver()->readStream($file->getKey()),
+                    $media->getDiskDriverName() === 'local'
+                        ? [] : $this->getRemoteHeadersForFile(
+                            $file->getKey(),
+                            $media->getCustomHeaders(),
+                            $storage->mimeType($file->getKey())
+                        )
+                );
         }
     }
 
