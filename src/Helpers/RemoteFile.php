@@ -66,6 +66,6 @@ class RemoteFile
      */
     public function getName()
     {
-        return pathinfo($this->getFilename())['filename'];
+        return pathinfo($this->getFilename(), PATHINFO_FILENAME);
     }
 }
