@@ -161,7 +161,7 @@ Don't forget to ignore the directory of your configured disk so the files won't 
 
 If you are planning on working with image manipulations it's recommended to configure a queue on your server and specify it in the config file.
 
-Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/5.5/filesystem#configuration).
+Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/filesystem#configuration).
 
 ### Optimization tools
 
