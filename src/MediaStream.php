@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use ZipStream\Option\Archive as ArchiveOptions;
 use ZipStream\ZipStream;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
@@ -72,7 +73,10 @@ class MediaStream implements Responsable
 
     public function getZipStream(): ZipStream
     {
-        $zip = new ZipStream($this->zipName);
+        $options = new ArchiveOptions();
+        // Stream files without rewind.
+        $options->setZeroHeader(true);
+        $zip = new ZipStream($this->zipName, $options);
 
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();
