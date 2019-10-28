@@ -6,7 +6,6 @@ use ZipStream\ZipStream;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Support\Responsable;
-use ZipStream\Option\Archive as ArchiveOptions;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MediaStream implements Responsable
@@ -73,10 +72,16 @@ class MediaStream implements Responsable
 
     public function getZipStream(): ZipStream
     {
-        $options = new ArchiveOptions();
-        // Stream files without rewind.
-        $options->setZeroHeader(true);
-        $zip = new ZipStream($this->zipName, $options);
+        // For ZipStream-PHP versions above 1.0
+        // improve performance using options
+        if (class_exists('\ZipStream\Option\Archive')) {
+            $options = new \ZipStream\Option\Archive();
+            // Stream files without rewind.
+            $options->setZeroHeader(true);
+            $zip = new ZipStream($this->zipName, $options);
+        } else {
+            $zip = new ZipStream($this->zipName);
+        }
 
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();
