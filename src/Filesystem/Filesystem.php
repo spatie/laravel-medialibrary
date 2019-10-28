@@ -52,21 +52,17 @@ class Filesystem
 
         $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
-        if ($file->getDisk() === $media->getDiskDriverName()) {
-            $storage->copy($file->getKey(), $destination);
-        } else {
-            $this->filesystem->disk($media->disk)
-                ->getDriver()->writeStream(
-                    $destination,
-                    $storage->getDriver()->readStream($file->getKey()),
-                    $media->getDiskDriverName() === 'local'
-                        ? [] : $this->getRemoteHeadersForFile(
-                            $file->getKey(),
-                            $media->getCustomHeaders(),
-                            $storage->mimeType($file->getKey())
-                        )
-                );
-        }
+        $this->filesystem->disk($media->disk)
+            ->getDriver()->writeStream(
+                $destination,
+                $storage->getDriver()->readStream($file->getKey()),
+                $media->getDiskDriverName() === 'local'
+                    ? [] : $this->getRemoteHeadersForFile(
+                        $file->getKey(),
+                        $media->getCustomHeaders(),
+                        $storage->mimeType($file->getKey())
+                    )
+            );
     }
 
     public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
