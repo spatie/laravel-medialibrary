@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
+
+use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
@@ -72,16 +74,7 @@ class MediaStream implements Responsable
 
     public function getZipStream(): ZipStream
     {
-        // For ZipStream-PHP versions above 1.0
-        // improve performance using options
-        if (class_exists('\ZipStream\Option\Archive')) {
-            $options = new \ZipStream\Option\Archive();
-            // Stream files without rewind.
-            $options->setZeroHeader(true);
-            $zip = new ZipStream($this->zipName, $options);
-        } else {
-            $zip = new ZipStream($this->zipName);
-        }
+        $zip = new ZipStream($this->zipName, tap(new Archive())->setZeroHeader(true));
 
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();
