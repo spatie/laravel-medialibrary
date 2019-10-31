@@ -2,9 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
-
-use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
+use ZipStream\Option\Archive;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Support\Responsable;
