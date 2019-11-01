@@ -63,7 +63,7 @@ If you've found a bug regarding security please mail [freek@spatie.be](mailto:fr
 You can install this package via composer using this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary:^7.0.0"
+composer require "spatie/laravel-medialibrary"
 ```
 
 The package will automatically register itself.
