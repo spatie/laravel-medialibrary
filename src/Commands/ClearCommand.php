@@ -31,9 +31,18 @@ class ClearCommand extends Command
             return;
         }
 
-        $this->getMediaItems()->each->delete();
+        $mediaItems = $this->getMediaItems();
 
-        $this->info('All done!');
+        $progressBar = $this->output->createProgressBar($mediaItems->count());
+
+        $mediaItems->each(function ($media) use ($progressBar) {
+            $media->delete();
+            $progressBar->advance();
+        });
+
+        $progressBar->finish();
+
+        $this->info("\nAll done!");
     }
 
     public function getMediaItems() : Collection
