@@ -4,8 +4,8 @@ namespace Spatie\MediaLibrary\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Spatie\MediaLibrary\MediaRepository;
 
 class ClearCommand extends Command
 {
