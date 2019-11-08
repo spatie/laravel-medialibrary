@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\MediaLibrary\MediaRepository;
+use Spatie\MediaLibrary\Models\Media;
 
 class ClearCommand extends Command
 {
@@ -35,7 +36,7 @@ class ClearCommand extends Command
 
         $progressBar = $this->output->createProgressBar($mediaItems->count());
 
-        $mediaItems->each(function ($media) use ($progressBar) {
+        $mediaItems->each(function (Media $media) use ($progressBar) {
             $media->delete();
             $progressBar->advance();
         });
