@@ -42,7 +42,7 @@ class ClearCommand extends Command
 
         $progressBar->finish();
 
-        $this->info("\nAll done!");
+        $this->info("All done!");
     }
 
     public function getMediaItems() : Collection
