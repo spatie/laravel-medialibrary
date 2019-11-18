@@ -19,3 +19,9 @@ $urlToFirstListImage = $newsItem->getFirstMediaUrl('images', 'thumb');
 $urlToFirstTemporaryListImage = $newsItem->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
 $fullPathToFirstListImage = $newsItem->getFirstMediaPath('images', 'thumb');
 ```
+
+If a conversion is queued, a file may not exist yet on the generated url. You can check if the conversion has been created using the `hasGeneratedConversion`-method on a media item.
+
+```php
+$newsItem->getMedia('images')[0]->hasGeneratedConversion('thumb'); // returns true or false
+```
