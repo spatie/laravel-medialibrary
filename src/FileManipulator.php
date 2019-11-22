@@ -2,22 +2,22 @@
 
 namespace Spatie\MediaLibrary;
 
-use Storage;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Spatie\MediaLibrary\Helpers\ImageFactory;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Jobs\PerformConversions;
-use Spatie\MediaLibrary\Events\ConversionWillStart;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
-use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
+use Spatie\MediaLibrary\Events\ConversionWillStart;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
+use Spatie\MediaLibrary\Helpers\ImageFactory;
+use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
+use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
+use Spatie\MediaLibrary\Jobs\PerformConversions;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
+use Storage;
 
 class FileManipulator
 {

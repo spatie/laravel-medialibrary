@@ -2,13 +2,13 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature;
 
-use ZipArchive;
-use Spatie\MediaLibrary\MediaStream;
 use Illuminate\Support\Facades\Route;
+use Spatie\MediaLibrary\MediaStream;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use ZipArchive;
 
 class MediaStreamTest extends TestCase
 {

@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use DateTimeInterface;
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 interface UrlGenerator
