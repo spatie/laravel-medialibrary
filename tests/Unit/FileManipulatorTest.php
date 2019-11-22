@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary\Tests\Unit;
 
-use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileManipulatorTest extends TestCase
 {

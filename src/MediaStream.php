@@ -4,9 +4,9 @@ namespace Spatie\MediaLibrary;
 
 use ZipStream\ZipStream;
 use ZipStream\Option\Archive;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MediaStream implements Responsable

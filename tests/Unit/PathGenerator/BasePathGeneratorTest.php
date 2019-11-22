@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary\Tests\Unit\PathGenerator;
 
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 class BasePathGeneratorTest extends TestCase
 {

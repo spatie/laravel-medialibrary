@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\MediaCollection;
 
-use InvalidArgumentException;
 use Illuminate\Support\Traits\Macroable;
+use InvalidArgumentException;
 
 class MediaCollection
 {

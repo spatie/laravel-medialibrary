@@ -2,23 +2,23 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Traits\Macroable;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\File as PendingFile;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Jobs\GenerateResponsiveImages;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
-use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\MediaLibrary\File as PendingFile;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
+use Spatie\MediaLibrary\Jobs\GenerateResponsiveImages;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
+use Spatie\MediaLibrary\Models\Media;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdder
 {

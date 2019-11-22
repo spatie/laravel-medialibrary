@@ -3,24 +3,24 @@
 namespace Spatie\MediaLibrary\HasMedia;
 
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Support\Facades\Validator;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\Events\CollectionHasBeenCleared;
-use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
-use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
+use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
+use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
+use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
+use Spatie\MediaLibrary\MediaRepository;
+use Spatie\MediaLibrary\Models\Media;
 
 trait HasMediaTrait
 {
