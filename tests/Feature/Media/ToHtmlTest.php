@@ -4,8 +4,8 @@ namespace Spatie\MediaLibrary\Models\Media;
 
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class ToHtmlTest extends TestCase
 {

@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary;
 
-use ZipStream\ZipStream;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use ZipStream\ZipStream;
 
 class MediaStream implements Responsable
 {

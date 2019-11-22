@@ -3,10 +3,10 @@
 namespace Spatie\MediaLibrary\Tests\Feature\HasMediaTrait;
 
 use File;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestCustomMediaModel;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
 {

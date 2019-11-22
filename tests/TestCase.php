@@ -2,18 +2,18 @@
 
 namespace Spatie\MediaLibrary\Tests;
 
-use File;
 use Carbon\Carbon;
 use Dotenv\Dotenv;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Database\Schema\Blueprint;
-use Orchestra\Testbench\TestCase as Orchestra;
+use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Artisan;
+use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
 
 abstract class TestCase extends Orchestra
 {

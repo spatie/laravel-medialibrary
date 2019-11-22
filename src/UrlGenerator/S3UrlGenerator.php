@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use DateTimeInterface;
-use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Filesystem\FilesystemManager;
 
 class S3UrlGenerator extends BaseUrlGenerator
 {

@@ -2,12 +2,12 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
-use Carbon\Carbon;
 use Aws\S3\S3Client;
+use Carbon\Carbon;
+use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Illuminate\Contracts\Filesystem\Factory;
 
 class S3IntegrationTest extends TestCase
 {
