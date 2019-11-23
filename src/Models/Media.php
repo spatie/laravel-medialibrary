@@ -37,7 +37,7 @@ class Media extends Model implements Responsable, Htmlable
         'responsive_images' => 'array',
     ];
 
-    public function model(): MorphTo
+    public function model()
     {
         return $this->morphTo();
     }
