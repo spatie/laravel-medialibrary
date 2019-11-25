@@ -76,4 +76,33 @@ class CollectionMimesValidationConstraintsTest extends TestCase
         $mimesValidationConstraintsString = $testModel->mimesValidationConstraints('logo');
         $this->assertEquals('', $mimesValidationConstraintsString);
     }
+
+    /**
+     * @test
+     */
+    public function it_removes_duplicated_mimes()
+    {
+        $testModel = new class extends TestModel
+        {
+            public function registerMediaCollections()
+            {
+                $this->addMediaCollection('logo')
+                    ->acceptsFile(function (File $file) {
+                        return true;
+                    })
+                    ->acceptsMimeTypes(['audio/wav', 'audio/wave', 'audio/x-wav'])
+                    ->registerMediaConversions(function (Media $media = null) {
+                        $this->addMediaConversion('admin-panel')
+                            ->crop(Manipulations::CROP_CENTER, 20, 80);
+                    });
+            }
+
+            public function registerMediaConversions(Media $media = null)
+            {
+                $this->addMediaConversion('thumb')->crop(Manipulations::CROP_CENTER, 100, 70);
+            }
+        };
+        $mimesValidationConstraintsString = $testModel->mimesValidationConstraints('logo');
+        $this->assertEquals('mimes:wav', $mimesValidationConstraintsString);
+    }
 }

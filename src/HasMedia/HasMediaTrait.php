@@ -851,6 +851,6 @@ trait HasMediaTrait
             }
         }
 
-        return $extensions;
+        return array_unique($extensions);
     }
 }
