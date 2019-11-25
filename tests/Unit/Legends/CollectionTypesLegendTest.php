@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class MimeTypesLegendTest extends TestCase
+class CollectionTypesLegendTest extends TestCase
 {
     /**
      * @test
@@ -29,7 +29,7 @@ class MimeTypesLegendTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_no_mime_types_legend_when_none_declared()
+    public function it_returns_no_types_legend_when_none_declared()
     {
         $testModel = new class extends TestModel
         {
@@ -50,7 +50,7 @@ class MimeTypesLegendTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_mime_types_legend_when_are_declared()
+    public function it_returns_types_legend_when_are_declared()
     {
         $testModel = new class extends TestModel
         {
@@ -75,6 +75,37 @@ class MimeTypesLegendTest extends TestCase
         $dimensionsLegendString = $testModel->mimeTypesLegend('logo');
         $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 3, [
             'types' => 'jpeg, jpg, png',
+        ]), $dimensionsLegendString);
+    }
+
+    /**
+     * @test
+     */
+    public function it_removes_duplicated_types()
+    {
+        $testModel = new class extends TestModel
+        {
+            public function registerMediaCollections()
+            {
+                $this->addMediaCollection('logo')
+                    ->acceptsFile(function (File $file) {
+                        return true;
+                    })
+                    ->acceptsMimeTypes(['audio/wav', 'audio/wave', 'audio/x-wav'])
+                    ->registerMediaConversions(function (Media $media = null) {
+                        $this->addMediaConversion('admin-panel')
+                            ->crop(Manipulations::CROP_CENTER, 20, 80);
+                    });
+            }
+
+            public function registerMediaConversions(Media $media = null)
+            {
+                $this->addMediaConversion('thumb')->crop(Manipulations::CROP_CENTER, 100, 70);
+            }
+        };
+        $dimensionsLegendString = $testModel->mimeTypesLegend('logo');
+        $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 1, [
+            'types' => 'wav',
         ]), $dimensionsLegendString);
     }
 }

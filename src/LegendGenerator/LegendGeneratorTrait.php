@@ -69,7 +69,6 @@ trait LegendGeneratorTrait
         }
         $mediaCollection = $this->getMediaCollection($collectionName);
         $legendString = '';
-
         if (! empty($mediaCollection->acceptsMimeTypes)) {
             $extensions = $this->extensionsFromMimeTypes($mediaCollection->acceptsMimeTypes);
             $extensionsString = implode(',', $extensions);
