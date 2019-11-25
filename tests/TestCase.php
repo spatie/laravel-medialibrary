@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
+use ZipArchive;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
 
 abstract class TestCase extends Orchestra
@@ -266,5 +267,27 @@ abstract class TestCase extends Orchestra
         Carbon::setTestNow($newNow);
 
         return $this;
+    }
+
+
+    protected function assertFileExistsInZip($zipPath, $filename)
+    {
+        $this->assertTrue($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} contains a file name {$filename}");
+    }
+
+    protected function assertFileDoesntExistsInZip($zipPath, $filename)
+    {
+        $this->assertFalse($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} doesn't contain a file name {$filename}");
+    }
+
+    protected function fileExistsInZip($zipPath, $filename): bool
+    {
+        $zip = new ZipArchive();
+
+        if ($zip->open($zipPath) === true) {
+            return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
+        }
+
+        return false;
     }
 }
