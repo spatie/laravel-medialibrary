@@ -13,8 +13,8 @@ use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
-use ZipArchive;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
+use ZipArchive;
 
 abstract class TestCase extends Orchestra
 {
@@ -268,7 +268,6 @@ abstract class TestCase extends Orchestra
 
         return $this;
     }
-
 
     protected function assertFileExistsInZip($zipPath, $filename)
     {

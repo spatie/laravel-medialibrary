@@ -6,13 +6,10 @@ use Aws\S3\S3Client;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaStream;
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class S3IntegrationTest extends TestCase
 {
