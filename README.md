@@ -63,7 +63,7 @@ public function rules()
         // your other validation rules
     ];
 }
-// rendering example : `['mimetypes:image/jpeg,image/png', 'mimes:jpeg,jpg,png', 'dimensions:min_width=60,min_height=20']`
+// rendering example : `['mimetypes:image/jpeg,image/png', 'mimes:jpeg,jpg,jpe,png', 'dimensions:min_width=60,min_height=20']`
 ```
 
 #### Collection validation constraints legend generation
@@ -73,7 +73,7 @@ Easily add legends under your media inputs with `constraintsLegend(string $colle
 <label for="avatar">Choose a profile picture :</label>
 <input type=" id="avatar" name="avatar" value="{{ $avatarFileName }}">
 <small>{{ (new User)->constraintsLegend('avatar') }}</small>
-<!-- Rendering example : `Min. width : 150 px / Min. height : 70 px. Accepted types : jpeg, jpg, png.` -->
+<!-- Rendering example : `Min. width : 150 px / Min. height : 70 px. Accepted types : jpeg, jpg, jpe, png.` -->
 ```
 
 ### Global conversions queued status

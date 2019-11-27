@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Unit\Extension\UrlGenerator;
 
-use Spatie\MediaLibrary\File;
 use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\File;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
@@ -74,7 +74,7 @@ class CollectionTypesLegendTest extends TestCase
         };
         $dimensionsLegendString = $testModel->mimeTypesLegend('logo');
         $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 3, [
-            'types' => 'jpeg, jpg, png',
+            'types' => 'jpeg, jpg, jpe, png',
         ]), $dimensionsLegendString);
     }
 

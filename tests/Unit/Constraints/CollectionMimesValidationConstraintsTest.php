@@ -53,7 +53,7 @@ class CollectionMimesValidationConstraintsTest extends TestCase
             }
         };
         $mimesValidationConstraintsString = $testModel->mimesValidationConstraints('logo');
-        $this->assertEquals('mimes:jpeg,jpg,png,pdf', $mimesValidationConstraintsString);
+        $this->assertEquals('mimes:jpeg,jpg,jpe,png,pdf', $mimesValidationConstraintsString);
     }
 
     /**

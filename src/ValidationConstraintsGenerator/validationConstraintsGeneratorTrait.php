@@ -15,11 +15,11 @@ trait validationConstraintsGeneratorTrait
      */
     public function validationConstraints(string $collectionName): array
     {
-        $mimeTypeConstraints = $this->mimeTypesValidationConstraints($collectionName);
         $mimesConstraints = $this->mimesValidationConstraints($collectionName);
+        $mimeTypeConstraints = $this->mimeTypesValidationConstraints($collectionName);
         $dimensionConstraints = $this->dimensionValidationConstraints($collectionName);
 
-        return array_values(array_filter([$mimeTypeConstraints, $mimesConstraints, $dimensionConstraints]));
+        return array_values(array_filter([$mimesConstraints, $mimeTypeConstraints, $dimensionConstraints]));
     }
 
     /**

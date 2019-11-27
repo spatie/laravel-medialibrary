@@ -101,7 +101,7 @@ class CollectionValidationConstraintsTest extends TestCase
             }
         };
         $validationConstraintsArray = $testModel->validationConstraints('logo');
-        $this->assertEquals(['mimetypes:image/jpeg,image/png', 'mimes:jpeg,jpg,png'], $validationConstraintsArray);
+        $this->assertEquals(['mimes:jpeg,jpg,jpe,png', 'mimetypes:image/jpeg,image/png'], $validationConstraintsArray);
     }
 
     /**
@@ -123,7 +123,7 @@ class CollectionValidationConstraintsTest extends TestCase
         };
         $validationConstraintsArray = $testModel->validationConstraints('logo');
         $this->assertEquals(
-            ['mimetypes:image/jpeg,image/png', 'mimes:jpeg,jpg,png', 'dimensions:min_width=60,min_height=20'],
+            ['mimes:jpeg,jpg,jpe,png', 'mimetypes:image/jpeg,image/png', 'dimensions:min_width=60,min_height=20'],
             $validationConstraintsArray
         );
     }

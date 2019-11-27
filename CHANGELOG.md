@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.14.5](https://github.com/Okipa/laravel-medialibrary-ext/compare/7.14.4...Okipa:7.14.5)
+
+2019-11-27
+
+- The extensions detection from mime types from the `Spatie\MediaLibrary\HasMedia\HasMediaTrait::extensionsFromMimeTypes()` method is now executed by `Symfony\Component\Mime\MimeTypes::getExtensions()` (which is far more reliable).
+- The `mimes` validation now occurs before the `mimetypes` validation, in order to return a more comprehensible error for end user.
+
 ## [7.14.4](https://github.com/Okipa/laravel-medialibrary-ext/compare/7.14.3...Okipa:7.14.4)
 
 2019-11-25

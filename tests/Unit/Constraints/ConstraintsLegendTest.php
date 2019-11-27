@@ -105,7 +105,7 @@ class ConstraintsLegendTest extends TestCase
         };
         $legendString = $testModel->constraintsLegend('logo');
         $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 3, [
-            'types' => 'jpeg, jpg, png',
+            'types' => 'jpeg, jpg, jpe, png',
         ]), $legendString);
     }
 
@@ -151,7 +151,7 @@ class ConstraintsLegendTest extends TestCase
         };
         $legendString = $testModel->constraintsLegend('logo');
         $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 4, [
-            'types' => 'jpeg, jpg, png, pdf',
+            'types' => 'jpeg, jpg, jpe, png, pdf',
         ]), $legendString);
     }
 }
