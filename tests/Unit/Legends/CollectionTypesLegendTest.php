@@ -74,7 +74,7 @@ class CollectionTypesLegendTest extends TestCase
         };
         $dimensionsLegendString = $testModel->mimeTypesLegend('logo');
         $this->assertEquals(trans_choice('medialibrary::medialibrary.constraint.types', 3, [
-            'types' => 'jpeg, jpg, png',
+            'types' => 'jpeg, jpg, jpe, png',
         ]), $dimensionsLegendString);
     }
 
