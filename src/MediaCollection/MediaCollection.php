@@ -27,6 +27,9 @@ class MediaCollection
     /** @var int */
     public $collectionSizeLimit = false;
 
+    /** @var int */
+    public $maximumFileSize;
+
     public $singleFile = false;
 
     /** @var string */
@@ -106,6 +109,13 @@ class MediaCollection
     public function useFallbackPath(string $path): self
     {
         $this->fallbackPath = $path;
+
+        return $this;
+    }
+
+    public function maximumFileSize(int $bytes): self
+    {
+        $this->maximumFileSize = $bytes;
 
         return $this;
     }

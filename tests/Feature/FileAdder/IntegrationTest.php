@@ -490,6 +490,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_will_accept_a_file_larger_than_config_default_but_within_collection_setting()
+    {
+        $this->app['config']->set('medialibrary.max_file_size', 1);
+
+        $media = $this->testModel
+            ->addMedia($this->getLargeTestJpg())
+            ->toMediaCollection('chunky');
+
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_adding_a_file_to_a_non_existing_disk()
     {
         $this->expectException(DiskDoesNotExist::class);

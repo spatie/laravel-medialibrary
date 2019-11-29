@@ -201,6 +201,12 @@ class FileAdder
         return $this;
     }
 
+    public function getMaximumFileSize(string $collectionName = 'default')
+    {
+        return $this->getMediaCollection($collectionName)->maximumFileSize
+            ?: config('medialibrary.max_file_size');
+    }
+
     public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
     {
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
@@ -212,7 +218,7 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('medialibrary.max_file_size')) {
+        if (filesize($this->pathToFile) > $this->getMaximumFileSize($collectionName)) {
             throw FileIsTooBig::create($this->pathToFile);
         }
 

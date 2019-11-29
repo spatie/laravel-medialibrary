@@ -35,5 +35,8 @@ class TestModel extends Model implements HasMedia
             ->addMediaCollection('avatar')
             ->useFallbackUrl('/default.jpg')
             ->useFallbackPath('/default.jpg');
+
+        $this->addMediaCollection('chunky')
+            ->maximumFileSize(1024 * 1024 * 5);
     }
 }
