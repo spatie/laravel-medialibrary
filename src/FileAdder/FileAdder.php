@@ -203,7 +203,7 @@ class FileAdder
 
     public function getMaximumFileSize(string $collectionName = 'default')
     {
-        return $this->getMediaCollection($collectionName)->maximumFileSize
+        return $this->getMediaCollection($collectionName)->maximumFileSize ?? null
             ?: config('medialibrary.max_file_size');
     }
 
