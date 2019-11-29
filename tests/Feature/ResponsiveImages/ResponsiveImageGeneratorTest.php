@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ResponsiveImageGeneratorTest extends TestCase
 {

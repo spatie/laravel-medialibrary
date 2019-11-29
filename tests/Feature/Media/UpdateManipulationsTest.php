@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class UpdateManipulationsTest extends TestCase
 {

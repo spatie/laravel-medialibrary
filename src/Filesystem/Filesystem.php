@@ -2,7 +2,11 @@
 
 namespace Spatie\MediaLibrary\Filesystem;
 
+use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Support\Facades\Storage;

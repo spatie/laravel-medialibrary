@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
 
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class RegisteredResponsiveImagesTest extends TestCase
 {

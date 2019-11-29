@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileSizeOptimizedWidthCalculatorTest extends TestCase
 {

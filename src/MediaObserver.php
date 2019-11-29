@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary;
 
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\Models\Media;
 
 class MediaObserver
 {

@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class WebpTest extends TestCase
 {

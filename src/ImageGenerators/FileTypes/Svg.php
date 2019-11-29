@@ -2,9 +2,9 @@
 
 namespace Spatie\MediaLibrary\ImageGenerators\FileTypes;
 
+use Illuminate\Support\Collection;
 use Imagick;
 use ImagickPixel;
-use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
 
