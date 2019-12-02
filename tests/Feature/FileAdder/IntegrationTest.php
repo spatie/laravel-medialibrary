@@ -2,16 +2,17 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
 
+use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
-use Spatie\MediaLibrary\Tests\TestCase;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IntegrationTest extends TestCase
 {
@@ -293,6 +294,18 @@ class IntegrationTest extends TestCase
 
         $this->assertEquals('header', $media->name);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/header.jpg"));
+    }
+
+    /** @test */
+    public function it_can_add_a_file_from_a_separate_disk_to_the_medialibrary()
+    {
+        Storage::disk('secondMediaDisk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+
+        $media = $this->testModel
+            ->addMediaFromDisk('tmp/test.jpg', 'secondMediaDisk')
+            ->toMediaCollection();
+
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
     }
 
     /** @test */

@@ -47,6 +47,20 @@ public function addMedia($file)
 public function addMediaFromUrl(string $url)
 ```
 
+### addMediaFromDisk
+
+```php
+/**
+ * Add a file from the given disk.
+ *
+ * @param string $key
+ * @param string $disk
+ *
+ * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+ */
+public function addMediaFromDisk(string $key, string $disk = null): FileAdder
+```
+
 ### addMediaFromRequest
 
 ```php
@@ -120,7 +134,6 @@ Please note the return type of `addAllMediaFromRequest` is a Collection of `File
 ```
 
 ### copyMedia
-
 
 ```php
 /**
