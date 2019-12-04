@@ -5,10 +5,10 @@ namespace Spatie\MediaLibrary;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Commands\RegenerateCommand;
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {

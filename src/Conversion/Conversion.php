@@ -35,7 +35,7 @@ class Conversion
 
         $this->manipulations = (new Manipulations())
             ->optimize(config('medialibrary.image_optimizers'))
-            ->format('jpg');
+            ->format(Manipulations::FORMAT_JPG);
 
         $this->performOnQueue = $this->performOnQueue ?: config('medialibrary.queued_conversions');
     }

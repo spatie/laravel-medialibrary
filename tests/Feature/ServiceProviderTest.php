@@ -2,8 +2,8 @@
 
 namespace Feature;
 
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ServiceProviderTest extends TestCase
 {

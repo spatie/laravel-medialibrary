@@ -3,11 +3,11 @@
 namespace Spatie\MediaLibrary;
 
 use Closure;
+use Illuminate\Database\Eloquent\Collection as DbCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Illuminate\Database\Eloquent\Collection as DbCollection;
+use Spatie\MediaLibrary\Models\Media;
 
 class MediaRepository
 {

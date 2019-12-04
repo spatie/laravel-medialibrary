@@ -2,12 +2,14 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
-use Carbon\Carbon;
 use Aws\S3\S3Client;
+use Carbon\Carbon;
+use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaStream;
 use Spatie\MediaLibrary\Tests\TestCase;
-use Illuminate\Contracts\Filesystem\Factory;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class S3IntegrationTest extends TestCase
 {
@@ -34,6 +36,18 @@ class S3IntegrationTest extends TestCase
         $this->app['config']->set('medialibrary.path_generator', null);
 
         parent::tearDown();
+    }
+
+    /** @test */
+    public function it_can_add_media_from_a_disk_to_s3()
+    {
+        Storage::disk('s3_disk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+
+        $media = $this->testModel
+            ->addMediaFromDisk('tmp/test.jpg', 's3_disk')
+            ->toMediaCollection('default', 's3_disk');
+
+        $this->assertS3FileExists("{$this->s3BaseDirectory}/{$media->id}/test.jpg");
     }
 
     /** @test */
@@ -277,6 +291,26 @@ class S3IntegrationTest extends TestCase
         $this->assertS3FileNotExists($derivedMissingImageOriginal);
         $this->assertSame($existsCreatedAt, Storage::disk('s3_disk')->lastModified($derivedImageExists));
         $this->assertGreaterThan($missingCreatedAt, Storage::disk('s3_disk')->lastModified($derivedMissingImage));
+    }
+
+    /** @test */
+    public function it_can_retrieve_a_zip_with_s3_disk()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection('default', 's3_disk');
+
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia($media);
+
+        ob_start();
+        @$zipStreamResponse->toResponse(request())->sendContent();
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+        $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'test.jpg');
     }
 
     protected function cleanUpS3()

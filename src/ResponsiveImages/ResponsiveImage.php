@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
+use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class ResponsiveImage
 {

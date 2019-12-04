@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Unit\Helpers;
 
 use ReflectionClass;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Helpers\ImageFactory;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ImageFactoryTest extends TestCase
 {
