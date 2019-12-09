@@ -3,24 +3,24 @@
 namespace Spatie\MediaLibrary\Models;
 
 use DateTimeInterface;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use Spatie\MediaLibrary\Helpers\File;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Support\Htmlable;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Illuminate\Contracts\Support\Responsable;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Models\Concerns\IsSorted;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Spatie\MediaLibrary\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\Models\Traits\CustomMediaProperties;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model implements Responsable, Htmlable
 {

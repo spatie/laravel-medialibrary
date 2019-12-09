@@ -2,23 +2,25 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\File as PendingFile;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Jobs\GenerateResponsiveImages;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
-use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\MediaLibrary\Helpers\RemoteFile;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\MediaLibrary\File as PendingFile;
+use Spatie\MediaLibrary\Filesystem\Filesystem;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\Helpers\File;
+use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
+use Spatie\MediaLibrary\Jobs\GenerateResponsiveImages;
+use Spatie\MediaLibrary\MediaCollection\MediaCollection;
+use Spatie\MediaLibrary\Models\Media;
+use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdder
 {
@@ -105,6 +107,14 @@ class FileAdder
             $this->pathToFile = $file;
             $this->setFileName(pathinfo($file, PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file, PATHINFO_FILENAME);
+
+            return $this;
+        }
+
+        if ($file instanceof RemoteFile) {
+            $this->pathToFile = $file->getKey();
+            $this->setFileName($file->getFilename());
+            $this->mediaName = $file->getName();
 
             return $this;
         }
@@ -206,8 +216,61 @@ class FileAdder
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
+    public function toMediaCollectionFromRemote(string $collectionName = 'default', string $diskName = ''): Media
+    {
+        $storage = Storage::disk($this->file->getDisk());
+
+        if (! $storage->exists($this->pathToFile)) {
+            throw FileDoesNotExist::create($this->pathToFile);
+        }
+
+        if ($storage->size($this->pathToFile) > config('medialibrary.max_file_size')) {
+            throw FileIsTooBig::create($this->pathToFile, $storage->size($this->pathToFile));
+        }
+
+        $mediaClass = config('medialibrary.media_model');
+        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        $media = new $mediaClass();
+
+        $media->name = $this->mediaName;
+
+        $this->fileName = ($this->fileNameSanitizer)($this->fileName);
+
+        $media->file_name = $this->fileName;
+
+        $media->disk = $this->determineDiskName($diskName, $collectionName);
+
+        if (is_null(config("filesystems.disks.{$media->disk}"))) {
+            throw DiskDoesNotExist::create($media->disk);
+        }
+
+        $media->collection_name = $collectionName;
+
+        $media->mime_type = $storage->mimeType($this->pathToFile);
+        $media->size = $storage->size($this->pathToFile);
+        $media->custom_properties = $this->customProperties;
+
+        $media->responsive_images = [];
+
+        $media->manipulations = $this->manipulations;
+
+        if (filled($this->customHeaders)) {
+            $media->setCustomHeaders($this->customHeaders);
+        }
+
+        $media->fill($this->properties);
+
+        $this->attachMedia($media);
+
+        return $media;
+    }
+
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
+        if ($this->file instanceof RemoteFile) {
+            return $this->toMediaCollectionFromRemote($collectionName, $diskName);
+        }
+
         if (! is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
@@ -307,10 +370,18 @@ class FileAdder
 
         $model->media()->save($media);
 
-        $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
+        if ($fileAdder->file instanceof RemoteFile) {
+            $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);
+        } else {
+            $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
+        }
 
         if (! $fileAdder->preserveOriginal) {
-            unlink($fileAdder->pathToFile);
+            if ($fileAdder->file instanceof RemoteFile) {
+                Storage::disk($fileAdder->file->getDisk())->delete($fileAdder->file->getKey());
+            } else {
+                unlink($fileAdder->pathToFile);
+            }
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {

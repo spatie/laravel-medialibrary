@@ -3,12 +3,12 @@
 namespace Spatie\MediaLibrary\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Spatie\MediaLibrary\FileManipulator;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\Models\Media;
 
 class PerformConversions implements ShouldQueue
 {

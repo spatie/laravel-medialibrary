@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Unit\Conversion;
 
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ConversionTest extends TestCase
 {

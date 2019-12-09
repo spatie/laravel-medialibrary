@@ -2,9 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature;
 
-use ZipArchive;
-use Spatie\MediaLibrary\MediaStream;
 use Illuminate\Support\Facades\Route;
+use Spatie\MediaLibrary\MediaStream;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
@@ -75,26 +74,5 @@ class MediaStreamTest extends TestCase
             ->addMedia([Media::find(1), Media::find(2)]);
 
         $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
-    }
-
-    protected function assertFileExistsInZip($zipPath, $filename)
-    {
-        $this->assertTrue($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} contains a file name {$filename}");
-    }
-
-    protected function assertFileDoesntExistsInZip($zipPath, $filename)
-    {
-        $this->assertFalse($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} doesn't contain a file name {$filename}");
-    }
-
-    protected function fileExistsInZip($zipPath, $filename): bool
-    {
-        $zip = new ZipArchive();
-
-        if ($zip->open($zipPath) === true) {
-            return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
-        }
-
-        return false;
     }
 }

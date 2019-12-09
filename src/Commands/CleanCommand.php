@@ -2,17 +2,17 @@
 
 namespace Spatie\MediaLibrary\Commands;
 
-use Illuminate\Support\Str;
 use Illuminate\Console\Command;
-use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Console\ConfirmableTrait;
-use Spatie\MediaLibrary\FileManipulator;
-use Spatie\MediaLibrary\MediaRepository;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
+use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\FileManipulator;
+use Spatie\MediaLibrary\MediaRepository;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 

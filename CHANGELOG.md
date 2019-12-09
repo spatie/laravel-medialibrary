@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.16.0 - 2019-12-02
+
+- add ability to upload files from a non-local disk
+
+## 7.15.0 - 2019-11-25
+
+- bumped dependency of zipstream-php
+- fix so when creating a zip files are read only once (#1604)
+
 ## 7.14.2 - 2019-10-16
 
 - fix so files without extension could be added
