@@ -29,6 +29,7 @@ trait HasMediaTrait
 {
     use LegendGeneratorTrait;
     use validationConstraintsGeneratorTrait;
+
     /** @var Conversion[] */
     public $mediaConversions = [];
 
