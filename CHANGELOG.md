@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.16.1 - 2019-12-11
+
+- escape responsive URL - Fix issue #1659 (#1661)
+
 ## 7.16.0 - 2019-12-02
 
 - add ability to upload files from a non-local disk
