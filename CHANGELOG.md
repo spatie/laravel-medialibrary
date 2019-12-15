@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.17.0 - 2019-12-15
+
+- added diskName on copy and move methods in media model (#1666)
+
 ## 7.16.2 - 2019-12-15
 
 - correctly use the media item's disk when removing responsive images (#1668)
