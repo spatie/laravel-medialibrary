@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.17.1 - 2019-12-15
+
+- fix custom disk url giving invalid urls (#1653)
+
 ## 7.17.0 - 2019-12-15
 
 - added diskName on copy and move methods in media model (#1666)
