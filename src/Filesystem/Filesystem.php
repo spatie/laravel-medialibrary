@@ -157,7 +157,7 @@ class Filesystem
     {
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
-        $allFilePaths = $this->filesystem->allFiles($responsiveImagesDirectory);
+        $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
@@ -166,7 +166,7 @@ class Filesystem
             }
         );
 
-        $this->filesystem->delete($responsiveImagePaths);
+        $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
     }
 
     public function syncFileNames(Media $media)
