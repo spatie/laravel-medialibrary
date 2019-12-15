@@ -2,10 +2,10 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Helpers\RemoteFile;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
+use Spatie\MediaLibrary\Helpers\RemoteFile;
 
 class FileAdderFactory
 {
