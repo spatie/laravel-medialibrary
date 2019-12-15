@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.16.2 - 2019-12-15
+
+- correctly use the media item's disk when removing responsive images (#1668)
+
 ## 7.16.1 - 2019-12-11
 
 - escape responsive URL - Fix issue #1659 (#1661)
