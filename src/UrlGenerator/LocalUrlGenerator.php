@@ -96,6 +96,9 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return url($this->getBaseMediaDirectoryUrl().'/'.$this->pathGenerator->getPathForResponsiveImages($this->media)).'/';
+        $base = Str::finish($this->getBaseMediaDirectoryUrl(), '/');
+        $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
+
+        return Str::finish(url($base.$path), '/');
     }
 }

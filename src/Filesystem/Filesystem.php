@@ -3,14 +3,14 @@
 namespace Spatie\MediaLibrary\Filesystem;
 
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Models\Media;
-use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Helpers\RemoteFile;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
@@ -157,7 +157,7 @@ class Filesystem
     {
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
-        $allFilePaths = $this->filesystem->allFiles($responsiveImagesDirectory);
+        $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
@@ -166,7 +166,7 @@ class Filesystem
             }
         );
 
-        $this->filesystem->delete($responsiveImagePaths);
+        $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
     }
 
     public function syncFileNames(Media $media)
