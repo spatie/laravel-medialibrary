@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
 
 class Webp extends BaseGenerator
 {
-    public function convert(string $file, Conversion $conversion = null) : string
+    public function convert(string $file, Conversion $conversion = null): string
     {
         $pathToImageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.png';
 
@@ -21,7 +21,7 @@ class Webp extends BaseGenerator
         return $pathToImageFile;
     }
 
-    public function requirementsAreInstalled() : bool
+    public function requirementsAreInstalled(): bool
     {
         if (! function_exists('imagecreatefromwebp')) {
             return false;
@@ -38,12 +38,12 @@ class Webp extends BaseGenerator
         return true;
     }
 
-    public function supportedExtensions() : Collection
+    public function supportedExtensions(): Collection
     {
         return collect(['webp']);
     }
 
-    public function supportedMimeTypes() : Collection
+    public function supportedMimeTypes(): Collection
     {
         return collect(['image/webp']);
     }

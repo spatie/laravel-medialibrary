@@ -73,7 +73,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
     /*
      * Get the path where the whole medialibrary is stored.
      */
-    protected function getStoragePath() : string
+    protected function getStoragePath(): string
     {
         $diskRootPath = $this->config->get("filesystems.disks.{$this->media->disk}.root");
 

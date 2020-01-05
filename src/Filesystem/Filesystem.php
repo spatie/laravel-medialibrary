@@ -97,7 +97,7 @@ class Filesystem
         $this->customRemoteHeaders = $customRemoteHeaders;
     }
 
-    public function getRemoteHeadersForFile(string $file, array $mediaCustomHeaders = [], string $mimeType = null) : array
+    public function getRemoteHeadersForFile(string $file, array $mediaCustomHeaders = [], string $mimeType = null): array
     {
         $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 
@@ -215,7 +215,7 @@ class Filesystem
         }
     }
 
-    public function getMediaDirectory(Media $media, ?string $type = null) : string
+    public function getMediaDirectory(Media $media, ?string $type = null): string
     {
         $pathGenerator = PathGeneratorFactory::create();
 
@@ -238,12 +238,12 @@ class Filesystem
         return $directory;
     }
 
-    public function getConversionDirectory(Media $media) : string
+    public function getConversionDirectory(Media $media): string
     {
         return $this->getMediaDirectory($media, 'conversions');
     }
 
-    public function getResponsiveImagesDirectory(Media $media) : string
+    public function getResponsiveImagesDirectory(Media $media): string
     {
         return $this->getMediaDirectory($media, 'responsiveImages');
     }

@@ -39,7 +39,7 @@ interface HasMedia
      *
      * @return bool
      */
-    public function hasMedia(string $collectionMedia = '') : bool;
+    public function hasMedia(string $collectionMedia = ''): bool;
 
     /**
      * Get media collection by its collectionName.

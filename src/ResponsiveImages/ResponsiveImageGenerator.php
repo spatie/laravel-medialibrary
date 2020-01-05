@@ -155,7 +155,7 @@ class ResponsiveImageGenerator
         }
     }
 
-    protected function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original') : Media
+    protected function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original'): Media
     {
         $responsiveImages = $media->responsive_images;
         $responsiveImages[$conversionName]['urls'] = [];
