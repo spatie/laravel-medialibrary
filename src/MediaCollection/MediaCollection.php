@@ -18,6 +18,9 @@ class MediaCollection
     /** @var callable */
     public $mediaConversionRegistrations;
 
+    /** @var bool */
+    public $generateResponsiveImages = false;
+
     /** @var callable */
     public $acceptsFile;
 
@@ -106,6 +109,13 @@ class MediaCollection
     public function useFallbackPath(string $path): self
     {
         $this->fallbackPath = $path;
+
+        return $this;
+    }
+
+    public function withResponsiveImages(): self
+    {
+        $this->generateResponsiveImages = true;
 
         return $this;
     }

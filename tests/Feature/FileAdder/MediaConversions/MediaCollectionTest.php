@@ -177,6 +177,33 @@ class MediaCollectionTest extends TestCase
         $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
     }
 
+    /** @test * */
+    public function it_can_generate_responsive_images()
+    {
+        $testModel = new class extends TestModelWithConversion {
+            public function registerMediaCollections()
+            {
+                $this
+                    ->addMediaCollection('images')
+                    ->withResponsiveImages();
+            }
+        };
+
+        $model = $testModel::create(['name' => 'testmodel']);
+
+        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+        $media = $model->getMedia('images')->first();
+
+        $this->assertEquals([
+            'http://localhost/media/1/responsive-images/test___medialibrary_original_340_280.jpg',
+            'http://localhost/media/1/responsive-images/test___medialibrary_original_284_233.jpg',
+            'http://localhost/media/1/responsive-images/test___medialibrary_original_237_195.jpg',
+        ], $media->getResponsiveImageUrls());
+
+        $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
+    }
+
     /** @test */
     public function if_the_single_file_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_new_one()
     {
