@@ -41,9 +41,9 @@ class ConversionCollectionTest extends TestCase
     public function it_will_prepend_the_manipulation_saved_on_the_model_and_the_wildmark_manipulations()
     {
         $this->media->manipulations = [
-                '*' => ['brightness' => '-80'],
-                'thumb' => ['filter' => 'greyscale', 'height' => 10],
-            ];
+            '*' => ['brightness' => '-80'],
+            'thumb' => ['filter' => 'greyscale', 'height' => 10],
+        ];
 
         $conversionCollection = ConversionCollection::createForMedia($this->media);
 

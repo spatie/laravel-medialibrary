@@ -214,3 +214,18 @@ $yourModel->getFirstMediaUrl('thumb') // returns an url to a 100x100 version of 
 ```
 
 Take a look at the [defining conversions section](/laravel-medialibrary/v7/converting-images/defining-conversions) to learn all the functions you can tack on to `addMediaConversion`.
+
+## Generating responsive images
+
+If you want to also generate responsive images for any media added to a collection you defined, you can simply use `withResponsiveImages` while defining it.
+
+```php
+// in your model
+
+public function registerMediaCollections()
+{
+    $this
+        ->addMediaCollection('my-collection')
+        ->withResponsiveImages();
+}
+```

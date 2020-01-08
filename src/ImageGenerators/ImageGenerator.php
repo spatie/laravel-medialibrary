@@ -17,7 +17,7 @@ interface ImageGenerator
      *
      * @return string
      */
-    public function convert(string $path, Conversion $conversion = null) : string;
+    public function convert(string $path, Conversion $conversion = null): string;
 
     public function canHandleMime(string $mime = ''): bool;
 

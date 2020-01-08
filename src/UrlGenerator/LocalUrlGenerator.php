@@ -73,7 +73,7 @@ class LocalUrlGenerator extends BaseUrlGenerator
     /*
      * Get the path where the whole medialibrary is stored.
      */
-    protected function getStoragePath() : string
+    protected function getStoragePath(): string
     {
         $diskRootPath = $this->config->get("filesystems.disks.{$this->media->disk}.root");
 
@@ -96,6 +96,9 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return url($this->getBaseMediaDirectoryUrl().'/'.$this->pathGenerator->getPathForResponsiveImages($this->media)).'/';
+        $base = Str::finish($this->getBaseMediaDirectoryUrl(), '/');
+        $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
+
+        return Str::finish(url($base.$path), '/');
     }
 }

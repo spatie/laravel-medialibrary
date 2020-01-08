@@ -368,6 +368,8 @@ class FileAdder
     {
         $this->guardAgainstDisallowedFileAdditions($media, $model);
 
+        $this->checkGenerateResponsiveImages($media);
+
         $model->media()->save($media);
 
         if ($fileAdder->file instanceof RemoteFile) {
@@ -429,6 +431,15 @@ class FileAdder
 
         if (! empty($collection->acceptsMimeTypes) && ! in_array($file->mimeType, $collection->acceptsMimeTypes)) {
             throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
+        }
+    }
+
+    protected function checkGenerateResponsiveImages(Media $media)
+    {
+        $collection = optional($this->getMediaCollection($media->collection_name))->generateResponsiveImages;
+
+        if ($collection) {
+            $this->withResponsiveImages();
         }
     }
 }
