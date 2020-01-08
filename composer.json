@@ -31,7 +31,7 @@
     "league/flysystem": "^1.0.8",
     "maennchen/zipstream-php": "^1.0",
     "spatie/image": "^1.4.0",
-    "spatie/pdf-to-image": "^1.2",
+    "spatie/pdf-to-image": "^2.0",
     "spatie/temporary-directory": "^1.1",
     "ext-fileinfo": "*"
   },
