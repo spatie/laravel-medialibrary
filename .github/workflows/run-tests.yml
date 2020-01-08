@@ -57,7 +57,7 @@ jobs:
               if: failure()
               with:
                   status: ${{ job.status }}
-                  author_name: {{ github.actor }}
+                  author_name: ${{ github.actor }}
               env:
                 SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
