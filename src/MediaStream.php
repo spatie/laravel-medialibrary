@@ -73,7 +73,7 @@ class MediaStream implements Responsable
 
     public function getZipStream(): ZipStream
     {
-        $zip = new ZipStream($this->zipName, tap(new Archive())->setZeroHeader(true));
+        $zip = new ZipStream($this->zipName);
 
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();
