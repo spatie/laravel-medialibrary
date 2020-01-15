@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.18.1 - 2019-11-25
+
+- revert of pull request #1604 because zip files could not be opened (#1660)
+
 ## 7.18.0 - 2020-01-05
 
 - add `withResponsiveImages()` to custom collection (#1681)
