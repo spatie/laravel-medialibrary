@@ -3,7 +3,7 @@ title: Customizing the rendered html
 weight: 3
 ---
 
-Whenever you use a `$media` instance as output in a Blade view the medialibrary will generate a `img` tag with the necessary `src`, `srcset` and `alt` attributes. You can customize the rendered ouput by publishing the `views` with:
+Whenever you use a `$media` instance as output in a Blade view the medialibrary will generate a `img` tag with the necessary `src`, `srcset` and `alt` attributes. You can customize the rendered output by publishing the `views` with:
 
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="views"
