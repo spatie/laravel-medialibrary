@@ -18,7 +18,7 @@ use Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
-use Spatie\MediaLibrary\HasMedia\Contracts\HasMedia;
+use Spatie\MediaLibrary\Contracts\HasMedia;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Models\Media;
