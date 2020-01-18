@@ -21,8 +21,9 @@ use Spatie\MediaLibrary\FileAdder\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\HasMedia\Contracts\HasMedia;
 
-trait HasMediaTrait
+trait HasMedia
 {
     /** @var Conversion[] */
     public $mediaConversions = [];
