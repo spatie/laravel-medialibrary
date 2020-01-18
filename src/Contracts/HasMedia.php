@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\HasMedia\Contracts;
+namespace Spatie\MediaLibrary\Contracts;
 
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Models\Media;
