@@ -21,7 +21,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__ . '/../database/migrations/create_media_table.php.stub' => $this->getMigrationFileName($filesystem),
+            __DIR__.'/../database/migrations/create_media_table.php.stub' => $this->getMigrationFileName($filesystem),
         ], 'migrations');
 
         $this->publishes([
