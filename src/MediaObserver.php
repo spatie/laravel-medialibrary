@@ -29,10 +29,10 @@ class MediaObserver
             return;
         }
 
-        if (Application::VERSION !== '7.x-dev' || version_compare(Application::VERSION, '7.0', '<')) {
-            $original = json_decode($media->getOriginal('manipulations'), true);
-        } else {
+        if (Application::VERSION === '7.x-dev' || version_compare(Application::VERSION, '7.0', '>=')) {
             $original = $media->getOriginal('manipulations');
+        } else {
+            $original = json_decode($media->getOriginal('manipulations'), true);
         }
 
         if ($media->manipulations !== $original) {
