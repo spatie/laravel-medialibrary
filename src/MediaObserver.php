@@ -29,10 +29,10 @@ class MediaObserver
             return;
         }
 
-        if (Application::VERSION === '7.x-dev' || version_compare(Application::VERSION, '7.0', '>=')) {
-            $original = $media->getOriginal('manipulations');
-        } else {
-            $original = json_decode($media->getOriginal('manipulations'), true);
+        $original = $media->getOriginal('manipulations');
+
+        if (! $this->isLaravel7OrHigher()) {
+            $original = json_decode($original, true);
         }
 
         if ($media->manipulations !== $original) {
@@ -54,5 +54,18 @@ class MediaObserver
         }
 
         app(Filesystem::class)->removeAllFiles($media);
+    }
+
+    private function isLaravel7OrHigher(): bool
+    {
+        if (Application::VERSION === '7.x-dev') {
+            return true;
+        }
+
+        if (version_compare(Application::VERSION, '7.0', '>=')) {
+            return true;
+        }
+
+        return false;
     }
 }
