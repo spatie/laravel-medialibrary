@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Commands\CleanCommand;
 use Spatie\MediaLibrary\Commands\ClearCommand;
@@ -12,17 +14,15 @@ use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(IlluminateFilesystem $filesystem)
     {
         $this->publishes([
             __DIR__.'/../config/medialibrary.php' => config_path('medialibrary.php'),
         ], 'config');
 
-        if (! class_exists('CreateMediaTable')) {
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
-            ], 'migrations');
-        }
+        $this->publishes([
+            __DIR__ . '/../database/migrations/create_media_table.php.stub' => $this->getMigrationFileName($filesystem),
+        ], 'migrations');
 
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/medialibrary'),
@@ -68,5 +68,16 @@ class MediaLibraryServiceProvider extends ServiceProvider
         if (! config('medialibrary.disk_name')) {
             config(['medialibrary.disk_name' => config('medialibrary.default_filesystem')]);
         }
+    }
+
+    protected function getMigrationFileName(IlluminateFilesystem $filesystem)
+    {
+        $timestamp = date('Y_m_d_His');
+
+        return Collection::make($this->app->databasePath().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR)
+            ->flatMap(function ($path) use ($filesystem) {
+                return $filesystem->glob($path.'*_create_media_table.php');
+            })->push($this->app->databasePath()."/migrations/{$timestamp}_create_media_table.php")
+            ->first();
     }
 }
