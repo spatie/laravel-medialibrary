@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.18.2 - 2020-01-25
+
+- add support for Laravel 7
+
 ## 7.18.1 - 2019-11-25
 
 - revert of pull request #1604 because zip files could not be opened (#1660)
