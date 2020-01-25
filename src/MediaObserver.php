@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Application;
 use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Models\Media;
 
@@ -28,7 +29,13 @@ class MediaObserver
             return;
         }
 
-        if ($media->manipulations !== json_decode($media->getOriginal('manipulations'), true)) {
+        if (Application::VERSION === '7.x-dev' || version_compare(Application::VERSION, '7.0', '>=')) {
+            $original = $media->getOriginal('manipulations');
+        } else {
+            $original = json_decode($media->getOriginal('manipulations'), true);
+        }
+
+        if ($media->manipulations !== $original) {
             $eventDispatcher = Media::getEventDispatcher();
             Media::unsetEventDispatcher();
 
