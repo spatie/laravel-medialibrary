@@ -34,16 +34,11 @@ on images and pdfs that have been added in the medialibrary.
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
-## Using an older version of Laravel?
+## Support us
 
-This version of the medialibrary is compatible with Laravel 5.5 and newer.
+We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us). 
 
-If you use an older version of Laravel you can use an older version of the package. These aren't maintained anymore, but they should be pretty stable. We still accept small bugfixes.
-
-
-- [Medialibrary v6 for Laravel 5.5 / PHP 7.0](https://docs.spatie.be/laravel-medialibrary/v6)
-- [Medialibrary v5 for Laravel 5.4](https://docs.spatie.be/laravel-medialibrary/v5)
-- [Medialibray v4 for Laravel 5.1 - 5.3](https://docs.spatie.be/laravel-medialibrary/v4)
+We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Documentation
 
@@ -303,14 +298,6 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Security
 
 If you discover any security related issues, please email [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
-
-## Postcardware
-
-You're free to use this package, but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
-
-Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
-
-We publish all received postcards [on our company website](https://spatie.be/en/opensource/postcards).
 
 ## Credits
 
