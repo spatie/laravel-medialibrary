@@ -3,7 +3,7 @@ title: Optimizing converted images
 weight: 3
 ---
 
-The medialibrary will shave off some kilobyes of the converted images by running them through a chain of various image optimization tools.
+The medialibrary will shave off some kilobytes of the converted images by running them through a chain of various image optimization tools.
 
 The optimization will only be applied on converted images, the package will not modify your original files. If you want to avoid optimization of a conversion just tack `nonOptimized` to the  conversion.
 
