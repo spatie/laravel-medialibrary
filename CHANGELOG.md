@@ -5,7 +5,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 8.0.0 - 2020-XX-XX
 
 - add `uuid` on `media` table
-- an empty string is now a proper collection name. `getMedia('')` will not return media from the defautl collection anymore.
+- an empty string is now a proper collection name. `getMedia('')` will not return media from the defautl collection anymore (#1697).
 
 ## 7.18.2 - 2020-01-25
 
