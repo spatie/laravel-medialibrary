@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.0.0 - 2020-XX-XX
+
+- add `uuid` on `media` table
+
 ## 7.18.2 - 2020-01-25
 
 - add support for Laravel 7

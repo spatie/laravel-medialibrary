@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
+use Spatie\MediaLibrary\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\Models\Traits\CustomMediaProperties;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
@@ -25,7 +26,8 @@ use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 class Media extends Model implements Responsable, Htmlable
 {
     use IsSorted,
-        CustomMediaProperties;
+        CustomMediaProperties,
+        HasUuid;
 
     const TYPE_OTHER = 'other';
 
