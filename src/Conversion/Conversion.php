@@ -57,10 +57,6 @@ class Conversion
         return $this->performOnCollections;
     }
 
-    /*
-     * Set the timecode in seconds to extract a video thumbnail.
-     * Only used on video media.
-     */
     public function extractVideoFrameAtSecond(int $timeCode): self
     {
         $this->extractVideoFrameAtSecond = $timeCode;
@@ -115,13 +111,6 @@ class Conversion
         return $this;
     }
 
-    /**
-     * Set the manipulations for this conversion.
-     *
-     * @param \Spatie\Image\Manipulations|\Closure $manipulations
-     *
-     * @return $this
-     */
     public function setManipulations($manipulations): self
     {
         if ($manipulations instanceof Manipulations) {
@@ -135,13 +124,6 @@ class Conversion
         return $this;
     }
 
-    /**
-     * Add the given manipulations as the first ones.
-     *
-     * @param \Spatie\Image\Manipulations $manipulations
-     *
-     * @return $this
-     */
     public function addAsFirstManipulations(Manipulations $manipulations): self
     {
         $manipulationSequence = $manipulations->getManipulationSequence()->toArray();
@@ -153,13 +135,6 @@ class Conversion
         return $this;
     }
 
-    /**
-     * Set the collection names on which this conversion must be performed.
-     *
-     * @param  $collectionNames
-     *
-     * @return $this
-     */
     public function performOnCollections(...$collectionNames): self
     {
         $this->performOnCollections = $collectionNames;
@@ -167,10 +142,6 @@ class Conversion
         return $this;
     }
 
-    /*
-     * Determine if this conversion should be performed on the given
-     * collection.
-     */
     public function shouldBePerformedOn(string $collectionName): bool
     {
         //if no collections were specified, perform conversion on all collections
@@ -185,11 +156,6 @@ class Conversion
         return in_array($collectionName, $this->performOnCollections);
     }
 
-    /**
-     * Mark this conversion as one that should be queued.
-     *
-     * @return $this
-     */
     public function queued(): self
     {
         $this->performOnQueue = true;
@@ -197,11 +163,6 @@ class Conversion
         return $this;
     }
 
-    /**
-     * Mark this conversion as one that should not be queued.
-     *
-     * @return $this
-     */
     public function nonQueued(): self
     {
         $this->performOnQueue = false;
@@ -209,11 +170,6 @@ class Conversion
         return $this;
     }
 
-    /**
-     * Avoid optimization of the converted image.
-     *
-     * @return $this
-     */
     public function nonOptimized(): self
     {
         $this->removeManipulation('optimize');
@@ -221,9 +177,6 @@ class Conversion
         return $this;
     }
 
-    /**
-     * When creating the converted image, responsive images will be created as well.
-     */
     public function withResponsiveImages(): self
     {
         $this->generateResponsiveImages = true;
@@ -231,25 +184,16 @@ class Conversion
         return $this;
     }
 
-    /**
-     * Determine if responsive images should be created for this conversion.
-     */
     public function shouldGenerateResponsiveImages(): bool
     {
         return $this->generateResponsiveImages;
     }
 
-    /*
-     * Determine if the conversion should be queued.
-     */
     public function shouldBeQueued(): bool
     {
         return $this->performOnQueue;
     }
 
-    /*
-     * Get the extension that the result of this conversion must have.
-     */
     public function getResultExtension(string $originalFileExtension = ''): string
     {
         if ($this->shouldKeepOriginalImageFormat()) {
