@@ -4,11 +4,12 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 8.0.0 - 2020-XX-XX
 
-- add `uuid` on `media` table
+- added `uuid` on `media` table
 - an empty string is now a proper collection name. `getMedia('')` will not return media from the default collection anymore (#1697).
 - add the ability to store conversions on a separate disk
 - simplify URL generation. You can now just use the `root` and `url` properties on a configured disk
 - spatie/pdf-to-image is now a suggestion dependency, removing the need for always having to install ext-imagick
+- added `shouldMatchBothExtensionsAndMimeTypes` to `Spatie\MediaLibrary\ImageGenerators\BaseGenerator`
 
 ## 7.18.2 - 2020-01-25
 

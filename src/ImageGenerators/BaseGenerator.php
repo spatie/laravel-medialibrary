@@ -13,14 +13,18 @@ abstract class BaseGenerator implements ImageGenerator
             return false;
         }
 
-        if ($this->supportedExtensions()->contains(strtolower($media->extension))) {
-            return true;
+        $validExtension = $this->canHandleExtension(strtolower($media->extension));
+        $validMimeType = $this->canHandleMime(strtolower($media->mime_type));
+
+        if ($this->shouldMatchBothExtensionsAndMimeTypes()) {
+            return $validExtension && $validMimeType;
         }
 
-        if ($this->supportedMimetypes()->contains(strtolower($media->mime_type))) {
-            return true;
-        }
+        return $validExtension || $validMimeType;
+    }
 
+    public function shouldMatchBothExtensionsAndMimeTypes(): bool
+    {
         return false;
     }
 
