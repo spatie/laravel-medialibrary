@@ -7,6 +7,14 @@ use Spatie\MediaLibrary\Models\Media;
 class BasePathGenerator implements PathGenerator
 {
     /*
+     * Get a unique base path for the given media.
+     */
+    protected function getBasePath(Media $media): string
+    {
+        return $media->getKey();
+    }
+
+    /*
      * Get the path for the given media, relative to the root storage path.
      */
     public function getPath(Media $media): string
@@ -30,11 +38,5 @@ class BasePathGenerator implements PathGenerator
         return $this->getBasePath($media).'/responsive-images/';
     }
 
-    /*
-     * Get a unique base path for the given media.
-     */
-    protected function getBasePath(Media $media): string
-    {
-        return $media->getKey();
-    }
+
 }

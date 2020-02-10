@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Tests\Unit\PathGenerator;
 
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
 class BasePathGeneratorTest extends TestCase
@@ -21,7 +22,7 @@ class BasePathGeneratorTest extends TestCase
     protected $conversion;
 
     /**
-     * @var \Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator
+     * @var \Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator
      */
     protected $urlGenerator;
 
@@ -36,8 +37,7 @@ class BasePathGeneratorTest extends TestCase
 
         $this->config = app('config');
 
-        // BaseUrlGenerator is abstract so we'll use LocalUrlGenerator to test the methods of base
-        $this->urlGenerator = new LocalUrlGenerator($this->config);
+        $this->urlGenerator = new DefaultUrlGenerator($this->config);
 
         $this->pathGenerator = new CustomPathGenerator();
 

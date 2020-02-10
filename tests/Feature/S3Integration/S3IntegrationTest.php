@@ -110,7 +110,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
+            $this->s3BaseUrl()."/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
             $media->getUrl()
         );
 
@@ -128,7 +128,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals(
-            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
+            $this->s3BaseUrl()."/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
             $media->getUrl('thumb')
         );
     }
@@ -142,7 +142,7 @@ class S3IntegrationTest extends TestCase
             ->toMediaCollection('default', 's3_disk');
 
         $this->assertEquals([
-            $this->app['config']->get('medialibrary.s3.domain')."/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___thumb_50_41.jpg",
+            $this->s3BaseUrl()."/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___thumb_50_41.jpg",
         ], $media->getResponsiveImageUrls('thumb'));
     }
 
@@ -343,11 +343,16 @@ class S3IntegrationTest extends TestCase
 
     public function canTestS3()
     {
-        return ! empty(getenv('AWS_KEY'));
+        return ! empty(getenv('AWS_ACCESS_KEY_ID'));
     }
 
     public static function getS3BaseTestDirectory(): string
     {
-        return md5(getenv('TRAVIS_BUILD_ID').app()->version().phpversion());
+        return md5(getenv('ENVIRONMENT_DESCRIPTION'));
+    }
+
+    public function s3BaseUrl(): string
+    {
+        return 'https://laravel-medialibrary-travis.s3.eu-west-1.amazonaws.com';
     }
 }

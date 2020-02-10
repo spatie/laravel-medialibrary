@@ -3,6 +3,8 @@
 namespace Spatie\MediaLibrary\UrlGenerator;
 
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Conversion\Conversion;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\PathGenerator\PathGenerator;
@@ -63,9 +65,6 @@ abstract class BaseUrlGenerator implements UrlGenerator
         return $this;
     }
 
-    /*
-     * Get the path to the requested file relative to the root of the media directory.
-     */
     public function getPathRelativeToRoot(): string
     {
         if (is_null($this->conversion)) {
@@ -76,9 +75,16 @@ abstract class BaseUrlGenerator implements UrlGenerator
                 .$this->conversion->getConversionFile($this->media->file_name);
     }
 
-    public function rawUrlEncodeFilename(string $path = ''): string
+    protected function getDiskName(): string
     {
-        return pathinfo($path, PATHINFO_DIRNAME).'/'.rawurlencode(pathinfo($path, PATHINFO_BASENAME));
+        return $this->conversion === null
+            ? $this->media->disk
+            : $this->media->conversions_disk;
+    }
+
+    protected function getDisk(): Filesystem
+    {
+        return Storage::disk($this->getDiskName());
     }
 
     public function versionUrl(string $path = ''): string

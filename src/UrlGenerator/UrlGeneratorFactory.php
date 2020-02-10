@@ -11,16 +11,12 @@ class UrlGeneratorFactory
 {
     public static function createForMedia(Media $media, string $conversionName = ''): UrlGenerator
     {
-        $diskDriverName = ($conversionName === '')
-            ? $media->getDiskDriverName()
-            : $media->getConversionsDiskDriverName();
-
-        $urlGeneratorClass = config('medialibrary.url_generator')
-            ?: 'Spatie\MediaLibrary\UrlGenerator\\'.ucfirst($diskDriverName).'UrlGenerator';
+        $urlGeneratorClass = config('medialibrary.url_generator');
 
         static::guardAgainstInvalidUrlGenerator($urlGeneratorClass);
 
         $urlGenerator = app($urlGeneratorClass);
+
         $pathGenerator = PathGeneratorFactory::create();
 
         $urlGenerator

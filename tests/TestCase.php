@@ -103,11 +103,13 @@ abstract class TestCase extends Orchestra
         $app['config']->set('filesystems.disks.public', [
             'driver' => 'local',
             'root' => $this->getMediaDirectory(),
+            'url' => '/media'
         ]);
 
         $app['config']->set('filesystems.disks.secondMediaDisk', [
             'driver' => 'local',
             'root' => $this->getTempDirectory('media2'),
+            'url' => '/media2'
         ]);
 
         $app->bind('path.public', function () {
@@ -225,24 +227,13 @@ abstract class TestCase extends Orchestra
     {
         $s3Configuration = [
             'driver' => 's3',
-            'key' => getenv('AWS_KEY'),
-            'secret' => getenv('AWS_SECRET'),
-            'region' => getenv('AWS_REGION'),
+            'key' => getenv('AWS_ACCESS_KEY_ID'),
+            'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
+            'region' => getenv('AWS_DEFAULT_REGION'),
             'bucket' => getenv('AWS_BUCKET'),
         ];
 
         $app['config']->set('filesystems.disks.s3_disk', $s3Configuration);
-        $app['config']->set(
-            'medialibrary.s3.domain',
-            'https://'.$s3Configuration['bucket'].'.s3.amazonaws.com'
-        );
-    }
-
-    public function skipOnTravis()
-    {
-        if (! empty(getenv('TRAVIS_BUILD_ID'))) {
-            $this->markTestSkipped('Skipping because this test does not run properly on Travis');
-        }
     }
 
     public function renderView($view, $parameters)

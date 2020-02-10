@@ -7,6 +7,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - add `uuid` on `media` table
 - an empty string is now a proper collection name. `getMedia('')` will not return media from the default collection anymore (#1697).
 - add the ability to store conversions on a separate disk
+- simplify URL generation. You can now just use the `root` and `url` properties on a configured disk
 
 ## 7.18.2 - 2020-01-25
 

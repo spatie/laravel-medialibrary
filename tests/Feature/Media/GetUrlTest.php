@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
 
 use Carbon\Carbon;
+use RuntimeException;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use Spatie\MediaLibrary\Tests\TestCase;
@@ -60,7 +61,7 @@ class GetUrlTest extends TestCase
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $this->expectException(UrlCannotBeDetermined::class);
+        $this->expectException(RuntimeException::class);
 
         $media->getTemporaryUrl(Carbon::now()->addMinutes(5));
     }

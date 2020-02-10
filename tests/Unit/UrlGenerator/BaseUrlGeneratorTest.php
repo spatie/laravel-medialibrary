@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\Tests\Unit\UrlGenerator;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
 
 class BaseUrlGeneratorTest extends TestCase
@@ -27,7 +28,7 @@ class BaseUrlGeneratorTest extends TestCase
     protected $conversionKeepingOriginalImageFormat;
 
     /**
-     * @var LocalUrlGenerator
+     * @var DefaultUrlGenerator
      */
     protected $urlGenerator;
 
@@ -48,8 +49,7 @@ class BaseUrlGeneratorTest extends TestCase
 
         $this->conversionKeepingOriginalImageFormat = ConversionCollection::createForMedia($this->media)->getByName('keep_original_format');
 
-        // because BaseUrlGenerator is abstract we'll use LocalUrlGenerator to test the methods of base
-        $this->urlGenerator = new LocalUrlGenerator($this->config);
+        $this->urlGenerator = new DefaultUrlGenerator($this->config);
         $this->pathGenerator = new BasePathGenerator();
 
         $this->urlGenerator
@@ -98,11 +98,7 @@ class BaseUrlGeneratorTest extends TestCase
     /** @test */
     public function it_can_get_the_responsive_images_directory_url()
     {
-        $this->config->set('filesystems.disks.public.url', 'https://localhost/media/');
-
-        $this->assertEquals('https://localhost/media/1/responsive-images/', $this->urlGenerator->getResponsiveImagesDirectoryUrl());
-
-        $this->config->set('filesystems.disks.public.url', null);
+        $this->config->set('filesystems.disks.public.url', 'http://localhost/media/');
 
         $this->assertEquals('http://localhost/media/1/responsive-images/', $this->urlGenerator->getResponsiveImagesDirectoryUrl());
     }

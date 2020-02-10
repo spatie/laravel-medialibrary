@@ -309,34 +309,6 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_remote_file_with_the_name_of_the_last_directory_to_the_medialibrary()
-    {
-        $this->markTestSkipped('Find a different way to implement the url.');
-
-        $url = 'https://docs.spatie.be/laravel-medialibrary/test-image';
-
-        $media = $this->testModel
-            ->addMediaFromUrl($url)
-            ->toMediaCollection();
-
-        $this->assertFileExists($this->getMediaDirectory("{$media->id}/test-image.jpeg"));
-    }
-
-    /** @test */
-    public function it_can_add_a_remote_file_with_no_name_or_directory_to_the_medialibrary()
-    {
-        $this->markTestSkipped('Find a different way to implement the url.');
-
-        $url = 'https://docs.spatie.be/?test-image=true';
-
-        $media = $this->testModel
-            ->addMediaFromUrl($url)
-            ->toMediaCollection();
-
-        $this->assertFileExists($this->getMediaDirectory("{$media->id}/file.jpeg"));
-    }
-
-    /** @test */
     public function it_can_add_a_remote_file_with_a_space_in_the_name_to_the_medialibrary()
     {
         $url = 'http://spatie.github.io/laravel-medialibrary/tests/Support/testfiles/test%20with%20space.jpg';
