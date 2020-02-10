@@ -510,10 +510,6 @@ trait HasMediaTrait
 
         return $collection
             ->filter(function (Media $mediaItem) use ($collectionName) {
-                if ($collectionName == '') {
-                    return true;
-                }
-
                 return $mediaItem->collection_name === $collectionName;
             })
             ->sortBy('order_column')

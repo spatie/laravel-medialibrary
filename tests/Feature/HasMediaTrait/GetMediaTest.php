@@ -61,6 +61,20 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_multiple_media_from_the_default_collection_empty()
+    {
+        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
+
+        $this->assertCount(1,  $this->testModel->getMedia());
+        $this->assertCount(0,  $this->testModel->getMedia(''));
+
+        $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('');
+
+        $this->assertCount(1,  $this->testModel->refresh()->getMedia());
+        $this->assertCount(1,  $this->testModel->refresh()->getMedia(''));
+    }
+
+    /** @test */
     public function it_can_get_files_from_a_named_collection()
     {
         $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
