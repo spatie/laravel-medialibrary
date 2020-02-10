@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversionsOnOtherDisk;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
@@ -39,6 +40,9 @@ abstract class TestCase extends Orchestra
     /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages */
     protected $testModelWithResponsiveImages;
 
+    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversionsOnOtherDisk */
+    protected $testModelWithConversionsOnOtherDisk;
+
     public function setUp(): void
     {
         $this->loadEnvironmentVariables();
@@ -50,12 +54,13 @@ abstract class TestCase extends Orchestra
         $this->setUpTempTestFiles();
 
         $this->testModel = TestModel::first();
-        $this->testUnsavedModel = new TestModel;
+        $this->testUnsavedModel = new TestModel();
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithConversionQueued = TestModelWithConversion::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
         $this->testModelWithResponsiveImages = TestModelWithResponsiveImages::first();
+        $this->testModelWithConversionsOnOtherDisk = TestModelWithConversionsOnOtherDisk::first();
     }
 
     protected function loadEnvironmentVariables()

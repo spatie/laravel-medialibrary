@@ -15,6 +15,9 @@ class MediaCollection
     /** @var string */
     public $diskName = '';
 
+    /** @var string */
+    public $conversionsDiskName = '';
+
     /** @var callable */
     public $mediaConversionRegistrations;
 
@@ -58,6 +61,13 @@ class MediaCollection
     public function useDisk(string $diskName): self
     {
         $this->diskName = $diskName;
+
+        return $this;
+    }
+
+    public function storeConversionsOnDisk(string $conversionsDiskName): self
+    {
+        $this->conversionsDiskName = $conversionsDiskName;
 
         return $this;
     }

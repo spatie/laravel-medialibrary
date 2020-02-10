@@ -33,7 +33,7 @@ class MultipleDiskTest extends TestCase
     }
 
     /** @test */
-    public function it_can_save_derived_images_on_a_specific_disk()
+    public function it_will_save_the_derived_images_on_the_same_disk_as_the_original_file()
     {
         $collectionName = 'images';
         $diskName = 'secondMediaDisk';

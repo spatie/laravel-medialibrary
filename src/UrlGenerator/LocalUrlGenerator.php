@@ -75,7 +75,11 @@ class LocalUrlGenerator extends BaseUrlGenerator
      */
     protected function getStoragePath(): string
     {
-        $diskRootPath = $this->config->get("filesystems.disks.{$this->media->disk}.root");
+        $diskName = is_null($this->conversion)
+            ? $this->media->disk
+            : $this->media->conversions_disk;
+
+        $diskRootPath = $this->config->get("filesystems.disks.{$diskName}.root");
 
         return realpath($diskRootPath);
     }

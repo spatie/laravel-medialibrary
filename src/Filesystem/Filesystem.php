@@ -73,9 +73,13 @@ class Filesystem
 
         $file = fopen($pathToFile, 'r');
 
+        $diskName = (in_array($type, ['conversions', 'responsiveImages']))
+            ? $media->conversions_disk
+            : $media->disk;
+
         if ($media->getDiskDriverName() === 'local') {
             $this->filesystem
-                ->disk($media->disk)
+                ->disk($diskName)
                 ->put($destination, $file);
 
             fclose($file);
@@ -84,7 +88,7 @@ class Filesystem
         }
 
         $this->filesystem
-            ->disk($media->disk)
+            ->disk($diskName)
             ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()));
 
         if (is_resource($file)) {
@@ -141,10 +145,11 @@ class Filesystem
 
         $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
 
-        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
+        $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
 
+        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
             ->each(function ($directory) use ($media) {
-                $this->filesystem->disk($media->disk)->deleteDirectory($directory);
+                $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
             });
     }
 
@@ -204,7 +209,7 @@ class Filesystem
             $oldFile = $conversionDirectory.$conversion->getConversionFile($oldFileName);
             $newFile = $conversionDirectory.$conversion->getConversionFile($newFileName);
 
-            $disk = $this->filesystem->disk($media->disk);
+            $disk = $this->filesystem->disk($media->conversions_disk);
 
             // A media conversion file might be missing, waiting to be generated, failed etc.
             if (! $disk->exists($oldFile)) {
@@ -231,8 +236,16 @@ class Filesystem
             $directory = $pathGenerator->getPathForResponsiveImages($media);
         }
 
-        if (! in_array($media->getDiskDriverName(), ['s3'], true)) {
-            $this->filesystem->disk($media->disk)->makeDirectory($directory);
+        $diskDriverName = in_array($type, ['conversions', 'responsiveImages'])
+            ? $media->getConversionsDiskDriverName()
+            : $media->getDiskDriverName();
+
+        $diskName = in_array($type, ['conversions', 'responsiveImages'])
+            ? $media->conversions_disk
+            : $media->disk;
+
+        if (! in_array($diskDriverName, ['s3'], true)) {
+            $this->filesystem->disk($diskName)->makeDirectory($directory);
         }
 
         return $directory;

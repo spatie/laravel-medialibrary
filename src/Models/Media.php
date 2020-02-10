@@ -136,6 +136,13 @@ class Media extends Model implements Responsable, Htmlable
         return strtolower(config("filesystems.disks.{$this->disk}.driver"));
     }
 
+    public function getConversionsDiskDriverName(): string
+    {
+        $diskName = $this->conversions_disk ?? $this->disk;
+
+        return strtolower(config("filesystems.disks.{$diskName}.driver"));
+    }
+
     /*
      * Determine if the media item has a custom property with the given name.
      */

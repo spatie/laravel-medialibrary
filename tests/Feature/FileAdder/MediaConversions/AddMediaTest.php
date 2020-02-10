@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class AddMedia extends TestCase
+class AddMediaTest extends TestCase
 {
     /** @test */
     public function it_can_add_an_file_to_the_default_collection()

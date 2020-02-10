@@ -59,6 +59,9 @@ class FileAdder
     /** @var string */
     protected $diskName = '';
 
+    /** @var string */
+    protected $conversionsDiskName = '';
+
     /** @var null|callable */
     protected $fileNameSanitizer;
 
@@ -172,6 +175,13 @@ class FileAdder
     public function withCustomProperties(array $customProperties): self
     {
         $this->customProperties = $customProperties;
+
+        return $this;
+    }
+
+    public function storingConversionsOnDisk(string $diskName)
+    {
+        $this->conversionsDiskName = $diskName;
 
         return $this;
     }
@@ -290,11 +300,14 @@ class FileAdder
         $media->file_name = $this->fileName;
 
         $media->disk = $this->determineDiskName($diskName, $collectionName);
-
         if (is_null(config("filesystems.disks.{$media->disk}"))) {
             throw DiskDoesNotExist::create($media->disk);
         }
 
+        $media->conversions_disk = $this->determineConversionsDiskName($media->disk, $collectionName);
+        if (is_null(config("filesystems.disks.{$media->conversions_disk}"))) {
+            throw DiskDoesNotExist::create($media->conversions_disk);
+        }
         $media->collection_name = $collectionName;
 
         $media->mime_type = File::getMimetype($this->pathToFile);
@@ -331,6 +344,23 @@ class FileAdder
         }
 
         return config('medialibrary.disk_name');
+    }
+
+    protected function determineConversionsDiskName(string $originalsDiskName, string $collectionName): string
+    {
+        if ($this->conversionsDiskName !== '') {
+            return $this->conversionsDiskName;
+        }
+
+        if ($collection = $this->getMediaCollection($collectionName)) {
+            $collectionConversionsDiskName = $collection->conversionsDiskName;
+
+            if ($collectionConversionsDiskName !== '') {
+                return $collectionConversionsDiskName;
+            }
+        }
+
+        return $originalsDiskName;
     }
 
     public function defaultSanitizer(string $fileName): string

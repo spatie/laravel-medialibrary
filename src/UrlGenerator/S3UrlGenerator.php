@@ -71,8 +71,13 @@ class S3UrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
+        $diskName = $this->conversion === null
+            ? $this->media->disk
+            : $this->media->conversions_disk;
+
         $url = $this->pathGenerator->getPathForResponsiveImages($this->media);
-        if ($root = config('filesystems.disks.'.$this->media->disk.'.root')) {
+
+        if ($root = config("filesystems.disks.{$diskName}.root")) {
             $url = $root.'/'.$url;
         }
 
