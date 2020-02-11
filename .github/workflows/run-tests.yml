@@ -61,7 +61,7 @@ jobs:
                 AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
                 AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
-                ENVIRONMENT_DESCRIPTION: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+                ENVIRONMENT_DESCRIPTION: P${{ matrix.php }}-L${{ matrix.laravel }}-${{ matrix.dependency-version }}
 
             - name: Send Slack notification
               uses: 8398a7/action-slack@v2

@@ -347,7 +347,7 @@ class S3IntegrationTest extends TestCase
 
     public static function getS3BaseTestDirectory(): string
     {
-        return md5(getenv('ENVIRONMENT_DESCRIPTION'));
+        return getenv('ENVIRONMENT_DESCRIPTION');
     }
 
     public function s3BaseUrl(): string
