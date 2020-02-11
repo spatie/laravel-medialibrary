@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\PathGenerator;
 
 use Spatie\Medialibrary\Models\Media;
 
-class BasePathGenerator implements PathGenerator
+class DefaultPathGenerator implements PathGenerator
 {
     /*
      * Get a unique base path for the given media.

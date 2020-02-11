@@ -72,7 +72,12 @@ return [
      *
      * More info: https://css-tricks.com/native-lazy-loading/
      */
-    "default_loading_attribute_value" => 'auto',
+    'default_loading_attribute_value' => 'auto',
+
+    /*
+     * The class that contains the strategy for determining a media file's path.
+     */
+    'path_generator' => Spatie\Medialibrary\PathGenerator\DefaultPathGenerator::class,
 
     /*
      * When urls to files get generated, this class will be called. Leave empty
@@ -85,11 +90,6 @@ return [
      * When activated, this attaches a ?v=xx query string to the URL.
      */
     'version_urls' => false,
-
-    /*
-     * The class that contains the strategy for determining a media file's path.
-     */
-    'path_generator' => null,
 
     /*
      * Medialibrary will try to optimize all converted images by removing

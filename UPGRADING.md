@@ -11,6 +11,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - remove the `s3.domain` key from the `medialibrary` config file
 - spatie/pdf-to-image is now a suggestion dependency. Make sure to install it, if you want to create thumbnails for PDFs or SVGs
 - `registerMediaConversions` and `registerMediaCollections` should now use the  `void` return type.
+- if the `path_generator` key in the `medialibrary` config file was set to `null`, change the value to `Spatie\Medialibrary\PathGenerator\DefaultPathGenerator::class`
 
 ## 7.3.0
 

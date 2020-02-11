@@ -8,14 +8,8 @@ class PathGeneratorFactory
 {
     public static function create()
     {
-        $pathGeneratorClass = BasePathGenerator::class;
-
-        $customPathClass = config('medialibrary.path_generator');
-
-        if ($customPathClass) {
-            $pathGeneratorClass = $customPathClass;
-        }
-
+        $pathGeneratorClass = config('medialibrary.path_generator');
+        
         static::guardAgainstInvalidPathGenerator($pathGeneratorClass);
 
         return app($pathGeneratorClass);

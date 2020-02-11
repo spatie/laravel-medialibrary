@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\Tests\Unit\UrlGenerator;
 
 use Spatie\Medialibrary\Conversion\ConversionCollection;
-use Spatie\Medialibrary\PathGenerator\BasePathGenerator;
+use Spatie\Medialibrary\PathGenerator\DefaultPathGenerator;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator;
 use Spatie\Medialibrary\UrlGenerator\LocalUrlGenerator;
@@ -33,9 +33,9 @@ class BaseUrlGeneratorTest extends TestCase
     protected \Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
 
     /**
-     * @var BasePathGenerator
+     * @var DefaultPathGenerator
      */
-    protected \Spatie\Medialibrary\PathGenerator\BasePathGenerator $pathGenerator;
+    protected \Spatie\Medialibrary\PathGenerator\DefaultPathGenerator $pathGenerator;
 
     public function setUp(): void
     {
@@ -50,7 +50,7 @@ class BaseUrlGeneratorTest extends TestCase
         $this->conversionKeepingOriginalImageFormat = ConversionCollection::createForMedia($this->media)->getByName('keep_original_format');
 
         $this->urlGenerator = new DefaultUrlGenerator($this->config);
-        $this->pathGenerator = new BasePathGenerator();
+        $this->pathGenerator = new DefaultPathGenerator();
 
         $this->urlGenerator
             ->setMedia($this->media)

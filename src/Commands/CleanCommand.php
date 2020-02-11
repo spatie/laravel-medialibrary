@@ -13,7 +13,7 @@ use Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 use Spatie\Medialibrary\FileManipulator;
 use Spatie\Medialibrary\MediaRepository;
 use Spatie\Medialibrary\Models\Media;
-use Spatie\Medialibrary\PathGenerator\BasePathGenerator;
+use Spatie\Medialibrary\PathGenerator\DefaultPathGenerator;
 use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class CleanCommand extends Command
@@ -33,7 +33,7 @@ class CleanCommand extends Command
 
     protected Factory $fileSystem;
 
-    protected BasePathGenerator $basePathGenerator;
+    protected DefaultPathGenerator $basePathGenerator;
 
     protected bool $isDryRun = false;
 
@@ -43,7 +43,7 @@ class CleanCommand extends Command
         MediaRepository $mediaRepository,
         FileManipulator $fileManipulator,
         Factory $fileSystem,
-        BasePathGenerator $basePathGenerator
+        DefaultPathGenerator $basePathGenerator
     ) {
         parent::__construct();
 

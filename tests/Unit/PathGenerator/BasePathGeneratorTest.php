@@ -27,7 +27,7 @@ class BasePathGeneratorTest extends TestCase
     protected \Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
 
     /**
-     * @var \Spatie\Medialibrary\PathGenerator\BasePathGenerator
+     * @var \Spatie\Medialibrary\PathGenerator\DefaultPathGenerator
      */
     protected \Spatie\Medialibrary\Tests\Unit\PathGenerator\CustomPathGenerator $pathGenerator;
 
