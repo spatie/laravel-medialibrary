@@ -352,6 +352,6 @@ class S3IntegrationTest extends TestCase
 
     public function s3BaseUrl(): string
     {
-        return 'https://laravel-medialibrary-travis.s3.eu-west-1.amazonaws.com';
+        return 'https://laravel-medialibrary-tests.s3.eu-west-1.amazonaws.com';
     }
 }
