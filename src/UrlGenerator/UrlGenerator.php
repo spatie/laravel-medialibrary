@@ -11,6 +11,8 @@ interface UrlGenerator
 {
     public function getUrl(): string;
 
+    public function getPath(): string;
+
     public function setMedia(Media $media): self;
 
     public function setConversion(Conversion $conversion): self;
