@@ -11,6 +11,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - spatie/pdf-to-image is now a suggestion dependency, removing the need for always having to install ext-imagick
 - added `shouldMatchBothExtensionsAndMimeTypes` to `Spatie\MediaLibrary\ImageGenerators\BaseGenerator`
 - added progress bar on clearn command (#1623)
+- the `UrlGenerator` interface now contains all required methods (#1656)
 
 ## 7.18.2 - 2020-01-25
 
