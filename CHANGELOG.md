@@ -10,7 +10,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - simplify URL generation. You can now just use the `root` and `url` properties on a configured disk
 - spatie/pdf-to-image is now a suggestion dependency, removing the need for always having to install ext-imagick
 - added `shouldMatchBothExtensionsAndMimeTypes` to `Spatie\MediaLibrary\ImageGenerators\BaseGenerator`
-- added progress bar on clearn command (#1623)
+- added progress bar on the clean command (#1623)
 - the `UrlGenerator` interface now contains all required methods (#1656)
 - use PHP 7.4 features where possible
 
