@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\Medialibrary\MediaStream;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
@@ -347,7 +348,7 @@ class S3IntegrationTest extends TestCase
 
     public static function getS3BaseTestDirectory(): string
     {
-        return md5(getenv('GITHUB_RUN_NUMBER'));
+        return Str::uuid();
     }
 
     public function s3BaseUrl(): string
