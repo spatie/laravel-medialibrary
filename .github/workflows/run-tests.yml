@@ -23,6 +23,9 @@ jobs:
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
         steps:
+            - name: Update apt
+              run: sudo apt-get update --fix-missing
+
             - name: Install ffmpeg
               run: sudo apt-get install ffmpeg
 
