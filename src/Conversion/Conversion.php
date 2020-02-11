@@ -11,6 +11,8 @@ class Conversion
 {
     protected string $name = '';
 
+    protected ConversionFileNamer $conversionFileNamer;
+
     protected int $extractVideoFrameAtSecond = 0;
 
     protected Manipulations $manipulations;
@@ -25,6 +27,8 @@ class Conversion
 
     protected string $loadingAttributeValue;
 
+
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -32,6 +36,8 @@ class Conversion
         $this->manipulations = (new Manipulations())
             ->optimize(config('medialibrary.image_optimizers'))
             ->format(Manipulations::FORMAT_JPG);
+
+        $this->conversionFileNamer = app(config('medialibrary.conversion_file_namer'));
 
         $this->loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
     }
@@ -209,13 +215,7 @@ class Conversion
 
     public function getConversionFile(Media $media): string
     {
-        $fileName = pathinfo($media->file_name, PATHINFO_FILENAME);
-        
-        $fileExtension = pathinfo($media->file_name, PATHINFO_EXTENSION);
-
-        $extension = $this->getResultExtension($fileExtension) ?: $fileExtension;
-
-        return "{$fileName}-{$this->getName()}.{$extension}";
+        return $this->conversionFileNamer->getName($this, $media);
     }
 
     public function useLoadingAttributeValue(string $value): self

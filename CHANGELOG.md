@@ -15,6 +15,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - use PHP 7.4 features where possible
 - the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\Medialibrary`.
 - added support for the `loading` attribute (#1667)
+- conversion files can now be named using the `conversion_file_namer` key in the `medialibrary` config file (#1636)
 
 ## 7.18.2 - 2020-01-25
 
