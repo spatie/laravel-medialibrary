@@ -120,6 +120,6 @@ class ConversionCollection extends Collection
     {
         $fileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
 
-        return $this->getConversions($collectionName)->map(fn(Conversion $conversion) => $conversion->getConversionFile($fileName));
+        return $this->getConversions($collectionName)->map(fn(Conversion $conversion) => $conversion->getConversionFile($this->media));
     }
 }

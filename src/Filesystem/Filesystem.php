@@ -192,8 +192,8 @@ class Filesystem
 
     protected function renameConversionFiles(Media $media): void
     {
-        $newFileName = $media->file_name;
-        $oldFileName = $media->getOriginal('file_name');
+        $mediaWithOldFileName = Media::find($media->id);
+        $mediaWithOldFileName->file_name =  $mediaWithOldFileName->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);
 
@@ -202,8 +202,8 @@ class Filesystem
         foreach ($media->getMediaConversionNames() as $conversionName) {
             $conversion = $conversionCollection->getByName($conversionName);
 
-            $oldFile = $conversionDirectory.$conversion->getConversionFile($oldFileName);
-            $newFile = $conversionDirectory.$conversion->getConversionFile($newFileName);
+            $oldFile = $conversionDirectory.$conversion->getConversionFile($mediaWithOldFileName);
+            $newFile = $conversionDirectory.$conversion->getConversionFile($media);
 
             $disk = $this->filesystem->disk($media->conversions_disk);
 

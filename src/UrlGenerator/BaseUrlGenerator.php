@@ -52,7 +52,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
         }
 
         return $this->pathGenerator->getPathForConversions($this->media)
-                .$this->conversion->getConversionFile($this->media->file_name);
+                .$this->conversion->getConversionFile($this->media);
     }
 
     protected function getDiskName(): string

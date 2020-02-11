@@ -4,6 +4,7 @@ namespace Spatie\Medialibrary\Conversion;
 
 use BadMethodCallException;
 use Spatie\Image\Manipulations;
+use Spatie\Medialibrary\Models\Media;
 
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
@@ -206,10 +207,11 @@ class Conversion
         return $originalFileExtension;
     }
 
-    public function getConversionFile(string $file): string
+    public function getConversionFile(Media $media): string
     {
-        $fileName = pathinfo($file, PATHINFO_FILENAME);
-        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+        $fileName = pathinfo($media->file_name, PATHINFO_FILENAME);
+        
+        $fileExtension = pathinfo($media->file_name, PATHINFO_EXTENSION);
 
         $extension = $this->getResultExtension($fileExtension) ?: $fileExtension;
 
