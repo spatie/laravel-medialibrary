@@ -46,7 +46,7 @@ return [
          * images. By default we optimize for filesize and create variations that each are 20%
          * smaller than the previous one. More info in the documentation.
          *
-         * https://docs.spatie.be/laravel-medialibrary/v7/advanced-usage/generating-responsive-images
+         * https://docs.spatie.be/laravel-medialibrary/v8/advanced-usage/generating-responsive-images
          */
         'width_calculator' => Spatie\Medialibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
@@ -62,6 +62,17 @@ return [
          */
         'tiny_placeholder_generator' => Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
+
+    /*
+     * When converting Media instances to response the medialibrary will add
+     * a `loading` attribute to the `img` tag. Here you can set the default
+     * value of that attribute.
+     *
+     * Possible values: 'auto', 'lazy' and 'eager,
+     *
+     * More info: https://css-tricks.com/native-lazy-loading/
+     */
+    "default_loading_attribute_value" => 'auto',
 
     /*
      * When urls to files get generated, this class will be called. Leave empty

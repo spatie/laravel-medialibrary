@@ -4,6 +4,9 @@ namespace Spatie\Medialibrary\Tests\Feature\Media;
 
 use Illuminate\Support\Str;
 use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithCustomLoadingAttribute;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -24,20 +27,20 @@ class ToHtmlTest extends TestCase
     /** @test */
     public function it_can_render_itself_as_an_image()
     {
-        $this->assertEquals('<img src="/media/1/test.jpg" alt="test">', Media::first()->img());
+        $this->assertEquals('<img loading="auto" src="/media/1/test.jpg" alt="test">', Media::first()->img());
     }
 
     /** @test */
     public function it_can_render_a_conversion_of_itself_as_an_image()
     {
-        $this->assertEquals('<img src="/media/1/conversions/test-thumb.jpg" alt="test">', Media::first()->img('thumb'));
+        $this->assertEquals('<img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">', Media::first()->img('thumb'));
     }
 
     /** @test */
     public function it_can_render_extra_attributes()
     {
         $this->assertEquals(
-            '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            '<img class="my-class" id="my-id" loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
              Media::first()->img('thumb', ['class' => 'my-class', 'id' => 'my-id'])
         );
     }
@@ -46,7 +49,7 @@ class ToHtmlTest extends TestCase
     public function attributes_can_be_passed_to_the_first_argument()
     {
         $this->assertEquals(
-            '<img class="my-class" id="my-id" src="/media/1/test.jpg" alt="test">',
+            '<img class="my-class" id="my-id" loading="auto" src="/media/1/test.jpg" alt="test">',
              Media::first()->img(['class' => 'my-class', 'id' => 'my-id'])
         );
     }
@@ -55,7 +58,7 @@ class ToHtmlTest extends TestCase
     public function both_the_conversion_and_extra_attributes_can_be_passed_as_the_first_arugment()
     {
         $this->assertEquals(
-            '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            '<img class="my-class" id="my-id" loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
              Media::first()->img(['class' => 'my-class', 'id' => 'my-id', 'conversion' => 'thumb'])
         );
     }
@@ -67,7 +70,7 @@ class ToHtmlTest extends TestCase
 
         $renderedView = $this->renderView('media', compact('media'));
 
-        $this->assertEquals('<img src="/media/1/test.jpg" alt="test"> <img src="/media/1/conversions/test-thumb.jpg" alt="test">', $renderedView);
+        $this->assertEquals('<img loading="auto" src="/media/1/test.jpg" alt="test"> <img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">', $renderedView);
     }
 
     /** @test */
@@ -119,6 +122,23 @@ class ToHtmlTest extends TestCase
 
         $imgTag = $media->refresh()->img();
 
-        $this->assertEquals('<img srcset="http://localhost/media/2/responsive-images/test___medialibrary_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___medialibrary_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___medialibrary_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
+        $this->assertEquals('<img loading="auto" srcset="http://localhost/media/2/responsive-images/test___medialibrary_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___medialibrary_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___medialibrary_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
+    }
+    
+    /** @test */
+    public function the_loading_attribute_can_be_specified_on_the_conversion()
+    {
+        $media = TestModelWithCustomLoadingAttribute::create(['name' => 'test'])
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection();
+
+        $originalImgTag = $media->refresh()->img();
+        $this->assertEquals('<img loading="auto" src="/media/2/test.jpg" alt="test">', $originalImgTag);
+
+        $lazyConversionImageTag = $media->refresh()->img('lazy-conversion');
+        $this->assertEquals('<img loading="lazy" src="/media/2/conversions/test-lazy-conversion.jpg" alt="test">', $lazyConversionImageTag);
+
+        $eagerConversionImageTag = $media->refresh()->img('eager-conversion');
+        $this->assertEquals('<img loading="eager" src="/media/2/conversions/test-eager-conversion.jpg" alt="test">', $eagerConversionImageTag);
     }
 }

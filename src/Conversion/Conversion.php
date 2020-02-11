@@ -22,6 +22,8 @@ class Conversion
 
     protected bool $generateResponsiveImages = false;
 
+    protected string $loadingAttributeValue;
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -29,6 +31,8 @@ class Conversion
         $this->manipulations = (new Manipulations())
             ->optimize(config('medialibrary.image_optimizers'))
             ->format(Manipulations::FORMAT_JPG);
+
+        $this->loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
     }
 
     public static function create(string $name)
@@ -210,5 +214,17 @@ class Conversion
         $extension = $this->getResultExtension($fileExtension) ?: $fileExtension;
 
         return "{$fileName}-{$this->getName()}.{$extension}";
+    }
+
+    public function useLoadingAttributeValue(string $value): self
+    {
+        $this->loadingAttributeValue = $value;
+
+        return $this;
+    }
+
+    public function getLoadingAttributeValue(): string
+    {
+        return $this->loadingAttributeValue;
     }
 }

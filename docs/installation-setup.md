@@ -28,8 +28,7 @@ This is the default content of the config file:
 
 ```php
 return [
-
-    /*
+/*
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
@@ -89,6 +88,17 @@ return [
          */
         'tiny_placeholder_generator' => Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
+
+    /*
+     * When converting Media instances to response the medialibrary will add
+     * a `loading` attribute to the `img` tag. Here you can set the default
+     * value of that attribute.
+     *
+     * Possible values: 'auto', 'lazy' and 'eager,
+     *
+     * More info: https://css-tricks.com/native-lazy-loading/
+     */
+    "default_loading_attribute_value" => 'auto',
 
     /*
      * When urls to files get generated, this class will be called. Leave empty
