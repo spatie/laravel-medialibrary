@@ -21,11 +21,18 @@ class ConversionsDiskTest extends TestCase
         $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
 
         $originalFilePath = $media->getPath();
-        $this->assertEquals("/Users/freek/dev/code/laravel-medialibrary/tests/Support/temp/media/1/test.jpg", $originalFilePath);
+        
+        $this->assertEquals(
+            $this->getTestsPath('Support/temp/media/1/test.jpg'), 
+            $originalFilePath
+        );
         $this->assertFileExists($originalFilePath);
 
         $conversionsFilePath = $media->getPath('thumb');
-        $this->assertEquals("/Users/freek/dev/code/laravel-medialibrary/tests/Support/temp/media2/1/conversions/test-thumb.jpg", $conversionsFilePath);
+        $this->assertEquals(
+            $this->getTestsPath('Support/temp/media2/1/conversions/test-thumb.jpg'),
+            $conversionsFilePath
+        );
         $this->assertFileExists($conversionsFilePath);
     }
 
@@ -63,7 +70,10 @@ class ConversionsDiskTest extends TestCase
             ->toMediaCollection('thumb');
 
         $conversionsFilePath = $media->getPath('thumb');
-        $this->assertEquals("/Users/freek/dev/code/laravel-medialibrary/tests/Support/temp/media2/1/conversions/test-thumb.jpg", $conversionsFilePath);
+        $this->assertEquals(
+            $this->getTestsPath('Support/temp/media2/1/conversions/test-thumb.jpg'),
+            $conversionsFilePath
+        );
         $this->assertFileExists($conversionsFilePath);
     }
 }

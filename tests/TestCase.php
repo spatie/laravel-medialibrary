@@ -147,75 +147,85 @@ abstract class TestCase extends Orchestra
         }
         File::makeDirectory($directory);
     }
+    
+    public function getTestsPath($suffix = ''): string
+    {
+        if ($suffix !== '') {
+            $suffix = "/{$suffix}";
+            
+        }
 
-    public function getTempDirectory($suffix = '')
+        return __DIR__ . $suffix;
+    }
+
+    public function getTempDirectory($suffix = ''): string
     {
         return __DIR__.'/Support/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
-    public function getMediaDirectory($suffix = '')
+    public function getMediaDirectory($suffix = ''): string
     {
         return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
     }
 
-    public function getTestFilesDirectory($suffix = '')
+    public function getTestFilesDirectory($suffix = ''): string
     {
         return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
     }
 
-    public function getTestJpg()
+    public function getTestJpg(): string
     {
         return $this->getTestFilesDirectory('test.jpg');
     }
 
-    public function getSmallTestJpg()
+    public function getSmallTestJpg(): string
     {
         return $this->getTestFilesDirectory('smallTest.jpg');
     }
 
-    public function getTestPng()
+    public function getTestPng(): string
     {
         return $this->getTestFilesDirectory('test.png');
     }
 
-    public function getTestWebm()
+    public function getTestWebm(): string
     {
         return $this->getTestFilesDirectory('test.webm');
     }
 
-    public function getTestPdf()
+    public function getTestPdf(): string
     {
         return $this->getTestFilesDirectory('test.pdf');
     }
 
-    public function getTestSvg()
+    public function getTestSvg(): string
     {
         return $this->getTestFilesDirectory('test.svg');
     }
 
-    public function getTestWebp()
+    public function getTestWebp(): string
     {
         return $this->getTestFilesDirectory('test.webp');
     }
 
-    public function getTestMp4()
+    public function getTestMp4(): string
     {
         return $this->getTestFilesDirectory('test.mp4');
     }
 
-    public function getTestImageWithoutExtension()
+    public function getTestImageWithoutExtension(): string
     {
         return $this->getTestFilesDirectory('image');
     }
 
-    private function setUpMorphMap()
+    private function setUpMorphMap(): void
     {
         Relation::morphMap([
             'test-model-with-morph-map' => TestModelWithMorphMap::class,
         ]);
     }
 
-    private function setupS3($app)
+    private function setupS3($app): void
     {
         $s3Configuration = [
             'driver' => 's3',
@@ -228,7 +238,7 @@ abstract class TestCase extends Orchestra
         $app['config']->set('filesystems.disks.s3_disk', $s3Configuration);
     }
 
-    public function renderView($view, $parameters)
+    public function renderView($view, $parameters): string
     {
         Artisan::call('view:clear');
 
@@ -239,7 +249,7 @@ abstract class TestCase extends Orchestra
         return trim((string) ($view));
     }
 
-    protected function setNow($year, int $month = 1, int $day = 1)
+    protected function setNow($year, int $month = 1, int $day = 1): string
     {
         $newNow = $year instanceof Carbon
             ? $year
@@ -248,7 +258,7 @@ abstract class TestCase extends Orchestra
         Carbon::setTestNow($newNow);
     }
 
-    protected function progressTime(int $minutes)
+    protected function progressTime(int $minutes): self
     {
         $newNow = now()->copy()->addMinutes($minutes);
 
