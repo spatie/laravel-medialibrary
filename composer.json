@@ -49,7 +49,7 @@
     "php-ffmpeg/php-ffmpeg": "^0.14.0",
     "phpunit/phpunit": "^9.0",
     "spatie/pdf-to-image": "^2.0",
-    "spatie/phpunit-snapshot-assertions": "^3.0"
+    "spatie/phpunit-snapshot-assertions": "^4.0"
   },
   "conflict": {
     "php-ffmpeg/php-ffmpeg": "<0.6.1"
