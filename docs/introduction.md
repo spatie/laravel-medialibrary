@@ -27,7 +27,7 @@ $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 
 The storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.6/filesystem), so you can plug in any compatible filesystem.
 
-The package can also generate derived images such as thumbnails for images, video's and pdf's. Once you've [set up your model](/laravel-medialibrary/v7/basic-usage/preparing-your-model), they're easily accessible:
+The package can also generate derived images such as thumbnails for images, video's and pdf's. Once you've [set up your model](/laravel-medialibrary/v8/basic-usage/preparing-your-model), they're easily accessible:
 
 ```php
 $newsItem->getMedia('images')->first()->getUrl('thumb');

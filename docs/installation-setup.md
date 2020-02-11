@@ -73,7 +73,7 @@ return [
          * images. By default we optimize for filesize and create variations that each are 20%
          * smaller than the previous one. More info in the documentation.
          *
-         * https://docs.spatie.be/laravel-medialibrary/v7/advanced-usage/generating-responsive-images
+         * https://docs.spatie.be/laravel-medialibrary/v8/advanced-usage/generating-responsive-images
          */
         'width_calculator' => Spatie\Medialibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
@@ -198,7 +198,7 @@ Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysyst
 
 ### Optimization tools
 
-Medialibrary will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v7/converting-images/optimizing-converted-images) if they are present on your system:
+Medialibrary will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v8/converting-images/optimizing-converted-images) if they are present on your system:
 
 - [JpegOptim](http://freecode.com/projects/jpegoptim)
 - [Optipng](http://optipng.sourceforge.net/)
