@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Models\Media;

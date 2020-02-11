@@ -117,7 +117,7 @@ class AddMediaTest extends TestCase
     public function it_will_have_access_the_model_instance_when_registerMediaConversionsUsingModelInstance_has_been_set()
     {
         $modelClass = new class extends TestModel {
-            public $registerMediaConversionsUsingModelInstance = true;
+            public bool $registerMediaConversionsUsingModelInstance = true;
 
             /**
              * Register the conversions that should be performed.

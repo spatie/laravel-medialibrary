@@ -8,10 +8,10 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileManipulatorTest extends TestCase
 {
-    protected $conversionName = 'test';
+    protected string $conversionName = 'test';
 
     /** @var \Spatie\MediaLibrary\Conversion\Conversion */
-    protected $conversion;
+    protected \Spatie\MediaLibrary\Conversion\Conversion $conversion;
 
     public function setUp(): void
     {

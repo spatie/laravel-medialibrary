@@ -8,8 +8,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class ClearCommandTest extends TestCase
 {
-    /** @var array */
-    protected $media;
+    protected array $media;
 
     public function setUp(): void
     {

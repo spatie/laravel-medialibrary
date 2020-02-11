@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversionQueued;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversionsOnOtherDisk;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
@@ -19,29 +21,21 @@ use ZipArchive;
 
 abstract class TestCase extends Orchestra
 {
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModel */
-    protected $testModel;
+    protected TestModel $testModel;
 
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModel */
-    protected $testUnsavedModel;
+    protected TestModel $testUnsavedModel;
 
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion */
-    protected $testModelWithConversion;
+    protected TestModelWithConversion $testModelWithConversion;
 
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions */
-    protected $testModelWithoutMediaConversions;
+    protected TestModelWithoutMediaConversions $testModelWithoutMediaConversions;
 
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversionQueued */
-    protected $testModelWithConversionQueued;
+    protected TestModelWithConversionQueued $testModelWithConversionQueued;
 
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithMorphMap */
-    protected $testModelWithMorphMap;
+    protected TestModelWithMorphMap $testModelWithMorphMap;
 
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithResponsiveImages */
-    protected $testModelWithResponsiveImages;
+    protected TestModelWithResponsiveImages $testModelWithResponsiveImages;
 
-    /** @var \Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversionsOnOtherDisk */
-    protected $testModelWithConversionsOnOtherDisk;
+    protected TestModelWithConversionsOnOtherDisk $testModelWithConversionsOnOtherDisk;
 
     public function setUp(): void
     {
@@ -56,7 +50,7 @@ abstract class TestCase extends Orchestra
         $this->testModel = TestModel::first();
         $this->testUnsavedModel = new TestModel();
         $this->testModelWithConversion = TestModelWithConversion::first();
-        $this->testModelWithConversionQueued = TestModelWithConversion::first();
+        $this->testModelWithConversionQueued = TestModelWithConversionQueued::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
         $this->testModelWithResponsiveImages = TestModelWithResponsiveImages::first();
@@ -82,7 +76,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            \Spatie\MediaLibrary\MediaLibraryServiceProvider::class,
+            MediaLibraryServiceProvider::class,
         ];
     }
 
@@ -112,9 +106,7 @@ abstract class TestCase extends Orchestra
             'url' => '/media2'
         ]);
 
-        $app->bind('path.public', function () {
-            return $this->getTempDirectory();
-        });
+        $app->bind('path.public', fn() => $this->getTempDirectory());
 
         $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
 

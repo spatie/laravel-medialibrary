@@ -1,11 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Carbon\Carbon;
 use RuntimeException;
 use Spatie\MediaLibrary\Exceptions\InvalidConversion;
-use Spatie\MediaLibrary\Exceptions\UrlCannotBeDetermined;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class GetUrlTest extends TestCase

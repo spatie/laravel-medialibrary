@@ -13,8 +13,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class S3IntegrationTest extends TestCase
 {
-    /** @var @string */
-    protected $s3BaseDirectory;
+    protected string $s3BaseDirectory;
 
     public function setUp(): void
     {

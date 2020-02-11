@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\HasMediaTrait;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
 
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Tests\TestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use File;
 use Illuminate\Database\Eloquent\SoftDeletes;

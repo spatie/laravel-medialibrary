@@ -141,9 +141,7 @@ class MediaCollectionTest extends TestCase
             {
                 $this
                     ->addMediaCollection('images')
-                    ->acceptsFile(function (File $file) {
-                        return $file->mimeType === 'image/jpeg';
-                    });
+                    ->acceptsFile(fn(File $file) => $file->mimeType === 'image/jpeg');
             }
         };
 
@@ -244,9 +242,7 @@ class MediaCollectionTest extends TestCase
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertFalse($model->getMedia('images')->contains(function ($model) use ($firstFile) {
-            return $model->is($firstFile);
-        }));
+        $this->assertFalse($model->getMedia('images')->contains(fn($model) => $model->is($firstFile)));
         $this->assertCount(3, $model->getMedia('images'));
     }
 }

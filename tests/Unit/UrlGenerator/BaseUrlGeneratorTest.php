@@ -15,27 +15,27 @@ class BaseUrlGeneratorTest extends TestCase
     /**
      * @var \Spatie\MediaLibrary\Media
      */
-    protected $media;
+    protected \Spatie\MediaLibrary\Models\Media $media;
 
     /**
      * @var \Spatie\MediaLibrary\Conversion\Conversion
      */
-    protected $conversion;
+    protected \Spatie\MediaLibrary\Conversion\Conversion $conversion;
 
     /**
      * @var \Spatie\MediaLibrary\Conversion\Conversion
      */
-    protected $conversionKeepingOriginalImageFormat;
+    protected \Spatie\MediaLibrary\Conversion\Conversion $conversionKeepingOriginalImageFormat;
 
     /**
      * @var DefaultUrlGenerator
      */
-    protected $urlGenerator;
+    protected \Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
 
     /**
      * @var BasePathGenerator
      */
-    protected $pathGenerator;
+    protected \Spatie\MediaLibrary\PathGenerator\BasePathGenerator $pathGenerator;
 
     public function setUp(): void
     {

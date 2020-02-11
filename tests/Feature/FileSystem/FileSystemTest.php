@@ -7,10 +7,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileSystemTest extends TestCase
 {
-    /**
-     * @var \Spatie\MediaLibrary\Filesystem\Filesystem
-     */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
     public function setUp(): void
     {

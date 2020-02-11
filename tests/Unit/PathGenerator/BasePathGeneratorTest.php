@@ -19,17 +19,17 @@ class BasePathGeneratorTest extends TestCase
     /**
      * @var \Spatie\MediaLibrary\Conversion\Conversion
      */
-    protected $conversion;
+    protected \Spatie\MediaLibrary\Conversion\Conversion $conversion;
 
     /**
      * @var \Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator
      */
-    protected $urlGenerator;
+    protected \Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
 
     /**
      * @var \Spatie\MediaLibrary\PathGenerator\BasePathGenerator
      */
-    protected $pathGenerator;
+    protected \Spatie\MediaLibrary\Tests\Unit\PathGenerator\CustomPathGenerator $pathGenerator;
 
     public function setUp(): void
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Spatie\MediaLibrary\MediaRepository;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestCustomMediaModel;

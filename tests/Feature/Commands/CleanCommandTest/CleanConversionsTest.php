@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Commands;
+namespace Spatie\MediaLibrary\Tests\Feature\Commands\CleanCommandTest;
 
-use DB;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
@@ -11,8 +11,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class CleanConversionsTest extends TestCase
 {
-    /** @var array */
-    protected $media;
+    protected array $media;
 
     public function setUp(): void
     {

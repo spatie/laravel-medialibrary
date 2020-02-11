@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Commands;
+namespace Spatie\MediaLibrary\Tests\Feature\Commands\CleanCommandTest;
 
 use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Tests\TestCase;

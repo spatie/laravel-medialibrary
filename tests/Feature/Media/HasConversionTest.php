@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
