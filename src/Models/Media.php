@@ -281,6 +281,14 @@ class Media extends Model implements Responsable, Htmlable
             $attributeString = ' '.$attributeString;
         }
 
+        $loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
+        if ($conversion !== '') {
+            /** @var Conversion $conversionObject */
+            $conversionObject = ConversionCollection::createForMedia($this)->getByName($conversion);
+
+            $loadingAttributeValue = $conversionObject->getLoadingAttributeValue();
+        }
+
         $media = $this;
 
         $viewName = 'image';
@@ -299,6 +307,7 @@ class Media extends Model implements Responsable, Htmlable
             'media',
             'conversion',
             'attributeString',
+            'loadingAttributeValue',
             'width'
         ));
     }

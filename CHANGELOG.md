@@ -14,6 +14,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - the `UrlGenerator` interface now contains all required methods (#1656)
 - use PHP 7.4 features where possible
 - the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\Medialibrary`.
+- added support for the `loading` attribute (#1667)
 
 ## 7.18.2 - 2020-01-25
 

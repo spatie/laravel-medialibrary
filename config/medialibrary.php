@@ -64,6 +64,17 @@ return [
     ],
 
     /*
+     * When converting Media instances to response the medialibrary will add
+     * a `loading` attribute to the `img` tag. Here you can set the default
+     * value of that attribute.
+     *
+     * Possible values: 'auto', 'lazy' and 'eager,
+     *
+     * More info: https://css-tricks.com/native-lazy-loading/
+     */
+    "default_loading_attribute_value" => 'auto',
+
+    /*
      * When urls to files get generated, this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */

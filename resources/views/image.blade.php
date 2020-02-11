@@ -1,1 +1,1 @@
-<img{!! $attributeString !!} src="{{ $media->getUrl($conversion) }}" alt="{{ $media->name }}">
+<img{!! $attributeString !!} loading="{{ $loadingAttributeValue }}" src="{{ $media->getUrl($conversion) }}" alt="{{ $media->name }}">
