@@ -3,16 +3,19 @@
 namespace Spatie\MediaLibrary\Exceptions;
 
 use Exception;
+use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 class InvalidPathGenerator extends Exception
 {
-    public static function doesntExist(string $class)
+    public static function doesntExist(string $class): self
     {
         return new static("Class {$class} doesn't exist");
     }
 
-    public static function isntAPathGenerator(string $class)
+    public static function isntAPathGenerator(string $class): self
     {
-        return new static("Class {$class} must implement `Spatie\\MediaLibrary\\PathGenerator\\PathGenerator`");
+        $pathGeneratorClass = PathGenerator::class;
+
+        return new static("Class {$class} must implement `$pathGeneratorClass}`");
     }
 }

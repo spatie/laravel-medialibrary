@@ -10,11 +10,9 @@ use ZipStream\ZipStream;
 
 class MediaStream implements Responsable
 {
-    /** string */
-    protected $zipName;
+    protected string $zipName;
 
-    /** Illuminate\Support\Collection */
-    protected $mediaItems;
+    protected Collection $mediaItems;
 
     public static function create(string $zipName)
     {
@@ -65,9 +63,7 @@ class MediaStream implements Responsable
             'Content-Type' => 'application/octet-stream',
         ];
 
-        return new StreamedResponse(function () {
-            return $this->getZipStream();
-        }, 200, $headers);
+        return new StreamedResponse(fn() => $this->getZipStream(), 200, $headers);
     }
 
     public function getZipStream(): ZipStream
@@ -91,12 +87,10 @@ class MediaStream implements Responsable
 
     protected function getZipStreamContents(): Collection
     {
-        return $this->mediaItems->map(function (Media $media, $mediaItemIndex) {
-            return [
-                'fileNameInZip' => $this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
-                'media' => $media,
-            ];
-        });
+        return $this->mediaItems->map(fn(Media $media, $mediaItemIndex) => [
+            'fileNameInZip' => $this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
+            'media' => $media,
+        ]);
     }
 
     protected function getFileNameWithSuffix(Collection $mediaItems, int $currentIndex): string

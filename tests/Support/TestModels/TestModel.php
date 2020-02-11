@@ -12,24 +12,12 @@ class TestModel extends Model implements HasMedia
     use HasMediaTrait;
 
     protected $table = 'test_models';
+
     protected $guarded = [];
+
     public $timestamps = false;
 
-    /**
-     * Register the conversions that should be performed.
-     *
-     * @return array
-     */
-    public function registerMediaConversions(Media $media = null)
-    {
-    }
-
-    /**
-     * Register the media collections and conversions.
-     *
-     * @return void
-     */
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this
             ->addMediaCollection('avatar')

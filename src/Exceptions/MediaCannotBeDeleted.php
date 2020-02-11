@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MediaCannotBeDeleted extends Exception
 {
-    public static function doesNotBelongToModel($mediaId, Model $model)
+    public static function doesNotBelongToModel($mediaId, Model $model): self
     {
         $modelClass = get_class($model);
 

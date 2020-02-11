@@ -15,18 +15,16 @@ use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
 {
-    /** @var \Illuminate\Contracts\Filesystem\Factory */
-    protected $filesystem;
+    protected Factory $filesystem;
 
-    /** @var array */
-    protected $customRemoteHeaders = [];
+    protected array $customRemoteHeaders = [];
 
     public function __construct(Factory $filesystem)
     {
         $this->filesystem = $filesystem;
     }
 
-    public function add(string $file, Media $media, ?string $targetFileName = null)
+    public function add(string $file, Media $media, ?string $targetFileName = null): void
     {
         $this->copyToMediaLibrary($file, $media, null, $targetFileName);
 
@@ -35,7 +33,7 @@ class Filesystem
         app(FileManipulator::class)->createDerivedFiles($media);
     }
 
-    public function addRemote(RemoteFile $file, Media $media, ?string $targetFileName = null)
+    public function addRemote(RemoteFile $file, Media $media, ?string $targetFileName = null): void
     {
         $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
 
@@ -44,7 +42,7 @@ class Filesystem
         app(FileManipulator::class)->createDerivedFiles($media);
     }
 
-    public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null)
+    public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $storage = Storage::disk($file->getDisk());
 
@@ -137,7 +135,7 @@ class Filesystem
         return $targetFile;
     }
 
-    public function removeAllFiles(Media $media)
+    public function removeAllFiles(Media $media): void
     {
         $mediaDirectory = $this->getMediaDirectory($media);
 
@@ -153,12 +151,12 @@ class Filesystem
             });
     }
 
-    public function removeFile(Media $media, string $path)
+    public function removeFile(Media $media, string $path): void
     {
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    public function removeResponsiveImages(Media $media, string $conversionName = 'medialibrary_original')
+    public function removeResponsiveImages(Media $media, string $conversionName = 'medialibrary_original'): void
     {
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
@@ -166,22 +164,20 @@ class Filesystem
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            function (string $path) use ($conversionName) {
-                return Str::contains($path, $conversionName);
-            }
+            fn(string $path) => Str::contains($path, $conversionName)
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
     }
 
-    public function syncFileNames(Media $media)
+    public function syncFileNames(Media $media): void
     {
         $this->renameMediaFile($media);
 
         $this->renameConversionFiles($media);
     }
 
-    protected function renameMediaFile(Media $media)
+    protected function renameMediaFile(Media $media): void
     {
         $newFileName = $media->file_name;
         $oldFileName = $media->getOriginal('file_name');
@@ -194,7 +190,7 @@ class Filesystem
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
 
-    protected function renameConversionFiles(Media $media)
+    protected function renameConversionFiles(Media $media): void
     {
         $newFileName = $media->file_name;
         $oldFileName = $media->getOriginal('file_name');

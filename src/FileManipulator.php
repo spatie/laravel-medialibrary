@@ -14,7 +14,7 @@ use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
 use Spatie\MediaLibrary\Helpers\ImageFactory;
 use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
 use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
-use Spatie\MediaLibrary\Jobs\PerformConversions;
+use Spatie\MediaLibrary\Jobs\PerformConversionsJob;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 use Storage;
@@ -28,14 +28,12 @@ class FileManipulator
      * @param array $only
      * @param bool $onlyMissing
      */
-    public function createDerivedFiles(Media $media, array $only = [], bool $onlyMissing = false)
+    public function createDerivedFiles(Media $media, array $only = [], bool $onlyMissing = false): void
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
         if (! empty($only)) {
-            $profileCollection = $profileCollection->filter(function ($collection) use ($only) {
-                return in_array($collection->getName(), $only);
-            });
+            $profileCollection = $profileCollection->filter(fn($collection) => in_array($collection->getName(), $only));
         }
 
         $this->performConversions(
@@ -145,7 +143,7 @@ class FileManipulator
 
     protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, bool $onlyMissing = false)
     {
-        $performConversionsJobClass = config('medialibrary.jobs.perform_conversions', PerformConversions::class);
+        $performConversionsJobClass = config('medialibrary.jobs.perform_conversions', PerformConversionsJob::class);
 
         $job = new $performConversionsJobClass($queuedConversions, $media, $onlyMissing);
 
@@ -164,11 +162,7 @@ class FileManipulator
     public function determineImageGenerator(Media $media)
     {
         return $media->getImageGenerators()
-            ->map(function (string $imageGeneratorClassName) {
-                return app($imageGeneratorClassName);
-            })
-            ->first(function (ImageGenerator $imageGenerator) use ($media) {
-                return $imageGenerator->canConvert($media);
-            });
+            ->map(fn(string $imageGeneratorClassName) => app($imageGeneratorClassName))
+            ->first(fn(ImageGenerator $imageGenerator) => $imageGenerator->canConvert($media));
     }
 }

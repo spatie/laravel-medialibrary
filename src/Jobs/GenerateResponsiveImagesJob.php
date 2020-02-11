@@ -9,12 +9,11 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 
-class GenerateResponsiveImages implements ShouldQueue
+class GenerateResponsiveImagesJob implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, Queueable;
 
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    protected $media;
+    protected Media $media;
 
     public function __construct(Media $media)
     {

@@ -9,8 +9,7 @@ class ResponsiveImagesGenerated
 {
     use SerializesModels;
 
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    public $media;
+    public Media $media;
 
     public function __construct(Media $media)
     {

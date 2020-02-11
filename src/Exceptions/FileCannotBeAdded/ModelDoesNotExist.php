@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 class ModelDoesNotExist extends FileCannotBeAdded
 {
-    public static function create(Model $model)
+    public static function create(Model $model): self
     {
         $modelClass = get_class($model);
 

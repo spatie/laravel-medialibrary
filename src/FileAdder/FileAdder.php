@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\FileAdder;
 
+use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
@@ -16,7 +17,7 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Helpers\File;
 use Spatie\MediaLibrary\Helpers\RemoteFile;
 use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
-use Spatie\MediaLibrary\Jobs\GenerateResponsiveImages;
+use Spatie\MediaLibrary\Jobs\GenerateResponsiveImagesJob;
 use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -26,69 +27,45 @@ class FileAdder
 {
     use Macroable;
 
-    /** @var \Illuminate\Database\Eloquent\Model subject */
-    protected $subject;
+    protected ?Model $subject;
 
-    /** @var \Spatie\MediaLibrary\Filesystem\Filesystem */
-    protected $filesystem;
+    protected ?Filesystem $filesystem;
 
-    /** @var bool */
-    protected $preserveOriginal = false;
+    protected bool $preserveOriginal = false;
 
-    /** @var string|\Symfony\Component\HttpFoundation\File\UploadedFile */
+    /** @var \Symfony\Component\HttpFoundation\File\UploadedFile|string */
     protected $file;
 
-    /** @var array */
-    protected $properties = [];
+    protected array $properties = [];
 
-    /** @var array */
-    protected $customProperties = [];
+    protected array $customProperties = [];
 
-    /** @var array */
-    protected $manipulations = [];
+    protected array $manipulations = [];
 
-    /** @var string */
-    protected $pathToFile;
+    protected string $pathToFile = '';
 
-    /** @var string */
-    protected $fileName;
+    protected string $fileName = '';
 
-    /** @var string */
-    protected $mediaName;
+    protected string $mediaName = '';
 
-    /** @var string */
-    protected $diskName = '';
+    protected string $diskName = '';
 
-    /** @var string */
-    protected $conversionsDiskName = '';
+    protected string $conversionsDiskName = '';
 
-    /** @var null|callable */
-    protected $fileNameSanitizer;
+    protected ?Closure $fileNameSanitizer;
 
-    /** @var bool */
-    protected $generateResponsiveImages = false;
+    protected bool $generateResponsiveImages = false;
 
-    /** @var array */
-    protected $customHeaders = [];
+    protected array $customHeaders = [];
 
-    /**
-     * @param Filesystem $fileSystem
-     */
     public function __construct(Filesystem $fileSystem)
     {
         $this->filesystem = $fileSystem;
 
-        $this->fileNameSanitizer = function ($fileName) {
-            return $this->defaultSanitizer($fileName);
-        };
+        $this->fileNameSanitizer = fn($fileName) => $this->defaultSanitizer($fileName);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $subject
-     *
-     * @return FileAdder
-     */
-    public function setSubject(Model $subject)
+    public function setSubject(Model $subject): self
     {
         $this->subject = $subject;
 
@@ -417,7 +394,7 @@ class FileAdder
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
-            $generateResponsiveImagesJobClass = config('medialibrary.jobs.generate_responsive_images', GenerateResponsiveImages::class);
+            $generateResponsiveImagesJobClass = config('medialibrary.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
 
@@ -442,9 +419,7 @@ class FileAdder
         $this->subject->registerMediaCollections();
 
         return collect($this->subject->mediaCollections)
-            ->first(function (MediaCollection $collection) use ($collectionName) {
-                return $collection->name === $collectionName;
-            });
+            ->first(fn(MediaCollection $collection) => $collection->name === $collectionName);
     }
 
     protected function guardAgainstDisallowedFileAdditions(Media $media)

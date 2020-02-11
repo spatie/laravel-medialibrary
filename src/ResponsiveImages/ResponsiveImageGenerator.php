@@ -18,13 +18,13 @@ use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 class ResponsiveImageGenerator
 {
     /** \Spatie\MediaLibrary\Filesystem\Filesystem */
-    protected $filesystem;
+    protected \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem;
 
     /** \Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator */
-    protected $widthCalculator;
+    protected \Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator $widthCalculator;
 
     /** \Spatie\MediaLibrary\ResponsiveImages\TinyPlaceHolderGenerator\TinyPlaceHolderGenerator */
-    protected $tinyPlaceholderGenerator;
+    protected \Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator $tinyPlaceholderGenerator;
 
     public function __construct(
         Filesystem $filesystem,

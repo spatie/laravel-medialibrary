@@ -2,7 +2,9 @@
 
 namespace Spatie\MediaLibrary\HasMedia;
 
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversion\Conversion;
+use Spatie\MediaLibrary\FileAdder\FileAdder;
 use Spatie\MediaLibrary\Models\Media;
 
 interface HasMedia
@@ -21,7 +23,7 @@ interface HasMedia
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMedia($file);
+    public function addMedia($file): FileAdder;
 
     /**
      * Copy a file to the medialibrary.
@@ -30,15 +32,8 @@ interface HasMedia
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function copyMedia($file);
+    public function copyMedia($file): FileAdder;
 
-    /**
-     * Determine if there is media in the given collection.
-     *
-     * @param $collectionMedia
-     *
-     * @return bool
-     */
     public function hasMedia(string $collectionMedia = ''): bool;
 
     /**
@@ -49,14 +44,9 @@ interface HasMedia
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getMedia(string $collectionName = 'default', $filters = []);
+    public function getMedia(string $collectionName = 'default', $filters = []): Collection;
 
-    /**
-     * Remove all media in the given collection.
-     *
-     * @param string $collectionName
-     */
-    public function clearMediaCollection(string $collectionName = 'default');
+    public function clearMediaCollection(string $collectionName = 'default'): self;
 
     /**
      * Remove all media in the given collection except some.
@@ -64,16 +54,16 @@ interface HasMedia
      * @param string $collectionName
      * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
      *
-     * @return string $collectionName
+     * @return $this
      */
-    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []);
+    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []): self;
 
     /**
      * Determines if the media files should be preserved when the media object gets deleted.
      *
      * @return bool
      */
-    public function shouldDeletePreservingMedia();
+    public function shouldDeletePreservingMedia(): bool;
 
     /**
      * Cache the media on the object.
@@ -84,23 +74,11 @@ interface HasMedia
      */
     public function loadMedia(string $collectionName);
 
-    /*
-     * Add a conversion.
-     */
     public function addMediaConversion(string $name): Conversion;
 
-    /*
-     * Register the media conversions.
-     */
-    public function registerMediaConversions(Media $media = null);
+    public function registerMediaConversions(Media $media = null): void;
 
-    /*
-     * Register the media collections.
-     */
-    public function registerMediaCollections();
+    public function registerMediaCollections(): void;
 
-    /*
-     * Register the media conversions and conversions set in media collections.
-     */
-    public function registerAllMediaConversions();
+    public function registerAllMediaConversions(): void;
 }

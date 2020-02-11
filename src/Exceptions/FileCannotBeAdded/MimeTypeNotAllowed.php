@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 class MimeTypeNotAllowed extends FileCannotBeAdded
 {
-    public static function create($file, array $allowedMimeTypes)
+    public static function create($file, array $allowedMimeTypes): self
     {
         $mimeType = mime_content_type($file);
 

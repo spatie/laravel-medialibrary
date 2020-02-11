@@ -11,29 +11,19 @@ use Spatie\MediaLibrary\PathGenerator\PathGenerator;
 
 abstract class BaseUrlGenerator implements UrlGenerator
 {
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    protected $media;
+    protected ?Media $media;
 
-    /** @var \Spatie\MediaLibrary\Conversion\Conversion|null */
-    protected $conversion;
+    protected ?Conversion $conversion = null;
 
-    /** @var \Spatie\MediaLibrary\PathGenerator\PathGenerator */
-    protected $pathGenerator;
+    protected ?PathGenerator $pathGenerator;
 
-    /** @var \Illuminate\Contracts\Config\Repository */
-    protected $config;
+    protected Config $config;
 
-    /** @param \Illuminate\Contracts\Config\Repository $config */
     public function __construct(Config $config)
     {
         $this->config = $config;
     }
 
-    /**
-     * @param \Spatie\MediaLibrary\Models\Media $media
-     *
-     * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
-     */
     public function setMedia(Media $media): UrlGenerator
     {
         $this->media = $media;
@@ -41,11 +31,6 @@ abstract class BaseUrlGenerator implements UrlGenerator
         return $this;
     }
 
-    /**
-     * @param \Spatie\MediaLibrary\Conversion\Conversion $conversion
-     *
-     * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
-     */
     public function setConversion(Conversion $conversion): UrlGenerator
     {
         $this->conversion = $conversion;
@@ -53,11 +38,6 @@ abstract class BaseUrlGenerator implements UrlGenerator
         return $this;
     }
 
-    /**
-     * @param \Spatie\MediaLibrary\PathGenerator\PathGenerator $pathGenerator
-     *
-     * @return \Spatie\MediaLibrary\UrlGenerator\UrlGenerator
-     */
     public function setPathGenerator(PathGenerator $pathGenerator): UrlGenerator
     {
         $this->pathGenerator = $pathGenerator;

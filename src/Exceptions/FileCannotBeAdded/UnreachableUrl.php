@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
 
 class UnreachableUrl extends FileCannotBeAdded
 {
-    public static function create(string $url)
+    public static function create(string $url): self
     {
         return new static("Url `{$url}` cannot be reached");
     }

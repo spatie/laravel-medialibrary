@@ -4,67 +4,32 @@ namespace Spatie\MediaLibrary\Helpers;
 
 class RemoteFile
 {
-    /**
-     * The relative path to the file.
-     *
-     * @var string
-     */
-    protected $key;
+    protected string $key;
 
-    /**
-     * The disk the file exists on.
-     *
-     * @var string
-     */
-    protected $disk;
+    protected string $disk;
 
-    /**
-     * Constructor method.
-     *
-     * @return void
-     */
     public function __construct($key, $disk)
     {
         $this->key = $key;
         $this->disk = $disk;
     }
 
-    /**
-     * Get the key.
-     *
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * Get the disk.
-     *
-     * @return string
-     */
     public function getDisk(): string
     {
         return $this->disk;
     }
 
-    /**
-     * Get the filename (including extension).
-     *
-     * @return string
-     */
-    public function getFilename()
+    public function getFilename(): string
     {
         return basename($this->key);
     }
 
-    /**
-     * Get the name (excluding extension).
-     *
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return pathinfo($this->getFilename(), PATHINFO_FILENAME);
     }

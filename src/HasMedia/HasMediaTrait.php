@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\HasMedia;
 
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Illuminate\Support\Arr;
@@ -25,16 +26,14 @@ use Spatie\MediaLibrary\Models\Media;
 trait HasMediaTrait
 {
     /** @var Conversion[] */
-    public $mediaConversions = [];
+    public array $mediaConversions = [];
 
     /** @var MediaCollection[] */
-    public $mediaCollections = [];
+    public array $mediaCollections = [];
 
-    /** @var bool */
-    protected $deletePreservingMedia = false;
+    protected bool $deletePreservingMedia = false;
 
-    /** @var array */
-    protected $unAttachedMediaLibraryItems = [];
+    protected array $unAttachedMediaLibraryItems = [];
 
     public static function bootHasMediaTrait()
     {
@@ -53,12 +52,7 @@ trait HasMediaTrait
         });
     }
 
-    /**
-     * Set the polymorphic relation.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function media()
+    public function media(): MorphMany
     {
         return $this->morphMany(config('medialibrary.media_model'), 'model');
     }
@@ -70,7 +64,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMedia($file)
+    public function addMedia($file): FileAdder
     {
         return app(FileAdderFactory::class)->create($this, $file);
     }
@@ -83,7 +77,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromDisk(string $key, string $disk = null)
+    public function addMediaFromDisk(string $key, string $disk = null): FileAdder
     {
         return app(FileAdderFactory::class)->createFromDisk($this, $key, $disk ?: config('filesystems.default'));
     }
@@ -95,7 +89,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function addMediaFromRequest(string $key)
+    public function addMediaFromRequest(string $key): FileAdder
     {
         return app(FileAdderFactory::class)->createFromRequest($this, $key);
     }
@@ -117,7 +111,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder[]
      */
-    public function addAllMediaFromRequest()
+    public function addAllMediaFromRequest(): Collection
     {
         return app(FileAdderFactory::class)->createAllFromRequest($this);
     }
@@ -132,7 +126,7 @@ trait HasMediaTrait
      *
      * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
-    public function addMediaFromUrl(string $url, ...$allowedMimeTypes)
+    public function addMediaFromUrl(string $url, ...$allowedMimeTypes): FileAdder
     {
         if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
@@ -211,7 +205,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public function copyMedia($file)
+    public function copyMedia($file): FileAdder
     {
         return $this->addMedia($file)->preservingOriginal();
     }
@@ -282,9 +276,7 @@ trait HasMediaTrait
         $this->registerMediaCollections();
 
         return collect($this->mediaCollections)
-            ->first(function (MediaCollection $collection) use ($collectionName) {
-                return $collection->name === $collectionName;
-            });
+            ->first(fn(MediaCollection $collection) => $collection->name === $collectionName);
     }
 
     public function getFallbackMediaUrl(string $collectionName = 'default'): string
@@ -357,22 +349,13 @@ trait HasMediaTrait
             });
     }
 
-    protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default')
+    protected function removeMediaItemsNotPresentInArray(array $newMediaArray, string $collectionName = 'default'): void
     {
         $this->getMedia($collectionName)
-            ->reject(function (Media $currentMediaItem) use ($newMediaArray) {
-                return in_array($currentMediaItem->getKey(), array_column($newMediaArray, $currentMediaItem->getKeyName()));
-            })
+            ->reject(fn(Media $currentMediaItem) => in_array($currentMediaItem->getKey(), array_column($newMediaArray, $currentMediaItem->getKeyName())))
             ->each->delete();
     }
 
-    /**
-     * Remove all media in the given collection.
-     *
-     * @param string $collectionName
-     *
-     * @return $this
-     */
     public function clearMediaCollection(string $collectionName = 'default'): self
     {
         $this->getMedia($collectionName)
@@ -395,7 +378,7 @@ trait HasMediaTrait
      *
      * @return $this
      */
-    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = [])
+    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []): self
     {
         if ($excludedMedia instanceof Media) {
             $excludedMedia = collect()->push($excludedMedia);
@@ -408,9 +391,7 @@ trait HasMediaTrait
         }
 
         $this->getMedia($collectionName)
-            ->reject(function (Media $media) use ($excludedMedia) {
-                return $excludedMedia->where($media->getKeyName(), $media->getKey())->count();
-            })
+            ->reject(fn(Media $media) => $excludedMedia->where($media->getKeyName(), $media->getKey())->count())
             ->each->delete();
 
         if ($this->mediaIsPreloaded()) {
@@ -432,7 +413,7 @@ trait HasMediaTrait
      *
      * @throws \Spatie\MediaLibrary\Exceptions\MediaCannotBeDeleted
      */
-    public function deleteMedia($mediaId)
+    public function deleteMedia($mediaId): void
     {
         if ($mediaId instanceof Media) {
             $mediaId = $mediaId->getKey();
@@ -447,9 +428,6 @@ trait HasMediaTrait
         $media->delete();
     }
 
-    /*
-     * Add a conversion.
-     */
     public function addMediaConversion(string $name): Conversion
     {
         $conversion = Conversion::create($name);
@@ -468,11 +446,6 @@ trait HasMediaTrait
         return $mediaCollection;
     }
 
-    /**
-     * Delete the model, but preserve all the associated media.
-     *
-     * @return bool
-     */
     public function deletePreservingMedia(): bool
     {
         $this->deletePreservingMedia = true;
@@ -480,12 +453,7 @@ trait HasMediaTrait
         return $this->delete();
     }
 
-    /**
-     * Determines if the media files should be preserved when the media object gets deleted.
-     *
-     * @return bool
-     */
-    public function shouldDeletePreservingMedia()
+    public function shouldDeletePreservingMedia(): bool
     {
         return $this->deletePreservingMedia ?? false;
     }
@@ -509,19 +477,17 @@ trait HasMediaTrait
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection
-            ->filter(function (Media $mediaItem) use ($collectionName) {
-                return $mediaItem->collection_name === $collectionName;
-            })
+            ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName)
             ->sortBy('order_column')
             ->values();
     }
 
-    public function prepareToAttachMedia(Media $media, FileAdder $fileAdder)
+    public function prepareToAttachMedia(Media $media, FileAdder $fileAdder): void
     {
         $this->unAttachedMediaLibraryItems[] = compact('media', 'fileAdder');
     }
 
-    public function processUnattachedMedia(callable $callable)
+    public function processUnattachedMedia(callable $callable): void
     {
         foreach ($this->unAttachedMediaLibraryItems as $item) {
             $callable($item['media'], $item['fileAdder']);
@@ -548,15 +514,15 @@ trait HasMediaTrait
         }
     }
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
     }
 
-    public function registerAllMediaConversions(Media $media = null)
+    public function registerAllMediaConversions(Media $media = null): void
     {
         $this->registerMediaCollections();
 

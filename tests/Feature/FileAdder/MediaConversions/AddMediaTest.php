@@ -62,7 +62,7 @@ class AddMediaTest extends TestCase
     public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
     {
         $modelClass = new class() extends TestModelWithConversion {
-            public function registerMediaConversions(Media $media = null)
+            public function registerMediaConversions(Media $media = null): void
             {
                 $this->addMediaConversion('my-conversion')
                     ->setManipulations(function (Manipulations $manipulations) {
@@ -124,7 +124,7 @@ class AddMediaTest extends TestCase
              *
              * @return array
              */
-            public function registerMediaConversions(Media $media = null)
+            public function registerMediaConversions(Media $media = null): void
             {
                 $this->addMediaConversion('thumb')
                     ->width($this->width)

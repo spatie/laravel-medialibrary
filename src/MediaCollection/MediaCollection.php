@@ -9,37 +9,30 @@ class MediaCollection
 {
     use Macroable;
 
-    /** @var string */
-    public $name = '';
+    public string $name = '';
 
-    /** @var string */
-    public $diskName = '';
+    public string $diskName = '';
 
-    /** @var string */
-    public $conversionsDiskName = '';
+    public string $conversionsDiskName = '';
 
     /** @var callable */
     public $mediaConversionRegistrations;
 
-    /** @var bool */
-    public $generateResponsiveImages = false;
+    public bool $generateResponsiveImages = false;
 
     /** @var callable */
     public $acceptsFile;
 
-    /** @var array $acceptsMimeTypes */
-    public $acceptsMimeTypes = [];
+    public array $acceptsMimeTypes = [];
 
-    /** @var int */
+    /** @var bool|int */
     public $collectionSizeLimit = false;
 
-    public $singleFile = false;
+    public bool $singleFile = false;
 
-    /** @var string */
-    public $fallbackUrl = '';
+    public string $fallbackUrl = '';
 
-    /** @var string */
-    public $fallbackPath = '';
+    public string $fallbackPath = '';
 
     public function __construct(string $name)
     {
@@ -48,9 +41,7 @@ class MediaCollection
         $this->mediaConversionRegistrations = function () {
         };
 
-        $this->acceptsFile = function () {
-            return true;
-        };
+        $this->acceptsFile = fn() => true;
     }
 
     public static function create($name)

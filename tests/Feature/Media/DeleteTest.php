@@ -58,7 +58,7 @@ class DeleteTest extends TestCase
     public function it_will_not_remove_the_files_when_shouldDeletePreservingMedia_returns_true()
     {
         $testModelClass = new class() extends TestModel {
-            public function shouldDeletePreservingMedia()
+            public function shouldDeletePreservingMedia(): bool
             {
                 return true;
             }
@@ -81,7 +81,7 @@ class DeleteTest extends TestCase
     public function it_will_remove_the_files_when_shouldDeletePreservingMedia_returns_false()
     {
         $testModelClass = new class() extends TestModel {
-            public function shouldDeletePreservingMedia()
+            public function shouldDeletePreservingMedia(): bool
             {
                 return false;
             }

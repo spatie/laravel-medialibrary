@@ -10,18 +10,15 @@ use Spatie\MediaLibrary\Conversion\ConversionCollection;
 use Spatie\MediaLibrary\FileManipulator;
 use Spatie\MediaLibrary\Models\Media;
 
-class PerformConversions implements ShouldQueue
+class PerformConversionsJob implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, Queueable;
 
-    /** @var \Spatie\MediaLibrary\Conversion\ConversionCollection */
-    protected $conversions;
+    protected ConversionCollection $conversions;
 
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    protected $media;
+    protected Media $media;
 
-    /** @var bool */
-    protected $onlyMissing;
+    protected bool $onlyMissing;
 
     public function __construct(ConversionCollection $conversions, Media $media, $onlyMissing = false)
     {

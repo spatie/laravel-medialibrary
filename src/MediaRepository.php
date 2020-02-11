@@ -11,10 +11,8 @@ use Spatie\MediaLibrary\Models\Media;
 
 class MediaRepository
 {
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    protected $model;
+    protected Media $model;
 
-    /** @param \Spatie\MediaLibrary\Models\Media $model */
     public function __construct(Media $model)
     {
         $this->model = $model;
@@ -81,13 +79,6 @@ class MediaRepository
             ->get();
     }
 
-    /**
-     * Convert the given array to a filter function.
-     *
-     * @param $filters
-     *
-     * @return \Closure
-     */
     protected function getDefaultFilterFunction(array $filters): Closure
     {
         return function (Media $media) use ($filters) {

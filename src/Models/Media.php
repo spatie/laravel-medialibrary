@@ -33,7 +33,7 @@ class Media extends Model implements Responsable, Htmlable
 
     protected $guarded = [];
 
-    protected $casts = [
+    protected  $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
         'responsive_images' => 'array',
@@ -44,17 +44,11 @@ class Media extends Model implements Responsable, Htmlable
         return $this->morphTo();
     }
 
-    /*
-     * Get the full url to a original media file.
-    */
     public function getFullUrl(string $conversionName = ''): string
     {
         return url($this->getUrl($conversionName));
     }
 
-    /*
-     * Get the url to a original media file.
-     */
     public function getUrl(string $conversionName = ''): string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
@@ -69,9 +63,6 @@ class Media extends Model implements Responsable, Htmlable
         return $urlGenerator->getTemporaryUrl($expiration, $options);
     }
 
-    /*
-     * Get the path to the original media file.
-     */
     public function getPath(string $conversionName = ''): string
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
@@ -98,9 +89,7 @@ class Media extends Model implements Responsable, Htmlable
     public function getTypeFromExtension(): string
     {
         $imageGenerator = $this->getImageGenerators()
-            ->map(function (string $className) {
-                return app($className);
-            })
+            ->map(fn(string $className) => app($className))
             ->first->canHandleExtension(strtolower($this->extension));
 
         return $imageGenerator
@@ -111,9 +100,7 @@ class Media extends Model implements Responsable, Htmlable
     public function getTypeFromMime(): string
     {
         $imageGenerator = $this->getImageGenerators()
-            ->map(function (string $className) {
-                return app($className);
-            })
+            ->map(fn(string $className) => app($className))
             ->first->canHandleMime($this->mime_type);
 
         return $imageGenerator
@@ -143,9 +130,6 @@ class Media extends Model implements Responsable, Htmlable
         return strtolower(config("filesystems.disks.{$diskName}.driver"));
     }
 
-    /*
-     * Determine if the media item has a custom property with the given name.
-     */
     public function hasCustomProperty(string $propertyName): bool
     {
         return Arr::has($this->custom_properties, $propertyName);
@@ -192,16 +176,11 @@ class Media extends Model implements Responsable, Htmlable
         return $this;
     }
 
-    /*
-     * Get all the names of the registered media conversions.
-     */
     public function getMediaConversionNames(): array
     {
         $conversions = ConversionCollection::createForMedia($this);
 
-        return $conversions->map(function (Conversion $conversion) {
-            return $conversion->getName();
-        })->toArray();
+        return $conversions->map(fn(Conversion $conversion) => $conversion->getName())->toArray();
     }
 
     public function hasGeneratedConversion(string $conversionName): bool
@@ -296,9 +275,7 @@ class Media extends Model implements Responsable, Htmlable
         }
 
         $attributeString = collect($extraAttributes)
-            ->map(function ($value, $name) {
-                return $name.'="'.$value.'"';
-            })->implode(' ');
+            ->map(fn($value, $name) => $name.'="'.$value.'"')->implode(' ');
 
         if (strlen($attributeString)) {
             $attributeString = ' '.$attributeString;
@@ -361,6 +338,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function stream()
     {
+        /** @var \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         return $filesystem->getStream($this);

@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\MediaCollection\MediaCollection;
 
 class FileUnacceptableForCollection extends FileCannotBeAdded
 {
-    public static function create(File $file, MediaCollection $mediaCollection, HasMedia $hasMedia)
+    public static function create(File $file, MediaCollection $mediaCollection, HasMedia $hasMedia): self
     {
         $modelType = get_class($hasMedia);
 

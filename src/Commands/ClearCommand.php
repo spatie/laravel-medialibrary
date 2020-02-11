@@ -17,12 +17,12 @@ class ClearCommand extends Command
 
     protected $description = 'Delete all items in a media collection.';
 
-    /** @var \Spatie\MediaLibrary\MediaRepository */
-    protected $mediaRepository;
+    protected MediaRepository $mediaRepository;
 
     public function __construct(MediaRepository $mediaRepository)
     {
         parent::__construct();
+
         $this->mediaRepository = $mediaRepository;
     }
 

@@ -7,13 +7,13 @@ use Spatie\MediaLibrary\Models\Media;
 class RegisteredResponsiveImages
 {
     /** Spatie\Medialibrary\Media */
-    protected $media;
+    protected \Spatie\MediaLibrary\Models\Media $media;
 
     /** Illuminate\Support\Collection */
-    public $files;
+    public \Illuminate\Support\Collection $files;
 
     /** string */
-    public $generatedFor;
+    public string $generatedFor;
 
     public function __construct(Media $media, string $conversionName = '')
     {
@@ -24,20 +24,14 @@ class RegisteredResponsiveImages
             : $conversionName;
 
         $this->files = collect($media->responsive_images[$this->generatedFor]['urls'] ?? [])
-            ->map(function (string $fileName) use ($media) {
-                return new ResponsiveImage($fileName, $media);
-            })
-            ->filter(function (ResponsiveImage $responsiveImage) {
-                return $responsiveImage->generatedFor() === $this->generatedFor;
-            });
+            ->map(fn(string $fileName) => new ResponsiveImage($fileName, $media))
+            ->filter(fn(ResponsiveImage $responsiveImage) => $responsiveImage->generatedFor() === $this->generatedFor);
     }
 
     public function getUrls(): array
     {
         return $this->files
-            ->map(function (ResponsiveImage $responsiveImage) {
-                return $responsiveImage->url();
-            })
+            ->map(fn(ResponsiveImage $responsiveImage) => $responsiveImage->url())
             ->values()
             ->toArray();
     }
@@ -45,9 +39,7 @@ class RegisteredResponsiveImages
     public function getSrcset(): string
     {
         $filesSrcset = $this->files
-            ->map(function (ResponsiveImage $responsiveImage) {
-                return "{$responsiveImage->url()} {$responsiveImage->width()}w";
-            })
+            ->map(fn(ResponsiveImage $responsiveImage) => "{$responsiveImage->url()} {$responsiveImage->width()}w")
             ->implode(', ');
 
         $shouldAddPlaceholderSvg = config('medialibrary.responsive_images.use_tiny_placeholders')

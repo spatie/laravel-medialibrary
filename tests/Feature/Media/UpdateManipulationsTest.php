@@ -12,7 +12,7 @@ class UpdateManipulationsTest extends TestCase
     public function it_will_create_derived_files_when_manipulations_have_changed()
     {
         $testModelClass = new class() extends TestModel {
-            public function registerMediaConversions(Media $media = null)
+            public function registerMediaConversions(Media $media = null): void
             {
                 $this->addMediaConversion('update_test');
             }
@@ -45,7 +45,7 @@ class UpdateManipulationsTest extends TestCase
     public function it_will_not_create_derived_files_when_manipulations_have_not_changed()
     {
         $testModelClass = new class() extends TestModel {
-            public function registerMediaConversions(Media $media = null)
+            public function registerMediaConversions(Media $media = null): void
             {
                 $this->addMediaConversion('update_test');
             }

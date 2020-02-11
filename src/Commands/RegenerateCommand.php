@@ -23,20 +23,18 @@ class RegenerateCommand extends Command
 
     protected $description = 'Regenerate the derived images of media';
 
-    /** @var \Spatie\MediaLibrary\MediaRepository */
-    protected $mediaRepository;
+    protected MediaRepository $mediaRepository;
 
-    /** @var \Spatie\MediaLibrary\FileManipulator */
-    protected $fileManipulator;
+    protected FileManipulator $fileManipulator;
 
-    /** @var array */
-    protected $erroredMediaIds = [];
+    protected array $erroredMediaIds = [];
 
     public function __construct(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
     {
         parent::__construct();
 
         $this->mediaRepository = $mediaRepository;
+
         $this->fileManipulator = $fileManipulator;
     }
 

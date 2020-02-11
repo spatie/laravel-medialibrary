@@ -10,11 +10,9 @@ class ConversionHasBeenCompleted
 {
     use SerializesModels;
 
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    public $media;
+    public Media $media;
 
-    /** @var \Spatie\MediaLibrary\Conversion\Conversion */
-    public $conversion;
+    public Conversion $conversion;
 
     public function __construct(Media $media, Conversion $conversion)
     {

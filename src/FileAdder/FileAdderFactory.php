@@ -15,7 +15,7 @@ class FileAdderFactory
      *
      * @return \Spatie\MediaLibrary\FileAdder\FileAdder
      */
-    public static function create(Model $subject, $file)
+    public static function create(Model $subject, $file): FileAdder
     {
         return app(FileAdder::class)
             ->setSubject($subject)
@@ -53,9 +53,7 @@ class FileAdderFactory
                     return static::create($subject, $files);
                 }
 
-                return array_map(function ($file) use ($subject) {
-                    return static::create($subject, $file);
-                }, $files);
+                return array_map(fn($file) => static::create($subject, $file), $files);
             })->flatten();
     }
 

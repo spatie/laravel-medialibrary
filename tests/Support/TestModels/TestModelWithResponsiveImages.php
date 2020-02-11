@@ -6,12 +6,7 @@ use Spatie\MediaLibrary\Models\Media;
 
 class TestModelWithResponsiveImages extends TestModel
 {
-    /**
-     * Register the conversions that should be performed.
-     *
-     * @return array
-     */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->withResponsiveImages()

@@ -9,6 +9,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - Url generation has been vastly simplified. You should set the `url_generator` in the `medialibrary` config file to `Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
 - remove the `s3.domain` key from the `medialibrary` config file
 - spatie/pdf-to-image is now a suggestion dependency. Make sure to install it, if you want to create thumbnails for PDFs or SVGs
+- `registerMediaConversions` and `registerMediaCollections` should now use the  `void` return type.
 
 ## 7.3.0
 

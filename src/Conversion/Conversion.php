@@ -8,26 +8,19 @@ use Spatie\Image\Manipulations;
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
 {
-    /** @var string */
-    protected $name = '';
+    protected string $name = '';
 
-    /** @var int */
-    protected $extractVideoFrameAtSecond = 0;
+    protected int $extractVideoFrameAtSecond = 0;
 
-    /** @var \Spatie\Image\Manipulations */
-    protected $manipulations;
+    protected Manipulations $manipulations;
 
-    /** @var array */
-    protected $performOnCollections = [];
+    protected array $performOnCollections = [];
 
-    /** @var bool */
-    protected $performOnQueue = true;
+    protected bool $performOnQueue = true;
 
-    /** @var bool */
-    protected $keepOriginalImageFormat = false;
+    protected bool $keepOriginalImageFormat = false;
 
-    /** @var bool */
-    protected $generateResponsiveImages = false;
+    protected bool $generateResponsiveImages = false;
 
     public function __construct(string $name)
     {
