@@ -348,7 +348,13 @@ class S3IntegrationTest extends TestCase
 
     public static function getS3BaseTestDirectory(): string
     {
-        return Str::uuid();
+        static $uuid = null;
+        
+        if (is_null($uuid)) {
+            $uuid = Str::uuid();
+        }
+        
+        return $uuid;
     }
 
     public function s3BaseUrl(): string
