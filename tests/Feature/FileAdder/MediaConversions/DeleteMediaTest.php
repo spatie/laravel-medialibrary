@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
+namespace Spatie\Medialibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use File;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
 {

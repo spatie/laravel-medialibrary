@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Models;
+namespace Spatie\Medialibrary\Models;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Htmlable;
@@ -10,18 +10,18 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image;
-use Spatie\MediaLibrary\Models\Concerns\HasUuid;
-use Spatie\MediaLibrary\Models\Concerns\IsSorted;
-use Spatie\MediaLibrary\Models\Traits\CustomMediaProperties;
-use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\HasMedia\HasMedia;
+use Spatie\Medialibrary\Helpers\File;
+use Spatie\Medialibrary\Helpers\TemporaryDirectory;
+use Spatie\Medialibrary\ImageGenerators\FileTypes\Image;
+use Spatie\Medialibrary\Models\Concerns\HasUuid;
+use Spatie\Medialibrary\Models\Concerns\IsSorted;
+use Spatie\Medialibrary\Models\Traits\CustomMediaProperties;
+use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\Medialibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model implements Responsable, Htmlable
 {
@@ -338,7 +338,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function stream()
     {
-        /** @var \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem */
+        /** @var \Spatie\Medialibrary\Filesystem\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         return $filesystem->getStream($this);

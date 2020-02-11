@@ -23,7 +23,7 @@ return [
     /*
      * The fully qualified class name of the media model.
      */
-    'media_model' => Spatie\MediaLibrary\Models\Media::class,
+    'media_model' => Spatie\Medialibrary\Models\Media::class,
 
     'remote' => [
         /*
@@ -48,7 +48,7 @@ return [
          *
          * https://docs.spatie.be/laravel-medialibrary/v7/advanced-usage/generating-responsive-images
          */
-        'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
+        'width_calculator' => Spatie\Medialibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
         /*
          * By default rendering media to a responsive image will add some javascript and a tiny placeholder.
@@ -60,14 +60,14 @@ return [
          * This class will generate the tiny placeholder used for progressive image loading. By default
          * the medialibrary will use a tiny blurred jpg image.
          */
-        'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
+        'tiny_placeholder_generator' => Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
 
     /*
      * When urls to files get generated, this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */
-    'url_generator' => Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator::class,
+    'url_generator' => Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator::class,
 
     /*
      * Whether to activate versioning when urls to files get generated.
@@ -111,11 +111,11 @@ return [
      * These generators will be used to create an image of media files.
      */
     'image_generators' => [
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Image::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Webp::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Pdf::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Svg::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Video::class,
     ],
 
     /*
@@ -143,7 +143,7 @@ return [
      * your custom jobs extend the ones provided by the package.
      */
     'jobs' => [
-        'perform_conversions' => Spatie\MediaLibrary\Jobs\PerformConversionsJob::class,
-        'generate_responsive_images' => Spatie\MediaLibrary\Jobs\GenerateResponsiveImagesJob::class,
+        'perform_conversions' => Spatie\Medialibrary\Jobs\PerformConversionsJob::class,
+        'generate_responsive_images' => Spatie\Medialibrary\Jobs\GenerateResponsiveImagesJob::class,
     ],
 ];

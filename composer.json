@@ -39,9 +39,10 @@
   },
   "require-dev": {
     "ext-pdo_sqlite": "*",
+    "ext-zip": "*",
     "doctrine/dbal": "^2.5.2",
     "guzzlehttp/guzzle": "^6.3",
-    "league/flysystem-aws-s3-v3": "^1.0.13",
+    "league/flysystem-aws-s3-v3": "^1.0.64",
     "mockery/mockery": "^1.0",
     "orchestra/testbench": "^4.0|^5.0",
     "php-ffmpeg/php-ffmpeg": "^0.14.0",
@@ -59,18 +60,18 @@
   },
   "autoload": {
     "psr-4": {
-      "Spatie\\MediaLibrary\\": "src"
+      "Spatie\\Medialibrary\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Spatie\\MediaLibrary\\Tests\\": "tests"
+      "Spatie\\Medialibrary\\Tests\\": "tests"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
+        "Spatie\\Medialibrary\\MediaLibraryServiceProvider"
       ]
     }
   },

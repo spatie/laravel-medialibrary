@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollection;
+namespace Spatie\Medialibrary\MediaCollection;
 
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;

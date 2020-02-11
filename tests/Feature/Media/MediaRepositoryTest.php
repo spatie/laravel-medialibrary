@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
+namespace Spatie\Medialibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\MediaRepository;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestCustomMediaModel;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\MediaRepository;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestCustomMediaModel;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class MediaRepositoryTest extends TestCase
 {

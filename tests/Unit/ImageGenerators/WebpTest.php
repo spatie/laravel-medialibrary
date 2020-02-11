@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Unit\ImageGenerators;
+namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\ImageGenerators\FileTypes\Webp;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class WebpTest extends TestCase
 {

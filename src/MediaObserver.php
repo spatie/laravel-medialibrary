@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\Medialibrary;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Application;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\Models\Media;
 
 class MediaObserver
 {

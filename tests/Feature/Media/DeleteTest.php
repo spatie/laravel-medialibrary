@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
+namespace Spatie\Medialibrary\Tests\Feature\Media;
 
 use File;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\Support\TestPathGenerator;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\Support\TestPathGenerator;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class DeleteTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Unit\PathGenerator;
+namespace Spatie\Medialibrary\Tests\Unit\PathGenerator;
 
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\PathGenerator\PathGenerator;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\PathGenerator\PathGenerator;
 
 class CustomPathGenerator implements PathGenerator
 {

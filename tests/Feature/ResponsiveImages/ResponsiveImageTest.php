@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
+namespace Spatie\Medialibrary\Tests\Feature\ResponsiveImages;
 
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class ResponsiveImageTest extends TestCase
 {

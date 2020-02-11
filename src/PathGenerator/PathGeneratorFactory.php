@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\PathGenerator;
+namespace Spatie\Medialibrary\PathGenerator;
 
-use Spatie\MediaLibrary\Exceptions\InvalidPathGenerator;
+use Spatie\Medialibrary\Exceptions\InvalidPathGenerator;
 
 class PathGeneratorFactory
 {

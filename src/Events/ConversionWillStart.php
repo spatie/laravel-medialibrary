@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Events;
+namespace Spatie\Medialibrary\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Models\Media;
 
 class ConversionWillStart
 {

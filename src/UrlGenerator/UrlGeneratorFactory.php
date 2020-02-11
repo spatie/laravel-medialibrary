@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\UrlGenerator;
+namespace Spatie\Medialibrary\UrlGenerator;
 
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\Exceptions\InvalidUrlGenerator;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
+use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Exceptions\InvalidUrlGenerator;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\PathGenerator\PathGeneratorFactory;
 
 class UrlGeneratorFactory
 {

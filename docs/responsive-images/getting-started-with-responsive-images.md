@@ -102,10 +102,10 @@ Here's an example where we define a conversion to make a greyscale version and g
 ```php
 namespace App;
 
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\HasMedia\HasMedia;
+use Spatie\Medialibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\Medialibrary\HasMedia\HasMediaTrait;
 
 class YourModel extends Model implements HasMedia
 {

@@ -1,25 +1,25 @@
 <?php
 
-namespace Spatie\MediaLibrary\FileAdder;
+namespace Spatie\Medialibrary\FileAdder;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
-use Spatie\MediaLibrary\File as PendingFile;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Helpers\RemoteFile;
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
-use Spatie\MediaLibrary\Jobs\GenerateResponsiveImagesJob;
-use Spatie\MediaLibrary\MediaCollection\MediaCollection;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\Medialibrary\File as PendingFile;
+use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\HasMedia\HasMedia;
+use Spatie\Medialibrary\Helpers\File;
+use Spatie\Medialibrary\Helpers\RemoteFile;
+use Spatie\Medialibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
+use Spatie\Medialibrary\Jobs\GenerateResponsiveImagesJob;
+use Spatie\Medialibrary\MediaCollection\MediaCollection;
+use Spatie\Medialibrary\Models\Media;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -216,7 +216,7 @@ class FileAdder
         }
 
         $mediaClass = config('medialibrary.media_model');
-        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Models\Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -267,7 +267,7 @@ class FileAdder
         }
 
         $mediaClass = config('medialibrary.media_model');
-        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Models\Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;

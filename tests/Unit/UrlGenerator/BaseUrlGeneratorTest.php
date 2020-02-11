@@ -1,41 +1,41 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Unit\UrlGenerator;
+namespace Spatie\Medialibrary\Tests\Unit\UrlGenerator;
 
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
-use Spatie\MediaLibrary\Tests\TestCase;
-use Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator;
-use Spatie\MediaLibrary\UrlGenerator\LocalUrlGenerator;
+use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\PathGenerator\BasePathGenerator;
+use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator;
+use Spatie\Medialibrary\UrlGenerator\LocalUrlGenerator;
 
 class BaseUrlGeneratorTest extends TestCase
 {
     protected $config;
 
     /**
-     * @var \Spatie\MediaLibrary\Media
+     * @var \Spatie\Medialibrary\Media
      */
-    protected \Spatie\MediaLibrary\Models\Media $media;
+    protected \Spatie\Medialibrary\Models\Media $media;
 
     /**
-     * @var \Spatie\MediaLibrary\Conversion\Conversion
+     * @var \Spatie\Medialibrary\Conversion\Conversion
      */
-    protected \Spatie\MediaLibrary\Conversion\Conversion $conversion;
+    protected \Spatie\Medialibrary\Conversion\Conversion $conversion;
 
     /**
-     * @var \Spatie\MediaLibrary\Conversion\Conversion
+     * @var \Spatie\Medialibrary\Conversion\Conversion
      */
-    protected \Spatie\MediaLibrary\Conversion\Conversion $conversionKeepingOriginalImageFormat;
+    protected \Spatie\Medialibrary\Conversion\Conversion $conversionKeepingOriginalImageFormat;
 
     /**
      * @var DefaultUrlGenerator
      */
-    protected \Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
+    protected \Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
 
     /**
      * @var BasePathGenerator
      */
-    protected \Spatie\MediaLibrary\PathGenerator\BasePathGenerator $pathGenerator;
+    protected \Spatie\Medialibrary\PathGenerator\BasePathGenerator $pathGenerator;
 
     public function setUp(): void
     {

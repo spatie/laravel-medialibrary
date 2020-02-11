@@ -28,7 +28,7 @@ public function registerMediaCollections()
 If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
 
 ```php
-use Spatie\MediaLibrary\File;
+use Spatie\Medialibrary\File;
 ...
 public function registerMediaCollections()
 {
@@ -44,7 +44,7 @@ public function registerMediaCollections()
 You can pass a callback to `acceptsFile` that will check if a file is allowed into the collection. In this example we only accept `jpeg` files.
 
 ```php
-use Spatie\MediaLibrary\File;
+use Spatie\Medialibrary\File;
 ...
 public function registerMediaCollections()
 {
@@ -62,7 +62,7 @@ This will succeed:
 $yourModel->addMedia('beautiful.jpg')->toMediaCollection('only-jpegs-please');
 ```
 
-This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
+This will throw a `Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
 
 ```php
 $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
@@ -73,7 +73,7 @@ $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
 You can defined an array of accepted Mime types using `acceptsMimeTypes` that will check if a file with a certain Mime type is allowed into the collection. In this example we only accept `image/jpeg` files.
 
 ```php
-use Spatie\MediaLibrary\File;
+use Spatie\Medialibrary\File;
 ...
 public function registerMediaCollections()
 {
@@ -89,7 +89,7 @@ This will succeed:
 $yourModel->addMedia('beautiful.jpg')->toMediaCollection('only-jpegs-please');
 ```
 
-This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
+This will throw a `Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
 
 ```php
 $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
@@ -190,7 +190,7 @@ It's recommended that your first read the section on [converting images](/larave
 Normally image conversions are registered inside the `registerMediaConversions` function on your model. However, images conversions can also be registered inside media collections.
 
 ```php
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Models\Media;
 
 public function registerMediaCollections()
 {

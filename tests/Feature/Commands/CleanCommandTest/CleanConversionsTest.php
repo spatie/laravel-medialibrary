@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Commands\CleanCommandTest;
+namespace Spatie\Medialibrary\Tests\Feature\Commands\CleanCommandTest;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class CleanConversionsTest extends TestCase
 {
@@ -64,7 +64,7 @@ class CleanConversionsTest extends TestCase
     /** @test */
     public function generated_conversion_are_cleared_after_cleanup()
     {
-        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Models\Media $media */
         $media = $this->media['model2']['collection1'];
 
         Media::where('id', '<>', $media->id)->delete();

@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MediaLibrary\Conversion;
+namespace Spatie\Medialibrary\Conversion;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Exceptions\InvalidConversion;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Exceptions\InvalidConversion;
+use Spatie\Medialibrary\Models\Media;
 
 class ConversionCollection extends Collection
 {
@@ -46,7 +46,7 @@ class ConversionCollection extends Collection
     {
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
-        /** @var \Spatie\MediaLibrary\HasMedia\HasMedia $model */
+        /** @var \Spatie\Medialibrary\HasMedia\HasMedia $model */
         $model = new $modelName();
 
         /*
@@ -89,7 +89,7 @@ class ConversionCollection extends Collection
 
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        /** @var \Spatie\MediaLibrary\Conversion\Conversion|null $conversion */
+        /** @var \Spatie\Medialibrary\Conversion\Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
             if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
                 return false;

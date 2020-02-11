@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\ResponsiveImages;
+namespace Spatie\Medialibrary\Tests\Feature\ResponsiveImages;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
-use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Events\ResponsiveImagesGenerated;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class ResponsiveImageGeneratorTest extends TestCase
 {

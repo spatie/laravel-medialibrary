@@ -1,30 +1,30 @@
 <?php
 
-namespace Spatie\MediaLibrary\ResponsiveImages;
+namespace Spatie\Medialibrary\ResponsiveImages;
 
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Helpers\ImageFactory;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
-use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Events\ResponsiveImagesGenerated;
+use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\Helpers\File;
+use Spatie\Medialibrary\Helpers\ImageFactory;
+use Spatie\Medialibrary\Helpers\TemporaryDirectory;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
+use Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 
 class ResponsiveImageGenerator
 {
-    /** \Spatie\MediaLibrary\Filesystem\Filesystem */
-    protected \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem;
+    /** \Spatie\Medialibrary\Filesystem\Filesystem */
+    protected \Spatie\Medialibrary\Filesystem\Filesystem $filesystem;
 
-    /** \Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator */
-    protected \Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator $widthCalculator;
+    /** \Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator */
+    protected \Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator $widthCalculator;
 
-    /** \Spatie\MediaLibrary\ResponsiveImages\TinyPlaceHolderGenerator\TinyPlaceHolderGenerator */
-    protected \Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator $tinyPlaceholderGenerator;
+    /** \Spatie\Medialibrary\ResponsiveImages\TinyPlaceHolderGenerator\TinyPlaceHolderGenerator */
+    protected \Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator $tinyPlaceholderGenerator;
 
     public function __construct(
         Filesystem $filesystem,

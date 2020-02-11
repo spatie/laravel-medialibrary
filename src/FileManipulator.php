@@ -1,22 +1,22 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Spatie\Medialibrary;
 
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\Events\ConversionHasBeenCompleted;
-use Spatie\MediaLibrary\Events\ConversionWillStart;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Helpers\File as MediaLibraryFileHelper;
-use Spatie\MediaLibrary\Helpers\ImageFactory;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
-use Spatie\MediaLibrary\ImageGenerators\ImageGenerator;
-use Spatie\MediaLibrary\Jobs\PerformConversionsJob;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Events\ConversionHasBeenCompleted;
+use Spatie\Medialibrary\Events\ConversionWillStart;
+use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\Helpers\File as MediaLibraryFileHelper;
+use Spatie\Medialibrary\Helpers\ImageFactory;
+use Spatie\Medialibrary\Helpers\TemporaryDirectory;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
+use Spatie\Medialibrary\Jobs\PerformConversionsJob;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\ResponsiveImages\ResponsiveImageGenerator;
 use Storage;
 
 class FileManipulator
@@ -24,7 +24,7 @@ class FileManipulator
     /**
      * Create all derived files for the given media.
      *
-     * @param \Spatie\MediaLibrary\Models\Media $media
+     * @param \Spatie\Medialibrary\Models\Media $media
      * @param array $only
      * @param bool $onlyMissing
      */
@@ -52,8 +52,8 @@ class FileManipulator
     /**
      * Perform the given conversions for the given media.
      *
-     * @param \Spatie\MediaLibrary\Conversion\ConversionCollection $conversions
-     * @param \Spatie\MediaLibrary\Models\Media $media
+     * @param \Spatie\Medialibrary\Conversion\ConversionCollection $conversions
+     * @param \Spatie\Medialibrary\Models\Media $media
      * @param bool $onlyMissing
      */
     public function performConversions(ConversionCollection $conversions, Media $media, bool $onlyMissing = false)
@@ -155,9 +155,9 @@ class FileManipulator
     }
 
     /**
-     * @param \Spatie\MediaLibrary\Models\Media $media
+     * @param \Spatie\Medialibrary\Models\Media $media
      *
-     * @return \Spatie\MediaLibrary\ImageGenerators\ImageGenerator|null
+     * @return \Spatie\Medialibrary\ImageGenerators\ImageGenerator|null
      */
     public function determineImageGenerator(Media $media)
     {

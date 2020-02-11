@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MediaLibrary\ResponsiveImages;
+namespace Spatie\Medialibrary\ResponsiveImages;
 
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Models\Media;
 
 class RegisteredResponsiveImages
 {
     /** Spatie\Medialibrary\Media */
-    protected \Spatie\MediaLibrary\Models\Media $media;
+    protected \Spatie\Medialibrary\Models\Media $media;
 
     /** Illuminate\Support\Collection */
     public \Illuminate\Support\Collection $files;

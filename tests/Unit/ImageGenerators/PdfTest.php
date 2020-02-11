@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Unit\ImageGenerators;
+namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\ImageGenerators\FileTypes\Pdf;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class PdfTest extends TestCase
 {

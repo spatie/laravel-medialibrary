@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\ImageGenerators;
+namespace Spatie\Medialibrary\ImageGenerators;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Models\Media;
 
 abstract class BaseGenerator implements ImageGenerator
 {

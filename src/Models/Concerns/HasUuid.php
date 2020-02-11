@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Models\Concerns;
+namespace Spatie\Medialibrary\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Support\TestModels;
+namespace Spatie\Medialibrary\Tests\Support\TestModels;
 
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Models\Media;
 
 class TestModelWithConversionsOnOtherDisk extends TestModel
 {

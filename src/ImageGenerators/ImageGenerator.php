@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\ImageGenerators;
+namespace Spatie\Medialibrary\ImageGenerators;
 
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Models\Media;
 
 interface ImageGenerator
 {
@@ -13,7 +13,7 @@ interface ImageGenerator
      * Receive a file and return a thumbnail in jpg/png format.
      *
      * @param string $path
-     * @param \Spatie\MediaLibrary\Conversion\Conversion|null $conversion
+     * @param \Spatie\Medialibrary\Conversion\Conversion|null $conversion
      *
      * @return string
      */

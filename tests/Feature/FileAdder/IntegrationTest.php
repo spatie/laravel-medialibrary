@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
+namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
 
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnknownType;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\UnknownType;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
+use Spatie\Medialibrary\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IntegrationTest extends TestCase

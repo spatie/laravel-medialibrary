@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MediaLibrary\HasMedia;
+namespace Spatie\Medialibrary\HasMedia;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\FileAdder\FileAdder;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\FileAdder\FileAdder;
+use Spatie\Medialibrary\Models\Media;
 
 interface HasMedia
 {
@@ -21,7 +21,7 @@ interface HasMedia
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     * @return \Spatie\Medialibrary\FileAdder\FileAdder
      */
     public function addMedia($file): FileAdder;
 
@@ -30,7 +30,7 @@ interface HasMedia
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\MediaLibrary\FileAdder\FileAdder
+     * @return \Spatie\Medialibrary\FileAdder\FileAdder
      */
     public function copyMedia($file): FileAdder;
 
@@ -52,7 +52,7 @@ interface HasMedia
      * Remove all media in the given collection except some.
      *
      * @param string $collectionName
-     * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
+     * @param \Spatie\Medialibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
      *
      * @return $this
      */

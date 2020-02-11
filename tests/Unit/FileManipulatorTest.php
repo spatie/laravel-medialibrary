@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Unit;
+namespace Spatie\Medialibrary\Tests\Unit;
 
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\FileManipulator;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\FileManipulator;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class FileManipulatorTest extends TestCase
 {
     protected string $conversionName = 'test';
 
-    /** @var \Spatie\MediaLibrary\Conversion\Conversion */
-    protected \Spatie\MediaLibrary\Conversion\Conversion $conversion;
+    /** @var \Spatie\Medialibrary\Conversion\Conversion */
+    protected \Spatie\Medialibrary\Conversion\Conversion $conversion;
 
     public function setUp(): void
     {

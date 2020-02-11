@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+namespace Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 
 class MimeTypeNotAllowed extends FileCannotBeAdded
 {

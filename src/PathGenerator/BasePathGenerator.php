@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\PathGenerator;
+namespace Spatie\Medialibrary\PathGenerator;
 
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Models\Media;
 
 class BasePathGenerator implements PathGenerator
 {

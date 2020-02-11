@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
+namespace Spatie\Medialibrary\Tests\Feature\S3Integration;
 
 use Aws\S3\S3Client;
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\MediaStream;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\MediaStream;
+use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class S3IntegrationTest extends TestCase

@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\HasMediaTrait;
+namespace Spatie\Medialibrary\Tests\Feature\HasMediaTrait;
 
 use File;
-use Spatie\MediaLibrary\MediaLibraryServiceProvider;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestCustomMediaModel;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\MediaLibraryServiceProvider;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestCustomMediaModel;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
 {

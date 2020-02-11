@@ -65,7 +65,7 @@ The package will automatically register itself.
 You can publish the migration with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\Medialibrary\MediaLibraryServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the media-table by running the migrations:
@@ -77,7 +77,7 @@ php artisan migrate
 You can publish the config-file with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\Medialibrary\MediaLibraryServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
@@ -106,7 +106,7 @@ return [
     /*
      * The class name of the media model that should be used.
      */
-    'media_model' => Spatie\MediaLibrary\Models\Media::class,
+    'media_model' => Spatie\Medialibrary\Models\Media::class,
 
     /*
      * The engine that should perform the image conversions.
@@ -150,11 +150,11 @@ return [
      * These generators will be used to create an image of media files.
      */
     'image_generators' => [
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Image::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Webp::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Pdf::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Svg::class,
+        Spatie\Medialibrary\ImageGenerators\FileTypes\Video::class,
     ],
 
     /*
@@ -243,7 +243,7 @@ Configure the laravel-medialibrary service provider (and `AppServiceProvider` if
 ```php
 // bootstrap/app.php:
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(Spatie\MediaLibrary\MediaLibraryServiceProvider::class);
+$app->register(Spatie\Medialibrary\MediaLibraryServiceProvider::class);
 ```
 
 Update the `AppServiceProvider` register method to bind the filesystem manager to the IOC container:

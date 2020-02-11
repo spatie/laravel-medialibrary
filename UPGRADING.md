@@ -6,7 +6,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 - Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
 - Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
-- Url generation has been vastly simplified. You should set the `url_generator` in the `medialibrary` config file to `Spatie\MediaLibrary\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
+- Url generation has been vastly simplified. You should set the `url_generator` in the `medialibrary` config file to `Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
 - remove the `s3.domain` key from the `medialibrary` config file
 - spatie/pdf-to-image is now a suggestion dependency. Make sure to install it, if you want to create thumbnails for PDFs or SVGs
 - `registerMediaConversions` and `registerMediaCollections` should now use the  `void` return type.
@@ -28,11 +28,11 @@ If you want your own filesystem implementation, you should extend the `Filesyste
 ## From v6 to v7
 
 - add the `responsive_images` column in the media table: `$table->json('responsive_images');`
-- rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;`
-- rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;` as well (the distinction was [removed](https://github.com/spatie/laravel-medialibrary/commit/48f371a7b10cc82bbee5b781ab8784acc5ad0fc3#diff-f12df6f7f30b5ee54d9ccc6e56e8f93e)).
+- rename the `use Spatie\Medialibrary\HasMedia\Interfaces\HasMedia;` interface to `use Spatie\Medialibrary\HasMedia\HasMedia;`
+- rename the `use Spatie\Medialibrary\HasMedia\Interfaces\HasMediaConversions;` interface to `use Spatie\Medialibrary\HasMedia\HasMedia;` as well (the distinction was [removed](https://github.com/spatie/laravel-medialibrary/commit/48f371a7b10cc82bbee5b781ab8784acc5ad0fc3#diff-f12df6f7f30b5ee54d9ccc6e56e8f93e)).
 - all converted files should now start with the name of the original file. TODO: add instructions / or maybe a script
-- `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app
-- The method definitions of `Spatie\MediaLibrary\Filesystem\Filesystem::add` and `Spatie\MediaLibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
+- `Spatie\Medialibrary\Media` has been moved to `Spatie\Medialibrary\Models\Media`. Update the namespace import of `Media` accross your app
+- The method definitions of `Spatie\Medialibrary\Filesystem\Filesystem::add` and `Spatie\Medialibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
 
 ## From v5 to v6
 
@@ -74,9 +74,9 @@ to
 ## From v2 to v3
 You can upgrade from v2 to v3 by performing these renames in your model that has media.
 
-- `Spatie\MediaLibrary\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\HasMedia\HasMediaTrait`.
-- `Spatie\MediaLibrary\HasMedia` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions`
-- `Spatie\MediaLibrary\HasMediaWithoutConversions` has been renamed to `Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia`
+- `Spatie\Medialibrary\HasMediaTrait` has been renamed to `Spatie\Medialibrary\HasMedia\HasMediaTrait`.
+- `Spatie\Medialibrary\HasMedia` has been renamed to `Spatie\Medialibrary\HasMedia\Interfaces\HasMediaConversions`
+- `Spatie\Medialibrary\HasMediaWithoutConversions` has been renamed to `Spatie\Medialibrary\HasMedia\Interfaces\HasMedia`
 
 In the config file you should rename the `filesystem`-option to `default_filesystem`.
 

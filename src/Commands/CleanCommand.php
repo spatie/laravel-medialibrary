@@ -1,20 +1,20 @@
 <?php
 
-namespace Spatie\MediaLibrary\Commands;
+namespace Spatie\Medialibrary\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\FileManipulator;
-use Spatie\MediaLibrary\MediaRepository;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\PathGenerator\BasePathGenerator;
-use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
+use Spatie\Medialibrary\FileManipulator;
+use Spatie\Medialibrary\MediaRepository;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\PathGenerator\BasePathGenerator;
+use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class CleanCommand extends Command
 {

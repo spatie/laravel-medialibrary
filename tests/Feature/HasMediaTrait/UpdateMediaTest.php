@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\HasMediaTrait;
+namespace Spatie\Medialibrary\Tests\Feature\HasMediaTrait;
 
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class UpdateMediaTest extends TestCase
 {

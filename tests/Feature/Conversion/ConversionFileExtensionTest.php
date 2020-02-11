@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Conversion;
+namespace Spatie\Medialibrary\Tests\Feature\Conversion;
 
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class ConversionFileExtensionTest extends TestCase
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Commands;
+namespace Spatie\Medialibrary\Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class ClearCommandTest extends TestCase
 {

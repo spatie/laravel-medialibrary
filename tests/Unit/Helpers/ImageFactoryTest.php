@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Unit\Helpers;
+namespace Spatie\Medialibrary\Tests\Unit\Helpers;
 
 use ReflectionClass;
-use Spatie\MediaLibrary\Helpers\ImageFactory;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Helpers\ImageFactory;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class ImageFactoryTest extends TestCase
 {

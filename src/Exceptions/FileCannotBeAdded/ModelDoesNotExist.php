@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+namespace Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 
 class ModelDoesNotExist extends FileCannotBeAdded
 {

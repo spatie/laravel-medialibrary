@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
+namespace Spatie\Medialibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class UpdateManipulationsTest extends TestCase
 {
@@ -20,7 +20,7 @@ class UpdateManipulationsTest extends TestCase
 
         $testModel = $testModelClass::find($this->testModel->id);
 
-        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Models\Media $media */
         $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         touch($media->getPath('update_test'), time() - 1);
@@ -53,7 +53,7 @@ class UpdateManipulationsTest extends TestCase
 
         $testModel = $testModelClass::find($this->testModel->id);
 
-        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Models\Media $media */
         $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         $media->manipulations = [

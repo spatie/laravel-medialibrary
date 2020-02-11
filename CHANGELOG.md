@@ -9,7 +9,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - add the ability to store conversions on a separate disk
 - simplify URL generation. You can now just use the `root` and `url` properties on a configured disk
 - spatie/pdf-to-image is now a suggestion dependency, removing the need for always having to install ext-imagick
-- added `shouldMatchBothExtensionsAndMimeTypes` to `Spatie\MediaLibrary\ImageGenerators\BaseGenerator`
+- added `shouldMatchBothExtensionsAndMimeTypes` to `Spatie\Medialibrary\ImageGenerators\BaseGenerator`
 - added progress bar on the clean command (#1623)
 - the `UrlGenerator` interface now contains all required methods (#1656)
 - use PHP 7.4 features where possible
@@ -133,7 +133,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 7.6.5 - 2019-07-16
 
-- Support `jpeg` in `\Spatie\MediaLibrary\Conversion\Conversion::getResultExtension`
+- Support `jpeg` in `\Spatie\Medialibrary\Conversion\Conversion::getResultExtension`
 
 ## 7.6.4 - 2019-07-15
 
@@ -889,7 +889,7 @@ This version is a complete rewrite. Though there are lots of breaking changes mo
 - Small bugfixes
 
 ## 1.6.0
-- Added: `Spatie\MediaLibrary\Models\Media::getHumanReadableFileSize()`
+- Added: `Spatie\Medialibrary\Models\Media::getHumanReadableFileSize()`
 
 ## 1.5.6
 - Bugfix: make compatible with Laravel 5.1

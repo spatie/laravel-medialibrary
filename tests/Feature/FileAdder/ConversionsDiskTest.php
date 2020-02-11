@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
+namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
 
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class ConversionsDiskTest extends TestCase
 {

@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\MediaLibrary\Filesystem;
+namespace Spatie\Medialibrary\Filesystem;
 
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
-use Spatie\MediaLibrary\FileManipulator;
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Helpers\RemoteFile;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
+use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Events\MediaHasBeenAdded;
+use Spatie\Medialibrary\FileManipulator;
+use Spatie\Medialibrary\Helpers\File;
+use Spatie\Medialibrary\Helpers\RemoteFile;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
 {

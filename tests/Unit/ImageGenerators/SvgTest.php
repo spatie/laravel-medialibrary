@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Unit\ImageGenerators;
+namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\ImageGenerators\FileTypes\Svg;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class SvgTest extends TestCase
 {

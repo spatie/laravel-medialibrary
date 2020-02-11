@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\ImageGenerators\FileTypes;
+namespace Spatie\Medialibrary\ImageGenerators\FileTypes;
 
 use Illuminate\Support\Collection;
 use Imagick;
 use ImagickPixel;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
+use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\ImageGenerators\BaseGenerator;
 
 class Svg extends BaseGenerator
 {

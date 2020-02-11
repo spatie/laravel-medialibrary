@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Commands\CleanCommandTest;
+namespace Spatie\Medialibrary\Tests\Feature\Commands\CleanCommandTest;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class CleanResponsiveImagesTest extends TestCase
 {

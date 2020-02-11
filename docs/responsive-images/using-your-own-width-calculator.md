@@ -11,5 +11,5 @@ The default width calculator shipped with the medialibrary is named `FileSizeOpt
 
 ### Using your own width calculator
 
-In most cases the default `FileSizeOptimizedWidthCalculator` will generate pretty good results. But if for some reason you need to customize the behaviour you can specify your own class  in the `responsive_images.width_calculator` of the `medialibrary` config file. A valid width calculator is any class that implements the `Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator` interface. Both the `calculateWidthsFromFile` and `calculateWidths` should return a `Collection` that contains the desired widths the responsive images should have.
+In most cases the default `FileSizeOptimizedWidthCalculator` will generate pretty good results. But if for some reason you need to customize the behaviour you can specify your own class  in the `responsive_images.width_calculator` of the `medialibrary` config file. A valid width calculator is any class that implements the `Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator` interface. Both the `calculateWidthsFromFile` and `calculateWidths` should return a `Collection` that contains the desired widths the responsive images should have.
 

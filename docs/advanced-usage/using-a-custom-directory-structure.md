@@ -29,16 +29,16 @@ To override this default folder structure, a class that conforms to the `PathGen
 Let's take a look at the interface:
 
 ```php
-namespace Spatie\MediaLibrary\PathGenerator;
+namespace Spatie\Medialibrary\PathGenerator;
 
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Medialibrary\Models\Media;
 
 interface PathGenerator
 {
     /**
      * Get the path for the given media, relative to the root storage path.
      *
-     * @param \Spatie\MediaLibrary\Models\Media $media
+     * @param \Spatie\Medialibrary\Models\Media $media
      *
      * @return string
      */
@@ -47,7 +47,7 @@ interface PathGenerator
     /**
      * Get the path for conversions of the given media, relative to the root storage path.
      *
-     * @param \Spatie\MediaLibrary\Models\Media $media
+     * @param \Spatie\Medialibrary\Models\Media $media
      *
      * @return string
      */
@@ -56,7 +56,7 @@ interface PathGenerator
     /*
      * Get the path for responsive images of the given media, relative to the root storage path.
      *
-     * @param \Spatie\MediaLibrary\Models\Media $media
+     * @param \Spatie\Medialibrary\Models\Media $media
      *
      * @return string
      */

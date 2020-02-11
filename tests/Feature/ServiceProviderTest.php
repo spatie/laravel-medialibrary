@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature;
+namespace Spatie\Medialibrary\Tests\Feature;
 
-use Spatie\MediaLibrary\MediaLibraryServiceProvider;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\Medialibrary\MediaLibraryServiceProvider;
+use Spatie\Medialibrary\Tests\TestCase;
 
 class ServiceProviderTest extends TestCase
 {

@@ -1,19 +1,19 @@
 <?php
 
-namespace Spatie\MediaLibrary\ResponsiveImages;
+namespace Spatie\Medialibrary\ResponsiveImages;
 
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\PathGenerator\PathGeneratorFactory;
-use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
+use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\PathGenerator\PathGeneratorFactory;
+use Spatie\Medialibrary\UrlGenerator\UrlGeneratorFactory;
 
 class ResponsiveImage
 {
     /** @var string */
     public string $fileName = '';
 
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    public \Spatie\MediaLibrary\Models\Media $media;
+    /** @var \Spatie\Medialibrary\Models\Media */
+    public \Spatie\Medialibrary\Models\Media $media;
 
     public static function register(Media $media, $fileName, $conversionName)
     {

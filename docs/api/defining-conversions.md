@@ -18,7 +18,7 @@ for more details.
  *
  * @param string $name
  *
- * @return \Spatie\MediaLibrary\Conversion\Conversion
+ * @return \Spatie\Medialibrary\Conversion\Conversion
  */
 public function addMediaConversion($name)
 ```
