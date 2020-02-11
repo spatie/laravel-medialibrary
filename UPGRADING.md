@@ -4,6 +4,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## From v7 to v8
 
+- the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\Medialibrary`. Make sure you modified all classes that reference medialibrary classes.
 - Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
 - Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
 - Url generation has been vastly simplified. You should set the `url_generator` in the `medialibrary` config file to `Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
