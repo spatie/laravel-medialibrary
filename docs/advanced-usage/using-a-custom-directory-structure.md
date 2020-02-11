@@ -35,30 +35,18 @@ use Spatie\Medialibrary\Models\Media;
 
 interface PathGenerator
 {
-    /**
+    /*
      * Get the path for the given media, relative to the root storage path.
-     *
-     * @param \Spatie\Medialibrary\Models\Media $media
-     *
-     * @return string
      */
     public function getPath(Media $media): string;
 
-    /**
+    /*
      * Get the path for conversions of the given media, relative to the root storage path.
-     *
-     * @param \Spatie\Medialibrary\Models\Media $media
-     *
-     * @return string
      */
     public function getPathForConversions(Media $media): string;
 
     /*
      * Get the path for responsive images of the given media, relative to the root storage path.
-     *
-     * @param \Spatie\Medialibrary\Models\Media $media
-     *
-     * @return string
      */
     public function getPathForResponsiveImages(Media $media): string;
 }
