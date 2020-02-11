@@ -227,15 +227,13 @@ abstract class TestCase extends Orchestra
 
     private function setupS3($app): void
     {
-        $s3Configuration = [
+        $app['config']->set('filesystems.disks.s3_disk', [
             'driver' => 's3',
             'key' => getenv('AWS_ACCESS_KEY_ID'),
             'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
             'region' => getenv('AWS_DEFAULT_REGION'),
             'bucket' => getenv('AWS_BUCKET'),
-        ];
-
-        $app['config']->set('filesystems.disks.s3_disk', $s3Configuration);
+        ]);
     }
 
     public function renderView($view, $parameters): string
