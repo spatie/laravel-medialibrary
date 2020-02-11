@@ -347,7 +347,7 @@ class S3IntegrationTest extends TestCase
 
     public static function getS3BaseTestDirectory(): string
     {
-        return getenv('ENVIRONMENT_DESCRIPTION');
+        return md5(getenv('GITHUB_RUN_NUMBER'));
     }
 
     public function s3BaseUrl(): string
