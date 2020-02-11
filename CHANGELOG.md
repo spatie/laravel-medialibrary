@@ -12,6 +12,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - added `shouldMatchBothExtensionsAndMimeTypes` to `Spatie\MediaLibrary\ImageGenerators\BaseGenerator`
 - added progress bar on clearn command (#1623)
 - the `UrlGenerator` interface now contains all required methods (#1656)
+- use PHP 7.4 features where possible
 
 ## 7.18.2 - 2020-01-25
 
