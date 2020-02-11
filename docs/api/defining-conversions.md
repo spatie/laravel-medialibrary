@@ -13,49 +13,39 @@ for more details.
 ### addMediaConversion
 
 ```php
-/**
+/*
  * Add a conversion.
- *
- * @param string $name
- *
- * @return \Spatie\Medialibrary\Conversion\Conversion
  */
-public function addMediaConversion($name)
+public function addMediaConversion(string $name): \Spatie\Medialibrary\Conversion\Conversion
 ```
 
 ### performOnCollections
 
 ```php
-/**
+/*
  * Set the collection names on which this conversion must be performed.
  *
  * @param string $collectionNames,...
- *
- * @return $this
  */
-public function performOnCollections($collectionNames)
+public function performOnCollections($collectionNames): self
 ``` 
 
 ### queued
 
 ```php 
-/**
+/*
  * Mark this conversion as one that should be queued.
- *
- * @return $this
  */
- public function queued()
+ public function queued(): self
 ```
 
 ### nonQueued
 
 ```php 
-/**
+/*
  * Mark this conversion as one that should not be queued.
- *
- * @return $this
  */
-public function nonQueued()
+public function nonQueued(): self
 ```
 
 ## Image manipulations
