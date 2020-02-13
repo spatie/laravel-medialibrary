@@ -10,7 +10,7 @@ use Spatie\Medialibrary\Conversion\ConversionCollection;
 use Spatie\Medialibrary\Events\ConversionHasBeenCompleted;
 use Spatie\Medialibrary\Events\ConversionWillStart;
 use Spatie\Medialibrary\Filesystem\Filesystem;
-use Spatie\Medialibrary\Helpers\File as MediaLibraryFileHelper;
+use Spatie\Medialibrary\Helpers\File as MedialibraryFileHelper;
 use Spatie\Medialibrary\Helpers\ImageFactory;
 use Spatie\Medialibrary\Helpers\TemporaryDirectory;
 use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
@@ -70,7 +70,7 @@ class FileManipulator
 
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
+        $copiedOriginalFile = app(Filesystem::class)->copyFromMedialibrary(
             $media,
             $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
         );
@@ -96,7 +96,7 @@ class FileManipulator
 
                 $newFileName = $conversion->getConversionFile($media);
 
-                $renamedFile = MediaLibraryFileHelper::renameInDirectory($manipulationResult, $newFileName);
+                $renamedFile = MedialibraryFileHelper::renameInDirectory($manipulationResult, $newFileName);
 
                 if ($conversion->shouldGenerateResponsiveImages()) {
                     app(ResponsiveImageGenerator::class)->generateResponsiveImagesForConversion(
@@ -106,7 +106,7 @@ class FileManipulator
                     );
                 }
 
-                app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
+                app(Filesystem::class)->copyToMedialibrary($renamedFile, $media, 'conversions');
 
                 $media->markAsConversionGenerated($conversion->getName(), true);
 

@@ -376,7 +376,7 @@ class FileAdder
         $this->guardAgainstDisallowedFileAdditions($media, $model);
 
         $this->checkGenerateResponsiveImages($media);
-
+        
         $model->media()->save($media);
 
         if ($fileAdder->file instanceof RemoteFile) {

@@ -13,7 +13,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - added progress bar on the clean command (#1623)
 - the `UrlGenerator` interface now contains all required methods (#1656)
 - use PHP 7.4 features where possible
-- the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\Medialibrary`.
+- the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\Medialibrary`. All code where `MediaLibrary` was used is renamed to `Medialibrary`
 - added support for the `loading` attribute (#1667)
 - conversion files can now be named using the `conversion_file_namer` key in the `medialibrary` config file (#1636)
 
@@ -550,12 +550,12 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 5.0.0 - 2017-02-06
 
-- add `toMediaLibraryOnCloudDisk`
+- add `toMedialibraryOnCloudDisk`
 - image generators may now be specified in the config file
 - use json columns for `manipulations` and `custom_properties`
 - refactor all functions in `FileCannotBeAdded` to their own exception classes
 - rename config file from `laravel-medialibrary` to `medialibrary`
-- remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
+- remove `toCollection` and `toCollectionOnDisk` and `toMedialibraryOnDisk`
 - replace dependency on `spatie/laravel-glide` by `spatie/image`
 - mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
 - rename `Spatie\MedialibraryFilesystemInterface` to `Spatie\Medialibrary\Filesystem\Filesystem`
@@ -902,11 +902,11 @@ This version is a complete rewrite. Though there are lots of breaking changes mo
 other traits and the base model.
 
 ## 1.5.4
-- Feature: The `profile` parameter in `Media::getUrl()` and `MediaLibraryModelTrait::getUrl()` is now optional. On null, it retrieves the original file's url.
+- Feature: The `profile` parameter in `Media::getUrl()` and `MedialibraryModelTrait::getUrl()` is now optional. On null, it retrieves the original file's url.
 - Bugfix: `Media::getOriginalUrl()` now returns the correct url.
 
 ## 1.5.3
-- Bugfix: Removed unnecessary static methods from `MediaLibraryModelInterface`
+- Bugfix: Removed unnecessary static methods from `MedialibraryModelInterface`
 
 ## 1.5.0
 - Added a method to remove all media in a collection.

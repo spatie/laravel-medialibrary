@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\Tests\Feature\HasMediaTrait;
 
 use File;
-use Spatie\Medialibrary\MediaLibraryServiceProvider;
+use Spatie\Medialibrary\MedialibraryServiceProvider;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestCustomMediaModel;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\TestCase;
@@ -66,7 +66,7 @@ class DeleteMediaTest extends TestCase
     {
         config()->set('medialibrary.media_model', TestCustomMediaModel::class);
 
-        (new MediaLibraryServiceProvider($this->app))->boot();
+        (new MedialibraryServiceProvider($this->app))->boot();
 
         $testModel = TestModel::create(['name' => 'test']);
 

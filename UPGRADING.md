@@ -4,7 +4,8 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## From v7 to v8
 
-- the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\Medialibrary`. Make sure you modified all classes that reference medialibrary classes.
+- the namespace has been renamed from `Spatie\Medialibrary` to `Spatie\Medialibrary`. Make sure you modified all classes that reference medialibrary classes.
+- replace all code occurrences of `mediaLibrary` by `medialibrary`
 - Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
 - Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
 - Url generation has been vastly simplified. You should set the `url_generator` in the `medialibrary` config file to `Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
@@ -34,7 +35,7 @@ If you want your own filesystem implementation, you should extend the `Filesyste
 - rename the `use Spatie\Medialibrary\HasMedia\Interfaces\HasMediaConversions;` interface to `use Spatie\Medialibrary\HasMedia\HasMedia;` as well (the distinction was [removed](https://github.com/spatie/laravel-medialibrary/commit/48f371a7b10cc82bbee5b781ab8784acc5ad0fc3#diff-f12df6f7f30b5ee54d9ccc6e56e8f93e)).
 - all converted files should now start with the name of the original file. TODO: add instructions / or maybe a script
 - `Spatie\Medialibrary\Media` has been moved to `Spatie\Medialibrary\Models\Media`. Update the namespace import of `Media` accross your app
-- The method definitions of `Spatie\Medialibrary\Filesystem\Filesystem::add` and `Spatie\Medialibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
+- The method definitions of `Spatie\Medialibrary\Filesystem\Filesystem::add` and `Spatie\Medialibrary\Filesystem\Filesystem::copyToMedialibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
 
 ## From v5 to v6
 
@@ -54,13 +55,13 @@ to
  - change the `defaultFilesystem` key in the config file to `default_filesystem`
  - add the `image_optimizers` key from the default config file to your config file.
  - be aware that the medialibrary will now optimize all conversions by default. If you do not want this tack on `nonOptimized` to all your media conversions.
- - `toMediaLibrary` has been removed. Use `toMediaCollection` instead.
- - `toMediaLibraryOnCloudDisk` has been removed. Use `toMediaCollectionOnCloudDisk` instead.
+ - `toMedialibrary` has been removed. Use `toMediaCollection` instead.
+ - `toMedialibraryOnCloudDisk` has been removed. Use `toMediaCollectionOnCloudDisk` instead.
 
 
 ## From v4 to v5
 - rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file againt the one provided by this package
-- all calls to `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk` should be renamed to `toMediaLibrary`
+- all calls to `toCollection` and `toCollectionOnDisk` and `toMedialibraryOnDisk` should be renamed to `toMedialibrary`
 - media conversions are now handled by `spatie/image`. Convert all manipulations on your conversion to manipulations supported by `spatie/image`.
 - add a `mime_type` column to the `media` table, manually populate the column with the right values.
 - calls to `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty` should be replaced by their non-nested counterparts.

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Medialibrary\MediaLibraryServiceProvider;
+use Spatie\Medialibrary\MedialibraryServiceProvider;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversionQueued;
@@ -76,7 +76,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            MediaLibraryServiceProvider::class,
+            MedialibraryServiceProvider::class,
         ];
     }
 

@@ -26,7 +26,7 @@ class Filesystem
 
     public function add(string $file, Media $media, ?string $targetFileName = null): void
     {
-        $this->copyToMediaLibrary($file, $media, null, $targetFileName);
+        $this->copyToMedialibrary($file, $media, null, $targetFileName);
 
         event(new MediaHasBeenAdded($media));
 
@@ -35,14 +35,14 @@ class Filesystem
 
     public function addRemote(RemoteFile $file, Media $media, ?string $targetFileName = null): void
     {
-        $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
+        $this->copyToMedialibraryFromRemote($file, $media, null, $targetFileName);
 
         event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }
 
-    public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
+    public function copyToMedialibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $storage = Storage::disk($file->getDisk());
 
@@ -63,7 +63,7 @@ class Filesystem
             );
     }
 
-    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
+    public function copyToMedialibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
@@ -115,7 +115,7 @@ class Filesystem
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
 
-    public function copyFromMediaLibrary(Media $media, string $targetFile): string
+    public function copyFromMedialibrary(Media $media, string $targetFile): string
     {
         touch($targetFile);
 

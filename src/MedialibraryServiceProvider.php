@@ -10,7 +10,7 @@ use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
-class MediaLibraryServiceProvider extends ServiceProvider
+class MedialibraryServiceProvider extends ServiceProvider
 {
     public function boot()
     {

@@ -33,7 +33,7 @@ trait HasMediaTrait
 
     protected bool $deletePreservingMedia = false;
 
-    protected array $unAttachedMediaLibraryItems = [];
+    protected array $unAttachedMedialibraryItems = [];
 
     public static function bootHasMediaTrait()
     {
@@ -474,7 +474,7 @@ trait HasMediaTrait
     {
         $collection = $this->exists
             ? $this->media
-            : collect($this->unAttachedMediaLibraryItems)->pluck('media');
+            : collect($this->unAttachedMedialibraryItems)->pluck('media');
 
         return $collection
             ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName)
@@ -484,16 +484,16 @@ trait HasMediaTrait
 
     public function prepareToAttachMedia(Media $media, FileAdder $fileAdder): void
     {
-        $this->unAttachedMediaLibraryItems[] = compact('media', 'fileAdder');
+        $this->unAttachedMedialibraryItems[] = compact('media', 'fileAdder');
     }
 
     public function processUnattachedMedia(callable $callable): void
     {
-        foreach ($this->unAttachedMediaLibraryItems as $item) {
+        foreach ($this->unAttachedMedialibraryItems as $item) {
             $callable($item['media'], $item['fileAdder']);
         }
 
-        $this->unAttachedMediaLibraryItems = [];
+        $this->unAttachedMedialibraryItems = [];
     }
 
     protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes)

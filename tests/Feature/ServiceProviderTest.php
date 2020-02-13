@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Feature;
 
-use Spatie\Medialibrary\MediaLibraryServiceProvider;
+use Spatie\Medialibrary\MedialibraryServiceProvider;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class ServiceProviderTest extends TestCase
@@ -15,7 +15,7 @@ class ServiceProviderTest extends TestCase
         $app['config']->set('medialibrary.disk_name', null);
         $app['config']->set('medialibrary.default_filesystem', 'test');
 
-        $provider = new MediaLibraryServiceProvider($app);
+        $provider = new MedialibraryServiceProvider($app);
 
         $provider->register();
 

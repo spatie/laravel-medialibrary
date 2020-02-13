@@ -42,7 +42,7 @@ class ResponsiveImageGenerator
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $baseImage = app(Filesystem::class)->copyFromMediaLibrary(
+        $baseImage = app(Filesystem::class)->copyFromMedialibrary(
             $media,
             $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
         );
@@ -99,7 +99,7 @@ class ResponsiveImageGenerator
 
         rename($tempDestination, $finalResponsiveImagePath);
 
-        $this->filesystem->copyToMediaLibrary($finalResponsiveImagePath, $media, 'responsiveImages');
+        $this->filesystem->copyToMedialibrary($finalResponsiveImagePath, $media, 'responsiveImages');
 
         ResponsiveImage::register($media, $finalImageFileName, $conversionName);
     }

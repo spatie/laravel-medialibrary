@@ -65,7 +65,7 @@ The package will automatically register itself.
 You can publish the migration with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Medialibrary\MediaLibraryServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\Medialibrary\MedialibraryServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the media-table by running the migrations:
@@ -77,7 +77,7 @@ php artisan migrate
 You can publish the config-file with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Medialibrary\MediaLibraryServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\Medialibrary\MedialibraryServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
@@ -243,7 +243,7 @@ Configure the laravel-medialibrary service provider (and `AppServiceProvider` if
 ```php
 // bootstrap/app.php:
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(Spatie\Medialibrary\MediaLibraryServiceProvider::class);
+$app->register(Spatie\Medialibrary\MedialibraryServiceProvider::class);
 ```
 
 Update the `AppServiceProvider` register method to bind the filesystem manager to the IOC container:

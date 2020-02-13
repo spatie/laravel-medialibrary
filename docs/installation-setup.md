@@ -14,14 +14,14 @@ The package will automatically register a service provider.
 You need to publish and run the migration:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Medialibrary\MediaLibraryServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\Medialibrary\MedialibraryServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
 Publishing the config file is optional:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Medialibrary\MediaLibraryServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\Medialibrary\MedialibraryServiceProvider" --tag="config"
 ```
 
 This is the default content of the config file:
