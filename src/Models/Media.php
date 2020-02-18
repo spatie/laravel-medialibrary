@@ -282,8 +282,8 @@ class Media extends Model implements Responsable, Htmlable
         }
 
         $loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
+
         if ($conversion !== '') {
-            /** @var Conversion $conversionObject */
             $conversionObject = ConversionCollection::createForMedia($this)->getByName($conversion);
 
             $loadingAttributeValue = $conversionObject->getLoadingAttributeValue();
