@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Spatie\Medialibrary\Conversion\Conversion;
 use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\File as MediaFile;
 use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\HasMedia\HasMedia;
 use Spatie\Medialibrary\Helpers\File;
@@ -54,6 +55,11 @@ class Media extends Model implements Responsable, Htmlable
         $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
 
         return $urlGenerator->getUrl();
+    }
+
+    public function getFile(): MediaFile
+    {
+        return MediaFile::createFromMedia($this);
     }
 
     public function getTemporaryUrl(DateTimeInterface $expiration, string $conversionName = '', array $options = []): string
