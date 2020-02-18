@@ -215,9 +215,7 @@ class Conversion
 
     public function getConversionFile(Media $media): string
     {
-        return
-            $this->conversionFileNamer->getFileName($this, $media)
-            . '.' . $this->conversionFileNamer->getExtension($this, $media);
+        return $this->conversionFileNamer->getFileName($this, $media);
     }
 
     public function useLoadingAttributeValue(string $value): self
