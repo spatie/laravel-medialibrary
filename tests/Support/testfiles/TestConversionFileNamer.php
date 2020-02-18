@@ -9,12 +9,10 @@ use Spatie\Medialibrary\Models\Media;
 
 class TestConversionFileNamer extends DefaultConversionFileNamer
 {
-    public function getName(Conversion $conversion, Media $media): string
+    public function getFileName(Conversion $conversion, Media $media): string
     {
         $fileName = pathinfo($media->file_name, PATHINFO_FILENAME);
 
-        $extension = $this->getExtension($conversion, $media);
-
-        return "{$fileName}---{$conversion->getName()}.{$extension}";
+        return "{$fileName}---{$conversion->getName()}";
     }
 }

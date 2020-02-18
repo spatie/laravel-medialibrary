@@ -11,17 +11,22 @@ By default, all conversion files will be named in this format:
 
 Should you want to name your conversion file using another format, than you can specify the class name of your own `ConversionFileNamer` in the `conversion_file_namer` key of the `medialibrary.php` config file.
 
-The only requirement is that your class implements `Spatie\Medialibrary\Conversion\ConversionFileNamer`. This is what it looks like:
+The only requirement is that your class extends `Spatie\Medialibrary\Conversion\ConversionFileNamer`. In your class you should implement the `getFileName` method that returns the name of the file without the extension.
+
+Here the implementation of `Spatie\Medialibrary\Conversion\DefaultConversionFileNamer`
 
 ```php
 namespace Spatie\Medialibrary\Conversion;
 
 use Spatie\Medialibrary\Models\Media;
 
-interface ConversionFileNamer
+class DefaultConversionFileNamer extends ConversionFileNamer
 {
-    public function getName(Conversion $conversion, Media $media);
+    public function getFileName(Conversion $conversion, Media $media): string
+    {
+        $fileName = pathinfo($media->file_name, PATHINFO_FILENAME);
+
+        return "{$fileName}-{$conversion->getName()}";
+    }
 }
 ```
-
-You can look to the code of the `Spatie\Medialibrary\Conversion\DefaultConversionFileNamer` to see an example implementation.

@@ -4,7 +4,14 @@ namespace Spatie\Medialibrary\Conversion;
 
 use Spatie\Medialibrary\Models\Media;
 
-interface ConversionFileNamer
+abstract class ConversionFileNamer
 {
-    public function getName(Conversion $conversion, Media $media): string;
+    abstract public function getFileName(Conversion $conversion, Media $media): string;
+
+    public function getExtension(Conversion $conversion, Media $media): string
+    {
+        $fileExtension = pathinfo($media->file_name, PATHINFO_EXTENSION);
+
+        return $conversion->getResultExtension($fileExtension) ?: $fileExtension;
+    }
 }
