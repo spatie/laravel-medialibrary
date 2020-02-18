@@ -277,14 +277,11 @@ class FileAdder
         $media->file_name = $this->fileName;
 
         $media->disk = $this->determineDiskName($diskName, $collectionName);
-        if (is_null(config("filesystems.disks.{$media->disk}"))) {
-            throw DiskDoesNotExist::create($media->disk);
-        }
+        $this->ensureDiskExists($media->disk);
 
         $media->conversions_disk = $this->determineConversionsDiskName($media->disk, $collectionName);
-        if (is_null(config("filesystems.disks.{$media->conversions_disk}"))) {
-            throw DiskDoesNotExist::create($media->conversions_disk);
-        }
+        $this->ensureDiskExists($media->conversions_disk);
+
         $media->collection_name = $collectionName;
 
         $media->mime_type = File::getMimetype($this->pathToFile);
@@ -340,6 +337,14 @@ class FileAdder
         return $originalsDiskName;
     }
 
+    protected function ensureDiskExists(string $diskName)
+    {
+        if (is_null(config("filesystems.disks.{$diskName}"))) {
+            throw DiskDoesNotExist::create($diskName);
+        }
+    }
+
+
     public function defaultSanitizer(string $fileName): string
     {
         return str_replace(['#', '/', '\\', ' '], '-', $fileName);
@@ -376,7 +381,7 @@ class FileAdder
         $this->guardAgainstDisallowedFileAdditions($media, $model);
 
         $this->checkGenerateResponsiveImages($media);
-        
+
         $model->media()->save($media);
 
         if ($fileAdder->file instanceof RemoteFile) {
