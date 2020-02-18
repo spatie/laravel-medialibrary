@@ -33,7 +33,7 @@ class Media extends Model implements Responsable, Htmlable
 
     protected $guarded = [];
 
-    protected  $casts = [
+    protected $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
         'responsive_images' => 'array',
