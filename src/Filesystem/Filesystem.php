@@ -105,7 +105,12 @@ class Filesystem
 
         $extraHeaders = config('medialibrary.remote.extra_headers');
 
-        return array_merge($mimeTypeHeader, $extraHeaders, $this->customRemoteHeaders, $mediaCustomHeaders);
+        return array_merge(
+            $mimeTypeHeader,
+            $extraHeaders,
+            $this->customRemoteHeaders,
+            $mediaCustomHeaders
+        );
     }
 
     public function getStream(Media $media)

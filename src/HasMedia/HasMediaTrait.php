@@ -540,7 +540,7 @@ trait HasMediaTrait
                 ->values()
                 ->toArray();
 
-            $this->mediaConversions = array_merge($actualMediaConversions, $preparedMediaConversions);
+            $this->mediaConversions = [...$actualMediaConversions, ...$preparedMediaConversions];
         });
 
         $this->registerMediaConversions($media);
