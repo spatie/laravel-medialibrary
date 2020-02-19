@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.18.3 - 2020-02-19
+
+- allow `image_driver` config to be set via .env #1738
+
 ## 7.18.2 - 2020-01-25
 
 - add support for Laravel 7
