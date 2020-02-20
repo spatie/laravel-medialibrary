@@ -3,7 +3,7 @@ name: deploy-docs
 on:
   push:
     paths:
-        - 'docs'
+        - 'docs/**'
 
 jobs:
     deploy:
