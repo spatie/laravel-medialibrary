@@ -13,10 +13,7 @@ jobs:
         name: Deploy docs
 
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v1
-
             - name: Netlify deploy
               uses: wei/curl@v1
               with:
-                  args: -X POST -d {} ${{ secrets.NETLIFY_DEPLOY_URL }}
+                  args: -X POST -d {} ${{ secrets.NETLIFY_DEPLOY_URL }}?trigger_title=Triggered+by+laravel-medialibrary
