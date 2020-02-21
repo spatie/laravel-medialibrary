@@ -53,7 +53,7 @@ class DeleteTest extends TestCase
     }
     
     /** @test */
-    public function it_will_not_delete_files_from_disk_if_when_remove_files_on_delete_is_false()
+    public function it_will_not_delete_files_from_disk_if_remove_files_on_delete_config_is_false()
     {
         config(['medialibrary.path_generator' => TestPathGenerator::class]);
         config()->set('medialibrary.remove_files_on_delete', false);
