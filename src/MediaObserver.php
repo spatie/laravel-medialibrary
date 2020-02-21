@@ -52,8 +52,10 @@ class MediaObserver
                 return;
             }
         }
-
-        app(Filesystem::class)->removeAllFiles($media);
+        
+        if(config('medialibrary.remove_files_on_delete')) {
+            app(Filesystem::class)->removeAllFiles($media);
+        }
     }
 
     private function isLaravel7OrHigher(): bool
