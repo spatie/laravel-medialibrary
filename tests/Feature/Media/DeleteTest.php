@@ -51,6 +51,24 @@ class DeleteTest extends TestCase
 
         $this->assertFalse(File::isDirectory($this->getTempDirectory($path)));
     }
+    
+    /** @test */
+    public function it_will_not_delete_files_from_disk_if_when_remove_files_on_delete_is_false()
+    {
+        config(['medialibrary.path_generator' => TestPathGenerator::class]);
+        config()->set('medialibrary.remove_files_on_delete', false);
+
+        $pathGenerator = new TestPathGenerator();
+
+        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+        $path = $pathGenerator->getPath($media);
+
+        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+
+        $this->testModel->delete();
+
+        $this->assertTrue(File::isDirectory($this->getTempDirectory($path)));
+    }
 
     /**
      * @test
