@@ -95,10 +95,16 @@ $mediaItems[0]->delete();
 
 When a `Media` instance gets deleted all related files will be removed from the filesystem.
 
-Deleting a model with associated media, will also delete all associated files.
+Deleting a model with associated media will also delete all associated files.
 
 ```php
 $newsItem->delete(); // all associated files will be deleted as well
+```
+
+You may delete a model without removing associated media by calling the `deletePreservingMedia` method instead of `delete`.
+
+```php
+$newsItem->deletePreservingMedia(); // all associated files will be preserved 
 ```
 
 If you want to remove all associated media in a specific collection you can use the `clearMediaCollection` method. It also accepts the collection name as an optional parameter:
