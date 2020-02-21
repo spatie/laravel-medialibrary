@@ -17,7 +17,7 @@ return [
     /*
      * If set to false, files will remain on the disk when Media model is deleted. 
      */
-    'remove_file_on_delete' => true,
+    'remove_files_on_delete' => true,
 
     /*
      * This queue will be used to generate derived and responsive images.
