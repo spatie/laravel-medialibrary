@@ -5,6 +5,15 @@ weight: 1
 
 Medialibrary is a Laravel (5.6 and up) package that can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with.
 
+<div style="font-size: 1.25rem; margin: 2em 0; background-color:#c42543; color: #fff; padding: 1em 2em; font-weight: 700;border-radius: 5px;">
+    <p>We are working on UI components to manage your Medialibrary.
+        <br><span style="color: #ffe375">Coming Spring 2020</span>
+    </p>
+    <p style="margin-top: .5em;">
+        <a style="border-bottom-color: rgba(255,255,255,.5); color: #fff;" href="https://medialibrary.pro">medialibrary.pro</a>
+    </p>
+</div>
+
 Here are some quick code examples:
 
 ```php
