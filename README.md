@@ -265,7 +265,7 @@ public function register()
 Manually copy the package config file to `app\config\laravel-medialibrary.php` (you may need to
 create the config directory if it does not already exist).
 
-Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v6.4.15/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `default_filesystem` specified in the laravel-medialibrary config file.
+Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v6.4.0/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `default_filesystem` specified in the laravel-medialibrary config file.
 
 Finally, update `boostrap/app.php` to load both config files:
 
