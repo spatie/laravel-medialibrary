@@ -25,6 +25,17 @@ $mediaItem->setCustomProperty('name', 'value'); // adds a new custom propery
 $mediaItem->forgetCustomProperty('name'); // removes a custom propery
 ```
 
+It is also possible to filter a collection by a custom property using filters. These can either be a simple key value array or a callback to allow for more control:
+
+```php
+$filteredCollection = $this->model->getMedia('images', ['primaryColor' => 'red']);
+
+$filteredCollection = $this->model->getMedia('images', function (Media $media) {
+    return isset($media->custom_properties['primaryColor']);
+});
+
+```
+
 If you are setting or removing custom properties outside the process of adding media then you will need to persist/save these changes:
 
 ```php
