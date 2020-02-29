@@ -34,6 +34,18 @@ class ResponsiveImageGeneratorTest extends TestCase
     }
 
     /** @test */
+    public function its_conversions_can_have_responsive_images_and_change_format()
+    {
+        $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestPng())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___pngtojpg_700_883.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___pngtojpg_585_737.jpg'));
+    }
+
+    /** @test */
     public function it_triggers_an_event_when_the_responsive_images_are_generated()
     {
         Event::fake(ResponsiveImagesGenerated::class);
