@@ -8,7 +8,7 @@ Medialibrary is a Laravel (5.6 and up) package that can associate all sorts of f
 Here are some quick code examples:
 
 ```php
-$yourModel = News::find(1);
+$yourModel = YourModel::find(1);
 $yourModel->addMedia($pathToFile)->toMediaCollection('images');
 ```
 

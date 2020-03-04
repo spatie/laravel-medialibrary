@@ -74,7 +74,9 @@ You can defined an array of accepted Mime types using `acceptsMimeTypes` that wi
 
 ```php
 use Spatie\Medialibrary\MediaCollections\File;
-...
+
+// ...
+
 public function registerMediaCollections()
 {
     $this
@@ -191,6 +193,8 @@ Normally image conversions are registered inside the `registerMediaConversions` 
 
 ```php
 use Spatie\Medialibrary\MediaCollections\Models\Media;
+
+// ...
 
 public function registerMediaCollections()
 {
