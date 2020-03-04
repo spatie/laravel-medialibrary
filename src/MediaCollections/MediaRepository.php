@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary;
+namespace Spatie\Medialibrary\MediaCollections;
 
 use Closure;
 use Illuminate\Database\Eloquent\Collection as DbCollection;

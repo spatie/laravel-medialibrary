@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\MediaRepository;
+use Spatie\Medialibrary\MediaCollections\MediaRepository;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 class RegenerateCommand extends Command

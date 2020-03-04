@@ -20,7 +20,7 @@ use Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
 use Spatie\Medialibrary\MediaCollections\FileAdder;
 use Spatie\Medialibrary\MediaCollections\FileAdderFactory;
 use Spatie\Medialibrary\MediaCollections\MediaCollection;
-use Spatie\Medialibrary\MediaRepository;
+use Spatie\Medialibrary\MediaCollections\MediaRepository;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 trait InteractsWithMedia

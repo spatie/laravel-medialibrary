@@ -5,7 +5,7 @@ namespace Spatie\Medialibrary\MediaCollections\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\Medialibrary\MediaRepository;
+use Spatie\Medialibrary\MediaCollections\MediaRepository;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 class ClearCommand extends Command

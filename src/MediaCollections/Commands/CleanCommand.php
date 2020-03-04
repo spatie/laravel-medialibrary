@@ -11,7 +11,7 @@ use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Conversions\ConversionCollection;
 use Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\MediaRepository;
+use Spatie\Medialibrary\MediaCollections\MediaRepository;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;

@@ -3,10 +3,12 @@
 namespace Spatie\Medialibrary;
 
 use Illuminate\Support\ServiceProvider;
+use Spatie\Medialibrary\MediaCollections\MediaRepository;
 use Spatie\Medialibrary\MediaCollections\Commands\CleanCommand;
 use Spatie\Medialibrary\MediaCollections\Commands\ClearCommand;
 use Spatie\Medialibrary\Conversions\Commands\RegenerateCommand;
 use Spatie\Medialibrary\MediaCollections\Filesystem;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\MediaCollections\Models\Observers\MediaObserver;
 use Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
@@ -60,14 +62,5 @@ class MedialibraryServiceProvider extends ServiceProvider
             'command.medialibrary:clear',
             'command.medialibrary:clean',
         ]);
-
-        $this->registerDeprecatedConfig();
-    }
-
-    protected function registerDeprecatedConfig()
-    {
-        if (! config('medialibrary.disk_name')) {
-            config(['medialibrary.disk_name' => config('medialibrary.default_filesystem')]);
-        }
     }
 }
