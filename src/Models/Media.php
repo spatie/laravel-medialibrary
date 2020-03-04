@@ -72,11 +72,6 @@ class Media extends Model implements Responsable, Htmlable
         return $urlGenerator->getPath();
     }
 
-    public function getImageGenerators(): Collection
-    {
-        return ImageGeneratorFactory::getImageGenerators();
-    }
-
     public function getTypeAttribute(): string
     {
         $type = $this->getTypeFromExtension();
