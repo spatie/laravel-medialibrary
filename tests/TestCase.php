@@ -63,9 +63,9 @@ abstract class TestCase extends Orchestra
             return;
         }
 
-        $dotenv = Dotenv::create(__DIR__.'/..');
+        $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
 
-        $dotenv->load();
+        $dotEnv->load();
     }
 
     /**
@@ -87,20 +87,20 @@ abstract class TestCase extends Orchestra
     {
         $this->initializeDirectory($this->getTempDirectory());
 
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
+        config()->set('database.default', 'sqlite');
+        config()->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => ':memory:',
             'prefix' => '',
         ]);
 
-        $app['config']->set('filesystems.disks.public', [
+        config()->set('filesystems.disks.public', [
             'driver' => 'local',
             'root' => $this->getMediaDirectory(),
             'url' => '/media'
         ]);
 
-        $app['config']->set('filesystems.disks.secondMediaDisk', [
+        config()->set('filesystems.disks.secondMediaDisk', [
             'driver' => 'local',
             'root' => $this->getTempDirectory('media2'),
             'url' => '/media2'
@@ -108,12 +108,12 @@ abstract class TestCase extends Orchestra
 
         $app->bind('path.public', fn() => $this->getTempDirectory());
 
-        $app['config']->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
+        config()->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
 
         $this->setupS3($app);
         $this->setUpMorphMap();
 
-        $app['config']->set('view.paths', [__DIR__.'/TestSupport/resources/views']);
+        config()->set('view.paths', [__DIR__.'/TestSupport/resources/views']);
     }
 
     /**
@@ -227,7 +227,7 @@ abstract class TestCase extends Orchestra
 
     private function setupS3($app): void
     {
-        $app['config']->set('filesystems.disks.s3_disk', [
+        config()->set('filesystems.disks.s3_disk', [
             'driver' => 's3',
             'key' => getenv('AWS_ACCESS_KEY_ID'),
             'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
@@ -247,32 +247,20 @@ abstract class TestCase extends Orchestra
         return trim((string) ($view));
     }
 
-    protected function setNow($year, int $month = 1, int $day = 1): string
+    protected function assertFileExistsInZip(string $zipPath, string $filename)
     {
-        $newNow = $year instanceof Carbon
-            ? $year
-            : Carbon::createFromDate($year, $month, $day);
-
-        Carbon::setTestNow($newNow);
+        $this->assertTrue(
+            $this->fileExistsInZip($zipPath, $filename),
+            "Failed to assert that {$zipPath} contains a file name {$filename}"
+        );
     }
 
-    protected function progressTime(int $minutes): self
+    protected function assertFileDoesntExistsInZip(string $zipPath, string$filename)
     {
-        $newNow = now()->copy()->addMinutes($minutes);
-
-        Carbon::setTestNow($newNow);
-
-        return $this;
-    }
-
-    protected function assertFileExistsInZip($zipPath, $filename)
-    {
-        $this->assertTrue($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} contains a file name {$filename}");
-    }
-
-    protected function assertFileDoesntExistsInZip($zipPath, $filename)
-    {
-        $this->assertFalse($this->fileExistsInZip($zipPath, $filename), "Failed to assert that {$zipPath} doesn't contain a file name {$filename}");
+        $this->assertFalse(
+            $this->fileExistsInZip($zipPath, $filename),
+            "Failed to assert that {$zipPath} doesn't contain a file name {$filename}"
+        );
     }
 
     protected function fileExistsInZip($zipPath, $filename): bool

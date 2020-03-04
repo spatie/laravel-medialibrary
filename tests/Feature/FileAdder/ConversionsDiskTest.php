@@ -2,6 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
 
+use Illuminate\Support\Facades\Storage;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class ConversionsDiskTest extends TestCase
