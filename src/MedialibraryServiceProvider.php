@@ -7,6 +7,7 @@ use Spatie\Medialibrary\Commands\CleanCommand;
 use Spatie\Medialibrary\Commands\ClearCommand;
 use Spatie\Medialibrary\Commands\RegenerateCommand;
 use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\Models\Observers\MediaObserver;
 use Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
