@@ -4,23 +4,19 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## From v7 to v8
 
-- the namespace has been renamed from `Spatie\Medialibrary` to `Spatie\Medialibrary`. Make sure you modified all classes that reference media library classes.
+- internally the medialibrary has been restructured an nearly all namespaces have changed. Class names remained the same. In your application code hunt to any usages of classes that start with `Spatie\MediaLibrary`. Take a look in the source code of medialibrary what the new namespace of the class is and use that. 
+- the namespace has been renamed from `Spatie\Medialibrary` to `Spatie\Medialibrary`
 - replace all code occurrences of `mediaLibrary` by `medialibrary`
 - the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\HasMedia\InteractsWithMedia`. Make sure to update this in all models that use media.
 - Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
 - Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
-- Url generation has been vastly simplified. You should set the `url_generator` in the `medialibrary` config file to `Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
+- Url generation has been vastly simplified. You should set the `url_generator` in the `medialibrary` config file to `Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
 - remove the `s3.domain` key from the `medialibrary` config file
 - spatie/pdf-to-image is now a suggestion dependency. Make sure to install it, if you want to create thumbnails for PDFs or SVGs
 - `registerMediaConversions` and `registerMediaCollections` should now use the  `void` return type.
-- if the `path_generator` key in the `medialibrary` config file was set to `null`, change the value to `Spatie\Medialibrary\PathGenerator\DefaultPathGenerator::class`
+- if the `path_generator` key in the `medialibrary` config file was set to `null`, change the value to `Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator::class`
 - the `rawUrlEncodeFilename` method on `BaseUrlGenerator` has been removed. Remove all calls in your own code to this method.
 - `getConversionFile` on `Conversion` now accepts a `Media` instance instead of a `string`. In normal circumstance you wouldn't have used this function directly.
-- the `Spatie\MediaLibrary\MediaCollection\MediaCollection` has been moved to `Spatie\Medialibrary\HasMedia\MediaCollection`. Be sure to change this in every model where you registered media collections
-- the `Spatie\MediaLibrary\File` class has been moved to `Spatie\Medialibrary\HasMedia\File`. Update all usage your might have in `registerMediaCollections` on your models
-- the `Spatie\MediaLibrary\Helpers` namespace has been changed to `Spatie\Medialibrary\Support`. Normally, you wouldn't have used this classes directly
-- the `Spatie\MediaLibrary\MediaStream` class has been moved to `Spatie\Medialibrary\Support\MediaStream`. Rename this in all your classes where you used class.
-
 
 ## 7.3.0
 
