@@ -109,7 +109,7 @@ class DeleteMediaTest extends TestCase
     /**
      * @test
      */
-    public function it_will_remove_the_files_when_deleting_a_subject()
+    public function it_will_remove_the_files_when_deleting_a_subject_without_media_conversions()
     {
         $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
 
