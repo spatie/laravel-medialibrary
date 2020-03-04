@@ -24,5 +24,6 @@ Of course you can also manually change the value of the `order_column`.
 
 ```php
 $media->order_column = 10;
+
 $media->save();
 ```
