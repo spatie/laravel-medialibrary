@@ -3,8 +3,8 @@
 namespace Spatie\Medialibrary\Tests\Support;
 
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Features\Conversions\Conversion;
-use Spatie\Medialibrary\Features\Conversions\ImageGenerators\ImageGenerator;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator;
 
 class TestImageGenerator extends ImageGenerator
 {

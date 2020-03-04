@@ -2,9 +2,9 @@
 
 namespace Spatie\Medialibrary\Support\UrlGenerator;
 
-use Spatie\Medialibrary\Features\Conversions\ConversionCollection;
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\InvalidUrlGenerator;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\Conversions\ConversionCollection;
+use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidUrlGenerator;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class UrlGeneratorFactory

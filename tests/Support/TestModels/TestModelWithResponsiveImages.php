@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Support\TestModels;
 
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 class TestModelWithResponsiveImages extends TestModel
 {

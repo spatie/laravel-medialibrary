@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\Medialibrary\Features\Conversions\ImageGenerators\Pdf;
+use Spatie\Medialibrary\Conversions\ImageGenerators\Pdf;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class PdfTest extends TestCase

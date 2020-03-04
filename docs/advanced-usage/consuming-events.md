@@ -42,7 +42,7 @@ First you must created a listener class. Here's one that will log the paths of a
 namespace App\Listeners;
 
 use Log;
-use Spatie\Medialibrary\Features\MediaCollections\Events\MediaHasBeenAdded;
+use Spatie\Medialibrary\MediaCollections\Events\MediaHasBeenAdded;
 
 class MediaLogger
 {

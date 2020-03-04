@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
 
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded;
+use Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class MultipleDiskTest extends TestCase

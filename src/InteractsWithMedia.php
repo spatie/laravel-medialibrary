@@ -10,18 +10,18 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Features\Conversions\Conversion;
-use Spatie\Medialibrary\Features\MediaCollections\Events\CollectionHasBeenCleared;
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\InvalidBase64Data;
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\MimeTypeNotAllowed;
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\UnreachableUrl;
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\MediaCannotBeDeleted;
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\MediaCannotBeUpdated;
-use Spatie\Medialibrary\Features\MediaCollections\FileAdder;
-use Spatie\Medialibrary\Features\MediaCollections\FileAdderFactory;
-use Spatie\Medialibrary\Features\MediaCollections\MediaCollection;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\MediaCollections\Events\CollectionHasBeenCleared;
+use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\Medialibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
+use Spatie\Medialibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
+use Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
+use Spatie\Medialibrary\MediaCollections\FileAdder;
+use Spatie\Medialibrary\MediaCollections\FileAdderFactory;
+use Spatie\Medialibrary\MediaCollections\MediaCollection;
 use Spatie\Medialibrary\MediaRepository;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 trait InteractsWithMedia
 {
@@ -62,7 +62,7 @@ trait InteractsWithMedia
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
      */
     public function addMedia($file): FileAdder
     {
@@ -75,7 +75,7 @@ trait InteractsWithMedia
      * @param string $key
      * @param string $disk
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
      */
     public function addMediaFromDisk(string $key, string $disk = null): FileAdder
     {
@@ -87,7 +87,7 @@ trait InteractsWithMedia
      *
      * @param string $key
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
      */
     public function addMediaFromRequest(string $key): FileAdder
     {
@@ -99,7 +99,7 @@ trait InteractsWithMedia
      *
      * @param string[] $keys
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder[]
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder[]
      */
     public function addMultipleMediaFromRequest(array $keys)
     {
@@ -109,7 +109,7 @@ trait InteractsWithMedia
     /**
      * Add all files from a request.
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder[]
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder[]
      */
     public function addAllMediaFromRequest(): Collection
     {
@@ -122,9 +122,9 @@ trait InteractsWithMedia
      * @param string $url
      * @param string|array ...$allowedMimeTypes
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
      *
-     * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes): FileAdder
     {
@@ -162,8 +162,8 @@ trait InteractsWithMedia
      * @param string $base64data
      * @param string|array ...$allowedMimeTypes
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
-     * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
+     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded
      *
      * @throws InvalidBase64Data
      */
@@ -203,7 +203,7 @@ trait InteractsWithMedia
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
      */
     public function copyMedia($file): FileAdder
     {
@@ -313,7 +313,7 @@ trait InteractsWithMedia
      *
      * @return \Illuminate\Support\Collection
      *
-     * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\MediaCannotBeUpdated
+     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeUpdated
      */
     public function updateMedia(array $newMediaArray, string $collectionName = 'default'): Collection
     {
@@ -374,7 +374,7 @@ trait InteractsWithMedia
      * Remove all media in the given collection except some.
      *
      * @param string $collectionName
-     * @param \Spatie\Medialibrary\Features\MediaCollections\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
+     * @param \Spatie\Medialibrary\MediaCollections\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
      *
      * @return $this
      */
@@ -409,9 +409,9 @@ trait InteractsWithMedia
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     * @param int|\Spatie\Medialibrary\Features\MediaCollections\Models\Media $mediaId
+     * @param int|\Spatie\Medialibrary\MediaCollections\Models\Media $mediaId
      *
-     * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\MediaCannotBeDeleted
+     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
      */
     public function deleteMedia($mediaId): void
     {

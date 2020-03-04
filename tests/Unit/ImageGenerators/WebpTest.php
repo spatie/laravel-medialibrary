@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\Medialibrary\Features\Conversions\ImageGenerators\Webp;
+use Spatie\Medialibrary\Conversions\ImageGenerators\Webp;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class WebpTest extends TestCase

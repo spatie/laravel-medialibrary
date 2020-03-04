@@ -3,9 +3,9 @@
 namespace Spatie\Medialibrary;
 
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Features\Conversions\Conversion;
-use Spatie\Medialibrary\Features\MediaCollections\FileAdder;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\MediaCollections\FileAdder;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 interface HasMedia
 {
@@ -21,7 +21,7 @@ interface HasMedia
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
      */
     public function addMedia($file): FileAdder;
 
@@ -30,7 +30,7 @@ interface HasMedia
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
+     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
      */
     public function copyMedia($file): FileAdder;
 

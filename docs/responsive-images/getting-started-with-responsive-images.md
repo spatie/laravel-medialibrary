@@ -103,7 +103,7 @@ Here's an example where we define a conversion to make a greyscale version and g
 namespace App;
 
 use Spatie\Medialibrary\HasMedia;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Medialibrary\InteractsWithMedia;
 

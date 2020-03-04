@@ -5,7 +5,7 @@ namespace Spatie\Medialibrary\Tests\Support\TestModels;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Medialibrary\HasMedia;
 use Spatie\Medialibrary\InteractsWithMedia;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 class TestModel extends Model implements HasMedia
 {

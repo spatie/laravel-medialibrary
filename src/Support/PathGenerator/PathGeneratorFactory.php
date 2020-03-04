@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Support\PathGenerator;
 
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\InvalidPathGenerator;
+use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidPathGenerator;
 
 class PathGeneratorFactory
 {

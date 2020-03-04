@@ -2,8 +2,8 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\Medialibrary\Features\Conversions\Conversion;
-use Spatie\Medialibrary\Features\Conversions\ImageGenerators\Video;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\Conversions\ImageGenerators\Video;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class VideoTest extends TestCase

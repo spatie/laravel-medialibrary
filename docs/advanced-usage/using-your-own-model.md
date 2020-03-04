@@ -10,7 +10,7 @@ default `Spatie\Medialibrary\Models\Media`-class. Here's an example:
 
 ```php
 namespace App\Models;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media as BaseMedia;
+use Spatie\Medialibrary\MediaCollections\Models\Media as BaseMedia;
 
 class Media extends BaseMedia
 {

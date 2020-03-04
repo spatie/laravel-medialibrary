@@ -31,7 +31,7 @@ Let's take a look at the interface:
 ```php
 namespace Spatie\Medialibrary\PathGenerator;
 
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 interface PathGenerator
 {

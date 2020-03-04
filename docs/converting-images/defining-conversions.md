@@ -15,7 +15,7 @@ You should add a method called `registerMediaConversions` to your model. In that
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\HasMedia;
 use Spatie\Medialibrary\InteractsWithMedia;
 

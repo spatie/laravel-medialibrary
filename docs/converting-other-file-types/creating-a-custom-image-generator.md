@@ -13,8 +13,8 @@ The first step for creating a custom generator is to create a class that extends
 
 ```php
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Features\Conversions\Conversion;
-use Spatie\Medialibrary\Features\Conversions\ImageGenerators\ImageGenerator;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator;
 
 class PowerPoint extends ImageGenerator
 {

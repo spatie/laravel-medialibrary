@@ -5,8 +5,8 @@ namespace Spatie\Medialibrary\Support\UrlGenerator;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Medialibrary\Features\Conversions\Conversion;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Support\PathGenerator\PathGenerator;
 
 abstract class BaseUrlGenerator implements UrlGenerator

@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\Tests\Feature\HasMediaTrait;
 
 use DB;
-use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\TestCase;
 

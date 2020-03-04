@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\Tests\Feature\Media;
 
 use Carbon\Carbon;
 use RuntimeException;
-use Spatie\Medialibrary\Features\MediaCollections\Exceptions\InvalidConversion;
+use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class GetUrlTest extends TestCase
