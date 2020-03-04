@@ -5,7 +5,7 @@ namespace Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded;
 use Spatie\Medialibrary\File;
 use Spatie\Medialibrary\HasMedia\HasMedia;
-use Spatie\Medialibrary\MediaCollection\MediaCollection;
+use Spatie\Medialibrary\HasMedia\MediaCollection;
 
 class FileUnacceptableForCollection extends FileCannotBeAdded
 {

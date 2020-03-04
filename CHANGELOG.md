@@ -17,7 +17,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - added support for the `loading` attribute (#1667)
 - conversion files can now be named using the `conversion_file_namer` key in the `medialibrary` config file (#1636)
 - the `Spatie\MediaLibrary\Helpers` namespace has been changed to `Spatie\Medialibrary\Support`
-
+- the `Spatie\MediaLibrary\MediaCollection\MediaCollection` has been moved to `Spatie\Medialibrary\HasMedia\MediaCollection`. Be sure to change this in every model where you registered media collections
 
 ## 7.19.0 - 2020-03-03
 
