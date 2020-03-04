@@ -4,9 +4,9 @@ namespace Spatie\Medialibrary\Tests\Support;
 
 use Illuminate\Support\Collection;
 use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\ImageGenerators\FileTypes\BaseGenerator;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
 
-class TestImageGenerator extends BaseGenerator
+class TestImageGenerator extends ImageGenerator
 {
     public Collection $supportedMimetypes;
 

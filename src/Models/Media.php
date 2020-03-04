@@ -16,7 +16,7 @@ use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\HasMedia\HasMedia;
 use Spatie\Medialibrary\Support\File;
 use Spatie\Medialibrary\Support\TemporaryDirectory;
-use Spatie\Medialibrary\ImageGenerators\FileTypes\Image;
+use Spatie\Medialibrary\ImageGenerators\Image;
 use Spatie\Medialibrary\Models\Concerns\HasUuid;
 use Spatie\Medialibrary\Models\Concerns\IsSorted;
 use Spatie\Medialibrary\Models\Concerns\CustomMediaProperties;

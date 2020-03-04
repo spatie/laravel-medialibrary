@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Medialibrary\ImageGenerators\FileTypes;
+namespace Spatie\Medialibrary\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\ImageGenerators\FileTypes\BaseGenerator;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
 
-class Image extends BaseGenerator
+class Image extends ImageGenerator
 {
     public function convert(string $path, Conversion $conversion = null): string
     {

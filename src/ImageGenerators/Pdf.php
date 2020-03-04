@@ -1,41 +1,42 @@
 <?php
 
-namespace Spatie\Medialibrary\ImageGenerators\FileTypes;
+namespace Spatie\Medialibrary\ImageGenerators;
 
 use Illuminate\Support\Collection;
-use Imagick;
-use ImagickPixel;
 use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\ImageGenerators\FileTypes\BaseGenerator;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
 
-class Svg extends BaseGenerator
+class Pdf extends ImageGenerator
 {
     public function convert(string $file, Conversion $conversion = null): string
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        $image = new Imagick();
-        $image->readImage($file);
-        $image->setBackgroundColor(new ImagickPixel('none'));
-        $image->setImageFormat('jpg');
-
-        file_put_contents($imageFile, $image);
+        (new \Spatie\PdfToImage\Pdf($file))->saveImage($imageFile);
 
         return $imageFile;
     }
 
     public function requirementsAreInstalled(): bool
     {
-        return class_exists('Imagick');
+        if (! class_exists('Imagick')) {
+            return false;
+        }
+
+        if (! class_exists('\\Spatie\\PdfToImage\\Pdf')) {
+            return false;
+        }
+
+        return true;
     }
 
     public function supportedExtensions(): Collection
     {
-        return collect('svg');
+        return collect('pdf');
     }
 
     public function supportedMimeTypes(): Collection
     {
-        return collect('image/svg+xml');
+        return collect(['application/pdf']);
     }
 }

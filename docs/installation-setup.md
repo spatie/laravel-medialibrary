@@ -155,11 +155,11 @@ return [
      * These generators will be used to create an image of media files.
      */
     'image_generators' => [
-        Spatie\Medialibrary\ImageGenerators\FileTypes\Image::class,
-        Spatie\Medialibrary\ImageGenerators\FileTypes\Webp::class,
-        Spatie\Medialibrary\ImageGenerators\FileTypes\Pdf::class,
-        Spatie\Medialibrary\ImageGenerators\FileTypes\Svg::class,
-        Spatie\Medialibrary\ImageGenerators\FileTypes\Video::class,
+        Spatie\Medialibrary\ImageGenerators\Image::class,
+        Spatie\Medialibrary\ImageGenerators\Webp::class,
+        Spatie\Medialibrary\ImageGenerators\Pdf::class,
+        Spatie\Medialibrary\ImageGenerators\Svg::class,
+        Spatie\Medialibrary\ImageGenerators\Video::class,
     ],
 
     /*

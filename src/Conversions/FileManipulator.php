@@ -5,19 +5,17 @@ namespace Spatie\Medialibrary\Conversions;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Events\ConversionHasBeenCompleted;
 use Spatie\Medialibrary\Events\ConversionWillStart;
 use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
 use Spatie\Medialibrary\Support\File as MedialibraryFileHelper;
 use Spatie\Medialibrary\Support\ImageFactory;
 use Spatie\Medialibrary\Support\TemporaryDirectory;
-use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
 use Spatie\Medialibrary\Jobs\PerformConversionsJob;
 use Spatie\Medialibrary\Models\Media;
 use Spatie\Medialibrary\ResponsiveImages\ResponsiveImageGenerator;
-use Storage;
+use Illuminate\Support\Facades\Storage;
 
 class FileManipulator
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\Medialibrary\ImageGenerators\FileTypes;
+namespace Spatie\Medialibrary\ImageGenerators;
 
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use Illuminate\Support\Collection;
 use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\ImageGenerators\FileTypes\BaseGenerator;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
 
-class Video extends BaseGenerator
+class Video extends ImageGenerator
 {
     public function convert(string $file, Conversion $conversion = null): string
     {

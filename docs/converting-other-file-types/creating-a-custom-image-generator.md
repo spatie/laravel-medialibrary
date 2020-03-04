@@ -14,9 +14,9 @@ The first step for creating a custom generator is to create a class that extends
 ```php
 use Illuminate\Support\Collection;
 use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\ImageGenerators\FileTypes\BaseGenerator;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
 
-class PowerPoint extends BaseGenerator
+class PowerPoint extends ImageGenerator
 {
     /**
     * This function should return a path to an image representation of the given file.

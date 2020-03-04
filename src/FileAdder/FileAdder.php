@@ -16,7 +16,7 @@ use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\HasMedia\HasMedia;
 use Spatie\Medialibrary\Support\File;
 use Spatie\Medialibrary\Support\RemoteFile;
-use Spatie\Medialibrary\ImageGenerators\FileTypes\Image as ImageGenerator;
+use Spatie\Medialibrary\ImageGenerators\Image as ImageGenerator;
 use Spatie\Medialibrary\Jobs\GenerateResponsiveImagesJob;
 use Spatie\Medialibrary\HasMedia\MediaCollection;
 use Spatie\Medialibrary\Models\Media;
