@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\HasMediaTrait;
+namespace Spatie\Medialibrary\Tests\Feature\InteractsWithMedia;
 
 use DB;
 use Spatie\Medialibrary\MediaCollections\Models\Media;

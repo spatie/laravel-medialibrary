@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature;
+namespace Spatie\Medialibrary\Tests\Support;
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Medialibrary\Support\MediaStream;

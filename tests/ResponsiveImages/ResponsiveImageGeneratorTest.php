@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\ResponsiveImages;
+namespace Spatie\Medialibrary\Tests\ResponsiveImages;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
