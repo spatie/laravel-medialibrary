@@ -43,10 +43,10 @@ Besides storing the original item, the medialibrary also has created a derived i
 
 ```php
 $media->getPath();  // the path to the where the original image is stored
-$media->getPath('thumb') // the path to the converted image with dimensions 368x232
+$media->getPath('thumb'); // the path to the converted image with dimensions 368x232
 
 $media->getUrl();  // the url to the where the original image is stored
-$media->getUrl('thumb') // the url to the converted image with dimensions 368x232
+$media->getUrl('thumb'); // the url to the converted image with dimensions 368x232
 ```
 
 ## Using multiple conversions
@@ -56,6 +56,8 @@ You can register as many media conversions as you want
 ```php
 // in your model
 use Spatie\Image\Manipulations;
+
+// ...
 
     public function registerMediaConversions(Media $media = null)
     {

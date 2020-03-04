@@ -16,7 +16,7 @@ The only requirement is that your class extends `Spatie\Medialibrary\Conversion\
 Here the implementation of `Spatie\Medialibrary\Conversion\DefaultConversionFileNamer`
 
 ```php
-namespace Spatie\Medialibrary\Conversion;
+namespace Spatie\Medialibrary\Conversions;
 
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 
