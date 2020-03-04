@@ -4,11 +4,11 @@ namespace Spatie\Medialibrary\Tests\Support\TestModels;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Medialibrary\HasMedia\HasMedia;
-use Spatie\Medialibrary\HasMedia\HasMediaTrait;
+use Spatie\Medialibrary\HasMedia\InteractsWithMedia;
 
 class TestModelWithoutMediaConversions extends Model implements HasMedia
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     protected $table = 'test_models';
     protected $guarded = [];

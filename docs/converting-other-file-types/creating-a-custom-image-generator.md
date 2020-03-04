@@ -64,7 +64,7 @@ If the generator only needs to be applied to one of your models you can override
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\HasMedia\HasMediaTrait;
+use Spatie\Medialibrary\HasMedia\InteractsWithMedia;
 use Spatie\Medialibrary\HasMedia\Interfaces\HasMedia;
 
 class News extends Model implements HasMedia

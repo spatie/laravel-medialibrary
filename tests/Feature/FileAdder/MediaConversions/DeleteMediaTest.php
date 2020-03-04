@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Feature\FileAdder\MediaConversions;
 
-use File;
+use Illuminate\Support\Facades\File;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
 use Spatie\Medialibrary\Tests\TestCase;
 

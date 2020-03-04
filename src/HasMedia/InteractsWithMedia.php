@@ -23,7 +23,7 @@ use Spatie\Medialibrary\HasMedia\MediaCollection;
 use Spatie\Medialibrary\MediaRepository;
 use Spatie\Medialibrary\Models\Media;
 
-trait HasMediaTrait
+trait InteractsWithMedia
 {
     /** @var Conversion[] */
     public array $mediaConversions = [];
@@ -35,7 +35,7 @@ trait HasMediaTrait
 
     protected array $unAttachedMedialibraryItems = [];
 
-    public static function bootHasMediaTrait()
+    public static function bootInteractsWithMedia()
     {
         static::deleting(function (HasMedia $entity) {
             if ($entity->shouldDeletePreservingMedia()) {

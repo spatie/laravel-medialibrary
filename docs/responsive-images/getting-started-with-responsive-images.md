@@ -105,11 +105,11 @@ namespace App;
 use Spatie\Medialibrary\HasMedia\HasMedia;
 use Spatie\Medialibrary\Models\Media;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\HasMedia\HasMediaTrait;
+use Spatie\Medialibrary\HasMedia\InteractsWithMedia;
 
 class YourModel extends Model implements HasMedia
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     /**
      * Register the conversions that should be performed.

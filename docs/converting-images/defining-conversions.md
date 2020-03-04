@@ -17,11 +17,11 @@ You should add a method called `registerMediaConversions` to your model. In that
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Medialibrary\Models\Media;
 use Spatie\Medialibrary\HasMedia\HasMedia;
-use Spatie\Medialibrary\HasMedia\HasMediaTrait;
+use Spatie\Medialibrary\HasMedia\InteractsWithMedia;
 
 class NewsItem extends Model implements HasMedia
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     public function registerMediaConversions(Media $media = null)
     {
