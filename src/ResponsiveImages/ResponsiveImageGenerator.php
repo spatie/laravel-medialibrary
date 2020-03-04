@@ -148,7 +148,7 @@ class ResponsiveImageGenerator
             throw InvalidTinyJpg::doesNotExist($tinyPlaceholderPath);
         }
 
-        $mimeType = File::getMimetype($tinyPlaceholderPath);
+        $mimeType = File::getMimeType($tinyPlaceholderPath);
 
         if ($mimeType !== 'image/jpeg') {
             throw InvalidTinyJpg::hasWrongMimeType($tinyPlaceholderPath);

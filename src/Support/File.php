@@ -6,15 +6,6 @@ use Finfo;
 
 class File
 {
-    public static function renameInDirectory(string $fileNameWithDirectory, string $newFileNameWithoutDirectory): string
-    {
-        $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME).'/'.$newFileNameWithoutDirectory;
-
-        rename($fileNameWithDirectory, $targetFile);
-
-        return $targetFile;
-    }
-
     public static function getHumanReadableSize(int $sizeInBytes): string
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
@@ -30,7 +21,7 @@ class File
         return round($sizeInBytes, 2).' '.$units[$i];
     }
 
-    public static function getMimetype(string $path): string
+    public static function getMimeType(string $path): string
     {
         $finfo = new Finfo(FILEINFO_MIME_TYPE);
 

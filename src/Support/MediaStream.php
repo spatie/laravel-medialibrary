@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary;
+namespace Spatie\Medialibrary\Support;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;

@@ -31,7 +31,7 @@ class FileManipulator
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
-        if (! empty($only)) {
+        if (!empty($only)) {
             $profileCollection = $profileCollection->filter(fn($collection) => in_array($collection->getName(), $only));
         }
 
@@ -63,7 +63,7 @@ class FileManipulator
 
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
-        if (! $imageGenerator) {
+        if (!$imageGenerator) {
             return;
         }
 
@@ -71,14 +71,14 @@ class FileManipulator
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMedialibrary(
             $media,
-            $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
+            $temporaryDirectory->path(Str::random(16) . '.' . $media->extension)
         );
 
         $conversions
             ->reject(function (Conversion $conversion) use ($onlyMissing, $media) {
                 $relativePath = $media->getPath($conversion->getName());
 
-                $rootPath = config('filesystems.disks.'.$media->disk.'.root');
+                $rootPath = config('filesystems.disks.' . $media->disk . '.root');
 
                 if ($rootPath) {
                     $relativePath = str_replace($rootPath, '', $relativePath);
@@ -95,7 +95,7 @@ class FileManipulator
 
                 $newFileName = $conversion->getConversionFile($media);
 
-                $renamedFile = MedialibraryFileHelper::renameInDirectory($manipulationResult, $newFileName);
+                $renamedFile = $this->renameInLocalDirectory($manipulationResult, $newFileName);
 
                 if ($conversion->shouldGenerateResponsiveImages()) {
                     app(ResponsiveImageGenerator::class)->generateResponsiveImagesForConversion(
@@ -121,10 +121,10 @@ class FileManipulator
             return $imageFile;
         }
 
-        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME).'/'.Str::random(16)
-            .$conversion->getName()
-            .'.'
-            .$media->extension;
+        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME) . '/' . Str::random(16)
+            . $conversion->getName()
+            . '.'
+            . $media->extension;
 
         File::copy($imageFile, $conversionTempFile);
 
@@ -151,5 +151,16 @@ class FileManipulator
         }
 
         app(Dispatcher::class)->dispatch($job);
+    }
+
+    protected function renameInLocalDirectory(
+        string $fileNameWithDirectory,
+        string $newFileNameWithoutDirectory): string
+    {
+        $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME) . '/' . $newFileNameWithoutDirectory;
+
+        rename($fileNameWithDirectory, $targetFile);
+
+        return $targetFile;
     }
 }

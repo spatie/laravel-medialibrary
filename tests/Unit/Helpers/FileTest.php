@@ -8,20 +8,6 @@ use Spatie\Medialibrary\Tests\TestCase;
 class FileTest extends TestCase
 {
     /** @test */
-    public function it_can_rename_file_in_a_directory()
-    {
-        $oldFile = $this->getTempDirectory('oldFile.txt');
-
-        touch($oldFile);
-
-        $this->assertFileExists($this->getTempDirectory('oldFile.txt'));
-
-        File::renameInDirectory($oldFile, 'newFile.txt');
-
-        $this->assertFileExists($this->getTempDirectory('newFile.txt'));
-    }
-
-    /** @test */
     public function it_can_determine_a_human_readable_filesize()
     {
         $this->assertEquals('10 B', File::getHumanReadableSize(10));
@@ -36,6 +22,6 @@ class FileTest extends TestCase
     /** @test */
     public function it_can_determine_the_mime_type_of_a_file()
     {
-        $this->assertEquals('text/x-php', File::getMimetype(__FILE__));
+        $this->assertEquals('text/x-php', File::getMimeType(__FILE__));
     }
 }

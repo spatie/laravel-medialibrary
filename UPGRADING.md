@@ -19,6 +19,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - the `Spatie\MediaLibrary\MediaCollection\MediaCollection` has been moved to `Spatie\Medialibrary\HasMedia\MediaCollection`. Be sure to change this in every model where you registered media collections
 - the `Spatie\MediaLibrary\File` class has been moved to `Spatie\Medialibrary\HasMedia\File`. Update all usage your might have in `registerMediaCollections` on your models
 - the `Spatie\MediaLibrary\Helpers` namespace has been changed to `Spatie\Medialibrary\Support`. Normally, you wouldn't have used this classes directly
+- the `Spatie\MediaLibrary\MediaStream` class has been moved to `Spatie\Medialibrary\Support\MediaStream`. Rename this in all your classes where you used class.
 
 
 ## 7.3.0

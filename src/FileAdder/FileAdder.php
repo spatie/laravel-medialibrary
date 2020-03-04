@@ -284,7 +284,7 @@ class FileAdder
 
         $media->collection_name = $collectionName;
 
-        $media->mime_type = File::getMimetype($this->pathToFile);
+        $media->mime_type = File::getMimeType($this->pathToFile);
         $media->size = filesize($this->pathToFile);
         $media->custom_properties = $this->customProperties;
 

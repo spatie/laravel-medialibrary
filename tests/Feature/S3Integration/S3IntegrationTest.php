@@ -8,7 +8,7 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\MediaStream;
+use Spatie\Medialibrary\Support\MediaStream;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
@@ -349,11 +349,11 @@ class S3IntegrationTest extends TestCase
     public static function getS3BaseTestDirectory(): string
     {
         static $uuid = null;
-        
+
         if (is_null($uuid)) {
             $uuid = Str::uuid();
         }
-        
+
         return $uuid;
     }
 
