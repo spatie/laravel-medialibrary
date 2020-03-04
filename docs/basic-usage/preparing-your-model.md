@@ -12,9 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Medialibrary\HasMedia;
 use Spatie\Medialibrary\InteractsWithMedia;
 
-class News extends Model implements HasMedia
+class YourModel extends Model implements HasMedia
 {
     use InteractsWithMedia;
-   ...
 }
 ```

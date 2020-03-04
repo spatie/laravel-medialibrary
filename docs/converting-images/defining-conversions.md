@@ -19,7 +19,7 @@ use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\HasMedia;
 use Spatie\Medialibrary\InteractsWithMedia;
 
-class NewsItem extends Model implements HasMedia
+class YourModel extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
@@ -36,7 +36,7 @@ class NewsItem extends Model implements HasMedia
 Let's add an image to the medialibrary.
 
 ```php
-$media = NewsItem::first()->addMedia($pathToImage)->toMediaCollection();
+$media = YourModel::first()->addMedia($pathToImage)->toMediaCollection();
 ```
 
 Besides storing the original item, the medialibrary also has created a derived image.
@@ -97,11 +97,11 @@ This is how that looks like in the model:
 
 ```php
 // a thumbnail will be generated for this media item
-$media = $newsItem->addMedia($pathToImage)->toMediaCollection('images');
+$media = $yourModel->addMedia($pathToImage)->toMediaCollection('images');
 $media->getUrl('thumb') // the url to the thubmnail
 
 //but not for this one
-$media = $newsItem->addMedia($pathToImage)->toMediaCollection('other collection');
+$media = $yourModel->addMedia($pathToImage)->toMediaCollection('other collection');
 $media->getUrl('thumb') // returns ''
 ```
 
