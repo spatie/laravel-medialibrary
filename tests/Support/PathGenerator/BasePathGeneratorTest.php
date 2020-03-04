@@ -1,8 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Unit\PathGenerator;
+namespace Spatie\Medialibrary\Tests\Support\PathGenerator;
 
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Conversions\ConversionCollection;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\Medialibrary\Support\UrlGenerator\LocalUrlGenerator;
@@ -11,25 +13,13 @@ class BasePathGeneratorTest extends TestCase
 {
     protected $config;
 
-    /**
-     * @var \Spatie\Medialibrary\Media
-     */
-    protected $media;
+    protected Media $media;
 
-    /**
-     * @var \Spatie\Medialibrary\Conversions\Conversion
-     */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
+    protected Conversion $conversion;
 
-    /**
-     * @var \Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator
-     */
-    protected \Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator $urlGenerator;
+    protected DefaultUrlGenerator $urlGenerator;
 
-    /**
-     * @var \Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator
-     */
-    protected \Spatie\Medialibrary\Tests\Unit\PathGenerator\CustomPathGenerator $pathGenerator;
+    protected CustomPathGenerator $pathGenerator;
 
     public function setUp(): void
     {

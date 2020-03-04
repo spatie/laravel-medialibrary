@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Unit\Helpers;
+namespace Spatie\Medialibrary\Tests\Image;
 
 use ReflectionClass;
 use Spatie\Medialibrary\Support\ImageFactory;

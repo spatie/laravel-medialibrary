@@ -1,41 +1,27 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Unit\UrlGenerator;
+namespace Spatie\Medialibrary\Tests\Support\UrlGenerator;
 
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Conversions\ConversionCollection;
+use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator;
-use Spatie\Medialibrary\Support\UrlGenerator\LocalUrlGenerator;
 
 class BaseUrlGeneratorTest extends TestCase
 {
     protected $config;
 
-    /**
-     * @var \Spatie\Medialibrary\Media
-     */
-    protected \Spatie\Medialibrary\MediaCollections\Models\Media $media;
+    protected Media $media;
 
-    /**
-     * @var \Spatie\Medialibrary\Conversions\Conversion
-     */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
+    protected Conversion $conversion;
 
-    /**
-     * @var \Spatie\Medialibrary\Conversions\Conversion
-     */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversionKeepingOriginalImageFormat;
+    protected Conversion $conversionKeepingOriginalImageFormat;
 
-    /**
-     * @var DefaultUrlGenerator
-     */
-    protected \Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator $urlGenerator;
+    protected DefaultUrlGenerator $urlGenerator;
 
-    /**
-     * @var DefaultPathGenerator
-     */
-    protected \Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator $pathGenerator;
+    protected DefaultPathGenerator $pathGenerator;
 
     public function setUp(): void
     {

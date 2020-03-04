@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Unit\Conversion;
+namespace Spatie\Medialibrary\Tests\Conversions;
 
 use Spatie\Image\Manipulations;
 use Spatie\Medialibrary\Conversions\Conversion;

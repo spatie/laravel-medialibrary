@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Unit;
+namespace Spatie\Medialibrary\Tests\Conversions;
 
 use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Conversions\FileManipulator;
@@ -10,8 +10,7 @@ class FileManipulatorTest extends TestCase
 {
     protected string $conversionName = 'test';
 
-    /** @var \Spatie\Medialibrary\Conversions\Conversion */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
+    protected Conversion $conversion;
 
     public function setUp(): void
     {

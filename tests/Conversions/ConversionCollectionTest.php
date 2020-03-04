@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Unit\Conversion;
+namespace Spatie\Medialibrary\Tests\Conversions;
 
 use Spatie\Medialibrary\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Tests\TestCase;
