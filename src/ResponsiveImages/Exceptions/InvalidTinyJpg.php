@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\ResponsiveImages\Exceptions;
 
 use Exception;
-use Spatie\Medialibrary\Helpers\File;
+use Spatie\Medialibrary\Support\File;
 
 class InvalidTinyJpg extends Exception
 {

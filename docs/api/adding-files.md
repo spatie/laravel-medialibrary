@@ -42,7 +42,7 @@ public function addMedia($file)
  *
  * @return mixed
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
  */
 public function addMediaFromUrl(string $url)
 ```
@@ -71,7 +71,7 @@ public function addMediaFromDisk(string $key, string $disk = null): FileAdder
  *
  * @return \Spatie\Medialibrary\FileAdder\FileAdder
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
  */
 public function addMediaFromRequest(string $keyName): FileAdder
 ```
@@ -86,7 +86,7 @@ public function addMediaFromRequest(string $keyName): FileAdder
  *
  * @return Collection
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
  */
 public function addMultipleMediaFromRequest(array $keyNames): Collection
 ```
@@ -109,7 +109,7 @@ $fileAdders = $this->model
  *
  * @return Collection
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
  */
 public function addAllMediaFromRequest(): Collection
 ```
@@ -126,7 +126,7 @@ Please note the return type of `addAllMediaFromRequest` is a Collection of `File
  * @param string|array ...$allowedMimeTypes
  *
  * @throws InvalidBase64Data
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
  *
  * @return \Spatie\Medialibrary\FileAdder\FileAdder
  */
@@ -221,7 +221,7 @@ public function withCustomProperties(array $customProperties)
  *
  * @return Media
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
  */
 public function toMediaCollection($collectionName = 'default', $diskName = '')
 ```
@@ -237,7 +237,7 @@ This function does almost the same as `toMediaCollection`. It'll store all media
   * @return \Spatie\Medialibrary\Models\Media
   *
   * @throws FileCannotBeAdded
-  * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+  * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
   */
  public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
 ```

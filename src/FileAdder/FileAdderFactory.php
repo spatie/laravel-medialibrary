@@ -5,7 +5,7 @@ namespace Spatie\Medialibrary\FileAdder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
-use Spatie\Medialibrary\Helpers\RemoteFile;
+use Spatie\Medialibrary\Support\RemoteFile;
 
 class FileAdderFactory
 {

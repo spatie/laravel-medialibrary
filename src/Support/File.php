@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Helpers;
+namespace Spatie\Medialibrary\Support;
 
 use Finfo;
 

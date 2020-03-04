@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded;
 
 class InvalidBase64Data extends FileCannotBeAdded
 {

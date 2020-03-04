@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\Helpers;
 
-use Spatie\Medialibrary\Helpers\File;
+use Spatie\Medialibrary\Support\File;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class FileTest extends TestCase

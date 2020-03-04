@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded;
 
 class ModelDoesNotExist extends FileCannotBeAdded
 {

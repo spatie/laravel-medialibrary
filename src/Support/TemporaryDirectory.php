@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Helpers;
+namespace Spatie\Medialibrary\Support;
 
 use Illuminate\Support\Str;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;

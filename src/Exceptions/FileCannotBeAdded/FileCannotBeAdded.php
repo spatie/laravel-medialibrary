@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Exceptions;
+namespace Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
 
 use Exception;
 

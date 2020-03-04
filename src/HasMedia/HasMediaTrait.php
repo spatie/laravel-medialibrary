@@ -124,7 +124,7 @@ trait HasMediaTrait
      *
      * @return \Spatie\Medialibrary\FileAdder\FileAdder
      *
-     * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes): FileAdder
     {
@@ -162,10 +162,10 @@ trait HasMediaTrait
      * @param string $base64data
      * @param string|array ...$allowedMimeTypes
      *
-     * @throws InvalidBase64Data
-     * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded
-     *
      * @return \Spatie\Medialibrary\FileAdder\FileAdder
+     * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+     *
+     * @throws InvalidBase64Data
      */
     public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
     {

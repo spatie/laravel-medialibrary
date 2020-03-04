@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator;
 
-use Spatie\Medialibrary\Helpers\ImageFactory;
+use Spatie\Medialibrary\Support\ImageFactory;
 
 class Blurred implements TinyPlaceholderGenerator
 {

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Spatie\Medialibrary\Conversion\Conversion;
 use Spatie\Medialibrary\Conversion\ConversionCollection;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded;
+use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded;
 use Spatie\Medialibrary\FileManipulator;
 use Spatie\Medialibrary\MediaRepository;
 use Spatie\Medialibrary\Models\Media;

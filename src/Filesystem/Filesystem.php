@@ -8,8 +8,8 @@ use Illuminate\Support\Str;
 use Spatie\Medialibrary\Conversion\ConversionCollection;
 use Spatie\Medialibrary\Events\MediaHasBeenAdded;
 use Spatie\Medialibrary\FileManipulator;
-use Spatie\Medialibrary\Helpers\File;
-use Spatie\Medialibrary\Helpers\RemoteFile;
+use Spatie\Medialibrary\Support\File;
+use Spatie\Medialibrary\Support\RemoteFile;
 use Spatie\Medialibrary\Models\Media;
 use Spatie\Medialibrary\PathGenerator\PathGeneratorFactory;
 
