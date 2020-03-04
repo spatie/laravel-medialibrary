@@ -14,6 +14,8 @@ use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\HasMedia\HasMedia;
+use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
+use Spatie\Medialibrary\ImageGenerators\ImageGeneratorFactory;
 use Spatie\Medialibrary\Support\File;
 use Spatie\Medialibrary\Support\TemporaryDirectory;
 use Spatie\Medialibrary\ImageGenerators\Image;
@@ -72,7 +74,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function getImageGenerators(): Collection
     {
-        return collect(config('medialibrary.image_generators'));
+        return ImageGeneratorFactory::getImageGenerators();
     }
 
     public function getTypeAttribute(): string
@@ -88,9 +90,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function getTypeFromExtension(): string
     {
-        $imageGenerator = $this->getImageGenerators()
-            ->map(fn(string $className) => app($className))
-            ->first->canHandleExtension(strtolower($this->extension));
+        $imageGenerator = ImageGeneratorFactory::forExtension($this->extension);
 
         return $imageGenerator
             ? $imageGenerator->getType()
@@ -99,9 +99,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function getTypeFromMime(): string
     {
-        $imageGenerator = $this->getImageGenerators()
-            ->map(fn(string $className) => app($className))
-            ->first->canHandleMime($this->mime_type);
+        $imageGenerator = ImageGeneratorFactory::forMimeType($this->mime_type);
 
         return $imageGenerator
             ? $imageGenerator->getType()

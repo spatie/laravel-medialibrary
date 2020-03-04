@@ -9,6 +9,7 @@ use Spatie\Medialibrary\Events\ConversionHasBeenCompleted;
 use Spatie\Medialibrary\Events\ConversionWillStart;
 use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
+use Spatie\Medialibrary\ImageGenerators\ImageGeneratorFactory;
 use Spatie\Medialibrary\Support\File as MedialibraryFileHelper;
 use Spatie\Medialibrary\Support\ImageFactory;
 use Spatie\Medialibrary\Support\TemporaryDirectory;
@@ -60,7 +61,7 @@ class FileManipulator
             return;
         }
 
-        $imageGenerator = $this->determineImageGenerator($media);
+        $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
         if (! $imageGenerator) {
             return;
@@ -150,17 +151,5 @@ class FileManipulator
         }
 
         app(Dispatcher::class)->dispatch($job);
-    }
-
-    /**
-     * @param \Spatie\Medialibrary\Models\Media $media
-     *
-     * @return \Spatie\Medialibrary\ImageGenerators\ImageGenerator|null
-     */
-    public function determineImageGenerator(Media $media)
-    {
-        return $media->getImageGenerators()
-            ->map(fn(string $imageGeneratorClassName) => app($imageGeneratorClassName))
-            ->first(fn(ImageGenerator $imageGenerator) => $imageGenerator->canConvert($media));
     }
 }
