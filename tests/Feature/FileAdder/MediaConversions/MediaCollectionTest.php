@@ -5,8 +5,8 @@ namespace Spatie\Medialibrary\Tests\Feature\FileAdder\MediaConversions;
 use Spatie\Medialibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\Medialibrary\MediaCollections\File;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class MediaCollectionTest extends TestCase

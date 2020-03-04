@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Feature\Media;
 
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class MoveTest extends TestCase

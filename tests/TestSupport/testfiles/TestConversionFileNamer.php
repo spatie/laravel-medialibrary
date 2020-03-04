@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Support\testfiles;
+namespace Spatie\Medialibrary\Tests\TestSupport\testfiles;
 
 use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Conversions\ConversionFileNamer;

@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\TestCase;
-use Spatie\Medialibrary\Tests\Support\TestImageGenerator;
+use Spatie\Medialibrary\Tests\TestSupport\TestImageGenerator;
 
 class DualTypeCheckingTest extends TestCase
 {

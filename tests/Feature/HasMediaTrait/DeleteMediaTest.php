@@ -4,8 +4,8 @@ namespace Spatie\Medialibrary\Tests\Feature\HasMediaTrait;
 
 use File;
 use Spatie\Medialibrary\MedialibraryServiceProvider;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestCustomMediaModel;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase

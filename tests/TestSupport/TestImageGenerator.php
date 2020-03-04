@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Support;
+namespace Spatie\Medialibrary\Tests\TestSupport;
 
 use Illuminate\Support\Collection;
 use Spatie\Medialibrary\Conversions\Conversion;

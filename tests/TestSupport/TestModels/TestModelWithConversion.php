@@ -1,17 +1,19 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Support\TestModels;
+namespace Spatie\Medialibrary\Tests\TestSupport\TestModels;
 
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 
-class TestModelWithConversionQueued extends TestModel
+class TestModelWithConversion extends TestModel
 {
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-            ->width(50);
+            ->width(50)
+            ->nonQueued();
 
         $this->addMediaConversion('keep_original_format')
-            ->keepOriginalImageFormat();
+            ->keepOriginalImageFormat()
+            ->nonQueued();
     }
 }

@@ -5,8 +5,8 @@ namespace Spatie\Medialibrary\Tests\Feature\Commands\CleanCommandTest;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class CleanConversionsTest extends TestCase

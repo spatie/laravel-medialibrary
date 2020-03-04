@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="600" viewBox="0 0 600 600">
+ <title>SVG Simple Logo Tiny</title>
+ <desc>Designed for the SVG Logo Contest in 2006 by Harvey Rayner. It is available under the Creative Commons license for those who have an SVG product or who are using SVG on their site.</desc>
+ 
+   <metadata>
+      <title>Creative Commons License</title>
+      <rdf:RDF xmlns="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+         <Work rdf:about="">
+            <license rdf:resource="http://creativecommons.org/licenses/by-nd/2.5/"/>
+            <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+         </Work>
+         <License rdf:about="http://creativecommons.org/licenses/by-nd/2.5/">
+            <permits rdf:resource="http://web.resource.org/cc/Reproduction"/><permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+            <requires rdf:resource="http://web.resource.org/cc/Notice"/>
+            <requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+         </License>
+      </rdf:RDF> 
+   </metadata>
+
+ 
+ <g>
+
+  <g id="node_outline" fill="#000000">
+   <circle cx="521.638" cy="300" r="45.9027"/>
+   <circle cx="489.181" cy="221.639" r="45.9024"/>
+   <circle cx="410.818" cy="189.181" r="45.9024"/>
+   <circle cx="378.361" cy="110.82" r="45.9024"/>
+   <circle cx="300" cy="78.3614" r="45.9024"/>
+   <circle cx="221.639" cy="110.82" r="45.9024"/>
+   <circle cx="189.181" cy="189.181" r="45.9024"/>
+   <circle cx="110.82" cy="221.639" r="45.9024"/>
+   <circle cx="78.3618" cy="300" r="45.9027"/>
+   <circle cx="110.819" cy="378.363" r="45.9012"/>
+   <circle cx="189.18" cy="410.819" r="45.9012"/>
+   <circle cx="221.639" cy="489.18" r="45.9024"/>
+   <circle cx="300" cy="521.639" r="45.9024"/>
+   <circle cx="378.361" cy="489.18" r="45.9024"/>
+   <circle cx="410.819" cy="410.82" r="45.9012"/>
+   <circle cx="489.181" cy="378.361" r="45.9024"/>
+   <rect x="200" y="100" width="200" height="400"/>
+   <rect x="100" y="200" width="400" height="200"/>
+  </g>
+
+   <g id="nodes" fill="#ffffff">
+   <circle cx="521.639" cy="300" r="24.848"/>
+   <circle cx="489.181" cy="221.639" r="24.848"/>
+   <circle cx="410.82" cy="189.181" r="24.8492"/>
+   <circle cx="378.36" cy="110.82" r="24.848"/>
+   <circle cx="300.001" cy="78.3614" r="24.848"/>
+   <circle cx="221.639" cy="110.82" r="24.8492"/>
+   <circle cx="189.181" cy="189.182" r="24.8504"/>
+   <circle cx="110.82" cy="221.639" r="24.848"/>
+   <circle cx="78.3626" cy="299.999" r="24.848"/>
+   <circle cx="110.82" cy="378.36" r="24.8469"/>
+   <circle cx="189.181" cy="410.82" r="24.8504"/>
+   <circle cx="221.64" cy="489.18" r="24.848"/>
+   <circle cx="300" cy="521.639" r="24.848"/>
+   <circle cx="378.361" cy="489.178" r="24.848"/>
+   <circle cx="410.82" cy="410.82" r="24.8469"/>
+   <circle cx="489.181" cy="378.361" r="24.848"/>
+   </g>
+
+   <g id="connectors" stroke="white" fill="none" stroke-width="35.1378">
+    <line x1="221.639" y1="110.819" x2="489.181" y2="378.361"/>
+    <line x1="189.181" y1="189.181" x2="410.819" y2="189.181"/>
+    <line x1="110.819" y1="378.361" x2="378.361" y2="110.819"/>
+    <line x1="189.181" y1="410.819" x2="189.181" y2="189.181"/>
+    <line x1="300.001" y1="521.637" x2="300.001" y2="78.3614"/>
+    <line x1="378.363" y1="489.18" x2="110.82" y2="221.639"/>
+    <line x1="410.82" y1="410.819" x2="189.182" y2="410.819"/>
+    <line x1="521.639" y1="299.999" x2="78.3626" y2="299.999"/>
+    <line x1="489.181" y1="221.639" x2="221.64" y2="489.18"/>
+    <line x1="410.82" y1="189.18" x2="410.82" y2="410.818"/>
+   </g>
+  
+  <rect fill="#7f7f7f" x="189.189" y="189.181" width="221.631" height="221.639"/>
+  
+  <g id="SVG" fill="#ffffff">
+   <path id="S" d="M219.402 301.214c-5.38819,-5.38819 -8.72126,-12.8315 -8.72126,-21.0508 0,-16.4409 13.3323,-29.7732 29.772,-29.7732 16.4398,0 29.772,13.3323 29.772,29.7732l-17.4402 0c0,-6.81024 -5.52283,-12.3331 -12.3319,-12.3331 -6.81024,0 -12.3319,5.52283 -12.3319,12.3331 0,3.40157 1.37717,6.48189 3.60591,8.71299l0.00590551 0c2.2311,2.23346 5.31378,3.61417 8.72008,3.61417l0 0.00472441c8.21929,0 15.6614,3.33425 21.0496,8.72244l0.0011811 -0.0011811c5.38819,5.38819 8.72126,12.8315 8.72126,21.052 0,16.4398 -13.3323,29.7732 -29.772,29.7732 -16.4398,0 -29.772,-13.3335 -29.772,-29.7732l17.4402 0c0,6.80906 5.52165,12.3319 12.3319,12.3319 6.80906,0 12.3319,-5.52283 12.3319,-12.3319 0,-3.40157 -1.37835,-6.48189 -3.60591,-8.71417l-0.00590551 0c-2.23228,-2.23228 -5.31496,-3.61417 -8.72008,-3.61417l0 -0.00472441c-8.22047,0 -15.6626,-3.33307 -21.0508,-8.72126l0 0z"/>
+   <polygon id="V" points="329.767,250.39 308.715,352.042 291.275,352.042 270.224,250.39 287.668,250.39 299.995,309.927 312.324,250.39"/>
+   <path id="G" d="M359.544 292.498l29.772 0 0 29.7685 0.00354331 0c0,16.4409 -13.3323,29.7756 -29.7732,29.7744 -16.4409,0.0011811 -29.7732,-13.3323 -29.7744,-29.772l0 -0.0023622 0 -42.1016 -0.00472441 0c0,-16.4409 13.3335,-29.7744 29.7744,-29.7744 16.4409,0 29.7744,13.3335 29.7744,29.7744l-17.4449 0c0,-6.80669 -5.52047,-12.3272 -12.3272,-12.3272 -6.80787,0 -12.3283,5.52047 -12.3283,12.3272l0 42.1039 0 0c0.0011811,6.80669 5.52165,12.326 12.3283,12.326 6.80551,0 12.3248,-5.51811 12.3272,-12.3236l0 -0.00472441 0 -12.3236 -12.3272 0 0 -17.4449z"/>
+     </g>
+
+
+ </g>
+</svg>

@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class ClearCommandTest extends TestCase

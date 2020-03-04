@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\Tests\Feature\HasMediaTrait;
 
 use DB;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class GetMediaTest extends TestCase

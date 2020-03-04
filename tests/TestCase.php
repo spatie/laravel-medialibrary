@@ -10,13 +10,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Medialibrary\MedialibraryServiceProvider;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversionQueued;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversionsOnOtherDisk;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithMorphMap;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
-use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithResponsiveImages;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnOtherDisk;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
+use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithResponsiveImages;
 use ZipArchive;
 
 abstract class TestCase extends Orchestra
@@ -113,7 +113,7 @@ abstract class TestCase extends Orchestra
         $this->setupS3($app);
         $this->setUpMorphMap();
 
-        $app['config']->set('view.paths', [__DIR__.'/Support/resources/views']);
+        $app['config']->set('view.paths', [__DIR__.'/TestSupport/resources/views']);
     }
 
     /**
@@ -137,7 +137,7 @@ abstract class TestCase extends Orchestra
     protected function setUpTempTestFiles()
     {
         $this->initializeDirectory($this->getTestFilesDirectory());
-        File::copyDirectory(__DIR__.'/Support/testfiles', $this->getTestFilesDirectory());
+        File::copyDirectory(__DIR__.'/TestSupport/testfiles', $this->getTestFilesDirectory());
     }
 
     protected function initializeDirectory($directory)
@@ -147,12 +147,12 @@ abstract class TestCase extends Orchestra
         }
         File::makeDirectory($directory);
     }
-    
+
     public function getTestsPath($suffix = ''): string
     {
         if ($suffix !== '') {
             $suffix = "/{$suffix}";
-            
+
         }
 
         return __DIR__ . $suffix;
@@ -160,7 +160,7 @@ abstract class TestCase extends Orchestra
 
     public function getTempDirectory($suffix = ''): string
     {
-        return __DIR__.'/Support/temp'.($suffix == '' ? '' : '/'.$suffix);
+        return __DIR__.'/TestSupport/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getMediaDirectory($suffix = ''): string

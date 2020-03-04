@@ -21,16 +21,16 @@ class ConversionsDiskTest extends TestCase
         $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
 
         $originalFilePath = $media->getPath();
-        
+
         $this->assertEquals(
-            $this->getTestsPath('Support/temp/media/1/test.jpg'), 
+            $this->getTestsPath('TestSupport/temp/media/1/test.jpg'),
             $originalFilePath
         );
         $this->assertFileExists($originalFilePath);
 
         $conversionsFilePath = $media->getPath('thumb');
         $this->assertEquals(
-            $this->getTestsPath('Support/temp/media2/1/conversions/test-thumb.jpg'),
+            $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
             $conversionsFilePath
         );
         $this->assertFileExists($conversionsFilePath);
@@ -71,7 +71,7 @@ class ConversionsDiskTest extends TestCase
 
         $conversionsFilePath = $media->getPath('thumb');
         $this->assertEquals(
-            $this->getTestsPath('Support/temp/media2/1/conversions/test-thumb.jpg'),
+            $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
             $conversionsFilePath
         );
         $this->assertFileExists($conversionsFilePath);

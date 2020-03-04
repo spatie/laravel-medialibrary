@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Support\TestModels;
+namespace Spatie\Medialibrary\Tests\TestSupport\TestModels;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Medialibrary\HasMedia;
