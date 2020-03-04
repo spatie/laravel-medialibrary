@@ -19,7 +19,7 @@ use Spatie\Medialibrary\Support\TemporaryDirectory;
 use Spatie\Medialibrary\ImageGenerators\FileTypes\Image;
 use Spatie\Medialibrary\Models\Concerns\HasUuid;
 use Spatie\Medialibrary\Models\Concerns\IsSorted;
-use Spatie\Medialibrary\Models\Traits\CustomMediaProperties;
+use Spatie\Medialibrary\Models\Concerns\CustomMediaProperties;
 use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\Medialibrary\UrlGenerator\UrlGeneratorFactory;
 
