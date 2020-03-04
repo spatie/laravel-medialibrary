@@ -26,7 +26,7 @@ class MediaStream implements Responsable
         $this->mediaItems = collect();
     }
 
-    public function addMedia(...$mediaItems)
+    public function addMedia(...$mediaItems): self
     {
         collect($mediaItems)
             ->flatMap(function ($item) {
@@ -56,7 +56,7 @@ class MediaStream implements Responsable
         return $this->mediaItems;
     }
 
-    public function toResponse($request)
+    public function toResponse($request): StreamedResponse
     {
         $headers = [
             'Content-Disposition' => "attachment; filename=\"{$this->zipName}\"",
