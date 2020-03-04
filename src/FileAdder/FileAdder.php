@@ -11,7 +11,7 @@ use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
 use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
 use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
 use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\UnknownType;
-use Spatie\Medialibrary\File as PendingFile;
+use Spatie\Medialibrary\HasMedia\File as PendingFile;
 use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\HasMedia\HasMedia;
 use Spatie\Medialibrary\Support\File;

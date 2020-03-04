@@ -17,6 +17,9 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - the `rawUrlEncodeFilename` method on `BaseUrlGenerator` has been removed. Remove all calls in your own code to this method.
 - `getConversionFile` on `Conversion` now accepts a `Media` instance instead of a `string`. In normal circumstance you wouldn't have used this function directly.
 - the `Spatie\MediaLibrary\MediaCollection\MediaCollection` has been moved to `Spatie\Medialibrary\HasMedia\MediaCollection`. Be sure to change this in every model where you registered media collections
+- the `Spatie\MediaLibrary\File` class has been moved to `Spatie\Medialibrary\HasMedia\File`. Update all usage your might have in `registerMediaCollections` on your models
+- the `Spatie\MediaLibrary\Helpers` namespace has been changed to `Spatie\Medialibrary\Support`. Normally, you wouldn't have used this classes directly
+
 
 ## 7.3.0
 

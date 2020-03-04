@@ -8,7 +8,7 @@ class RemoteFile
 
     protected string $disk;
 
-    public function __construct($key, $disk)
+    public function __construct(string $key, string $disk)
     {
         $this->key = $key;
 
