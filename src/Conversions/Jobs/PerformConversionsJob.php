@@ -31,7 +31,10 @@ class PerformConversionsJob implements ShouldQueue
 
     public function handle(): bool
     {
-        app(FileManipulator::class)->performConversions($this->conversions, $this->media, $this->onlyMissing);
+        /** @var \Spatie\Medialibrary\Conversions\FileManipulator $fileManipulator */
+        $fileManipulator = app(FileManipulator::class);
+
+        $fileManipulator->performConversions($this->conversions, $this->media, $this->onlyMissing);
 
         return true;
     }

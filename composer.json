@@ -24,6 +24,7 @@
     "require": {
         "php": "^7.4",
         "ext-fileinfo": "*",
+        "ext-gd": "*",
         "ext-json": "*",
         "illuminate/bus": "^6.0|^7.0",
         "illuminate/console": "^6.0|^7.0",

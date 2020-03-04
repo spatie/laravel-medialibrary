@@ -26,7 +26,7 @@ class TestImageGenerator extends ImageGenerator
         return $this->supportedExtensions;
     }
 
-    public function supportedMimetypes(): Collection
+    public function supportedMimeTypes(): Collection
     {
         return $this->supportedMimetypes;
     }

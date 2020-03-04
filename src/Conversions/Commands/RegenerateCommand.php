@@ -27,19 +27,14 @@ class RegenerateCommand extends Command
 
     protected FileManipulator $fileManipulator;
 
-    protected array $erroredMediaIds = [];
+    protected array $errorMessages = [];
 
-    public function __construct(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
+    public function handle(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
     {
-        parent::__construct();
-
         $this->mediaRepository = $mediaRepository;
 
         $this->fileManipulator = $fileManipulator;
-    }
 
-    public function handle()
-    {
         if (! $this->confirmToProceed()) {
             return;
         }
@@ -47,8 +42,6 @@ class RegenerateCommand extends Command
         $mediaFiles = $this->getMediaToBeRegenerated();
 
         $progressBar = $this->output->createProgressBar($mediaFiles->count());
-
-        $this->errorMessages = [];
 
         $mediaFiles->each(function (Media $media) use ($progressBar) {
             try {

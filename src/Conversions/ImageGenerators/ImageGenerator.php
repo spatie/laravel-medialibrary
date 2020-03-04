@@ -14,6 +14,7 @@ abstract class ImageGenerator
         }
 
         $validExtension = $this->canHandleExtension(strtolower($media->extension));
+
         $validMimeType = $this->canHandleMime(strtolower($media->mime_type));
 
         if ($this->shouldMatchBothExtensionsAndMimeTypes()) {
@@ -30,7 +31,7 @@ abstract class ImageGenerator
 
     public function canHandleMime(string $mime = ''): bool
     {
-        return $this->supportedMimetypes()->contains($mime);
+        return $this->supportedMimeTypes()->contains($mime);
     }
 
     public function canHandleExtension(string $extension = ''): bool
@@ -47,5 +48,5 @@ abstract class ImageGenerator
 
     abstract public function supportedExtensions(): Collection;
 
-    abstract public function supportedMimetypes(): Collection;
+    abstract public function supportedMimeTypes(): Collection;
 }

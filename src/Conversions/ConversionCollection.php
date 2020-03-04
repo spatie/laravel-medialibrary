@@ -35,7 +35,7 @@ class ConversionCollection extends Collection
     {
         $conversion = $this->first(fn(Conversion $conversion) => $conversion->getName() === $name);
 
-        if (! $conversion) {
+        if (!$conversion) {
             throw InvalidConversion::unknownName($name);
         }
 
@@ -78,12 +78,14 @@ class ConversionCollection extends Collection
             return $this;
         }
 
-        return $this->filter->shouldBePerformedOn($collectionName);
+        return $this->filter(fn(Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
     }
 
     public function getQueuedConversions(string $collectionName = ''): self
     {
-        return $this->getConversions($collectionName)->filter->shouldBeQueued();
+        return $this
+            ->getConversions($collectionName)
+            ->filter(fn(Conversion $conversion) => $conversion->shouldBeQueued());
     }
 
 
@@ -91,7 +93,7 @@ class ConversionCollection extends Collection
     {
         /** @var \Spatie\Medialibrary\Conversions\Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
-            if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
+            if (!in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
                 return false;
             }
 
@@ -107,19 +109,22 @@ class ConversionCollection extends Collection
         }
 
         if ($conversionName === '*') {
-            $this->each->addAsFirstManipulations(clone $manipulations);
+            $this
+                ->each(fn(Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations));
         }
     }
 
     public function getNonQueuedConversions(string $collectionName = ''): self
     {
-        return $this->getConversions($collectionName)->reject->shouldBeQueued();
+        return $this
+            ->getConversions($collectionName)
+            ->reject(fn(Conversion $conversion) => $conversion->shouldBeQueued());
     }
 
     public function getConversionsFiles(string $collectionName = ''): self
     {
-        $fileName = pathinfo($this->media->file_name, PATHINFO_FILENAME);
-
-        return $this->getConversions($collectionName)->map(fn(Conversion $conversion) => $conversion->getConversionFile($this->media));
+        return $this
+            ->getConversions($collectionName)
+            ->map(fn(Conversion $conversion) => $conversion->getConversionFile($this->media));
     }
 }

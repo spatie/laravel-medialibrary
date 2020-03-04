@@ -4,7 +4,6 @@ namespace Spatie\Medialibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator;
 
 class Pdf extends ImageGenerator
 {

@@ -27,8 +27,6 @@ class Conversion
 
     protected string $loadingAttributeValue;
 
-
-
     public function __construct(string $name)
     {
         $this->name = $name;
