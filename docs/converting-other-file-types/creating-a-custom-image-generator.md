@@ -13,8 +13,8 @@ The first step for creating a custom generator is to create a class that extends
 
 ```php
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\ImageGenerators\ImageGenerator;
+use Spatie\Medialibrary\Features\Conversions\Conversion;
+use Spatie\Medialibrary\Features\Conversions\ImageGenerators\ImageGenerator;
 
 class PowerPoint extends ImageGenerator
 {
@@ -64,8 +64,8 @@ If the generator only needs to be applied to one of your models you can override
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\HasMedia\InteractsWithMedia;
-use Spatie\Medialibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\Medialibrary\InteractsWithMedia;
+use Spatie\Medialibrary\Interfaces\HasMedia;
 
 class News extends Model implements HasMedia
 {

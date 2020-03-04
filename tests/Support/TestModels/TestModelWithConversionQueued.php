@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Support\TestModels;
 
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 
 class TestModelWithConversionQueued extends TestModel
 {

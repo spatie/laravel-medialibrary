@@ -13,7 +13,7 @@ class CopyTest extends TestCase
         /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);
 
-        /** @var \Spatie\Medialibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Features\MediaCollections\Models\Media $media */
         $media = $model
             ->addMedia($this->getTestJpg())
             ->usingName('custom-name')
@@ -50,7 +50,7 @@ class CopyTest extends TestCase
         /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);
 
-        /** @var \Spatie\Medialibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Features\MediaCollections\Models\Media $media */
         $media = $model
             ->addMedia($this->getTestImageWithoutExtension())
             ->usingName('custom-name')
@@ -83,7 +83,7 @@ class CopyTest extends TestCase
         /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);
 
-        /** @var \Spatie\Medialibrary\Models\Media $media */
+        /** @var \Spatie\Medialibrary\Features\MediaCollections\Models\Media $media */
         $media = $model
             ->addMedia($this->getTestJpg())
             ->usingName('custom-name')

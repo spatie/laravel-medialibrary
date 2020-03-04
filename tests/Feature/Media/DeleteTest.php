@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\Tests\Feature\Media;
 
 use File;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\Support\TestPathGenerator;
 use Spatie\Medialibrary\Tests\TestCase;

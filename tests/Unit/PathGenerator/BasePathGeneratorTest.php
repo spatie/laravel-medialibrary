@@ -2,10 +2,10 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\PathGenerator;
 
-use Spatie\Medialibrary\Conversions\ConversionCollection;
+use Spatie\Medialibrary\Features\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Tests\TestCase;
-use Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator;
-use Spatie\Medialibrary\UrlGenerator\LocalUrlGenerator;
+use Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\Medialibrary\Support\UrlGenerator\LocalUrlGenerator;
 
 class BasePathGeneratorTest extends TestCase
 {
@@ -17,17 +17,17 @@ class BasePathGeneratorTest extends TestCase
     protected $media;
 
     /**
-     * @var \Spatie\Medialibrary\Conversions\Conversion
+     * @var \Spatie\Medialibrary\Features\Conversions\Conversion
      */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
+    protected \Spatie\Medialibrary\Features\Conversions\Conversion $conversion;
 
     /**
-     * @var \Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator
+     * @var \Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator
      */
-    protected \Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
+    protected \Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator $urlGenerator;
 
     /**
-     * @var \Spatie\Medialibrary\PathGenerator\DefaultPathGenerator
+     * @var \Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator
      */
     protected \Spatie\Medialibrary\Tests\Unit\PathGenerator\CustomPathGenerator $pathGenerator;
 

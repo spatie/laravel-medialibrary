@@ -9,8 +9,8 @@ To associate media with a model, the model must implement the following interfac
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\HasMedia\HasMedia;
-use Spatie\Medialibrary\HasMedia\InteractsWithMedia;
+use Spatie\Medialibrary\HasMedia;
+use Spatie\Medialibrary\InteractsWithMedia;
 
 class News extends Model implements HasMedia
 {

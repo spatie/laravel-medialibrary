@@ -18,7 +18,7 @@ Here the implementation of `Spatie\Medialibrary\Conversion\DefaultConversionFile
 ```php
 namespace Spatie\Medialibrary\Conversion;
 
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 
 class DefaultConversionFileNamer extends ConversionFileNamer
 {

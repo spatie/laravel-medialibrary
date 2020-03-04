@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Feature\FileSystem;
 
-use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\Features\MediaCollections\Filesystem;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class FileSystemTest extends TestCase

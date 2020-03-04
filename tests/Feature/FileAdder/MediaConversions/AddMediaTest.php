@@ -4,8 +4,8 @@ namespace Spatie\Medialibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use Carbon\Carbon;
 use Spatie\Image\Manipulations;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\Conversions\ConversionCollection;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\Medialibrary\Tests\TestCase;

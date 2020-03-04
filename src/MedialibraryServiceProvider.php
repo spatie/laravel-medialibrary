@@ -3,13 +3,13 @@
 namespace Spatie\Medialibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\Medialibrary\Commands\CleanCommand;
-use Spatie\Medialibrary\Commands\ClearCommand;
-use Spatie\Medialibrary\Commands\RegenerateCommand;
-use Spatie\Medialibrary\Filesystem\Filesystem;
-use Spatie\Medialibrary\Models\Observers\MediaObserver;
-use Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
-use Spatie\Medialibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Spatie\Medialibrary\Features\MediaCollections\Commands\CleanCommand;
+use Spatie\Medialibrary\Features\MediaCollections\Commands\ClearCommand;
+use Spatie\Medialibrary\Features\Conversions\Commands\RegenerateCommand;
+use Spatie\Medialibrary\Features\MediaCollections\Filesystem;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Observers\MediaObserver;
+use Spatie\Medialibrary\Features\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Spatie\Medialibrary\Features\ResponsiveImages\WidthCalculator\WidthCalculator;
 
 class MedialibraryServiceProvider extends ServiceProvider
 {

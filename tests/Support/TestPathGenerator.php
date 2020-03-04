@@ -2,8 +2,8 @@
 
 namespace Spatie\Medialibrary\Tests\Support;
 
-use Spatie\Medialibrary\Models\Media;
-use Spatie\Medialibrary\PathGenerator\PathGenerator;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\Support\PathGenerator\PathGenerator;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
 
 class TestPathGenerator implements PathGenerator

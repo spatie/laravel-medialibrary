@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Feature\Media;
 
-use Spatie\Medialibrary\Exceptions\InvalidConversion;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class GetPathTest extends TestCase

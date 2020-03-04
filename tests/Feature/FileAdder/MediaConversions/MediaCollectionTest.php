@@ -2,9 +2,9 @@
 
 namespace Spatie\Medialibrary\Tests\Feature\FileAdder\MediaConversions;
 
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
-use Spatie\Medialibrary\HasMedia\File;
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Spatie\Medialibrary\Features\MediaCollections\File;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
 use Spatie\Medialibrary\Tests\TestCase;

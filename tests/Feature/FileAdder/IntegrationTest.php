@@ -3,14 +3,14 @@
 namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
 
 use Illuminate\Support\Facades\Storage;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\DiskDoesNotExist;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileDoesNotExist;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileIsTooBig;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\RequestDoesNotHaveFile;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\UnknownType;
-use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\DiskDoesNotExist;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\MimeTypeNotAllowed;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\RequestDoesNotHaveFile;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\UnknownType;
+use Spatie\Medialibrary\Features\MediaCollections\Exceptions\UnreachableUrl;
 use Spatie\Medialibrary\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 

@@ -2,8 +2,8 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\PathGenerator;
 
-use Spatie\Medialibrary\Models\Media;
-use Spatie\Medialibrary\PathGenerator\PathGenerator;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\Support\PathGenerator\PathGenerator;
 
 class CustomPathGenerator implements PathGenerator
 {

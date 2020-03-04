@@ -2,16 +2,16 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\Conversion;
 
-use Spatie\Medialibrary\Conversions\ConversionCollection;
+use Spatie\Medialibrary\Features\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class ConversionCollectionTest extends TestCase
 {
-    /** @var \Spatie\Medialibrary\Models\Media */
-    protected ?\Spatie\Medialibrary\Models\Media $media;
+    /** @var \Spatie\Medialibrary\Features\MediaCollections\Models\Media */
+    protected ?\Spatie\Medialibrary\Features\MediaCollections\Models\Media $media;
 
-    /** @var \Spatie\Medialibrary\Models\Media */
-    protected ?\Spatie\Medialibrary\Models\Media $secondMedia;
+    /** @var \Spatie\Medialibrary\Features\MediaCollections\Models\Media */
+    protected ?\Spatie\Medialibrary\Features\MediaCollections\Models\Media $secondMedia;
 
     public function setUp(): void
     {

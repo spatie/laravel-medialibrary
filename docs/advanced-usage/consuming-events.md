@@ -42,7 +42,7 @@ First you must created a listener class. Here's one that will log the paths of a
 namespace App\Listeners;
 
 use Log;
-use Spatie\Medialibrary\Events\MediaHasBeenAdded;
+use Spatie\Medialibrary\Features\MediaCollections\Events\MediaHasBeenAdded;
 
 class MediaLogger
 {
@@ -59,7 +59,7 @@ Hook it up in `app/Providers/EventServiceProvider.php` to let Laravel know that 
 
 ```php
 protected $listen = [
-    'Spatie\Medialibrary\Events\MediaHasBeenAdded' => [
+    'Spatie\Medialibrary\Features\MediaCollections\Events\MediaHasBeenAdded' => [
         'App\Listeners\MediaLogger'
     ],
 ];

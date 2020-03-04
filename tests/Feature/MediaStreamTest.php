@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\Tests\Feature;
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Medialibrary\Support\MediaStream;
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;

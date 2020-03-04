@@ -15,9 +15,9 @@ You should add a method called `registerMediaConversions` to your model. In that
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\Models\Media;
-use Spatie\Medialibrary\HasMedia\HasMedia;
-use Spatie\Medialibrary\HasMedia\InteractsWithMedia;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
+use Spatie\Medialibrary\HasMedia;
+use Spatie\Medialibrary\InteractsWithMedia;
 
 class NewsItem extends Model implements HasMedia
 {

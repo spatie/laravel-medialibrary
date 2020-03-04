@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\ImageGenerators;
 
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\Medialibrary\Tests\Support\TestImageGenerator;
 

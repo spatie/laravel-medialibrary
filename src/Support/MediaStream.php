@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\Support;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use ZipStream\ZipStream;
 

@@ -27,7 +27,7 @@ $yourModel
  *
  * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
  *
- * @return \Spatie\Medialibrary\FileAdder\FileAdder
+ * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
  */
 public function addMedia($file)
 ```
@@ -42,7 +42,7 @@ public function addMedia($file)
  *
  * @return mixed
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
  */
 public function addMediaFromUrl(string $url)
 ```
@@ -56,7 +56,7 @@ public function addMediaFromUrl(string $url)
  * @param string $key
  * @param string $disk
  *
- * @return \Spatie\Medialibrary\FileAdder\FileAdder
+ * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
  */
 public function addMediaFromDisk(string $key, string $disk = null): FileAdder
 ```
@@ -69,9 +69,9 @@ public function addMediaFromDisk(string $key, string $disk = null): FileAdder
  *
  * @param string $keyName
  *
- * @return \Spatie\Medialibrary\FileAdder\FileAdder
+ * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
  */
 public function addMediaFromRequest(string $keyName): FileAdder
 ```
@@ -86,7 +86,7 @@ public function addMediaFromRequest(string $keyName): FileAdder
  *
  * @return Collection
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
  */
 public function addMultipleMediaFromRequest(array $keyNames): Collection
 ```
@@ -109,7 +109,7 @@ $fileAdders = $this->model
  *
  * @return Collection
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
  */
 public function addAllMediaFromRequest(): Collection
 ```
@@ -126,9 +126,9 @@ Please note the return type of `addAllMediaFromRequest` is a Collection of `File
  * @param string|array ...$allowedMimeTypes
  *
  * @throws InvalidBase64Data
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
  *
- * @return \Spatie\Medialibrary\FileAdder\FileAdder
+ * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
  */
  public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
 ```
@@ -141,7 +141,7 @@ Please note the return type of `addAllMediaFromRequest` is a Collection of `File
  *
  * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
  *
- * @return \Spatie\Medialibrary\FileAdder\FileAdder
+ * @return \Spatie\Medialibrary\Features\MediaCollections\FileAdder
  */
 public function copyMedia($file)
 ```
@@ -221,7 +221,7 @@ public function withCustomProperties(array $customProperties)
  *
  * @return Media
  *
- * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+ * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
  */
 public function toMediaCollection($collectionName = 'default', $diskName = '')
 ```
@@ -234,10 +234,10 @@ This function does almost the same as `toMediaCollection`. It'll store all media
  /**
   * @param string $collectionName
   *
-  * @return \Spatie\Medialibrary\Models\Media
+  * @return \Spatie\Medialibrary\Features\MediaCollections\Models\Media
   *
   * @throws FileCannotBeAdded
-  * @throws \Spatie\Medialibrary\Exceptions\FileCannotBeAdded\FileCannotBeAdded
+  * @throws \Spatie\Medialibrary\Features\MediaCollections\Exceptions\FileCannotBeAdded
   */
  public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
 ```

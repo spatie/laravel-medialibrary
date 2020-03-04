@@ -2,11 +2,11 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\UrlGenerator;
 
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\PathGenerator\DefaultPathGenerator;
+use Spatie\Medialibrary\Features\Conversions\ConversionCollection;
+use Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\Medialibrary\Tests\TestCase;
-use Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator;
-use Spatie\Medialibrary\UrlGenerator\LocalUrlGenerator;
+use Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\Medialibrary\Support\UrlGenerator\LocalUrlGenerator;
 
 class BaseUrlGeneratorTest extends TestCase
 {
@@ -15,27 +15,27 @@ class BaseUrlGeneratorTest extends TestCase
     /**
      * @var \Spatie\Medialibrary\Media
      */
-    protected \Spatie\Medialibrary\Models\Media $media;
+    protected \Spatie\Medialibrary\Features\MediaCollections\Models\Media $media;
 
     /**
-     * @var \Spatie\Medialibrary\Conversions\Conversion
+     * @var \Spatie\Medialibrary\Features\Conversions\Conversion
      */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
+    protected \Spatie\Medialibrary\Features\Conversions\Conversion $conversion;
 
     /**
-     * @var \Spatie\Medialibrary\Conversions\Conversion
+     * @var \Spatie\Medialibrary\Features\Conversions\Conversion
      */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversionKeepingOriginalImageFormat;
+    protected \Spatie\Medialibrary\Features\Conversions\Conversion $conversionKeepingOriginalImageFormat;
 
     /**
      * @var DefaultUrlGenerator
      */
-    protected \Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator $urlGenerator;
+    protected \Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator $urlGenerator;
 
     /**
      * @var DefaultPathGenerator
      */
-    protected \Spatie\Medialibrary\PathGenerator\DefaultPathGenerator $pathGenerator;
+    protected \Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator $pathGenerator;
 
     public function setUp(): void
     {

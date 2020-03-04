@@ -2,10 +2,10 @@
 
 namespace Spatie\Medialibrary\Tests\Support\testfiles;
 
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ConversionFileNamer;
-use Spatie\Medialibrary\Conversions\DefaultConversionFileNamer;
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\Conversions\Conversion;
+use Spatie\Medialibrary\Features\Conversions\ConversionFileNamer;
+use Spatie\Medialibrary\Features\Conversions\DefaultConversionFileNamer;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 
 class TestConversionFileNamer extends DefaultConversionFileNamer
 {

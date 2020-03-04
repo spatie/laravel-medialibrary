@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\Tests\Feature\Media;
 
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Models\Media;
+use Spatie\Medialibrary\Features\MediaCollections\Models\Media;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModel;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithConversion;
 use Spatie\Medialibrary\Tests\Support\TestModels\TestModelWithCustomLoadingAttribute;
@@ -124,7 +124,7 @@ class ToHtmlTest extends TestCase
 
         $this->assertEquals('<img loading="auto" srcset="http://localhost/media/2/responsive-images/test___medialibrary_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___medialibrary_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___medialibrary_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
     }
-    
+
     /** @test */
     public function the_loading_attribute_can_be_specified_on_the_conversion()
     {

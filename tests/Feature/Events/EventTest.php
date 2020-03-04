@@ -3,10 +3,10 @@
 namespace Spatie\Medialibrary\Tests\Feature\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Medialibrary\Events\CollectionHasBeenCleared;
-use Spatie\Medialibrary\Events\ConversionHasBeenCompleted;
-use Spatie\Medialibrary\Events\ConversionWillStart;
-use Spatie\Medialibrary\Events\MediaHasBeenAdded;
+use Spatie\Medialibrary\Features\MediaCollections\Events\CollectionHasBeenCleared;
+use Spatie\Medialibrary\Features\Conversions\Events\ConversionHasBeenCompleted;
+use Spatie\Medialibrary\Features\Conversions\Events\ConversionWillStart;
+use Spatie\Medialibrary\Features\MediaCollections\Events\MediaHasBeenAdded;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class EventTest extends TestCase

@@ -9,7 +9,7 @@ If you want to override the default behavior you can create your own  implementa
 
 ```php
 use App\CustomFilesystem;
-use Spatie\Medialibrary\Filesystem\Filesystem;
+use Spatie\Medialibrary\Features\MediaCollections\Filesystem;
  
 class AppServiceProvider extends ServiceProvider
 {
