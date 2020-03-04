@@ -5,7 +5,7 @@ namespace Spatie\Medialibrary\UrlGenerator;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Models\Media;
 use Spatie\Medialibrary\PathGenerator\PathGenerator;
 

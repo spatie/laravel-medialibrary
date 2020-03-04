@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversion;
+namespace Spatie\Medialibrary\Conversions;
 
 use BadMethodCallException;
 use Spatie\Image\Manipulations;

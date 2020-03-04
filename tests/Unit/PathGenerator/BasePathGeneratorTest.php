@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\PathGenerator;
 
-use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Tests\TestCase;
 use Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator;
 use Spatie\Medialibrary\UrlGenerator\LocalUrlGenerator;
@@ -17,9 +17,9 @@ class BasePathGeneratorTest extends TestCase
     protected $media;
 
     /**
-     * @var \Spatie\Medialibrary\Conversion\Conversion
+     * @var \Spatie\Medialibrary\Conversions\Conversion
      */
-    protected \Spatie\Medialibrary\Conversion\Conversion $conversion;
+    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
 
     /**
      * @var \Spatie\Medialibrary\UrlGenerator\DefaultUrlGenerator

@@ -6,8 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Medialibrary\Conversion\ConversionCollection;
-use Spatie\Medialibrary\FileManipulator;
+use Spatie\Medialibrary\Conversions\ConversionCollection;
+use Spatie\Medialibrary\Conversions\FileManipulator;
 use Spatie\Medialibrary\Models\Media;
 
 class PerformConversionsJob implements ShouldQueue

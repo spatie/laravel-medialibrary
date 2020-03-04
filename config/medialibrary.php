@@ -78,8 +78,8 @@ return [
      * This is the class that is responsible for naming conversion files. By default,
      * it will use the filename of the original and concatenate the conversion name to it.
      */
-    'conversion_file_namer' => \Spatie\Medialibrary\Conversion\DefaultConversionFileNamer::class,
-    
+    'conversion_file_namer' => \Spatie\Medialibrary\Conversions\DefaultConversionFileNamer::class,
+
     /*
      * The class that contains the strategy for determining a media file's path.
      */

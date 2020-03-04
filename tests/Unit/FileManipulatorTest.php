@@ -2,16 +2,16 @@
 
 namespace Spatie\Medialibrary\Tests\Unit;
 
-use Spatie\Medialibrary\Conversion\Conversion;
-use Spatie\Medialibrary\FileManipulator;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\Conversions\FileManipulator;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class FileManipulatorTest extends TestCase
 {
     protected string $conversionName = 'test';
 
-    /** @var \Spatie\Medialibrary\Conversion\Conversion */
-    protected \Spatie\Medialibrary\Conversion\Conversion $conversion;
+    /** @var \Spatie\Medialibrary\Conversions\Conversion */
+    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
 
     public function setUp(): void
     {

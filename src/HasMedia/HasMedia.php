@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\HasMedia;
 
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\FileAdder\FileAdder;
 use Spatie\Medialibrary\Models\Media;
 

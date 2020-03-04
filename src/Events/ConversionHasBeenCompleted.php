@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Models\Media;
 
 class ConversionHasBeenCompleted

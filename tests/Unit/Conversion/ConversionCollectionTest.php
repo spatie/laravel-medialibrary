@@ -2,7 +2,7 @@
 
 namespace Spatie\Medialibrary\Tests\Unit\Conversion;
 
-use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Tests\TestCase;
 
 class ConversionCollectionTest extends TestCase

@@ -5,8 +5,8 @@ namespace Spatie\Medialibrary\ImageGenerators\FileTypes;
 use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Conversion\Conversion;
-use Spatie\Medialibrary\ImageGenerators\BaseGenerator;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\ImageGenerators\FileTypes\BaseGenerator;
 
 class Video extends BaseGenerator
 {

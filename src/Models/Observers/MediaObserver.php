@@ -4,7 +4,7 @@ namespace Spatie\Medialibrary\Models\Observers;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Application;
-use Spatie\Medialibrary\FileManipulator;
+use Spatie\Medialibrary\Conversions\FileManipulator;
 use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\Models\Media;
 

@@ -8,7 +8,7 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\FileManipulator;
+use Spatie\Medialibrary\Conversions\FileManipulator;
 use Spatie\Medialibrary\MediaRepository;
 use Spatie\Medialibrary\Models\Media;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Medialibrary;
+namespace Spatie\Medialibrary\Conversions;
 
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversion\Conversion;
-use Spatie\Medialibrary\Conversion\ConversionCollection;
+use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\Medialibrary\Conversions\ConversionCollection;
 use Spatie\Medialibrary\Events\ConversionHasBeenCompleted;
 use Spatie\Medialibrary\Events\ConversionWillStart;
 use Spatie\Medialibrary\Filesystem\Filesystem;
@@ -52,7 +52,7 @@ class FileManipulator
     /**
      * Perform the given conversions for the given media.
      *
-     * @param \Spatie\Medialibrary\Conversion\ConversionCollection $conversions
+     * @param \Spatie\Medialibrary\Conversions\ConversionCollection $conversions
      * @param \Spatie\Medialibrary\Models\Media $media
      * @param bool $onlyMissing
      */

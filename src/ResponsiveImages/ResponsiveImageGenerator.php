@@ -3,7 +3,7 @@
 namespace Spatie\Medialibrary\ResponsiveImages;
 
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Events\ResponsiveImagesGenerated;
 use Spatie\Medialibrary\Filesystem\Filesystem;
 use Spatie\Medialibrary\Support\File;

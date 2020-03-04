@@ -15,6 +15,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - if the `path_generator` key in the `medialibrary` config file was set to `null`, change the value to `Spatie\Medialibrary\PathGenerator\DefaultPathGenerator::class`
 - the `rawUrlEncodeFilename` method on `BaseUrlGenerator` has been removed. Remove all calls in your own code to this method.
 - `getConversionFile` on `Conversion` now accepts a `Media` instance instead of a `string`. In normal circumstance you wouldn't have used this function directly.
+- the `Spatie\MediaLibrary\MediaCollection\MediaCollection` has been moved to `Spatie\Medialibrary\HasMedia\MediaCollection`. Be sure to change this in every model where you registered media collections
 
 ## 7.3.0
 

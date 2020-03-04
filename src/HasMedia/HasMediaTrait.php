@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversion\Conversion;
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Events\CollectionHasBeenCleared;
 use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\InvalidBase64Data;
 use Spatie\Medialibrary\Exceptions\FileCannotBeAdded\MimeTypeNotAllowed;
@@ -117,7 +117,7 @@ trait HasMediaTrait
     }
 
     /**
-     * Add a remote file to the medialibrary.
+     * Add a remote file to the media library.
      *
      * @param string $url
      * @param string|array ...$allowedMimeTypes

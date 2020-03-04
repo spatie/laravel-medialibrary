@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversion;
+namespace Spatie\Medialibrary\Conversions;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
@@ -89,7 +89,7 @@ class ConversionCollection extends Collection
 
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        /** @var \Spatie\Medialibrary\Conversion\Conversion|null $conversion */
+        /** @var \Spatie\Medialibrary\Conversions\Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
             if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
                 return false;
