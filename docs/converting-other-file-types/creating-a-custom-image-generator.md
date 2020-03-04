@@ -9,7 +9,7 @@ In the following example we'll create a custom generator that can convert a Powe
 
 ## Creating the custom generator
 
-The first step for creating a custom generator is to create a class that extends `Spatie\Medialibrary\ImageGenerators`:
+The first step for creating a custom generator is to create a class that extends `Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator`:
 
 ```php
 use Illuminate\Support\Collection;

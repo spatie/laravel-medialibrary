@@ -3,10 +3,16 @@
 namespace Spatie\Medialibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
+use Spatie\Medialibrary\Conversions\Conversion;
 use Spatie\Medialibrary\MediaCollections\Models\Media;
 
 abstract class ImageGenerator
 {
+    /*
+     * This function should return a path to an image representation of the given file.
+     */
+    abstract public function convert(string $file, Conversion $conversion = null): string;
+
     public function canConvert(Media $media): bool
     {
         if (! $this->requirementsAreInstalled()) {
