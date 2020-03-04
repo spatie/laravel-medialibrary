@@ -11,6 +11,7 @@ class RemoteFile
     public function __construct($key, $disk)
     {
         $this->key = $key;
+
         $this->disk = $disk;
     }
 
