@@ -41,11 +41,11 @@ class CopyTest extends TestCase
     /** @test */
     public function it_can_copy_file_without_extension()
     {
-        if (! file_exists(storage_path('medialibrary/temp'))) {
-            mkdir(storage_path('medialibrary/temp'), 0777, true);
+        if (! file_exists(storage_path('media-library/temp'))) {
+            mkdir(storage_path('media-library/temp'), 0777, true);
         }
 
-        config(['medialibrary.temporary_directory_path' => realpath(storage_path('medialibrary/temp'))]);
+        config(['media-library.temporary_directory_path' => realpath(storage_path('media-library/temp'))]);
 
         /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);

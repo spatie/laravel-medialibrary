@@ -59,7 +59,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_move_the_original_file_to_the_medialibrary()
+    public function it_can_move_the_original_file_to_the_media_library()
     {
         $testFile = $this->getTestJpg();
 
@@ -72,7 +72,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_copy_the_original_file_to_the_medialibrary()
+    public function it_can_copy_the_original_file_to_the_media_library()
     {
         $testFile = $this->getTestJpg();
 
@@ -127,7 +127,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_an_upload_to_the_medialibrary()
+    public function it_can_add_an_upload_to_the_media_library()
     {
         $uploadedFile = new UploadedFile(
             $this->getTestFilesDirectory('test.jpg'),
@@ -145,7 +145,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_an_upload_to_the_medialibrary_from_the_current_request()
+    public function it_can_add_an_upload_to_the_media_library_from_the_current_request()
     {
         $this->app['router']->get('/upload', function () {
             $media = $this->testModel
@@ -169,7 +169,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_multiple_uploads_to_the_medialibrary_from_the_current_request()
+    public function it_can_add_multiple_uploads_to_the_media_library_from_the_current_request()
     {
         $this->app['router']->get('/upload', function () {
             $fileAdders = collect(
@@ -208,7 +208,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_handle_file_keys_that_contain_an_array_to_the_medialibrary_from_the_current_request()
+    public function it_can_add_handle_file_keys_that_contain_an_array_to_the_media_library_from_the_current_request()
     {
         $this->app['router']->get('/upload', function () {
             $fileAdders = collect(
@@ -284,7 +284,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_remote_file_to_the_medialibrary()
+    public function it_can_add_a_remote_file_to_the_media_library()
     {
         $url = 'https://docs.spatie.be/laravel-medialibrary/v7/images/header.jpg';
 
@@ -297,7 +297,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_file_from_a_separate_disk_to_the_medialibrary()
+    public function it_can_add_a_file_from_a_separate_disk_to_the_media_library()
     {
         Storage::disk('secondMediaDisk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
 
@@ -309,7 +309,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_remote_file_with_a_space_in_the_name_to_the_medialibrary()
+    public function it_can_add_a_remote_file_with_a_space_in_the_name_to_the_media_library()
     {
         $url = 'http://spatie.github.io/laravel-medialibrary/tests/Support/testfiles/test%20with%20space.jpg';
 
@@ -483,7 +483,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_a_base64_encoded_file_to_the_medialibrary()
+    public function it_can_add_a_base64_encoded_file_to_the_media_library()
     {
         $testFile = $this->getTestJpg();
         $testBase64Data = base64_encode(file_get_contents($testFile));
@@ -551,7 +551,7 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_add_an_upload_to_the_medialibrary_using_dot_notation()
+    public function it_can_add_an_upload_to_the_media_library_using_dot_notation()
     {
         $this->app['router']->get('/upload', function () {
             $media = $this->testModel

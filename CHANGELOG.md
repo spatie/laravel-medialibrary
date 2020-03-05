@@ -15,7 +15,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - use PHP 7.4 features where possible
 - the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\MediaLibrary`. All code where `MediaLibrary` was used is renamed to `MediaLibrary`
 - added support for the `loading` attribute (#1667)
-- conversion files can now be named using the `conversion_file_namer` key in the `medialibrary` config file (#1636)
+- conversion files can now be named using the `conversion_file_namer` key in the `media-library` config file (#1636)
 - improved naming of classes and namespaces.
 
 To learn how to upgrade, take a look in UPGRADING.md
@@ -330,7 +330,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 - added `move` and `copy` methods on `Media`
 
-- file names will be lowercased when adding them to the medialibrary
+- file names will be lowercased when adding them to the media library
 - the names of converted images will now start with the name of the original file
 
 - dropped support for soft deletes
@@ -927,13 +927,13 @@ other traits and the base model.
 - Added `getImageProfileProperties()`to interface
 
 ## 1.1.3
-- Create the medialibrary directory if it does not exist
+- Create the media library directory if it does not exist
 
 ## 1.1.2
 - Files without extensions are now allowed
 
 ## 1.1.1
-- Added check to make sure the file that must be added to the medialibrary exists
+- Added check to make sure the file that must be added to the media library exists
 
 ## 1.1.0
 - Added option to specify the name of the queue that should be used to create image manipulations
