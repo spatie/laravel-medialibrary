@@ -2,17 +2,15 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RegisteredResponsiveImages
 {
-    /** Spatie\MediaLibrary\Media */
-    protected \Spatie\MediaLibrary\MediaCollections\Models\Media $media;
+    protected Media $media;
 
-    /** Illuminate\Support\Collection */
-    public \Illuminate\Support\Collection $files;
+    public Collection $files;
 
-    /** string */
     public string $generatedFor;
 
     public function __construct(Media $media, string $conversionName = '')
