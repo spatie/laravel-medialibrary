@@ -39,7 +39,7 @@ class UrlGeneratorFactory
         }
 
         if (! is_subclass_of($urlGeneratorClass, UrlGenerator::class)) {
-            throw InvalidUrlGenerator::isntAUrlGenerator($urlGeneratorClass);
+            throw InvalidUrlGenerator::doesNotImplementUrlGenerator($urlGeneratorClass);
         }
     }
 }

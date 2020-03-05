@@ -48,7 +48,7 @@ class RegenerateCommand extends Command
                 $this->fileManipulator->createDerivedFiles(
                     $media,
                     Arr::wrap($this->option('only')),
-                    $this->option('only-missing')
+                    $this->option('only-missing'),
                 );
             } catch (Exception $exception) {
                 $this->errorMessages[$media->getKey()] = $exception->getMessage();

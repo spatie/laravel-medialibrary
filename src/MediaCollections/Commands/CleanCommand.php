@@ -23,7 +23,7 @@ class CleanCommand extends Command
     protected $signature = 'media-library:clean {modelType?} {collectionName?} {disk?}
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production},
-    {--rate-limit= : Limit the number of request per second }';
+    {--rate-limit= : Limit the number of requests per second }';
 
     protected $description = 'Clean deprecated conversions and files without related model.';
 
@@ -39,22 +39,17 @@ class CleanCommand extends Command
 
     protected int $rateLimit = 0;
 
-    public function __construct(
+    public function handle(
         MediaRepository $mediaRepository,
         FileManipulator $fileManipulator,
         Factory $fileSystem,
         DefaultPathGenerator $basePathGenerator
     ) {
-        parent::__construct();
-
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
         $this->fileSystem = $fileSystem;
         $this->basePathGenerator = $basePathGenerator;
-    }
 
-    public function handle()
-    {
         if (! $this->confirmToProceed()) {
             return;
         }
@@ -92,7 +87,7 @@ class CleanCommand extends Command
         return $this->mediaRepository->all();
     }
 
-    protected function deleteFilesGeneratedForDeprecatedConversions()
+    protected function deleteFilesGeneratedForDeprecatedConversions(): void
     {
         $this->getMediaItems()->each(function (Media $media) {
             $this->deleteConversionFilesForDeprecatedConversions($media);
@@ -107,7 +102,7 @@ class CleanCommand extends Command
         });
     }
 
-    protected function deleteConversionFilesForDeprecatedConversions(Media $media)
+    protected function deleteConversionFilesForDeprecatedConversions(Media $media): void
     {
         $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
 
@@ -127,7 +122,7 @@ class CleanCommand extends Command
             });
     }
 
-    protected function deleteResponsiveImagesForDeprecatedConversions(Media $media)
+    protected function deleteResponsiveImagesForDeprecatedConversions(Media $media): void
     {
         $conversionNames = ConversionCollection::createForMedia($media)
             ->map(fn(Conversion $conversion) => $conversion->getName())
@@ -145,7 +140,7 @@ class CleanCommand extends Command
             });
     }
 
-    protected function deleteOrphanedDirectories()
+    protected function deleteOrphanedDirectories(): void
     {
         $diskName = $this->argument('disk') ?: config('media-library.disk_name');
 
@@ -173,7 +168,7 @@ class CleanCommand extends Command
             });
     }
 
-    protected function markConversionAsRemoved(Media $media, string $conversionPath)
+    protected function markConversionAsRemoved(Media $media, string $conversionPath): void
     {
         $conversionFile = pathinfo($conversionPath, PATHINFO_FILENAME);
 

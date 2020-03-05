@@ -2,8 +2,6 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
-
 class UnknownType extends FileCannotBeAdded
 {
     public static function create(): self

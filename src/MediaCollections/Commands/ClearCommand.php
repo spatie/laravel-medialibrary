@@ -19,15 +19,10 @@ class ClearCommand extends Command
 
     protected MediaRepository $mediaRepository;
 
-    public function __construct(MediaRepository $mediaRepository)
+    public function handle(MediaRepository $mediaRepository)
     {
-        parent::__construct();
-
         $this->mediaRepository = $mediaRepository;
-    }
 
-    public function handle()
-    {
         if (! $this->confirmToProceed()) {
             return;
         }

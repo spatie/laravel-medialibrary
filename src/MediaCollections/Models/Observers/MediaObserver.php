@@ -35,7 +35,7 @@ class MediaObserver
 
         $original = $media->getOriginal('manipulations');
 
-        if (! $this->isLaravel7OrHigher()) {
+        if (! $this->isLaravel7orHigher()) {
             $original = json_decode($original, true);
         }
 
@@ -66,7 +66,7 @@ class MediaObserver
         $filesystem->removeAllFiles($media);
     }
 
-    private function isLaravel7OrHigher(): bool
+    private function isLaravel7orHigher(): bool
     {
         if (Application::VERSION === '7.x-dev') {
             return true;

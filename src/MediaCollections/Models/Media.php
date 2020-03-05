@@ -197,13 +197,6 @@ class Media extends Model implements Responsable, Htmlable
         return collect($this->getCustomProperty('generated_conversions', []));
     }
 
-    /**
-     * Create an HTTP response that represents the object.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function toResponse($request)
     {
         $downloadHeaders = [
@@ -301,7 +294,7 @@ class Media extends Model implements Responsable, Htmlable
             'conversion',
             'attributeString',
             'loadingAttributeValue',
-            'width'
+            'width',
         ));
     }
 
@@ -320,7 +313,10 @@ class Media extends Model implements Responsable, Htmlable
 
         $temporaryFile = $temporaryDirectory->path('/').DIRECTORY_SEPARATOR.$this->file_name;
 
-        app(Filesystem::class)->copyFromMediaLibrary($this, $temporaryFile);
+        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        $filesystem = app(Filesystem::class);
+
+        $filesystem->copyFromMediaLibrary($this, $temporaryFile);
 
         $newMedia = $model
             ->addMedia($temporaryFile)

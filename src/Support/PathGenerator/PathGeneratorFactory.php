@@ -22,7 +22,7 @@ class PathGeneratorFactory
         }
 
         if (! is_subclass_of($pathGeneratorClass, PathGenerator::class)) {
-            throw InvalidPathGenerator::isntAPathGenerator($pathGeneratorClass);
+            throw InvalidPathGenerator::doesNotImplementPathGenerator($pathGeneratorClass);
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Support\File;
 
 class FileIsTooBig extends FileCannotBeAdded

@@ -20,13 +20,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FileManipulator
 {
-    /**
-     * Create all derived files for the given media.
-     *
-     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media $media
-     * @param array $only
-     * @param bool $onlyMissing
-     */
     public function createDerivedFiles(Media $media, array $only = [], bool $onlyMissing = false): void
     {
         $profileCollection = ConversionCollection::createForMedia($media);
@@ -48,13 +41,6 @@ class FileManipulator
         }
     }
 
-    /**
-     * Perform the given conversions for the given media.
-     *
-     * @param \Spatie\MediaLibrary\Conversions\ConversionCollection $conversions
-     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media $media
-     * @param bool $onlyMissing
-     */
     public function performConversions(ConversionCollection $conversions, Media $media, bool $onlyMissing = false)
     {
         if ($conversions->isEmpty()) {
@@ -69,7 +55,7 @@ class FileManipulator
 
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
+        $copiedOriginalFile = $this->filesystem()->copyFromMediaLibrary(
             $media,
             $temporaryDirectory->path(Str::random(16) . '.' . $media->extension)
         );
@@ -98,14 +84,17 @@ class FileManipulator
                 $renamedFile = $this->renameInLocalDirectory($manipulationResult, $newFileName);
 
                 if ($conversion->shouldGenerateResponsiveImages()) {
-                    app(ResponsiveImageGenerator::class)->generateResponsiveImagesForConversion(
+                    /** @var ResponsiveImageGenerator $responsiveImageGenerator */
+                    $responsiveImageGenerator = app(ResponsiveImageGenerator::class);
+
+                    $responsiveImageGenerator->generateResponsiveImagesForConversion(
                         $media,
                         $conversion,
                         $renamedFile
                     );
                 }
 
-                app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
+                $this->filesystem()->copyToMediaLibrary($renamedFile, $media, 'conversions');
 
                 $media->markAsConversionGenerated($conversion->getName(), true);
 
@@ -150,7 +139,7 @@ class FileManipulator
             $job->onQueue($customQueue);
         }
 
-        app(Dispatcher::class)->dispatch($job);
+        dispatch($job);
     }
 
     protected function renameInLocalDirectory(
@@ -162,5 +151,10 @@ class FileManipulator
         rename($fileNameWithDirectory, $targetFile);
 
         return $targetFile;
+    }
+
+    protected function filesystem(): Filesystem
+    {
+        return app(Filesystem::class);
     }
 }
