@@ -38,8 +38,7 @@ class MediaCollection
     {
         $this->name = $name;
 
-        $this->mediaConversionRegistrations = function () {
-        };
+        $this->mediaConversionRegistrations = function () {};
 
         $this->acceptsFile = fn() => true;
     }

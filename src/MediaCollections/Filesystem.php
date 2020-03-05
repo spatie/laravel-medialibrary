@@ -48,18 +48,21 @@ class Filesystem
 
         $destinationFileName = $targetFileName ?: $file->getFilename();
 
-        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
+        $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
+
+        $headers = $media->getDiskDriverName() === 'local'
+            ? []
+            : $this->getRemoteHeadersForFile(
+                $file->getKey(),
+                $media->getCustomHeaders(),
+                $storage->mimeType($file->getKey())
+            );
 
         $this->filesystem->disk($media->disk)
             ->getDriver()->writeStream(
                 $destination,
                 $storage->getDriver()->readStream($file->getKey()),
-                $media->getDiskDriverName() === 'local'
-                    ? [] : $this->getRemoteHeadersForFile(
-                        $file->getKey(),
-                        $media->getCustomHeaders(),
-                        $storage->mimeType($file->getKey())
-                    )
+                $headers,
             );
     }
 
@@ -67,7 +70,7 @@ class Filesystem
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
-        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
+        $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
 
         $file = fopen($pathToFile, 'r');
 
@@ -87,20 +90,27 @@ class Filesystem
 
         $this->filesystem
             ->disk($diskName)
-            ->put($destination, $file, $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()));
+            ->put(
+                $destination,
+                $file,
+                $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()),
+            );
 
         if (is_resource($file)) {
             fclose($file);
         }
     }
 
-    public function addCustomRemoteHeaders(array $customRemoteHeaders)
+    public function addCustomRemoteHeaders(array $customRemoteHeaders): void
     {
         $this->customRemoteHeaders = $customRemoteHeaders;
     }
 
-    public function getRemoteHeadersForFile(string $file, array $mediaCustomHeaders = [], string $mimeType = null): array
-    {
+    public function getRemoteHeadersForFile(
+        string $file,
+        array $mediaCustomHeaders = [],
+        string $mimeType = null
+    ): array {
         $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 
         $extraHeaders = config('media-library.remote.extra_headers');
@@ -115,7 +125,7 @@ class Filesystem
 
     public function getStream(Media $media)
     {
-        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
 
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
@@ -128,7 +138,7 @@ class Filesystem
 
         $targetFileStream = fopen($targetFile, 'a');
 
-        while (! feof($stream)) {
+        while (!feof($stream)) {
             $chunk = fread($stream, 1024);
             fwrite($targetFileStream, $chunk);
         }
@@ -161,7 +171,7 @@ class Filesystem
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    public function removeResponsiveImages(Media $media, string $conversionName = 'media-library_original'): void
+    public function removeResponsiveImages(Media $media, string $conversionName = 'media_library_original'): void
     {
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
@@ -189,8 +199,8 @@ class Filesystem
 
         $mediaDirectory = $this->getMediaDirectory($media);
 
-        $oldFile = $mediaDirectory.'/'.$oldFileName;
-        $newFile = $mediaDirectory.'/'.$newFileName;
+        $oldFile = $mediaDirectory . '/' . $oldFileName;
+        $newFile = $mediaDirectory . '/' . $newFileName;
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
@@ -198,7 +208,7 @@ class Filesystem
     protected function renameConversionFiles(Media $media): void
     {
         $mediaWithOldFileName = Media::find($media->id);
-        $mediaWithOldFileName->file_name =  $mediaWithOldFileName->getOriginal('file_name');
+        $mediaWithOldFileName->file_name = $mediaWithOldFileName->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);
 
@@ -207,13 +217,13 @@ class Filesystem
         foreach ($media->getMediaConversionNames() as $conversionName) {
             $conversion = $conversionCollection->getByName($conversionName);
 
-            $oldFile = $conversionDirectory.$conversion->getConversionFile($mediaWithOldFileName);
-            $newFile = $conversionDirectory.$conversion->getConversionFile($media);
+            $oldFile = $conversionDirectory . $conversion->getConversionFile($mediaWithOldFileName);
+            $newFile = $conversionDirectory . $conversion->getConversionFile($media);
 
             $disk = $this->filesystem->disk($media->conversions_disk);
 
             // A media conversion file might be missing, waiting to be generated, failed etc.
-            if (! $disk->exists($oldFile)) {
+            if (!$disk->exists($oldFile)) {
                 continue;
             }
 
@@ -225,7 +235,7 @@ class Filesystem
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        if (! $type) {
+        if (!$type) {
             $directory = $pathGenerator->getPath($media);
         }
 
@@ -245,7 +255,7 @@ class Filesystem
             ? $media->conversions_disk
             : $media->disk;
 
-        if (! in_array($diskDriverName, ['s3'], true)) {
+        if (!in_array($diskDriverName, ['s3'], true)) {
             $this->filesystem->disk($diskName)->makeDirectory($directory);
         }
 

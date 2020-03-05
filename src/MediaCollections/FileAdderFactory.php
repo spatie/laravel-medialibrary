@@ -17,14 +17,20 @@ class FileAdderFactory
      */
     public static function create(Model $subject, $file): FileAdder
     {
-        return app(FileAdder::class)
+        /** @var \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
+        $fileAdder = app(FileAdder::class);
+
+        return $fileAdder
             ->setSubject($subject)
             ->setFile($file);
     }
 
     public static function createFromDisk(Model $subject, string $key, string $disk): FileAdder
     {
-        return app(FileAdder::class)
+        /** @var \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
+        $fileAdder = app(FileAdder::class);
+
+        return $fileAdder
             ->setSubject($subject)
             ->setFile(new RemoteFile($key, $disk));
     }
