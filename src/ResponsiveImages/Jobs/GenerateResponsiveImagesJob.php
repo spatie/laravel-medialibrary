@@ -22,7 +22,10 @@ class GenerateResponsiveImagesJob implements ShouldQueue
 
     public function handle(): bool
     {
-        app(ResponsiveImageGenerator::class)->generateResponsiveImages($this->media);
+        /** @var \Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator $responsiveImageGenerator */
+        $responsiveImageGenerator = app(ResponsiveImageGenerator::class);
+
+        $responsiveImageGenerator->generateResponsiveImages($this->media);
 
         return true;
     }

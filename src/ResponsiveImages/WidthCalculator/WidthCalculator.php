@@ -8,5 +8,5 @@ interface WidthCalculator
 {
     public function calculateWidthsFromFile(string $imagePath): Collection;
 
-    public function calculateWidths(int $filesize, int $width, int $height): Collection;
+    public function calculateWidths(int $fileSize, int $width, int $height): Collection;
 }
