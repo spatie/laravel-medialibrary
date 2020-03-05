@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\MediaCollections;
+namespace Spatie\MediaLibrary\Tests\MediaCollections;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Medialibrary\MediaCollections\Events\MediaHasBeenAdded;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class EventTest extends TestCase
 {

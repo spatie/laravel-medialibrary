@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections;
+namespace Spatie\MediaLibrary\MediaCollections;
 
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\MediaCollections\Events\MediaHasBeenAdded;
-use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\Support\File;
-use Spatie\Medialibrary\Support\RemoteFile;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Support\PathGenerator\PathGeneratorFactory;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\RemoteFile;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class Filesystem
 {
@@ -26,7 +26,7 @@ class Filesystem
 
     public function add(string $file, Media $media, ?string $targetFileName = null): void
     {
-        $this->copyToMedialibrary($file, $media, null, $targetFileName);
+        $this->copyToMediaLibrary($file, $media, null, $targetFileName);
 
         event(new MediaHasBeenAdded($media));
 
@@ -35,14 +35,14 @@ class Filesystem
 
     public function addRemote(RemoteFile $file, Media $media, ?string $targetFileName = null): void
     {
-        $this->copyToMedialibraryFromRemote($file, $media, null, $targetFileName);
+        $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
 
         event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
     }
 
-    public function copyToMedialibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
+    public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $storage = Storage::disk($file->getDisk());
 
@@ -63,7 +63,7 @@ class Filesystem
             );
     }
 
-    public function copyToMedialibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
@@ -103,7 +103,7 @@ class Filesystem
     {
         $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 
-        $extraHeaders = config('medialibrary.remote.extra_headers');
+        $extraHeaders = config('media-library.remote.extra_headers');
 
         return array_merge(
             $mimeTypeHeader,
@@ -120,7 +120,7 @@ class Filesystem
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
 
-    public function copyFromMedialibrary(Media $media, string $targetFile): string
+    public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         touch($targetFile);
 
@@ -161,7 +161,7 @@ class Filesystem
         $this->filesystem->disk($media->disk)->delete($path);
     }
 
-    public function removeResponsiveImages(Media $media, string $conversionName = 'medialibrary_original'): void
+    public function removeResponsiveImages(Media $media, string $conversionName = 'media-library_original'): void
     {
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 

@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\Medialibrary\Support\UrlGenerator;
+namespace Spatie\MediaLibrary\Support\UrlGenerator;
 
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidUrlGenerator;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Support\PathGenerator\PathGeneratorFactory;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrlGenerator;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class UrlGeneratorFactory
 {
     public static function createForMedia(Media $media, string $conversionName = ''): UrlGenerator
     {
-        $urlGeneratorClass = config('medialibrary.url_generator');
+        $urlGeneratorClass = config('media-library.url_generator');
 
         static::guardAgainstInvalidUrlGenerator($urlGeneratorClass);
 

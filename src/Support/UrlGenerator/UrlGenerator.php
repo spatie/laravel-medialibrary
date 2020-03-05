@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Medialibrary\Support\UrlGenerator;
+namespace Spatie\MediaLibrary\Support\UrlGenerator;
 
 use DateTimeInterface;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Support\PathGenerator\PathGenerator;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
 
 interface UrlGenerator
 {

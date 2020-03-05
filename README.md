@@ -57,7 +57,7 @@ If you've found a bug regarding security please mail [freek@spatie.be](mailto:fr
 You can install this package via composer using this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary:^7.0.0"
+composer require "spatie/laravel-medialibrary:^8.0.0"
 ```
 
 The package will automatically register itself.
@@ -65,7 +65,7 @@ The package will automatically register itself.
 You can publish the migration with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Medialibrary\MedialibraryServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the media-table by running the migrations:
@@ -77,7 +77,7 @@ php artisan migrate
 You can publish the config-file with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Medialibrary\MedialibraryServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
@@ -106,7 +106,7 @@ return [
     /*
      * The class name of the media model that should be used.
      */
-    'media_model' => Spatie\Medialibrary\MediaCollections\Models\Media::class,
+    'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
     /*
      * The engine that should perform the image conversions.
@@ -150,15 +150,15 @@ return [
      * These generators will be used to create an image of media files.
      */
     'image_generators' => [
-        Spatie\Medialibrary\Conversions\ImageGenerators\Image::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Webp::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Pdf::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Svg::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Video::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Webp::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Pdf::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Svg::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Video::class,
     ],
 
     /*
-     * Medialibrary will try to optimize all converted images by removing
+     * MediaLibrary will try to optimize all converted images by removing
      * metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.
      */
@@ -243,7 +243,7 @@ Configure the laravel-medialibrary service provider (and `AppServiceProvider` if
 ```php
 // bootstrap/app.php:
 $app->register(App\Providers\AppServiceProvider::class);
-$app->register(Spatie\Medialibrary\MedialibraryServiceProvider::class);
+$app->register(Spatie\MediaLibrary\MediaLibraryServiceProvider::class);
 ```
 
 Update the `AppServiceProvider` register method to bind the filesystem manager to the IOC container:

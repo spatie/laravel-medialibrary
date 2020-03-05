@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions\Commands;
+namespace Spatie\MediaLibrary\Conversions\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
@@ -8,15 +8,15 @@ use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\MediaCollections\MediaRepository;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\MediaCollections\MediaRepository;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RegenerateCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'medialibrary:regenerate {modelType?} {--ids=*}
+    protected $signature = 'media-library:regenerate {modelType?} {--ids=*}
     {--only=* : Regenerate specific conversions}
     {--only-missing : Regenerate only missing conversions}
     {--force : Force the operation to run when in production}';

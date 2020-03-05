@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions\ImageGenerators;
+namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 
 class Image extends ImageGenerator
 {

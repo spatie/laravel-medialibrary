@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class CustomPropertyTest extends TestCase
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions;
+namespace Spatie\MediaLibrary\Conversions;
 
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DefaultConversionFileNamer extends ConversionFileNamer
 {

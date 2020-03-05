@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions;
+namespace Spatie\MediaLibrary\Tests\Conversions;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Medialibrary\Conversions\Events\ConversionHasBeenCompleted;
-use Spatie\Medialibrary\Conversions\Events\ConversionWillStart;
-use Spatie\Medialibrary\MediaCollections\Events\CollectionHasBeenCleared;
-use Spatie\Medialibrary\MediaCollections\Events\MediaHasBeenAdded;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
+use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
+use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class EventTest extends TestCase
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections;
+namespace Spatie\MediaLibrary\MediaCollections;
 
-use Spatie\Medialibrary\Support\File;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileTest extends TestCase
 {

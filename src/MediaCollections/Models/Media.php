@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Models;
+namespace Spatie\MediaLibrary\MediaCollections\Models;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Htmlable;
@@ -10,20 +10,20 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\MediaCollections\Filesystem;
-use Spatie\Medialibrary\HasMedia;
-use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator;
-use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Spatie\Medialibrary\Support\File;
-use Spatie\Medialibrary\Support\TemporaryDirectory;
-use Spatie\Medialibrary\Conversions\ImageGenerators\Image;
-use Spatie\Medialibrary\MediaCollections\Models\Concerns\HasUuid;
-use Spatie\Medialibrary\MediaCollections\Models\Concerns\IsSorted;
-use Spatie\Medialibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
-use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;
-use Spatie\Medialibrary\Support\UrlGenerator\UrlGeneratorFactory;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
+use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
+use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
+use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
+use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model implements Responsable, Htmlable
 {
@@ -274,7 +274,7 @@ class Media extends Model implements Responsable, Htmlable
             $attributeString = ' '.$attributeString;
         }
 
-        $loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
+        $loadingAttributeValue = config('media-library.default_loading_attribute_value');
 
         if ($conversion !== '') {
             $conversionObject = ConversionCollection::createForMedia($this)->getByName($conversion);
@@ -289,14 +289,14 @@ class Media extends Model implements Responsable, Htmlable
         $width = '';
 
         if ($this->hasResponsiveImages($conversion)) {
-            $viewName = config('medialibrary.responsive_images.use_tiny_placeholders')
+            $viewName = config('media-library.responsive_images.use_tiny_placeholders')
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
 
             $width = $this->responsiveImages($conversion)->files->first()->width();
         }
 
-        return view("medialibrary::{$viewName}", compact(
+        return view("media-library::{$viewName}", compact(
             'media',
             'conversion',
             'attributeString',
@@ -320,7 +320,7 @@ class Media extends Model implements Responsable, Htmlable
 
         $temporaryFile = $temporaryDirectory->path('/').DIRECTORY_SEPARATOR.$this->file_name;
 
-        app(Filesystem::class)->copyFromMedialibrary($this, $temporaryFile);
+        app(Filesystem::class)->copyFromMediaLibrary($this, $temporaryFile);
 
         $newMedia = $model
             ->addMedia($temporaryFile)
@@ -340,7 +340,7 @@ class Media extends Model implements Responsable, Htmlable
 
     public function stream()
     {
-        /** @var \Spatie\Medialibrary\MediaCollections\Filesystem $filesystem */
+        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         return $filesystem->getStream($this);

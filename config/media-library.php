@@ -23,7 +23,7 @@ return [
     /*
      * The fully qualified class name of the media model.
      */
-    'media_model' => Spatie\Medialibrary\MediaCollections\Models\Media::class,
+    'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
     'remote' => [
         /*
@@ -48,7 +48,7 @@ return [
          *
          * https://docs.spatie.be/laravel-medialibrary/v8/advanced-usage/generating-responsive-images
          */
-        'width_calculator' => Spatie\Medialibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
+        'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
         /*
          * By default rendering media to a responsive image will add some javascript and a tiny placeholder.
@@ -60,7 +60,7 @@ return [
          * This class will generate the tiny placeholder used for progressive image loading. By default
          * the medialibrary will use a tiny blurred jpg image.
          */
-        'tiny_placeholder_generator' => Spatie\Medialibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
+        'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
 
     /*
@@ -78,18 +78,18 @@ return [
      * This is the class that is responsible for naming conversion files. By default,
      * it will use the filename of the original and concatenate the conversion name to it.
      */
-    'conversion_file_namer' => \Spatie\Medialibrary\Conversions\DefaultConversionFileNamer::class,
+    'conversion_file_namer' => \Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer::class,
 
     /*
      * The class that contains the strategy for determining a media file's path.
      */
-    'path_generator' => Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator::class,
+    'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
 
     /*
      * When urls to files get generated, this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */
-    'url_generator' => Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
+    'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
 
     /*
      * Whether to activate versioning when urls to files get generated.
@@ -98,7 +98,7 @@ return [
     'version_urls' => false,
 
     /*
-     * Medialibrary will try to optimize all converted images by removing
+     * MediaLibrary will try to optimize all converted images by removing
      * metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.
      */
@@ -128,11 +128,11 @@ return [
      * These generators will be used to create an image of media files.
      */
     'image_generators' => [
-        Spatie\Medialibrary\Conversions\ImageGenerators\Image::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Webp::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Pdf::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Svg::class,
-        Spatie\Medialibrary\Conversions\ImageGenerators\Video::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Webp::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Pdf::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Svg::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Video::class,
     ],
 
     /*
@@ -160,7 +160,7 @@ return [
      * your custom jobs extend the ones provided by the package.
      */
     'jobs' => [
-        'perform_conversions' => \Spatie\Medialibrary\Conversions\Jobs\PerformConversionsJob::class,
-        'generate_responsive_images' => \Spatie\Medialibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
+        'perform_conversions' => \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
+        'generate_responsive_images' => \Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
     ],
 ];

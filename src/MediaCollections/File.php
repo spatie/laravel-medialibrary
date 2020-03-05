@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections;
+namespace Spatie\MediaLibrary\MediaCollections;
 
 class File
 {

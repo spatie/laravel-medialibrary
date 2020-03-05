@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests;
+namespace Spatie\MediaLibrary\Tests;
 
 use Carbon\Carbon;
 use Dotenv\Dotenv;
@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Medialibrary\MedialibraryServiceProvider;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnOtherDisk;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithResponsiveImages;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnOtherDisk;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithResponsiveImages;
 use ZipArchive;
 
 abstract class TestCase extends Orchestra
@@ -76,7 +76,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            MedialibraryServiceProvider::class,
+            MediaLibraryServiceProvider::class,
         ];
     }
 

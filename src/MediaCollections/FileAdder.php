@@ -1,25 +1,25 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections;
+namespace Spatie\MediaLibrary\MediaCollections;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
-use Spatie\Medialibrary\MediaCollections\Exceptions\DiskDoesNotExist;
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
-use Spatie\Medialibrary\MediaCollections\Exceptions\UnknownType;
-use Spatie\Medialibrary\MediaCollections\File as PendingFile;
-use Spatie\Medialibrary\MediaCollections\Filesystem;
-use Spatie\Medialibrary\HasMedia;
-use Spatie\Medialibrary\Support\File;
-use Spatie\Medialibrary\Support\RemoteFile;
-use Spatie\Medialibrary\Conversions\ImageGenerators\Image as ImageGenerator;
-use Spatie\Medialibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
-use Spatie\Medialibrary\MediaCollections\MediaCollection;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
+use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\RemoteFile;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
+use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
+use Spatie\MediaLibrary\MediaCollections\MediaCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -211,12 +211,12 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if ($storage->size($this->pathToFile) > config('medialibrary.max_file_size')) {
+        if ($storage->size($this->pathToFile) > config('media-library.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile, $storage->size($this->pathToFile));
         }
 
-        $mediaClass = config('medialibrary.media_model');
-        /** @var \Spatie\Medialibrary\MediaCollections\Models\Media $media */
+        $mediaClass = config('media-library.media_model');
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -262,12 +262,12 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('medialibrary.max_file_size')) {
+        if (filesize($this->pathToFile) > config('media-library.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('medialibrary.media_model');
-        /** @var \Spatie\Medialibrary\MediaCollections\Models\Media $media */
+        $mediaClass = config('media-library.media_model');
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -317,7 +317,7 @@ class FileAdder
             }
         }
 
-        return config('medialibrary.disk_name');
+        return config('media-library.disk_name');
     }
 
     protected function determineConversionsDiskName(string $originalsDiskName, string $collectionName): string
@@ -399,11 +399,11 @@ class FileAdder
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
-            $generateResponsiveImagesJobClass = config('medialibrary.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
+            $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
 
-            if ($customQueue = config('medialibrary.queue_name')) {
+            if ($customQueue = config('media-library.queue_name')) {
                 $job->onQueue($customQueue);
             }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\Performance;
+namespace Spatie\MediaLibrary\Tests\Feature\Performance;
 
 use DB;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class PerformanceTest extends TestCase
 {

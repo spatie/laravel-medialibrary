@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions\ImageGenerators;
+namespace Spatie\MediaLibrary\Tests\Conversions\ImageGenerators;
 
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ImageGenerators\Video;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class VideoTest extends TestCase
 {

@@ -1,15 +1,15 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions\ImageGenerators;
+namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageGeneratorFactory
 {
     public static function getImageGenerators(): Collection
     {
-        return collect(config('medialibrary.image_generators'))
+        return collect(config('media-library.image_generators'))
             ->map(fn(string $imageGeneratorClassName) => app($imageGeneratorClassName));
     }
 

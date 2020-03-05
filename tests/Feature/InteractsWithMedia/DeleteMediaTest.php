@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\InteractsWithMedia;
+namespace Spatie\MediaLibrary\Tests\Feature\InteractsWithMedia;
 
 use File;
-use Spatie\Medialibrary\MedialibraryServiceProvider;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
 {
@@ -64,9 +64,9 @@ class DeleteMediaTest extends TestCase
     /** @test */
     public function it_will_remove_the_files_when_using_a_custom_model_and_deleting_it()
     {
-        config()->set('medialibrary.media_model', TestCustomMediaModel::class);
+        config()->set('media-library.media_model', TestCustomMediaModel::class);
 
-        (new MedialibraryServiceProvider($this->app))->boot();
+        (new MediaLibraryServiceProvider($this->app))->boot();
 
         $testModel = TestModel::create(['name' => 'test']);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Exceptions;
+namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;

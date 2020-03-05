@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\InteractsWithMedia;
+namespace Spatie\MediaLibrary\Tests\Feature\InteractsWithMedia;
 
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class HasMediaTest extends TestCase
 {

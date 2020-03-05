@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions;
+namespace Spatie\MediaLibrary\Tests\Conversions;
 
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileManipulatorTest extends TestCase
 {

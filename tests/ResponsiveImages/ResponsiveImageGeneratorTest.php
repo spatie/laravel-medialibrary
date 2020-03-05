@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\ResponsiveImages;
+namespace Spatie\MediaLibrary\Tests\ResponsiveImages;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
-use Spatie\Medialibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ResponsiveImageGeneratorTest extends TestCase
 {
@@ -17,9 +17,9 @@ class ResponsiveImageGeneratorTest extends TestCase
                 ->withResponsiveImages()
                 ->toMediaCollection();
 
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___medialibrary_original_237_195.jpg'));
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___medialibrary_original_284_233.jpg'));
-        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___medialibrary_original_340_280.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_237_195.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_284_233.jpg'));
+        $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_340_280.jpg'));
     }
 
     /** @test */
@@ -56,7 +56,7 @@ class ResponsiveImageGeneratorTest extends TestCase
 
         $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
 
-        Artisan::call('medialibrary:regenerate');
+        Artisan::call('media-library:regenerate');
         $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
     }
 
@@ -75,7 +75,7 @@ class ResponsiveImageGeneratorTest extends TestCase
         $media->save();
         $this->assertCount(0, $media->fresh()->responsive_images['thumb']['urls']);
 
-        Artisan::call('medialibrary:regenerate');
+        Artisan::call('media-library:regenerate');
         $this->assertCount(1, $media->fresh()->responsive_images['thumb']['urls']);
     }
 }

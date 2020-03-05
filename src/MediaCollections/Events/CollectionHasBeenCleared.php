@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Events;
+namespace Spatie\MediaLibrary\MediaCollections\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Spatie\Medialibrary\HasMedia;
+use Spatie\MediaLibrary\HasMedia;
 
 class CollectionHasBeenCleared
 {

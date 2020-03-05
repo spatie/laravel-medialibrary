@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class ToHtmlTest extends TestCase
@@ -113,7 +113,7 @@ class ToHtmlTest extends TestCase
     /** @test */
     public function it_will_not_rendering_extra_javascript_or_including_base64_svg_when_tiny_placeholders_are_turned_off()
     {
-        config()->set('medialibrary.responsive_images.use_tiny_placeholders', false);
+        config()->set('media-library.responsive_images.use_tiny_placeholders', false);
 
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
@@ -122,7 +122,7 @@ class ToHtmlTest extends TestCase
 
         $imgTag = $media->refresh()->img();
 
-        $this->assertEquals('<img loading="auto" srcset="http://localhost/media/2/responsive-images/test___medialibrary_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___medialibrary_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___medialibrary_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
+        $this->assertEquals('<img loading="auto" srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
     }
 
     /** @test */

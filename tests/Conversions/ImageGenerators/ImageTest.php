@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions\ImageGenerators;
+namespace Spatie\MediaLibrary\Tests\Conversions\ImageGenerators;
 
-use Spatie\Medialibrary\Conversions\ImageGenerators\Image;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ImageTest extends TestCase
 {

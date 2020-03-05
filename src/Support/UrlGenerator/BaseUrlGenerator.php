@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Medialibrary\Support\UrlGenerator;
+namespace Spatie\MediaLibrary\Support\UrlGenerator;
 
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Support\PathGenerator\PathGenerator;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
 
 abstract class BaseUrlGenerator implements UrlGenerator
 {
@@ -69,7 +69,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
 
     public function versionUrl(string $path = ''): string
     {
-        if (! $this->config->get('medialibrary.version_urls')) {
+        if (! $this->config->get('media-library.version_urls')) {
             return $path;
         }
 

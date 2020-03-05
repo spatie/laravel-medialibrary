@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\ResponsiveImages;
+namespace Spatie\MediaLibrary\Tests\ResponsiveImages;
 
-use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class RegisteredResponsiveImagesTest extends TestCase
 {
@@ -18,10 +18,10 @@ class RegisteredResponsiveImagesTest extends TestCase
         $media = $this->testModel->getFirstMedia();
 
         $this->assertEquals([
-            'test___medialibrary_original_340_280.jpg',
-            'test___medialibrary_original_284_233.jpg',
-            'test___medialibrary_original_237_195.jpg',
-        ], $media->responsive_images['medialibrary_original']['urls']);
+            'test___media_library_original_340_280.jpg',
+            'test___media_library_original_284_233.jpg',
+            'test___media_library_original_237_195.jpg',
+        ], $media->responsive_images['media_library_original']['urls']);
     }
 
     /** @test */
@@ -36,7 +36,7 @@ class RegisteredResponsiveImagesTest extends TestCase
 
         $responsiveImages = $media->responsive_images;
 
-        unset($responsiveImages['medialibrary_original']['base64svg']);
+        unset($responsiveImages['media_library_original']['base64svg']);
 
         $media->responsive_images = $responsiveImages;
 

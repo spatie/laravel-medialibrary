@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Support\PathGenerator;
+namespace Spatie\MediaLibrary\Tests\Support\PathGenerator;
 
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestCase;
-use Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator;
-use Spatie\Medialibrary\Support\UrlGenerator\LocalUrlGenerator;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\MediaLibrary\Support\UrlGenerator\LocalUrlGenerator;
 
 class BasePathGeneratorTest extends TestCase
 {

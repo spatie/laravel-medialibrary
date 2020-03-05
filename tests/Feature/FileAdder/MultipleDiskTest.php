@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
 
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class MultipleDiskTest extends TestCase
 {

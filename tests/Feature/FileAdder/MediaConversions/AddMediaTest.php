@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\FileAdder\MediaConversions;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use Carbon\Carbon;
 use Spatie\Image\Manipulations;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class AddMediaTest extends TestCase
 {

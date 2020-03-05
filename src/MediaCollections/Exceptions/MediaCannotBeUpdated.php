@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Exceptions;
+namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
 
 use Exception;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaCannotBeUpdated extends Exception
 {

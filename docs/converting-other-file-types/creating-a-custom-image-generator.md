@@ -9,12 +9,12 @@ In the following example we'll create a custom generator that can convert a Powe
 
 ## Creating the custom generator
 
-The first step for creating a custom generator is to create a class that extends `Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator`:
+The first step for creating a custom generator is to create a class that extends `Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator`:
 
 ```php
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 
 class PowerPoint extends ImageGenerator
 {
@@ -64,8 +64,8 @@ If the generator only needs to be applied to one of your models you can override
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\InteractsWithMedia;
-use Spatie\Medialibrary\Interfaces\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\Interfaces\HasMedia;
 
 class News extends Model implements HasMedia
 {

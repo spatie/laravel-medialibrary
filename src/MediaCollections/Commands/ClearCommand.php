@@ -1,18 +1,18 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Commands;
+namespace Spatie\MediaLibrary\MediaCollections\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\Medialibrary\MediaCollections\MediaRepository;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\MediaRepository;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ClearCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'medialibrary:clear {modelType?} {collectionName?}
+    protected $signature = 'media-library:clear {modelType?} {collectionName?}
     {-- force : Force the operation to run when in production}';
 
     protected $description = 'Delete all items in a media collection.';

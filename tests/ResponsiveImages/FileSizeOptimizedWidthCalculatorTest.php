@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\ResponsiveImages;
+namespace Spatie\MediaLibrary\Tests\ResponsiveImages;
 
-use Spatie\Medialibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileSizeOptimizedWidthCalculatorTest extends TestCase
 {

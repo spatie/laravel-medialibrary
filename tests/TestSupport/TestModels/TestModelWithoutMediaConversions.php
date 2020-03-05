@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\TestSupport\TestModels;
+namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\HasMedia;
-use Spatie\Medialibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class TestModelWithoutMediaConversions extends Model implements HasMedia
 {

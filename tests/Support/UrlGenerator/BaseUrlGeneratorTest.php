@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Support\UrlGenerator;
+namespace Spatie\MediaLibrary\Tests\Support\UrlGenerator;
 
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator;
-use Spatie\Medialibrary\Tests\TestCase;
-use Spatie\Medialibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 
 class BaseUrlGeneratorTest extends TestCase
 {
@@ -68,13 +68,13 @@ class BaseUrlGeneratorTest extends TestCase
     /** @test * */
     public function it_appends_a_version_string_when_versioning_is_enabled()
     {
-        config()->set('medialibrary.version_urls', true);
+        config()->set('media-library.version_urls', true);
 
         $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg?v='.$this->media->updated_at->timestamp;
 
         $this->assertEquals($url, $this->urlGenerator->getUrl());
 
-        config()->set('medialibrary.version_urls', false);
+        config()->set('media-library.version_urls', false);
 
         $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 

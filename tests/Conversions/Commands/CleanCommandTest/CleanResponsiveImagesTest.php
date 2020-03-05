@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions\Commands\CleanCommandTest;
+namespace Spatie\MediaLibrary\Tests\Conversions\Commands\CleanCommandTest;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class CleanResponsiveImagesTest extends TestCase
 {
@@ -26,7 +26,7 @@ class CleanResponsiveImagesTest extends TestCase
         $media->responsive_images = $newResponsiveImages;
         $media->save();
 
-        Artisan::call('medialibrary:clean');
+        Artisan::call('media-library:clean');
 
         $media->refresh();
 

@@ -3,7 +3,7 @@ title: Using custom properties
 weight: 2
 ---
 
-When adding a file to the medialibrary you can pass an array with custom properties:
+When adding a file to the media library you can pass an array with custom properties:
 
 ```php
 $mediaItem = $yourModel

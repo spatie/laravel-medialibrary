@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Models\Observers;
+namespace Spatie\MediaLibrary\MediaCollections\Models\Observers;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Application;
-use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\MediaCollections\Filesystem;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaObserver
 {

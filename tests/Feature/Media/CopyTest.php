@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class CopyTest extends TestCase
 {
@@ -13,7 +13,7 @@ class CopyTest extends TestCase
         /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);
 
-        /** @var \Spatie\Medialibrary\MediaCollections\Models\Media $media */
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = $model
             ->addMedia($this->getTestJpg())
             ->usingName('custom-name')
@@ -50,7 +50,7 @@ class CopyTest extends TestCase
         /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);
 
-        /** @var \Spatie\Medialibrary\MediaCollections\Models\Media $media */
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = $model
             ->addMedia($this->getTestImageWithoutExtension())
             ->usingName('custom-name')
@@ -83,7 +83,7 @@ class CopyTest extends TestCase
         /** @var TestModel $model */
         $model = TestModel::create(['name' => 'test']);
 
-        /** @var \Spatie\Medialibrary\MediaCollections\Models\Media $media */
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = $model
             ->addMedia($this->getTestJpg())
             ->usingName('custom-name')

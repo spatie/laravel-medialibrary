@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections;
+namespace Spatie\MediaLibrary\MediaCollections;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
-use Spatie\Medialibrary\Support\RemoteFile;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
+use Spatie\MediaLibrary\Support\RemoteFile;
 
 class FileAdderFactory
 {
@@ -13,7 +13,7 @@ class FileAdderFactory
      * @param \Illuminate\Database\Eloquent\Model $subject
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
     public static function create(Model $subject, $file): FileAdder
     {

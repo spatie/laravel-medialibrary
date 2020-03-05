@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary;
+namespace Spatie\MediaLibrary;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -10,18 +10,18 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\MediaCollections\Events\CollectionHasBeenCleared;
-use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidBase64Data;
-use Spatie\Medialibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
-use Spatie\Medialibrary\MediaCollections\Exceptions\UnreachableUrl;
-use Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
-use Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
-use Spatie\Medialibrary\MediaCollections\FileAdder;
-use Spatie\Medialibrary\MediaCollections\FileAdderFactory;
-use Spatie\Medialibrary\MediaCollections\MediaCollection;
-use Spatie\Medialibrary\MediaCollections\MediaRepository;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
+use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
+use Spatie\MediaLibrary\MediaCollections\MediaCollection;
+use Spatie\MediaLibrary\MediaCollections\MediaRepository;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 trait InteractsWithMedia
 {
@@ -33,7 +33,7 @@ trait InteractsWithMedia
 
     protected bool $deletePreservingMedia = false;
 
-    protected array $unAttachedMedialibraryItems = [];
+    protected array $unAttachedMediaLibraryItems = [];
 
     public static function bootInteractsWithMedia()
     {
@@ -54,15 +54,15 @@ trait InteractsWithMedia
 
     public function media(): MorphMany
     {
-        return $this->morphMany(config('medialibrary.media_model'), 'model');
+        return $this->morphMany(config('media-library.media_model'), 'model');
     }
 
     /**
-     * Add a file to the medialibrary.
+     * Add a file to the media library.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
     public function addMedia($file): FileAdder
     {
@@ -75,7 +75,7 @@ trait InteractsWithMedia
      * @param string $key
      * @param string $disk
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
     public function addMediaFromDisk(string $key, string $disk = null): FileAdder
     {
@@ -87,7 +87,7 @@ trait InteractsWithMedia
      *
      * @param string $key
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
     public function addMediaFromRequest(string $key): FileAdder
     {
@@ -99,7 +99,7 @@ trait InteractsWithMedia
      *
      * @param string[] $keys
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder[]
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
      */
     public function addMultipleMediaFromRequest(array $keys)
     {
@@ -109,7 +109,7 @@ trait InteractsWithMedia
     /**
      * Add all files from a request.
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder[]
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
      */
     public function addAllMediaFromRequest(): Collection
     {
@@ -122,9 +122,9 @@ trait InteractsWithMedia
      * @param string $url
      * @param string|array ...$allowedMimeTypes
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      *
-     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes): FileAdder
     {
@@ -157,13 +157,13 @@ trait InteractsWithMedia
     }
 
     /**
-     * Add a base64 encoded file to the medialibrary.
+     * Add a base64 encoded file to the media library.
      *
      * @param string $base64data
      * @param string|array ...$allowedMimeTypes
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
-     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      *
      * @throws InvalidBase64Data
      */
@@ -188,7 +188,7 @@ trait InteractsWithMedia
         $binaryData = base64_decode($base64data);
 
         // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
-        $tmpFile = tempnam(sys_get_temp_dir(), 'medialibrary');
+        $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
         file_put_contents($tmpFile, $binaryData);
 
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
@@ -199,11 +199,11 @@ trait InteractsWithMedia
     }
 
     /**
-     * Copy a file to the medialibrary.
+     * Copy a file to the media library.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
-     * @return \Spatie\Medialibrary\MediaCollections\FileAdder
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
     public function copyMedia($file): FileAdder
     {
@@ -313,13 +313,13 @@ trait InteractsWithMedia
      *
      * @return \Illuminate\Support\Collection
      *
-     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeUpdated
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated
      */
     public function updateMedia(array $newMediaArray, string $collectionName = 'default'): Collection
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = config('media-library.media_model');
         $mediaInstance = new $mediaClass();
         $keyName = $mediaInstance->getKeyName();
 
@@ -374,7 +374,7 @@ trait InteractsWithMedia
      * Remove all media in the given collection except some.
      *
      * @param string $collectionName
-     * @param \Spatie\Medialibrary\MediaCollections\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
+     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
      *
      * @return $this
      */
@@ -409,9 +409,9 @@ trait InteractsWithMedia
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     * @param int|\Spatie\Medialibrary\MediaCollections\Models\Media $mediaId
+     * @param int|\Spatie\MediaLibrary\MediaCollections\Models\Media $mediaId
      *
-     * @throws \Spatie\Medialibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
      */
     public function deleteMedia($mediaId): void
     {
@@ -474,7 +474,7 @@ trait InteractsWithMedia
     {
         $collection = $this->exists
             ? $this->media
-            : collect($this->unAttachedMedialibraryItems)->pluck('media');
+            : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection
             ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName)
@@ -484,16 +484,16 @@ trait InteractsWithMedia
 
     public function prepareToAttachMedia(Media $media, FileAdder $fileAdder): void
     {
-        $this->unAttachedMedialibraryItems[] = compact('media', 'fileAdder');
+        $this->unAttachedMediaLibraryItems[] = compact('media', 'fileAdder');
     }
 
     public function processUnattachedMedia(callable $callable): void
     {
-        foreach ($this->unAttachedMedialibraryItems as $item) {
+        foreach ($this->unAttachedMediaLibraryItems as $item) {
             $callable($item['media'], $item['fileAdder']);
         }
 
-        $this->unAttachedMedialibraryItems = [];
+        $this->unAttachedMediaLibraryItems = [];
     }
 
     protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes)

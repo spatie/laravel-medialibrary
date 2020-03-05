@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\S3Integration;
+namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
 use Aws\S3\S3Client;
 use Carbon\Carbon;
@@ -8,8 +8,8 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Support\MediaStream;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Support\MediaStream;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class S3IntegrationTest extends TestCase
@@ -26,14 +26,14 @@ class S3IntegrationTest extends TestCase
 
         $this->s3BaseDirectory = self::getS3BaseTestDirectory();
 
-        $this->app['config']->set('medialibrary.path_generator', S3TestPathGenerator::class);
+        $this->app['config']->set('media-library.path_generator', S3TestPathGenerator::class);
     }
 
     public function tearDown(): void
     {
         $this->cleanUpS3();
 
-        $this->app['config']->set('medialibrary.path_generator', null);
+        $this->app['config']->set('media-library.path_generator', null);
 
         parent::tearDown();
     }
@@ -244,7 +244,7 @@ class S3IntegrationTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('medialibrary:regenerate', [
+        Artisan::call('media-library:regenerate', [
             '--only-missing' => true,
         ]);
 
@@ -282,7 +282,7 @@ class S3IntegrationTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('medialibrary:regenerate', [
+        Artisan::call('media-library:regenerate', [
             '--only-missing' => true,
             '--only' => 'thumb',
         ]);

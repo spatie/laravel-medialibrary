@@ -1,16 +1,16 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions;
+namespace Spatie\MediaLibrary\Tests\Conversions;
 
-use Spatie\Medialibrary\Tests\TestSupport\testfiles\TestConversionFileNamer;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\testfiles\TestConversionFileNamer;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ConversionFileNamerTest extends TestCase
 {
     /** @test */
     public function it_can_use_a_custom_conversion_file_namer()
     {
-        config()->set('medialibrary.conversion_file_namer', TestConversionFileNamer::class);
+        config()->set('media-library.conversion_file_namer', TestConversionFileNamer::class);
 
         $this
             ->testModelWithConversion

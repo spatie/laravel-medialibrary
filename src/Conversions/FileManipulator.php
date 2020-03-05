@@ -1,21 +1,21 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions;
+namespace Spatie\MediaLibrary\Conversions;
 
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversions\Events\ConversionHasBeenCompleted;
-use Spatie\Medialibrary\Conversions\Events\ConversionWillStart;
-use Spatie\Medialibrary\MediaCollections\Filesystem;
-use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGenerator;
-use Spatie\Medialibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Spatie\Medialibrary\Support\File as MedialibraryFileHelper;
-use Spatie\Medialibrary\Support\ImageFactory;
-use Spatie\Medialibrary\Support\TemporaryDirectory;
-use Spatie\Medialibrary\Conversions\Jobs\PerformConversionsJob;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\ResponsiveImages\ResponsiveImageGenerator;
+use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
+use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Spatie\MediaLibrary\Support\File as MediaLibraryFileHelper;
+use Spatie\MediaLibrary\Support\ImageFactory;
+use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 use Illuminate\Support\Facades\Storage;
 
 class FileManipulator
@@ -23,7 +23,7 @@ class FileManipulator
     /**
      * Create all derived files for the given media.
      *
-     * @param \Spatie\Medialibrary\MediaCollections\Models\Media $media
+     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media $media
      * @param array $only
      * @param bool $onlyMissing
      */
@@ -51,8 +51,8 @@ class FileManipulator
     /**
      * Perform the given conversions for the given media.
      *
-     * @param \Spatie\Medialibrary\Conversions\ConversionCollection $conversions
-     * @param \Spatie\Medialibrary\MediaCollections\Models\Media $media
+     * @param \Spatie\MediaLibrary\Conversions\ConversionCollection $conversions
+     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media $media
      * @param bool $onlyMissing
      */
     public function performConversions(ConversionCollection $conversions, Media $media, bool $onlyMissing = false)
@@ -69,7 +69,7 @@ class FileManipulator
 
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $copiedOriginalFile = app(Filesystem::class)->copyFromMedialibrary(
+        $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
             $temporaryDirectory->path(Str::random(16) . '.' . $media->extension)
         );
@@ -105,7 +105,7 @@ class FileManipulator
                     );
                 }
 
-                app(Filesystem::class)->copyToMedialibrary($renamedFile, $media, 'conversions');
+                app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
 
                 $media->markAsConversionGenerated($conversion->getName(), true);
 
@@ -142,11 +142,11 @@ class FileManipulator
 
     protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, bool $onlyMissing = false)
     {
-        $performConversionsJobClass = config('medialibrary.jobs.perform_conversions', PerformConversionsJob::class);
+        $performConversionsJobClass = config('media-library.jobs.perform_conversions', PerformConversionsJob::class);
 
         $job = new $performConversionsJobClass($queuedConversions, $media, $onlyMissing);
 
-        if ($customQueue = config('medialibrary.queue_name')) {
+        if ($customQueue = config('media-library.queue_name')) {
             $job->onQueue($customQueue);
         }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions\Commands;
+namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
 
 use Illuminate\Support\Facades\Artisan;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ClearCommandTest extends TestCase
 {
@@ -43,7 +43,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_all_media()
     {
-        Artisan::call('medialibrary:clear');
+        Artisan::call('media-library:clear');
 
         $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
         $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
@@ -55,7 +55,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_media_from_a_specific_model_type()
     {
-        Artisan::call('medialibrary:clear', [
+        Artisan::call('media-library:clear', [
             'modelType' => TestModel::class,
         ]);
 
@@ -69,7 +69,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_media_from_a_specific_collection()
     {
-        Artisan::call('medialibrary:clear', [
+        Artisan::call('media-library:clear', [
             'collectionName' => 'collection2',
         ]);
 
@@ -83,7 +83,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_media_from_a_specific_model_type_and_collection()
     {
-        Artisan::call('medialibrary:clear', [
+        Artisan::call('media-library:clear', [
             'modelType' => TestModel::class,
             'collectionName' => 'collection2',
         ]);

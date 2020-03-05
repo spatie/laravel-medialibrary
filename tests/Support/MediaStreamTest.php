@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Support;
+namespace Spatie\MediaLibrary\Tests\Support;
 
 use Illuminate\Support\Facades\Route;
-use Spatie\Medialibrary\Support\MediaStream;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Support\MediaStream;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 

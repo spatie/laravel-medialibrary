@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
 
 use Illuminate\Support\Facades\Storage;
-use Spatie\Medialibrary\MediaCollections\Exceptions\DiskDoesNotExist;
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidBase64Data;
-use Spatie\Medialibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
-use Spatie\Medialibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
-use Spatie\Medialibrary\MediaCollections\Exceptions\UnknownType;
-use Spatie\Medialibrary\MediaCollections\Exceptions\UnreachableUrl;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IntegrationTest extends TestCase
@@ -463,7 +463,7 @@ class IntegrationTest extends TestCase
     /** @test */
     public function it_will_throw_an_exception_when_adding_a_file_that_is_too_big()
     {
-        $this->app['config']->set('medialibrary.max_file_size', 1);
+        $this->app['config']->set('media-library.max_file_size', 1);
 
         $this->expectException(FileIsTooBig::class);
 

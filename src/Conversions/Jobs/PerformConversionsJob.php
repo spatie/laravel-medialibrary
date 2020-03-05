@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions\Jobs;
+namespace Spatie\MediaLibrary\Conversions\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PerformConversionsJob implements ShouldQueue
 {
@@ -31,7 +31,7 @@ class PerformConversionsJob implements ShouldQueue
 
     public function handle(): bool
     {
-        /** @var \Spatie\Medialibrary\Conversions\FileManipulator $fileManipulator */
+        /** @var \Spatie\MediaLibrary\Conversions\FileManipulator $fileManipulator */
         $fileManipulator = app(FileManipulator::class);
 
         $fileManipulator->performConversions($this->conversions, $this->media, $this->onlyMissing);

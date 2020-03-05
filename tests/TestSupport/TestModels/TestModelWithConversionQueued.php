@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\TestSupport\TestModels;
+namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
 
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithConversionQueued extends TestModel
 {

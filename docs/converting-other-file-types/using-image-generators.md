@@ -3,7 +3,7 @@ title: Using image generators
 weight: 1
 ---
 
-The medialibrary has built-in support to convert images. To generate conversions of other media types – most notably PDFs and videos – the medialibrary uses a image generators to create a derived image file of the media. 
+The media library has built-in support to convert images. To generate conversions of other media types – most notably PDFs and videos – the medialibrary uses a image generators to create a derived image file of the media. 
 
 Conversion of specific file type are defined in the exact same way as images:
 
@@ -14,7 +14,7 @@ $this->addMediaConversion('thumb')
      ->performOnCollections('videos');
 ```
 
-The medialibrary includes image generators for the following file types:
+The media library includes image generators for the following file types:
 
 - [PDF](/laravel-medialibrary/v8/converting-other-file-types/using-image-generators#pdf)
 - [SVG](/laravel-medialibrary/v8/converting-other-file-types/using-image-generators#svg)

@@ -3,9 +3,9 @@ title: Defining conversions
 weight: 1
 ---
 
-When adding files to the medialibrary it can automatically create derived versions such as thumbnails and banners.
+When adding files to the media library it can automatically create derived versions such as thumbnails and banners.
 
-Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `pdf`, `mp4 `, `mov` or `webm` file is added to the medialibrary. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
+Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `pdf`, `mp4 `, `mov` or `webm` file is added to the media library. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
 
 Internally, [spatie/image](https://docs.spatie.be/image/v1/) is used to manipulate the images. You can use [any manipulation function](https://docs.spatie.be/image) from that package.
 
@@ -15,9 +15,9 @@ You should add a method called `registerMediaConversions` to your model. In that
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\HasMedia;
-use Spatie\Medialibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 class YourModel extends Model implements HasMedia
 {
@@ -33,13 +33,13 @@ class YourModel extends Model implements HasMedia
 }
 ```
 
-Let's add an image to the medialibrary.
+Let's add an image to the media library.
 
 ```php
 $media = YourModel::first()->addMedia($pathToImage)->toMediaCollection();
 ```
 
-Besides storing the original item, the medialibrary also has created a derived image.
+Besides storing the original item, the media library also has created a derived image.
 
 ```php
 $media->getPath();  // the path to the where the original image is stored
@@ -141,4 +141,4 @@ true` on your model.
     }
 ```
 
-Be aware that this can lead to a hit in performance. When processing media the medialibrary has to perform queries to fetch each separate model.
+Be aware that this can lead to a hit in performance. When processing media the media library has to perform queries to fetch each separate model.

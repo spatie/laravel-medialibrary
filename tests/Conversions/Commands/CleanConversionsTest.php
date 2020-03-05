@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions\Commands;
+namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class CleanConversionsTest extends TestCase
 {
@@ -55,7 +55,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage);
         $this->assertFileExists($deprecatedImage);
 
-        Artisan::call('medialibrary:clean');
+        Artisan::call('media-library:clean');
 
         $this->assertFileNotExists($deprecatedImage);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
@@ -64,7 +64,7 @@ class CleanConversionsTest extends TestCase
     /** @test */
     public function generated_conversion_are_cleared_after_cleanup()
     {
-        /** @var \Spatie\Medialibrary\MediaCollections\Models\Media $media */
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = $this->media['model2']['collection1'];
 
         Media::where('id', '<>', $media->id)->delete();
@@ -79,7 +79,7 @@ class CleanConversionsTest extends TestCase
 
         touch($deprecatedImage);
 
-        Artisan::call('medialibrary:clean');
+        Artisan::call('media-library:clean');
 
         $media->refresh();
 
@@ -97,7 +97,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage1);
         touch($deprecatedImage2);
 
-        Artisan::call('medialibrary:clean', [
+        Artisan::call('media-library:clean', [
             'modelType' => TestModelWithConversion::class,
         ]);
 
@@ -116,7 +116,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage1);
         touch($deprecatedImage2);
 
-        Artisan::call('medialibrary:clean', [
+        Artisan::call('media-library:clean', [
             'collectionName' => 'collection2',
         ]);
 
@@ -139,7 +139,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage2);
         touch($deprecatedImage3);
 
-        Artisan::call('medialibrary:clean', [
+        Artisan::call('media-library:clean', [
             'modelType' => TestModel::class,
             'collectionName' => 'collection1',
         ]);
@@ -155,7 +155,7 @@ class CleanConversionsTest extends TestCase
         // Dirty delete
         DB::table('media')->delete($this->media['model1']['collection1']->id);
 
-        Artisan::call('medialibrary:clean');
+        Artisan::call('media-library:clean');
 
         $this->assertFileNotExists($this->getMediaDirectory($this->media['model1']['collection1']->id));
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
@@ -180,7 +180,7 @@ class CleanConversionsTest extends TestCase
         $media->responsive_images = $newResponsiveImages;
         $media->save();
 
-        Artisan::call('medialibrary:clean');
+        Artisan::call('media-library:clean');
 
         $media->refresh();
 

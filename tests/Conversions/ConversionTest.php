@@ -1,17 +1,17 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions;
+namespace Spatie\MediaLibrary\Tests\Conversions;
 
 use Spatie\Image\Manipulations;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ConversionTest extends TestCase
 {
     protected string $conversionName = 'test';
 
-    /** @var \Spatie\Medialibrary\Conversions\Conversion */
-    protected \Spatie\Medialibrary\Conversions\Conversion $conversion;
+    /** @var \Spatie\MediaLibrary\Conversions\Conversion */
+    protected \Spatie\MediaLibrary\Conversions\Conversion $conversion;
 
     public function setUp(): void
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions\ImageGenerators;
+namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
-use Spatie\Medialibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\Conversion;
 
 class Pdf extends ImageGenerator
 {

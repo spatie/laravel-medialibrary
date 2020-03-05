@@ -1,26 +1,26 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Commands;
+namespace Spatie\MediaLibrary\MediaCollections\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ConversionCollection;
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileCannotBeAdded;
-use Spatie\Medialibrary\Conversions\FileManipulator;
-use Spatie\Medialibrary\MediaCollections\MediaRepository;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Support\PathGenerator\DefaultPathGenerator;
-use Spatie\Medialibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\MediaCollections\MediaRepository;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
+use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 
 class CleanCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'medialibrary:clean {modelType?} {collectionName?} {disk?}
+    protected $signature = 'media-library:clean {modelType?} {collectionName?} {disk?}
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production},
     {--rate-limit= : Limit the number of request per second }';
@@ -131,7 +131,7 @@ class CleanCommand extends Command
     {
         $conversionNames = ConversionCollection::createForMedia($media)
             ->map(fn(Conversion $conversion) => $conversion->getName())
-            ->push('medialibrary_original');
+            ->push('media_library_original');
 
         $responsiveImagesGeneratedFor = array_keys($media->responsive_images);
 
@@ -147,12 +147,12 @@ class CleanCommand extends Command
 
     protected function deleteOrphanedDirectories()
     {
-        $diskName = $this->argument('disk') ?: config('medialibrary.disk_name');
+        $diskName = $this->argument('disk') ?: config('media-library.disk_name');
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw FileCannotBeAdded::diskDoesNotExist($diskName);
         }
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = config('media-library.media_model');
         $mediaInstance = new $mediaClass();
         $keyName = $mediaInstance->getKeyName();
 

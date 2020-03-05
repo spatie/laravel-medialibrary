@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\Medialibrary\Support\PathGenerator;
+namespace Spatie\MediaLibrary\Support\PathGenerator;
 
-use Spatie\Medialibrary\MediaCollections\Exceptions\InvalidPathGenerator;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidPathGenerator;
 
 class PathGeneratorFactory
 {
     public static function create()
     {
-        $pathGeneratorClass = config('medialibrary.path_generator');
+        $pathGeneratorClass = config('media-library.path_generator');
 
         static::guardAgainstInvalidPathGenerator($pathGeneratorClass);
 

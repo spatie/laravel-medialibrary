@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Medialibrary\MediaCollections\Models\Concerns;
+namespace Spatie\MediaLibrary\MediaCollections\Models\Concerns;
 
 trait CustomMediaProperties
 {

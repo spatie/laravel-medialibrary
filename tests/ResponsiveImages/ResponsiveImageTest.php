@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\ResponsiveImages;
+namespace Spatie\MediaLibrary\Tests\ResponsiveImages;
 
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ResponsiveImageTest extends TestCase
 {
@@ -17,9 +17,9 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals([
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_284_233.jpg',
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_237_195.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([
@@ -40,7 +40,7 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertStringContainsString(
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/test___medialibrary_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/test___medialibrary_original_237_195.jpg 237w',
+            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg 237w',
              $media->getSrcset()
         );
         $this->assertStringContainsString('data:image/svg+xml;base64', $media->getSrcset());
@@ -64,7 +64,7 @@ class ResponsiveImageTest extends TestCase
 
         $responsiveImage = $media->responsiveImages()->files->first();
 
-        $this->assertEquals('medialibrary_original', $responsiveImage->generatedFor());
+        $this->assertEquals('media_library_original', $responsiveImage->generatedFor());
 
         $this->assertEquals(340, $responsiveImage->width());
 

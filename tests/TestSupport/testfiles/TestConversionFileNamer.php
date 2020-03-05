@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\TestSupport\testfiles;
+namespace Spatie\MediaLibrary\Tests\TestSupport\testfiles;
 
-use Spatie\Medialibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Conversions\ConversionFileNamer;
-use Spatie\Medialibrary\Conversions\DefaultConversionFileNamer;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ConversionFileNamer;
+use Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestConversionFileNamer extends DefaultConversionFileNamer
 {

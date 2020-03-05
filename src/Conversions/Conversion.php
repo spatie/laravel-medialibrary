@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Conversions;
+namespace Spatie\MediaLibrary\Conversions;
 
 use BadMethodCallException;
 use Spatie\Image\Manipulations;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
@@ -32,12 +32,12 @@ class Conversion
         $this->name = $name;
 
         $this->manipulations = (new Manipulations())
-            ->optimize(config('medialibrary.image_optimizers'))
+            ->optimize(config('media-library.image_optimizers'))
             ->format(Manipulations::FORMAT_JPG);
 
-        $this->conversionFileNamer = app(config('medialibrary.conversion_file_namer'));
+        $this->conversionFileNamer = app(config('media-library.conversion_file_namer'));
 
-        $this->loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
+        $this->loadingAttributeValue = config('media-library.default_loading_attribute_value');
     }
 
     public static function create(string $name)

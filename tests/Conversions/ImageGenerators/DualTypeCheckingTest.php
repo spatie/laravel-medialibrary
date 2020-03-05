@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Conversions\ImageGenerators;
+namespace Spatie\MediaLibrary\Tests\Conversions\ImageGenerators;
 
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestCase;
-use Spatie\Medialibrary\Tests\TestSupport\TestImageGenerator;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestImageGenerator;
 
 class DualTypeCheckingTest extends TestCase
 {

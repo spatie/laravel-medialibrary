@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\FileAdder;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
 
 use Illuminate\Support\Facades\Storage;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class ConversionsDiskTest extends TestCase
 {

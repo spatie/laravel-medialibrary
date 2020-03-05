@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\ResponsiveImages\Exceptions;
+namespace Spatie\MediaLibrary\ResponsiveImages\Exceptions;
 
 use Exception;
-use Spatie\Medialibrary\Support\File;
+use Spatie\MediaLibrary\Support\File;
 
 class InvalidTinyJpg extends Exception
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Medialibrary\Tests\Feature\FileAdder\MediaConversions;
+namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
-use Spatie\Medialibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
-use Spatie\Medialibrary\MediaCollections\File;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\Medialibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
-use Spatie\Medialibrary\Tests\TestCase;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\MediaCollections\File;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class MediaCollectionTest extends TestCase
 {
@@ -194,9 +194,9 @@ class MediaCollectionTest extends TestCase
         $media = $model->getMedia('images')->first();
 
         $this->assertEquals([
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_284_233.jpg',
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_237_195.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));

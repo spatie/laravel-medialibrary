@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Medialibrary\ResponsiveImages\Events;
+namespace Spatie\MediaLibrary\ResponsiveImages\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Spatie\Medialibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ResponsiveImagesGenerated
 {
