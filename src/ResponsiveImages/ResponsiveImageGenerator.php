@@ -35,7 +35,7 @@ class ResponsiveImageGenerator
         $this->tinyPlaceholderGenerator = $tinyPlaceholderGenerator;
     }
 
-    public function generateResponsiveImages(Media $media)
+    public function generateResponsiveImages(Media $media): void
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
@@ -57,7 +57,7 @@ class ResponsiveImageGenerator
         $temporaryDirectory->delete();
     }
 
-    public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage)
+    public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage): void
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
@@ -78,7 +78,7 @@ class ResponsiveImageGenerator
         string $conversionName,
         int $targetWidth,
         BaseTemporaryDirectory $temporaryDirectory
-    ) {
+    ): void {
         $responsiveImagePath = $this->appendToFileName($media->file_name, "___{$conversionName}_{$targetWidth}");
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
@@ -101,8 +101,12 @@ class ResponsiveImageGenerator
         ResponsiveImage::register($media, $finalImageFileName, $conversionName);
     }
 
-    public function generateTinyJpg(Media $media, string $originalImagePath, string $conversionName, BaseTemporaryDirectory $temporaryDirectory)
-    {
+    public function generateTinyJpg(
+        Media $media,
+        string $originalImagePath,
+        string $conversionName,
+        BaseTemporaryDirectory $temporaryDirectory
+    ) : void {
         $tempDestination = $temporaryDirectory->path('tiny.jpg');
 
         $this->tinyPlaceholderGenerator->generateTinyPlaceholder($originalImagePath, $tempDestination);
@@ -139,7 +143,7 @@ class ResponsiveImageGenerator
         return $baseName.$suffix.'.'.$extension;
     }
 
-    protected function guardAgainstInvalidTinyPlaceHolder(string $tinyPlaceholderPath)
+    protected function guardAgainstInvalidTinyPlaceHolder(string $tinyPlaceholderPath): void
     {
         if (! file_exists($tinyPlaceholderPath)) {
             throw InvalidTinyJpg::doesNotExist($tinyPlaceholderPath);
