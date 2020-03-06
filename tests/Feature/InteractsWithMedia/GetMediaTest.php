@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Tests\Feature\InteractsWithMedia;
 
 use DB;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
@@ -13,7 +14,7 @@ class GetMediaTest extends TestCase
     public function it_can_handle_an_empty_collection()
     {
         $emptyCollection = $this->testModel->getMedia('images');
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $emptyCollection);
+        $this->assertInstanceOf(Collection::class, $emptyCollection);
         $this->assertCount(0, $emptyCollection);
     }
 
@@ -40,7 +41,7 @@ class GetMediaTest extends TestCase
     {
         $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
 
-        $this->assertInstanceOf(\Illuminate\Support\Collection::class, $this->testModel->getMedia());
+        $this->assertInstanceOf(Collection::class, $this->testModel->getMedia());
     }
 
     /** @test */

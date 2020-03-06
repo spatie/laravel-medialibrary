@@ -12,7 +12,7 @@ class DualTypeCheckingTest extends TestCase
     public function it_can_convert_an_image_with_a_valid_extension_and_mime_type()
     {
         $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimetypes = true;
+        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
         $generator->supportedMimetypes->push('supported-mime-type');
         $generator->supportedExtensions->push('supported-extension');
@@ -28,7 +28,7 @@ class DualTypeCheckingTest extends TestCase
     public function it_cannot_convert_an_image_with_an_invalid_extension_and_mime_type()
     {
         $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimetypes = true;
+        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
         $generator->supportedMimetypes->push('supported-mime-type');
         $generator->supportedExtensions->push('supported-extension');
@@ -44,7 +44,7 @@ class DualTypeCheckingTest extends TestCase
     public function it_cannot_convert_an_image_with_only_a_valid_mime_type()
     {
         $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimetypes = true;
+        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
         $generator->supportedMimetypes->push('supported-mime-type');
         $generator->supportedExtensions->push('supported-extension');
@@ -60,7 +60,7 @@ class DualTypeCheckingTest extends TestCase
     public function it_cannot_convert_an_image_with_only_a_valid_extension()
     {
         $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimetypes = true;
+        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
         $generator->supportedExtensions->push('supported-extension');
         $generator->supportedMimetypes->push('supported-mime-type');

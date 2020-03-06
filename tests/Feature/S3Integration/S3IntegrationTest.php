@@ -244,7 +244,7 @@ class S3IntegrationTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('media-library:regenerate', [
+        $this->artisan('media-library:regenerate', [
             '--only-missing' => true,
         ]);
 
@@ -282,7 +282,7 @@ class S3IntegrationTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('media-library:regenerate', [
+        $this->artisan('media-library:regenerate', [
             '--only-missing' => true,
             '--only' => 'thumb',
         ]);

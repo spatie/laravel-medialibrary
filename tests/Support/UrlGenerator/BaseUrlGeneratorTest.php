@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests\Support\UrlGenerator;
 
+use Illuminate\Config\Repository;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -11,7 +12,7 @@ use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 
 class BaseUrlGeneratorTest extends TestCase
 {
-    protected $config;
+    protected Repository $config;
 
     protected Media $media;
 

@@ -238,7 +238,7 @@ abstract class TestCase extends Orchestra
 
     public function renderView($view, $parameters): string
     {
-        Artisan::call('view:clear');
+        $this->artisan('view:clear');
 
         if (is_string($view)) {
             $view = view($view)->with($parameters);

@@ -12,7 +12,7 @@ class TestImageGenerator extends ImageGenerator
 
     public Collection $supportedExtensions;
 
-    public bool $shouldMatchBothExtensionsAndMimetypes = false;
+    public bool $shouldMatchBothExtensionsAndMimeTypes = false;
 
     public function __construct()
     {
@@ -33,7 +33,7 @@ class TestImageGenerator extends ImageGenerator
 
     public function shouldMatchBothExtensionsAndMimeTypes(): bool
     {
-        return $this->shouldMatchBothExtensionsAndMimetypes;
+        return $this->shouldMatchBothExtensionsAndMimeTypes;
     }
 
     public function convert(string $path, Conversion $conversion = null): string

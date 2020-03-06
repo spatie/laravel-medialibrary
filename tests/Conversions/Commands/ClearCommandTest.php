@@ -43,7 +43,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_all_media()
     {
-        Artisan::call('media-library:clear');
+        $this->artisan('media-library:clear');
 
         $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
         $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
@@ -55,7 +55,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_media_from_a_specific_model_type()
     {
-        Artisan::call('media-library:clear', [
+        $this->artisan('media-library:clear', [
             'modelType' => TestModel::class,
         ]);
 
@@ -69,7 +69,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_media_from_a_specific_collection()
     {
-        Artisan::call('media-library:clear', [
+        $this->artisan('media-library:clear', [
             'collectionName' => 'collection2',
         ]);
 
@@ -83,7 +83,7 @@ class ClearCommandTest extends TestCase
     /** @test */
     public function it_can_clear_media_from_a_specific_model_type_and_collection()
     {
-        Artisan::call('media-library:clear', [
+        $this->artisan('media-library:clear', [
             'modelType' => TestModel::class,
             'collectionName' => 'collection2',
         ]);

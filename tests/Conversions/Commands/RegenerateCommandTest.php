@@ -21,7 +21,7 @@ class RegenerateCommandTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('media-library:regenerate');
+        $this->artisan('media-library:regenerate');
 
         $this->assertFileExists($derivedImage);
         $this->assertGreaterThan($createdAt, filemtime($derivedImage));
@@ -54,7 +54,7 @@ class RegenerateCommandTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('media-library:regenerate', [
+        $this->artisan('media-library:regenerate', [
             '--only-missing' => true,
         ]);
 
@@ -92,7 +92,7 @@ class RegenerateCommandTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('media-library:regenerate', [
+        $this->artisan('media-library:regenerate', [
             '--only-missing' => true,
         ]);
 
@@ -120,7 +120,7 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileNotExists($derivedImage);
         $this->assertFileNotExists($derivedMissingImage);
 
-        Artisan::call('media-library:regenerate', [
+        $this->artisan('media-library:regenerate', [
             '--only' => 'thumb',
         ]);
 
@@ -156,7 +156,7 @@ class RegenerateCommandTest extends TestCase
 
         sleep(1);
 
-        Artisan::call('media-library:regenerate', [
+        $this->artisan('media-library:regenerate', [
             '--only-missing' => true,
             '--only' => 'thumb',
         ]);
@@ -188,7 +188,7 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileNotExists($derivedImage);
         $this->assertFileNotExists($derivedImage2);
 
-        Artisan::call('media-library:regenerate', ['--ids' => [2]]);
+        $this->artisan('media-library:regenerate', ['--ids' => [2]]);
 
         $this->assertFileNotExists($derivedImage);
         $this->assertFileExists($derivedImage2);
@@ -215,7 +215,7 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileNotExists($derivedImage);
         $this->assertFileNotExists($derivedImage2);
 
-        Artisan::call('media-library:regenerate', ['--ids' => ['1,2']]);
+        $this->artisan('media-library:regenerate', ['--ids' => ['1,2']]);
 
         $this->assertFileExists($derivedImage);
         $this->assertFileExists($derivedImage2);
@@ -231,8 +231,6 @@ class RegenerateCommandTest extends TestCase
 
         unlink($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        $result = Artisan::call('media-library:regenerate');
-
-        $this->assertEquals(0, $result);
+        $this->artisan('media-library:regenerate')->assertExitCode(0);
     }
 }

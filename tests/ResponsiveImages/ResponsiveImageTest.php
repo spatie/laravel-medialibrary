@@ -9,7 +9,8 @@ class ResponsiveImageTest extends TestCase
     /** @test */
     public function a_media_instance_can_get_responsive_image_urls()
     {
-        $this->testModelWithResponsiveImages
+        $this
+            ->testModelWithResponsiveImages
             ->addMedia($this->getTestJpg())
             ->withResponsiveImages()
             ->toMediaCollection();

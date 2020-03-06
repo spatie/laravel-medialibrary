@@ -26,7 +26,7 @@ class CleanResponsiveImagesTest extends TestCase
         $media->responsive_images = $newResponsiveImages;
         $media->save();
 
-        Artisan::call('media-library:clean');
+        $this->artisan('media-library:clean');
 
         $media->refresh();
 

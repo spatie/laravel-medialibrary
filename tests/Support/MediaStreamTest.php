@@ -16,7 +16,8 @@ class MediaStreamTest extends TestCase
         parent::setUp();
 
         foreach (range(1, 3) as $i) {
-            $this->testModel
+            $this
+                ->testModel
                 ->addMedia($this->getTestJpg())
                 ->preservingOriginal()
                 ->toMediaCollection();

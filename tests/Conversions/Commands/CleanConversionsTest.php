@@ -55,7 +55,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage);
         $this->assertFileExists($deprecatedImage);
 
-        Artisan::call('media-library:clean');
+        $this->artisan('media-library:clean');
 
         $this->assertFileNotExists($deprecatedImage);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
@@ -79,7 +79,7 @@ class CleanConversionsTest extends TestCase
 
         touch($deprecatedImage);
 
-        Artisan::call('media-library:clean');
+        $this->artisan('media-library:clean');
 
         $media->refresh();
 
@@ -97,7 +97,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage1);
         touch($deprecatedImage2);
 
-        Artisan::call('media-library:clean', [
+        $this->artisan('media-library:clean', [
             'modelType' => TestModelWithConversion::class,
         ]);
 
@@ -116,7 +116,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage1);
         touch($deprecatedImage2);
 
-        Artisan::call('media-library:clean', [
+        $this->artisan('media-library:clean', [
             'collectionName' => 'collection2',
         ]);
 
@@ -139,7 +139,7 @@ class CleanConversionsTest extends TestCase
         touch($deprecatedImage2);
         touch($deprecatedImage3);
 
-        Artisan::call('media-library:clean', [
+        $this->artisan('media-library:clean', [
             'modelType' => TestModel::class,
             'collectionName' => 'collection1',
         ]);
@@ -155,7 +155,7 @@ class CleanConversionsTest extends TestCase
         // Dirty delete
         DB::table('media')->delete($this->media['model1']['collection1']->id);
 
-        Artisan::call('media-library:clean');
+        $this->artisan('media-library:clean');
 
         $this->assertFileNotExists($this->getMediaDirectory($this->media['model1']['collection1']->id));
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
@@ -180,7 +180,7 @@ class CleanConversionsTest extends TestCase
         $media->responsive_images = $newResponsiveImages;
         $media->save();
 
-        Artisan::call('media-library:clean');
+        $this->artisan('media-library:clean');
 
         $media->refresh();
 

@@ -3,15 +3,14 @@
 namespace Spatie\MediaLibrary\Tests\Conversions;
 
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class ConversionCollectionTest extends TestCase
 {
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media */
-    protected ?\Spatie\MediaLibrary\MediaCollections\Models\Media $media;
+    protected Media $media;
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media */
-    protected ?\Spatie\MediaLibrary\MediaCollections\Models\Media $secondMedia;
+    protected Media $secondMedia;
 
     public function setUp(): void
     {
