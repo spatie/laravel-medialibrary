@@ -106,7 +106,7 @@ class ResponsiveImageGenerator
         string $originalImagePath,
         string $conversionName,
         BaseTemporaryDirectory $temporaryDirectory
-    ) : void {
+    ): void {
         $tempDestination = $temporaryDirectory->path('tiny.jpg');
 
         $this->tinyPlaceholderGenerator->generateTinyPlaceholder($originalImagePath, $tempDestination);
@@ -140,7 +140,7 @@ class ResponsiveImageGenerator
 
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-        return $baseName.$suffix.'.'.$extension;
+        return "{$baseName}{$suffix}.{$extension}";
     }
 
     protected function guardAgainstInvalidTinyPlaceHolder(string $tinyPlaceholderPath): void
@@ -149,9 +149,7 @@ class ResponsiveImageGenerator
             throw InvalidTinyJpg::doesNotExist($tinyPlaceholderPath);
         }
 
-        $mimeType = File::getMimeType($tinyPlaceholderPath);
-
-        if ($mimeType !== 'image/jpeg') {
+        if (File::getMimeType($tinyPlaceholderPath) !== 'image/jpeg') {
             throw InvalidTinyJpg::hasWrongMimeType($tinyPlaceholderPath);
         }
     }

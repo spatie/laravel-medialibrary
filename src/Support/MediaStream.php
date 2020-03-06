@@ -44,9 +44,7 @@ class MediaStream implements Responsable
 
                 return $item;
             })
-            ->each(function (Media $media) {
-                $this->mediaItems->push($media);
-            });
+            ->each(fn(Media $media) => $this->mediaItems->push($media));
 
         return $this;
     }

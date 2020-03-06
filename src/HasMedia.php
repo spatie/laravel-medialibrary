@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
@@ -9,12 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 interface HasMedia
 {
-    /**
-     * Set the polymorphic relation.
-     *
-     * @return mixed
-     */
-    public function media();
+    public function media(): MorphMany;
 
     /**
      * Move a file to the media library.

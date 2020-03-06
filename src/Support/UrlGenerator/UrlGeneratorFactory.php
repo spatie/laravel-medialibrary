@@ -15,6 +15,7 @@ class UrlGeneratorFactory
 
         static::guardAgainstInvalidUrlGenerator($urlGeneratorClass);
 
+        /** @var \Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator $urlGenerator */
         $urlGenerator = app($urlGeneratorClass);
 
         $pathGenerator = PathGeneratorFactory::create();
@@ -32,7 +33,7 @@ class UrlGeneratorFactory
         return $urlGenerator;
     }
 
-    public static function guardAgainstInvalidUrlGenerator(string $urlGeneratorClass)
+    public static function guardAgainstInvalidUrlGenerator(string $urlGeneratorClass): void
     {
         if (! class_exists($urlGeneratorClass)) {
             throw InvalidUrlGenerator::doesntExist($urlGeneratorClass);
