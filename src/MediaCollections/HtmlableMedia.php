@@ -22,9 +22,9 @@ class HtmlableMedia implements Htmlable
         $this->media = $media;
     }
 
-    public function extraAttributes(array $extraAttributes): self
+    public function attributes(array $attributes): self
     {
-        $this->extraAttributes = $extraAttributes;
+        $this->extraAttributes = $attributes;
 
         return $this;
     }

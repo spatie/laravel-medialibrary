@@ -151,6 +151,15 @@ class ToHtmlTest extends TestCase
         );
     }
 
+    /** @test */
+    public function it_can_set_extra_attributes()
+    {
+        $this->assertEquals(
+            '<img extra="value" loading="auto" src="/media/1/test.jpg" alt="test">',
+            (string)$this->firstMedia()->img()->attributes(['extra' => 'value'])
+        );
+    }
+
     protected function firstMedia(): Media
     {
         return Media::first();

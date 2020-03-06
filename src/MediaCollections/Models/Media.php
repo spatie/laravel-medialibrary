@@ -284,7 +284,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         return (new HtmlableMedia($this))
             ->conversion($conversionName)
-            ->extraAttributes($extraAttributes);
+            ->attributes($extraAttributes);
     }
 
     public function __invoke(...$arguments): HtmlableMedia
