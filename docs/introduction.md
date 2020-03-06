@@ -3,6 +3,8 @@ title: Introduction
 weight: 1
 ---
 
+**V8 is not production ready, a stable version will be released soon**
+
 MediaLibrary is a Laravel (5.6 and up) package that can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with.
 
 Here are some quick code examples:
