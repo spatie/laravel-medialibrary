@@ -48,14 +48,14 @@ class MediaLibraryServiceProvider extends ServiceProvider
             return new MediaRepository(new $mediaClass);
         });
 
-        $this->app->bind('command.media-library:regenerate', RegenerateCommand::class);
-        $this->app->bind('command.media-library:clear', ClearCommand::class);
-        $this->app->bind('command.media-library:clean', CleanCommand::class);
-
         $this->app->bind(Filesystem::class, Filesystem::class);
 
         $this->app->bind(WidthCalculator::class, config('media-library.responsive_images.width_calculator'));
         $this->app->bind(TinyPlaceholderGenerator::class, config('media-library.responsive_images.tiny_placeholder_generator'));
+
+        $this->app->bind('command.media-library:regenerate', RegenerateCommand::class);
+        $this->app->bind('command.media-library:clear', ClearCommand::class);
+        $this->app->bind('command.media-library:clean', CleanCommand::class);
 
         $this->commands([
             'command.media-library:regenerate',
