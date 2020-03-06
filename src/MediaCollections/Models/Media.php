@@ -9,16 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\HtmlString;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
@@ -233,71 +231,6 @@ class Media extends Model implements Responsable, Htmlable
         return $this->responsiveImages($conversionName)->getSrcset();
     }
 
-    public function toHtml()
-    {
-        return $this->img();
-    }
-
-    /**
-     * @param string|array $conversion
-     * @param array $extraAttributes
-     *
-     * @return string
-     */
-    public function img($conversion = '', array $extraAttributes = []): string
-    {
-        if (! (new Image())->canHandleMime($this->mime_type)) {
-            return '';
-        }
-
-        if (is_array($conversion)) {
-            $attributes = $conversion;
-
-            $conversion = $attributes['conversion'] ?? '';
-
-            unset($attributes['conversion']);
-
-            $extraAttributes = array_merge($attributes, $extraAttributes);
-        }
-
-        $attributeString = collect($extraAttributes)
-            ->map(fn($value, $name) => $name.'="'.$value.'"')->implode(' ');
-
-        if (strlen($attributeString)) {
-            $attributeString = ' '.$attributeString;
-        }
-
-        $loadingAttributeValue = config('media-library.default_loading_attribute_value');
-
-        if ($conversion !== '') {
-            $conversionObject = ConversionCollection::createForMedia($this)->getByName($conversion);
-
-            $loadingAttributeValue = $conversionObject->getLoadingAttributeValue();
-        }
-
-        $media = $this;
-
-        $viewName = 'image';
-
-        $width = '';
-
-        if ($this->hasResponsiveImages($conversion)) {
-            $viewName = config('media-library.responsive_images.use_tiny_placeholders')
-                ? 'responsiveImageWithPlaceholder'
-                : 'responsiveImage';
-
-            $width = $this->responsiveImages($conversion)->files->first()->width();
-        }
-
-        return view("media-library::{$viewName}", compact(
-            'media',
-            'conversion',
-            'attributeString',
-            'loadingAttributeValue',
-            'width',
-        ));
-    }
-
     public function move(HasMedia $model, $collectionName = 'default', string $diskName = ''): self
     {
         $newMedia = $this->copy($model, $collectionName, $diskName);
@@ -342,8 +275,20 @@ class Media extends Model implements Responsable, Htmlable
         return $filesystem->getStream($this);
     }
 
-    public function __invoke(...$arguments)
+    public function toHtml()
     {
-        return new HtmlString($this->img(...$arguments));
+        return $this->img()->toHtml();
+    }
+
+    public function img(string $conversionName = '', $extraAttributes = []): HtmlableMedia
+    {
+        return (new HtmlableMedia($this))
+            ->conversion($conversionName)
+            ->extraAttributes($extraAttributes);
+    }
+
+    public function __invoke(...$arguments): HtmlableMedia
+    {
+        return $this->img(...$arguments);
     }
 }

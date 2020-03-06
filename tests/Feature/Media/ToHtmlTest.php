@@ -27,13 +27,19 @@ class ToHtmlTest extends TestCase
     /** @test */
     public function it_can_render_itself_as_an_image()
     {
-        $this->assertEquals('<img loading="auto" src="/media/1/test.jpg" alt="test">', Media::first()->img());
+        $this->assertEquals(
+            '<img loading="auto" src="/media/1/test.jpg" alt="test">',
+            $this->firstMedia()->img(),
+        );
     }
 
     /** @test */
     public function it_can_render_a_conversion_of_itself_as_an_image()
     {
-        $this->assertEquals('<img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">', Media::first()->img('thumb'));
+        $this->assertEquals(
+            '<img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            $this->firstMedia()->img('thumb')
+        );
     }
 
     /** @test */
@@ -41,36 +47,21 @@ class ToHtmlTest extends TestCase
     {
         $this->assertEquals(
             '<img class="my-class" id="my-id" loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-             Media::first()->img('thumb', ['class' => 'my-class', 'id' => 'my-id'])
-        );
-    }
-
-    /** @test */
-    public function attributes_can_be_passed_to_the_first_argument()
-    {
-        $this->assertEquals(
-            '<img class="my-class" id="my-id" loading="auto" src="/media/1/test.jpg" alt="test">',
-             Media::first()->img(['class' => 'my-class', 'id' => 'my-id'])
-        );
-    }
-
-    /** @test */
-    public function both_the_conversion_and_extra_attributes_can_be_passed_as_the_first_arugment()
-    {
-        $this->assertEquals(
-            '<img class="my-class" id="my-id" loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-             Media::first()->img(['class' => 'my-class', 'id' => 'my-id', 'conversion' => 'thumb'])
+             $this->firstMedia()->img('thumb', ['class' => 'my-class', 'id' => 'my-id']),
         );
     }
 
     /** @test */
     public function a_media_instance_is_htmlable()
     {
-        $media = Media::first();
+        $media = $this->firstMedia();
 
         $renderedView = $this->renderView('media', compact('media'));
 
-        $this->assertEquals('<img loading="auto" src="/media/1/test.jpg" alt="test"> <img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">', $renderedView);
+        $this->assertEquals(
+            '<img loading="auto" src="/media/1/test.jpg" alt="test"> <img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            $renderedView,
+        );
     }
 
     /** @test */
@@ -140,5 +131,28 @@ class ToHtmlTest extends TestCase
 
         $eagerConversionImageTag = $media->refresh()->img('eager-conversion');
         $this->assertEquals('<img loading="eager" src="/media/2/conversions/test-eager-conversion.jpg" alt="test">', $eagerConversionImageTag);
+    }
+
+    /** @test */
+    public function it_has_a_shorthand_function_to_use_lazy_loading()
+    {
+        $this->assertEquals(
+            '<img loading="lazy" src="/media/1/test.jpg" alt="test">',
+            $this->firstMedia()->img()->lazy()
+        );
+    }
+
+    /** @test */
+    public function it_can_manually_set_the_lazy_attribute()
+    {
+        $this->assertEquals(
+            '<img loading="lazy" src="/media/1/test.jpg" alt="test">',
+            $this->firstMedia()->img()->loading('lazy')
+        );
+    }
+
+    protected function firstMedia(): Media
+    {
+        return Media::first();
     }
 }
