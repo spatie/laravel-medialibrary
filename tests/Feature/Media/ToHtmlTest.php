@@ -143,15 +143,6 @@ class ToHtmlTest extends TestCase
     }
 
     /** @test */
-    public function it_can_manually_set_the_lazy_attribute()
-    {
-        $this->assertEquals(
-            '<img loading="lazy" src="/media/1/test.jpg" alt="test">',
-            $this->firstMedia()->img()->loading('lazy')
-        );
-    }
-
-    /** @test */
     public function it_can_set_extra_attributes()
     {
         $this->assertEquals(

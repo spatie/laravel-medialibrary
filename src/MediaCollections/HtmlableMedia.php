@@ -36,16 +36,11 @@ class HtmlableMedia implements Htmlable
         return $this;
     }
 
-    public function loading(string $loadingAttributeValue): self
-    {
-        $this->loadingAttributeValue = $loadingAttributeValue;
-
-        return $this;
-    }
-
     public function lazy(): self
     {
-        return $this->loading('lazy');
+        $this->loadingAttributeValue = ('lazy');
+
+        return $this;
     }
 
     public function toHtml()
@@ -73,10 +68,8 @@ class HtmlableMedia implements Htmlable
             $loadingAttributeValue = $this->loadingAttributeValue;
         }
 
-        $media = $this;
 
         $viewName = 'image';
-
         $width = '';
 
         if ($this->media->hasResponsiveImages($this->conversionName)) {

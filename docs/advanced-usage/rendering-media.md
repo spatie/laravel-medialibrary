@@ -29,13 +29,7 @@ You can extra attributes by calling `attributes`.
 Here is the image with some attributes: {{ $media->attributes(['class' => 'my-class']) }}
 ```
 
-If you want [defer loading offscreen images](https://css-tricks.com/native-lazy-loading/) you can use the `loading` function. Valid values are `lazy`, `eager` and `auto`.
-
- ```blade
-Lazy loading this one: {{ $media()->loading('lazy') }}
-```
-
-You can also use the `lazy` shorthand.
+If you want [defer loading offscreen images](https://css-tricks.com/native-lazy-loading/) you can use the `lazy` function.
 
  ```blade
 Lazy loading this one: {{ $media()->lazy() }}
