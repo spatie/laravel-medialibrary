@@ -49,7 +49,7 @@ class Filesystem
         $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
 
         if ($file->getDisk() === $media->disk) {
-            $this->copyFileOnDisk($file->getKey(), $destination, $file->getDisk());
+            $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
 
             return;
         }
@@ -68,7 +68,7 @@ class Filesystem
         $this->streamFileToDisk(
             $storage->getDriver()->readStream($file->getKey()),
             $destination,
-            $file->getDisk(),
+            $media->disk,
             $headers
         );
     }
