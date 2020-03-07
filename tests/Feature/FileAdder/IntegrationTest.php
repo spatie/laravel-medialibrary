@@ -309,6 +309,20 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_natively_copy_a_remote_file_from_the_same_disk_to_the_media_library()
+    {
+        Storage::disk('public')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+        $this->assertFileExists($this->getMediaDirectory("tmp/test.jpg"));
+
+        $media = $this->testModel
+            ->addMediaFromDisk('tmp/test.jpg', 'public')
+            ->toMediaCollection();
+
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory("tmp/test.jpg"));
+    }
+
+    /** @test */
     public function it_can_add_a_remote_file_with_a_space_in_the_name_to_the_media_library()
     {
         $url = 'http://spatie.github.io/laravel-medialibrary/tests/Support/testfiles/test%20with%20space.jpg';
