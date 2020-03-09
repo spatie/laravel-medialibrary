@@ -2,14 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 7.19.2 - 2020-03-09
+## 7.19.3 - 2020-03-09
 
 - fix responsive images extension (#1752)
 - use native file copy (#1758)
 
+## 7.19.2 - 2020-03-04
+
+- revert changes in 7.19.1
+
 ## 7.19.1 - 2020-03-04
 
-- Update S3 url generator to use media disk #1755
+- Update S3 url generator to use media disk (#1755)
 
 ## 7.19.0 - 2020-03-03
 

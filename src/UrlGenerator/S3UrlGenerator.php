@@ -35,7 +35,7 @@ class S3UrlGenerator extends BaseUrlGenerator
 
         $url = $this->versionUrl($url);
 
-        return config('medialibrary.'.$this->media->disk.'.domain').'/'.$url;
+        return config('medialibrary.s3.domain').'/'.$url;
     }
 
     /**
@@ -76,6 +76,6 @@ class S3UrlGenerator extends BaseUrlGenerator
             $url = $root.'/'.$url;
         }
 
-        return config('medialibrary.'.$this->media->disk.'.domain').'/'.$url;
+        return config('medialibrary.s3.domain').'/'.$url;
     }
 }
