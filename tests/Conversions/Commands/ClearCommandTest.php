@@ -2,9 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
 
-use Illuminate\Support\Facades\Artisan;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
 class ClearCommandTest extends TestCase
 {

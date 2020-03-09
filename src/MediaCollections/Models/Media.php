@@ -11,16 +11,16 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
-use Spatie\MediaLibrary\Support\File;
-use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model implements Responsable, Htmlable
@@ -171,7 +171,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $conversions = ConversionCollection::createForMedia($this);
 
-        return $conversions->map(fn(Conversion $conversion) => $conversion->getName())->toArray();
+        return $conversions->map(fn (Conversion $conversion) => $conversion->getName())->toArray();
     }
 
     public function hasGeneratedConversion(string $conversionName): bool

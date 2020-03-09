@@ -3,12 +3,11 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
-use Spatie\MediaLibrary\MediaCollections\MediaRepository;
+use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\CleanCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\ClearCommand;
-use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
@@ -42,17 +41,17 @@ class MediaLibraryServiceProvider extends ServiceProvider
     protected function registerPublishables(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/media-library.php' => config_path('media-library.php'),
+            __DIR__.'/../config/media-library.php' => config_path('media-library.php'),
         ], 'config');
 
-        if (!class_exists('CreateMediaTable')) {
+        if (! class_exists('CreateMediaTable')) {
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_media_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_media_table.php'),
+                __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
             ], 'migrations');
         }
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/media-library'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/media-library'),
         ], 'views');
     }
 

@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Imagick;
 use ImagickPixel;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 
 class Svg extends ImageGenerator
 {

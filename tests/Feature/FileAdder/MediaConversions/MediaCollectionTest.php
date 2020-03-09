@@ -5,9 +5,9 @@ namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
-use Spatie\MediaLibrary\Tests\TestCase;
 
 class MediaCollectionTest extends TestCase
 {
@@ -141,7 +141,7 @@ class MediaCollectionTest extends TestCase
             {
                 $this
                     ->addMediaCollection('images')
-                    ->acceptsFile(fn(File $file) => $file->mimeType === 'image/jpeg');
+                    ->acceptsFile(fn (File $file) => $file->mimeType === 'image/jpeg');
             }
         };
 
@@ -242,7 +242,7 @@ class MediaCollectionTest extends TestCase
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertFalse($model->getMedia('images')->contains(fn($model) => $model->is($firstFile)));
+        $this->assertFalse($model->getMedia('images')->contains(fn ($model) => $model->is($firstFile)));
         $this->assertCount(3, $model->getMedia('images'));
     }
 }

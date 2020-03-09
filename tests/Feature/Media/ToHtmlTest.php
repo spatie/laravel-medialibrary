@@ -4,10 +4,8 @@ namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class ToHtmlTest extends TestCase
@@ -147,7 +145,7 @@ class ToHtmlTest extends TestCase
     {
         $this->assertEquals(
             '<img extra="value" loading="auto" src="/media/1/test.jpg" alt="test">',
-            (string)$this->firstMedia()->img()->attributes(['extra' => 'value'])
+            (string) $this->firstMedia()->img()->attributes(['extra' => 'value'])
         );
     }
 

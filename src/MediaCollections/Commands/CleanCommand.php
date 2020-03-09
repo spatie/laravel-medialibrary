@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
 
 class CleanCommand extends Command
 {
@@ -110,7 +110,7 @@ class CleanCommand extends Command
         $currentFilePaths = $this->fileSystem->disk($media->disk)->files($conversionPath);
 
         collect($currentFilePaths)
-            ->reject(fn(string $currentFilePath) => $conversionFilePaths->contains(basename($currentFilePath)))
+            ->reject(fn (string $currentFilePath) => $conversionFilePaths->contains(basename($currentFilePath)))
             ->each(function (string $currentFilePath) use ($media) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($media->disk)->delete($currentFilePath);
@@ -125,14 +125,14 @@ class CleanCommand extends Command
     protected function deleteResponsiveImagesForDeprecatedConversions(Media $media): void
     {
         $conversionNames = ConversionCollection::createForMedia($media)
-            ->map(fn(Conversion $conversion) => $conversion->getName())
+            ->map(fn (Conversion $conversion) => $conversion->getName())
             ->push('media_library_original');
 
         $responsiveImagesGeneratedFor = array_keys($media->responsive_images);
 
         collect($responsiveImagesGeneratedFor)
-            ->map(fn(string $generatedFor) => $media->responsiveImages($generatedFor))
-            ->reject(fn(RegisteredResponsiveImages $responsiveImages) => $conversionNames->contains($responsiveImages->generatedFor))
+            ->map(fn (string $generatedFor) => $media->responsiveImages($generatedFor))
+            ->reject(fn (RegisteredResponsiveImages $responsiveImages) => $conversionNames->contains($responsiveImages->generatedFor))
             ->each(function (RegisteredResponsiveImages $responsiveImages) {
                 if (! $this->isDryRun) {
                     $responsiveImages->delete();
@@ -154,8 +154,8 @@ class CleanCommand extends Command
         $mediaIds = collect($this->mediaRepository->all()->pluck($keyName)->toArray());
 
         collect($this->fileSystem->disk($diskName)->directories())
-            ->filter(fn(string $directory) => is_numeric($directory))
-            ->reject(fn(string $directory) => $mediaIds->contains((int) $directory))->each(function (string $directory) use ($diskName) {
+            ->filter(fn (string $directory) => is_numeric($directory))
+            ->reject(fn (string $directory) => $mediaIds->contains((int) $directory))->each(function (string $directory) use ($diskName) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }
@@ -175,7 +175,7 @@ class CleanCommand extends Command
         $generatedConversionName = null;
 
         $media->getGeneratedConversions()
-            ->filter(fn(bool $isGenerated, string $generatedConversionName) => Str::contains($conversionFile, $generatedConversionName))
+            ->filter(fn (bool $isGenerated, string $generatedConversionName) => Str::contains($conversionFile, $generatedConversionName))
             ->each(function (bool $isGenerated, string $generatedConversionName) use ($media) {
                 $media->markAsConversionGenerated($generatedConversionName, false);
             });

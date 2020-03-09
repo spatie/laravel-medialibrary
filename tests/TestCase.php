@@ -2,12 +2,10 @@
 
 namespace Spatie\MediaLibrary\Tests;
 
-use Carbon\Carbon;
 use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Artisan;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
@@ -97,16 +95,16 @@ abstract class TestCase extends Orchestra
         config()->set('filesystems.disks.public', [
             'driver' => 'local',
             'root' => $this->getMediaDirectory(),
-            'url' => '/media'
+            'url' => '/media',
         ]);
 
         config()->set('filesystems.disks.secondMediaDisk', [
             'driver' => 'local',
             'root' => $this->getTempDirectory('media2'),
-            'url' => '/media2'
+            'url' => '/media2',
         ]);
 
-        $app->bind('path.public', fn() => $this->getTempDirectory());
+        $app->bind('path.public', fn () => $this->getTempDirectory());
 
         config()->set('app.key', '6rE9Nz59bGRbeMATftriyQjrpF7DcOQm');
 
@@ -152,10 +150,9 @@ abstract class TestCase extends Orchestra
     {
         if ($suffix !== '') {
             $suffix = "/{$suffix}";
-
         }
 
-        return __DIR__ . $suffix;
+        return __DIR__.$suffix;
     }
 
     public function getTempDirectory($suffix = ''): string
@@ -255,7 +252,7 @@ abstract class TestCase extends Orchestra
         );
     }
 
-    protected function assertFileDoesntExistsInZip(string $zipPath, string$filename)
+    protected function assertFileDoesntExistsInZip(string $zipPath, string $filename)
     {
         $this->assertFalse(
             $this->fileExistsInZip($zipPath, $filename),

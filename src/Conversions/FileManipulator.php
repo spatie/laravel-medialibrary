@@ -2,21 +2,18 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
-use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Spatie\MediaLibrary\Support\File as MediaLibraryFileHelper;
-use Spatie\MediaLibrary\Support\ImageFactory;
-use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
-use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\Support\ImageFactory;
+use Spatie\MediaLibrary\Support\TemporaryDirectory;
 
 class FileManipulator
 {
@@ -24,9 +21,9 @@ class FileManipulator
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
-        if (!empty($only)) {
+        if (! empty($only)) {
             $profileCollection = $profileCollection->filter(
-                fn(Conversion $conversion) => in_array($conversion->getName(), $only)
+                fn (Conversion $conversion) => in_array($conversion->getName(), $only)
             );
         }
 
@@ -51,7 +48,7 @@ class FileManipulator
 
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
-        if (!$imageGenerator) {
+        if (! $imageGenerator) {
             return;
         }
 
@@ -59,7 +56,7 @@ class FileManipulator
 
         $copiedOriginalFile = $this->filesystem()->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(Str::random(16) . '.' . $media->extension)
+            $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
         );
 
         $conversions
@@ -145,7 +142,7 @@ class FileManipulator
         string $fileNameWithDirectory,
         string $newFileNameWithoutDirectory): string
     {
-        $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME) . '/' . $newFileNameWithoutDirectory;
+        $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME).'/'.$newFileNameWithoutDirectory;
 
         rename($fileNameWithDirectory, $targetFile);
 
@@ -161,7 +158,7 @@ class FileManipulator
     {
         $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
 
-        $fileName = Str::random(16) . "{$conversion->getName()}.{$media->extension}";
+        $fileName = Str::random(16)."{$conversion->getName()}.{$media->extension}";
 
         return "{$directory}/{$fileName}";
     }

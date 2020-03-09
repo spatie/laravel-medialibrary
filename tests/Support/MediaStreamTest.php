@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Support;
 
 use Illuminate\Support\Facades\Route;
-use Spatie\MediaLibrary\Support\MediaStream;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\MediaStream;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -31,7 +31,7 @@ class MediaStreamTest extends TestCase
 
         $this->assertEquals(count(Media::all()), $zipStreamResponse->getMediaItems()->count());
 
-        Route::get('stream-test', fn() => $zipStreamResponse);
+        Route::get('stream-test', fn () => $zipStreamResponse);
 
         $response = $this->get('stream-test');
 

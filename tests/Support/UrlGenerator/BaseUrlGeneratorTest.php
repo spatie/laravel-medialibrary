@@ -7,8 +7,8 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\MediaLibrary\Tests\TestCase;
 
 class BaseUrlGeneratorTest extends TestCase
 {

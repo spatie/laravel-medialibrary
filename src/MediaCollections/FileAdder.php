@@ -6,20 +6,18 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\RemoteFile;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
-use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
-use Spatie\MediaLibrary\MediaCollections\MediaCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -62,7 +60,7 @@ class FileAdder
     {
         $this->filesystem = $fileSystem;
 
-        $this->fileNameSanitizer = fn($fileName) => $this->defaultSanitizer($fileName);
+        $this->fileNameSanitizer = fn ($fileName) => $this->defaultSanitizer($fileName);
     }
 
     public function setSubject(Model $subject): self
@@ -344,7 +342,6 @@ class FileAdder
         }
     }
 
-
     public function defaultSanitizer(string $fileName): string
     {
         return str_replace(['#', '/', '\\', ' '], '-', $fileName);
@@ -424,7 +421,7 @@ class FileAdder
         $this->subject->registerMediaCollections();
 
         return collect($this->subject->mediaCollections)
-            ->first(fn(MediaCollection $collection) => $collection->name === $collectionName);
+            ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
     }
 
     protected function guardAgainstDisallowedFileAdditions(Media $media)

@@ -312,14 +312,14 @@ class IntegrationTest extends TestCase
     public function it_can_natively_copy_a_remote_file_from_the_same_disk_to_the_media_library()
     {
         Storage::disk('public')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
-        $this->assertFileExists($this->getMediaDirectory("tmp/test.jpg"));
+        $this->assertFileExists($this->getMediaDirectory('tmp/test.jpg'));
 
         $media = $this->testModel
             ->addMediaFromDisk('tmp/test.jpg', 'public')
             ->toMediaCollection();
 
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory("tmp/test.jpg"));
+        $this->assertFileNotExists($this->getMediaDirectory('tmp/test.jpg'));
     }
 
     /** @test */
@@ -399,7 +399,7 @@ class IntegrationTest extends TestCase
     {
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
-            ->sanitizingFileName(fn($fileName) => 'new_file_name.jpg')
+            ->sanitizingFileName(fn ($fileName) => 'new_file_name.jpg')
             ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);

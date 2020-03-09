@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Tests\ResponsiveImages;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
 use Spatie\MediaLibrary\Tests\TestCase;

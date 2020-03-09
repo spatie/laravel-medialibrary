@@ -2,12 +2,11 @@
 
 namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\TestCase;
 
 class CleanConversionsTest extends TestCase
 {
