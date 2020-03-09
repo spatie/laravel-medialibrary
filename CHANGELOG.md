@@ -13,7 +13,6 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - added progress bar on the clean command (#1623)
 - the `UrlGenerator` interface now contains all required methods (#1656)
 - use PHP 7.4 features where possible
-- the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\MediaLibrary`. All code where `MediaLibrary` was used is renamed to `MediaLibrary`
 - added support for the `loading` attribute (#1667)
 - conversion files can now be named using the `conversion_file_namer` key in the `media-library` config file (#1636)
 - improved naming of classes and namespaces.
