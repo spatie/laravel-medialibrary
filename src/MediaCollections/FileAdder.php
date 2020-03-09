@@ -156,7 +156,7 @@ class FileAdder
         return $this;
     }
 
-    public function storingConversionsOnDisk(string $diskName)
+    public function storingConversionsOnDisk(string $diskName): self
     {
         $this->conversionsDiskName = $diskName;
 
