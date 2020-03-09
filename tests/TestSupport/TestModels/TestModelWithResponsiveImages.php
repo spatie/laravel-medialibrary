@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
 
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithResponsiveImages extends TestModel
@@ -15,5 +16,12 @@ class TestModelWithResponsiveImages extends TestModel
 
         $this->addMediaConversion('otherImageConversion')
             ->greyscale();
+
+        $this->addMediaConversion('pngtojpg')
+            ->width(700)
+            ->quality(1)
+            ->background('blue')
+            ->format(Manipulations::FORMAT_JPG)
+            ->withResponsiveImages();
     }
 }

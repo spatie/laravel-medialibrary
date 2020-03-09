@@ -79,7 +79,11 @@ class ResponsiveImageGenerator
         int $targetWidth,
         BaseTemporaryDirectory $temporaryDirectory
     ): void {
-        $responsiveImagePath = $this->appendToFileName($media->file_name, "___{$conversionName}_{$targetWidth}");
+        $responsiveImagePath = $this->appendToFileName(
+            $media->file_name,
+            "___{$conversionName}_{$targetWidth}",
+            $baseImage
+        );
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
@@ -134,11 +138,11 @@ class ResponsiveImageGenerator
         ResponsiveImage::registerTinySvg($media, $base64Svg, $conversionName);
     }
 
-    protected function appendToFileName(string $filePath, string $suffix): string
+    protected function appendToFileName(string $filePath, string $suffix, string $extensionFilePath = null): string
     {
         $baseName = pathinfo($filePath, PATHINFO_FILENAME);
 
-        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $extension = pathinfo($extensionFilePath ?? $filePath, PATHINFO_EXTENSION);
 
         return "{$baseName}{$suffix}.{$extension}";
     }

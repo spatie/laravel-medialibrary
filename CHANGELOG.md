@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 8.0.0 - 2020-XX-XX
+## 8.0.0 - 2020-03-09
 
 - added `uuid` on `media` table
 - an empty string is now a proper collection name. `getMedia('')` will not return media from the default collection anymore (#1697).
@@ -19,6 +19,11 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - improved naming of classes and namespaces.
 
 To learn how to upgrade, take a look in UPGRADING.md
+
+## 7.19.3 - 2020-03-09
+
+- fix responsive images extension (#1752)
+- use native file copy (#1758)
 
 ## 7.19.2 - 2020-03-04
 
