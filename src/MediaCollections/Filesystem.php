@@ -44,11 +44,17 @@ class Filesystem
 
     public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
-        $storage = Storage::disk($file->getDisk());
-
         $destinationFileName = $targetFileName ?: $file->getFilename();
 
         $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
+
+        if ($file->getDisk() === $media->disk) {
+            $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
+
+            return;
+        }
+
+        $storage = Storage::disk($file->getDisk());
 
         $headers = $media->getDiskDriverName() === 'local'
             ? []
@@ -58,11 +64,28 @@ class Filesystem
                 $storage->mimeType($file->getKey())
             );
 
-        $this->filesystem->disk($media->disk)
+
+        $this->streamFileToDisk(
+            $storage->getDriver()->readStream($file->getKey()),
+            $destination,
+            $media->disk,
+            $headers
+        );
+    }
+
+    protected function copyFileOnDisk(string $file, string $destination, string $disk): void
+    {
+        $this->filesystem->disk($disk)
+            ->copy($file, $destination);
+    }
+
+    protected function streamFileToDisk($stream, string $destination, string $disk, array $headers): void
+    {
+        $this->filesystem->disk($disk)
             ->getDriver()->writeStream(
                 $destination,
-                $storage->getDriver()->readStream($file->getKey()),
-                $headers,
+                $stream,
+                $headers
             );
     }
 
