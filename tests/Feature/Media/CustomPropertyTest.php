@@ -1,16 +1,15 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class CustomPropertyTest extends TestCase
 {
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    protected $media;
+    protected Media $media;
 
-    /** @var \Spatie\MediaLibrary\Models\Media */
-    protected $mediaWithoutCustomProperty;
+    protected Media $mediaWithoutCustomProperty;
 
     public function setUp(): void
     {

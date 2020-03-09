@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\Exceptions\InvalidConversion;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class GetPathTest extends TestCase

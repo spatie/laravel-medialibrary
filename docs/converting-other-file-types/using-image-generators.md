@@ -3,9 +3,10 @@ title: Using image generators
 weight: 1
 ---
 
-The medialibrary has built-in support to convert images. To generate conversions of other media types – most notably PDFs and videos – the medialibrary uses a image generators to create a derived image file of the media. 
+The media library has built-in support to convert images. To generate conversions of other media types – most notably PDFs and videos – the medialibrary uses a image generators to create a derived image file of the media. 
 
 Conversion of specific file type are defined in the exact same way as images:
+
 ```php
 $this->addMediaConversion('thumb')
      ->width(368)
@@ -13,10 +14,11 @@ $this->addMediaConversion('thumb')
      ->performOnCollections('videos');
 ```
 
-The medialibrary includes image generators for the following file types:
-- [PDF](/laravel-medialibrary/v7/converting-other-file-types/using-image-generators#pdf)
-- [SVG](/laravel-medialibrary/v7/converting-other-file-types/using-image-generators#svg)
-- [Video](/laravel-medialibrary/v7/converting-other-file-types/using-image-generators#video)
+The media library includes image generators for the following file types:
+
+- [PDF](/laravel-medialibrary/v8/converting-other-file-types/using-image-generators#pdf)
+- [SVG](/laravel-medialibrary/v8/converting-other-file-types/using-image-generators#svg)
+- [Video](/laravel-medialibrary/v8/converting-other-file-types/using-image-generators#video)
 
 ## PDF
 
@@ -31,7 +33,7 @@ The only requirement to perform a conversion of a SVG file is [Imagick](http://p
 The video image generator uses the [PHP-FFMpeg](https://github.com/PHP-FFMpeg/PHP-FFMpeg) package that you can install via composer:
 
 ```bash
-$ composer require php-ffmpeg/php-ffmpeg
+composer require php-ffmpeg/php-ffmpeg
 ```
 
 You'll also need to follow `FFmpeg` installation instructions on their [official website](https://ffmpeg.org/download.html).

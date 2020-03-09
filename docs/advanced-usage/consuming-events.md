@@ -3,7 +3,7 @@ title: Consuming events
 weight: 8
 ---
 
-The medialibrary will fire the following events that your handlers can listen for:
+The media library will fire the following events that your handlers can listen for:
 
 ### MediaHasBeenAdded
 This event is fired after the a file has been saved to disk.
@@ -42,7 +42,7 @@ First you must created a listener class. Here's one that will log the paths of a
 namespace App\Listeners;
 
 use Log;
-use Spatie\MediaLibrary\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 
 class MediaLogger
 {
@@ -59,7 +59,7 @@ Hook it up in `app/Providers/EventServiceProvider.php` to let Laravel know that 
 
 ```php
 protected $listen = [
-    'Spatie\MediaLibrary\Events\MediaHasBeenAdded' => [
+    'Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded' => [
         'App\Listeners\MediaLogger'
     ],
 ];

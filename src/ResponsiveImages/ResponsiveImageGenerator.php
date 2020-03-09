@@ -3,13 +3,13 @@
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\Events\ResponsiveImagesGenerated;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
-use Spatie\MediaLibrary\Helpers\File;
-use Spatie\MediaLibrary\Helpers\ImageFactory;
-use Spatie\MediaLibrary\Helpers\TemporaryDirectory;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
+use Spatie\MediaLibrary\MediaCollections\Filesystem;
+use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\ImageFactory;
+use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
@@ -17,14 +17,11 @@ use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 
 class ResponsiveImageGenerator
 {
-    /** \Spatie\MediaLibrary\Filesystem\Filesystem */
-    protected $filesystem;
+    protected Filesystem $filesystem;
 
-    /** \Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator */
-    protected $widthCalculator;
+    protected WidthCalculator $widthCalculator;
 
-    /** \Spatie\MediaLibrary\ResponsiveImages\TinyPlaceHolderGenerator\TinyPlaceHolderGenerator */
-    protected $tinyPlaceholderGenerator;
+    protected TinyPlaceholderGenerator $tinyPlaceholderGenerator;
 
     public function __construct(
         Filesystem $filesystem,
@@ -38,7 +35,7 @@ class ResponsiveImageGenerator
         $this->tinyPlaceholderGenerator = $tinyPlaceholderGenerator;
     }
 
-    public function generateResponsiveImages(Media $media)
+    public function generateResponsiveImages(Media $media): void
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
@@ -50,17 +47,17 @@ class ResponsiveImageGenerator
         $media = $this->cleanResponsiveImages($media);
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, 'medialibrary_original', $width, $temporaryDirectory);
+            $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $width, $temporaryDirectory);
         }
 
         event(new ResponsiveImagesGenerated($media));
 
-        $this->generateTinyJpg($media, $baseImage, 'medialibrary_original', $temporaryDirectory);
+        $this->generateTinyJpg($media, $baseImage, 'media_library_original', $temporaryDirectory);
 
         $temporaryDirectory->delete();
     }
 
-    public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage)
+    public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage): void
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
@@ -81,8 +78,12 @@ class ResponsiveImageGenerator
         string $conversionName,
         int $targetWidth,
         BaseTemporaryDirectory $temporaryDirectory
-    ) {
-        $responsiveImagePath = $this->appendToFileName($media->file_name, "___{$conversionName}_{$targetWidth}", $baseImage);
+    ): void {
+        $responsiveImagePath = $this->appendToFileName(
+            $media->file_name,
+            "___{$conversionName}_{$targetWidth}",
+            $baseImage
+        );
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
@@ -104,8 +105,12 @@ class ResponsiveImageGenerator
         ResponsiveImage::register($media, $finalImageFileName, $conversionName);
     }
 
-    public function generateTinyJpg(Media $media, string $originalImagePath, string $conversionName, BaseTemporaryDirectory $temporaryDirectory)
-    {
+    public function generateTinyJpg(
+        Media $media,
+        string $originalImagePath,
+        string $conversionName,
+        BaseTemporaryDirectory $temporaryDirectory
+    ): void {
         $tempDestination = $temporaryDirectory->path('tiny.jpg');
 
         $this->tinyPlaceholderGenerator->generateTinyPlaceholder($originalImagePath, $tempDestination);
@@ -122,7 +127,7 @@ class ResponsiveImageGenerator
 
         $originalImageHeight = $originalImage->getHeight();
 
-        $svg = view('medialibrary::placeholderSvg', compact(
+        $svg = view('media-library::placeholderSvg', compact(
             'originalImageWidth',
             'originalImageHeight',
             'tinyImageBase64'
@@ -139,23 +144,21 @@ class ResponsiveImageGenerator
 
         $extension = pathinfo($extensionFilePath ?? $filePath, PATHINFO_EXTENSION);
 
-        return $baseName.$suffix.'.'.$extension;
+        return "{$baseName}{$suffix}.{$extension}";
     }
 
-    protected function guardAgainstInvalidTinyPlaceHolder(string $tinyPlaceholderPath)
+    protected function guardAgainstInvalidTinyPlaceHolder(string $tinyPlaceholderPath): void
     {
         if (! file_exists($tinyPlaceholderPath)) {
             throw InvalidTinyJpg::doesNotExist($tinyPlaceholderPath);
         }
 
-        $mimeType = File::getMimetype($tinyPlaceholderPath);
-
-        if ($mimeType !== 'image/jpeg') {
+        if (File::getMimeType($tinyPlaceholderPath) !== 'image/jpeg') {
             throw InvalidTinyJpg::hasWrongMimeType($tinyPlaceholderPath);
         }
     }
 
-    protected function cleanResponsiveImages(Media $media, string $conversionName = 'medialibrary_original'): Media
+    protected function cleanResponsiveImages(Media $media, string $conversionName = 'media_library_original'): Media
     {
         $responsiveImages = $media->responsive_images;
         $responsiveImages[$conversionName]['urls'] = [];

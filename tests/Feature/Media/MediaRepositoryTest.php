@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\MediaRepository;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestCustomMediaModel;
+use Spatie\MediaLibrary\MediaCollections\MediaRepository;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class MediaRepositoryTest extends TestCase
@@ -12,7 +12,7 @@ class MediaRepositoryTest extends TestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('medialibrary.media_model', TestCustomMediaModel::class);
+        $app['config']->set('media-library.media_model', TestCustomMediaModel::class);
     }
 
     /** @test */

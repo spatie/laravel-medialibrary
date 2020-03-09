@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator;
 
-use Spatie\MediaLibrary\Helpers\ImageFactory;
+use Spatie\MediaLibrary\Support\ImageFactory;
 
 class Blurred implements TinyPlaceholderGenerator
 {
-    public function generateTinyPlaceholder(string $sourceImagePath, string $tinyImageDestinationPath)
+    public function generateTinyPlaceholder(string $sourceImagePath, string $tinyImageDestinationPath): void
     {
         $sourceImage = ImageFactory::load($sourceImagePath);
 

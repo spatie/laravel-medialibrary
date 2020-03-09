@@ -6,7 +6,7 @@ weight: 3
 To retrieve files you can use the `getMedia`-method:
 
 ```php
-$mediaItems = $newsItem->getMedia();
+$mediaItems = $yourModel->getMedia();
 ```
 
 The method returns a collection of `Media`-objects.
@@ -20,13 +20,13 @@ $fullPathOnDisk = $mediaItems[0]->getPath();
 $temporaryS3Url = $mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5));
 ```
 
-If you want to retrieve versioned media urls, for example when needing cache busting, you can enable versioning by setting the `version_urls` config value to `true` in your `medialibrary.php` config file. The `getUrl()` and `getFullUrl()` functions will return the url with a version string based on the `updated_at` column of the media model.
+If you want to retrieve versioned media urls, for example when needing cache busting, you can enable versioning by setting the `version_urls` config value to `true` in your `media-library.php` config file. The `getUrl()` and `getFullUrl()` functions will return the url with a version string based on the `updated_at` column of the media model.
 
 Since retrieving the first media and the url for the first media for an object is such a common scenario, the `getFirstMedia` and `getFirstMediaUrl` convenience-methods are also provided:
 
 ```php
-$media = $newsItem->getFirstMedia();
-$url = $newsItem->getFirstMediaUrl();
+$media = $yourModel->getFirstMedia();
+$url = $yourModel->getFirstMediaUrl();
 ```
 
 An instance of `Media` also has a name, by default its filename:
@@ -38,10 +38,10 @@ $mediaItems[0]->name = 'new name';
 $mediaItems[0]->save(); // The new name gets saved.
 ```
 
-The name of a `Media` instance can be changed when it's added to the medialibrary:
+The name of a `Media` instance can be changed when it's added to the media library:
 
 ```php
-$newsItem
+$yourModel
    ->addMedia($pathToFile)
    ->usingName('new name')
    ->toMediaCollection();
@@ -57,7 +57,7 @@ $mediaItems[0]->save(); // Saving will also rename the file on the filesystem.
 The name of the uploaded file can also be changed when it gets added to the media-library:
 
 ```php
-$newsItem
+$yourModel
    ->addMedia($pathToFile)
    ->usingFileName('otherFileName.txt')
    ->toMediaCollection();
@@ -66,7 +66,7 @@ $newsItem
 You can sanitize the filename using a callable:
 
 ```php
-$newsItem
+$yourModel
    ->addMedia($pathToFile)
    ->sanitizingFileName(function($fileName) {
       return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
@@ -98,25 +98,25 @@ When a `Media` instance gets deleted all related files will be removed from the 
 Deleting a model with associated media will also delete all associated files.
 
 ```php
-$newsItem->delete(); // all associated files will be deleted as well
+$yourModel->delete(); // all associated files will be deleted as well
 ```
 
 You may delete a model without removing associated media by calling the `deletePreservingMedia` method instead of `delete`.
 
 ```php
-$newsItem->deletePreservingMedia(); // all associated files will be preserved 
+$yourModel->deletePreservingMedia(); // all associated files will be preserved 
 ```
 
 If you want to remove all associated media in a specific collection you can use the `clearMediaCollection` method. It also accepts the collection name as an optional parameter:
 
 ```php
-$newsItem->clearMediaCollection(); // all media will be deleted
+$yourModel->clearMediaCollection(); // all media will be deleted
 
-$newsItem->clearMediaCollection('images'); // all media in the images collection will be deleted
+$yourModel->clearMediaCollection('images'); // all media in the images collection will be deleted
 ```
 
 Also, there is a `clearMediaCollectionExcept` method which can be useful if you want to remove only few or some selected media in a collection. It accepts the collection name as the first argument and the media instance or collection of media instances which should not be removed as the second argument:
 
 ```php
-$newsItem->clearMediaCollectionExcept('images', $newsItem->getFirstMedia()); // This will remove all associated media in the 'images' collection except the first media
+$yourModel->clearMediaCollectionExcept('images', $yourModel->getFirstMedia()); // This will remove all associated media in the 'images' collection except the first media
 ```

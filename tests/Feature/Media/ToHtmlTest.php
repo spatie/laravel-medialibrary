@@ -1,9 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -24,50 +27,41 @@ class ToHtmlTest extends TestCase
     /** @test */
     public function it_can_render_itself_as_an_image()
     {
-        $this->assertEquals('<img src="/media/1/test.jpg" alt="test">', Media::first()->img());
+        $this->assertEquals(
+            '<img loading="auto" src="/media/1/test.jpg" alt="test">',
+            $this->firstMedia()->img(),
+        );
     }
 
     /** @test */
     public function it_can_render_a_conversion_of_itself_as_an_image()
     {
-        $this->assertEquals('<img src="/media/1/conversions/test-thumb.jpg" alt="test">', Media::first()->img('thumb'));
+        $this->assertEquals(
+            '<img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            $this->firstMedia()->img('thumb')
+        );
     }
 
     /** @test */
     public function it_can_render_extra_attributes()
     {
         $this->assertEquals(
-            '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-             Media::first()->img('thumb', ['class' => 'my-class', 'id' => 'my-id'])
-        );
-    }
-
-    /** @test */
-    public function attributes_can_be_passed_to_the_first_argument()
-    {
-        $this->assertEquals(
-            '<img class="my-class" id="my-id" src="/media/1/test.jpg" alt="test">',
-             Media::first()->img(['class' => 'my-class', 'id' => 'my-id'])
-        );
-    }
-
-    /** @test */
-    public function both_the_conversion_and_extra_attributes_can_be_passed_as_the_first_arugment()
-    {
-        $this->assertEquals(
-            '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-             Media::first()->img(['class' => 'my-class', 'id' => 'my-id', 'conversion' => 'thumb'])
+            '<img class="my-class" id="my-id" loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+             $this->firstMedia()->img('thumb', ['class' => 'my-class', 'id' => 'my-id']),
         );
     }
 
     /** @test */
     public function a_media_instance_is_htmlable()
     {
-        $media = Media::first();
+        $media = $this->firstMedia();
 
         $renderedView = $this->renderView('media', compact('media'));
 
-        $this->assertEquals('<img src="/media/1/test.jpg" alt="test"> <img src="/media/1/conversions/test-thumb.jpg" alt="test">', $renderedView);
+        $this->assertEquals(
+            '<img loading="auto" src="/media/1/test.jpg" alt="test"> <img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            $renderedView,
+        );
     }
 
     /** @test */
@@ -110,7 +104,7 @@ class ToHtmlTest extends TestCase
     /** @test */
     public function it_will_not_rendering_extra_javascript_or_including_base64_svg_when_tiny_placeholders_are_turned_off()
     {
-        config()->set('medialibrary.responsive_images.use_tiny_placeholders', false);
+        config()->set('media-library.responsive_images.use_tiny_placeholders', false);
 
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
@@ -119,6 +113,46 @@ class ToHtmlTest extends TestCase
 
         $imgTag = $media->refresh()->img();
 
-        $this->assertEquals('<img srcset="http://localhost/media/2/responsive-images/test___medialibrary_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___medialibrary_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___medialibrary_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
+        $this->assertEquals('<img loading="auto" srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
+    }
+
+    /** @test */
+    public function the_loading_attribute_can_be_specified_on_the_conversion()
+    {
+        $media = TestModelWithCustomLoadingAttribute::create(['name' => 'test'])
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection();
+
+        $originalImgTag = $media->refresh()->img();
+        $this->assertEquals('<img loading="auto" src="/media/2/test.jpg" alt="test">', $originalImgTag);
+
+        $lazyConversionImageTag = $media->refresh()->img('lazy-conversion');
+        $this->assertEquals('<img loading="lazy" src="/media/2/conversions/test-lazy-conversion.jpg" alt="test">', $lazyConversionImageTag);
+
+        $eagerConversionImageTag = $media->refresh()->img('eager-conversion');
+        $this->assertEquals('<img loading="eager" src="/media/2/conversions/test-eager-conversion.jpg" alt="test">', $eagerConversionImageTag);
+    }
+
+    /** @test */
+    public function it_has_a_shorthand_function_to_use_lazy_loading()
+    {
+        $this->assertEquals(
+            '<img loading="lazy" src="/media/1/test.jpg" alt="test">',
+            $this->firstMedia()->img()->lazy()
+        );
+    }
+
+    /** @test */
+    public function it_can_set_extra_attributes()
+    {
+        $this->assertEquals(
+            '<img extra="value" loading="auto" src="/media/1/test.jpg" alt="test">',
+            (string)$this->firstMedia()->img()->attributes(['extra' => 'value'])
+        );
+    }
+
+    protected function firstMedia(): Media
+    {
+        return Media::first();
     }
 }

@@ -3,34 +3,36 @@ title: Introduction
 weight: 1
 ---
 
-Medialibrary is a Laravel (5.6 and up) package that can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with.
+**V8 is not production ready, a stable version will be released soon**
+
+This package can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with.
 
 Here are some quick code examples:
 
 ```php
-$newsItem = News::find(1);
-$newsItem->addMedia($pathToFile)->toMediaCollection('images');
+$yourModel = YourModel::find(1);
+$yourModel->addMedia($pathToFile)->toMediaCollection('images');
 ```
 
 It can also directly handle your uploads:
 
 ```php
-$newsItem->addMediaFromRequest('image')->toMediaCollection('images');
+$yourModel->addMediaFromRequest('image')->toMediaCollection('images');
 ```
 
 Want to store some large files on another filesystem? No problem:
 
 ```php
-$newsItem->addMedia($smallFile)->toMediaCollection('downloads', 'local');
-$newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
+$yourModel->addMedia($smallFile)->toMediaCollection('downloads', 'local');
+$yourModel->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
 The storage of the files is handled by [Laravel's Filesystem](http://laravel.com/docs/5.6/filesystem), so you can plug in any compatible filesystem.
 
-The package can also generate derived images such as thumbnails for images, video's and pdf's. Once you've [set up your model](/laravel-medialibrary/v7/basic-usage/preparing-your-model), they're easily accessible:
+The package can also generate derived images such as thumbnails for images, video's and pdf's. Once you've [set up your model](/laravel-medialibrary/v8/basic-usage/preparing-your-model), they're easily accessible:
 
 ```php
-$newsItem->getMedia('images')->first()->getUrl('thumb');
+$yourModel->getMedia('images')->first()->getUrl('thumb');
 ```
 
 ## We have badges!

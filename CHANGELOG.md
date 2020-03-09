@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.0.0 - 2020-03-09
+
+- added `uuid` on `media` table
+- an empty string is now a proper collection name. `getMedia('')` will not return media from the default collection anymore (#1697).
+- add the ability to store conversions on a separate disk
+- simplify URL generation. You can now just use the `root` and `url` properties on a configured disk
+- spatie/pdf-to-image is now a suggestion dependency, removing the need for always having to install ext-imagick
+- added `shouldMatchBothExtensionsAndMimeTypes` to `Spatie\MediaLibrary\ImageGenerators\BaseGenerator`
+- added progress bar on the clean command (#1623)
+- the `UrlGenerator` interface now contains all required methods (#1656)
+- use PHP 7.4 features where possible
+- the namespace has been renamed from `Spatie\MediaLibrary` to `Spatie\MediaLibrary`. All code where `MediaLibrary` was used is renamed to `MediaLibrary`
+- added support for the `loading` attribute (#1667)
+- conversion files can now be named using the `conversion_file_namer` key in the `media-library` config file (#1636)
+- improved naming of classes and namespaces.
+
+To learn how to upgrade, take a look in UPGRADING.md
+
 ## 7.19.3 - 2020-03-09
 
 - fix responsive images extension (#1752)
@@ -325,7 +343,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - added `move` and `copy` methods on `Media`
 
-- file names will be lowercased when adding them to the medialibrary
+- file names will be lowercased when adding them to the media library
 - the names of converted images will now start with the name of the original file
 
 - dropped support for soft deletes
@@ -389,7 +407,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 6.5.0 - 2017-10-24
 
-- add `only-missing` and `only` options to the `medialibrary:regenerate` command
+- add `only-missing` and `only` options to the `media-library:regenerate` command
 
 ## 6.4.2 - 2017-10-20
 
@@ -564,7 +582,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - remove `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk`
 - replace dependency on `spatie/laravel-glide` by `spatie/image`
 - mime types will now be stored in the database so they can be queried even if files are stored on external filesystems
-- rename `Spatie\MedialibraryFilesystemInterface` to `Spatie\Medialibrary\Filesystem\Filesystem`
+- rename `Spatie\MediaLibraryFilesystemInterface` to `Spatie\MediaLibrary\Filesystem\Filesystem`
 - remove `withCustomProperties`, `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty`
 - drop support for Lumen and anything below Laravel 5.4
 - clean up all classes
@@ -653,8 +671,8 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 4.5.0 - 2016-07-09
 
-- added `medialibrary:clean` command
-- the `medialibrary:regenerate` will continue regenerating files even if a primary media file is missing
+- added `media-library:clean` command
+- the `media-library:regenerate` will continue regenerating files even if a primary media file is missing
 
 ## 4.4.1 - 2016-07-08
 - Fix regeneration command (see #260). It'll now properly regenerate files for all passed media id's
@@ -704,7 +722,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - The `regenerate`-command now accepts an `ids`-option
 
 ## 3.15.0
-- Added `medialibrary:clear` command
+- Added `media-library:clear` command
 
 ## 3.14.1
 - Make migrations compatible with mysql's strict mode
@@ -904,7 +922,7 @@ This version is a complete rewrite. Though there are lots of breaking changes mo
 - Bugfix: make compatible with Laravel 5.1
 
 ## 1.5.5
-- Bugfix: Renamed the boot method of MedialibraryModeltrait so it plays nice with the boot method of
+- Bugfix: Renamed the boot method of MediaLibraryModeltrait so it plays nice with the boot method of
 other traits and the base model.
 
 ## 1.5.4
@@ -922,13 +940,13 @@ other traits and the base model.
 - Added `getImageProfileProperties()`to interface
 
 ## 1.1.3
-- Create the medialibrary directory if it does not exist
+- Create the media library directory if it does not exist
 
 ## 1.1.2
 - Files without extensions are now allowed
 
 ## 1.1.1
-- Added check to make sure the file that must be added to the medialibrary exists
+- Added check to make sure the file that must be added to the media library exists
 
 ## 1.1.0
 - Added option to specify the name of the queue that should be used to create image manipulations

@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
-use File;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
+use Illuminate\Support\Facades\File;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class DeleteMediaTest extends TestCase
@@ -109,7 +109,7 @@ class DeleteMediaTest extends TestCase
     /**
      * @test
      */
-    public function it_will_remove_the_files_when_deleting_a_subject()
+    public function it_will_remove_the_files_when_deleting_a_subject_without_media_conversions()
     {
         $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
 

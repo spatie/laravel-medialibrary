@@ -2,11 +2,11 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
-use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection;
-use Spatie\MediaLibrary\File;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\MediaCollections\File;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class MediaCollectionTest extends TestCase
@@ -15,7 +15,7 @@ class MediaCollectionTest extends TestCase
     public function it_will_use_the_disk_from_a_media_collection()
     {
         $testModel = new class extends TestModelWithConversion {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this->addMediaCollection('images')
                     ->useDisk('secondMediaDisk');
@@ -39,7 +39,7 @@ class MediaCollectionTest extends TestCase
     public function it_will_not_use_the_disk_name_of_the_collection_if_a_diskname_is_specified_while_adding()
     {
         $testModel = new class extends TestModelWithConversion {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this->addMediaCollection('images')
                     ->useDisk('secondMediaDisk');
@@ -59,7 +59,7 @@ class MediaCollectionTest extends TestCase
     public function it_can_register_media_conversions_when_defining_media_collections()
     {
         $testModel = new class extends TestModelWithoutMediaConversions {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
@@ -82,7 +82,7 @@ class MediaCollectionTest extends TestCase
     public function it_will_not_use_media_conversions_from_an_unrelated_collection()
     {
         $testModel = new class extends TestModelWithoutMediaConversions {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
@@ -105,14 +105,14 @@ class MediaCollectionTest extends TestCase
     public function it_will_use_conversions_defined_in_conversions_and_conversions_defined_in_collections()
     {
         $testModel = new class extends TestModelWithoutMediaConversions {
-            public function registerMediaConversions(Media $media = null)
+            public function registerMediaConversions(Media $media = null): void
             {
                 $this
                     ->addMediaConversion('another-thumb')
                     ->greyscale();
             }
 
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
@@ -137,13 +137,11 @@ class MediaCollectionTest extends TestCase
     public function it_can_accept_certain_files()
     {
         $testModel = new class extends TestModelWithConversion {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
-                    ->acceptsFile(function (File $file) {
-                        return $file->mimeType === 'image/jpeg';
-                    });
+                    ->acceptsFile(fn(File $file) => $file->mimeType === 'image/jpeg');
             }
         };
 
@@ -160,7 +158,7 @@ class MediaCollectionTest extends TestCase
     public function it_can_guard_against_invalid_mimetypes()
     {
         $testModel = new class extends TestModelWithConversion {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
@@ -181,7 +179,7 @@ class MediaCollectionTest extends TestCase
     public function it_can_generate_responsive_images()
     {
         $testModel = new class extends TestModelWithConversion {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
@@ -196,9 +194,9 @@ class MediaCollectionTest extends TestCase
         $media = $model->getMedia('images')->first();
 
         $this->assertEquals([
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_284_233.jpg',
-            'http://localhost/media/1/responsive-images/test___medialibrary_original_237_195.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+            'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
@@ -208,7 +206,7 @@ class MediaCollectionTest extends TestCase
     public function if_the_single_file_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_new_one()
     {
         $testModel = new class extends TestModelWithConversion {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
@@ -229,7 +227,7 @@ class MediaCollectionTest extends TestCase
     public function if_the_only_keeps_latest_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_latest_n_ones()
     {
         $testModel = new class extends TestModelWithConversion {
-            public function registerMediaCollections()
+            public function registerMediaCollections(): void
             {
                 $this
                     ->addMediaCollection('images')
@@ -244,9 +242,7 @@ class MediaCollectionTest extends TestCase
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertFalse($model->getMedia('images')->contains(function ($model) use ($firstFile) {
-            return $model->is($firstFile);
-        }));
+        $this->assertFalse($model->getMedia('images')->contains(fn($model) => $model->is($firstFile)));
         $this->assertCount(3, $model->getMedia('images'));
     }
 }

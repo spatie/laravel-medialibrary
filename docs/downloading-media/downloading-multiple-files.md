@@ -5,14 +5,14 @@ weight: 2
 
 You might want to let users be able to download multiple files at once. Traditionally you'd have to create a zip archive that contains the requested files.
 
-The medialibrary is able to zip stream multiple files on the fly. So you don't need to create a zip archive on your server.
+The media library is able to zip stream multiple files on the fly. So you don't need to create a zip archive on your server.
 
 The provided `MediaStream` class that allows you to respond with a stream. Files will be zipped on the fly and you can even include files from multiple filesystems.
 
 Here's an example on how it can be used:
 
 ```php
-use Spatie\MediaLibrary\MediaStream;
+use Spatie\MediaLibrary\Support\MediaStream;
 
 class DownloadMediaController
 {

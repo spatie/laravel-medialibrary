@@ -3,9 +3,9 @@ title: Defining media collections
 weight: 2
 ---
 
-A media collection can be more than [just a name to group files](/laravel-medialibrary/v7/working-with-media-collections/simple-media-collections). By defining a media collection in your model you can add certain behaviour collections.
+A media collection can be more than [just a name to group files](/laravel-medialibrary/v8/working-with-media-collections/simple-media-collections). By defining a media collection in your model you can add certain behaviour collections.
 
-To get started with media collections add a function called `registerMediaCollections` to [your prepared model](/laravel-medialibrary/v7/basic-usage/preparing-your-model). Inside that function you can use `addMediaCollection` to start  a media collection.
+To get started with media collections add a function called `registerMediaCollections` to [your prepared model](/laravel-medialibrary/v8/basic-usage/preparing-your-model). Inside that function you can use `addMediaCollection` to start  a media collection.
 
 ```php
 // in your model
@@ -28,7 +28,7 @@ public function registerMediaCollections()
 If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
 
 ```php
-use Spatie\MediaLibrary\File;
+use Spatie\MediaLibrary\MediaCollections\File;
 ...
 public function registerMediaCollections()
 {
@@ -44,7 +44,7 @@ public function registerMediaCollections()
 You can pass a callback to `acceptsFile` that will check if a file is allowed into the collection. In this example we only accept `jpeg` files.
 
 ```php
-use Spatie\MediaLibrary\File;
+use Spatie\MediaLibrary\MediaCollections\File;
 ...
 public function registerMediaCollections()
 {
@@ -73,8 +73,10 @@ $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
 You can defined an array of accepted Mime types using `acceptsMimeTypes` that will check if a file with a certain Mime type is allowed into the collection. In this example we only accept `image/jpeg` files.
 
 ```php
-use Spatie\MediaLibrary\File;
-...
+use Spatie\MediaLibrary\MediaCollections\File;
+
+// ...
+
 public function registerMediaCollections()
 {
     $this
@@ -156,7 +158,7 @@ $yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$anotherPa
 
 ## Limited file collections
 
-Whenever you want to limit the amount of files inside a collection you can use the `onlyKeepLatest(n)` method. Whenever you add a file to a collection and exceed the given limit, Medialibrary will delete the oldest file(s) and keep the collection size at `n`.
+Whenever you want to limit the amount of files inside a collection you can use the `onlyKeepLatest(n)` method. Whenever you add a file to a collection and exceed the given limit, MediaLibrary will delete the oldest file(s) and keep the collection size at `n`.
 
 ```php
 // in your model
@@ -169,7 +171,7 @@ public function registerMediaCollections()
 }
 ```
 
-For the first 3 files, nothing strange happens. The files get added to the collection and the collection now holds all 3 files. Whenever you decide to add a 4th file, Medialibrary deletes the first file and keeps the latest 3.
+For the first 3 files, nothing strange happens. The files get added to the collection and the collection now holds all 3 files. Whenever you decide to add a 4th file, MediaLibrary deletes the first file and keeps the latest 3.
 
 ```php
 $yourModel->addMedia($firstFile)->toMediaCollection('limited-collection');
@@ -185,12 +187,14 @@ $yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$secondFil
 
 ## Registering media conversions
 
-It's recommended that your first read the section on [converting images](/laravel-medialibrary/v7/converting-images/defining-conversions) before reading the following paragraphs.
+It's recommended that your first read the section on [converting images](/laravel-medialibrary/v8/converting-images/defining-conversions) before reading the following paragraphs.
 
 Normally image conversions are registered inside the `registerMediaConversions` function on your model. However, images conversions can also be registered inside media collections.
 
 ```php
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+// ...
 
 public function registerMediaCollections()
 {
@@ -213,7 +217,7 @@ $yourModel->add($pathToImage)->toMediaCollection('my-collection');
 $yourModel->getFirstMediaUrl('thumb') // returns an url to a 100x100 version of the added image.
 ```
 
-Take a look at the [defining conversions section](/laravel-medialibrary/v7/converting-images/defining-conversions) to learn all the functions you can tack on to `addMediaConversion`.
+Take a look at the [defining conversions section](/laravel-medialibrary/v8/converting-images/defining-conversions) to learn all the functions you can tack on to `addMediaConversion`.
 
 ## Generating responsive images
 

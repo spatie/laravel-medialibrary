@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\S3Integration;
 
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\PathGenerator\PathGenerator;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
 
 class S3TestPathGenerator implements PathGenerator
 {

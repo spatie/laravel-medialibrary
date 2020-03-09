@@ -30,7 +30,7 @@ $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 
 The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/5.6/filesystem),
 so you can use any filesystem you like. Additionally the package can create image manipulations
-on images and pdfs that have been added in the medialibrary.
+on images and pdfs that have been added in the media library.
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
@@ -42,7 +42,7 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Documentation
 
-You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v7](https://docs.spatie.be/laravel-medialibrary/v7).
+You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v8](https://docs.spatie.be/laravel-medialibrary/v8).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
 
@@ -57,7 +57,7 @@ If you've found a bug regarding security please mail [freek@spatie.be](mailto:fr
 You can install this package via composer using this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary:^7.0.0"
+composer require "spatie/laravel-medialibrary:^8.0.0"
 ```
 
 The package will automatically register itself.
@@ -106,7 +106,7 @@ return [
     /*
      * The class name of the media model that should be used.
      */
-    'media_model' => Spatie\MediaLibrary\Models\Media::class,
+    'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
     /*
      * The engine that should perform the image conversions.
@@ -150,15 +150,15 @@ return [
      * These generators will be used to create an image of media files.
      */
     'image_generators' => [
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Webp::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Webp::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Pdf::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Svg::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Video::class,
     ],
 
     /*
-     * Medialibrary will try to optimize all converted images by removing
+     * MediaLibrary will try to optimize all converted images by removing
      * metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.
      */
@@ -186,7 +186,7 @@ return [
 
     /*
      * The path where to store temporary files while performing image conversions.
-     * If set to null, storage_path('medialibrary/temp') will be used.
+     * If set to null, storage_path('media-library/temp') will be used.
      */
     'temporary_directory_path' => null,
 
@@ -200,7 +200,7 @@ return [
 ];
 ```
 
-By default medialibrary will store it's files on Laravel's `public` disk. If you want a dedicated disk you should add a disk to `app/config/filesystems.php`. This would be a typical configuration:
+By default, media library will store it's files on Laravel's `public` disk. If you want a dedicated disk you should add a disk to `app/config/filesystems.php`. This would be a typical configuration:
 
 ```php
     ...
@@ -216,7 +216,7 @@ By default medialibrary will store it's files on Laravel's `public` disk. If you
     ...
 ```
 
-All files of the medialibrary will be stored on that disk. If you are planning on
+All files of the media library will be stored on that disk. If you are planning on
 working with the image manipulations you should configure a queue on your service
 with the name specified in the config file.
 
@@ -262,7 +262,7 @@ public function register()
 }
 ```
 
-Manually copy the package config file to `app\config\laravel-medialibrary.php` (you may need to
+Manually copy the package config file to `app\config\laravel-media-library.php` (you may need to
 create the config directory if it does not already exist).
 
 Copy the [Laravel filesystem config file](https://github.com/laravel/laravel/blob/v6.4.0/config/filesystems.php) into `app\config\filesystem.php`. You should add a disk configuration to the filesystem config matching the `default_filesystem` specified in the laravel-medialibrary config file.
@@ -271,7 +271,7 @@ Finally, update `boostrap/app.php` to load both config files:
 
 ```php
 // bootstrap/app.php
-$app->configure('medialibrary');
+$app->configure('media-library');
 $app->configure('filesystems');
 ```
 

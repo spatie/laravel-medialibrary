@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Models\Media;
+namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class MoveTest extends TestCase

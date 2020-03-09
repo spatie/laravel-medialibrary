@@ -3,10 +3,10 @@ title: Installation & setup
 weight: 4
 ---
 
-Medialibrary can be installed via composer:
+MediaLibrary can be installed via composer:
 
 ```bash
-composer require "spatie/laravel-medialibrary:^7.0.0"
+composer require "spatie/laravel-medialibrary:^8.0.0"
 ```
 
 The package will automatically register a service provider.
@@ -30,10 +30,10 @@ This is the default content of the config file:
 return [
 
     /*
-     * The filesystems on which to store added files and derived images by default. Choose
-     * one or more of the filesystems you've configured in config/filesystems.php.
+     * The disk on which to store added files and derived images by default. Choose
+     * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => 'public',
+    'disk_name' => env('MEDIA_DISK', 'public'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -42,39 +42,15 @@ return [
     'max_file_size' => 1024 * 1024 * 10,
 
     /*
-     * This queue will be used to generate derived images.
+     * This queue will be used to generate derived and responsive images.
      * Leave empty to use the default queue.
      */
     'queue_name' => '',
 
     /*
-     * The class name of the media model that should be used.
+     * The fully qualified class name of the media model.
      */
-    'media_model' => Spatie\MediaLibrary\Models\Media::class,
-
-    /*
-     * The engine that should perform the image conversions.
-     * Should be either `gd` or `imagick`.
-     */
-    'image_driver' => 'gd',
-
-    /*
-     * When urls to files get generated, this class will be called. Leave empty
-     * if your files are stored locally above the site root or on s3.
-     */
-    'url_generator' => null,
-
-    /*
-     * The class that contains the strategy for determining a media file's path.
-     */
-    'path_generator' => null,
-
-    's3' => [
-        /*
-         * The domain that should be prepended when generating urls.
-         */
-        'domain' => 'https://xxxxxxx.s3.amazonaws.com',
-    ],
+    'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
     'remote' => [
         /*
@@ -90,18 +66,66 @@ return [
         ],
     ],
 
-    /*
-     * These generators will be used to create an image of media files.
-     */
-    'image_generators' => [
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Image::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Pdf::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Svg::class,
-        Spatie\MediaLibrary\ImageGenerators\FileTypes\Video::class,
+    'responsive_images' => [
+
+        /*
+         * This class is responsible for calculating the target widths of the responsive
+         * images. By default we optimize for filesize and create variations that each are 20%
+         * smaller than the previous one. More info in the documentation.
+         *
+         * https://docs.spatie.be/laravel-medialibrary/v8/advanced-usage/generating-responsive-images
+         */
+        'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
+
+        /*
+         * By default rendering media to a responsive image will add some javascript and a tiny placeholder.
+         * This ensures that the browser can already determine the correct layout.
+         */
+        'use_tiny_placeholders' => true,
+
+        /*
+         * This class will generate the tiny placeholder used for progressive image loading. By default
+         * the media library will use a tiny blurred jpg image.
+         */
+        'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
 
     /*
-     * Medialibrary will try to optimize all converted images by removing
+     * When converting Media instances to response the media library will add
+     * a `loading` attribute to the `img` tag. Here you can set the default
+     * value of that attribute.
+     *
+     * Possible values: 'auto', 'lazy' and 'eager,
+     *
+     * More info: https://css-tricks.com/native-lazy-loading/
+     */
+    'default_loading_attribute_value' => 'auto',
+
+    /*
+     * This is the class that is responsible for naming conversion files. By default,
+     * it will use the filename of the original and concatenate the conversion name to it.
+     */
+    'conversion_file_namer' => \Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer::class,
+    
+    /*
+     * The class that contains the strategy for determining a media file's path.
+     */
+    'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
+
+    /*
+     * When urls to files get generated, this class will be called. Leave empty
+     * if your files are stored locally above the site root or on s3.
+     */
+    'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
+
+    /*
+     * Whether to activate versioning when urls to files get generated.
+     * When activated, this attaches a ?v=xx query string to the URL.
+     */
+    'version_urls' => false,
+
+    /*
+     * MediaLibrary will try to optimize all converted images by removing
      * metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.
      */
@@ -128,22 +152,48 @@ return [
     ],
 
     /*
+     * These generators will be used to create an image of media files.
+     */
+    'image_generators' => [
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Image::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Webp::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Pdf::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Svg::class,
+        Spatie\MediaLibrary\Conversions\ImageGenerators\Video::class,
+    ],
+
+    /*
+     * The engine that should perform the image conversions.
+     * Should be either `gd` or `imagick`.
+     */
+    'image_driver' => 'gd',
+
+    /*
+     * FFMPEG & FFProbe binaries paths, only used if you try to generate video
+     * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
+     * dependency.
+     */
+    'ffmpeg_path' => env('FFMPEG_PATH', '/usr/bin/ffmpeg'),
+    'ffprobe_path' => env('FFPROBE_PATH', '/usr/bin/ffprobe'),
+
+    /*
      * The path where to store temporary files while performing image conversions.
-     * If set to null, storage_path('medialibrary/temp') will be used.
+     * If set to null, storage_path('media-library/temp') will be used.
      */
     'temporary_directory_path' => null,
 
     /*
-     * FFMPEG & FFProbe binaries path, only used if you try to generate video
-     * thumbnails and have installed the php-ffmpeg/php-ffmpeg composer
-     * dependency.
+     * Here you can override the class names of the jobs used by this package. Make sure
+     * your custom jobs extend the ones provided by the package.
      */
-    'ffmpeg_path' => '/usr/bin/ffmpeg',
-    'ffprobe_path' => '/usr/bin/ffprobe',
+    'jobs' => [
+        'perform_conversions' => \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
+        'generate_responsive_images' => \Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
+    ],
 ];
 ```
 
-By default medialibrary will store its files on Laravel's `public` disk. If you want a dedicated disk you should add a disk to `config/filesystems.php`. This would be a typical configuration:
+By default, the media library will store its files on Laravel's `public` disk. If you want a dedicated disk you should add a disk to `config/filesystems.php`. This would be a typical configuration:
 
 ```php
     ...
@@ -165,7 +215,7 @@ Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysyst
 
 ### Optimization tools
 
-Medialibrary will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v7/converting-images/optimizing-converted-images) if they are present on your system:
+Media library will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v8/converting-images/optimizing-converted-images) if they are present on your system:
 
 - [JpegOptim](http://freecode.com/projects/jpegoptim)
 - [Optipng](http://optipng.sourceforge.net/)

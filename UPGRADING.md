@@ -2,6 +2,22 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v7 to v8
+
+- internally the media library has been restructured an nearly all namespaces have changed. Class names remained the same. In your application code hunt to any usages of classes that start with `Spatie\MediaLibrary`. Take a look in the source code of medialibrary what the new namespace of the class is and use that. 
+- rename `config/medialibrary.php` to `config/media-library.php`
+- all medialibrary commands have been renamed from `medialibrary:xxx` to `media-library:xxx`. Make sure to update all media library commands in your console kernel.
+- the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\HasMedia\InteractsWithMedia`. Make sure to update this in all models that use media.
+- Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
+- Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
+- Url generation has been vastly simplified. You should set the `url_generator` in the `media-library` config file to `Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
+- remove the `s3.domain` key from the `media-library` config file
+- spatie/pdf-to-image is now a suggestion dependency. Make sure to install it, if you want to create thumbnails for PDFs or SVGs
+- `registerMediaConversions` and `registerMediaCollections` should now use the  `void` return type.
+- if the `path_generator` key in the `media-library` config file was set to `null`, change the value to `Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class`
+- the `rawUrlEncodeFilename` method on `BaseUrlGenerator` has been removed. Remove all calls in your own code to this method.
+- `getConversionFile` on `Conversion` now accepts a `Media` instance instead of a `string`. In normal circumstance you wouldn't have used this function directly.
+
 ## 7.3.0
 
 - Before `hasGeneratedConversion` will work, the custom properties 
@@ -42,7 +58,7 @@ to
 
  - change the `defaultFilesystem` key in the config file to `default_filesystem`
  - add the `image_optimizers` key from the default config file to your config file.
- - be aware that the medialibrary will now optimize all conversions by default. If you do not want this tack on `nonOptimized` to all your media conversions.
+ - be aware that the media library will now optimize all conversions by default. If you do not want this tack on `nonOptimized` to all your media conversions.
  - `toMediaLibrary` has been removed. Use `toMediaCollection` instead.
  - `toMediaLibraryOnCloudDisk` has been removed. Use `toMediaCollectionOnCloudDisk` instead.
 
@@ -53,13 +69,13 @@ to
 - media conversions are now handled by `spatie/image`. Convert all manipulations on your conversion to manipulations supported by `spatie/image`.
 - add a `mime_type` column to the `media` table, manually populate the column with the right values.
 - calls to `getNestedCustomProperty`, `setNestedCustomProperty`, `forgetNestedCustomProperty` and `hasNestedCustomProperty` should be replaced by their non-nested counterparts.
-- All exceptions have been renamed. If you were catching medialibrary specific exception please look up the new name in /src/Exceptions.
+- All exceptions have been renamed. If you were catching media library specific exception please look up the new name in /src/Exceptions.
 - be aware`getMedia` and related functions now return only the media from the `default` collection
 - `image_generators` have now been added to the config file.
 
 
 ## From v3 to v4
-- All exceptions have been renamed. If you were catching medialibrary specific exception please look up the new name in /src/Exceptions.
+- All exceptions have been renamed. If you were catching media library specific exception please look up the new name in /src/Exceptions.
 - Glide has been upgraded from 0.3 in 1.0. Glide renamed some operations in their 1.0 release, most notably the `crop` and `fit` ones. If you were using those in your conversions refer the Glide documentation how they should be changed.
 
 ## From v2 to v3

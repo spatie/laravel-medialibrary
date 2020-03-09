@@ -9,14 +9,14 @@ In the following example we'll create a custom generator that can convert a Powe
 
 ## Creating the custom generator
 
-The first step for creating a custom generator is to create a class that extends `Spatie\MediaLibrary\ImageGenerators`:
+The first step for creating a custom generator is to create a class that extends `Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator`:
 
 ```php
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Conversion\Conversion;
-use Spatie\MediaLibrary\ImageGenerators\BaseGenerator;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 
-class PowerPoint extends BaseGenerator
+class PowerPoint extends ImageGenerator
 {
     /**
     * This function should return a path to an image representation of the given file.
@@ -26,9 +26,9 @@ class PowerPoint extends BaseGenerator
         $pathToImageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
         // Here you should convert the file to an image and return generated conversion path.
-        \PowerPoint::convertFileToImage($file)->store($imageFile);
+        \PowerPoint::convertFileToImage($file)->store($pathToImageFile);
 
-        return $imageFile;
+        return $pathToImageFile;
     }
 
     public function requirementsAreInstalled() : bool
@@ -54,7 +54,7 @@ class PowerPoint extends BaseGenerator
 ## Registering the custom generator
 
 If you want the generator to be applied to all your models, you can override the `Media` class as explained in the
-[using your own model](/laravel-medialibrary/v7/advanced-usage/using-your-own-model/) page and modify the
+[using your own model](/laravel-medialibrary/v8/advanced-usage/using-your-own-model/) page and modify the
 `getImageGenerators` method in your own `Media` class.
 
 
@@ -64,8 +64,8 @@ If the generator only needs to be applied to one of your models you can override
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\Interfaces\HasMedia;
 
 class News extends Model implements HasMedia
 {

@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\Tests\Support\TestModels\TestModel;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class UpdateManipulationsTest extends TestCase
@@ -12,7 +12,7 @@ class UpdateManipulationsTest extends TestCase
     public function it_will_create_derived_files_when_manipulations_have_changed()
     {
         $testModelClass = new class() extends TestModel {
-            public function registerMediaConversions(Media $media = null)
+            public function registerMediaConversions(Media $media = null): void
             {
                 $this->addMediaConversion('update_test');
             }
@@ -20,7 +20,7 @@ class UpdateManipulationsTest extends TestCase
 
         $testModel = $testModelClass::find($this->testModel->id);
 
-        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         touch($media->getPath('update_test'), time() - 1);
@@ -45,7 +45,7 @@ class UpdateManipulationsTest extends TestCase
     public function it_will_not_create_derived_files_when_manipulations_have_not_changed()
     {
         $testModelClass = new class() extends TestModel {
-            public function registerMediaConversions(Media $media = null)
+            public function registerMediaConversions(Media $media = null): void
             {
                 $this->addMediaConversion('update_test');
             }
@@ -53,7 +53,7 @@ class UpdateManipulationsTest extends TestCase
 
         $testModel = $testModelClass::find($this->testModel->id);
 
-        /** @var \Spatie\MediaLibrary\Models\Media $media */
+        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
         $media->manipulations = [

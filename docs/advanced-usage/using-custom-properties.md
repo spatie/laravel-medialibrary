@@ -3,10 +3,10 @@ title: Using custom properties
 weight: 2
 ---
 
-When adding a file to the medialibrary you can pass an array with custom properties:
+When adding a file to the media library you can pass an array with custom properties:
 
 ```php
-$mediaItem = $newsItem
+$mediaItem = $yourModel
     ->addMedia($pathToFile)
     ->withCustomProperties(['primaryColor' => 'red'])
     ->toMediaCollection();
@@ -56,7 +56,7 @@ $mediaItem->getCustomProperty('isPublic', false);
 If you're dealing with nested custom properties, you can use dot notation.
 
 ```php
-$mediaItem = $newsItem
+$mediaItem = $yourModel
     ->addMedia($pathToFile)
     ->withCustomProperties([
         'group' => ['primaryColor' => 'red']
