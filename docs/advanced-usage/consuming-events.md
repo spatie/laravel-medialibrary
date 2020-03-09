@@ -59,7 +59,7 @@ Hook it up in `app/Providers/EventServiceProvider.php` to let Laravel know that 
 
 ```php
 protected $listen = [
-    'Spatie\MediaLibrary\Features\MediaCollections\Events\MediaHasBeenAdded' => [
+    'Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded' => [
         'App\Listeners\MediaLogger'
     ],
 ];
