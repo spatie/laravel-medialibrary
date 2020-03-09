@@ -158,10 +158,8 @@ class Filesystem
 
         $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
 
-        $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
-
         collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
-            ->each(function ($directory) use ($media) {
+            ->each(function (string $directory) use ($media) {
                 $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
             });
     }
@@ -199,8 +197,8 @@ class Filesystem
 
         $mediaDirectory = $this->getMediaDirectory($media);
 
-        $oldFile = $mediaDirectory . '/' . $oldFileName;
-        $newFile = $mediaDirectory . '/' . $newFileName;
+        $oldFile = "{$mediaDirectory}/{$oldFileName}";
+        $newFile = "{$mediaDirectory}/{$newFileName}";
 
         $this->filesystem->disk($media->disk)->move($oldFile, $newFile);
     }
