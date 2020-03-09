@@ -20,7 +20,7 @@ class PerformConversionsJob implements ShouldQueue
 
     protected bool $onlyMissing;
 
-    public function __construct(ConversionCollection $conversions, Media $media, $onlyMissing = false)
+    public function __construct(ConversionCollection $conversions, Media $media, bool $onlyMissing = false)
     {
         $this->conversions = $conversions;
 
@@ -29,11 +29,8 @@ class PerformConversionsJob implements ShouldQueue
         $this->onlyMissing = $onlyMissing;
     }
 
-    public function handle(): bool
+    public function handle(FileManipulator $fileManipulator): bool
     {
-        /** @var \Spatie\MediaLibrary\Conversions\FileManipulator $fileManipulator */
-        $fileManipulator = app(FileManipulator::class);
-
         $fileManipulator->performConversions($this->conversions, $this->media, $this->onlyMissing);
 
         return true;
