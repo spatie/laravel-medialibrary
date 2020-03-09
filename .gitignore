@@ -1,6 +1,6 @@
 build
 vendor
-tests/Support/temp
+tests/TestSupport/temp
 tests/temp
 composer.lock
 phpunit.xml
