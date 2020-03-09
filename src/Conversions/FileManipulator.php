@@ -25,7 +25,9 @@ class FileManipulator
         $profileCollection = ConversionCollection::createForMedia($media);
 
         if (!empty($only)) {
-            $profileCollection = $profileCollection->filter(fn($collection) => in_array($collection->getName(), $only));
+            $profileCollection = $profileCollection->filter(
+                fn(Conversion $conversion) => in_array($conversion->getName(), $only)
+            );
         }
 
         $this->performConversions(
@@ -64,7 +66,7 @@ class FileManipulator
             ->reject(function (Conversion $conversion) use ($onlyMissing, $media) {
                 $relativePath = $media->getPath($conversion->getName());
 
-                $rootPath = config('filesystems.disks.' . $media->disk . '.root');
+                $rootPath = config("filesystems.disks.{$media->disk}.root");
 
                 if ($rootPath) {
                     $relativePath = str_replace($rootPath, '', $relativePath);
@@ -110,10 +112,7 @@ class FileManipulator
             return $imageFile;
         }
 
-        $conversionTempFile = pathinfo($imageFile, PATHINFO_DIRNAME) . '/' . Str::random(16)
-            . $conversion->getName()
-            . '.'
-            . $media->extension;
+        $conversionTempFile = $this->getConversionTempFileName($media, $conversion, $imageFile);
 
         File::copy($imageFile, $conversionTempFile);
 
@@ -156,5 +155,14 @@ class FileManipulator
     protected function filesystem(): Filesystem
     {
         return app(Filesystem::class);
+    }
+
+    protected function getConversionTempFileName(Media $media, Conversion $conversion, string $imageFile): string
+    {
+        $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
+
+        $fileName = Str::random(16) . "{$conversion->getName()}.{$media->extension}";
+
+        return "{$directory}/{$fileName}";
     }
 }

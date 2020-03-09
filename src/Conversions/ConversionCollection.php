@@ -67,8 +67,8 @@ class ConversionCollection extends Collection
 
     protected function addManipulationsFromDb(Media $media)
     {
-        collect($media->manipulations)->each(function ($manipulations, $conversionName) {
-            $manipulations = new Manipulations([$manipulations]);
+        collect($media->manipulations)->each(function ($manipulation, $conversionName) {
+            $manipulations = new Manipulations([$manipulation]);
 
             $this->addManipulationToConversion($manipulations, $conversionName);
         });
@@ -111,8 +111,9 @@ class ConversionCollection extends Collection
         }
 
         if ($conversionName === '*') {
-            $this
-                ->each(fn(Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations));
+            $this->each(
+                fn(Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations)
+            );
         }
     }
 
