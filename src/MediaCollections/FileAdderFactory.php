@@ -59,7 +59,7 @@ class FileAdderFactory
                     return static::create($subject, $files);
                 }
 
-                return array_map(fn($file) => static::create($subject, $file), $files);
+                return array_map(fn ($file) => static::create($subject, $file), $files);
             })->flatten();
     }
 

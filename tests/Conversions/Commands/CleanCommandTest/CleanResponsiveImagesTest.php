@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Tests\Conversions\Commands\CleanCommandTest;
 
-use Illuminate\Support\Facades\Artisan;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class CleanResponsiveImagesTest extends TestCase

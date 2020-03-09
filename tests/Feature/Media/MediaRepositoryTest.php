@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
 
 class MediaRepositoryTest extends TestCase
 {

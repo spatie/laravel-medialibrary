@@ -6,12 +6,12 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
-use Spatie\MediaLibrary\Support\File;
-use Spatie\MediaLibrary\Support\RemoteFile;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
+use Spatie\MediaLibrary\Support\RemoteFile;
 
 class Filesystem
 {
@@ -46,7 +46,7 @@ class Filesystem
     {
         $destinationFileName = $targetFileName ?: $file->getFilename();
 
-        $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         if ($file->getDisk() === $media->disk) {
             $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
@@ -63,7 +63,6 @@ class Filesystem
                 $media->getCustomHeaders(),
                 $storage->mimeType($file->getKey())
             );
-
 
         $this->streamFileToDisk(
             $storage->getDriver()->readStream($file->getKey()),
@@ -93,7 +92,7 @@ class Filesystem
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
-        $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         $file = fopen($pathToFile, 'r');
 
@@ -148,7 +147,7 @@ class Filesystem
 
     public function getStream(Media $media)
     {
-        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
@@ -161,7 +160,7 @@ class Filesystem
 
         $targetFileStream = fopen($targetFile, 'a');
 
-        while (!feof($stream)) {
+        while (! feof($stream)) {
             $chunk = fread($stream, 1024);
             fwrite($targetFileStream, $chunk);
         }
@@ -200,7 +199,7 @@ class Filesystem
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            fn(string $path) => Str::contains($path, $conversionName)
+            fn (string $path) => Str::contains($path, $conversionName)
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
@@ -238,13 +237,13 @@ class Filesystem
         foreach ($media->getMediaConversionNames() as $conversionName) {
             $conversion = $conversionCollection->getByName($conversionName);
 
-            $oldFile = $conversionDirectory . $conversion->getConversionFile($mediaWithOldFileName);
-            $newFile = $conversionDirectory . $conversion->getConversionFile($media);
+            $oldFile = $conversionDirectory.$conversion->getConversionFile($mediaWithOldFileName);
+            $newFile = $conversionDirectory.$conversion->getConversionFile($media);
 
             $disk = $this->filesystem->disk($media->conversions_disk);
 
             // A media conversion file might be missing, waiting to be generated, failed etc.
-            if (!$disk->exists($oldFile)) {
+            if (! $disk->exists($oldFile)) {
                 continue;
             }
 
@@ -256,7 +255,7 @@ class Filesystem
     {
         $pathGenerator = PathGeneratorFactory::create();
 
-        if (!$type) {
+        if (! $type) {
             $directory = $pathGenerator->getPath($media);
         }
 
@@ -276,7 +275,7 @@ class Filesystem
             ? $media->conversions_disk
             : $media->disk;
 
-        if (!in_array($diskDriverName, ['s3'], true)) {
+        if (! in_array($diskDriverName, ['s3'], true)) {
             $this->filesystem->disk($diskName)->makeDirectory($directory);
         }
 

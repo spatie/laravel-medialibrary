@@ -33,9 +33,9 @@ class ConversionCollection extends Collection
 
     public function getByName(string $name): Conversion
     {
-        $conversion = $this->first(fn(Conversion $conversion) => $conversion->getName() === $name);
+        $conversion = $this->first(fn (Conversion $conversion) => $conversion->getName() === $name);
 
-        if (!$conversion) {
+        if (! $conversion) {
             throw InvalidConversion::unknownName($name);
         }
 
@@ -80,22 +80,21 @@ class ConversionCollection extends Collection
             return $this;
         }
 
-        return $this->filter(fn(Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
+        return $this->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
     }
 
     public function getQueuedConversions(string $collectionName = ''): self
     {
         return $this
             ->getConversions($collectionName)
-            ->filter(fn(Conversion $conversion) => $conversion->shouldBeQueued());
+            ->filter(fn (Conversion $conversion) => $conversion->shouldBeQueued());
     }
-
 
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
         /** @var \Spatie\MediaLibrary\Conversions\Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
-            if (!in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
+            if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
                 return false;
             }
 
@@ -112,7 +111,7 @@ class ConversionCollection extends Collection
 
         if ($conversionName === '*') {
             $this->each(
-                fn(Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations)
+                fn (Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations)
             );
         }
     }
@@ -121,13 +120,13 @@ class ConversionCollection extends Collection
     {
         return $this
             ->getConversions($collectionName)
-            ->reject(fn(Conversion $conversion) => $conversion->shouldBeQueued());
+            ->reject(fn (Conversion $conversion) => $conversion->shouldBeQueued());
     }
 
     public function getConversionsFiles(string $collectionName = ''): self
     {
         return $this
             ->getConversions($collectionName)
-            ->map(fn(Conversion $conversion) => $conversion->getConversionFile($this->media));
+            ->map(fn (Conversion $conversion) => $conversion->getConversionFile($this->media));
     }
 }

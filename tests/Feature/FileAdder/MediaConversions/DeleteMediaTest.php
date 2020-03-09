@@ -3,8 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use Illuminate\Support\Facades\File;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 
 class DeleteMediaTest extends TestCase
 {

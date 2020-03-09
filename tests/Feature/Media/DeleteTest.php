@@ -5,9 +5,9 @@ namespace Spatie\MediaLibrary\Tests\Feature\Media;
 use File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
-use Spatie\MediaLibrary\Tests\TestCase;
 
 class DeleteTest extends TestCase
 {

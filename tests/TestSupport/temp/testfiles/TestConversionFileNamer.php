@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Tests\TestSupport\testfiles;
 
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Conversions\ConversionFileNamer;
 use Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 

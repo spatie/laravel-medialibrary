@@ -5,8 +5,8 @@ namespace Spatie\MediaLibrary\Tests\Feature\InteractsWithMedia;
 use DB;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
 class GetMediaTest extends TestCase
 {
@@ -66,13 +66,13 @@ class GetMediaTest extends TestCase
     {
         $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
 
-        $this->assertCount(1,  $this->testModel->getMedia());
-        $this->assertCount(0,  $this->testModel->getMedia(''));
+        $this->assertCount(1, $this->testModel->getMedia());
+        $this->assertCount(0, $this->testModel->getMedia(''));
 
         $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('');
 
-        $this->assertCount(1,  $this->testModel->refresh()->getMedia());
-        $this->assertCount(1,  $this->testModel->refresh()->getMedia(''));
+        $this->assertCount(1, $this->testModel->refresh()->getMedia());
+        $this->assertCount(1, $this->testModel->refresh()->getMedia(''));
     }
 
     /** @test */
@@ -144,7 +144,7 @@ class GetMediaTest extends TestCase
             ->withCustomProperties(['filter2' => 'value2'])
             ->toMediaCollection('images');
 
-        $collection = $this->testModel->getMedia('images', fn(Media $media) => isset($media->custom_properties['filter1']));
+        $collection = $this->testModel->getMedia('images', fn (Media $media) => isset($media->custom_properties['filter1']));
 
         $this->assertCount(1, $collection);
         $this->assertSame($collection->first()->id, $media2->id);
