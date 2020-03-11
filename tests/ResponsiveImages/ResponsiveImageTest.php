@@ -42,13 +42,13 @@ class ResponsiveImageTest extends TestCase
 
         $this->assertStringContainsString(
             'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg 237w',
-             $media->getSrcset()
+            $media->getSrcset()
         );
         $this->assertStringContainsString('data:image/svg+xml;base64', $media->getSrcset());
 
         $this->assertStringContainsString(
             'http://localhost/media/1/responsive-images/test___thumb_50_41.jpg 50w',
-             $media->getSrcset('thumb')
+            $media->getSrcset('thumb')
         );
         $this->assertStringContainsString('data:image/svg+xml;base64,', $media->getSrcset('thumb'));
     }
