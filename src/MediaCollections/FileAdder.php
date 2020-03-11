@@ -224,10 +224,9 @@ class FileAdder
         $media->file_name = $this->fileName;
 
         $media->disk = $this->determineDiskName($diskName, $collectionName);
-
-        if (is_null(config("filesystems.disks.{$media->disk}"))) {
-            throw DiskDoesNotExist::create($media->disk);
-        }
+        $this->ensureDiskExists($media->disk);
+        $media->conversions_disk = $this->determineConversionsDiskName($media->disk, $collectionName);
+        $this->ensureDiskExists($media->conversions_disk);
 
         $media->collection_name = $collectionName;
 

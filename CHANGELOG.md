@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.0.1 - 2020-03-11
+
+- set conversion disk when adding media from remote (#1764)
+
 ## 8.0.0 - 2020-03-09
 
 - added `uuid` on `media` table
