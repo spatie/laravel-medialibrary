@@ -45,7 +45,7 @@ class ToHtmlTest extends TestCase
     {
         $this->assertEquals(
             '<img class="my-class" id="my-id" loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-             $this->firstMedia()->img('thumb', ['class' => 'my-class', 'id' => 'my-id']),
+            $this->firstMedia()->img('thumb', ['class' => 'my-class', 'id' => 'my-id']),
         );
     }
 

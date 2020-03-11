@@ -140,8 +140,8 @@ class FileManipulator
 
     protected function renameInLocalDirectory(
         string $fileNameWithDirectory,
-        string $newFileNameWithoutDirectory): string
-    {
+        string $newFileNameWithoutDirectory
+    ): string {
         $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME).'/'.$newFileNameWithoutDirectory;
 
         rename($fileNameWithDirectory, $targetFile);
