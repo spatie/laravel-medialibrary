@@ -44,7 +44,8 @@ class FileAdder
 
     protected string $fileName = '';
 
-    protected string $mediaName = '';
+    /** @var string|mixed */
+    protected $mediaName = '';
 
     protected string $diskName = '';
 
@@ -123,12 +124,12 @@ class FileAdder
         return $this;
     }
 
-    public function usingName(string $name): self
+    public function usingName($name): self
     {
         return $this->setName($name);
     }
 
-    public function setName(string $name): self
+    public function setName($name): self
     {
         $this->mediaName = $name;
 
