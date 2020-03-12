@@ -5,7 +5,6 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 7.19.3 - 2020-03-09
 
 - fix responsive images extension (#1752)
-- use native file copy (#1758)
 
 ## 7.19.2 - 2020-03-04
 
