@@ -116,7 +116,7 @@ class YourModel extends Model implements HasMedia
      *
      * @return array
      */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $this
             ->addMediaConversion('my-conversion')

@@ -23,7 +23,7 @@ class YourModel extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -59,7 +59,7 @@ use Spatie\Image\Manipulations;
 
 // ...
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -87,7 +87,7 @@ This is how that looks like in the model:
 
 ```php
 // in your model
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -113,7 +113,7 @@ By default, a conversion will be added to the queue that you've [specified in th
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null)
+public function registerMediaConversions(Media $media = null): void
 {
     $this->addMediaConversion('thumb')
             ->width(368)
@@ -132,7 +132,7 @@ true` on your model.
 // in your model
     public $registerMediaConversionsUsingModelInstance = true;
 
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width($this->width)
