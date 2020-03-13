@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\Medialibrary\Helpers\Util;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
@@ -96,6 +97,25 @@ trait InteractsWithMedia
         $pendingMedia = PendingMedia::createFromPayload($temporaryUploadPayload)->first();
 
         return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
+    }
+
+    /**
+     * Add a a temporary upload to the medialibrary.
+     *
+     * Accept a TemporaryUpload or the uuid of a Media model that belongs to a TemporaryUpload
+     *
+     * @param string $temporaryUploadPayload
+     *
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
+     */
+    public function addMultipleMediaFromTemporaryUploads(string $temporaryUploadPayload): Collection
+    {
+        MediaLibraryPro::ensureInstalled();
+
+        return PendingMedia::createFromPayload($temporaryUploadPayload)
+            ->map(function(PendingMedia $pendingMedia) {
+                return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
+            });
     }
 
     /**
