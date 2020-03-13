@@ -18,7 +18,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\RemoteFile;
-use Spatie\MedialibraryPro\Models\TemporaryUpload;
+use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -260,6 +260,10 @@ class FileAdder
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
         }
 
+        if ($this->file instanceof TemporaryUpload) {
+            return $this->toMediaCollectionFromTemporaryUpload($collectionName, $diskName);
+        }
+
         if (! is_file($this->pathToFile)) {
             throw FileDoesNotExist::create($this->pathToFile);
         }
@@ -452,5 +456,19 @@ class FileAdder
         if ($collection) {
             $this->withResponsiveImages();
         }
+    }
+
+    protected function toMediaCollectionFromTemporaryUpload(string $collectionName, string $diskName): Media
+    {
+        /** @var TemporaryUpload $temporaryUpload */
+        $temporaryUpload = $this->file;
+
+        $media = $temporaryUpload->getFirstMedia();
+
+        $media->name = $this->mediaName;
+        $media->custom_properties = $this->customProperties;
+        $media->save();
+
+        return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName);
     }
 }

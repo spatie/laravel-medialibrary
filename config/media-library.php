@@ -25,6 +25,11 @@ return [
      */
     'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
+    /*
+     * The fully qualified class name of the model used for temporary uploads.
+     */
+    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+
     'remote' => [
         /*
          * Any extra headers that should be included when uploading media to

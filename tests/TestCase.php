@@ -2,12 +2,14 @@
 
 namespace Spatie\MediaLibrary\Tests;
 
+use CreateTemporaryUploadsTable;
 use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
@@ -15,6 +17,7 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnO
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithResponsiveImages;
+use Spatie\MediaLibraryPro\MedialibraryProServiceProvider;
 use ZipArchive;
 
 abstract class TestCase extends Orchestra
@@ -73,9 +76,17 @@ abstract class TestCase extends Orchestra
      */
     protected function getPackageProviders($app)
     {
-        return [
-            MediaLibraryServiceProvider::class,
+        $serviceProviders =  [
+            MedialibraryServiceProvider::class,
         ];
+
+        /*
+        if (MediaLibraryPro::isInstalled()) {
+            $serviceProviders[] = MedialibraryProServiceProvider::class;
+        }
+        */
+
+        return $serviceProviders;
     }
 
     /**
@@ -130,6 +141,13 @@ abstract class TestCase extends Orchestra
 
         include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
         (new \CreateMediaTable())->up();
+
+        /*
+        if (MediaLibraryPro::isInstalled()) {
+            include_once __DIR__ . '/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
+            (new CreateTemporaryUploadsTable())->up();
+        }
+        */
     }
 
     protected function setUpTempTestFiles()

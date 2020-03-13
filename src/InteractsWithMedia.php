@@ -22,6 +22,8 @@ use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\MediaLibraryPro;
+use Spatie\MedialibraryPro\Dto\PendingMedia;
 
 trait InteractsWithMedia
 {
@@ -85,6 +87,15 @@ trait InteractsWithMedia
     public function addMediaFromRequest(string $key): FileAdder
     {
         return app(FileAdderFactory::class)->createFromRequest($this, $key);
+    }
+
+    public function addMediaFromTemporaryUpload(string $temporaryUploadPayload): FileAdder
+    {
+        MediaLibraryPro::ensureInstalled();
+
+        $pendingMedia = PendingMedia::createFromPayload($temporaryUploadPayload)->first();
+
+        return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
     }
 
     /**
