@@ -18,6 +18,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\RemoteFile;
+use Spatie\MedialibraryPro\Models\TemporaryUpload;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -110,6 +111,10 @@ class FileAdder
             $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
+            return $this;
+        }
+
+        if ($file instanceof TemporaryUpload) {
             return $this;
         }
 
