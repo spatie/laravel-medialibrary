@@ -103,7 +103,7 @@ return [
     'version_urls' => false,
 
     /*
-     * MediaLibrary will try to optimize all converted images by removing
+     * The media library will try to optimize all converted images by removing
      * metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.
      */
@@ -156,7 +156,7 @@ return [
 
     /*
      * The path where to store temporary files while performing image conversions.
-     * If set to null, storage_path('medialibrary/temp') will be used.
+     * If set to null, storage_path('media-library/temp') will be used.
      */
     'temporary_directory_path' => null,
 

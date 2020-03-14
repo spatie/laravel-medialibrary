@@ -10,27 +10,27 @@ To get started with media collections add a function called `registerMediaCollec
 ```php
 // in your model
 
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
-    $this->addMediaCollection('my-collection');
+    $this->addMediaCollection('my-collection')
         //add options
         ...
 
     // you can define as many collections as needed
-    $this->addMediaCollection('my-other-collection');
+    $this->addMediaCollection('my-other-collection')
         //add options
         ...
 }
 ```
 
-## Defining a fallback url or path
+## Defining a fallback URL or path
 
 If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\File;
 ...
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('avatars')
@@ -46,7 +46,7 @@ You can pass a callback to `acceptsFile` that will check if a file is allowed in
 ```php
 use Spatie\MediaLibrary\MediaCollections\File;
 ...
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('only-jpegs-please')
@@ -77,7 +77,7 @@ use Spatie\MediaLibrary\MediaCollections\File;
 
 // ...
 
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('only-jpegs-please')
@@ -104,7 +104,7 @@ You can ensure that files added to a collection are automatically added to a cer
 ```php
 // in your model
 
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
        ->addMediaCollection('big-files')
@@ -131,7 +131,7 @@ If you want a collection to hold only one file you can use `singleFile` on the c
 ```php
 // in your model
 
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('avatar')
@@ -163,7 +163,7 @@ Whenever you want to limit the amount of files inside a collection you can use t
 ```php
 // in your model
 
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('limited-collection')
@@ -196,7 +196,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // ...
 
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('my-collection')
@@ -226,7 +226,7 @@ If you want to also generate responsive images for any media added to a collecti
 ```php
 // in your model
 
-public function registerMediaCollections()
+public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('my-collection')
