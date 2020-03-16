@@ -57,7 +57,11 @@ abstract class BaseUrlGenerator implements UrlGenerator
 
     protected function getDiskName(): string
     {
-        return $this->conversion === null
+        if ($this->conversion === null) {
+            return $this->media->disk;
+        }
+        
+        return $this->media->conversions_disk === null
             ? $this->media->disk
             : $this->media->conversions_disk;
     }
