@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.0.2 - 2020-03-18
+
+- add callable filter support to `getFirstMedia()` (#1781)
+
 ## 8.0.1 - 2020-03-11
 
 - set conversion disk when adding media from remote (#1764)
