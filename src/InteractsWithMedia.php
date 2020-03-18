@@ -224,7 +224,7 @@ trait InteractsWithMedia
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
-    public function getFirstMedia(string $collectionName = 'default', array $filters = []): ?Media
+    public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
         $media = $this->getMedia($collectionName, $filters);
 
