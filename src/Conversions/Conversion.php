@@ -13,7 +13,7 @@ class Conversion
 
     protected ConversionFileNamer $conversionFileNamer;
 
-    protected int $extractVideoFrameAtSecond = 0;
+    protected float $extractVideoFrameAtSecond = 0;
 
     protected Manipulations $manipulations;
 
@@ -59,14 +59,14 @@ class Conversion
         return $this->performOnCollections;
     }
 
-    public function extractVideoFrameAtSecond(int $timeCode): self
+    public function extractVideoFrameAtSecond(float $timeCode): self
     {
         $this->extractVideoFrameAtSecond = $timeCode;
 
         return $this;
     }
 
-    public function getExtractVideoFrameAtSecond(): int
+    public function getExtractVideoFrameAtSecond(): float
     {
         return $this->extractVideoFrameAtSecond;
     }
