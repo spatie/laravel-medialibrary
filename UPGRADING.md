@@ -13,7 +13,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 You can use this snippet to fill the `uuid` field:
 
-```
+```php
 Media::cursor()->each(
    fn (Media $media) => $media->update(['uuid' => Str::uuid()])
 );
