@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.0.4 - 2020-03-24
+
+- update php-ffmpeg to ^0.15
+
 ## 8.0.3 - 2020-03-18
 
 - add callable filter support to `getFirstMedia()` (#1781)
