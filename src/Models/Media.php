@@ -74,7 +74,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
 
-        return $urlGenerator->getPath();
+        return $urlGenerator->getUrl();
     }
 
     public function getImageGenerators(): Collection
