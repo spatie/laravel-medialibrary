@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.0.6 - 2020-03-24
+
+- fix comment in config file
+
 ## 8.0.5 - 2020-03-24
 
 - Use `float` for `extractVideoFrameAtSecond` (#1794)
