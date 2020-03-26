@@ -24,7 +24,7 @@ use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
-use Spatie\MedialibraryPro\Dto\PendingMedia;
+use Spatie\MediaLibraryPro\Dto\PendingMedia;
 
 trait InteractsWithMedia
 {
