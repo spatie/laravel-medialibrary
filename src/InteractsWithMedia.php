@@ -90,29 +90,29 @@ trait InteractsWithMedia
         return app(FileAdderFactory::class)->createFromRequest($this, $key);
     }
 
-    public function addMediaFromTemporaryUpload(string $temporaryUploadPayload): FileAdder
+    public function addMediaFromTemporaryUpload(array $temporaryUploadAttributes): FileAdder
     {
         MediaLibraryPro::ensureInstalled();
 
-        $pendingMedia = PendingMedia::createFromPayload($temporaryUploadPayload)->first();
+        $pendingMedia = PendingMedia::createFromArray($temporaryUploadAttributes)->first();
 
         return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
     }
 
     /**
-     * Add a a temporary upload to the medialibrary.
+     * Add a a temporary upload to the media library.
      *
      * Accept a TemporaryUpload or the uuid of a Media model that belongs to a TemporaryUpload
      *
-     * @param string $temporaryUploadPayload
+     * @param array $temporaryUploadAttributes
      *
      * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
      */
-    public function addMultipleMediaFromTemporaryUploads(string $temporaryUploadPayload): Collection
+    public function addMultipleMediaFromTemporaryUploads(array $temporaryUploadAttributes): Collection
     {
         MediaLibraryPro::ensureInstalled();
 
-        return PendingMedia::createFromPayload($temporaryUploadPayload)
+        return PendingMedia::createFromArray($temporaryUploadAttributes)
             ->map(function(PendingMedia $pendingMedia) {
                 return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
             });
