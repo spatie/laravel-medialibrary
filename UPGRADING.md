@@ -10,6 +10,15 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 - the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\InteractsWithMedia`. Make sure to update this in all models that use media.
 - Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
 - Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
+
+You can use this snippet to fill the `uuid` field:
+
+```php
+Media::cursor()->each(
+   fn (Media $media) => $media->update(['uuid' => Str::uuid()])
+);
+```
+
 - Url generation has been vastly simplified. You should set the `url_generator` in the `media-library` config file to `Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class`. It will be able to handle most disks.
 - remove the `s3.domain` key from the `media-library` config file
 - spatie/pdf-to-image is now a suggestion dependency. Make sure to install it, if you want to create thumbnails for PDFs or SVGs

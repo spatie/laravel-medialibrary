@@ -185,6 +185,29 @@ class GetMediaTest extends TestCase
         $this->assertEquals('first', $this->testModel->getFirstMedia('images', ['extra_property' => 'yes'])->name);
     }
 
+    /** @test */
+    public function it_can_get_the_first_media_from_a_collection_using_a_filter_callback()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withCustomProperties(['extra_property' => 'yes'])
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'first';
+        $media->save();
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'second';
+        $media->save();
+
+        $firstMedia = $this->testModel->getFirstMedia('images', fn (Media $media) => isset($media->custom_properties['extra_property']));
+
+        $this->assertEquals('first', $firstMedia->name);
+    }
+
     public function it_returns_false_when_getting_first_media_for_an_empty_collection()
     {
         $this->assertFalse($this->testModel->getFirstMedia());
