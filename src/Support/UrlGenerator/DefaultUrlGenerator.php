@@ -30,7 +30,9 @@ class DefaultUrlGenerator extends BaseUrlGenerator
     {
         $adapter = $this->getDisk()->getAdapter();
 
-        if (! \method_exists($adapter, 'getPathPrefix')) {
+        $cachedAdapter = '\League\Flysystem\Cached\CachedAdapter';
+
+        if ($adapter instanceof $cachedAdapter) {
             $adapter = $adapter->getAdapter();
         }
 
