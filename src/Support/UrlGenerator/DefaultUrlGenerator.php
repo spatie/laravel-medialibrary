@@ -28,7 +28,13 @@ class DefaultUrlGenerator extends BaseUrlGenerator
 
     public function getPath(): string
     {
-        $pathPrefix = $this->getDisk()->getAdapter()->getPathPrefix();
+        $pathPrefix = '';
+        
+        $adapter = $this->getDisk()->getAdapter();
+        
+        if (method_exists($adapter, 'getPathPrefix')) {
+            $pathPrefix = $adapter->getPathPrefix();
+        }
 
         return $pathPrefix.$this->getPathRelativeToRoot();
     }
