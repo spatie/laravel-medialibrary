@@ -6,7 +6,7 @@ weight: 1
 If you have different types of files that you want to associate, you can put them in their own collection.
 
 ```php
-$yourModel = YoutModel::find(1);
+$yourModel = YourModel::find(1);
 $yourModel->addMedia($pathToImage)->toMediaCollection('images');
 $yourModel->addMedia($pathToAnotherImage)->toMediaCollection('images');
 $yourModel->addMedia($pathToPdfFile)->toMediaCollection('downloads');
