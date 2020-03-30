@@ -28,7 +28,15 @@ class DefaultUrlGenerator extends BaseUrlGenerator
 
     public function getPath(): string
     {
-        $pathPrefix = $this->getDisk()->getAdapter()->getPathPrefix();
+        $adapter = $this->getDisk()->getAdapter();
+
+        $cachedAdapter = '\League\Flysystem\Cached\CachedAdapter';
+
+        if ($adapter instanceof $cachedAdapter) {
+            $adapter = $adapter->getAdapter();
+        }
+
+        $pathPrefix = $adapter->getPathPrefix();
 
         return $pathPrefix.$this->getPathRelativeToRoot();
     }
