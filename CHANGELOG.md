@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.0.8 - 2020-04-02
+
+- allow ZipStream 2.0 (#1812)
+
 ## 8.0.7 - 2020-03-03
 
 - solve error when using flysystem-cached-adapter (#1803)
