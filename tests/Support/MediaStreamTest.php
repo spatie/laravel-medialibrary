@@ -101,7 +101,6 @@ class MediaStreamTest extends TestCase
         $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test (3).jpg');
     }
 
-
     /** @test */
     public function media_with_zip_file_prefix_property_saved_with_correct_prefix()
     {
