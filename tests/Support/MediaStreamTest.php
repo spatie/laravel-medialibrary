@@ -22,9 +22,6 @@ class MediaStreamTest extends TestCase
                 ->preservingOriginal()
                 ->toMediaCollection();
         }
-
-
-
     }
 
     /** @test */
@@ -89,7 +86,6 @@ class MediaStreamTest extends TestCase
             ])
             ->toMediaCollection();
 
-
         $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
 
         ob_start();
@@ -103,8 +99,6 @@ class MediaStreamTest extends TestCase
         $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test (2).jpg');
 
         $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test (3).jpg');
-
-        $this->assertEquals(2,2);
     }
 
 
@@ -119,7 +113,6 @@ class MediaStreamTest extends TestCase
             ])
             ->toMediaCollection();
 
-
         $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
 
         ob_start();
@@ -131,7 +124,5 @@ class MediaStreamTest extends TestCase
         file_put_contents($temporaryDirectory->path('response.zip'), $content);
 
         $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'just_a_string_prefix test (3).jpg');
-
-        $this->assertEquals(2,2);
     }
 }

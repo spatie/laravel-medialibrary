@@ -86,7 +86,7 @@ class MediaStream implements Responsable
     protected function getZipStreamContents(): Collection
     {
         return $this->mediaItems->map(fn (Media $media, $mediaItemIndex) => [
-            'fileNameInZip' => $this->getZipFileNamePrefix($this->mediaItems, $mediaItemIndex) . $this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
+            'fileNameInZip' => $this->getZipFileNamePrefix($this->mediaItems, $mediaItemIndex).$this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
             'media' => $media,
         ]);
     }
@@ -119,6 +119,6 @@ class MediaStream implements Responsable
 
     protected function getZipFileNamePrefix(Collection $mediaItems, int $currentIndex): string
     {
-        return $mediaItems[$currentIndex]->hasCustomProperty('zip_filename_prefix') ? $mediaItems[$currentIndex]->getCustomProperty('zip_filename_prefix') : "";
+        return $mediaItems[$currentIndex]->hasCustomProperty('zip_filename_prefix') ? $mediaItems[$currentIndex]->getCustomProperty('zip_filename_prefix') : '';
     }
 }
