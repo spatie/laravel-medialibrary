@@ -22,6 +22,9 @@ class MediaStreamTest extends TestCase
                 ->preservingOriginal()
                 ->toMediaCollection();
         }
+
+
+
     }
 
     /** @test */
@@ -73,5 +76,62 @@ class MediaStreamTest extends TestCase
             ->addMedia([Media::find(1), Media::find(2)]);
 
         $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
+    }
+
+    /** @test */
+    public function media_with_zip_file_folder_prefix_property_saved_in_correct_zip_folder()
+    {
+        $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->withCustomProperties([
+                'zip_filename_prefix' => 'folder/subfolder/',
+            ])
+            ->toMediaCollection();
+
+
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
+
+        ob_start();
+        @$zipStreamResponse->toResponse(request())->sendContent();
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test (2).jpg');
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test (3).jpg');
+
+        $this->assertEquals(2,2);
+    }
+
+
+    /** @test */
+    public function media_with_zip_file_prefix_property_saved_with_correct_prefix()
+    {
+        $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->withCustomProperties([
+                'zip_filename_prefix' => 'just_a_string_prefix ',
+            ])
+            ->toMediaCollection();
+
+
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
+
+        ob_start();
+        @$zipStreamResponse->toResponse(request())->sendContent();
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'just_a_string_prefix test (3).jpg');
+
+        $this->assertEquals(2,2);
     }
 }
