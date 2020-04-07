@@ -252,6 +252,14 @@ abstract class TestCase extends Orchestra
         );
     }
 
+    protected function assertFileExistsInZipRecognizeFolder(string $zipPath, string $filename)
+    {
+        $this->assertTrue(
+            $this->fileExistsInZipRecognizeFolder($zipPath, $filename),
+            "Failed to assert that {$zipPath} contains a file name {$filename} by recognizing folders"
+        );
+    }
+
     protected function assertFileDoesntExistsInZip(string $zipPath, string $filename)
     {
         $this->assertFalse(
@@ -266,6 +274,17 @@ abstract class TestCase extends Orchestra
 
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
+        }
+
+        return false;
+    }
+
+    protected function fileExistsInZipRecognizeFolder($zipPath, $filename): bool
+    {
+        $zip = new ZipArchive();
+
+        if ($zip->open($zipPath) === true) {
+            return $zip->locateName($filename) !== false;
         }
 
         return false;
