@@ -69,3 +69,27 @@ $mediaItem->getCustomProperty('group.primaryColor'); // returns 'red'
 $mediaItem->hasCustomProperty('nested.does-not-exist'); // returns false
 $mediaItem->getCustomProperty('nested.does-not-exist'); // returns null
 ```
+
+---
+title: Special custom properties
+weight: 2
+---
+
+## ZIP File Folders
+
+The ZIP export stores all media files in the root folder of the ZIP file.
+
+If you want to save media in subfolders, you can do this with the help of the special custom property 'zip_filename_prefix'.
+
+Each media can be assigned to a subfolder.
+
+```php
+$mediaItem = Media::find($id);
+
+$mediaItem->setCustomProperty('zip_filename_prefix', 'folder/subfolder/'); // stores $mediaItem in Subfolder
+
+$mediaItem->save();
+
+$mediaStream =  MediaStream::create('export.zip');
+$mediaStream->addMedia($mediaItem);
+```
