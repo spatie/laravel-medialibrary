@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.0 - 2020-04-14
+
+- add page number support for Pdf image generator (#1829)
+
 ## 8.1.0 - 2020-04-07
 
 - add support for `zip_filename_prefix` in custom properties
