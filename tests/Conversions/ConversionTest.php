@@ -189,4 +189,12 @@ class ConversionTest extends TestCase
 
         $this->assertArrayNotHasKey('optimize', $manipulations[0]);
     }
+
+    /** @test */
+    public function it_will_use_the_pdf_page_number_parameter_if_it_was_given()
+    {
+        $this->conversion->pdfPageNumber(10);
+
+        $this->assertEquals(10, $this->conversion->getPdfPageNumber());
+    }
 }
