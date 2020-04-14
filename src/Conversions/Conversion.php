@@ -27,6 +27,8 @@ class Conversion
 
     protected string $loadingAttributeValue;
 
+    protected int $pdfPageNumber = 1;
+
     public function __construct(string $name)
     {
         $this->name = $name;
@@ -229,5 +231,17 @@ class Conversion
     public function getLoadingAttributeValue(): string
     {
         return $this->loadingAttributeValue;
+    }
+
+    public function pdfPageNumber(int $pageNumber): self
+    {
+        $this->pdfPageNumber = $pageNumber;
+
+        return $this;
+    }
+
+    public function getPdfPageNumber(): int
+    {
+        return $this->pdfPageNumber;
     }
 }
