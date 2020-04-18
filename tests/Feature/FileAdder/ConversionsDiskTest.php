@@ -48,7 +48,7 @@ class ConversionsDiskTest extends TestCase
     }
 
     /** @test */
-    public function deleting_media_will_also_delete_conversions_on_the_seperate_disk()
+    public function deleting_media_will_also_delete_conversions_on_the_separate_disk()
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
