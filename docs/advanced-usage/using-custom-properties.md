@@ -21,8 +21,8 @@ $mediaItem->getCustomProperty('primaryColor'); // returns 'red'
 $mediaItem->hasCustomProperty('does not exist'); // returns false
 $mediaItem->getCustomProperty('does not exist'); // returns null
 
-$mediaItem->setCustomProperty('name', 'value'); // adds a new custom propery
-$mediaItem->forgetCustomProperty('name'); // removes a custom propery
+$mediaItem->setCustomProperty('name', 'value'); // adds a new custom property
+$mediaItem->forgetCustomProperty('name'); // removes a custom property
 ```
 
 It is also possible to filter a collection by a custom property using filters. These can either be a simple key value array or a callback to allow for more control:
@@ -41,8 +41,8 @@ If you are setting or removing custom properties outside the process of adding m
 ```php
 $mediaItem = Media::find($id);
 
-$mediaItem->setCustomProperty('name', 'value'); // adds a new custom propery or updates an existing one
-$mediaItem->forgetCustomProperty('name'); // removes a custom propery
+$mediaItem->setCustomProperty('name', 'value'); // adds a new custom property or updates an existing one
+$mediaItem->forgetCustomProperty('name'); // removes a custom property
 
 $mediaItem->save();
 ```

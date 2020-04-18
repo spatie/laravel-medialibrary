@@ -34,7 +34,7 @@ weight: 5
               We start with an image that has <code>srcset</code> values, rendered by the <a href="https://docs.spatie.be/laravel-medialibrary/v8">Laravel MediaLibrary</a>
           </li>
           <li>
-              An initial <code>sizes="1px"</code> atribute is used to render an inline base64-encoded SVG placeholder first
+              An initial <code>sizes="1px"</code> attribute is used to render an inline base64-encoded SVG placeholder first
           </li>
           <li>
               Once the page is loaded, JavaScript sets the <code>sizes</code> to the actual width of the image in the layout
