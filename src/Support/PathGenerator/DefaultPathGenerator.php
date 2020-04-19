@@ -39,7 +39,7 @@ class DefaultPathGenerator implements PathGenerator
         // method for retrieving its media. Because
         // the developer's time is precious, and
         // this may save him from having to
-        // implement the inteface in
+        // implement the interface in
         // most basic use cases!
         if (method_exists($media->model, 'getMediaBasePath')) {
             return $media->model->getMediaBasePath($media);
