@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
@@ -294,6 +295,16 @@ class IntegrationTest extends TestCase
 
         $this->assertEquals('header', $media->name);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/header.jpg"));
+    }
+
+    /** @test */
+    public function it_will_not_add_local_files_when_an_url_is_expected()
+    {
+        $this->expectException(InvalidUrl::class);
+
+        $this->testModel
+            ->addMediaFromUrl(__FILE__)
+            ->toMediaCollection();
     }
 
     /** @test */
