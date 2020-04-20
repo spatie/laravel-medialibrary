@@ -3,7 +3,7 @@ title: Getting started with responsive images
 weight: 1
 ---
 
-Websites are viewed on various devices with widely differing screen sizes and connection speeds. When serving images it's best not to use the same image for all devices. A large image might be fine on a desktop computer with a fast internet connection, but on a small mobile device with limited bandwith, the download might take a long time.
+Websites are viewed on various devices with widely differing screen sizes and connection speeds. When serving images it's best not to use the same image for all devices. A large image might be fine on a desktop computer with a fast internet connection, but on a small mobile device with limited bandwidth, the download might take a long time.
 
 The media library has support for generating the necessary files and html markup for responsive images. In addition the medialibrary also has support for progressive image loading.
 
@@ -43,7 +43,7 @@ Say your browser is 1200 pixels wide, the `sizes` attribute demands for an image
 The `sizes` attribute requires a lot of work though: you'd need to co-ordinate between your responsive CSS and the output HTML to set the right `sizes` for every image and every layout scenario.
 If you leave out the `sizes` attribute, the browser will presume that the image will be rendered full width, which is also not optimal in many cases — eg. thumbnails.
 
-Now the media library takes a pragmatic approach in this, so you don't ever have to think about the `sizes` attribute and can experiment freely with different page layouts: we set the `sizes` intially to `1px` to load the smallest picture first, and after load adjust `sizes` to the rendered width of the image with JavaScript. 
+Now the media library takes a pragmatic approach in this, so you don't ever have to think about the `sizes` attribute and can experiment freely with different page layouts: we set the `sizes` initially to `1px` to load the smallest picture first, and after load adjust `sizes` to the rendered width of the image with JavaScript. 
 We set this width in a `vw` value: if you make your browser wider, an even better version will be loaded. 
 
 At the same time we can use this technique to use this smallest picture as the placeholder.

@@ -7,7 +7,7 @@ When generating images to be used in a `srcset`, the media library will calculat
 
 ### The default calculator
 
-The default width calculator shipped with the media library is named `FileSizeOptimizedWidthCalculator`. This class uses an algorithm which produces widths of which it is predicted that each one results in a file being ±70% of the filesize of the previous variation. The class will keep generating variations until the predicted file size is lower then 10 Kb or the target width is less than 20 pixels.  So for an image with large dimensions the medialibrary will generate more variations than for an image with smaller dimensions.
+The default width calculator shipped with the media library is named `FileSizeOptimizedWidthCalculator`. This class uses an algorithm which produces widths of which it is predicted that each one results in a file being ±70% of the filesize of the previous variation. The class will keep generating variations until the predicted file size is lower than 10 Kb or the target width is less than 20 pixels.  So for an image with large dimensions the medialibrary will generate more variations than for an image with smaller dimensions.
 
 ### Using your own width calculator
 

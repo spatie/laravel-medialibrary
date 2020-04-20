@@ -11,7 +11,9 @@ class Pdf extends ImageGenerator
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        (new \Spatie\PdfToImage\Pdf($file))->saveImage($imageFile);
+        $pageNumber = $conversion ? $conversion->getPdfPageNumber() : 1;
+
+        (new \Spatie\PdfToImage\Pdf($file))->setPage($pageNumber)->saveImage($imageFile);
 
         return $imageFile;
     }
