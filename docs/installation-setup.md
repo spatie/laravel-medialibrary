@@ -14,7 +14,7 @@ The package will automatically register a service provider.
 You need to publish and run the migration:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="media-library-migrations"
 php artisan migrate
 ```
 
@@ -33,7 +33,7 @@ public function down()
 Publishing the config file is optional:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="media-library-config"
 ```
 
 This is the default content of the config file:
