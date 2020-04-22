@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests;
 
+use CreateMediaTable;
 use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -129,7 +130,7 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
 
         include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
-        (new \CreateMediaTable())->up();
+        (new CreateMediaTable())->up();
     }
 
     protected function setUpTempTestFiles()
