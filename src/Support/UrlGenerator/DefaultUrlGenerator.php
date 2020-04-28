@@ -23,7 +23,7 @@ class DefaultUrlGenerator extends BaseUrlGenerator
 
     public function getBaseMediaDirectoryUrl()
     {
-        return $this->getDisk()->url('/');
+        return $this->getDisk()->url('');
     }
 
     public function getPath(): string
