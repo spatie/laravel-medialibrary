@@ -165,6 +165,32 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_retrieves_a_temporary_media_url_from_s3_when_s3_root_not_empty()
+    {
+        config()->set('filesystems.disks.s3_disk.root', 'test-root');
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('default', 's3_disk');
+
+        $this->assertStringContainsString(
+            "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
+            $media->getTemporaryUrl(Carbon::now()->addMinutes(5))
+        );
+
+        $this->assertStringNotContainsString(
+            '/test-root/test-root',
+            $media->getTemporaryUrl(Carbon::now()->addMinutes(5))
+        );
+
+        $this->assertEquals(
+            sha1(file_get_contents($this->getTestJpg())),
+            sha1(file_get_contents($media->getTemporaryUrl(Carbon::now()->addMinutes(5))))
+        );
+    }
+
+    /** @test */
     public function it_can_get_the_temporary_url_to_first_media_in_a_collection()
     {
         $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');

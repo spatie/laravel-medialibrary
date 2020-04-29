@@ -18,7 +18,7 @@ class DefaultUrlGenerator extends BaseUrlGenerator
 
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
     {
-        return $this->getDisk()->temporaryUrl($this->getPath(), $expiration, $options);
+        return $this->getDisk()->temporaryUrl($this->getPathRelativeToRoot(), $expiration, $options);
     }
 
     public function getBaseMediaDirectoryUrl()
