@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.3 - 2020-04-29
+
+- fixed duplicated path prefix for temporary urls (#1853)
+
 ## 8.2.2 - 2020-04-29
 
 - fixed duplicated `/` in paths (#1854)
