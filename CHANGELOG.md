@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.2 - 2020-04-29
+
+- fixed duplicated `/` in paths (#1854)
+
 ## 8.2.1 - 2020-04-20
 
 - do not allow local files to be used in `addMediaFromUrl`
