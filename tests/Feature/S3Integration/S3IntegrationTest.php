@@ -163,7 +163,7 @@ class S3IntegrationTest extends TestCase
             sha1(file_get_contents($media->getTemporaryUrl(Carbon::now()->addMinutes(5))))
         );
     }
-    
+
     /** @test */
     public function it_retrieves_a_temporary_media_url_from_s3_when_s3_root_not_empty()
     {
