@@ -218,7 +218,7 @@ class Filesystem
         $oldFileName = $media->getOriginal('file_name');
 
         $mediaDirectory = $this->getMediaDirectory($media);
-(
+
         $oldFile = "{$mediaDirectory}/{$oldFileName}";
         $newFile = "{$mediaDirectory}/{$newFileName}";
 
