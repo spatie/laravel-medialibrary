@@ -218,7 +218,7 @@ class Filesystem
         $oldFileName = $media->getOriginal('file_name');
 
         $mediaDirectory = $this->getMediaDirectory($media);
-
+(
         $oldFile = "{$mediaDirectory}/{$oldFileName}";
         $newFile = "{$mediaDirectory}/{$newFileName}";
 
@@ -227,7 +227,7 @@ class Filesystem
 
     protected function renameConversionFiles(Media $media): void
     {
-        $mediaWithOldFileName = Media::find($media->id);
+        $mediaWithOldFileName = config('media-library.media_model')::find($media->id);
         $mediaWithOldFileName->file_name = $mediaWithOldFileName->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);
