@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.4 - 2020-05-01
+
+- fix for when using custom model (#1857)
+
 ## 8.2.3 - 2020-04-29
 
 - fixed duplicated path prefix for temporary urls (#1853)
