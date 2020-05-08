@@ -24,6 +24,7 @@ use Spatie\MediaLibrary\UrlGenerator\UrlGeneratorFactory;
 
 class Media extends Model implements Responsable, Htmlable
 {
+    protected $table = 'media';
     use IsSorted,
         CustomMediaProperties;
 
