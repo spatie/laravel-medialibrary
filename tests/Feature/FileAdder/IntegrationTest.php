@@ -68,7 +68,7 @@ class IntegrationTest extends TestCase
             ->addMedia($testFile)
             ->toMediaCollection();
 
-        $this->assertFileNotExists($testFile);
+        $this->assertFileDoesNotExist($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
 
@@ -330,7 +330,7 @@ class IntegrationTest extends TestCase
             ->toMediaCollection();
 
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory('tmp/test.jpg'));
+        $this->assertFileDoesNotExist($this->getMediaDirectory('tmp/test.jpg'));
     }
 
     /** @test */

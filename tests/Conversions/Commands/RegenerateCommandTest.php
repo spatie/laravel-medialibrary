@@ -16,7 +16,7 @@ class RegenerateCommandTest extends TestCase
 
         unlink($derivedImage);
 
-        $this->assertFileNotExists($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage);
 
         sleep(1);
 
@@ -49,7 +49,7 @@ class RegenerateCommandTest extends TestCase
 
         unlink($derivedMissingImage);
 
-        $this->assertFileNotExists($derivedMissingImage);
+        $this->assertFileDoesNotExist($derivedMissingImage);
 
         sleep(1);
 
@@ -87,7 +87,7 @@ class RegenerateCommandTest extends TestCase
 
         unlink($derivedMissingImage);
 
-        $this->assertFileNotExists($derivedMissingImage);
+        $this->assertFileDoesNotExist($derivedMissingImage);
 
         sleep(1);
 
@@ -116,15 +116,15 @@ class RegenerateCommandTest extends TestCase
         unlink($derivedImage);
         unlink($derivedMissingImage);
 
-        $this->assertFileNotExists($derivedImage);
-        $this->assertFileNotExists($derivedMissingImage);
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedMissingImage);
 
         $this->artisan('media-library:regenerate', [
             '--only' => 'thumb',
         ]);
 
         $this->assertFileExists($derivedImage);
-        $this->assertFileNotExists($derivedMissingImage);
+        $this->assertFileDoesNotExist($derivedMissingImage);
     }
 
     /** @test */
@@ -150,8 +150,8 @@ class RegenerateCommandTest extends TestCase
         unlink($derivedMissingImage);
         unlink($derivedMissingImageOriginal);
 
-        $this->assertFileNotExists($derivedMissingImage);
-        $this->assertFileNotExists($derivedMissingImageOriginal);
+        $this->assertFileDoesNotExist($derivedMissingImage);
+        $this->assertFileDoesNotExist($derivedMissingImageOriginal);
 
         sleep(1);
 
@@ -161,7 +161,7 @@ class RegenerateCommandTest extends TestCase
         ]);
 
         $this->assertFileExists($derivedMissingImage);
-        $this->assertFileNotExists($derivedMissingImageOriginal);
+        $this->assertFileDoesNotExist($derivedMissingImageOriginal);
         $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
         $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
     }
@@ -184,12 +184,12 @@ class RegenerateCommandTest extends TestCase
         unlink($derivedImage);
         unlink($derivedImage2);
 
-        $this->assertFileNotExists($derivedImage);
-        $this->assertFileNotExists($derivedImage2);
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
 
         $this->artisan('media-library:regenerate', ['--ids' => [2]]);
 
-        $this->assertFileNotExists($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage);
         $this->assertFileExists($derivedImage2);
     }
 
@@ -211,8 +211,8 @@ class RegenerateCommandTest extends TestCase
         unlink($derivedImage);
         unlink($derivedImage2);
 
-        $this->assertFileNotExists($derivedImage);
-        $this->assertFileNotExists($derivedImage2);
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
 
         $this->artisan('media-library:regenerate', ['--ids' => ['1,2']]);
 
