@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.6 - 2020-05-10
+
+- Revert slash because of Vapor errors (#1869)
+
 ## 8.2.5 - 2020-05-07
 
 - set the media table name explicitly to `media` to avoid failure caused by doctrine/inflictor now using `medias` as the plural
