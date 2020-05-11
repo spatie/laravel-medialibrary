@@ -29,6 +29,8 @@ class Media extends Model implements Responsable, Htmlable
 
     const TYPE_OTHER = 'other';
 
+    protected $table = 'media';
+
     protected $guarded = [];
 
     protected $casts = [
