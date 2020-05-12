@@ -3,13 +3,14 @@ title: Installation & setup
 weight: 4
 ---
 
-MediaLibrary can be installed via composer:
+MediaLibrary can be installed via composer. Before installing make sure you have not cached the configuration:
 
 ```bash
+php artisan config:clear
 composer require "spatie/laravel-medialibrary:^8.0.0"
 ```
 
-The package will automatically register a service provider.
+The package will automatically register a service provider. You can cache the configuration afterwards.
 
 You need to publish and run the migration:
 
