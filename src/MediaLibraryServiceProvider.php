@@ -14,11 +14,13 @@ use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
 class MediaLibraryServiceProvider extends ServiceProvider
 {
+    const DEFAULT_MEDIA_CLASS = '\Spatie\MediaLibrary\MediaCollections\Models\Media';
+    
     public function boot()
     {
         $this->registerPublishables();
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = config('media-library.media_model', self::DEFAULT_MEDIA_CLASS);
 
         $mediaClass::observe(new MediaObserver());
 
@@ -30,7 +32,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/media-library.php', 'media-library');
 
         $this->app->singleton(MediaRepository::class, function () {
-            $mediaClass = config('media-library.media_model');
+            $mediaClass = config('media-library.media_model', self::DEFAULT_MEDIA_CLASS);
 
             return new MediaRepository(new $mediaClass);
         });
