@@ -28,6 +28,19 @@ class UpdateMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_removes_a_media_item_with_eager_loaded_relation()
+    {
+        $mediaArray = $this->testModel->media->toArray();
+        unset($mediaArray[0]);
+
+        $this->testModel->load('media');
+        $this->testModel->updateMedia($mediaArray);
+
+        $this->assertCount(1, $this->testModel->media);
+        $this->assertEquals('test2', $this->testModel->getFirstMedia()->name);
+    }
+
+    /** @test */
     public function it_renames_media_items()
     {
         $mediaArray = $this->testModel->media->toArray();
