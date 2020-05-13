@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.7 - 2020-05-12
+
+- Unset loaded 'media' relation during updateMedia() (#1878)
+
 ## 8.2.6 - 2020-05-10
 
 - Revert slash because of Vapor errors (#1869)
