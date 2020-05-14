@@ -23,6 +23,8 @@ class ResponsiveImageGenerator
 
     protected TinyPlaceholderGenerator $tinyPlaceholderGenerator;
 
+    protected const DEFAULT_CONVERSION_QUALITY = 90;
+
     public function __construct(
         Filesystem $filesystem,
         WidthCalculator $widthCalculator,
@@ -47,7 +49,7 @@ class ResponsiveImageGenerator
         $media = $this->cleanResponsiveImages($media);
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $this->getConversionQuality(), $width, $temporaryDirectory);
+            $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $width, $temporaryDirectory);
         }
 
         event(new ResponsiveImagesGenerated($media));
@@ -64,7 +66,7 @@ class ResponsiveImageGenerator
         $media = $this->cleanResponsiveImages($media, $conversion->getName());
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $this->getConversionQuality($conversion), $width, $temporaryDirectory);
+            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory, $this->getConversionQuality($conversion));
         }
 
         $this->generateTinyJpg($media, $baseImage, $conversion->getName(), $temporaryDirectory);
@@ -72,24 +74,18 @@ class ResponsiveImageGenerator
         $temporaryDirectory->delete();
     }
 
-    private function getConversionQuality(Conversion $conversion = null): int
+    private function getConversionQuality(Conversion $conversion): int
     {
-        $defaultConversionQuality = 90;
-
-        if (! $conversion) {
-            return $defaultConversionQuality;
-        }
-
-        return $conversion->getManipulations()->getManipulationArgument('quality') ?: $defaultConversionQuality;
+        return $conversion->getManipulations()->getManipulationArgument('quality') ?: self::DEFAULT_CONVERSION_QUALITY;
     }
 
     public function generateResponsiveImage(
         Media $media,
         string $baseImage,
         string $conversionName,
-        int $conversionQuality,
         int $targetWidth,
-        BaseTemporaryDirectory $temporaryDirectory
+        BaseTemporaryDirectory $temporaryDirectory,
+        int $conversionQuality = self::DEFAULT_CONVERSION_QUALITY
     ): void {
         $responsiveImagePath = $this->appendToFileName(
             $media->file_name,
