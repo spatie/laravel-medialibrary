@@ -47,7 +47,7 @@ class ResponsiveImageGenerator
         $media = $this->cleanResponsiveImages($media);
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $width, $temporaryDirectory);
+            $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $this->getConversionQuality(), $width, $temporaryDirectory);
         }
 
         event(new ResponsiveImagesGenerated($media));
@@ -64,7 +64,7 @@ class ResponsiveImageGenerator
         $media = $this->cleanResponsiveImages($media, $conversion->getName());
 
         foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory);
+            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $this->getConversionQuality($conversion), $width, $temporaryDirectory);
         }
 
         $this->generateTinyJpg($media, $baseImage, $conversion->getName(), $temporaryDirectory);
@@ -72,10 +72,22 @@ class ResponsiveImageGenerator
         $temporaryDirectory->delete();
     }
 
+    private function getConversionQuality(Conversion $conversion = null): int
+    {
+        $defaultConversionQuality = 90;
+
+        if (! $conversion) {
+            return $defaultConversionQuality;
+        }
+
+        return $conversion->getManipulations()->getManipulationArgument('quality') ?: $defaultConversionQuality;
+    }
+
     public function generateResponsiveImage(
         Media $media,
         string $baseImage,
         string $conversionName,
+        int $conversionQuality,
         int $targetWidth,
         BaseTemporaryDirectory $temporaryDirectory
     ): void {
@@ -90,6 +102,7 @@ class ResponsiveImageGenerator
         ImageFactory::load($baseImage)
             ->optimize()
             ->width($targetWidth)
+            ->quality($conversionQuality)
             ->save($tempDestination);
 
         $responsiveImageHeight = ImageFactory::load($tempDestination)->getHeight();
