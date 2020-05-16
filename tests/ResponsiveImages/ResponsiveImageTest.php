@@ -71,4 +71,18 @@ class ResponsiveImageTest extends TestCase
 
         $this->assertEquals(280, $responsiveImage->height());
     }
+
+    /** @test */
+    public function responsive_image_generation_respects_the_conversion_quality_setting()
+    {
+        $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('default');
+
+        $standardQualityResponsiveConversion = $this->getTempDirectory('media/1/responsive-images/test___standardQuality_340_280.jpg');
+        $lowerQualityResponsiveConversion = $this->getTempDirectory('media/1/responsive-images/test___lowerQuality_340_280.jpg');
+
+        $this->assertLessThan(filesize($standardQualityResponsiveConversion), filesize($lowerQualityResponsiveConversion));
+    }
 }

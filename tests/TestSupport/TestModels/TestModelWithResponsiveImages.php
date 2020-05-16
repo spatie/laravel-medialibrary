@@ -23,5 +23,14 @@ class TestModelWithResponsiveImages extends TestModel
             ->background('blue')
             ->format(Manipulations::FORMAT_JPG)
             ->withResponsiveImages();
+
+        $this->addMediaConversion('lowerQuality')
+             ->withResponsiveImages()
+             ->quality(60)
+             ->nonQueued();
+
+        $this->addMediaConversion('standardQuality')
+             ->withResponsiveImages()
+             ->nonQueued();
     }
 }
