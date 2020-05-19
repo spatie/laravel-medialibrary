@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.8 - 2020-05-16
+
+- when generating responsive images the quallity option of the original will be used (#1881)
+
+## 8.2.7 - 2020-05-12
+
+- Unset loaded 'media' relation during updateMedia() (#1878)
+
 ## 8.2.6 - 2020-05-10
 
 - revert slash because of Vapor errors (#1869)

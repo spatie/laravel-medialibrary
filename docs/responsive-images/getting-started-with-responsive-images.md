@@ -121,17 +121,19 @@ class YourModel extends Model implements HasMedia
         $this
             ->addMediaConversion('my-conversion')
             ->greyscale()
+            ->quality(80)
             ->withResponsiveImages();
     }
 }
 ```
 
-To generate the converted greyscale file and the responsive images simply add a file:
+To generate the converted greyscale file with its [quality](https://docs.spatie.be/image/v1/usage/saving-images/#changing-jpeg-quality) slightly reduced, and the responsive images, simply add a file:
 
 
 ```php
-$yourModel->addMedia($yourImage)->toMediaCollection();
+$yourModel->addMedia($yourImage)->toMediaCollection('my-conversion');
 ```
+*The conversion's `quality` setting will also be applied to its generated responsive images.*
 
 In a controller you can pass a media object to a view.
 

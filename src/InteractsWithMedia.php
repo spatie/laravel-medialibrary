@@ -352,6 +352,10 @@ trait InteractsWithMedia
                 array_column($newMediaArray, $currentMediaItem->getKeyName()),
             ))
             ->each(fn (Media $media) => $media->delete());
+
+        if ($this->mediaIsPreloaded()) {
+            unset($this->media);
+        }
     }
 
     public function clearMediaCollection(string $collectionName = 'default'): self
