@@ -245,7 +245,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media || ! @file_get_contents($url = $media->getUrl($conversionName)) ) {
+        if (! $media || ! @file_get_contents($url = $media->getUrl($conversionName))) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
