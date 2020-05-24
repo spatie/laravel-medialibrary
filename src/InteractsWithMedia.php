@@ -245,11 +245,11 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (! $media || ! file_get_contents($url = $media->getUrl($conversionName)) ) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
-        return $media->getUrl($conversionName);
+        return $url;
     }
 
     /*
@@ -265,11 +265,11 @@ trait InteractsWithMedia
     ): string {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (! $media || ! file_get_contents($url = $media->getTemporaryUrl($expiration, $conversionName))) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
-        return $media->getTemporaryUrl($expiration, $conversionName);
+        return $url;
     }
 
     public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection
@@ -299,11 +299,11 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (! $media || ! file_exists($url = $media->getPath($conversionName))) {
             return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
-        return $media->getPath($conversionName);
+        return $url;
     }
 
     /*
