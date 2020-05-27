@@ -11,12 +11,12 @@ class Svg extends ImageGenerator
 {
     public function convert(string $file, Conversion $conversion = null): string
     {
-        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.'.$conversion->getResultExtension();
 
         $image = new Imagick();
-        $image->readImage($file);
         $image->setBackgroundColor(new ImagickPixel('none'));
-        $image->setImageFormat('jpg');
+        $image->readImage($file);
+        $image->setImageFormat($conversion->getResultExtension());
 
         file_put_contents($imageFile, $image);
 
