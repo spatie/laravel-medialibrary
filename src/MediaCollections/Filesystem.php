@@ -185,7 +185,7 @@ class Filesystem
                 try {
                     $this->filesystem->disk($media->disk)->deleteDirectory($directory);
                 } catch (\Exception $e) {
-                    \Log::error($e->getMessage());
+                    report($e->getMessage());
                 }
             });
     }
