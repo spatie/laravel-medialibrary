@@ -94,7 +94,6 @@ To learn how to upgrade, take a look in UPGRADING.md
 ## 7.19.3 - 2020-03-09
 
 - fix responsive images extension (#1752)
-- use native file copy (#1758)
 
 ## 7.19.2 - 2020-03-04
 

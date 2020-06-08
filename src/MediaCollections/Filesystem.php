@@ -161,7 +161,7 @@ class Filesystem
         $targetFileStream = fopen($targetFile, 'a');
 
         while (! feof($stream)) {
-            $chunk = fread($stream, 1024);
+            $chunk = fgets($stream, 1024);
             fwrite($targetFileStream, $chunk);
         }
 
