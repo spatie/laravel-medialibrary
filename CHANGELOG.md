@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.9 - 2020-06-08
+
+- changed `freads` to `fgetsù  as per issue #812 (#1909)
+
 ## 8.2.8 - 2020-05-16
 
 - when generating responsive images the quallity option of the original will be used (#1881)
