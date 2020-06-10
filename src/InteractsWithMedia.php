@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Helpers\Util;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
@@ -152,6 +153,10 @@ trait InteractsWithMedia
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes): FileAdder
     {
+        if (! Str::startsWith($url, ['http://', 'https://'])) {
+            throw InvalidUrl::doesNotStartWithProtocol($url);
+        }
+
         if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
@@ -378,6 +383,10 @@ trait InteractsWithMedia
                 array_column($newMediaArray, $currentMediaItem->getKeyName()),
             ))
             ->each(fn (Media $media) => $media->delete());
+
+        if ($this->mediaIsPreloaded()) {
+            unset($this->media);
+        }
     }
 
     public function clearMediaCollection(string $collectionName = 'default'): self

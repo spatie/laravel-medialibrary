@@ -24,6 +24,17 @@ The media library includes image generators for the following file types:
 
 The PDF generator requires [Imagick](http://php.net/manual/en/imagick.setresolution.php) and [Ghostscript](https://www.ghostscript.com/). If you're running into issues with Ghostscript have a look at [issues regarding Ghostscript](https://github.com/spatie/pdf-to-image/blob/master/README.md#issues-regarding-ghostscript).
 
+The pdf image generator allows you to choose at which page of the pdf, the thumbnail should be created using the `pdfPageNumber` on the conversion.
+
+If the `pdfPageNumber` is not set on the conversion, the default value will be the first page of the pdf.
+
+```php
+$this->addMediaConversion('thumb')
+     ->width(368)
+     ->height(232)
+     ->pdfPageNumber(2);
+```
+
 ## SVG
 
 The only requirement to perform a conversion of a SVG file is [Imagick](http://php.net/manual/en/imagick.setresolution.php).

@@ -44,11 +44,11 @@ class ClearCommandTest extends TestCase
     {
         $this->artisan('media-library:clear');
 
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
 
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 
     /** @test */
@@ -58,8 +58,8 @@ class ClearCommandTest extends TestCase
             'modelType' => TestModel::class,
         ]);
 
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
 
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
@@ -73,10 +73,10 @@ class ClearCommandTest extends TestCase
         ]);
 
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
 
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
     }
 
     /** @test */
@@ -88,7 +88,7 @@ class ClearCommandTest extends TestCase
         ]);
 
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+        $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
 
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));

@@ -26,7 +26,7 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertFileNotExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
+        $this->assertFileDoesNotExist($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
 
         $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
 
@@ -52,7 +52,7 @@ class MediaCollectionTest extends TestCase
 
         $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
 
-        $this->assertFileNotExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+        $this->assertFileDoesNotExist($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
     }
 
     /** @test */
@@ -98,7 +98,7 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->addMedia($this->getTestJpg())->toMediaCollection('unrelated-collection');
 
-        $this->assertFileNotExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
+        $this->assertFileDoesNotExist($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
     }
 
     /** @test */

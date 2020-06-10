@@ -30,6 +30,6 @@ class CleanResponsiveImagesTest extends TestCase
         $media->refresh();
 
         $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
-        $this->assertFileNotExists($deprecatedReponsiveImagesPath);
+        $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
     }
 }

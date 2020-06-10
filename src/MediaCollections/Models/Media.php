@@ -29,6 +29,8 @@ class Media extends Model implements Responsable, Htmlable
         CustomMediaProperties,
         HasUuid;
 
+    protected $table = 'media';
+
     const TYPE_OTHER = 'other';
 
     protected $guarded = [];

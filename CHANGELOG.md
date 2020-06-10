@@ -2,6 +2,58 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.2.9 - 2020-06-08
+
+- changed `freads` to `fgets`  as per issue #812 (#1909)
+
+## 8.2.8 - 2020-05-16
+
+- when generating responsive images the quallity option of the original will be used (#1881)
+
+## 8.2.7 - 2020-05-12
+
+- Unset loaded 'media' relation during updateMedia() (#1878)
+
+## 8.2.6 - 2020-05-10
+
+- revert slash because of Vapor errors (#1869)
+
+## 8.2.5 - 2020-05-07
+
+- set the media table name explicitly to `media` to avoid failure caused by doctrine/inflictor now using `medias` as the plural
+
+## 8.2.4 - 2020-05-01
+
+- fix for when using custom model (#1857)
+
+## 8.2.3 - 2020-04-29
+
+- fixed duplicated path prefix for temporary urls (#1853)
+
+## 8.2.2 - 2020-04-29
+
+- fixed duplicated `/` in paths (#1854)
+
+## 8.2.1 - 2020-04-20
+
+- do not allow local files to be used in `addMediaFromUrl`
+
+## 8.2.0 - 2020-04-14
+
+- add page number support for Pdf image generator (#1829)
+
+## 8.1.0 - 2020-04-07
+
+- add support for `zip_filename_prefix` in custom properties
+
+## 8.0.8 - 2020-04-02
+
+- allow ZipStream 2.0 (#1812)
+
+## 8.0.7 - 2020-03-03
+
+- solve error when using flysystem-cached-adapter (#1803)
+
 ## 8.0.6 - 2020-03-24
 
 - fix comment in config file
@@ -42,7 +94,6 @@ To learn how to upgrade, take a look in UPGRADING.md
 ## 7.19.3 - 2020-03-09
 
 - fix responsive images extension (#1752)
-- use native file copy (#1758)
 
 ## 7.19.2 - 2020-03-04
 

@@ -34,6 +34,8 @@ public function addMedia($file)
 
 ### addMediaFromUrl
 
+This method only accepts URLs that start with `http://` or `https://`
+
 ```php
 /**
  * Add a remote file to the media library.

@@ -18,6 +18,18 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 php artisan migrate
 ```
 
+If you use Artisan's `migrate:rollback` or `migrate:refresh` commands you should edit the migration to include a down method:
+
+```php
+/**
+ * Reverse the migrations.
+ */
+public function down()
+{
+    Schema::dropIfExists('media');
+}
+```
+
 Publishing the config file is optional:
 
 ```bash

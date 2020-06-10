@@ -25,7 +25,7 @@ class MoveTest extends TestCase
         $movedMedia = $media->move($anotherModel, 'images');
 
         $this->assertCount(0, $model->getMedia('default'));
-        $this->assertFileNotExists($this->getMediaDirectory($media->id.'/test.jpg'));
+        $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
 
         $this->assertCount(1, $anotherModel->getMedia('images'));
         $this->assertFileExists($this->getMediaDirectory($movedMedia->id.'/test.jpg'));
@@ -54,7 +54,7 @@ class MoveTest extends TestCase
         $movedMedia = $media->move($anotherModel, 'images', $diskName);
 
         $this->assertCount(0, $model->getMedia('default'));
-        $this->assertFileNotExists($this->getMediaDirectory($media->id.'/test.jpg'));
+        $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
 
         $this->assertCount(1, $anotherModel->getMedia('images'));
         $this->assertFileExists($this->getTempDirectory('media2').'/'.$movedMedia->id.'/test.jpg');

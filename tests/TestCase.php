@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Tests;
 
 use CreateTemporaryUploadsTable;
+use CreateMediaTable;
 use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -139,15 +140,16 @@ abstract class TestCase extends Orchestra
 
         TestModel::create(['name' => 'test']);
 
-        include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
-        (new \CreateMediaTable())->up();
 
-        /*
         if (MediaLibraryPro::isInstalled()) {
             include_once __DIR__ . '/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
             (new CreateTemporaryUploadsTable())->up();
         }
-        */
+
+        include_once(__DIR__  . '/../database/migrations/create_media_table.php.stub');
+
+        (new CreateMediaTable())->up();
+
     }
 
     protected function setUpTempTestFiles()
@@ -270,6 +272,14 @@ abstract class TestCase extends Orchestra
         );
     }
 
+    protected function assertFileExistsInZipRecognizeFolder(string $zipPath, string $filename)
+    {
+        $this->assertTrue(
+            $this->fileExistsInZipRecognizeFolder($zipPath, $filename),
+            "Failed to assert that {$zipPath} contains a file name {$filename} by recognizing folders"
+        );
+    }
+
     protected function assertFileDoesntExistsInZip(string $zipPath, string $filename)
     {
         $this->assertFalse(
@@ -284,6 +294,17 @@ abstract class TestCase extends Orchestra
 
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
+        }
+
+        return false;
+    }
+
+    protected function fileExistsInZipRecognizeFolder($zipPath, $filename): bool
+    {
+        $zip = new ZipArchive();
+
+        if ($zip->open($zipPath) === true) {
+            return $zip->locateName($filename) !== false;
         }
 
         return false;

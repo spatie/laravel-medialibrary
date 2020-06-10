@@ -4,7 +4,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## From v7 to v8
 
-- internally the media library has been restructured an nearly all namespaces have changed. Class names remained the same. In your application code hunt to any usages of classes that start with `Spatie\MediaLibrary`. Take a look in the source code of medialibrary what the new namespace of the class is and use that. 
+- internally the media library has been restructured and nearly all namespaces have changed. Class names remained the same. In your application code hunt to any usages of classes that start with `Spatie\MediaLibrary`. Take a look in the source code of medialibrary what the new namespace of the class is and use that. 
 - rename `config/medialibrary.php` to `config/media-library.php`
 - all medialibrary commands have been renamed from `medialibrary:xxx` to `media-library:xxx`. Make sure to update all media library commands in your console kernel.
 - the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\InteractsWithMedia`. Make sure to update this in all models that use media.
@@ -24,6 +24,7 @@ Media::cursor()->each(
 - spatie/pdf-to-image is now a suggestion dependency. Make sure to install it, if you want to create thumbnails for PDFs or SVGs
 - `registerMediaConversions` and `registerMediaCollections` should now use the  `void` return type.
 - if the `path_generator` key in the `media-library` config file was set to `null`, change the value to `Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class`
+- if the `url_generator` key in the `media-library` config file was set to `null`, change the value to `Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class`
 - the `rawUrlEncodeFilename` method on `BaseUrlGenerator` has been removed. Remove all calls in your own code to this method.
 - `getConversionFile` on `Conversion` now accepts a `Media` instance instead of a `string`. In normal circumstance you wouldn't have used this function directly.
 

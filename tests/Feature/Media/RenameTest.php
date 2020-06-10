@@ -18,7 +18,7 @@ class RenameTest extends TestCase
         $media->file_name = 'test-new-name.jpg';
         $media->save();
 
-        $this->assertFileNotExists($this->getMediaDirectory($media->id.'/test.jpg'));
+        $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
         $this->assertFileExists($this->getMediaDirectory($media->id.'/test-new-name.jpg'));
     }
 

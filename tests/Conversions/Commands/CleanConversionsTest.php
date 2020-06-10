@@ -56,7 +56,7 @@ class CleanConversionsTest extends TestCase
 
         $this->artisan('media-library:clean');
 
-        $this->assertFileNotExists($deprecatedImage);
+        $this->assertFileDoesNotExist($deprecatedImage);
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
     }
 
@@ -101,7 +101,7 @@ class CleanConversionsTest extends TestCase
         ]);
 
         $this->assertFileExists($deprecatedImage1);
-        $this->assertFileNotExists($deprecatedImage2);
+        $this->assertFileDoesNotExist($deprecatedImage2);
     }
 
     /** @test */
@@ -120,7 +120,7 @@ class CleanConversionsTest extends TestCase
         ]);
 
         $this->assertFileExists($deprecatedImage1);
-        $this->assertFileNotExists($deprecatedImage2);
+        $this->assertFileDoesNotExist($deprecatedImage2);
     }
 
     /** @test */
@@ -143,7 +143,7 @@ class CleanConversionsTest extends TestCase
             'collectionName' => 'collection1',
         ]);
 
-        $this->assertFileNotExists($deprecatedImage1);
+        $this->assertFileDoesNotExist($deprecatedImage1);
         $this->assertFileExists($deprecatedImage2);
         $this->assertFileExists($deprecatedImage3);
     }
@@ -156,7 +156,7 @@ class CleanConversionsTest extends TestCase
 
         $this->artisan('media-library:clean');
 
-        $this->assertFileNotExists($this->getMediaDirectory($this->media['model1']['collection1']->id));
+        $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model1']['collection1']->id));
         $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
     }
 
@@ -184,6 +184,6 @@ class CleanConversionsTest extends TestCase
         $media->refresh();
 
         $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
-        $this->assertFileNotExists($deprecatedReponsiveImagesPath);
+        $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
     }
 }

@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
@@ -67,7 +68,7 @@ class IntegrationTest extends TestCase
             ->addMedia($testFile)
             ->toMediaCollection();
 
-        $this->assertFileNotExists($testFile);
+        $this->assertFileDoesNotExist($testFile);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     }
 
@@ -297,6 +298,16 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_will_not_add_local_files_when_an_url_is_expected()
+    {
+        $this->expectException(InvalidUrl::class);
+
+        $this->testModel
+            ->addMediaFromUrl(__FILE__)
+            ->toMediaCollection();
+    }
+
+    /** @test */
     public function it_can_add_a_file_from_a_separate_disk_to_the_media_library()
     {
         Storage::disk('secondMediaDisk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
@@ -319,7 +330,7 @@ class IntegrationTest extends TestCase
             ->toMediaCollection();
 
         $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
-        $this->assertFileNotExists($this->getMediaDirectory('tmp/test.jpg'));
+        $this->assertFileDoesNotExist($this->getMediaDirectory('tmp/test.jpg'));
     }
 
     /** @test */
