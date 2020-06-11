@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.3.0 - 2020-06-11
+
+- added `Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection`
+
 ## 8.2.9 - 2020-06-08
 
 - changed `freads` to `fgets`  as per issue #812 (#1909)

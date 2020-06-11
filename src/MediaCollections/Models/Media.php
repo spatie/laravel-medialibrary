@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
@@ -40,6 +41,11 @@ class Media extends Model implements Responsable, Htmlable
         'custom_properties' => 'array',
         'responsive_images' => 'array',
     ];
+
+    public function newCollection(array $models = [])
+    {
+        return new MediaCollection($models);
+    }
 
     public function model(): MorphTo
     {
