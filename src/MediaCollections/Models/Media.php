@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\MediaCollections\Models;
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Arr;
@@ -21,6 +22,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
@@ -298,5 +300,17 @@ class Media extends Model implements Responsable, Htmlable
     public function __invoke(...$arguments): HtmlableMedia
     {
         return $this->img(...$arguments);
+    }
+
+    public static function findWithTemporaryUploadInCurrentSession(array $uuids)
+    {
+        MediaLibraryPro::ensureInstalled();
+
+        return static::query()
+            ->whereIn('uuid', $uuids)
+            ->whereHas('temporaryUploads', function(Builder $builder) {
+                $builder->where('session_id', session()->getId());
+            })
+            ->get();
     }
 }
