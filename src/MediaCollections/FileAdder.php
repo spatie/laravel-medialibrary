@@ -57,6 +57,8 @@ class FileAdder
 
     protected array $customHeaders = [];
 
+    protected ?int $order = null;
+
     public function __construct(Filesystem $fileSystem)
     {
         $this->filesystem = $fileSystem;
@@ -137,6 +139,14 @@ class FileAdder
     {
         $this->mediaName = $name;
 
+        return $this;
+    }
+
+    public function setOrder(int $order): self
+    {
+        ld('object id in setOrder' .spl_object_id($this));
+        $this->order = $order;
+        ld('set order to ' . $this->order);
         return $this;
     }
 
@@ -256,6 +266,7 @@ class FileAdder
 
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
+        ld('in to mediacollection order' . $this->order);
         if ($this->file instanceof RemoteFile) {
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
         }
@@ -292,6 +303,14 @@ class FileAdder
 
         $media->mime_type = File::getMimeType($this->pathToFile);
         $media->size = filesize($this->pathToFile);
+
+        ld('order', $this->order);
+            ld('object id in toMediaCollection' .spl_object_id($this));
+        if (! is_null($this->order)) {
+
+            $media->order = $this->order;
+        }
+
         $media->custom_properties = $this->customProperties;
 
         $media->responsive_images = [];
@@ -467,6 +486,11 @@ class FileAdder
 
         $media->name = $this->mediaName;
         $media->custom_properties = $this->customProperties;
+
+        ld('in toMediaCollectionFromTemporaryUpload order' . $this->order);
+        if (! is_null($this->order)) {
+            $media->order_column = $this->order;
+        }
         $media->save();
 
         return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName);
