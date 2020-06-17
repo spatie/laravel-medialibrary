@@ -130,7 +130,7 @@ trait InteractsWithMedia
             throw UnreachableUrl::create($url);
         }
 
-        $temporaryFile = tempnam(sys_get_temp_dir(), 'media-library');
+        $temporaryFile = @tempnam(sys_get_temp_dir(), 'media-library');
         file_put_contents($temporaryFile, $stream);
 
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
@@ -186,7 +186,7 @@ trait InteractsWithMedia
         $binaryData = base64_decode($base64data);
 
         // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
-        $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
+        $tmpFile = @tempnam(sys_get_temp_dir(), 'media-library');
         file_put_contents($tmpFile, $binaryData);
 
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
