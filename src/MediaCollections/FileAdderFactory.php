@@ -76,7 +76,7 @@ class FileAdderFactory
     {
         /** @var  \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
         $fileAdder = app(FileAdder::class);
-ld('create for pending media: '. $pendingMedia->name . ' order '. $pendingMedia->order);
+
         return $fileAdder
             ->setSubject($subject)
             ->setFile($pendingMedia->temporaryUpload)

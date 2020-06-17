@@ -6,13 +6,13 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Helpers\Util;
-use Spatie\MediaLibrary\MediaCollections\Contracts\MediaLibraryRequest;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
@@ -26,8 +26,10 @@ use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
+use Spatie\MediaLibraryPro\Dto\MediaLibraryRequestItem;
 use Spatie\MediaLibraryPro\MediaLibraryRequestHandler;
 use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
+use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 
 trait InteractsWithMedia
 {
@@ -121,19 +123,11 @@ trait InteractsWithMedia
             });
     }
 
-    public function addFromMediaLibraryRequest(string $key, MediaLibraryRequest $request)
+    public function syncFromMediaLibraryRequest(Request $request, string $key): PendingMediaLibraryRequestHandler
     {
         MediaLibraryPro::ensureInstalled();
 
-        $mediaLibraryRequestItems = $request->mediaLibraryRequestItems($key);
-
-        return MediaLibraryRequestHandler::createFromMediaLibraryRequestItems($this, $mediaLibraryRequestItems)
-            ->updateExistingMedia()
-            ->deleteObsoleteMedia()
-            ->getPendingMediaItems()
-            ->map(function(PendingMediaItem $pendingMedia) {
-                return app(FileAdderFactory::class)->createForPendingMedia($this, $pendingMedia);
-            });
+        return new PendingMediaLibraryRequestHandler($request, $key, $this);
     }
 
     /**
