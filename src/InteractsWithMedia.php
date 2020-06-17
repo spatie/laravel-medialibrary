@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\Medialibrary\Helpers\Util;
+use Spatie\MediaLibrary\MediaCollections\Contracts\MediaLibraryRequest;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
@@ -25,7 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
-use Spatie\MediaLibraryPro\Dto\CollectionResponse;
+use Spatie\MediaLibraryPro\Dto\MediaLibraryRequestHandler;
 use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
 
 trait InteractsWithMedia
@@ -98,7 +99,7 @@ trait InteractsWithMedia
 
         $pendingMedia = PendingMediaItem::createFromArray($temporaryUploadAttributes)->first();
 
-        return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
+        return app(FileAdderFactory::class)->createForPendingMedia($this, $pendingMedia);
     }
 
     /**
@@ -116,24 +117,22 @@ trait InteractsWithMedia
 
         return PendingMediaItem::createFromArray($temporaryUploadAttributes)
             ->map(function(PendingMediaItem $pendingMedia) {
-                return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
+                return app(FileAdderFactory::class)->createForPendingMedia($this, $pendingMedia);
             });
     }
 
-    /**
-     * Sync a collection
-     *
-     * @param array $collectionAttributes
-     *
-     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
-     */
-    public function syncCollection(array $collectionAttributes): Collection
+    public function addFromMediaLibraryRequest(string $key, MediaLibraryRequest $request)
     {
-        return CollectionResponse::createFromArray($this, $collectionAttributes)
+        MediaLibraryPro::ensureInstalled();
+
+        $mediaLibraryRequestItems = $request->mediaLibraryRequestItems($key);
+
+        return MediaLibraryRequestHandler::createFromMediaLibraryRequestItems($this, $mediaLibraryRequestItems)
             ->updateExistingMedia()
+            ->deleteObsoleteMedia()
             ->getPendingMediaItems()
             ->map(function(PendingMediaItem $pendingMedia) {
-                return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
+                return app(FileAdderFactory::class)->createForPendingMedia($this, $pendingMedia);
             });
     }
 

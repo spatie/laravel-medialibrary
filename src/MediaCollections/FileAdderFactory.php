@@ -72,7 +72,7 @@ class FileAdderFactory
         return static::createMultipleFromRequest($subject, $fileKeys);
     }
 
-    public static function createForTemporaryUpload(Model $subject, PendingMediaItem $pendingMedia): FileAdder
+    public static function createForPendingMedia(Model $subject, PendingMediaItem $pendingMedia): FileAdder
     {
         /** @var  \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
         $fileAdder = app(FileAdder::class);
