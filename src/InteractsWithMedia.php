@@ -25,7 +25,8 @@ use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
-use Spatie\MediaLibraryPro\Dto\PendingMedia;
+use Spatie\MediaLibraryPro\Dto\CollectionResponse;
+use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
 
 trait InteractsWithMedia
 {
@@ -95,7 +96,7 @@ trait InteractsWithMedia
     {
         MediaLibraryPro::ensureInstalled();
 
-        $pendingMedia = PendingMedia::createFromArray($temporaryUploadAttributes)->first();
+        $pendingMedia = PendingMediaItem::createFromArray($temporaryUploadAttributes)->first();
 
         return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
     }
@@ -113,8 +114,25 @@ trait InteractsWithMedia
     {
         MediaLibraryPro::ensureInstalled();
 
-        return PendingMedia::createFromArray($temporaryUploadAttributes)
-            ->map(function(PendingMedia $pendingMedia) {
+        return PendingMediaItem::createFromArray($temporaryUploadAttributes)
+            ->map(function(PendingMediaItem $pendingMedia) {
+                return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
+            });
+    }
+
+    /**
+     * Sync a collection
+     *
+     * @param array $collectionAttributes
+     *
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
+     */
+    public function syncCollection(array $collectionAttributes): Collection
+    {
+        return CollectionResponse::createFromArray($this, $collectionAttributes)
+            ->updateExistingMedia()
+            ->getPendingMediaItems()
+            ->map(function(PendingMediaItem $pendingMedia) {
                 return app(FileAdderFactory::class)->createForTemporaryUpload($this, $pendingMedia);
             });
     }

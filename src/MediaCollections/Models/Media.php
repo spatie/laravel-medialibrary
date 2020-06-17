@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -25,6 +26,7 @@ use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
+use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
 class Media extends Model implements Responsable, Htmlable
 {
@@ -181,7 +183,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $conversions = ConversionCollection::createForMedia($this);
 
-        return $conversions->map(fn (Conversion $conversion) => $conversion->getName())->toArray();
+        return $conversions->map(fn(Conversion $conversion) => $conversion->getName())->toArray();
     }
 
     public function hasGeneratedConversion(string $conversionName): bool
@@ -211,7 +213,7 @@ class Media extends Model implements Responsable, Htmlable
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => 'attachment; filename="'.$this->file_name.'"',
+            'Content-Disposition' => 'attachment; filename="' . $this->file_name . '"',
             'Pragma' => 'public',
         ];
 
@@ -254,7 +256,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $temporaryFile = $temporaryDirectory->path('/').DIRECTORY_SEPARATOR.$this->file_name;
+        $temporaryFile = $temporaryDirectory->path('/') . DIRECTORY_SEPARATOR . $this->file_name;
 
         /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
@@ -302,15 +304,23 @@ class Media extends Model implements Responsable, Htmlable
         return $this->img(...$arguments);
     }
 
+    public function temporaryUpload(): BelongsTo
+    {
+        MediaLibraryPro::ensureInstalled();
+
+        return $this->belongsTo(TemporaryUpload::class);
+    }
+
     public static function findWithTemporaryUploadInCurrentSession(array $uuids)
     {
         MediaLibraryPro::ensureInstalled();
 
         return static::query()
             ->whereIn('uuid', $uuids)
-            ->whereHas('temporaryUploads', function(Builder $builder) {
-                $builder->where('session_id', session()->getId());
-            })
+            ->whereHasMorph(
+                'model',
+                [TemporaryUpload::class],
+                fn(Builder $builder) => $builder->where('session_id', session()->getId()))
             ->get();
     }
 }
