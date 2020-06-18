@@ -57,7 +57,7 @@ class FileAdder
 
     protected array $customHeaders = [];
 
-    protected ?int $order = null;
+    public ?int $order = null;
 
     public function __construct(Filesystem $fileSystem)
     {
@@ -303,8 +303,7 @@ class FileAdder
         $media->size = filesize($this->pathToFile);
 
         if (! is_null($this->order)) {
-
-            $media->order = $this->order;
+            $media->order_column = $this->order;
         }
 
         $media->custom_properties = $this->customProperties;
@@ -483,10 +482,17 @@ class FileAdder
         $media->name = $this->mediaName;
         $media->custom_properties = $this->customProperties;
 
+        ld ('this order in toMediaCollectionFromTemporaryUpload: ' . $this->order);
+
         if (! is_null($this->order)) {
             $media->order_column = $this->order;
         }
+
+        ld ('this order in toMediaCollectionFromTemporaryUpload: ' . $media->order_column);
+
         $media->save();
+
+        ld ('refreshed: ' .    $media->refresh()->order_column);
 
         return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName);
     }

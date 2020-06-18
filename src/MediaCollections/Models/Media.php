@@ -266,6 +266,7 @@ class Media extends Model implements Responsable, Htmlable
         $newMedia = $model
             ->addMedia($temporaryFile)
             ->usingName($this->name)
+            ->setOrder($this->order_column)
             ->withCustomProperties($this->custom_properties)
             ->toMediaCollection($collectionName, $diskName);
 
