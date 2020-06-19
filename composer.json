@@ -23,6 +23,7 @@
     ],
     "require": {
         "php": "^7.4",
+        "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
         "illuminate/bus": "^6.18|^7.0",
