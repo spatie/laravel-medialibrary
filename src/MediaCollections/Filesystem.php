@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
+use Exception;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -184,8 +185,8 @@ class Filesystem
             ->each(function (string $directory) use ($media) {
                 try {
                     $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
-                } catch (\Exception $e) {
-                    report($e);
+                } catch (Exception $exception) {
+                    report($exception);
                 }
             });
     }
