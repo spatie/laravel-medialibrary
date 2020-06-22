@@ -182,7 +182,11 @@ class Filesystem
 
         collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
             ->each(function (string $directory) use ($media) {
-                $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                try {
+                    $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                } catch (\Exception $e) {
+                    report($e);
+                }
             });
     }
 
