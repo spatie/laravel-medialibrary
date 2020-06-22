@@ -216,6 +216,11 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('image');
     }
 
+    public function getAntaresThumbJpgWithAccent(): string
+    {
+        return $this->getTestFilesDirectory('antarèsthumb.jpg');
+    }
+
     private function setUpMorphMap(): void
     {
         Relation::morphMap([
