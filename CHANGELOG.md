@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.3.1 - 2020-06-22
+
+- improve handling of file names with special characters (#1937)
+
 ## 8.3.0 - 2020-06-11
 
 - added `Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection`
