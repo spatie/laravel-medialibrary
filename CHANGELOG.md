@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.3.2 - 2020-06-22
+
+- report an error when it can't delete a directory (#1938)
+
 ## 8.3.1 - 2020-06-22
 
 - improve handling of file names with special characters (#1937)
