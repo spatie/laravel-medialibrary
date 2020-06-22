@@ -346,6 +346,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_a_remote_file_with_an_accent_in_the_name_to_the_media_library()
+    {
+        $url = 'https://orbit.brightbox.com/v1/acc-jqzwj/Marquis-Leisure/reviews/images/000/000/898/original/Antar%C3%A8sThumb.jpg';
+
+        $media = $this->testModel
+            ->addMediaFromUrl($url)
+            ->toMediaCollection();
+
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/AntarèsThumb.jpg"));
+    }
+
+    /** @test */
     public function it_wil_thrown_an_exception_when_a_remote_file_could_not_be_added()
     {
         $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
