@@ -1,34 +1,57 @@
 ---
-title: Installation & setup
+title: Base installation
 weight: 4
 ---
 
-MediaLibrary can be installed via composer:
+Media library can be installed via Composer:
+
+If you only use the base package issue this command:
 
 ```bash
 composer require "spatie/laravel-medialibrary:^8.0.0"
 ```
 
-The package will automatically register a service provider.
+If you have a license for media library pro, you should use `laravel-media-library-pro`
 
-You need to publish and run the migration:
+```bash
+composer require "spatie/laravel-medialibrary-pro:^8.0.0"
+```
+
+## Preparing the database
+
+You need to publish the migration to create the `media` table:
 
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
-php artisan migrate
 ```
 
-If you use Artisan's `migrate:rollback` or `migrate:refresh` commands you should edit the migration to include a down method:
+
+If you use [media library pro](https://medialibrary.pro) you also need to issue this command to create the `temporary_uploads` table.
+
+```bash
+php artisan vendor:publish --provider="Spatie\MediaLibraryPro\MediaLibraryProServiceProvider" --tag="migrations"
+```
+
+After that you need to run migrations.
+
+```bash
+php artisan migrations
+```
+
+## Automatically removing temporary uploads
+
+If you are using Media Library Pro, you must schedule this artisan command in `app/Console/Kernel` to automatically delete temporary uploads
 
 ```php
-/**
- * Reverse the migrations.
- */
-public function down()
+// in app/Console/Kernel.php
+
+protected function schedule(Schedule $schedule)
 {
-    Schema::dropIfExists('media');
+    $schedule->command('media-library:delete-old-temporary-uploads')->daily()
 }
 ```
+
+## Publishing the config file
 
 Publishing the config file is optional:
 
@@ -64,6 +87,11 @@ return [
      */
     'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
+    /*
+     * The fully qualified class name of the model used for temporary uploads.
+     */
+    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+
     'remote' => [
         /*
          * Any extra headers that should be included when uploading media to
@@ -97,13 +125,13 @@ return [
 
         /*
          * This class will generate the tiny placeholder used for progressive image loading. By default
-         * the media library will use a tiny blurred jpg image.
+         * the medialibrary will use a tiny blurred jpg image.
          */
         'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
 
     /*
-     * When converting Media instances to response the media library will add
+     * When converting Media instances to response the medialibrary will add
      * a `loading` attribute to the `img` tag. Here you can set the default
      * value of that attribute.
      *
@@ -118,14 +146,14 @@ return [
      * it will use the filename of the original and concatenate the conversion name to it.
      */
     'conversion_file_namer' => \Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer::class,
-    
+
     /*
      * The class that contains the strategy for determining a media file's path.
      */
     'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
 
     /*
-     * When urls to files get generated, this class will be called. Leave empty
+     * When urls to files get generated, this class will be called. Use the default
      * if your files are stored locally above the site root or on s3.
      */
     'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
@@ -137,7 +165,7 @@ return [
     'version_urls' => false,
 
     /*
-     * MediaLibrary will try to optimize all converted images by removing
+     * The media library will try to optimize all converted images by removing
      * metadata and applying a little bit of compression. These are
      * the optimizers that will be used by default.
      */
@@ -178,7 +206,7 @@ return [
      * The engine that should perform the image conversions.
      * Should be either `gd` or `imagick`.
      */
-    'image_driver' => 'gd',
+    'image_driver' => env('IMAGE_DRIVER', 'gd'),
 
     /*
      * FFMPEG & FFProbe binaries paths, only used if you try to generate video
@@ -205,6 +233,8 @@ return [
 ];
 ```
 
+## Adding a media disk
+
 By default, the media library will store its files on Laravel's `public` disk. If you want a dedicated disk you should add a disk to `config/filesystems.php`. This would be a typical configuration:
 
 ```php
@@ -225,7 +255,7 @@ If you are planning on working with image manipulations it's recommended to conf
 
 Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/filesystem#configuration).
 
-### Optimization tools
+### Setting up optimization tools
 
 Media library will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v8/converting-images/optimizing-converted-images) if they are present on your system:
 
@@ -242,7 +272,7 @@ sudo apt install jpegoptim optipng pngquant gifsicle
 npm install -g svgo
 ```
 
-And here's how to install the binaries on MacOS (using [Homebrew](https://brew.sh/)):
+Here's how to install the binaries on MacOS (using [Homebrew](https://brew.sh/)):
 
 ```bash
 brew install jpegoptim
