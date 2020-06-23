@@ -53,15 +53,15 @@ namespace App\Http\Requests;
 use Spatie\MediaLibraryPro\Rules\UploadedMedia;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MyRequest extends FormRequest
+class YourFormRequest extends FormRequest
 {
     public function rules()
     {
         return [
             'name' => 'required',
             'images' => ['min:1', 'max:5', UploadedMedia::maxTotalSizeInKb(5 * 1024)],
-            'media.*' => [
-                UploadedMedia::minzeInKb(20),
+            'images.*' => [
+                UploadedMedia::minSizeInKb(20),
             ],
             'images.*.name' => 'required',
         ];
@@ -71,4 +71,63 @@ class MyRequest extends FormRequest
 
 ## Processing responses
 
-TO DO:
+After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](TODO: add link).
+
+### `addFromMediaLibraryRequest`
+
+This method will add all media whose `uuid` is in the response to a media collection of a model. Existing media associated on the model will remain untouched.
+
+You should probably use this method when accepting new uploads.
+
+```php
+// in a controller
+
+public function yourMethod(YourFormRequest $request)
+{
+    // retrieve model 
+
+    $yourModel
+        ->addFromMediaLibraryRequest($request, 'images')
+        ->toMediaCollection('images');
+
+    flash()->success('Your model has been saved.')
+    
+    return back();
+}
+```
+
+
+### `syncFromMediaLibraryRequest` 
+
+You should use this method when you are using the `x-medialibrary-collection` Blade component (or equivalent Vue or React component).
+
+Here is an example where we are going to sync that the contents of the `images` key in the request to the media library. 
+In this example we use the `images` key, but of course you should use the name that you used.
+
+All media associated with `$yourModel` whose `uuid` is not present in the `images` array of the request will be deleted.
+
+```php
+// in a controller
+
+public function yourMethod(YourFormRequest $request)
+{
+    // retrieve model 
+
+    $yourModel
+        ->syncFromMediaLibraryRequest($request, 'images')
+        ->toMediaCollection('images');
+
+    flash()->success('Your model has been saved.')
+    
+    return back();
+}
+```
+
+After this code has been executed, the media, whose `uuid` is present in the `images` array of request, will be in the `images collection of `$yourModel`.
+
+```php
+$yourModel->getMedia('images'); // the media that we just synced will be returned.
+```
+
+
+
