@@ -7,7 +7,7 @@ Media Library Pro provides upload components for both Vue and React.
 
 ## Preparing your Laravel app
 
-The Vue and React component this route to be registered
+The Vue and React components expect this route to be registered
 
 ```php
 //somewhere in a routes file
@@ -28,7 +28,7 @@ Here is an example:
 ></media-single-component>
 ```
 
-## Including the component
+## Including the components
 
 You can import the components them from the vendor folder:
 (TODO adriaan, where should these be imported? What if I use mix/webpack...)
@@ -45,9 +45,10 @@ React:
 import MediaSingleComponent from '../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-react-single';
 ```
 
-### Avatar in a form
+### Creating a first uploader
 
-If you have an existing form and want to add an avatar field to it:
+
+
 TODO adriaan: what is the expected format of `user.avatar`
 TODO freek: how to export this format from the server
 
