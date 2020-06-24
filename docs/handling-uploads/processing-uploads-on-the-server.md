@@ -87,7 +87,7 @@ public function yourMethod(YourFormRequest $request)
     // retrieve model 
 
     $yourModel
-        ->addFromMediaLibraryRequest($request, 'images')
+        ->addFromMediaLibraryRequest($request->get('images'))
         ->toMediaCollection('images');
 
     flash()->success('Your model has been saved.')
@@ -114,7 +114,7 @@ public function yourMethod(YourFormRequest $request)
     // retrieve model 
 
     $yourModel
-        ->syncFromMediaLibraryRequest($request, 'images')
+        ->syncFromMediaLibraryRequest($request->images)
         ->toMediaCollection('images');
 
     flash()->success('Your model has been saved.')

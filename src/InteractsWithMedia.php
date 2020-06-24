@@ -88,44 +88,26 @@ trait InteractsWithMedia
         return app(FileAdderFactory::class)->createFromDisk($this, $key, $disk ?: config('filesystems.default'));
     }
 
-    public function addMediaFromRequest(string $key): FileAdder
-    {
-        return app(FileAdderFactory::class)->createFromRequest($this, $key);
-    }
-
-    public function addMediaFromTemporaryUpload(array $temporaryUploadAttributes): FileAdder
+    public function addFromMediaLibraryRequest(?array $mediaLibraryRequestItems): PendingMediaLibraryRequestHandler
     {
         MediaLibraryPro::ensureInstalled();
 
-        $pendingMedia = PendingMediaItem::createFromArray($temporaryUploadAttributes)->first();
-
-        return app(FileAdderFactory::class)->createForPendingMedia($this, $pendingMedia);
+        return new PendingMediaLibraryRequestHandler(
+            $mediaLibraryRequestItems ?? [],
+            $this,
+            $preserveExisting = true
+        );
     }
 
-    /**
-     * Add a a temporary upload to the media library.
-     *
-     * Accept a TemporaryUpload or the uuid of a Media model that belongs to a TemporaryUpload
-     *
-     * @param array $temporaryUploadAttributes
-     *
-     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
-     */
-    public function addMultipleMediaFromTemporaryUploads(array $temporaryUploadAttributes): Collection
+    public function syncFromMediaLibraryRequest(?array $mediaLibraryRequestItems): PendingMediaLibraryRequestHandler
     {
         MediaLibraryPro::ensureInstalled();
 
-        return PendingMediaItem::createFromArray($temporaryUploadAttributes)
-            ->map(function(PendingMediaItem $pendingMedia) {
-                return app(FileAdderFactory::class)->createForPendingMedia($this, $pendingMedia);
-            });
-    }
-
-    public function syncFromMediaLibraryRequest(Request $request, string $key): PendingMediaLibraryRequestHandler
-    {
-        MediaLibraryPro::ensureInstalled();
-
-        return new PendingMediaLibraryRequestHandler($request, $key, $this);
+        return new PendingMediaLibraryRequestHandler(
+            $mediaLibraryRequestItems ?? [],
+            $this,
+            $preserveExisting = false
+        );
     }
 
     /**

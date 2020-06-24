@@ -5,9 +5,33 @@ weight: 4
 
 Media Library Pro provides upload components for both Vue and React.
 
+## Preparing your Laravel app
+
+The Vue and React component this route to be registered
+
+```php
+//somewhere in a routes file
+
+use Spatie\MediaLibraryPro\Http\Controllers\UploadController;
+
+Route::post('media-library-upload-components', UploadController::class);
+```
+
+`media-library-upload-components` is the default URL that the components expect. You can choose any URL if you'd like. If you use a custom URL for this route, you should pass your URL to the `upload-endpoint` prop of a Vue or React component.
+
+Here is an example:
+
+```html
+<media-single-component
+    name="avatar"
+    upload-endpoint="temp-upload"
+></media-single-component>
+```
+
 ## Including the component
 
 You can import the components them from the vendor folder:
+(TODO adriaan, where should these be imported? What if I use mix/webpack...)
 
 Vue:
 
@@ -21,11 +45,11 @@ React:
 import MediaSingleComponent from '../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-react-single';
 ```
 
-If you are using TypeScript and you get type errors at this point, check the [Troubleshooting guide](troubleshooting#cannot-find-name-describe-cannot-find-name-test) for a fix.
-
 ### Avatar in a form
 
 If you have an existing form and want to add an avatar field to it:
+TODO adriaan: what is the expected format of `user.avatar`
+TODO freek: how to export this format from the server
 
 Vue:
 
@@ -35,7 +59,7 @@ Vue:
         name="avatar"
         :validation="{ accept: ['image/png', 'image/jpeg'], maxSize: 500000 }"
         :initial-value="user.avatar"
-        temp-endpoint="temp-upload"
+        upload-endpoint="temp-upload"
         :validation-errors="validationErrors"
     ></media-single-component>
 
@@ -149,7 +173,7 @@ Vue:
     name="media"
     :validation="{ accept: ['image/png', 'image/jpeg'], maxSize: 500000 }"
     :initial-value="initialValue"
-    temp-endpoint="temp-upload"
+    upload-endpoint="temp-upload"
     :validation-errors="validationErrors"
 >
     <template
@@ -338,7 +362,7 @@ export function AvatarForm({ values }) {
 | ----------------- | ----------------- | --------------- | ----------- |
 | name              | name              | /               |             |
 | initial-value     | initialValue      | `[]`            |             |
-| temp-endpoint     | tempEndpoint      | `"temp-upload"` |             |
+| upload-endpoint     | tempEndpoint      | `"temp-upload"` |             |
 | validation        | validation        | `undefined`     |             |
 | translations      | translations      | `{}`            |             |
 | validation-errors | validationErrors  | `undefined`     |             |
