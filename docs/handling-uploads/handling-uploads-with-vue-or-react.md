@@ -47,8 +47,6 @@ import MediaSingleComponent from '../../../vendor/spatie/laravel-medialibrary-pr
 
 ### Creating a first uploader
 
-
-
 TODO adriaan: what is the expected format of `user.avatar`
 TODO freek: how to export this format from the server
 
@@ -99,7 +97,9 @@ Vue:
 ```html
 <template>
     <form ref="avatar-form">
-        <media-single-component … after-upload="submitAvatarForm"></media-single-component>
+        <media-single-component … after-upload="submitAvatarForm">
+       
+</media-single-component>
 
         <button>Submit</button>
     </form>
