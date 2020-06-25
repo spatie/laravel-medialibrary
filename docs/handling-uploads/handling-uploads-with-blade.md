@@ -161,9 +161,3 @@ class BlogPost extends Model implements HasMedia
     }
 }
 ```
-
-
-
-
-
-
