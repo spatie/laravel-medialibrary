@@ -69,6 +69,18 @@ class YourFormRequest extends FormRequest
 }
 ```
 
+These are the available validation methods on `UploadedMedia` that you can use on the array level (in the example above on `images'):
+
+- `minTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not smaller than the `$minTotalSizeInKb` given
+
+- `maxTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not greater than the `$maxTotalSizeInKb` given
+
+
+These are the available validation methods on `UploadedMedia` that you can use on the item level (in the example above on `images.*'):
+
+- `minSizeInKb($minSizeInKb)`: validates that a single upload is not smaller than the `$minSizeInKb` given
+- `maxSizeInKb($maxSizeInKb)`: validates that a single upload is not greater than the `$minSizeInKb` given
+
 ## Processing responses
 
 After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](TODO: add link).
