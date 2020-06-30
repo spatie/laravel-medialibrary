@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.3.3 - 2020-06-30
+
+- fix responsive image urls when conversions are stored on different disk. (#1944)
+
 ## 8.3.2 - 2020-06-22
 
 - report an error when it can't delete a directory (#1938)
