@@ -75,6 +75,11 @@ trait InteractsWithMedia
         return app(FileAdderFactory::class)->create($this, $file);
     }
 
+    public function addMediaFromRequest(string $key): FileAdder
+    {
+        return app(FileAdderFactory::class)->createFromRequest($this, $key);
+    }
+
     /**
      * Add a file from the given disk.
      *
