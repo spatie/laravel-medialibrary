@@ -43,6 +43,7 @@ class Media extends Model implements Responsable, Htmlable
     protected $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
+        'generated_conversions' => 'array',
         'responsive_images' => 'array',
     ];
 
@@ -186,6 +187,38 @@ class Media extends Model implements Responsable, Htmlable
         return $conversions->map(fn(Conversion $conversion) => $conversion->getName())->toArray();
     }
 
+    public function getGeneratedConversions(): Collection
+    {
+        return collect($this->generated_conversions ?? []);
+    }
+
+
+    public function markAsConversionGenerated(string $conversionName): self
+    {
+        $generatedConversions = $this->generated_conversions;
+
+        Arr::set($generatedConversions, $conversionName, true);
+
+        $this->generated_conversions = $generatedConversions;
+
+        $this->save();
+
+        return $this;
+    }
+
+    public function markAsConversionNotGenerated(string $conversionName): self
+    {
+        $generatedConversions = $this->generated_conversions;
+
+        Arr::set($generatedConversions, $conversionName, false);
+
+        $this->generated_conversions = $generatedConversions;
+
+        $this->save();
+
+        return $this;
+    }
+
     public function hasGeneratedConversion(string $conversionName): bool
     {
         $generatedConversions = $this->getGeneratedConversions();
@@ -193,19 +226,6 @@ class Media extends Model implements Responsable, Htmlable
         return $generatedConversions[$conversionName] ?? false;
     }
 
-    public function markAsConversionGenerated(string $conversionName, bool $generated): self
-    {
-        $this->setCustomProperty("generated_conversions.{$conversionName}", $generated);
-
-        $this->save();
-
-        return $this;
-    }
-
-    public function getGeneratedConversions(): Collection
-    {
-        return collect($this->getCustomProperty('generated_conversions', []));
-    }
 
     public function toResponse($request)
     {

@@ -95,7 +95,7 @@ class FileManipulator
 
                 $this->filesystem()->copyToMediaLibrary($renamedFile, $media, 'conversions');
 
-                $media->markAsConversionGenerated($conversion->getName(), true);
+                $media->markAsConversionGenerated($conversion->getName());
 
                 event(new ConversionHasBeenCompleted($media, $conversion));
             });

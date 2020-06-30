@@ -248,6 +248,7 @@ class FileAdder
         $media->size = $storage->size($this->pathToFile);
         $media->custom_properties = $this->customProperties;
 
+        $media->generated_conversions = [];
         $media->responsive_images = [];
 
         $media->manipulations = $this->manipulations;
@@ -308,6 +309,7 @@ class FileAdder
 
         $media->custom_properties = $this->customProperties;
 
+        $media->generated_conversions = [];
         $media->responsive_images = [];
 
         $media->manipulations = $this->manipulations;
@@ -482,17 +484,11 @@ class FileAdder
         $media->name = $this->mediaName;
         $media->custom_properties = $this->customProperties;
 
-        ld ('this order in toMediaCollectionFromTemporaryUpload: ' . $this->order);
-
         if (! is_null($this->order)) {
             $media->order_column = $this->order;
         }
 
-        ld ('this order in toMediaCollectionFromTemporaryUpload: ' . $media->order_column);
-
         $media->save();
-
-        ld ('refreshed: ' .    $media->refresh()->order_column);
 
         return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName);
     }

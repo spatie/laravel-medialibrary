@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.0.0 - Unreleased
+
+- names of the generated conversions will now be put in a dedicated `generated_conversions` on media.
+
 ## 8.3.0 - 2020-06-11
 
 - added `Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection`
