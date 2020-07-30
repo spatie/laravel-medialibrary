@@ -5,7 +5,7 @@ weight: 4
 
 If you're using Vue or React, Medialibrary Pro provides some UI components that look beautiful and work out of the box with the medialibrary backend. They're really easy to set up, and have a lot of features already built-in, like temporary uploads, custom property inputs, frontend validation, i18n and .
 
-If you want to heavily customise the way the UI components look, feel or work, you can also extend the core that the UI components are built on. This way, a lot of work is already done for you, like handling component state, error handling and temporary uploads. Both the Vue and React UI components are built on top of the same core, with a language-specific abstraction layer in between. More on this later (TODO advanced setup).
+If you want to heavily customise the way the UI components look, feel or work, have a look on [this page](TODO LINK creating-a-custom-react-or-vue-component).
 
 Before we really get started: if you get stuck at any point during these tutorials, don't hesitate to create an issue on the GitHub repository. We'll do our best to get you running, and we'll clear up the part of the documentation that might have been unclear or incomplete.
 
