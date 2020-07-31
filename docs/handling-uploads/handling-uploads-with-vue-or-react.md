@@ -3,9 +3,9 @@ title: Handling uploads with Vue or React
 weight: 4
 ---
 
-If you're using Vue or React, Medialibrary Pro provides some UI components that look beautiful and work out of the box with the medialibrary backend. They're really easy to set up, and have a lot of features already built-in, like temporary uploads, custom property inputs, frontend validation, i18n and .
+If you're using Vue or React, Medialibrary Pro provides some UI components that look beautiful and work out of the box with the medialibrary backend. They're really easy to set up, and have a lot of features already built-in, like temporary uploads, custom property inputs, frontend validation, i18n and error handling.
 
-If you want to heavily customise the way the UI components look, feel or work, have a look on [this page](TODO LINK creating-a-custom-react-or-vue-component).
+If you want to heavily customise the way the UI components look, feel or work, have a look on [this page](TODO-LINK:creating-a-custom-react-or-vue-component).
 
 Before we really get started: if you get stuck at any point during these tutorials, don't hesitate to create an issue on the GitHub repository. We'll do our best to get you running, and we'll clear up the part of the documentation that might have been unclear or incomplete.
 
@@ -34,12 +34,11 @@ Here is an example:
 
 ## Including the components
 
-You can import the components them from the vendor folder:
-(TODO adriaan, where should these be imported? What if I use mix/webpack...)
+The UI components are included in the composer package and should work out of the box; you shouldn't have to change anything about your Laravel Mix or Webpack configuration to make them work. You can import the components from the vendor folder like this:
 
 **Vue**
 
-To use the component in your blade templates, simply import the component in your app.js file, and add it to your `components` object.
+To use a component in your blade templates, simply import the component in your app.js file, and add it to your `components` object.
 
 ```js
 import MediaLibraryAttachment from "../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-vue-attachment";
@@ -168,7 +167,7 @@ TODO: screenshot of multiple attachment component with 2 or 3 images as value
 
 The attachment component is meant to be used to upload one or multiple images with little or no extra information. Images are displayed in a grid, with optional extra properties (e.g. the image size) or input fields (e.g. the image name) displayed right below them. (TODO check if this is still correct by the time we launch)
 
-See [Props](TODO frontend-setup-props) for a complete list of all props.
+See [Props](TODO-link:frontend-setup-props) for a complete list of all props.
 
 **Vue**
 
@@ -274,7 +273,7 @@ TODO: screenshot of collection component with some images and custom properties.
 
 The collection component can be used to upload multiple images with some custom properties, like alt tags, a caption or tags. This component usually won't be used in a public-facing area.
 
-See [Props](TODO frontend-setup-props) for a complete list of all props.
+See [Props](TODO-link:frontend-setup-props) for a complete list of all props.
 
 **Vue**
 
@@ -314,19 +313,13 @@ The basic setup of the collection component is very similar to the attachment co
 ></MediaLibraryCollection>
 ```
 
-To add custom properties, we can use the `afterItems` slot in Vue or the `afterItems` render prop in React:
-TODO update name of render prop/slot
+To add custom properties, you can use the `afterItems` slot in Vue or the `afterItems` render prop in React. You get a couple of methods back that you can use to easily populate your input elements with the required props, and to display any validation errors that may occur when submitting.
+(TODO update name of render prop/slot)
 
 **Vue**
 
 ```html
-<media-library-collection
-    name="media"
-    :validation="{ accept: ['image/png', 'image/jpeg'], maxSize: 500000 }"
-    :initial-value="initialValue"
-    upload-endpoint="temp-upload"
-    :validation-errors="validationErrors"
->
+<media-library-collection name="media">
     <template
         slot="afterItems"
         slot-scope="{
@@ -338,53 +331,42 @@ TODO update name of render prop/slot
             getNameInputErrors,
         }"
     >
-        <div class="mb-2">
-            <input
-                placeholder="image name"
-                class="border rounded"
-                v-bind="getNameInputProps()"
-                v-on="getNameInputListeners()"
-            />
-            <p
-                v-for="error in getNameInputErrors()"
-                :key="error"
-                class="text-red-500"
-            >
-                {{ error }}
-            </p>
-        </div>
+        <input
+            placeholder="name"
+            v-bind="getNameInputProps()"
+            v-on="getNameInputListeners()"
+        />
+        <p v-for="error in getNameInputErrors()" :key="error">{{ error }}</p>
 
-        <div class="mb-2">
-            <input
-                placeholder="tags (custom property)"
-                class="border rounded"
-                v-bind="getCustomPropertyInputProps('tags')"
-                v-on="getCustomPropertyInputListeners('tags')"
-            />
-            <p
-                v-for="error in getCustomPropertyInputErrors('tags')"
-                :key="error"
-                class="text-red-500"
-            >
-                {{ error }}
-            </p>
-        </div>
+        <input
+            placeholder="tags"
+            v-bind="getCustomPropertyInputProps('tags')"
+            v-on="getCustomPropertyInputListeners('tags')"
+        />
+        <p v-for="error in getCustomPropertyInputErrors('tags')" :key="error">
+            {{ error }}
+        </p>
 
-        <div class="mb-2">
-            <input
-                placeholder="caption (custom property)"
-                class="border rounded"
-                v-bind="getCustomPropertyInputProps('caption')"
-                v-on="getCustomPropertyInputListeners('caption')"
-            />
-            <p
-                v-for="error in getCustomPropertyInputErrors('caption')"
-                :key="error"
-                class="text-red-500"
-            >
-                {{ error }}
-            </p>
-        </div>
+        <input
+            placeholder="alt tag"
+            v-bind="getCustomPropertyInputProps('alt')"
+            v-on="getCustomPropertyInputListeners('alt')"
+        />
+        <p v-for="error in getCustomPropertyInputErrors('alt')" :key="error">
+            {{ error }}
+        </p>
+
+        <input
+            placeholder="caption"
+            v-bind="getCustomPropertyInputProps('caption')"
+            v-on="getCustomPropertyInputListeners('caption')"
+        />
+        <p
+            v-for="error in getCustomPropertyInputErrors('caption')"
+            :key="error"
+        >
+            {{ error }}
+        </p>
     </template>
 </media-library-collection>
 ```
@@ -394,10 +376,6 @@ TODO update name of render prop/slot
 ```jsx
 <MediaLibraryCollection
     name="media"
-    initialValue={values.media}
-    uploadEndpoint="temp-upload"
-    validation={{ accept: ["image/png", "image/jpeg"], maxSize: 500000 }}
-    validationErrors={validationErrors}
     afterItems={({
         getCustomPropertyInputProps,
         getCustomPropertyInputErrors,
@@ -405,44 +383,32 @@ TODO update name of render prop/slot
         getNameInputErrors,
     }) => (
         <>
-            <div className="mb-2">
-                <input
-                    className="border rounded"
-                    placeholder="image name"
-                    {...getNameInputProps()}
-                />
-                {getNameInputErrors().map((error) => (
-                    <p key={error} className="text-red-500">
-                        {error}
-                    </p>
-                ))}
-            </div>
+            <input placeholder="image name" {...getNameInputProps()} />
+            {getNameInputErrors().map((error) => (
+                <p key={error} className="text-red-500">
+                    {error}
+                </p>
+            ))}
 
-            <div className="mb-2">
-                <input
-                    className="border rounded"
-                    placeholder="tags"
-                    {...getCustomPropertyInputProps("tags")}
-                />
-                {getCustomPropertyInputErrors("tags").map((error) => (
-                    <p key={error} className="text-red-500">
-                        {error}
-                    </p>
-                ))}
-            </div>
+            <input
+                placeholder="tags"
+                {...getCustomPropertyInputProps("tags")}
+            />
+            {getCustomPropertyInputErrors("tags").map((error) => (
+                <p key={error} className="text-red-500">
+                    {error}
+                </p>
+            ))}
 
-            <div className="mb-2">
-                <input
-                    className="border rounded"
-                    placeholder="caption"
-                    {...getCustomPropertyInputProps("caption")}
-                />
-                {getCustomPropertyInputErrors("caption").map((error) => (
-                    <p key={error} className="text-red-500">
-                        {error}
-                    </p>
-                ))}
-            </div>
+            <input
+                placeholder="caption"
+                {...getCustomPropertyInputProps("caption")}
+            />
+            {getCustomPropertyInputErrors("caption").map((error) => (
+                <p key={error} className="text-red-500">
+                    {error}
+                </p>
+            ))}
         </>
     )}
 ></MediaLibraryCollection>
@@ -473,30 +439,30 @@ If you don't want to use traditional form submits to send your data to the backe
 </template>
 
 <script>
-import Axios from 'axios';
+    import Axios from 'axios';
 
-export default {
-    props: { values },
+    export default {
+        props: { values },
 
-    data() {
-        return {
-            validationErrors: {},
-            media: this.values.media,
-        };
-    },
-
-    methods: {
-        onChange(media) {
-            this.media = media;
+        data() {
+            return {
+                validationErrors: {},
+                media: this.values.media,
+            };
         },
 
-        submitForm() {
-            Axios
-                .post('endpoint', { media: this.media })
-                .catch(error => this.validationErrors = error.data.errors);
+        methods: {
+            onChange(media) {
+                this.media = media;
+            },
+
+            submitForm() {
+                Axios
+                    .post('endpoint', { media: this.media })
+                    .catch(error => this.validationErrors = error.data.errors);
+            }
         }
     }
-}
 </script>
 ```
 
@@ -530,20 +496,117 @@ export function AvatarForm({ values }) {
 
 ## Checking the upload state
 
-The components keep track of whether they're ready
-TODO
+The components keep track of whether they're ready to be submitted, you can use this to, for example, disable a submit button while a file is still uploading, or when there are frontend validation errors. This value can be tracked by listening to a `is-ready-to-submit-change` event on the components (`onIsReadyToSubmitChange` in React):
+
+**Vue**
+
+```html
+<template>
+    <form>
+        <media-library-attachment
+            name="avatar"
+            @is-ready-to-submit-change="isReadyToSubmit = $event"
+        ></media-library-attachment>
+
+        <button :disabled="isReadyToSubmit">Submit</button>
+    </form>
+</template>
+
+<script>
+    import MediaLibraryAttachment from "../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-vue-attachment";
+
+    export default {
+        components: { MediaLibraryAttachment },
+
+        data() {
+            return {
+                isReadyToSubmit: true,
+            };
+        },
+    };
+</script>
+```
+
+**React**
+
+```jsx
+import MediaLibraryAttachment from "../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-react-attachment";
+
+function AvatarComponent() {
+    const [isReadyToSubmit, setIsReadyToSubmit] = useState(true);
+
+    return(
+        <MediaLibraryAttachment
+            name="avatar"
+            onIsReadyToSubmitChange={setIsReadyToSubmit}
+        ></MediaLibraryAttachment>
+
+        <button disabled={!isReadyToSubmit} onClick={submit}>Submit</button>
+    )
+}
+```
+
+## Validation rules
+
+TODO (not completely ready in frontend yet)
+Also mention beforeUpload prop for custom validation
+
+## Translations
+
+The UI components show some text, like for validation rules, errors and hints. If your website is displayed in a different language than English, or you'd like the text to be displayed in the user's language, you can add your own translations through the `translations` prop.
+
+Below, you can see the default translations object. You don't have to copy the entire object, depending on your use case. Any translations that aren't found, will be substituted by their English default. Some of these strings will be displayed in front of or after a value, so make sure to keep this in mind while writing your replacement strings.
+
+```js
+{
+    hint: {
+        singular: 'Drag a file or click to set media',
+        plural: 'Drag some files or click to add media',
+    },
+    invalidDrag: {
+        singular: 'This file has the incorrect file type and will not be uploaded',
+        plural: '(Some of) these file have the incorrect file type and will not be uploaded',
+    },
+    replace: 'Drag a file or click to replace media',
+    fileTypeNotAllowed: 'File type not allowed. Allowed file types:',
+    tooLarge: 'File too large, max',
+    previewGenerateError: 'Error while generating preview',
+    tryAgain: 'please try uploading this file again',
+    somethingWentWrong: 'Something went wrong while uploading this file',
+    maxSize: 'Maximum file size:',
+}
+```
+
+**Vue**
+
+```html
+<media-library-attachment
+    name="avatar"
+    :translations="{ somethingWentWrong: 'whoops!' }"
+></media-library-attachment>
+```
+
+**React**
+
+```jsx
+<MediaLibraryAttachment
+    name="avatar"
+    translations={{ tooLarge: "That's a lot of bytes! I can only handle" }}
+></MediaLibraryAttachment>
+```
 
 ## Props
 
-| prop name (Vue)   | prop name (React) | Default value   | Description                                                                                                                 |
-| ----------------- | ----------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| name              | name              | /               |                                                                                                                             |
-| initial-value     | initialValue      | `[]`            |                                                                                                                             |
-| upload-endpoint   | uploadEndpoint    | `"temp-upload"` |                                                                                                                             |
-| validation        | validation        | `undefined`     |                                                                                                                             |
-| translations      | translations      | `{}`            |                                                                                                                             |
-| validation-errors | validationErrors  | `undefined`     |                                                                                                                             |
-| before-upload     | beforeUpload      | `undefined`     |                                                                                                                             |
-| after-upload      | afterUpload       | `undefined`     |                                                                                                                             |
-| drag-enabled      | dragEnabled       | `true`          | Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value |
-| @change           | onChange          | `undefined`     |                                                                                                                             |
+| prop name (Vue)            | prop name (React)       | Default value                       | Description                                                                                                                 |
+| -------------------------- | ----------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| name                       | name                    | /                                   |                                                                                                                             |
+| initial-value              | initialValue            | `[]`                                |                                                                                                                             |
+| upload-endpoint            | uploadEndpoint          | `"media-library-upload-components"` |                                                                                                                             |
+| translations               | translations            | `{}`                                | Refer to [translations](TODO-link) section                                                                                  |
+| validation                 | validation              | `undefined`                         | Refer to [validation](TODO-link) section                                                                                    |
+| validation-errors          | validationErrors        | `undefined`                         | The standard Laravel validation error object                                                                                |
+| before-upload              | beforeUpload            | `undefined`                         |                                                                                                                             |
+| after-upload               | afterUpload             | `undefined`                         |                                                                                                                             |
+| drag-enabled               | dragEnabled             | `true`                              | Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value |
+| @change                    | onChange                | `undefined`                         |                                                                                                                             |
+| @is-ready-to-submit-change | onIsReadyToSubmitChange | `undefined`                         | Refer to [Checking the upload state](TODO-link) section                                                                     |
