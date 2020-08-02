@@ -533,6 +533,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function a_string_can_be_accepted_to_be_added_to_the_media_library()
+    {
+        $string = 'test123';
+
+        $media = $this->testModel
+            ->addFromString($string)
+            ->toMediaCollection();
+
+        $this->assertEquals($string, file_get_contents($media->getPath()));
+    }
+
+    /** @test */
     public function it_can_add_data_uri_prefixed_base64_encoded_file_to_the_medialibrary()
     {
         $testFile = $this->getTestJpg();

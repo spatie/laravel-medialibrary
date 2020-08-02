@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.4.0 - 2020-08-03
+
+- add `addFromString`
+
 ## 8.3.3 - 2020-06-30
 
 - fix responsive image urls when conversions are stored on different disk. (#1944)

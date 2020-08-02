@@ -135,6 +135,28 @@ Please note the return type of `addAllMediaFromRequest` is a Collection of `File
  public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
 ```
 
+### addMediaFromString
+
+```php
+/**
+ * Add a file to the media library that contains the given string.
+ *
+ * @param string string
+ *
+ * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
+ */
+ public function addMediaFromString(string $string): FileAdder
+```
+
+The file will be named 'text.txt' by default. A specific file name can be set using `usingFileName`
+
+```php
+$model
+    ->addFromString('my string')
+    ->usingFileName('custom-filename.txt')
+    ->toMediaCollection();
+```
+
 ### copyMedia
 
 ```php
