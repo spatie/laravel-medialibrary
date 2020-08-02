@@ -162,7 +162,7 @@ trait InteractsWithMedia
      *
      * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
-    public function addFromString(string $text): FileAdder
+    public function addMediaFromString(string $text): FileAdder
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 

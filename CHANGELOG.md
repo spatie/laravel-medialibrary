@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.4.1 - 2020-08-03
+
+- add `addMediaFromString`
+
 ## 8.4.0 - 2020-08-03
 
 - add `addFromString`

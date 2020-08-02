@@ -538,7 +538,7 @@ class IntegrationTest extends TestCase
         $string = 'test123';
 
         $media = $this->testModel
-            ->addFromString($string)
+            ->addMediaFromString($string)
             ->toMediaCollection();
 
         $this->assertEquals($string, file_get_contents($media->getPath()));
