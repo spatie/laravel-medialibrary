@@ -12,7 +12,7 @@ Every component will pass data in a key of a request. The name of that key is th
 ```html 
 // data will get pass via the `avatar` key of the request.
 
-<x-media-library-upload name="avatar" />
+<x-medialibrary-attachment name="avatar" />
 ```
 
 The content of that request key will be an array. For each file uploaded that array will hold an array with these keys.

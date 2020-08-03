@@ -3,15 +3,13 @@ title: Handling uploads with Vue or React
 weight: 4
 ---
 
-If you're using Vue or React, Medialibrary Pro provides some UI components that look beautiful and work out of the box with the medialibrary backend. They're really easy to set up, and have a lot of features already built-in, like temporary uploads, custom property inputs, frontend validation, i18n and error handling.
+If you're using Vue or React, Medialibrary Pro provides UI components that look beautiful and work out of the box with the medialibrary backend. They're simple to set up, and include a lot of features: temporary uploads, custom property inputs, frontend validation, i18n and error handling.
 
-If you want to heavily customise the way the UI components look, feel or work, have a look on [this page](TODO-LINK:creating-a-custom-react-or-vue-component).
-
-Before we really get started: if you get stuck at any point during these tutorials, don't hesitate to create an issue on the GitHub repository. We'll do our best to get you running, and we'll clear up the part of the documentation that might have been unclear or incomplete.
+The look and feel of UI components [can be customized](TODO-LINK:creating-a-custom-react-or-vue-component).
 
 ## Preparing your Laravel app
 
-The Vue and React components expect this route to be registered:
+The package contains a controller `Spatie\MediaLibraryPro\Http\Controllers\UploadController` that handles all incoming uploads from Vue and React component. You should register a route that uses that controller.
 
 ```php
 //somewhere in a Laravel routes file
@@ -34,7 +32,7 @@ Here is an example:
 
 ## Including the components
 
-The UI components are included in the composer package and should work out of the box; you shouldn't have to change anything about your Laravel Mix or Webpack configuration to make them work. You can import the components from the vendor folder like this:
+The UI components should work out of the box. You shouldn't have to change anything about your Laravel Mix or Webpack configuration to make them work. You can import the components from the vendor folder like this:
 
 **Vue**
 
@@ -48,7 +46,7 @@ var app = new Vue({
 });
 ```
 
-You can now use it in any .blade.php file in your application:
+You can now use it in any `.blade.php` file in your application:
 
 ```html
 <div>
@@ -58,7 +56,7 @@ You can now use it in any .blade.php file in your application:
 
 **React**
 
-Simply import the medialibrary component in your custom component, and use it in your JSX:
+Import the medialibrary component in your custom component, and use it in JSX:
 
 ```jsx
 import MediaLibraryAttachment from "../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-react-attachment";
@@ -162,7 +160,7 @@ The value of `validationErrors` should just be the error object that Laravel ret
 TODO: screenshot of attachment component without value
 TODO: screenshot of multiple attachment component with 2 or 3 images as value
 
-The attachment component is meant to be used to upload one or multiple images with little or no extra information. Images are displayed in a grid, with optional extra properties (e.g. the image size) or input fields (e.g. the image name) displayed right below them. (TODO check if this is still correct by the time we launch)
+The attachment component can upload one or multiple images with little or no extra information. Images are displayed in a grid, with optional extra properties (e.g. the image size) or input fields (e.g. the image name) displayed right below them. (TODO check if this is still correct by the time we launch)
 
 See [Props](TODO-link:frontend-setup-props) for a complete list of all props.
 
@@ -206,7 +204,7 @@ export default function AvatarForm() {
 
 ### Automatically submitting after uploading
 
-When creating a stand-alone avatar field, it would be nice to have it save automatically after your image has finished uploaded. This can easily be done by triggering a form submit after the image has uploaded, using the `after-upload`/`afterUpload` prop:
+Using the `after-upload`/`afterUpload` prop, you can submit the form after the upload has been completed.
 
 **Vue**
 
@@ -270,7 +268,7 @@ export default function AvatarForm() {
 
 TODO: screenshot of collection component with some images and custom properties. Maybe also with a validation error.
 
-The collection component can be used to upload multiple images with some custom properties, like alt tags, a caption or tags. This component usually won't be used in a public-facing area, but rather in a backoffice environment.
+The collection component can upload multiple images with some custom properties, like alt tags, a caption or tags. This component usually won't be used in a public-facing area, but rather in a backoffice environment.
 
 See [Props](TODO-link:frontend-setup-props) for a complete list of all props.
 
@@ -304,7 +302,7 @@ The basic setup of the collection component is pretty much identical to the atta
 <MediaLibraryCollection name="media"></MediaLibraryCollection>
 ```
 
-The render slot
+### The render slot
 
 To add custom properties, you can use the `afterItems` slot in Vue or the `afterItems` render prop in React. You get a couple of methods back that you can use to easily populate your input elements with the required props, and to display any validation errors that may occur when submitting.
 (TODO update name of render prop/slot)

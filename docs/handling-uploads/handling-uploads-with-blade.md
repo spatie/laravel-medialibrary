@@ -3,16 +3,15 @@ title: Handling uploads with Blade
 weight: 2
 ---
 
-If you don't use a front end framework, you can make use of the `x-medialibrary-upload` and `x-media-library-collection` Blade components to handle uploads.
+If you don't use a front end framework, you can make use of the `x-medialibrary-attachment` and `x-media-library-collection` Blade components to handle uploads.
 
 ## Getting started
 
 The Blade components that handle uploads leverage [Livewire](https://laravel-livewire.com) under the hood. That's why you must follow [Livewire's installation instructions](https://laravel-livewire.com/docs/installation) as well.
 
-
 ## Handling a single upload 
 
-You can use `x-medialibrary-upload` to upload a single file. Here's an example:
+You can use `x-medialibrary-attachment` to upload a single file. Here's an example:
 
 ```html
 <form method="POST">
@@ -20,7 +19,7 @@ You can use `x-medialibrary-upload` to upload a single file. Here's an example:
 
     <input id="name" name="name">
 
-    <x-media-library-upload name="avatar" />
+    <x-medialibrary-attachment name="avatar" />
 
     <button type="submit">Submit</button>
 </form>
@@ -28,9 +27,9 @@ You can use `x-medialibrary-upload` to upload a single file. Here's an example:
 
 [TODO: add screenshot]
 
-The `x-media-library-upload` will take care of the upload. Under the hood the upload is processed by a [Livewire](https://laravel-livewire.com) component.
+The `x-medialibrary-attachment` will take care of the upload. Under the hood the upload is processed by a [Livewire](https://laravel-livewire.com) component.
  
- After a file has been uploaded it will be stored as a temporary upload. In case there are validation errors when submitting the form, the `x-media-library-upload` will display the temporary upload when you get redirected back to the form. There's no need for the user to upload the file again.
+ After a file has been uploaded it will be stored as a temporary upload. In case there are validation errors when submitting the form, the `x-medialibrary-attachment` will display the temporary upload when you get redirected back to the form. There's no need for the user to upload the file again.
  
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent model. You can read more on that [on this page](TODO: add link).
 
@@ -43,7 +42,7 @@ Here's an example of how you can allow multiple uploads
     @csrf
     Name: <input type="text" name="name" value="{{ old('name', $formSubmission->name) }}">
 
-    <x-media-library-upload multiple name="images" />
+    <x-medialibrary-attachment multiple name="images" />
 
     <button type="submit">Submit</button>
 </form>
@@ -61,7 +60,7 @@ In the controller handling the form submission you should validate the temporary
 To set a maximum number of files you can add a `max-items` attribute. Here is an example where a users can only upload two files.
 
 ```html
-<x-media-library-upload multiple
+<x-medialibrary-attachment multiple
    name="images" 
    max-items="2"
 />
@@ -74,7 +73,7 @@ You can validate the upload before the form is submitted by adding a `rules` att
 Here's an example where we only accept `png` and `jpg` files that are 1MB or less in size.
 
 ```html
-<x-media-library-upload multiple
+<x-medialibrary-attachment multiple
    name="images" 
    max-items="2"
    rules="mimes:png,jpg|max:1024"
@@ -102,7 +101,7 @@ New files will be uploaded as temporary uploads.
 
 The value you pass in `name` of the component will be use as the key name in which the component will send the state of the collection to the backend. In the controller handling the form submission you should validate the new contents of the collection and sync it with the collection of the eloquent model. You can read more on that [on this page](TODO: add link).
 
-Like the `x-media-library-upload` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
+Like the `x-medialibrary-attachment` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
 
 In this example the collection will be allowed to hold `png` and `jpg` files that are smaller than 1 MB.
 
