@@ -173,3 +173,7 @@ TODO explain how to do this in Vue?
 | before-upload     | beforeUpload      |               |             |
 | after-upload      | afterUpload       |               |             |
 | @change           | onChange          |               |             |
+
+TODO @is-ready-to-submit-change and the "is something uploading" listener
+
+TODO expand on the prop list, look into examples of how other packages do this etc

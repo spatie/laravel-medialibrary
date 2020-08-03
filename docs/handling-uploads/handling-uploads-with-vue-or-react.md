@@ -11,10 +11,10 @@ Before we really get started: if you get stuck at any point during these tutoria
 
 ## Preparing your Laravel app
 
-The Vue and React components expect this route to be registered
+The Vue and React components expect this route to be registered:
 
 ```php
-//somewhere in a routes file
+//somewhere in a Laravel routes file
 
 use Spatie\MediaLibraryPro\Http\Controllers\UploadController;
 
@@ -52,10 +52,7 @@ You can now use it in any .blade.php file in your application:
 
 ```html
 <div>
-    <media-library-attachment
-        name="avatar"
-        upload-endpoint="temp-upload"
-    ></media-library-attachment>
+    <media-library-attachment name="avatar"></media-library-attachment>
 </div>
 ```
 
@@ -205,6 +202,8 @@ export default function AvatarForm() {
 }
 ```
 
+### TODO afterItems render prop
+
 ### Automatically submitting after uploading
 
 When creating a stand-alone avatar field, it would be nice to have it save automatically after your image has finished uploaded. This can easily be done by triggering a form submit after the image has uploaded, using the `after-upload`/`afterUpload` prop:
@@ -271,7 +270,7 @@ export default function AvatarForm() {
 
 TODO: screenshot of collection component with some images and custom properties. Maybe also with a validation error.
 
-The collection component can be used to upload multiple images with some custom properties, like alt tags, a caption or tags. This component usually won't be used in a public-facing area.
+The collection component can be used to upload multiple images with some custom properties, like alt tags, a caption or tags. This component usually won't be used in a public-facing area, but rather in a backoffice environment.
 
 See [Props](TODO-link:frontend-setup-props) for a complete list of all props.
 
@@ -287,31 +286,25 @@ import MediaLibraryCollection from "../../../vendor/spatie/laravel-medialibrary-
 import MediaLibraryCollection from "../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-react-collection";
 ```
 
-If you are using TypeScript and you get type errors at this point, check the [Troubleshooting guide](troubleshooting#cannot-find-name-describe-cannot-find-name-test) for a possible fix.
+If you are using TypeScript and you get type errors at this point, read the [Troubleshooting guide](troubleshooting#cannot-find-name-describe-cannot-find-name-test) for a possible fix.
 
 ### Basic setup
 
-The basic setup of the collection component is very similar to the attachment component:
+The basic setup of the collection component is pretty much identical to the attachment component:
 
 **Vue**
 
 ```html
-<media-library-collection
-    name="media"
-    :initial-value="initialValue"
-    :validation-errors="validationErrors"
-></media-library-collection>
+<media-library-collection name="media"></media-library-collection>
 ```
 
 **React**
 
 ```jsx
-<MediaLibraryCollection
-    name="media"
-    initialValue={values.media}
-    validationErrors={validationErrors}
-></MediaLibraryCollection>
+<MediaLibraryCollection name="media"></MediaLibraryCollection>
 ```
+
+The render slot
 
 To add custom properties, you can use the `afterItems` slot in Vue or the `afterItems` render prop in React. You get a couple of methods back that you can use to easily populate your input elements with the required props, and to display any validation errors that may occur when submitting.
 (TODO update name of render prop/slot)
@@ -413,6 +406,8 @@ To add custom properties, you can use the `afterItems` slot in Vue or the `after
     )}
 ></MediaLibraryCollection>
 ```
+
+See the [Props section](TODO-link:frontend-setup-props) for a complete list of all props.
 
 ## Asynchronously submit data
 
@@ -546,6 +541,8 @@ function AvatarComponent() {
 }
 ```
 
+TODO mention the "is something uploading" listener, e.g. in case people aren't interested by validation errors?
+
 ## Validation rules
 
 TODO (not completely ready in frontend yet)
@@ -610,3 +607,5 @@ Below, you can see the default translations object. You don't have to copy the e
 | drag-enabled               | dragEnabled             | `true`                              | Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value |
 | @change                    | onChange                | `undefined`                         |                                                                                                                             |
 | @is-ready-to-submit-change | onIsReadyToSubmitChange | `undefined`                         | Refer to [Checking the upload state](TODO-link) section                                                                     |
+
+TODO expand on the prop list, look into examples of other packages etc
