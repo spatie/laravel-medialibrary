@@ -3,15 +3,15 @@ title: [Advanced] Creating a custom Vue or React component
 weight: 4
 ---
 
-If you need more options for customisation in your UI, you can extend the core that the UI components are built on. This way, you have all the freedom in what you want your components to look like, but a lot of work is already done for you, like handling component state, error handling and temporary uploads. Both the Vue and React UI components are built on top of the same core, with a language-specific abstraction layer in between that exposes some helper functions. This page will go into detail about these abstraction layers.
+Both the Vue and React UI components are built on top of the same core, with a language-specific abstraction layer in between that exposes some helper functions. You can extend the core that the UI components are built on. This allow you to customize the UI. This page will go into detail about these abstraction layers.
 
-These packages also export some helper components that will make building a custom component much easier. These components are also used in the pre-built UI components that ship with the Medialibrary Pro. You can read more about these helper components in the [Helper Components](TODO-link) section
-
-We opted to use a renderless component in Vue and a custom hook in React. With the release of Vue 3, we're considering refactoring the Vue implementation to use the composition API. This will bring along some breaking changes for users of the renderless component.
+The standard Medialibary UI components are built using helper components. These helper components can be used individually to make custom components. You can read more about the helper components in the [Helper Components](TODO-link) section.
 
 ## Vue
 
-The Vue implementation uses a renderless component that exposes all the functions and values through a slot scope. Like mentioned earlier, this could change in a future version if we decide to refactor the Vue implementation to work with the new composition API that was released in Vue 3.
+The Vue implementation uses a renderless component that exposes all the functions and values through a slot scope. 
+
+Note: in a future version if we decide to refactor the Vue implementation to work with the new composition API that was released in Vue 3.
 
 For more extensive examples, [see the pre-built UI components on GitHub](TODO-link:#examples)
 
@@ -64,7 +64,7 @@ You can find a full list of props [at the bottom of this page](TODO-link).
 
 ## React
 
-For the React components, we built a custom hook `useMediaLibrary` that hooks into the Medialibrary Pro JavaScript core. This makes it very easy to use in functional components. If you are building a class component, there are several tutorials available online on how to wrap a custom hook in a higher-order component (HOC) for use in class components.
+For the React components, you can use `useMediaLibrary`. It hooks into the Medialibrary Pro JavaScript core. This makes it very easy to use in functional components. If you are building a class component, there are several tutorials available online on how to wrap a custom hook in a higher-order component for use in class components.
 
 For more extensive examples, [see the pre-built UI components on GitHub](TODO-link:#examples)
 
@@ -121,9 +121,7 @@ For extensive examples you can have a look at the source of the pre-built UI com
 
 ## Helper components
 
-While building the UI components that are packaged with the Medialibrary Pro, we quickly noticed a lot of repeating patterns between the collection and attachment components. This is why we decided to extract some components to the language specific libraries, and export them from here, rather than keeping duplicates in all the separate UI component libraries.
-
-When building your own UI component using the Medialibrary Pro, you can also make use of these components where and if you want, which should make the process a lot easier. Below, you can find a list of the components you can use, including an explanation of their purpose, their usage, and required props. You can also use them as inspiration when building your own UI components from scratch.
+When building your own UI component using the Medialibrary Pro, you can also make use of these helper components.
 
 ### DropZone
 
