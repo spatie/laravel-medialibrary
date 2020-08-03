@@ -6,6 +6,27 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 - names of the generated conversions will now be put in a dedicated `generated_conversions` on media.
 
+## 8.4.1 - 2020-08-03
+
+- add `addMediaFromString`
+
+## 8.4.0 - 2020-08-03
+
+- add `addFromString`
+
+## 8.3.3 - 2020-06-30
+
+- fix responsive image urls when conversions are stored on different disk. (#1944)
+
+## 8.3.2 - 2020-06-22
+
+- report an error when it can't delete a directory (#1938)
+
+## 8.3.1 - 2020-06-22
+
+- improve handling of file names with special characters (#1937)
+
+
 ## 8.3.0 - 2020-06-11
 
 - added `Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection`

@@ -85,4 +85,20 @@ class ResponsiveImageTest extends TestCase
 
         $this->assertLessThan(filesize($standardQualityResponsiveConversion), filesize($lowerQualityResponsiveConversion));
     }
+
+    /** @test */
+    public function a_media_instance_can_get_responsive_image_urls_with_conversions_stored_on_second_media_disk()
+    {
+        $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
+            ->storingConversionsOnDisk('secondMediaDisk')
+            ->toMediaCollection();
+
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $this->assertEquals([
+            'http://localhost/media2/1/responsive-images/test___thumb_50_41.jpg',
+        ], $media->getResponsiveImageUrls('thumb'));
+    }
 }

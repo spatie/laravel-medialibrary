@@ -49,12 +49,12 @@ trait InteractsWithMedia
             }
 
             if (in_array(SoftDeletes::class, class_uses_recursive($model))) {
-                if (! $model->forceDeleting) {
+                if (!$model->forceDeleting) {
                     return;
                 }
             }
 
-            $model->media()->cursor()->each(fn (Media $media) => $media->delete());
+            $model->media()->cursor()->each(fn(Media $media) => $media->delete());
         });
     }
 
@@ -149,11 +149,11 @@ trait InteractsWithMedia
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes): FileAdder
     {
-        if (! Str::startsWith($url, ['http://', 'https://'])) {
+        if (!Str::startsWith($url, ['http://', 'https://'])) {
             throw InvalidUrl::doesNotStartWithProtocol($url);
         }
 
-        if (! $stream = @fopen($url, 'r')) {
+        if (!$stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 
@@ -163,7 +163,7 @@ trait InteractsWithMedia
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
-        $filename = str_replace('%20', ' ', $filename);
+        $filename = urldecode($filename);
 
         if ($filename === '') {
             $filename = 'file';
@@ -171,7 +171,7 @@ trait InteractsWithMedia
 
         $mediaExtension = explode('/', mime_content_type($temporaryFile));
 
-        if (! Str::contains($filename, '.')) {
+        if (!Str::contains($filename, '.')) {
             $filename = "{$filename}.{$mediaExtension[1]}";
         }
 
@@ -179,6 +179,27 @@ trait InteractsWithMedia
             ->create($this, $temporaryFile)
             ->usingName(pathinfo($filename, PATHINFO_FILENAME))
             ->usingFileName($filename);
+    }
+
+
+    /**
+     * Add a file to the media library that contains the given string.
+     *
+     * @param string string
+     *
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
+     */
+    public function addMediaFromString(string $text): FileAdder
+    {
+        $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
+
+        file_put_contents($tmpFile, $text);
+
+        $file = app(FileAdderFactory::class)
+            ->create($this, $tmpFile)
+            ->usingFileName('text.txt');
+
+        return $file;
     }
 
     /**
@@ -272,7 +293,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -289,10 +310,11 @@ trait InteractsWithMedia
         DateTimeInterface $expiration,
         string $collectionName = 'default',
         string $conversionName = ''
-    ): string {
+    ): string
+    {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -304,7 +326,7 @@ trait InteractsWithMedia
         $this->registerMediaCollections();
 
         return collect($this->mediaCollections)
-            ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
+            ->first(fn(MediaCollection $collection) => $collection->name === $collectionName);
     }
 
     public function getFallbackMediaUrl(string $collectionName = 'default'): string
@@ -326,7 +348,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (! $media) {
+        if (!$media) {
             return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
@@ -374,11 +396,11 @@ trait InteractsWithMedia
     {
         $this
             ->getMedia($collectionName)
-            ->reject(fn (Media $currentMediaItem) => in_array(
+            ->reject(fn(Media $currentMediaItem) => in_array(
                 $currentMediaItem->getKey(),
                 array_column($newMediaArray, $currentMediaItem->getKeyName()),
             ))
-            ->each(fn (Media $media) => $media->delete());
+            ->each(fn(Media $media) => $media->delete());
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -389,7 +411,7 @@ trait InteractsWithMedia
     {
         $this
             ->getMedia($collectionName)
-            ->each(fn (Media $media) => $media->delete());
+            ->each(fn(Media $media) => $media->delete());
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
@@ -422,8 +444,8 @@ trait InteractsWithMedia
 
         $this
             ->getMedia($collectionName)
-            ->reject(fn (Media $media) => $excludedMedia->where($media->getKeyName(), $media->getKey())->count())
-            ->each(fn (Media $media) => $media->delete());
+            ->reject(fn(Media $media) => $excludedMedia->where($media->getKeyName(), $media->getKey())->count())
+            ->each(fn(Media $media) => $media->delete());
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -452,7 +474,7 @@ trait InteractsWithMedia
 
         $media = $this->media->find($mediaId);
 
-        if (! $media) {
+        if (!$media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 
@@ -504,7 +526,7 @@ trait InteractsWithMedia
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection
-            ->filter(fn (Media $mediaItem) => $mediaItem->collection_name === $collectionName)
+            ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName)
             ->sortBy('order_column')
             ->values();
     }
@@ -533,7 +555,7 @@ trait InteractsWithMedia
 
         $validation = Validator::make(
             ['file' => new File($file)],
-            ['file' => 'mimetypes:'.implode(',', $allowedMimeTypes)]
+            ['file' => 'mimetypes:' . implode(',', $allowedMimeTypes)]
         );
 
         if ($validation->fails()) {
@@ -561,7 +583,7 @@ trait InteractsWithMedia
             ($mediaCollection->mediaConversionRegistrations)($media);
 
             $preparedMediaConversions = collect($this->mediaConversions)
-                ->each(fn (Conversion $conversion) => $conversion->performOnCollections($mediaCollection->name))
+                ->each(fn(Conversion $conversion) => $conversion->performOnCollections($mediaCollection->name))
                 ->values()
                 ->toArray();
 
