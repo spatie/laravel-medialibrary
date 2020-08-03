@@ -3,7 +3,7 @@ title: Handling uploads with Blade
 weight: 2
 ---
 
-If you don't use a front end framework, you can make use of the `x-medialibrary-attachment` and `x-media-library-collection` Blade components to handle uploads.
+You can make use of the `x-medialibrary-attachment` and `x-media-library-collection` Blade components to handle uploads.
 
 ## Getting started
 
@@ -68,7 +68,7 @@ To set a maximum number of files you can add a `max-items` attribute. Here is an
 
 ## Validating uploads in real time
 
-You can validate the upload before the form is submitted by adding a `rules` attribute. In the value of the attribute you can use any of Laravel's available validation rules that are applicable to file uploads.
+The upload can be valited before the form is submitted by adding a `rules` attribute. In the value of the attribute you can use any of Laravel's available validation rules that are applicable to file uploads.
 
 Here's an example where we only accept `png` and `jpg` files that are 1MB or less in size.
 
