@@ -294,6 +294,13 @@ trait InteractsWithMedia
         return $media->getTemporaryUrl($expiration, $conversionName);
     }
 
+    public function getRegisteredMediaCollections(): Collection
+    {
+        $this->registerMediaCollections();
+
+        return collect($this->mediaCollections);
+    }
+
     public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection
     {
         $this->registerMediaCollections();
