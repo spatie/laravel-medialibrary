@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.5.0 - 2020-08-06
+
+- add method to get registered media collections (#1976)
+
 ## 8.4.1 - 2020-08-03
 
 - add `addMediaFromString`
