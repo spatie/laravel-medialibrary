@@ -343,7 +343,7 @@ class FileAdder
 
     public function defaultSanitizer(string $fileName): string
     {
-        return str_replace(['#', '/', '\\', ' '], '-', $fileName);
+        return str_replace(['#', '/', '\\', ' - ', ' '], '-', $fileName);
     }
 
     public function sanitizingFileName(callable $fileNameSanitizer): self

@@ -69,7 +69,7 @@ You can sanitize the filename using a callable:
 $yourModel
    ->addMedia($pathToFile)
    ->sanitizingFileName(function($fileName) {
-      return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
+      return strtolower(str_replace(['#', '/', '\\', ' - ', ' '], '-', $fileName));
    })
    ->toMediaCollection();
 ```
