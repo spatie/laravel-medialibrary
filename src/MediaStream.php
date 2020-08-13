@@ -77,7 +77,7 @@ class MediaStream implements Responsable
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();
 
-            $zip->addFileFromStream($mediaInZip['fileNameInZip'], $stream);
+            $zip->addFileFromStream($mediaInZip['media']->file_name_in_zip ?? $mediaInZip['fileNameInZip'], $stream);
 
             if (is_resource($stream)) {
                 fclose($stream);
@@ -103,14 +103,14 @@ class MediaStream implements Responsable
     {
         $fileNameCount = 0;
 
-        $fileName = $mediaItems[$currentIndex]->file_name;
+        $fileName = $mediaItems[$currentIndex]->file_name_in_zip ?? $mediaItems[$currentIndex]->file_name;
 
         foreach ($mediaItems as $index => $media) {
             if ($index >= $currentIndex) {
                 break;
             }
 
-            if ($media->file_name === $fileName) {
+            if (($media->file_name_in_zip ?? $media->file_name) === $fileName) {
                 $fileNameCount++;
             }
         }
