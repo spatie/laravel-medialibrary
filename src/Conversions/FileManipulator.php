@@ -135,6 +135,10 @@ class FileManipulator
             $job->onQueue($customQueue);
         }
 
+        if ($customConnection = config('media-library.queue_connection')) {
+            $job->onConnection($customConnection);
+        }
+
         dispatch($job);
     }
 
