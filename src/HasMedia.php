@@ -48,7 +48,7 @@ interface HasMedia
      * Remove all media in the given collection except some.
      *
      * @param string $collectionName
-     * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
+     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
      *
      * @return $this
      */
