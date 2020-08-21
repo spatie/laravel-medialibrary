@@ -6,22 +6,27 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use ZipStream\Option\Archive as ArchiveOptions;
 use ZipStream\ZipStream;
 
 class MediaStream implements Responsable
 {
     protected string $zipName;
+    
+    protected ArchiveOptions $zipOptions;
 
     protected Collection $mediaItems;
 
-    public static function create(string $zipName)
+    public static function create(string $zipName, ?ArchiveOptions $zipOptions = null)
     {
-        return new static($zipName);
+        return new static($zipName, $zipOptions);
     }
 
-    public function __construct(string $zipName)
+    public function __construct(string $zipName, ?ArchiveOptions $zipOptions = null)
     {
         $this->zipName = $zipName;
+        
+        $this->zipOptions = $zipOptions;
 
         $this->mediaItems = collect();
     }
@@ -66,7 +71,7 @@ class MediaStream implements Responsable
 
     public function getZipStream(): ZipStream
     {
-        $zip = new ZipStream($this->zipName);
+        $zip = new ZipStream($this->zipName, $this->zipOptions);
 
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();
