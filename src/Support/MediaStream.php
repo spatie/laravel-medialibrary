@@ -13,7 +13,7 @@ class MediaStream implements Responsable
 {
     protected string $zipName;
     
-    protected ?ArchiveOptions $zipOptions;
+    protected ?ArchiveOptions $zipOptions = null;
 
     protected Collection $mediaItems;
 
