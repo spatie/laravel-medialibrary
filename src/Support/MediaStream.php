@@ -17,18 +17,23 @@ class MediaStream implements Responsable
 
     protected Collection $mediaItems;
 
-    public static function create(string $zipName, ?ArchiveOptions $zipOptions = null)
+    public static function create(string $zipName)
     {
-        return new static($zipName, $zipOptions);
+        return new static($zipName);
     }
 
-    public function __construct(string $zipName, ?ArchiveOptions $zipOptions = null)
+    public function __construct(string $zipName)
     {
         $this->zipName = $zipName;
-        
-        $this->zipOptions = $zipOptions;
 
         $this->mediaItems = collect();
+    }
+    
+    public function useOptions(ArchiveOptions $zipOptions)
+    {
+        $this->zipOptions = $zipOptions;
+        
+        return $this;
     }
 
     public function addMedia(...$mediaItems): self
