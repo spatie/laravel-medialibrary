@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.5.1 - 2020-08-24
+
+- keep sizes 1px if width is 0px (#1993)
+
 ## 8.5.0 - 2020-08-06
 
 - add method to get registered media collections (#1976)
