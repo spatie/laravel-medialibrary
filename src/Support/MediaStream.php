@@ -102,7 +102,7 @@ class MediaStream implements Responsable
                 break;
             }
 
-            if ($media->file_name === $fileName) {
+            if ($this->getZipFileNamePrefix($mediaItems, $index).$media->file_name === $this->getZipFileNamePrefix($mediaItems, $currentIndex).$fileName) {
                 $fileNameCount++;
             }
         }
