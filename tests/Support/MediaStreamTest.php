@@ -98,7 +98,7 @@ class MediaStreamTest extends TestCase
 
         $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test (2).jpg');
 
-        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test (3).jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test.jpg');
     }
 
     /** @test */
