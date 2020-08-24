@@ -14,8 +14,8 @@ weight: 5
   sizes="1px" 
   width="2400"        
   src="../images/demo/responsive-images/2400.jpg"
-  oonload="this.onload=null;this.sizes='(min-width: '+window.innerWidth+'px) '+Math.ceil(this.getBoundingClientRect().width/window.innerWidth*100)+'vw, 100vw';"
-  onload="this.onload=null;this.sizes=Math.ceil(this.getBoundingClientRect().width/window.innerWidth*100)+'vw';">
+  oonload="if(!(width=this.getBoundingClientRect().width))return;this.onload=null;this.sizes='(min-width: '+window.innerWidth+'px) '+Math.ceil(width/window.innerWidth*100)+'vw, 100vw';"
+  onload="if(!(width=this.getBoundingClientRect().width))return;this.onload=null;this.sizes=Math.ceil(width/window.innerWidth*100)+'vw';">
 
 <article class="article">
   <p>
