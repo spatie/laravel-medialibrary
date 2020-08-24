@@ -122,6 +122,6 @@ class MediaStreamTest extends TestCase
         $temporaryDirectory = (new TemporaryDirectory())->create();
         file_put_contents($temporaryDirectory->path('response.zip'), $content);
 
-        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'just_a_string_prefix test (3).jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'just_a_string_prefix test.jpg');
     }
 }
