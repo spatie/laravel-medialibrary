@@ -222,7 +222,7 @@ public function registerMediaCollections(): void
 When adding an image to `my-collection` a thumbnail that fits inside 100x100 will be created.
 
 ```php
-$yourModel->add($pathToImage)->toMediaCollection('my-collection');
+$yourModel->addMedia($pathToImage)->toMediaCollection('my-collection');
 
 $yourModel->getFirstMediaUrl('thumb') // returns an url to a 100x100 version of the added image.
 ```

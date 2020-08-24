@@ -152,7 +152,7 @@ The file will be named 'text.txt' by default. A specific file name can be set us
 
 ```php
 $model
-    ->addFromString('my string')
+    ->addMediaFromString('my string')
     ->usingFileName('custom-filename.txt')
     ->toMediaCollection();
 ```
