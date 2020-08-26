@@ -28,7 +28,7 @@ class DownloadMediaController
 }
 ```
 
-You can also pass any custom options to the `ZipStream` instance using the `useOptions` method.
+You can also pass any custom options to the `ZipStream` instance using the `useZipOptions` method.
 
 All the available options are listed on the [ZipStream-PHP wiki](https://github.com/maennchen/ZipStream-PHP/wiki/Available-options).
 
@@ -44,15 +44,13 @@ class DownloadMediaController
    {
         // Let's get some media.
         $downloads = $yourModel->getMedia('downloads');
-        
-        $zipOptions = new ArchiveOptions;
-        // Default is false. Set to true if your input stream is remote.
-        $zipOptions->setZeroHeader(true);
 
         // Download the files associated with the media in a streamed way.
         // No prob if your files are very large.
         return MediaStream::create('my-files.zip')
-            ->useOptions($zipOptions)
+            ->useZipOptions(function(ArchiveOptions $zipOptions) {
+                $zipOptions->setZeroHeader(true);
+            })
             ->addMedia($downloads);
    }
 }
