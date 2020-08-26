@@ -15,7 +15,7 @@ class MediaStream implements Responsable
 
     protected Collection $mediaItems;
 
-    protected ArchiveOptions $zipArchiveOptions;
+    protected ArchiveOptions $zipOptions;
 
     public static function create(string $zipName)
     {
@@ -28,12 +28,12 @@ class MediaStream implements Responsable
 
         $this->mediaItems = collect();
 
-        $this->zipArchiveOptions = new ArchiveOptions();
+        $this->zipOptions = new ArchiveOptions();
     }
 
-    public function useOptions(callable $archiveOptionsCallable): self
+    public function useZipOptions(callable $zipOptionsCallable): self
     {
-        $archiveOptionsCallable($this->zipArchiveOptions);
+        $zipOptionsCallable($this->zipOptions);
 
         return $this;
     }
@@ -78,7 +78,7 @@ class MediaStream implements Responsable
 
     public function getZipStream(): ZipStream
     {
-        $zip = new ZipStream($this->zipName, $this->zipArchiveOptions);
+        $zip = new ZipStream($this->zipName, $this->zipOptions);
 
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();

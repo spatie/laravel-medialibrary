@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.6.0 - 2020-08-25
+
+- add `useZipOptions`
+
 ## 8.5.2 - 2020-08-25
 
 - fix for custom zip path (#2016)
