@@ -505,8 +505,11 @@ trait InteractsWithMedia
             ? $this->media
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
+        if ($collectionName !== '*')
+            $collection = $collection
+                ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName);
+
         return $collection
-            ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName)
             ->sortBy('order_column')
             ->values();
     }
