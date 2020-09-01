@@ -4,7 +4,24 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 9.0.0 - Unreleased
 
-- names of the generated conversions will now be put in a dedicated `generated_conversions` on media.
+- names of the generated conversions will now be put in a dedicated `generated_conversions` on media
+- adds support for media library pro
+
+## 8.6.0 - 2020-08-25
+
+- add `useZipOptions`
+
+## 8.5.2 - 2020-08-25
+
+- fix for custom zip path (#2016)
+
+## 8.5.1 - 2020-08-24
+
+- keep sizes 1px if width is 0px (#1993)
+
+## 8.5.0 - 2020-08-06
+
+- add method to get registered media collections (#1976)
 
 ## 8.4.1 - 2020-08-03
 

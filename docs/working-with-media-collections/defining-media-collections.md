@@ -23,6 +23,16 @@ public function registerMediaCollections(): void
 }
 ```
 
+## Getting registered media collections
+
+To retrieve all registered media collections on your model you can use the `getRegisteredMediaCollections` method.  
+
+```php
+$mediaCollections = $yourModel->getRegisteredMediaCollections();
+```
+
+This returns a collection of `MediaCollection` objects.
+
 ## Defining a fallback URL or path
 
 If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
@@ -212,7 +222,7 @@ public function registerMediaCollections(): void
 When adding an image to `my-collection` a thumbnail that fits inside 100x100 will be created.
 
 ```php
-$yourModel->add($pathToImage)->toMediaCollection('my-collection');
+$yourModel->addMedia($pathToImage)->toMediaCollection('my-collection');
 
 $yourModel->getFirstMediaUrl('thumb') // returns an url to a 100x100 version of the added image.
 ```
