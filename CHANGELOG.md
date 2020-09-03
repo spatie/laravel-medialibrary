@@ -2,10 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+
 ## 9.0.0 - Unreleased
 
 - names of the generated conversions will now be put in a dedicated `generated_conversions` on media
 - adds support for media library pro
+
+## 8.7.0 - 2020-09-04
+
+- add `toMediaLibrary`
 
 ## 8.6.0 - 2020-08-25
 

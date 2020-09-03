@@ -264,6 +264,8 @@ class FileAdder
         return $media;
     }
 
+
+
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         if ($this->file instanceof RemoteFile) {
@@ -323,6 +325,11 @@ class FileAdder
         $this->attachMedia($media);
 
         return $media;
+    }
+
+    public function toMediaLibrary(string $collectionName = 'default', string $diskName = ''): Media
+    {
+        return $this->toMediaCollection($collectionName, $diskName);
     }
 
     protected function determineDiskName(string $diskName, string $collectionName): string

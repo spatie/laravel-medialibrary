@@ -28,6 +28,16 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function toMediaCollection_has_an_alias_called_toMediaLibrary()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toMediaLibrary();
+
+        $this->assertEquals('default', $media->collection_name);
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_adding_a_non_existing_file()
     {
         $this->expectException(FileDoesNotExist::class);
