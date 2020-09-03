@@ -602,7 +602,7 @@ Below, you can see the default translations object. You don't have to copy the e
 | validation-errors          | validationErrors        | `undefined`                         | The standard Laravel validation error object                                                                                |
 | before-upload              | beforeUpload            | `undefined`                         |                                                                                                                             |
 | after-upload               | afterUpload             | `undefined`                         |                                                                                                                             |
-| drag-enabled               | dragEnabled             | `true`                              | Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value |
+| sortable               | sortable             | `true`                              | Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value |
 | @change                    | onChange                | `undefined`                         |                                                                                                                             |
 | @is-ready-to-submit-change | onIsReadyToSubmitChange | `undefined`                         | Refer to [Checking the upload state](TODO-link) section                                                                     |
 
