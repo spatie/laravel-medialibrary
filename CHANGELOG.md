@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.7.0 - 2020-09-04
+
+- add `toMediaLibrary`
+
 ## 8.6.0 - 2020-08-25
 
 - add `useZipOptions`
