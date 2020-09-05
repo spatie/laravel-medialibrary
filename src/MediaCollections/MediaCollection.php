@@ -114,9 +114,9 @@ class MediaCollection
         return $this;
     }
 
-    public function withResponsiveImages(): self
+    public function withResponsiveImages($add = true): self
     {
-        $this->generateResponsiveImages = true;
+        $this->generateResponsiveImages = $add;
 
         return $this;
     }
