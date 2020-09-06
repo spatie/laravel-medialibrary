@@ -26,7 +26,7 @@ Here is the converted image: {{ $media('thumb') }}
 You can extra attributes by calling `attributes`.
 
 ```blade
-Here is the image with some attributes: {{ $media->attributes(['class' => 'my-class']) }}
+Here is the image with some attributes: {{ $media->img()->attributes(['class' => 'my-class']) }}
 ```
 
 If you want [defer loading offscreen images](https://css-tricks.com/native-lazy-loading/) you can use the `lazy` function.
