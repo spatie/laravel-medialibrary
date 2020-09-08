@@ -250,11 +250,11 @@ trait InteractsWithMedia
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
-    public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
+    public function getFirstMedia(string $collectionName = 'default', $filters = []): ?object
     {
         $media = $this->getMedia($collectionName, $filters);
 
-        return $media->first();
+        return optional($media->first());
     }
 
     /*
@@ -266,7 +266,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (!$media->first()) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -287,7 +287,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (!$media->first()) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -328,7 +328,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (!$media->first()) {
             return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
