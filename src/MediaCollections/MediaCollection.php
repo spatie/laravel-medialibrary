@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
-use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
+use Illuminate\Support\Traits\Macroable;
 
 class MediaCollection
 {
@@ -114,9 +114,20 @@ class MediaCollection
         return $this;
     }
 
-    public function withResponsiveImages($add = true): self
+    public function withResponsiveImages(): self
     {
-        $this->generateResponsiveImages = $add;
+        $this->generateResponsiveImages = true;
+
+        return $this;
+    }
+
+    public function withResponsiveImagesIf($condition): self
+    {
+        if (is_callable($condition)) {
+            $this->generateResponsiveImages = $condition();
+        } else {
+            $this->generateResponsiveImages = $condition;
+        }
 
         return $this;
     }
