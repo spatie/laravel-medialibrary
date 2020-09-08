@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.7.1 - 2020-09-08
+
+- add support for Laravel 8
+
 ## 8.7.0 - 2020-09-04
 
 - add `toMediaLibrary`
