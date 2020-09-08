@@ -49,7 +49,7 @@ trait InteractsWithMedia
                 }
             }
 
-            $model->media()->cursor()->each(fn(Media $media) => $media->delete());
+            $model->media()->cursor()->each(fn (Media $media) => $media->delete());
         });
     }
 
@@ -283,8 +283,7 @@ trait InteractsWithMedia
         DateTimeInterface $expiration,
         string $collectionName = 'default',
         string $conversionName = ''
-    ): string
-    {
+    ): string {
         $media = $this->getFirstMedia($collectionName);
 
         if (!$media) {
@@ -306,7 +305,7 @@ trait InteractsWithMedia
         $this->registerMediaCollections();
 
         return collect($this->mediaCollections)
-            ->first(fn(MediaCollection $collection) => $collection->name === $collectionName);
+            ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
     }
 
     public function getFallbackMediaUrl(string $collectionName = 'default'): string
@@ -376,11 +375,11 @@ trait InteractsWithMedia
     {
         $this
             ->getMedia($collectionName)
-            ->reject(fn(Media $currentMediaItem) => in_array(
+            ->reject(fn (Media $currentMediaItem) => in_array(
                 $currentMediaItem->getKey(),
                 array_column($newMediaArray, $currentMediaItem->getKeyName()),
             ))
-            ->each(fn(Media $media) => $media->delete());
+            ->each(fn (Media $media) => $media->delete());
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -391,7 +390,7 @@ trait InteractsWithMedia
     {
         $this
             ->getMedia($collectionName)
-            ->each(fn(Media $media) => $media->delete());
+            ->each(fn (Media $media) => $media->delete());
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
@@ -424,8 +423,8 @@ trait InteractsWithMedia
 
         $this
             ->getMedia($collectionName)
-            ->reject(fn(Media $media) => $excludedMedia->where($media->getKeyName(), $media->getKey())->count())
-            ->each(fn(Media $media) => $media->delete());
+            ->reject(fn (Media $media) => $excludedMedia->where($media->getKeyName(), $media->getKey())->count())
+            ->each(fn (Media $media) => $media->delete());
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -506,7 +505,7 @@ trait InteractsWithMedia
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection
-            ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName)
+            ->filter(fn (Media $mediaItem) => $mediaItem->collection_name === $collectionName)
             ->sortBy('order_column')
             ->values();
     }
@@ -563,7 +562,7 @@ trait InteractsWithMedia
             ($mediaCollection->mediaConversionRegistrations)($media);
 
             $preparedMediaConversions = collect($this->mediaConversions)
-                ->each(fn(Conversion $conversion) => $conversion->performOnCollections($mediaCollection->name))
+                ->each(fn (Conversion $conversion) => $conversion->performOnCollections($mediaCollection->name))
                 ->values()
                 ->toArray();
 
