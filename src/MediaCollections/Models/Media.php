@@ -184,7 +184,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $conversions = ConversionCollection::createForMedia($this);
 
-        return $conversions->map(fn(Conversion $conversion) => $conversion->getName())->toArray();
+        return $conversions->map(fn (Conversion $conversion) => $conversion->getName())->toArray();
     }
 
     public function getGeneratedConversions(): Collection
@@ -341,7 +341,8 @@ class Media extends Model implements Responsable, Htmlable
             ->whereHasMorph(
                 'model',
                 [TemporaryUpload::class],
-                fn(Builder $builder) => $builder->where('session_id', session()->getId()))
+                fn (Builder $builder) => $builder->where('session_id', session()->getId())
+            )
             ->get();
     }
 }

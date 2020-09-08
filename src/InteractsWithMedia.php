@@ -12,7 +12,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\Medialibrary\Helpers\Util;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
@@ -26,7 +25,6 @@ use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
-use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
 use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 
 trait InteractsWithMedia

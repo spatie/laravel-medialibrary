@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\Support\RemoteFile;
-use Spatie\MediaLibraryPro\Dto\PendingMedia;
 use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
 
 class FileAdderFactory

@@ -179,7 +179,7 @@ class CleanCommand extends Command
                 fn (bool $isGenerated, string $generatedConversionName) => Str::contains($conversionFile, $generatedConversionName)
             )
             ->each(
-                fn(bool $isGenerated, string $conversionName) => $media->markAsConversionNotGenerated($conversionName)
+                fn (bool $isGenerated, string $conversionName) => $media->markAsConversionNotGenerated($conversionName)
             );
 
         $media->save();

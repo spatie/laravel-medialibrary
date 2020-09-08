@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests;
 
-use CreateTemporaryUploadsTable;
 use CreateMediaTable;
+use CreateTemporaryUploadsTable;
 use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -149,7 +149,6 @@ abstract class TestCase extends Orchestra
         include_once(__DIR__  . '/../database/migrations/create_media_table.php.stub');
 
         (new CreateMediaTable())->up();
-
     }
 
     protected function setUpTempTestFiles()
