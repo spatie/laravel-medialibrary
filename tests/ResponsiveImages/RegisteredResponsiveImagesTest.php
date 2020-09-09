@@ -32,7 +32,7 @@ class RegisteredResponsiveImagesTest extends TestCase
             ->withResponsiveImages()
             ->toMediaCollection();
 
-        $media = $this->testModel->getFirstMedia();
+        $media = $this->testModel->getFirstMedia()->value;
 
         $responsiveImages = $media->responsive_images;
 

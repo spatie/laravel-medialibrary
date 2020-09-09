@@ -72,7 +72,7 @@ class DeleteMediaTest extends TestCase
 
         $this->addMedia($testModel);
 
-        $this->assertInstanceOf(TestCustomMediaModel::class, $testModel->getFirstMedia());
+        $this->assertInstanceOf(TestCustomMediaModel::class, $testModel->getFirstMedia()->value);
 
         $ids = $testModel->getMedia('images')->pluck('id');
 

@@ -3,26 +3,27 @@
 namespace Spatie\MediaLibrary;
 
 use DateTimeInterface;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Illuminate\Support\Optional;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
-use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
+use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
 
 trait InteractsWithMedia
 {
@@ -154,7 +155,6 @@ trait InteractsWithMedia
             ->usingFileName($filename);
     }
 
-
     /**
      * Add a file to the media library that contains the given string.
      *
@@ -250,7 +250,7 @@ trait InteractsWithMedia
         return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
     }
 
-    public function getFirstMedia(string $collectionName = 'default', $filters = []): ?object
+    public function getFirstMedia(string $collectionName = 'default', $filters = []): Optional
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -266,7 +266,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media->first()) {
+        if (!$media->value) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -287,7 +287,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media->first()) {
+        if (!$media->value) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -328,7 +328,7 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media->first()) {
+        if (!$media->value) {
             return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
@@ -454,7 +454,7 @@ trait InteractsWithMedia
 
         $media = $this->media->find($mediaId);
 
-        if (!$media) {
+        if (!$media->value) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 
