@@ -9,13 +9,16 @@ class FileResponsiveImageManipulator
 {
     public function createDerivedFiles(Media $media, array $only = [], bool $onlyMissing = false)
     {
+        $processFiles = true;
+
         if (
-            empty($only) ||
-            (!empty($only) && in_array($media->collection_name, $only)) ||
-            ($onlyMissing && empty($media->responsive_images))
+            (count($only) && !in_array($media->collection_name, $only)) || 
+            ($onlyMissing && count($media->responsive_images))
         ) {
-            return $this->dispatch($media);
+            $processFiles = false;
         }
+
+        return !$processFiles ?: $this->dispatch($media);
     }
 
     protected function dispatch(Media $media)
