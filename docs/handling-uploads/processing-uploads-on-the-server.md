@@ -5,12 +5,12 @@ weight: 5
 
 All Blade, Vue and React components communicate with the server in the same way. 
 
-When a form that uses the upload components is submitted, the files have already been uploaded to the server. The components send the UUID of a `Media` model that is either associated with a `TemporaryUpload` model (for new files) or another Eloquent model (for files that were already processed and associated with a model previously)
+When a form that uses the upload components is submitted, the files have already been uploaded to the server. The components send the UUID of a `Media` model. For new files, that model is associated with a `TemporaryUpload` model. Files that were already validated and processed in a previous request, are associated with another Eloquent model.
 
 Every component will pass data in a key of a request. The name of that key is the name you passed to the `name` prop of any of the components.
 
 ```html 
-// data will get pass via the `avatar` key of the request.
+// data will get passed via the `avatar` key of the request.
 
 <x-medialibrary-attachment name="avatar" />
 ```
@@ -23,63 +23,73 @@ The content of that request key will be an array. For each file uploaded that ar
 
 ## Validating responses
 
-Even if you validated individual uploads, we highly recommend always validating responses sent by the components on the server as well.
+Even though the upload components do some validation of their own, we highly recommend always validating responses on the server as well.
 
-Typically, you would handle validation in a form request. Since all components respond with an array you can use Laravel's default way of validating arrays. In this example we assume that a component was configured to use the `images` key of the request. We validate that there was at least one item uploaded, but no more than 5. All images should have a name.
+You should handle validation in a form request. On the form request you should use the `Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia` trait. This will give you access to the `validateSingleMedia` and `validateMultipleMedia` methods.
+
+In this example we assume that a component was configured to use the `images` key of the request. We validate that there was at least one item uploaded, but no more than 5. Only `png`s that are up to 1MB in size are allowed. All images should have a name.
 
 ```php
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
 class MyRequest extends FormRequest
 {
+    use ValidatesMedia;
+
     public function rules()
     {
         return [
-            'name' => 'required',
-            'images' => ['min:1', 'max:5'],
-            'images.*.name' => 'required',
+            'images' => $this
+                ->validateMultipleMedia()
+                ->minItems(1)
+                ->maxItems(5)
+                ->extension('png')
+                ->maxItemSizeInKb(1024)
+                ->attribute('name', 'required')
         ];
     }
 }
 ```
 
-In addition to Laravel's default validation rules, the media library provides a couple extra ones as well. All the rules are available via the `Spatie\MediaLibraryPro\Rules\UploadedMedia` class. Here's an example where we make sure that the total size of all files is no higher than 5 MB. Additionally each file should at least be 20 KB.
+If you are only allowing one uploaded file, you can use the `validateSingleMedia` in much the same way.
 
 ```php
 namespace App\Http\Requests;
 
-use Spatie\MediaLibraryPro\Rules\UploadedMedia;
 use Illuminate\Foundation\Http\FormRequest;
+use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
-class YourFormRequest extends FormRequest
+class MyRequest extends FormRequest
 {
+    use ValidatesMedia;
+
     public function rules()
     {
         return [
-            'name' => 'required',
-            'images' => ['min:1', 'max:5', UploadedMedia::maxTotalSizeInKb(5 * 1024)],
-            'images.*' => [
-                UploadedMedia::minSizeInKb(20),
-            ],
-            'images.*.name' => 'required',
+            'avatar' => $this
+                ->validateSingleMedia()
+                ->extension('png')
+                ->maxItemSizeInKb(1024)
         ];
     }
 }
 ```
 
-These are the available validation methods on `UploadedMedia` that you can use on the array level (in the example above on `images'):
-
-- `minTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not smaller than the `$minTotalSizeInKb` given
-
-- `maxTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not greater than the `$maxTotalSizeInKb` given
-
-
-These are the available validation methods on `UploadedMedia` that you can use on the item level (in the example above on `images.*'):
+These are the available validation methods on `validateSingleMedia() ` and`validateMultipleMedia`  
 
 - `minSizeInKb($minSizeInKb)`: validates that a single upload is not smaller than the `$minSizeInKb` given
 - `maxSizeInKb($maxSizeInKb)`: validates that a single upload is not greater than the `$minSizeInKb` given
+- `extension($extension)`: this rule expects a single extension as a string or multiple extensions as an array. Under the hood, the rule will validate if the value has the mime type that corresponds with the given extension.
+- `mime($mime)`: this rule expects a single mime type as a string or multiple mime types as an array.
+- `attribute($name, $rules`)`: this rule accepts an attribute name and rules that should be used to validate the attribute 
+
+These rules can be used on `validateMultipleMedia`;
+
+- `minTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not smaller than the `$minTotalSizeInKb` given
+- `maxTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not greater than the `$maxTotalSizeInKb` given
 
 ## Processing responses
 
@@ -89,7 +99,7 @@ After you've validated the response, you should persist the changes to the media
 
 This method will add all media whose `uuid` is in the response to a media collection of a model. Existing media associated on the model will remain untouched.
 
-You should probably use this method when accepting new uploads.
+You should probably use this method when only accepting new uploads.
 
 ```php
 // in a controller
