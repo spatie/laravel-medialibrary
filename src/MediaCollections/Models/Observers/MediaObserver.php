@@ -13,7 +13,7 @@ class MediaObserver
     public function creating(Media $media)
     {
         if ($media->shouldSortWhenCreating()) {
-            if (empty($media->order_column)) {
+            if (is_null($media->order_column)) {
                 $media->setHighestOrderNumber();
             }
         }
@@ -37,7 +37,7 @@ class MediaObserver
 
         $original = $media->getOriginal('manipulations');
 
-        if (! $this->isLaravel7orHigher()) {
+        if (!$this->isLaravel7orHigher()) {
             $original = json_decode($original, true);
         }
 
@@ -57,7 +57,7 @@ class MediaObserver
     public function deleted(Media $media)
     {
         if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
-            if (! $media->isForceDeleting()) {
+            if (!$media->isForceDeleting()) {
                 return;
             }
         }
