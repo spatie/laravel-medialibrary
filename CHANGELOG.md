@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.7.2 - 2020-09-20
+
+- allow Guzzle 7 in dev-deps
+
 ## 8.7.1 - 2020-09-08
 
 - add support for Laravel 8
