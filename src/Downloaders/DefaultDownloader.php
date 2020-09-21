@@ -6,6 +6,11 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 
 class DefaultDownloader
 {
+    /**
+     * @param $url
+     * @return false|string
+     * @throws UnreachableUrl
+     */
     public function getTempFile($url)
     {
         if (!$stream = @fopen($url, 'r')) {

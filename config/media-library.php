@@ -92,13 +92,6 @@ return [
     'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
 
     /*
-     * When using the addMediaFromUrl method you may want to replace the default downloader.
-     * This is particularly useful when the url of the image is behind a firewall and
-     * need to add additional flags, possibly using curl.
-     */
-    'media_downloader' => Spatie\MediaLibrary\Downloaders\DefaultDownloader::class,
-
-    /*
      * Whether to activate versioning when urls to files get generated.
      * When activated, this attaches a ?v=xx query string to the URL.
      */
@@ -170,4 +163,12 @@ return [
         'perform_conversions' => \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
         'generate_responsive_images' => \Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
     ],
+
+    /*
+     * When using the addMediaFromUrl method you may want to replace the default downloader.
+     * This is particularly useful when the url of the image is behind a firewall and
+     * need to add additional flags, possibly using curl.
+     */
+    'media_downloader' => Spatie\MediaLibrary\Downloaders\DefaultDownloader::class,
+
 ];
