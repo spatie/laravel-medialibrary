@@ -39,6 +39,8 @@ class CustomDownloader {
         }
         curl_close($curl);
         fclose($fh);
+
+        return $temporaryFile;
     }
 
 }
