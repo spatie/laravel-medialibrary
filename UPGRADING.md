@@ -6,14 +6,17 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 - internally the media library has been restructured and nearly all namespaces have changed. Class names remained the same. In your application code hunt to any usages of classes that start with `Spatie\MediaLibrary`. Take a look in the source code of medialibrary what the new namespace of the class is and use that. 
 - rename `config/medialibrary.php` to `config/media-library.php`
+- update in `config/media-library.php` the `media_model` to `Spatie\MediaLibrary\MediaCollections\Models\Media::class`
+
 - all medialibrary commands have been renamed from `medialibrary:xxx` to `media-library:xxx`. Make sure to update all media library commands in your console kernel.
 - the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\InteractsWithMedia`. Make sure to update this in all models that use media.
-- Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
-- Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
+- Add a `conversions_disk` field to the `media` table ( varchar 255 nullable; you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
+- Add a `uuid` field to the `media` table ( char 36 nullable) and fill each row with a unique value, preferably a `uuid`
 
-You can use this snippet to fill the `uuid` field:
+You can use this snippet (in e.g. tinker) to fill the `uuid` field:
 
 ```php
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 Media::cursor()->each(
    fn (Media $media) => $media->update(['uuid' => Str::uuid()])
 );
