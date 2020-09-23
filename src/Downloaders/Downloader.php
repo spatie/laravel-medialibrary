@@ -4,5 +4,5 @@ namespace Spatie\MediaLibrary\Downloaders;
 
 interface Downloader
 {
-    public function getTempFile($url);
+    public function getTempFile(string $url): string;
 }
