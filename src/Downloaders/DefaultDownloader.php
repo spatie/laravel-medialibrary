@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Downloaders;
 
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 
-class DefaultDownloader
+class DefaultDownloader implements Downloader
 {
     public function getTempFile(string $url): string
     {
