@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.7.3 - 2020-09-28
+
+- fix file deletion problem (#2073)
+
 ## 8.7.2 - 2020-09-20
 
 - allow Guzzle 7 in dev-deps
