@@ -176,6 +176,10 @@ class Filesystem
     public function removeAllFiles(Media $media): void
     {
         $mediaDirectory = $this->getMediaDirectory($media);
+        
+        if ($media->disk !== $media->conversions_disk) {
+            $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
+        }
 
         $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
 
