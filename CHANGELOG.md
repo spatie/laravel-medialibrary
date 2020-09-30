@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.8.0 - 2020-09-30
+
+- allow to change the way the images are being downloaded (#2054)
+
 ## 8.7.5 - 2020-09-30
 
 - fix for default lazy="auto" value (#2081)
