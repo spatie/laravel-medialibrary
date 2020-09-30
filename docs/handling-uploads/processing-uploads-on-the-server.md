@@ -92,6 +92,32 @@ These rules can be used on `validateMultipleMedia`;
 - `minTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not smaller than the `$minTotalSizeInKb` given
 - `maxTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not greater than the `$maxTotalSizeInKb` given
 
+### Validating attributes and custom properties
+
+If you're [using custom properties](TODO add link to custom properties on handling blade page), you can validate them with the `customProperty` function. The first argument should be the name of the custom property you are validating. The second argument should be a string or an array with rules you'd like to use.
+
+Here's an example where we validate `extra_propery` and `another_extra_property`.
+
+```php
+use Illuminate\Foundation\Http\FormRequest;
+use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
+
+class StoreLivewireCollectionCustomPropertyRequest extends FormRequest
+{
+    use ValidatesMedia;
+
+    public function rules()
+    {
+        return [
+            'name' => 'required',
+            'images' => $this->validateMultipleMedia()
+                ->customProperty('extra_field', 'required|max:50')
+                ->customProperty('another_extra_property', ['required', 'max:50'])
+        ];
+    }
+}
+```
+
 ## Processing responses
 
 After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](TODO: add link).
