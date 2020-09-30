@@ -34,7 +34,7 @@ class ResponsiveImageGeneratorTest extends TestCase
         $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_340_280.jpg'));
     }
     
-        /** @test */
+    /** @test */
     public function it_will_not_generate_responsive_images_if_withResponsiveImagesIf_returns_false()
     {
         $this->testModel
