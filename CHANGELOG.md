@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.9.0 - 2020-09-30
+
+- add support to include `ResponsiveImages` based on condition (#2036)
+
 ## 8.8.0 - 2020-09-30
 
 - allow to change the way the images are being downloaded (#2054)
