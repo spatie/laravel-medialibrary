@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.7.4 - 2020-09-30
+
+- fixed conversions when disk != conversions_disk (#2080)
+
 ## 8.7.3 - 2020-09-28
 
 - fix file deletion problem (#2073)
