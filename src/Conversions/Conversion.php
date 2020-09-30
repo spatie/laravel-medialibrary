@@ -25,7 +25,7 @@ class Conversion
 
     protected bool $generateResponsiveImages = false;
 
-    protected string $loadingAttributeValue;
+    protected ?string $loadingAttributeValue;
 
     protected int $pdfPageNumber = 1;
 
@@ -228,7 +228,7 @@ class Conversion
         return $this;
     }
 
-    public function getLoadingAttributeValue(): string
+    public function getLoadingAttributeValue(): ?string
     {
         return $this->loadingAttributeValue;
     }
