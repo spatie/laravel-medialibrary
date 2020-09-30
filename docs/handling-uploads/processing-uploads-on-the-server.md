@@ -84,7 +84,8 @@ These are the available validation methods on `validateSingleMedia() ` and`valid
 - `maxSizeInKb($maxSizeInKb)`: validates that a single upload is not greater than the `$minSizeInKb` given
 - `extension($extension)`: this rule expects a single extension as a string or multiple extensions as an array. Under the hood, the rule will validate if the value has the mime type that corresponds with the given extension.
 - `mime($mime)`: this rule expects a single mime type as a string or multiple mime types as an array.
-- `attribute($name, $rules`)`: this rule accepts an attribute name and rules that should be used to validate the attribute 
+- `attribute($name, $rules)`: this rule accepts an attribute name and rules that should be used to validate the attribute
+- `customProperty($name, $rules)`: this rule accepts a custom property name and rules that should be used to validate the attribute
 
 These rules can be used on `validateMultipleMedia`;
 
@@ -118,7 +119,6 @@ public function yourMethod(YourFormRequest $request)
 }
 ```
 
-
 ### `syncFromMediaLibraryRequest` 
 
 You should use this method when you are using the `x-medialibrary-collection` Blade component (or equivalent Vue or React component).
@@ -150,6 +150,3 @@ After this code has been executed, the media, whose `uuid` is present in the `im
 ```php
 $yourModel->getMedia('images'); // the media that we just synced will be returned.
 ```
-
-
-

@@ -31,7 +31,7 @@ The `x-medialibrary-attachment` will take care of the upload. Under the hood the
  
  After a file has been uploaded it will be stored as a temporary upload. In case there are validation errors when submitting the form, the `x-medialibrary-attachment` will display the temporary upload when you get redirected back to the form. There's no need for the user to upload the file again.
  
-In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent model. You can read more on that [on this page](TODO: add link).
+In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent model. You can read more on that [on this page](TODO: add link to processing uploads on the server).
 
 ## Handling multiple uploads
 
@@ -50,14 +50,13 @@ Here's an example of how you can allow multiple uploads
 
 [TODO: add screenshot]
 
-
 After files have been uploaded, they will be stored as a temporary uploads. 
 
-In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent model. You can read more on that [on this page](TODO: add link).
+In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent model. You can read more on that [on this page](TODO: add link to processing uploads on the server).
 
 ## Setting a maximum amount of uploads
 
-To set a maximum number of files you can add a `max-items` attribute. Here is an example where a users can only upload two files.
+To set a maximum number of files you can add a `max-items` attribute. Here is an example where users can only upload two files.
 
 ```html
 <x-medialibrary-attachment multiple
@@ -68,7 +67,7 @@ To set a maximum number of files you can add a `max-items` attribute. Here is an
 
 ## Validating uploads in real time
 
-The upload can be valited before the form is submitted by adding a `rules` attribute. In the value of the attribute you can use any of Laravel's available validation rules that are applicable to file uploads.
+The upload can be validated before the form is submitted by adding a `rules` attribute. In the value of the attribute you can use any of Laravel's available validation rules that are applicable to file uploads.
 
 Here's an example where we only accept `png` and `jpg` files that are 1MB or less in size.
 
@@ -80,13 +79,13 @@ Here's an example where we only accept `png` and `jpg` files that are 1MB or les
 />
 ```
 
-This validation only applies on the creation of the temporary uploads. You should also perform validation when [processing the upload on the server](TODO: add link).
+This validation only applies on the creation of the temporary uploads. You should also perform validation when [processing the upload on the server](TODO: add link to processing uploads on the server).
 
 ## Administer the contents of a media library collection.
 
 You can manage the entire contents of a media library collection with `x-media-library-collection` component. This component is intended to use in admin sections.
 
-Here is an example where we are going to administer an `images` collection of a `$blogPost` model. We assume that you already [prepared the model](TODO: add-link) to handle uploads.
+Here is an example where we are going to administer an `images` collection of a `$blogPost` model. We assume that you already [prepared the model](TODO: add-link-to-prepare models) to handle uploads.
 
 ```html
 <x-media-library-collection
@@ -103,7 +102,7 @@ The value you pass in `name` of the component will be use as the key name in whi
 
 Like the `x-medialibrary-attachment` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
 
-In this example the collection will be allowed to hold `png` and `jpg` files that are smaller than 1 MB.
+In this example, the collection will be allowed to hold `png` and `jpg` files that are smaller than 1 MB.
 
 ```html
 <x-media-library-collection
@@ -115,7 +114,47 @@ In this example the collection will be allowed to hold `png` and `jpg` files tha
 />
 ```
 
-[TODO: add screenshot]
+### Using custom properties
+
+The media library supports [custom properties](TODO: add link to custom properties) to be saved on a media item.  By default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a blade view that will be used to display all form elements on a row in the component. 
+
+In this example we're going to add a custom property form field called `extra_field`.
+
+```blade
+@include('media-library::livewire.partials.collection.fields')
+
+<div class="medialibrary-field">
+    <label class="medialibrary-label">Extra field</label>
+    <input
+        class="medialibrary-input"
+        type="text"
+        {{ $mediaItem->customPropertyAttributes('extra_field')  }}
+    />
+
+    @error($mediaItem->customPropertyErrorName('extra_field'))
+        <span class="medialibrary-text-error">
+               {{ $message }}
+        </span>
+    @enderror
+</div>
+```
+
+You should then pass the path to that view to the `fields-view` prop of the `x-media-library-collection` component.
+
+```blade
+<x-media-library-collection
+    name="images"
+    :model="$formSubmission"
+    collection="images"
+    fields-view="app.your-custom-properties-blade-view-path"
+/>
+```
+
+This is how that will look like.
+
+TODO: add screenshot of custom property
+
+Custom properties can be validated using [a form request](TODO: add link to processing uploads on the server (validating custom properties)).
 
 ## Customizing the preview images 
 
@@ -136,7 +175,7 @@ TemporaryUpload::$manipulatePreview = function(Conversion $conversion) {
 
 The components will use the `preview` conversion of models that have made associated to them. For example, if you have a `$blogPost` model, and you use the components to display the media associated to that model, the components will use `preview` conversion on the `BlogPost` model.
 
-Make sure that such an `preview` conversion exists for each model that handles media. We highly recommend to use `nonQueued` so the image is immediately available.
+Make sure such an `preview` conversion exists for each model that handles media. We highly recommend to use `nonQueued` so the image is immediately available.
 
 ```php
 namespace App\Models;
