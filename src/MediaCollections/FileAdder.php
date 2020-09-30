@@ -264,8 +264,6 @@ class FileAdder
         return $media;
     }
 
-
-
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         if ($this->file instanceof RemoteFile) {

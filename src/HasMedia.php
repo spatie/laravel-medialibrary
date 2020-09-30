@@ -67,6 +67,7 @@ interface HasMedia
      * @param string $collectionName
      *
      * @return mixed
+     *
      */
     public function loadMedia(string $collectionName);
 
