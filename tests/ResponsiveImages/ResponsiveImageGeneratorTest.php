@@ -26,7 +26,7 @@ class ResponsiveImageGeneratorTest extends TestCase
     {
         $this->testModel
                 ->addMedia($this->getTestJpg())
-                ->withResponsiveImagesIf(fn () => 1 == '1')
+                ->withResponsiveImagesIf(fn () => 1 === '1')
                 ->toMediaCollection();
 
         $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_237_195.jpg'));
