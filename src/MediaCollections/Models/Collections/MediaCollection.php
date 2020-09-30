@@ -38,8 +38,8 @@ class MediaCollection extends Collection implements Htmlable
 
         return json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
             return [
-                'name' => 'hey',
-                'file_name' => 'hey',
+                'name' => $media->name,
+                'file_name' => $media->file_name,
                 'uuid' => $media->uuid,
                 'preview_url' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : '',
                 'order' => $media->order_column,
