@@ -57,7 +57,11 @@ class Filesystem
 
         $storage = Storage::disk($file->getDisk());
 
-        $headers = $media->getDiskDriverName() === 'local'
+        $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
+            ? $media->getConversionsDiskDriverName()
+            : $media->getDiskDriverName();
+
+        $headers = $diskDriverName === 'local'
             ? []
             : $this->getRemoteHeadersForFile(
                 $file->getKey(),
@@ -101,7 +105,11 @@ class Filesystem
             ? $media->conversions_disk
             : $media->disk;
 
-        if ($media->getDiskDriverName() === 'local') {
+        $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
+            ? $media->getConversionsDiskDriverName()
+            : $media->getDiskDriverName();
+        
+        if ($diskDriverName === 'local') {
             $this->filesystem
                 ->disk($diskName)
                 ->put($destination, $file);
@@ -176,6 +184,10 @@ class Filesystem
     public function removeAllFiles(Media $media): void
     {
         $mediaDirectory = $this->getMediaDirectory($media);
+        
+        if ($media->disk !== $media->conversions_disk) {
+            $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
+        }
 
         $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
 

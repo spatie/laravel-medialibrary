@@ -7,6 +7,18 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - names of the generated conversions will now be put in a dedicated `generated_conversions` on media
 - adds support for media library pro
 
+## 8.7.4 - 2020-09-30
+
+- fixed conversions when disk != conversions_disk (#2080)
+
+## 8.7.3 - 2020-09-28
+
+- fix file deletion problem (#2073)
+
+## 8.7.2 - 2020-09-20
+
+- allow Guzzle 7 in dev-deps
+
 ## 8.7.1 - 2020-09-08
 
 - add support for Laravel 8
