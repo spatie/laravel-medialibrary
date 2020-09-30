@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.7.5 - 2020-09-30
+
+- fix for default lazy="auto" value (#2081)
+
 ## 8.7.4 - 2020-09-30
 
 - fixed conversions when disk != conversions_disk (#2080)
