@@ -22,16 +22,27 @@ class ResponsiveImageGeneratorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_generate_responsive_images_on_condition()
+    public function it_will_generate_responsive_images_if_withResponsiveImagesIf_returns_true()
     {
         $this->testModel
                 ->addMedia($this->getTestJpg())
-                ->withResponsiveImagesIf(fn () => 1 === '1')
+                ->withResponsiveImagesIf(fn () => true)
                 ->toMediaCollection();
 
         $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_237_195.jpg'));
         $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_284_233.jpg'));
         $this->assertFileExists($this->getTempDirectory('media/1/responsive-images/test___media_library_original_340_280.jpg'));
+    }
+    
+        /** @test */
+    public function it_will_not_generate_responsive_images_if_withResponsiveImagesIf_returns_false()
+    {
+        $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->withResponsiveImagesIf(fn () => false)
+                ->toMediaCollection();
+
+        $this->assertFileDoesNotExist($this->getTempDirectory('media/1/responsive-images/test___media_library_original_237_195.jpg'));
     }
 
     /** @test */
