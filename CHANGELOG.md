@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.9.1 - 2020-10-02
+
+- missing $loadingAttributeValue test in image view (#2082)
+
 ## 8.9.0 - 2020-09-30
 
 - add support to include `ResponsiveImages` based on condition (#2036)
