@@ -68,17 +68,17 @@ return [
      * a `loading` attribute to the `img` tag. Here you can set the default
      * value of that attribute.
      *
-     * Possible values: 'auto', 'lazy' and 'eager,
+     * Possible values: 'lazy', 'eager', 'auto' or null if you don't want to set any loading instruction.
      *
      * More info: https://css-tricks.com/native-lazy-loading/
      */
-    'default_loading_attribute_value' => 'auto',
+    'default_loading_attribute_value' => null,
 
     /*
      * This is the class that is responsible for naming conversion files. By default,
      * it will use the filename of the original and concatenate the conversion name to it.
      */
-    'conversion_file_namer' => \Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer::class,
+    'conversion_file_namer' => Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer::class,
 
     /*
      * The class that contains the strategy for determining a media file's path.
@@ -160,7 +160,15 @@ return [
      * your custom jobs extend the ones provided by the package.
      */
     'jobs' => [
-        'perform_conversions' => \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
-        'generate_responsive_images' => \Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
+        'perform_conversions' => Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
+        'generate_responsive_images' => Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
     ],
+
+    /*
+     * When using the addMediaFromUrl method you may want to replace the default downloader.
+     * This is particularly useful when the url of the image is behind a firewall and
+     * need to add additional flags, possibly using curl.
+     */
+    'media_downloader' => Spatie\MediaLibrary\Downloaders\DefaultDownloader::class,
+
 ];

@@ -2,6 +2,38 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.9.1 - 2020-10-02
+
+- missing $loadingAttributeValue test in image view (#2082)
+
+## 8.9.0 - 2020-09-30
+
+- add support to include `ResponsiveImages` based on condition (#2036)
+
+## 8.8.0 - 2020-09-30
+
+- allow to change the way the images are being downloaded (#2054)
+
+## 8.7.5 - 2020-09-30
+
+- fix for default lazy="auto" value (#2081)
+
+## 8.7.4 - 2020-09-30
+
+- fixed conversions when disk != conversions_disk (#2080)
+
+## 8.7.3 - 2020-09-28
+
+- fix file deletion problem (#2073)
+
+## 8.7.2 - 2020-09-20
+
+- allow Guzzle 7 in dev-deps
+
+## 8.7.1 - 2020-09-08
+
+- add support for Laravel 8
+
 ## 8.7.0 - 2020-09-04
 
 - add `toMediaLibrary`

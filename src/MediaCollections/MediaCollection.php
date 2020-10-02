@@ -120,4 +120,11 @@ class MediaCollection
 
         return $this;
     }
+
+    public function withResponsiveImagesIf($condition): self
+    {
+        $this->generateResponsiveImages = (bool) (is_callable($condition) ? $condition() : $condition);
+
+        return $this;
+    }
 }

@@ -11,13 +11,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
@@ -49,7 +49,7 @@ trait InteractsWithMedia
                 }
             }
 
-            $model->media()->cursor()->each(fn(Media $media) => $media->delete());
+            $model->media()->cursor()->each(fn (Media $media) => $media->delete());
         });
     }
 
@@ -126,13 +126,8 @@ trait InteractsWithMedia
             throw InvalidUrl::doesNotStartWithProtocol($url);
         }
 
-        if (!$stream = @fopen($url, 'r')) {
-            throw UnreachableUrl::create($url);
-        }
-
-        $temporaryFile = tempnam(sys_get_temp_dir(), 'media-library');
-        file_put_contents($temporaryFile, $stream);
-
+        $downloader = config('media-library.media_downloader', DefaultDownloader::class);
+        $temporaryFile = (new $downloader)->getTempFile($url);
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
@@ -283,8 +278,7 @@ trait InteractsWithMedia
         DateTimeInterface $expiration,
         string $collectionName = 'default',
         string $conversionName = ''
-    ): string
-    {
+    ): string {
         $media = $this->getFirstMedia($collectionName);
 
         if (!$media) {
@@ -306,7 +300,7 @@ trait InteractsWithMedia
         $this->registerMediaCollections();
 
         return collect($this->mediaCollections)
-            ->first(fn(MediaCollection $collection) => $collection->name === $collectionName);
+            ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
     }
 
     public function getFallbackMediaUrl(string $collectionName = 'default'): string
@@ -376,11 +370,11 @@ trait InteractsWithMedia
     {
         $this
             ->getMedia($collectionName)
-            ->reject(fn(Media $currentMediaItem) => in_array(
+            ->reject(fn (Media $currentMediaItem) => in_array(
                 $currentMediaItem->getKey(),
                 array_column($newMediaArray, $currentMediaItem->getKeyName()),
             ))
-            ->each(fn(Media $media) => $media->delete());
+            ->each(fn (Media $media) => $media->delete());
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -391,7 +385,7 @@ trait InteractsWithMedia
     {
         $this
             ->getMedia($collectionName)
-            ->each(fn(Media $media) => $media->delete());
+            ->each(fn (Media $media) => $media->delete());
 
         event(new CollectionHasBeenCleared($this, $collectionName));
 
@@ -424,8 +418,8 @@ trait InteractsWithMedia
 
         $this
             ->getMedia($collectionName)
-            ->reject(fn(Media $media) => $excludedMedia->where($media->getKeyName(), $media->getKey())->count())
-            ->each(fn(Media $media) => $media->delete());
+            ->reject(fn (Media $media) => $excludedMedia->where($media->getKeyName(), $media->getKey())->count())
+            ->each(fn (Media $media) => $media->delete());
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -506,7 +500,7 @@ trait InteractsWithMedia
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection
-            ->filter(fn(Media $mediaItem) => $mediaItem->collection_name === $collectionName)
+            ->filter(fn (Media $mediaItem) => $mediaItem->collection_name === $collectionName)
             ->sortBy('order_column')
             ->values();
     }
@@ -563,7 +557,7 @@ trait InteractsWithMedia
             ($mediaCollection->mediaConversionRegistrations)($media);
 
             $preparedMediaConversions = collect($this->mediaConversions)
-                ->each(fn(Conversion $conversion) => $conversion->performOnCollections($mediaCollection->name))
+                ->each(fn (Conversion $conversion) => $conversion->performOnCollections($mediaCollection->name))
                 ->values()
                 ->toArray();
 

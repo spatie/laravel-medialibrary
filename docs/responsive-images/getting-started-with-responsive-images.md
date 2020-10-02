@@ -71,6 +71,8 @@ When adding an images to the media library simply use the `withResponsiveImages`
 $yourModel
    ->addMedia($yourImageFile)
    ->withResponsiveImages()
+   // or if you want to add it based on a condition then use
+   ->withResponsiveImagesIf($condition) // accepts "closure or boolean"
    ->toMediaCollection();
 ```
 
