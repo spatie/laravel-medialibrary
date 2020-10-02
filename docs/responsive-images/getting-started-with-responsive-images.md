@@ -76,6 +76,17 @@ $yourModel
    ->toMediaCollection();
 ```
 
+You can also use it on the conversions.
+
+```php
+$this->addMediaConversion('thumb')
+	->width(368)
+	->height(232)
+	->withResponsiveImages()
+   // or if you want to add it based on a condition then use
+   ->withResponsiveImagesIf($condition); // accepts "closure or boolean"
+```
+
 Behind the scenes, the media library will generate multiple size variations of your image. To learn which variations are generated and how to customize head over [here](/laravel-medialibrary/v8/responsive-images/using-your-own-width-calculator).
 
 
