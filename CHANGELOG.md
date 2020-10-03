@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.9.3 - 2020-10-03
+
+- fix responsive images
+
 ## 8.9.2 - 2020-10-02
 
 - improve responsive image inline script (#2032)
