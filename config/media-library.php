@@ -21,8 +21,7 @@ return [
     'queue_name' => '',
 
     /*
-     * Choose if your conversions should be generated in queue by default.
-     * Set `false` to have them generated synchronously.
+     * By default all conversions will be performed on a queue.
      */
     'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
 
