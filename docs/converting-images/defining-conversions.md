@@ -118,7 +118,7 @@ public function registerMediaConversions(Media $media = null): void
     $this->addMediaConversion('thumb')
             ->width(368)
             ->height(232)
-            ->nonQueued(); // will be generated synchronously
+            ->nonQueued();
 }
 ```
 
@@ -131,7 +131,7 @@ public function registerMediaConversions(Media $media = null): void
     $this->addMediaConversion('thumb')
             ->width(368)
             ->height(232)
-            ->queued(); // will be generated on a queue
+            ->queued();
 }
 ```
 
