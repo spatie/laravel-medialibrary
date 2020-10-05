@@ -21,6 +21,11 @@ return [
     'queue_name' => '',
 
     /*
+     * By default all conversions will be performed on a queue.
+     */
+    'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
+
+    /*
      * The fully qualified class name of the media model.
      */
     'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
@@ -58,13 +63,13 @@ return [
 
         /*
          * This class will generate the tiny placeholder used for progressive image loading. By default
-         * the medialibrary will use a tiny blurred jpg image.
+         * the media library will use a tiny blurred jpg image.
          */
         'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
 
     /*
-     * When converting Media instances to response the medialibrary will add
+     * When converting Media instances to response the media library will add
      * a `loading` attribute to the `img` tag. Here you can set the default
      * value of that attribute.
      *

@@ -122,6 +122,18 @@ public function registerMediaConversions(Media $media = null): void
 }
 ```
 
+If you have set `queue_conversions_by_default` in the `media-library` config file to `false`, all conversions will all be generated synchronously. If you want to generate a conversion on a queue, while `queue_conversions_by_default` is set to `false`, use the `queued` method.
+
+```php
+// in your model
+public function registerMediaConversions(Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->queued();
+}
+```
 
 ## Using model properties in a conversion
 
