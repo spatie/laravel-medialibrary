@@ -176,3 +176,16 @@ After this code has been executed, the media, whose `uuid` is present in the `im
 ```php
 $yourModel->getMedia('images'); // the media that we just synced will be returned.
 ```
+
+### Handling custom properties
+
+If you are using properties for your media items you should pass the names of the custom properties you expect to the `withCustomProperties` method. Only these custom properties will be accepted.
+
+```php
+$yourModel
+    ->syncFromMediaLibraryRequest($request->images)
+    ->withCustomProperties('extra_field', 'another_extra_field')
+    ->toMediaCollection('images');
+```
+
+
