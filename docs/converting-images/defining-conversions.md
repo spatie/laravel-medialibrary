@@ -109,7 +109,13 @@ $media->getUrl('thumb') // returns ''
 
 ## Queuing conversions
 
-By default, a conversion will be added to the queue that you've [specified in the configuration](https://docs.spatie.be/laravel-medialibrary/v8/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
+According to your [configuration settings](https://docs.spatie.be/laravel-medialibrary/v8/installation-setup), your conversions may be generated in queue by default or not.
+
+By setting your `queue_conversions_by_default` config value to `true`, conversions will all be added to the queue that you've specified in the `queue_name` config value.
+
+If you want the opposite behavior, then set your `queue_conversions_by_default` config value to `false` to get all your conversions generated synchronously.
+
+In case you need to override the global configuration for a given conversion, use the `queued` or the `nonQueued` method to define the way it should be generated.
 
 ```php
 // in your model
@@ -118,7 +124,8 @@ public function registerMediaConversions(Media $media = null): void
     $this->addMediaConversion('thumb')
             ->width(368)
             ->height(232)
-            ->nonQueued();
+            //->queued() // will be generated asynchronously in queue
+            ->nonQueued(); // will be generated synchronously
 }
 ```
 

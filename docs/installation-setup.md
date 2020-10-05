@@ -60,6 +60,12 @@ return [
     'queue_name' => '',
 
     /*
+     * Choose if your conversions should be generated in queue by default.
+     * Set `false` to have them generated synchronously.
+     */
+    'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
+
+    /*
      * The fully qualified class name of the media model.
      */
     'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
@@ -107,11 +113,11 @@ return [
      * a `loading` attribute to the `img` tag. Here you can set the default
      * value of that attribute.
      *
-     * Possible values: 'auto', 'lazy' and 'eager,
+     * Possible values: 'lazy', 'eager', 'auto' or null if you don't want to set any loading instruction.
      *
      * More info: https://css-tricks.com/native-lazy-loading/
      */
-    'default_loading_attribute_value' => 'auto',
+    'default_loading_attribute_value' => null,
 
     /*
      * This is the class that is responsible for naming conversion files. By default,
