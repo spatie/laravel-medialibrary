@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.10.0 - 2020-10-05
+
+- add `queue_conversions_by_default` to config file
+
 ## 8.9.3 - 2020-10-03
 
 - fix responsive images
