@@ -43,7 +43,6 @@ For more extensive examples, [see the pre-built UI components on GitHub](TODO-li
                 replaceMedia,
                 getErrors,
                 clearObjectErrors,
-                mediaTranslations,
                 clearInvalidMedia,
             }"
         >
@@ -85,7 +84,6 @@ export default function MediaLibraryAttachment() {
         replaceMedia,
         getErrors,
         clearObjectErrors,
-        mediaTranslations,
         clearInvalidMedia,
         isReadyToSubmit,
     } = useMediaLibrary({
@@ -93,7 +91,6 @@ export default function MediaLibraryAttachment() {
         validationErrors,
         uploadEndpoint,
         validation,
-        translations,
         multiple,
         beforeUpload,
         afterUpload,
@@ -166,7 +163,6 @@ TODO explain how to do this in Vue?
 | upload-endpoint   | uploadEndpoint    |               |             |
 | validation-errors | validationErrors  |               |             |
 | validation        | validation        |               |             |
-| translations      | translations      |               |             |
 | multiple          | multiple          |               |             |
 | before-upload     | beforeUpload      |               |             |
 | after-upload      | afterUpload       |               |             |
