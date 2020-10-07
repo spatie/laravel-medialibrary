@@ -571,7 +571,6 @@ Also mention beforeUpload prop for custom validation
 ```html
 <media-library-attachment
     name="avatar"
-    :translations="{ somethingWentWrong: 'whoops!' }"
 ></media-library-attachment>
 ```
 
@@ -580,7 +579,6 @@ Also mention beforeUpload prop for custom validation
 ```jsx
 <MediaLibraryAttachment
     name="avatar"
-    translations={{ tooLarge: "That's a lot of bytes! I can only handle" }}
 ></MediaLibraryAttachment>
 ```
 
