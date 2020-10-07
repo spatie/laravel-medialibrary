@@ -81,12 +81,6 @@ abstract class TestCase extends Orchestra
             MedialibraryServiceProvider::class,
         ];
 
-        /*
-        if (MediaLibraryPro::isInstalled()) {
-            $serviceProviders[] = MedialibraryProServiceProvider::class;
-        }
-        */
-
         return $serviceProviders;
     }
 
