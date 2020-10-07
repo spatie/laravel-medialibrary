@@ -26,7 +26,7 @@ class ToHtmlTest extends TestCase
     public function it_can_render_itself_as_an_image()
     {
         $this->assertEquals(
-            '<img loading="auto" src="/media/1/test.jpg" alt="test">',
+            '<img src="/media/1/test.jpg" alt="test">',
             $this->firstMedia()->img(),
         );
     }
@@ -35,7 +35,7 @@ class ToHtmlTest extends TestCase
     public function it_can_render_a_conversion_of_itself_as_an_image()
     {
         $this->assertEquals(
-            '<img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            '<img src="/media/1/conversions/test-thumb.jpg" alt="test">',
             $this->firstMedia()->img('thumb')
         );
     }
@@ -44,7 +44,7 @@ class ToHtmlTest extends TestCase
     public function it_can_render_extra_attributes()
     {
         $this->assertEquals(
-            '<img class="my-class" id="my-id" loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
             $this->firstMedia()->img('thumb', ['class' => 'my-class', 'id' => 'my-id']),
         );
     }
@@ -57,7 +57,7 @@ class ToHtmlTest extends TestCase
         $renderedView = $this->renderView('media', compact('media'));
 
         $this->assertEquals(
-            '<img loading="auto" src="/media/1/test.jpg" alt="test"> <img loading="auto" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+            '<img src="/media/1/test.jpg" alt="test"> <img src="/media/1/conversions/test-thumb.jpg" alt="test">',
             $renderedView,
         );
     }
@@ -111,7 +111,7 @@ class ToHtmlTest extends TestCase
 
         $imgTag = $media->refresh()->img();
 
-        $this->assertEquals('<img loading="auto" srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
+        $this->assertEquals('<img srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
     }
 
     /** @test */
@@ -122,7 +122,7 @@ class ToHtmlTest extends TestCase
             ->toMediaCollection();
 
         $originalImgTag = $media->refresh()->img();
-        $this->assertEquals('<img loading="auto" src="/media/2/test.jpg" alt="test">', $originalImgTag);
+        $this->assertEquals('<img src="/media/2/test.jpg" alt="test">', $originalImgTag);
 
         $lazyConversionImageTag = $media->refresh()->img('lazy-conversion');
         $this->assertEquals('<img loading="lazy" src="/media/2/conversions/test-lazy-conversion.jpg" alt="test">', $lazyConversionImageTag);
@@ -144,7 +144,7 @@ class ToHtmlTest extends TestCase
     public function it_can_set_extra_attributes()
     {
         $this->assertEquals(
-            '<img extra="value" loading="auto" src="/media/1/test.jpg" alt="test">',
+            '<img extra="value" src="/media/1/test.jpg" alt="test">',
             (string) $this->firstMedia()->img()->attributes(['extra' => 'value'])
         );
     }

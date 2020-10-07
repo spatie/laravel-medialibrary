@@ -19,13 +19,13 @@ class Conversion
 
     protected array $performOnCollections = [];
 
-    protected bool $performOnQueue = true;
+    protected bool $performOnQueue;
 
     protected bool $keepOriginalImageFormat = false;
 
     protected bool $generateResponsiveImages = false;
 
-    protected string $loadingAttributeValue;
+    protected ?string $loadingAttributeValue;
 
     protected int $pdfPageNumber = 1;
 
@@ -40,6 +40,8 @@ class Conversion
         $this->conversionFileNamer = app(config('media-library.conversion_file_namer'));
 
         $this->loadingAttributeValue = config('media-library.default_loading_attribute_value');
+
+        $this->performOnQueue = config('media-library.queue_conversions_by_default', true);
     }
 
     public static function create(string $name)
@@ -228,7 +230,7 @@ class Conversion
         return $this;
     }
 
-    public function getLoadingAttributeValue(): string
+    public function getLoadingAttributeValue(): ?string
     {
         return $this->loadingAttributeValue;
     }

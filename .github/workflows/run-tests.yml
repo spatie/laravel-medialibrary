@@ -20,6 +20,8 @@ jobs:
                       testbench: 6.*
                     - laravel: 7.*
                       testbench: 5.*
+                    - laravel: 6.*
+                      testbench: 4.*
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
@@ -31,10 +33,10 @@ jobs:
               run: sudo apt-get install ffmpeg
 
             - name: Checkout code
-              uses: actions/checkout@v1
+              uses: actions/checkout@v2
 
             - name: Cache dependencies
-              uses: actions/cache@v1
+              uses: actions/cache@v2
               with:
                   path: ~/.composer/cache/files
                   key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
