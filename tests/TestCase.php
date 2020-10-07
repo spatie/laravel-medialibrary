@@ -18,7 +18,6 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnO
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithResponsiveImages;
-use Spatie\MediaLibraryPro\MedialibraryProServiceProvider;
 use ZipArchive;
 
 abstract class TestCase extends Orchestra
