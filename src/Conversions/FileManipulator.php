@@ -19,23 +19,44 @@ class FileManipulator
         bool $onlyMissing = false
     ): void
     {
+        /*
+        $profileCollection = ConversionCollection::createForMedia($media);
+
+        if (! empty($onlyConversionNames)) {
+            $profileCollection = $profileCollection->filter(
+                fn (Conversion $conversion) => in_array($conversion->getName(), $onlyConversionNames)
+            );
+        }
+
+        $this->performConversions(
+            $profileCollection->getNonQueuedConversions($media->collection_name),
+            $media,
+            $onlyMissing
+        );
+
+        $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
+
+        if ($queuedConversions->isNotEmpty()) {
+            $this->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
+        }
+        */
+
         if (!$this->canConvertMedia($media)) {
             return;
         }
-
         [$queuedConversions, $conversions] = ConversionCollection::createForMedia($media)
             ->filter(function (Conversion $conversion) use ($onlyConversionNames) {
-                if (!empty($onlyConversionNames)) {
+                if (count($onlyConversionNames) === 0) {
                     return true;
                 }
 
                 return in_array($conversion->getName(), $onlyConversionNames);
             })
+            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
             ->partition(fn(Conversion $conversion) => $conversion->shouldBeQueued());
-
         $this
-            ->performConversions($conversions, $media, $onlyMissing)
-            ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
+            ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing)
+            ->performConversions($conversions, $media, $onlyMissing);
     }
 
     public function performConversions(
