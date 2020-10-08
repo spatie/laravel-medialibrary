@@ -17,8 +17,7 @@ class FileManipulator
         Media $media,
         array $onlyConversionNames = [],
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         if (!$this->canConvertMedia($media)) {
             return;
         }
@@ -32,7 +31,7 @@ class FileManipulator
                 return in_array($conversion->getName(), $onlyConversionNames);
             })
             ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
-            ->partition(fn(Conversion $conversion) => $conversion->shouldBeQueued());
+            ->partition(fn (Conversion $conversion) => $conversion->shouldBeQueued());
 
         $this
             ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing)
@@ -43,8 +42,7 @@ class FileManipulator
         ConversionCollection $conversions,
         Media $media,
         bool $onlyMissing = false
-    ): self
-    {
+    ): self {
         if ($conversions->isEmpty()) {
             return $this;
         }
@@ -79,8 +77,7 @@ class FileManipulator
         Media $media,
         ConversionCollection $conversions,
         bool $onlyMissing = false
-    ): self
-    {
+    ): self {
         if ($conversions->isEmpty()) {
             return $this;
         }
