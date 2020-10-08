@@ -21,8 +21,7 @@ class FileManipulator
         Media $media,
         array $only = [],
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         $profileCollection = ConversionCollection::createForMedia($media);
 
         if (! empty($only)) {
@@ -48,8 +47,7 @@ class FileManipulator
         ConversionCollection $conversions,
         Media $media,
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         if ($conversions->isEmpty()) {
             return;
         }
@@ -115,8 +113,7 @@ class FileManipulator
         Media $media,
         Conversion $conversion,
         string $imageFile
-    ): string
-    {
+    ): string {
         if ($conversion->getManipulations()->isEmpty()) {
             return $imageFile;
         }
@@ -141,8 +138,7 @@ class FileManipulator
         Media $media,
         ConversionCollection $queuedConversions,
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         $performConversionsJobClass = config('media-library.jobs.perform_conversions', PerformConversionsJob::class);
 
         $job = new $performConversionsJobClass($queuedConversions, $media, $onlyMissing);
@@ -174,8 +170,7 @@ class FileManipulator
         Media $media,
         Conversion $conversion,
         string $imageFile
-    ): string
-    {
+    ): string {
         $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
 
         $fileName = Str::random(32)."{$conversion->getName()}.{$media->extension}";
