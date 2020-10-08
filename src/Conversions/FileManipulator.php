@@ -17,8 +17,7 @@ class FileManipulator
         Media $media,
         array $onlyConversionNames = [],
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         if (!$this->canConvertMedia($media)) {
             return;
         }
@@ -41,8 +40,7 @@ class FileManipulator
         ConversionCollection $conversions,
         Media $media,
         bool $onlyMissing = false
-    ): self
-    {
+    ): self {
         if ($conversions->isEmpty()) {
             return $this;
         }
@@ -77,8 +75,7 @@ class FileManipulator
         Media $media,
         ConversionCollection $conversions,
         bool $onlyMissing = false
-    ): self
-    {
+    ): self {
         if ($conversions->isEmpty()) {
             return $this;
         }
