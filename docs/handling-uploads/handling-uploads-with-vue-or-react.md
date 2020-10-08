@@ -546,12 +546,6 @@ TODO mention the "is something uploading" listener, e.g. in case people aren't i
 TODO (not completely ready in frontend yet)
 Also mention beforeUpload prop for custom validation
 
-## Translations
-
-The UI components show some text, like for validation rules, errors and hints. If your website is displayed in a different language than English, or you'd like the text to be displayed in the user's language, you can add your own translations through the `translations` prop.
-
-Below, you can see the default translations object. You don't have to copy the entire object, depending on your use case. Any translations that aren't found, will be substituted by their English default. Some of these strings will be displayed in front of or after a value, so make sure to keep this in mind while writing your replacement strings.
-
 ```js
 {
     hint: {
@@ -577,7 +571,6 @@ Below, you can see the default translations object. You don't have to copy the e
 ```html
 <media-library-attachment
     name="avatar"
-    :translations="{ somethingWentWrong: 'whoops!' }"
 ></media-library-attachment>
 ```
 
@@ -586,7 +579,6 @@ Below, you can see the default translations object. You don't have to copy the e
 ```jsx
 <MediaLibraryAttachment
     name="avatar"
-    translations={{ tooLarge: "That's a lot of bytes! I can only handle" }}
 ></MediaLibraryAttachment>
 ```
 
@@ -597,7 +589,6 @@ Below, you can see the default translations object. You don't have to copy the e
 | name                       | name                    | /                                   |                                                                                                                             |
 | initial-value              | initialValue            | `[]`                                |                                                                                                                             |
 | upload-endpoint            | uploadEndpoint          | `"media-library-upload-components"` |                                                                                                                             |
-| translations               | translations            | `{}`                                | Refer to [translations](TODO-link) section                                                                                  |
 | validation                 | validation              | `undefined`                         | Refer to [validation](TODO-link) section                                                                                    |
 | validation-errors          | validationErrors        | `undefined`                         | The standard Laravel validation error object                                                                                |
 | before-upload              | beforeUpload            | `undefined`                         |                                                                                                                             |
