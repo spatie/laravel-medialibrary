@@ -45,8 +45,7 @@ class PerformConversionAction
         Media $media,
         Conversion $conversion,
         string $imageFile
-    ): string
-    {
+    ): string {
         if ($conversion->getManipulations()->isEmpty()) {
             return $imageFile;
         }
@@ -71,8 +70,7 @@ class PerformConversionAction
         Media $media,
         Conversion $conversion,
         string $imageFile
-    ): string
-    {
+    ): string {
         $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
 
         $fileName = Str::random(32)."{$conversion->getName()}.{$media->extension}";
