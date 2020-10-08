@@ -2,9 +2,11 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\Conversions\Actions\PerformConversionAction;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
@@ -80,61 +82,11 @@ class FileManipulator
                 return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
             })
             ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
-                event(new ConversionWillStart($media, $conversion, $copiedOriginalFile));
-
-                $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
-
-                $manipulationResult = $this->performManipulations($media, $conversion, $copiedOriginalFile);
-
-                $newFileName = $conversion->getConversionFile($media);
-
-                $renamedFile = $this->renameInLocalDirectory($manipulationResult, $newFileName);
-
-                if ($conversion->shouldGenerateResponsiveImages()) {
-                    /** @var ResponsiveImageGenerator $responsiveImageGenerator */
-                    $responsiveImageGenerator = app(ResponsiveImageGenerator::class);
-
-                    $responsiveImageGenerator->generateResponsiveImagesForConversion(
-                        $media,
-                        $conversion,
-                        $renamedFile
-                    );
-                }
-
-                $this->filesystem()->copyToMediaLibrary($renamedFile, $media, 'conversions');
-
-                $media->markAsConversionGenerated($conversion->getName());
-
-                event(new ConversionHasBeenCompleted($media, $conversion));
+                (new PerformConversionAction)
+                    ->execute($imageGenerator, $media, $conversion, $copiedOriginalFile);
             });
 
         $temporaryDirectory->delete();
-    }
-
-    public function performManipulations(
-        Media $media,
-        Conversion $conversion,
-        string $imageFile
-    ): string
-    {
-        if ($conversion->getManipulations()->isEmpty()) {
-            return $imageFile;
-        }
-
-        $conversionTempFile = $this->getConversionTempFileName($media, $conversion, $imageFile);
-
-        File::copy($imageFile, $conversionTempFile);
-
-        $supportedFormats = ['jpg', 'pjpg', 'png', 'gif'];
-        if ($conversion->shouldKeepOriginalImageFormat() && in_array($media->extension, $supportedFormats)) {
-            $conversion->format($media->extension);
-        }
-
-        ImageFactory::load($conversionTempFile)
-            ->manipulate($conversion->getManipulations())
-            ->save();
-
-        return $conversionTempFile;
     }
 
     protected function dispatchQueuedConversions(
@@ -154,32 +106,8 @@ class FileManipulator
         dispatch($job);
     }
 
-    protected function renameInLocalDirectory(
-        string $fileNameWithDirectory,
-        string $newFileNameWithoutDirectory
-    ): string {
-        $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME).'/'.$newFileNameWithoutDirectory;
-
-        rename($fileNameWithDirectory, $targetFile);
-
-        return $targetFile;
-    }
-
     protected function filesystem(): Filesystem
     {
         return app(Filesystem::class);
-    }
-
-    protected function getConversionTempFileName(
-        Media $media,
-        Conversion $conversion,
-        string $imageFile
-    ): string
-    {
-        $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
-
-        $fileName = Str::random(32)."{$conversion->getName()}.{$media->extension}";
-
-        return "{$directory}/{$fileName}";
     }
 }
