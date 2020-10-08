@@ -15,7 +15,7 @@ class FileManipulator
 {
     public function createDerivedFiles(
         Media $media,
-        array $only = [],
+        array $onlyConversionNames = [],
         bool $onlyMissing = false
     ): void
     {
@@ -25,9 +25,9 @@ class FileManipulator
 
         $conversions = ConversionCollection::createForMedia($media);
 
-        if (! empty($only)) {
+        if (! empty($onlyConversionNames)) {
             $conversions = $conversions->filter(
-                fn (Conversion $conversion) => in_array($conversion->getName(), $only)
+                fn (Conversion $conversion) => in_array($conversion->getName(), $onlyConversionNames)
             );
         }
 
