@@ -569,32 +569,31 @@ Also mention beforeUpload prop for custom validation
 **Vue**
 
 ```html
-<media-library-attachment
-    name="avatar"
-></media-library-attachment>
+<media-library-attachment name="avatar"></media-library-attachment>
 ```
 
 **React**
 
 ```jsx
-<MediaLibraryAttachment
-    name="avatar"
-></MediaLibraryAttachment>
+<MediaLibraryAttachment name="avatar"></MediaLibraryAttachment>
 ```
 
 ## Props
 
-| prop name (Vue)            | prop name (React)       | Default value                       | Description                                                                                                                 |
-| -------------------------- | ----------------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| name                       | name                    | /                                   |                                                                                                                             |
-| initial-value              | initialValue            | `[]`                                |                                                                                                                             |
-| upload-endpoint            | uploadEndpoint          | `"media-library-upload-components"` |                                                                                                                             |
-| validation                 | validation              | `undefined`                         | Refer to [validation](TODO-link) section                                                                                    |
-| validation-errors          | validationErrors        | `undefined`                         | The standard Laravel validation error object                                                                                |
-| before-upload              | beforeUpload            | `undefined`                         |                                                                                                                             |
-| after-upload               | afterUpload             | `undefined`                         |                                                                                                                             |
-| sortable               | sortable             | `true`                              | Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value |
-| @change                    | onChange                | `undefined`                         |                                                                                                                             |
-| @is-ready-to-submit-change | onIsReadyToSubmitChange | `undefined`                         | Refer to [Checking the upload state](TODO-link) section                                                                     |
+| prop name (Vue)            | prop name (React)       | Default value                                       | Description                                                                                                                                                               |
+| -------------------------- | ----------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                       | name                    |                                                     |                                                                                                                                                                           |
+| initial-value              | initialValue            | `[]`                                                |                                                                                                                                                                           |
+| upload-endpoint            | uploadEndpoint          | `"media-library-upload-components"`                 |                                                                                                                                                                           |
+| validation                 | validation              |                                                     | Refer to [validation](TODO-link) section                                                                                                                                  |
+| validation-errors          | validationErrors        |                                                     | The standard Laravel validation error object                                                                                                                              |
+| multiple                   | multiple                | `false`                                             | Only exists on the `attachment` components                                                                                                                                |
+| max-items                  | maxItems                | `1` when `multiple` = `false`, otherwise `undefined |                                                                                                                                                                           |
+| sortable                   | sortable                | `true`                                              | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value   |
+| /                          | setMediaLibrary         |                                                     | Used to set a reference to the mediaLibrary instance, so you can change the internal state of the component. In Vue, this is done by adding a `ref` prop to the component |
+| before-upload              | beforeUpload            |                                                     | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                             |
+| after-upload               | afterUpload             |                                                     | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                              |
+| @change                    | onChange                |                                                     |                                                                                                                                                                           |
+| @is-ready-to-submit-change | onIsReadyToSubmitChange |                                                     | Refer to [Checking the upload state](TODO-link) section                                                                                                                   |
 
 TODO expand on the prop list, look into examples of other packages etc
