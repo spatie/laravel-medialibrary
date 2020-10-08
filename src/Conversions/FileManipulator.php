@@ -17,7 +17,11 @@ use Spatie\MediaLibrary\Support\TemporaryDirectory;
 
 class FileManipulator
 {
-    public function createDerivedFiles(Media $media, array $only = [], bool $onlyMissing = false): void
+    public function createDerivedFiles(
+        Media $media,
+        array $only = [],
+        bool $onlyMissing = false
+    ): void
     {
         $profileCollection = ConversionCollection::createForMedia($media);
 
@@ -40,7 +44,11 @@ class FileManipulator
         }
     }
 
-    public function performConversions(ConversionCollection $conversions, Media $media, bool $onlyMissing = false)
+    public function performConversions(
+        ConversionCollection $conversions,
+        Media $media,
+        bool $onlyMissing = false
+    ): void
     {
         if ($conversions->isEmpty()) {
             return;
@@ -103,7 +111,11 @@ class FileManipulator
         $temporaryDirectory->delete();
     }
 
-    public function performManipulations(Media $media, Conversion $conversion, string $imageFile): string
+    public function performManipulations(
+        Media $media,
+        Conversion $conversion,
+        string $imageFile
+    ): string
     {
         if ($conversion->getManipulations()->isEmpty()) {
             return $imageFile;
@@ -125,7 +137,11 @@ class FileManipulator
         return $conversionTempFile;
     }
 
-    protected function dispatchQueuedConversions(Media $media, ConversionCollection $queuedConversions, bool $onlyMissing = false)
+    protected function dispatchQueuedConversions(
+        Media $media,
+        ConversionCollection $queuedConversions,
+        bool $onlyMissing = false
+    ): void
     {
         $performConversionsJobClass = config('media-library.jobs.perform_conversions', PerformConversionsJob::class);
 
@@ -154,7 +170,11 @@ class FileManipulator
         return app(Filesystem::class);
     }
 
-    protected function getConversionTempFileName(Media $media, Conversion $conversion, string $imageFile): string
+    protected function getConversionTempFileName(
+        Media $media,
+        Conversion $conversion,
+        string $imageFile
+    ): string
     {
         $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
 
