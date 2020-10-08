@@ -84,7 +84,7 @@ These are the available validation methods on `validateSingleMedia() ` and`valid
 - `maxSizeInKb($maxSizeInKb)`: validates that a single upload is not greater than the `$minSizeInKb` given
 - `extension($extension)`: this rule expects a single extension as a string or multiple extensions as an array. Under the hood, the rule will validate if the value has the mime type that corresponds with the given extension.
 - `mime($mime)`: this rule expects a single mime type as a string or multiple mime types as an array.
-- `attribute($name, $rules)`: this rule accepts an attribute name and rules that should be used to validate the attribute
+- `itemName($rules)`: This rule accepts rules that should be used to validate the name of a media item.
 - `customProperty($name, $rules)`: this rule accepts a custom property name and rules that should be used to validate the attribute
 
 These rules can be used on `validateMultipleMedia`;
