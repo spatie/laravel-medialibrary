@@ -2,19 +2,13 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Actions\PerformConversionAction;
-use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
-use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
-use Spatie\MediaLibrary\Support\ImageFactory;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
 
 class FileManipulator
@@ -23,8 +17,7 @@ class FileManipulator
         Media $media,
         array $only = [],
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         $profileCollection = ConversionCollection::createForMedia($media);
 
         if (! empty($only)) {
@@ -50,8 +43,7 @@ class FileManipulator
         ConversionCollection $conversions,
         Media $media,
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         if ($conversions->isEmpty()) {
             return;
         }
@@ -93,8 +85,7 @@ class FileManipulator
         Media $media,
         ConversionCollection $queuedConversions,
         bool $onlyMissing = false
-    ): void
-    {
+    ): void {
         $performConversionsJobClass = config('media-library.jobs.perform_conversions', PerformConversionsJob::class);
 
         $job = new $performConversionsJobClass($queuedConversions, $media, $onlyMissing);
