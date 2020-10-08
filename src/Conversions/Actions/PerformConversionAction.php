@@ -2,8 +2,6 @@
 
 namespace Spatie\MediaLibrary\Conversions\Actions;
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
@@ -11,7 +9,6 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
-use Spatie\MediaLibrary\Support\ImageFactory;
 
 class PerformConversionAction
 {
