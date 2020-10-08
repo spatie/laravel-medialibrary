@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
@@ -18,10 +19,11 @@ class PerformConversionAction
     public function execute(
         Conversion $conversion,
         Media $media,
-        ImageGenerator $imageGenerator,
         string $copiedOriginalFile
     ) {
         event(new ConversionWillStart($media, $conversion, $copiedOriginalFile));
+
+        $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
         $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 

@@ -48,15 +48,13 @@ class FileManipulator
             return;
         }
 
-        $imageGenerator = ImageGeneratorFactory::forMedia($media);
-
-        if (! $imageGenerator) {
+        if (! $this->canConvertMedia($media)) {
             return;
         }
 
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $copiedOriginalFile = $this->filesystem()->copyFromMediaLibrary(
+        $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
             $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
         );
@@ -73,9 +71,9 @@ class FileManipulator
 
                 return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
             })
-            ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
+            ->each(function (Conversion $conversion) use ($media, $copiedOriginalFile) {
                 (new PerformConversionAction)
-                    ->execute($conversion, $media, $imageGenerator, $copiedOriginalFile);
+                    ->execute($conversion, $media, $copiedOriginalFile);
             });
 
         $temporaryDirectory->delete();
@@ -97,8 +95,10 @@ class FileManipulator
         dispatch($job);
     }
 
-    protected function filesystem(): Filesystem
+    protected function canConvertMedia(Media $media): bool
     {
-        return app(Filesystem::class);
+        $imageGenerator = ImageGeneratorFactory::forMedia($media);
+
+        return $imageGenerator ? true: false;
     }
 }
