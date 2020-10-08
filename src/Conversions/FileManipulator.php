@@ -23,25 +23,18 @@ class FileManipulator
             return;
         }
 
-        $conversions = ConversionCollection::createForMedia($media);
+        [$queuedConversions, $conversions] = ConversionCollection::createForMedia($media)
+            ->filter(function (Conversion $conversion) use ($onlyConversionNames) {
+                if (! empty($onlyConversionNames)) {
+                    return true;
+                }
 
-        if (! empty($onlyConversionNames)) {
-            $conversions = $conversions->filter(
-                fn (Conversion $conversion) => in_array($conversion->getName(), $onlyConversionNames)
-            );
-        }
+                return in_array($conversion->getName(), $onlyConversionNames);
+            })->partition(fn (Conversion $conversion) => $conversion->shouldBeQueued());
 
-        $this->performConversions(
-            $conversions->getNonQueuedConversions($media->collection_name),
-            $media,
-            $onlyMissing
-        );
-
-        $queuedConversions = $conversions->getQueuedConversions($media->collection_name);
-
-        if ($queuedConversions->isNotEmpty()) {
-            $this->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
-        }
+        $this
+            ->performConversions($conversions, $media, $onlyMissing)
+            ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
     }
 
     public function performConversions(
