@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\Tests\Conversions;
 
 use Spatie\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileManipulatorTest extends TestCase
