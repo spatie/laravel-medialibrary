@@ -23,21 +23,21 @@ class FileManipulator
             return;
         }
 
-        $profileCollection = ConversionCollection::createForMedia($media);
+        $conversions = ConversionCollection::createForMedia($media);
 
         if (! empty($only)) {
-            $profileCollection = $profileCollection->filter(
+            $conversions = $conversions->filter(
                 fn (Conversion $conversion) => in_array($conversion->getName(), $only)
             );
         }
 
         $this->performConversions(
-            $profileCollection->getNonQueuedConversions($media->collection_name),
+            $conversions->getNonQueuedConversions($media->collection_name),
             $media,
             $onlyMissing
         );
 
-        $queuedConversions = $profileCollection->getQueuedConversions($media->collection_name);
+        $queuedConversions = $conversions->getQueuedConversions($media->collection_name);
 
         if ($queuedConversions->isNotEmpty()) {
             $this->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
