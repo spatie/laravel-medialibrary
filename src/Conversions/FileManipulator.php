@@ -56,7 +56,7 @@ class FileManipulator
 
         $copiedOriginalFile = $this->filesystem()->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
+            $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
         );
 
         $conversions
@@ -158,7 +158,7 @@ class FileManipulator
     {
         $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
 
-        $fileName = Str::random(16)."{$conversion->getName()}.{$media->extension}";
+        $fileName = Str::random(32)."{$conversion->getName()}.{$media->extension}";
 
         return "{$directory}/{$fileName}";
     }
