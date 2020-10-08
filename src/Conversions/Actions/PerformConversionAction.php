@@ -14,9 +14,9 @@ use Spatie\MediaLibrary\Support\ImageFactory;
 class PerformConversionAction
 {
     public function execute(
-        ImageGenerator $imageGenerator,
-        Media $media,
         Conversion $conversion,
+        Media $media,
+        ImageGenerator $imageGenerator,
         string $copiedOriginalFile
     ) {
         event(new ConversionWillStart($media, $conversion, $copiedOriginalFile));

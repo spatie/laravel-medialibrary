@@ -83,7 +83,7 @@ class FileManipulator
             })
             ->each(function (Conversion $conversion) use ($media, $imageGenerator, $copiedOriginalFile) {
                 (new PerformConversionAction)
-                    ->execute($imageGenerator, $media, $conversion, $copiedOriginalFile);
+                    ->execute($conversion, $media, $imageGenerator, $copiedOriginalFile);
             });
 
         $temporaryDirectory->delete();
