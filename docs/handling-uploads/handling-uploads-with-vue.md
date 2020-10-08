@@ -55,7 +55,7 @@ const app = new Vue({
 
 You can now use them in any `.blade.php` file in your application.
 
-```html
+```blade
 {{-- posts/edit.blade.php --}}
 
 <div id="app">
