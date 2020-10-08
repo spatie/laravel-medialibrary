@@ -56,7 +56,7 @@ You can now use it in any `.blade.php` file in your application:
 
 **React**
 
-Import the medialibrary component in your custom component, and use it in JSX:
+Import the medialibrary component in your custom component, and use it like this:
 
 ```jsx
 import MediaLibraryAttachment from "../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-react-attachment";
@@ -70,11 +70,11 @@ export default function MyImageUploader() {
 }
 ```
 
-### Creating your first uploader
+### Passing an initial value to your components
 
 TODO freek: how to export this format from the server
 
-If you want to pass an initial value to your uploader (e.g. in case of avatar uploaders and backoffice media managers), make sure you use the below format. This is the same format the components use for images that you upload. The components automatically create hidden input fields that keep track of these values. If you want to submit your form asynchronically (e.g. using ajax/axios/…), you can also subscribe to this value by listening to the `@change` event in Vue `onChange` prop in React.
+If you want to pass an initial value to your uploader (e.g. in case of avatar uploaders, backoffice media managers, …), use the below format. The components automatically create hidden input fields that keep track of these values, so these values will be sent along with a form submit automatically.
 
 ```js
 [
@@ -86,7 +86,9 @@ If you want to pass an initial value to your uploader (e.g. in case of avatar up
             alt: "picture of a cat",
             tags: ["pet", "whiskers", "meow"],
         },
-        thumbnail: "https://example.com/cat.jpeg",
+        preview_url: "https://example.com/cat.jpeg",
+        extension: "jpeg",
+        size: 256,
     },
     {
         uuid: "efgh",
@@ -96,7 +98,9 @@ If you want to pass an initial value to your uploader (e.g. in case of avatar up
             alt: "picture of a dog",
             tags: ["pet", "paws", "woof"],
         },
-        thumbnail: "https://example.com/dog.jpeg",
+        preview_url: "https://example.com/dog.jpeg",
+        extension: "jpeg",
+        size: 256,
     },
 ];
 ```
@@ -104,15 +108,31 @@ If you want to pass an initial value to your uploader (e.g. in case of avatar up
 This is what that looks like as a TypeScript type:
 
 ```ts
-Array<{
+type initialMedia = Array<{
     uuid: string;
     order: number;
     name: string;
-    custom_properties: {
-        [key: string]: any;
-    };
-    thumbnail: null | string;
+    custom_properties: { [key: string]: any };
+    preview_url: null | string;
+    extension?: string;
+    size?: number;
 }>;
+```
+
+Alternatively, you can choose to set the initial value in the same way the frontend components submit the value, which is this:
+
+```ts
+type initialMedia = {
+    [uuid: string]: {
+        uuid: string;
+        order: number;
+        name: string;
+        custom_properties: { [key: string]: any };
+        preview_url: null | string;
+        extension?: string;
+        size?: number;
+    };
+};
 ```
 
 **Vue**
@@ -121,11 +141,10 @@ Array<{
 <form>
     <media-library-attachment
         name="avatar"
-        :validation="{ accept: ['image/png', 'image/jpeg'], maxSize: 500000 }"
         :initial-value="user.avatar"
         upload-endpoint="temp-upload"
+        :validation="{ accept: ['image/png', 'image/jpeg'], maxSize: 500000 }"
         :validation-errors="validationErrors"
-        @change="doSomethingWithValue($event)"
     ></media-library-attachment>
 
     <button>Submit</button>
@@ -137,12 +156,11 @@ Array<{
 ```jsx
 <form>
     <MediaLibraryAttachment
-        name="media"
-        validation={{ accept: ["image/png", "image/jpeg"], maxSize: 500000 }}
+        name="avatar"
         initialValue={user.avatar}
         uploadEndpoint="temp-upload"
+        validation={{ accept: ["image/png", "image/jpeg"], maxSize: 500000 }}
         validationErrors={validationErrors}
-        onSubmit={(value) => doSomethingWithValue(value)}
     ></MediaLibraryAttachment>
 
     <button>Submit</button>
@@ -160,7 +178,7 @@ The value of `validationErrors` should just be the error object that Laravel ret
 TODO: screenshot of attachment component without value
 TODO: screenshot of multiple attachment component with 2 or 3 images as value
 
-The attachment component can upload one or multiple images with little or no extra information. Images are displayed in a grid, with optional extra properties (e.g. the image size) or input fields (e.g. the image name) displayed right below them. (TODO check if this is still correct by the time we launch)
+The attachment component can upload one or multiple images with little or no extra information.
 
 See [Props](TODO-link:frontend-setup-props) for a complete list of all props.
 
@@ -200,11 +218,11 @@ export default function AvatarForm() {
 }
 ```
 
-### TODO afterItems render prop
+### TODO propertiesView render prop
 
 ### Automatically submitting after uploading
 
-Using the `after-upload`/`afterUpload` prop, you can submit the form after the upload has been completed.
+Using the `after-upload`/`afterUpload` prop, you can submit the form after the upload has been completed:
 
 **Vue**
 
@@ -268,7 +286,7 @@ export default function AvatarForm() {
 
 TODO: screenshot of collection component with some images and custom properties. Maybe also with a validation error.
 
-The collection component can upload multiple images with some custom properties, like alt tags, a caption or tags. This component usually won't be used in a public-facing area, but rather in a backoffice environment.
+The collection component can upload multiple images with some custom properties (e.g. an alt tag, a caption, keywords, …). This component usually won't be used in a public-facing area, but rather in a backoffice environment.
 
 See [Props](TODO-link:frontend-setup-props) for a complete list of all props.
 
@@ -302,18 +320,24 @@ The basic setup of the collection component is pretty much identical to the atta
 <MediaLibraryCollection name="media"></MediaLibraryCollection>
 ```
 
-### The render slot
+### TODO propertiesView render prop
 
-To add custom properties, you can use the `afterItems` slot in Vue or the `afterItems` render prop in React. You get a couple of methods back that you can use to easily populate your input elements with the required props, and to display any validation errors that may occur when submitting.
-(TODO update name of render prop/slot)
+By default, the file extension, size and a download button will be rendered. You can overwrite the slot/render prop to change this behavior.
+
+### Adding custom property input fields
+
+To add custom property input fields, you can use the `fieldsView` slot in Vue or the `fieldsView` render prop in React. You get a couple of methods back that you can use to easily populate your input elements with the required props, and to display any validation errors that may occur when submitting.
+
+By default, a name input field will already be rendered. You can overwrite the slot/render prop to change this behavior.
 
 **Vue**
 
 ```html
 <media-library-collection name="media">
     <template
-        slot="afterItems"
+        slot="fieldsView"
         slot-scope="{
+            object,
             getCustomPropertyInputProps,
             getCustomPropertyInputListeners,
             getCustomPropertyInputErrors,
@@ -367,7 +391,8 @@ To add custom properties, you can use the `afterItems` slot in Vue or the `after
 ```jsx
 <MediaLibraryCollection
     name="media"
-    afterItems={({
+    fieldsView={({
+        object,
         getCustomPropertyInputProps,
         getCustomPropertyInputErrors,
         getNameInputProps,
@@ -409,7 +434,7 @@ See the [Props section](TODO-link:frontend-setup-props) for a complete list of a
 
 ## Asynchronously submit data
 
-If you don't want to use traditional form submits to send your data to the backend, you can also easily keep track of the current value of the component. The syntax is the same for all UI components:
+If you don't want to use traditional form submits to send your data to the backend, you will have to keep track of the current value of the component using the `onChange` handler. The syntax is the same for all UI components:
 
 **Vue**
 
@@ -418,21 +443,22 @@ If you don't want to use traditional form submits to send your data to the backe
     <div>
         <media-library-attachment
             …
+            :validation-errors="validationErrors"
             @change="onChange"
         ></media-library-attachment>
 
-        // or
-        // <media-library-collection
-        //    …
-        //    @change="onChange"
-        // ></media-library-collection>
+        <media-library-collection
+            …
+            :validation-errors="validationErrors"
+            @change="onChange"
+        ></media-library-collection>
 
         <button @click="submitForm">Submit</button>
     </div>
 </template>
 
 <script>
-    import Axios from 'axios';
+    import Axios from "axios";
 
     export default {
         props: { values },
@@ -450,12 +476,12 @@ If you don't want to use traditional form submits to send your data to the backe
             },
 
             submitForm() {
-                Axios
-                    .post('endpoint', { media: this.media })
-                    .catch(error => this.validationErrors = error.data.errors);
-            }
-        }
-    }
+                Axios.post("endpoint", { media: this.media }).catch(
+                    (error) => (this.validationErrors = error.data.errors)
+                );
+            },
+        },
+    };
 </script>
 ```
 
@@ -478,6 +504,7 @@ export function AvatarForm({ values }) {
         <>
             <MediaLibraryAttachment
                 …
+                validationErrors={validationErrors}
                 onChange={setMedia}
             ></MediaLibraryAttachment>
 
@@ -489,7 +516,7 @@ export function AvatarForm({ values }) {
 
 ## Checking the upload state
 
-The components keep track of whether they're ready to be submitted, you can use this to, for example, disable a submit button while a file is still uploading, or when there are frontend validation errors. This value can be tracked by listening to a `is-ready-to-submit-change` event on the components (`onIsReadyToSubmitChange` in React):
+The components keep track of whether they're ready to be submitted, you can use this to disable a submit button while a file is still uploading or when there are frontend validation errors. This value can be tracked by listening to a `is-ready-to-submit-change` event on the components in Vue, or `onIsReadyToSubmitChange` in React:
 
 **Vue**
 
@@ -539,32 +566,10 @@ function AvatarComponent() {
 }
 ```
 
-TODO mention the "is something uploading" listener, e.g. in case people aren't interested by validation errors?
-
 ## Validation rules
 
 TODO (not completely ready in frontend yet)
 Also mention beforeUpload prop for custom validation
-
-```js
-{
-    hint: {
-        singular: 'Drag a file or click to set media',
-        plural: 'Drag some files or click to add media',
-    },
-    invalidDrag: {
-        singular: 'This file has the incorrect file type and will not be uploaded',
-        plural: '(Some of) these file have the incorrect file type and will not be uploaded',
-    },
-    replace: 'Drag a file or click to replace media',
-    fileTypeNotAllowed: 'File type not allowed. Allowed file types:',
-    tooLarge: 'File too large, max',
-    previewGenerateError: 'Error while generating preview',
-    tryAgain: 'please try uploading this file again',
-    somethingWentWrong: 'Something went wrong while uploading this file',
-    maxSize: 'Maximum file size:',
-}
-```
 
 **Vue**
 
@@ -580,20 +585,21 @@ Also mention beforeUpload prop for custom validation
 
 ## Props
 
-| prop name (Vue)            | prop name (React)       | Default value                                       | Description                                                                                                                                                               |
-| -------------------------- | ----------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name                       | name                    |                                                     |                                                                                                                                                                           |
-| initial-value              | initialValue            | `[]`                                                |                                                                                                                                                                           |
-| upload-endpoint            | uploadEndpoint          | `"media-library-upload-components"`                 |                                                                                                                                                                           |
-| validation                 | validation              |                                                     | Refer to [validation](TODO-link) section                                                                                                                                  |
-| validation-errors          | validationErrors        |                                                     | The standard Laravel validation error object                                                                                                                              |
-| multiple                   | multiple                | `false`                                             | Only exists on the `attachment` components                                                                                                                                |
-| max-items                  | maxItems                | `1` when `multiple` = `false`, otherwise `undefined |                                                                                                                                                                           |
-| sortable                   | sortable                | `true`                                              | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value   |
-| /                          | setMediaLibrary         |                                                     | Used to set a reference to the mediaLibrary instance, so you can change the internal state of the component. In Vue, this is done by adding a `ref` prop to the component |
-| before-upload              | beforeUpload            |                                                     | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                             |
-| after-upload               | afterUpload             |                                                     | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                              |
-| @change                    | onChange                |                                                     |                                                                                                                                                                           |
-| @is-ready-to-submit-change | onIsReadyToSubmitChange |                                                     | Refer to [Checking the upload state](TODO-link) section                                                                                                                   |
+| prop name (Vue)               | prop name (React)        | Default value                                       | Description                                                                                                                                                                       |
+| ----------------------------- | ------------------------ | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                          | name                     |                                                     |                                                                                                                                                                                   |
+| initial-value                 | initialValue             | `[]`                                                |                                                                                                                                                                                   |
+| upload-endpoint               | uploadEndpoint           | `"media-library-upload-components"`                 |                                                                                                                                                                                   |
+| validation                    | validation               |                                                     | Refer to [validation](TODO-link) section                                                                                                                                          |
+| validation-errors             | validationErrors         |                                                     | The standard Laravel validation error object                                                                                                                                      |
+| multiple                      | multiple                 | `false`                                             | Only exists on the `attachment` components                                                                                                                                        |
+| max-items                     | maxItems                 | `1` when `multiple` = `false`, otherwise `undefined |                                                                                                                                                                                   |
+| max-size-for-preview-in-bytes | maxSizeForPreviewInBytes | `5242880` (5MB)                                     | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
+| sortable                      | sortable                 | `true`                                              | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
+| /                             | setMediaLibrary          |                                                     | Used to set a reference to the mediaLibrary instance, so you can change the internal state of the component. In Vue, this is done by adding a `ref` prop to the component         |
+| before-upload                 | beforeUpload             |                                                     | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
+| after-upload                  | afterUpload              |                                                     | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |
+| @change                       | onChange                 |                                                     |                                                                                                                                                                                   |
+| @is-ready-to-submit-change    | onIsReadyToSubmitChange  |                                                     | Refer to [Checking the upload state](TODO-link) section                                                                                                                           |
 
 TODO expand on the prop list, look into examples of other packages etc
