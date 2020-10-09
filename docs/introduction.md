@@ -39,7 +39,6 @@ We've recorded [a video course](https://spatie.be/videos/discovering-laravel-med
 
 [![video course](/docs/laravel-medialibrary/v8/images/video-course.jpg)](https://spatie.be/videos/discovering-laravel-media-library/intro)
 
-
 ## We have badges!
 
 <section class="article_badges">
