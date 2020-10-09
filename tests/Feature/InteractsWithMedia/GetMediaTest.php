@@ -175,7 +175,7 @@ class GetMediaTest extends TestCase
         $media->name = 'second';
         $media->save();
 
-        $this->assertEquals('second', $this->testModel->getLatestMedia('images')->name);
+        $this->assertEquals('second', $this->testModel->getLastMedia('images')->name);
     }
 
     /** @test */
@@ -226,7 +226,7 @@ class GetMediaTest extends TestCase
         $media->name = 'third';
         $media->save();
 
-        $this->assertEquals('second', $this->testModel->getLatestMedia('images', ['extra_property' => 'no'])->name);
+        $this->assertEquals('second', $this->testModel->getLastMedia('images', ['extra_property' => 'no'])->name);
     }
 
     /** @test */
@@ -278,7 +278,7 @@ class GetMediaTest extends TestCase
         $media->name = 'third';
         $media->save();
 
-        $latestMedia = $this->testModel->getLatestMedia('images',
+        $latestMedia = $this->testModel->getLastMedia('images',
             fn (Media $media) => isset($media->custom_properties['extra_property'])
         );
 
@@ -294,7 +294,7 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_returns_null_when_getting_latest_media_for_an_empty_collection()
     {
-        $this->assertNull($this->testModel->getLatestMedia());
+        $this->assertNull($this->testModel->getLastMedia());
     }
 
     /** @test */
@@ -318,7 +318,7 @@ class GetMediaTest extends TestCase
         $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $secondMedia->save();
 
-        $this->assertEquals($secondMedia->getUrl(), $this->testModel->getLatestMediaUrl('images'));
+        $this->assertEquals($secondMedia->getUrl(), $this->testModel->getLastMediaUrl('images'));
     }
 
     /** @test */
@@ -342,7 +342,7 @@ class GetMediaTest extends TestCase
         $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $secondMedia->save();
 
-        $this->assertEquals($secondMedia->getPath(), $this->testModel->getLatestMediaPath('images'));
+        $this->assertEquals($secondMedia->getPath(), $this->testModel->getLastMediaPath('images'));
     }
 
     /** @test */
@@ -354,7 +354,7 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_can_get_the_default_path_to_the_latest_media_in_a_collection()
     {
-        $this->assertEquals('/default.jpg', $this->testModel->getLatestMediaPath('avatar'));
+        $this->assertEquals('/default.jpg', $this->testModel->getLastMediaPath('avatar'));
     }
 
     /** @test */
@@ -366,7 +366,7 @@ class GetMediaTest extends TestCase
     /** @test */
     public function it_can_get_the_default_url_to_the_latest_media_in_a_collection()
     {
-        $this->assertEquals('/default.jpg', $this->testModel->getLatestMediaUrl('avatar'));
+        $this->assertEquals('/default.jpg', $this->testModel->getLastMediaUrl('avatar'));
     }
 
     /** @test */

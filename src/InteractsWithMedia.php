@@ -252,7 +252,7 @@ trait InteractsWithMedia
         return $media->first();
     }
 
-    public function getLatestMedia(string $collectionName = 'default', $filters = []): ?Media
+    public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -280,9 +280,9 @@ trait InteractsWithMedia
      * for latest media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getLatestMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        $media = $this->getLatestMedia($collectionName);
+        $media = $this->getLastMedia($collectionName);
 
         if (!$media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
@@ -317,12 +317,12 @@ trait InteractsWithMedia
      *
      * If no profile is given, return the source's url.
      */
-    public function getLatestTemporaryUrl(
+    public function getLastTemporaryUrl(
         DateTimeInterface $expiration,
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        $media = $this->getLatestMedia($collectionName);
+        $media = $this->getLastMedia($collectionName);
 
         if (!$media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
@@ -377,9 +377,9 @@ trait InteractsWithMedia
      * for latest media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getLatestMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        $media = $this->getLatestMedia($collectionName);
+        $media = $this->getLastMedia($collectionName);
 
         if (!$media) {
             return $this->getFallbackMediaPath($collectionName) ?: '';

@@ -32,8 +32,8 @@ $url = $yourModel->getFirstMediaUrl();
 There is also a shorthand for retrieving the latest media that has been added to a collection:
 
 ```php
-$media = $yourModel->getLatestMedia('collection');
-$url = $yourModel->getLatestMediaUrl();
+$media = $yourModel->getLastMedia('collection');
+$url = $yourModel->getLastMediaUrl();
 ```
 
 An instance of `Media` also has a name, by default its filename:

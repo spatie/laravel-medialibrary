@@ -19,9 +19,9 @@ $urlToFirstListImage = $yourModel->getFirstMediaUrl('images', 'thumb');
 $urlToFirstTemporaryListImage = $yourModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
 $fullPathToFirstListImage = $yourModel->getFirstMediaPath('images', 'thumb');
 
-$urlToLatestListImage = $yourModel->getLatestMediaUrl('images', 'thumb');
-$urlToLatestTemporaryListImage = $yourModel->getLatestTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
-$fullPathToLatestListImage = $yourModel->getLatestMediaPath('images', 'thumb');
+$urlToLatestListImage = $yourModel->getLastMediaUrl('images', 'thumb');
+$urlToLatestTemporaryListImage = $yourModel->getLastTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
+$fullPathToLatestListImage = $yourModel->getLastMediaPath('images', 'thumb');
 ```
 
 If a conversion is queued, a file may not exist yet on the generated url. You can check if the conversion has been created using the `hasGeneratedConversion`-method on a media item.
