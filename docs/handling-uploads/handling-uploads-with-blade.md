@@ -1,5 +1,6 @@
 ---
-title: Handling uploads with Blade weight: 2
+title: Handling uploads with Blade 
+weight: 2
 ---
 
 You can make use of the `x-medialibrary-attachment` and `x-media-library-collection` Blade components to handle uploads.
