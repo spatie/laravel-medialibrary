@@ -1,27 +1,23 @@
 ---
 title: Handling uploads with Vue or React
-weight: 4
+weight: 5
 ---
 
-If you're using Vue or React, Medialibrary Pro provides UI components that look beautiful and work out of the box with the medialibrary backend. They're simple to set up, and include a lot of features: temporary uploads, custom property inputs, frontend validation, i18n and error handling.
-
-The look and feel of UI components [can be customized](TODO-LINK:creating-a-custom-react-or-vue-component).
+Medialibrary Pro provides beautiful UI components for Vue and React. They work out of the box and pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
 
 ## Preparing your Laravel app
 
-The package contains a controller `Spatie\MediaLibraryPro\Http\Controllers\UploadController` that handles all incoming uploads from Vue and React component. You should register a route that uses that controller.
+The Medialibrary Pro package ships with a controller that handles all incoming uploads from Vue and React component. To get started, register that controller in a route.
 
 ```php
-//somewhere in a Laravel routes file
+// routes/web.php
 
 use Spatie\MediaLibraryPro\Http\Controllers\UploadController;
 
 Route::post('media-library-upload-components', UploadController::class);
 ```
 
-`media-library-upload-components` is the default URL that the components expect. You can choose any URL if you'd like. If you use a custom URL for this route, you should pass your URL to the `upload-endpoint` prop of your Vue or React component.
-
-Here is an example:
+The UI components post data to `/media-library-upload-components` by default. If registered the controller on a different URL, pass it to the `upload-endpoint` prop of your Vue or React components.
 
 ```html
 <media-library-attachment
@@ -32,24 +28,28 @@ Here is an example:
 
 ## Including the components
 
-The UI components should work out of the box. You shouldn't have to change anything about your Laravel Mix or Webpack configuration to make them work. You can import the components from the vendor folder like this:
+The UI components work out of the box with Laravel Mix.
 
 **Vue**
 
-To use a component in your blade templates, simply import the component in your app.js file, and add it to your `components` object.
+To use a component in your Blade templates, simply import the component in your app.js file, and add it to your `components` object.
 
 ```js
 import MediaLibraryAttachment from "../../../vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-vue-attachment";
 
-var app = new Vue({
-    components: { MediaLibraryAttachment },
+const app = new Vue({
+    el: '#app',
+
+    components: {
+        MediaLibraryAttachment
+    },
 });
 ```
 
 You can now use it in any `.blade.php` file in your application:
 
 ```html
-<div>
+<div id="app">
     <media-library-attachment name="avatar"></media-library-attachment>
 </div>
 ```
