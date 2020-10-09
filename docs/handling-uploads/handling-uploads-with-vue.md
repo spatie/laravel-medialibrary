@@ -147,6 +147,71 @@ You'll probably want to validate what gets uploaded. Use the `validation` prop, 
 
 Under the hood, these components create hidden `input` fields to keep track of the form values on submit.
 
+### Passing an initial value to your components
+
+TODO freek: how to export this format from the server
+
+If you want to pass an initial value to your uploader (e.g. in case of avatar uploaders, backoffice media managers, …), use the below format. The components automatically create hidden input fields that keep track of these values, so these values will be sent along with a form submit automatically.
+
+```js
+[
+    {
+        uuid: "abcd",
+        order: 0,
+        name: "cat",
+        custom_properties: {
+            alt: "picture of a cat",
+            tags: ["pet", "whiskers", "meow"],
+        },
+        preview_url: "https://example.com/cat.jpeg",
+        extension: "jpeg",
+        size: 256,
+    },
+    {
+        uuid: "efgh",
+        order: 1,
+        name: "dog",
+        custom_properties: {
+            alt: "picture of a dog",
+            tags: ["pet", "paws", "woof"],
+        },
+        preview_url: "https://example.com/dog.jpeg",
+        extension: "jpeg",
+        size: 256,
+    },
+];
+```
+
+This is what that looks like as a TypeScript type:
+
+```ts
+type initialMedia = Array<{
+    uuid: string;
+    order: number;
+    name: string;
+    custom_properties: { [key: string]: any };
+    preview_url: null | string;
+    extension?: string;
+    size?: number;
+}>;
+```
+
+Alternatively, you can choose to set the initial value in the same way the frontend components submit the value, which is this:
+
+```ts
+type initialMedia = {
+    [uuid: string]: {
+        uuid: string;
+        order: number;
+        name: string;
+        custom_properties: { [key: string]: any };
+        preview_url: null | string;
+        extension?: string;
+        size?: number;
+    };
+};
+```
+
 ## Attachment component
 
 TODO: screenshot of attachment component without value
