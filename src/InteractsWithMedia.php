@@ -252,6 +252,13 @@ trait InteractsWithMedia
         return $media->first();
     }
 
+    public function getLatestMedia(string $collectionName = 'default', $filters = []): ?Media
+    {
+        $media = $this->getMedia($collectionName, $filters);
+
+        return $media->last();
+    }
+
     /*
      * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
@@ -260,6 +267,22 @@ trait InteractsWithMedia
     public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
         $media = $this->getFirstMedia($collectionName);
+
+        if (!$media) {
+            return $this->getFallbackMediaUrl($collectionName) ?: '';
+        }
+
+        return $media->getUrl($conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for latest media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLatestMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        $media = $this->getLatestMedia($collectionName);
 
         if (!$media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
@@ -280,6 +303,26 @@ trait InteractsWithMedia
         string $conversionName = ''
     ): string {
         $media = $this->getFirstMedia($collectionName);
+
+        if (!$media) {
+            return $this->getFallbackMediaUrl($collectionName) ?: '';
+        }
+
+        return $media->getTemporaryUrl($expiration, $conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for latest media for the given collectionName.
+     *
+     * If no profile is given, return the source's url.
+     */
+    public function getLatestTemporaryUrl(
+        DateTimeInterface $expiration,
+        string $collectionName = 'default',
+        string $conversionName = ''
+    ): string {
+        $media = $this->getLatestMedia($collectionName);
 
         if (!$media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
@@ -321,6 +364,22 @@ trait InteractsWithMedia
     public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
         $media = $this->getFirstMedia($collectionName);
+
+        if (!$media) {
+            return $this->getFallbackMediaPath($collectionName) ?: '';
+        }
+
+        return $media->getPath($conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for latest media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLatestMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        $media = $this->getLatestMedia($collectionName);
 
         if (!$media) {
             return $this->getFallbackMediaPath($collectionName) ?: '';

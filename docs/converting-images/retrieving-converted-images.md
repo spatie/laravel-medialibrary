@@ -12,12 +12,16 @@ $mediaItems[0]->getPath('thumb'); // Absolute path on its disk
 $mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb'); // Temporary S3 url
 ```
 
-Because retrieving an url for the first media item in a collection is such a common scenario, the `getFirstMediaUrl` convenience-method is provided. The first parameter is the name of the collection, the second is the name of a conversion. There's also a `getFirstMediaPath`-variant that returns the absolute path on its disk and a `getFirstTemporaryURL`-variant which returns an temporary S3 url.
+Because retrieving an url for the first media item in a collection is such a common scenario, the `getFirstMediaUrl` convenience-method is provided. The first parameter is the name of the collection, the second is the name of a conversion. There's also a `getFirstMediaPath`-variant that returns the absolute path on its disk and a `getFirstTemporaryURL`-variant which returns an temporary S3 url. There are also corresponding variants for retrieving the latest media.
 
 ```php
 $urlToFirstListImage = $yourModel->getFirstMediaUrl('images', 'thumb');
 $urlToFirstTemporaryListImage = $yourModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
 $fullPathToFirstListImage = $yourModel->getFirstMediaPath('images', 'thumb');
+
+$urlToLatestListImage = $yourModel->getLatestMediaUrl('images', 'thumb');
+$urlToLatestTemporaryListImage = $yourModel->getLatestTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
+$fullPathToLatestListImage = $yourModel->getLatestMediaPath('images', 'thumb');
 ```
 
 If a conversion is queued, a file may not exist yet on the generated url. You can check if the conversion has been created using the `hasGeneratedConversion`-method on a media item.

@@ -165,6 +165,20 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_latest_media_from_a_collection()
+    {
+        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $media->name = 'first';
+        $media->save();
+
+        $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $media->name = 'second';
+        $media->save();
+
+        $this->assertEquals('second', $this->testModel->getLatestMedia('images')->name);
+    }
+
+    /** @test */
     public function it_can_get_the_first_media_from_a_collection_using_a_filter()
     {
         $media = $this->testModel
@@ -183,6 +197,36 @@ class GetMediaTest extends TestCase
         $media->save();
 
         $this->assertEquals('first', $this->testModel->getFirstMedia('images', ['extra_property' => 'yes'])->name);
+    }
+
+    /** @test */
+    public function it_can_get_the_latest_media_from_a_collection_using_a_filter()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withCustomProperties(['extra_property' => 'no'])
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'first';
+        $media->save();
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withCustomProperties(['extra_property' => 'no'])
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'second';
+        $media->save();
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withCustomProperties(['extra_property' => 'yes'])
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'third';
+        $media->save();
+
+        $this->assertEquals('second', $this->testModel->getLatestMedia('images', ['extra_property' => 'no'])->name);
     }
 
     /** @test */
@@ -208,9 +252,49 @@ class GetMediaTest extends TestCase
         $this->assertEquals('first', $firstMedia->name);
     }
 
-    public function it_returns_false_when_getting_first_media_for_an_empty_collection()
+    /** @test */
+    public function it_can_get_the_latest_media_from_a_collection_using_a_filter_callback()
     {
-        $this->assertFalse($this->testModel->getFirstMedia());
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withCustomProperties(['extra_property' => 'yes'])
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'first';
+        $media->save();
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->withCustomProperties(['extra_property' => 'yes'])
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'second';
+        $media->save();
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+        $media->name = 'third';
+        $media->save();
+
+        $latestMedia = $this->testModel->getLatestMedia('images',
+            fn (Media $media) => isset($media->custom_properties['extra_property'])
+        );
+
+        $this->assertEquals('second', $latestMedia->name);
+    }
+
+    /** @test */
+    public function it_returns_null_when_getting_first_media_for_an_empty_collection()
+    {
+        $this->assertNull($this->testModel->getFirstMedia());
+    }
+
+    /** @test */
+    public function it_returns_null_when_getting_latest_media_for_an_empty_collection()
+    {
+        $this->assertNull($this->testModel->getLatestMedia());
     }
 
     /** @test */
@@ -226,6 +310,18 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_url_to_latest_media_in_a_collection()
+    {
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstMedia->save();
+
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia->save();
+
+        $this->assertEquals($secondMedia->getUrl(), $this->testModel->getLatestMediaUrl('images'));
+    }
+
+    /** @test */
     public function it_can_get_the_path_to_first_media_in_a_collection()
     {
         $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
@@ -238,15 +334,39 @@ class GetMediaTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_path_to_latest_media_in_a_collection()
+    {
+        $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $firstMedia->save();
+
+        $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+        $secondMedia->save();
+
+        $this->assertEquals($secondMedia->getPath(), $this->testModel->getLatestMediaPath('images'));
+    }
+
+    /** @test */
     public function it_can_get_the_default_path_to_the_first_media_in_a_collection()
     {
         $this->assertEquals('/default.jpg', $this->testModel->getFirstMediaPath('avatar'));
     }
 
     /** @test */
+    public function it_can_get_the_default_path_to_the_latest_media_in_a_collection()
+    {
+        $this->assertEquals('/default.jpg', $this->testModel->getLatestMediaPath('avatar'));
+    }
+
+    /** @test */
     public function it_can_get_the_default_url_to_the_first_media_in_a_collection()
     {
         $this->assertEquals('/default.jpg', $this->testModel->getFirstMediaUrl('avatar'));
+    }
+
+    /** @test */
+    public function it_can_get_the_default_url_to_the_latest_media_in_a_collection()
+    {
+        $this->assertEquals('/default.jpg', $this->testModel->getLatestMediaUrl('avatar'));
     }
 
     /** @test */

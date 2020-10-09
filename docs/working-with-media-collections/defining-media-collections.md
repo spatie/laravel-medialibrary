@@ -35,7 +35,7 @@ This returns a collection of `MediaCollection` objects.
 
 ## Defining a fallback URL or path
 
-If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
+If your media collection does not contain any items, calling `getFirstMediaUrl`, `getFirstMediaPath`, `getLatestMediaUrl` or `getLatestMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\File;
