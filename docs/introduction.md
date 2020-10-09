@@ -33,3 +33,19 @@ The package can also generate derived images such as thumbnails for images, vide
 $yourModel->getMedia('images')->first()->getUrl('thumb');
 ```
 
+## Are you a visual learner?
+
+We've recorded [a video course](https://spatie.be/videos/discovering-laravel-media-library) on how to use this package. It's the best way to get started using media library
+
+[![video course](/docs/laravel-medialibrary/v8/images/video-course.jpg)](https://spatie.be/videos/discovering-laravel-media-library/intro)
+
+## We have badges!
+
+<section class="article_badges">
+    <a href="https://github.com/spatie/laravel-medialibrary/releases"><img src="https://img.shields.io/github/release/spatie/laravel-medialibrary.svg?style=flat-square" alt="Latest Version"></a>
+    <a href="https://github.com/spatie/laravel-medialibrary/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></a>
+    <a href="https://travis-ci.org/spatie/laravel-medialibrary"><img src="https://img.shields.io/travis/spatie/laravel-medialibrary/master.svg?style=flat-square" alt="Build Status"></a>
+    <a href="https://scrutinizer-ci.com/g/spatie/laravel-medialibrary"><img src="https://img.shields.io/scrutinizer/g/spatie/laravel-medialibrary.svg?style=flat-square" alt="Quality Score"></a>
+    <a href="https://packagist.org/packages/spatie/laravel-medialibrary"><img src="https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square" alt="Total Downloads"></a>
+</section>
+>>>>>>> master
