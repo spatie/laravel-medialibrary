@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 use Spatie\MediaLibrary\Support\ImageFactory;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
@@ -25,6 +26,8 @@ class ResponsiveImageGenerator
 
     protected const DEFAULT_CONVERSION_QUALITY = 90;
 
+    protected FileNamer $fileNamer;
+
     public function __construct(
         Filesystem $filesystem,
         WidthCalculator $widthCalculator,
@@ -35,6 +38,8 @@ class ResponsiveImageGenerator
         $this->widthCalculator = $widthCalculator;
 
         $this->tinyPlaceholderGenerator = $tinyPlaceholderGenerator;
+
+        $this->fileNamer = app(config('media-library.file_namer'));
     }
 
     public function generateResponsiveImages(Media $media): void
@@ -87,11 +92,8 @@ class ResponsiveImageGenerator
         BaseTemporaryDirectory $temporaryDirectory,
         int $conversionQuality = self::DEFAULT_CONVERSION_QUALITY
     ): void {
-        $responsiveImagePath = $this->appendToFileName(
-            $media->file_name,
-            "___{$conversionName}_{$targetWidth}",
-            $baseImage
-        );
+        $extension = $this->fileNamer->getExtension($baseImage);
+        $responsiveImagePath = $this->fileNamer->getTemporarilyFileName($media, $extension);
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
@@ -103,7 +105,14 @@ class ResponsiveImageGenerator
 
         $responsiveImageHeight = ImageFactory::load($tempDestination)->getHeight();
 
-        $finalImageFileName = $this->appendToFileName($responsiveImagePath, "_{$responsiveImageHeight}");
+        // the user can customize the name like he wants, be we expect the last part in a certain format
+        $finalImageFileName = $this->fileNamer->addPropertiesToFileName(
+            $responsiveImagePath,
+            $conversionName,
+            $targetWidth,
+            $responsiveImageHeight,
+            $extension
+        );
 
         $finalResponsiveImagePath = $temporaryDirectory->path($finalImageFileName);
 
