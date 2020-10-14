@@ -16,7 +16,7 @@ $yourModel->addMedia($pathToAFile)->toMediaCollection('images', 's3');
 
 ## Storing conversions on a separate disk
 
-You can let the media library store [your conversions](/v8/converting-images/defining-conversions) and [responsive images](/v8/responsive-images/getting-started-with-responsive-images) on a disk other than the one where you save the original item. Pass the name of the disk where you want conversion to be saved to the `storingConversionsOnDisk` method.
+You can let the media library store [your conversions](/laravel-medialibrary/v8/converting-images/defining-conversions) and [responsive images](/laravel-medialibrary/v8/responsive-images/getting-started-with-responsive-images) on a disk other than the one where you save the original item. Pass the name of the disk where you want conversion to be saved to the `storingConversionsOnDisk` method.
 
 Here's an example where the original file is saved on the local disk and the conversions on S3.
 
