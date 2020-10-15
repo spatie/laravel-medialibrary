@@ -13,7 +13,7 @@ abstract class FileNamer
         return "{$this->getFileName($fileName)}___{$conversionName}_{$width}_{$height}.{$extension}";
     }
 
-    public function getTemporarilyFileName(Media $media, string $extension): string
+    public function getTemporaryFileName(Media $media, string $extension): string
     {
         return "{$this->getFileName($media->file_name)}.{$extension}";
     }

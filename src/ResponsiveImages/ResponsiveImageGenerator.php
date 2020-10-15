@@ -93,7 +93,7 @@ class ResponsiveImageGenerator
         int $conversionQuality = self::DEFAULT_CONVERSION_QUALITY
     ): void {
         $extension = $this->fileNamer->getExtension($baseImage);
-        $responsiveImagePath = $this->fileNamer->getTemporarilyFileName($media, $extension);
+        $responsiveImagePath = $this->fileNamer->getTemporaryFileName($media, $extension);
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
@@ -105,8 +105,8 @@ class ResponsiveImageGenerator
 
         $responsiveImageHeight = ImageFactory::load($tempDestination)->getHeight();
 
-        // the user can customize the name like he wants, be we expect the last part in a certain format
-        $finalImageFileName = $this->fileNamer->addPropertiesToFileName(
+        // Users can customize the name like they want, but we expect the last part in a certain format
+        $fileName = $this->fileNamer->addPropertiesToFileName(
             $responsiveImagePath,
             $conversionName,
             $targetWidth,
@@ -114,13 +114,13 @@ class ResponsiveImageGenerator
             $extension
         );
 
-        $finalResponsiveImagePath = $temporaryDirectory->path($finalImageFileName);
+        $finalResponsiveImagePath = $temporaryDirectory->path($fileName);
 
         rename($tempDestination, $finalResponsiveImagePath);
 
         $this->filesystem->copyToMediaLibrary($finalResponsiveImagePath, $media, 'responsiveImages');
 
-        ResponsiveImage::register($media, $finalImageFileName, $conversionName);
+        ResponsiveImage::register($media, $fileName, $conversionName);
     }
 
     public function generateTinyJpg(

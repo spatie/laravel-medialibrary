@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class ResponsiveImageGeneratorTest extends TestCase
 {
-    public string $file_name = "test";
+    public string $fileName = "test";
 
     /** @test */
     public function it_can_generate_responsive_images()
@@ -18,9 +18,9 @@ class ResponsiveImageGeneratorTest extends TestCase
                 ->withResponsiveImages()
                 ->toMediaCollection();
 
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___media_library_original_237_195.jpg"));
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___media_library_original_284_233.jpg"));
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___media_library_original_340_280.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"));
     }
 
     /** @test */
@@ -31,9 +31,9 @@ class ResponsiveImageGeneratorTest extends TestCase
                 ->withResponsiveImagesIf(fn () => true)
                 ->toMediaCollection();
 
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___media_library_original_237_195.jpg"));
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___media_library_original_284_233.jpg"));
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___media_library_original_340_280.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"));
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class ResponsiveImageGeneratorTest extends TestCase
                 ->withResponsiveImagesIf(fn () => false)
                 ->toMediaCollection();
 
-        $this->assertFileDoesNotExist($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___media_library_original_237_195.jpg"));
+        $this->assertFileDoesNotExist($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"));
     }
 
     /** @test */
@@ -55,7 +55,7 @@ class ResponsiveImageGeneratorTest extends TestCase
                     ->withResponsiveImages()
                     ->toMediaCollection();
 
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___thumb_50_41.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg"));
     }
 
     /** @test */
@@ -66,7 +66,7 @@ class ResponsiveImageGeneratorTest extends TestCase
             ->withResponsiveImages()
             ->toMediaCollection();
 
-        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->file_name}___pngtojpg_700_883.jpg"));
+        $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___pngtojpg_700_883.jpg"));
     }
 
     /** @test */
