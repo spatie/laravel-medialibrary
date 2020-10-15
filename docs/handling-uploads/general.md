@@ -23,7 +23,7 @@ All components upload media to the server with the same API. Before you dive int
 
 [Processing uploads on the server](processing-uploads-on-the-server)
 
-Next, you may need to choose your own journey. We have written extensive guides for all three flavours.
+Next, you may choose your own journey. We have written extensive guides for all three flavours.
 
 ### Blade
 
