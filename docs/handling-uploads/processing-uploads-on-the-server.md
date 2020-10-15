@@ -1,11 +1,114 @@
 ---
 title: Processing uploads on the server
-weight: 5
+weight: 2
 ---
 
-All Blade, Vue and React components communicate with the server in the same way. 
+All Blade, Vue and React components communicate with the server in the same way. After a user selects one or more files, they're immediate sent to the server and stored as temporary uploads. When the parent form is submitted, the media items can be attached to a model.
 
-When a form that uses the upload components is submitted, the files have already been uploaded to the server. The components send the UUID of a `Media` model. For new files, that model is associated with a `TemporaryUpload` model. Files that were already validated and processed in a previous request, are associated with another Eloquent model.
+## Enabling temporary uploads
+
+Plain HTML file `<input>`s have two major shortcomings: they only upload the file when the form is submitted, and they're unable to remember the file when a form fails to submit. Temporary uploads solve both these problems.
+
+When a user selects or drops a file in one of the Media Library components, it gets uploaded to the server immediately. Problem number 1 solved! 
+
+If the form submission fails later on, Media Library will pass down the previously added temporary upload objects so it can prefill the component with the previously uploaded files. Problem number 2 solved too!
+
+To set up temporary uploads, register the temporary uploads route with our handy macro.
+
+```php
+// Probably routes/web.php
+
+Route::temporaryUploads();
+```
+
+## Setting up the view & controller
+
+After a user has added files and they've been stored as temporary uploads, the user will submit the form. At this point the form request will hit one of your application's controllers. This is where you can permanently attach the file to your models.
+
+To illustrate, we'll set up a little profile screen where a user may upload their avatar.
+
+```php
+// Back in routes/web.php
+use App\Http\Controllers\ProfileController;
+
+Route::get('profile', [ProfileController::class, 'edit']);
+Route::post('profile', [ProfileController::class, 'store']);
+
+Route::temporaryUploads();
+```
+
+The profile controller has a simple form that uses the Blade attachment component.
+
+```blade
+{{-- resources/views/profile.blade.php --}}
+
+<x-medialibrary-attachment name="avatar" />
+```
+
+And, assuming you're familiar with the [basic usage](../basic-usage) of the Media Library, this is how we'd store the uploaded avatar on the user.
+
+```php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class ProfileController
+{
+    public function edit()
+    {
+        return view('profile', [$user => Auth::user()]);
+    }
+
+    public function store(Request $request)
+    {
+        $user = Auth::user();
+
+        $user
+            ->addMediaFromMediaLibraryRequest($request, 'avatar')
+            ->toMediaCollection('avatar');
+    }
+}
+```
+
+## Validation
+
+The `ProfileController` we built assumes users will only upload the exact file types we're looking for. Of course they won't! We need to validate the incoming media before attaching them to our models.
+
+The Media Library components provide instant client-side validation. You'll read more about that in the component docs. First, we'll set up server-side validation.
+
+To validate uploaded media, we'll use create a custom form request.
+
+```diff
+- public function store(Request $request)
++ public function store(ProfileRequest $request)
+```
+```php
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
+
+class ProfileRequest extends FormRequest
+{
+    use ValidatesMedia;
+
+    public function rules()
+    {
+        return [
+            'images' => $this
+                ->validateMultipleMedia()
+                ->minItems(1)
+                ->maxItems(5)
+                ->extension('png')
+                ->maxItemSizeInKb(1024)
+                ->attribute('name', 'required')
+        ];
+    }
+}
+```
+
+---
 
 Every component will pass data in a key of a request. The name of that key is the name you passed to the `name` prop of any of the components.
 

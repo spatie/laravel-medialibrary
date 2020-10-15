@@ -1,6 +1,6 @@
 ---
 title: Handling uploads with Vue or React
-weight: 5
+weight: 6
 ---
 
 Medialibrary Pro provides beautiful UI components for Vue and React. They work out of the box and pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
