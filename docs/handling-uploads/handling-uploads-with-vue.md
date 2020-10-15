@@ -3,7 +3,7 @@ title: Handling uploads with Vue
 weight: 3
 ---
 
-Medialibrary Pro provides beautiful UI components for Vue. They work out of the box and pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
+Medialibrary Pro provides beautiful UI components for Vue. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
 
 The `MediaLibraryAttachment` component can upload one or more files with little or no extra information. The attachment component is a lightweight solution for small bits of UI like avatar fields.
 
@@ -146,6 +146,25 @@ You'll probably want to validate what gets uploaded. Use the `validation` prop, 
 ```
 
 Under the hood, these components create hidden `input` fields to keep track of the form values on submit.
+
+### Server
+
+The `x-medialibrary-attachment`, and equivalent Vue and React components, will take care of the upload. After a file has been uploaded it will be stored as a temporary upload. In case there are validation errors when submitting the form, the `x-medialibrary-attachment` will display the temporary upload. There's no need for the user to upload the file again.
+
+In the controller that handles the form submission, you can add transfer the temporary upload to an Eloquent model like this. This code works Blade, Vue and React components
+
+```php
+public function store(StoreMultipleUploadsRequest $request)
+{
+    // ... retrieve your model
+    
+    $yourModel
+       ->addMediaFromMediaLibraryRequest($request, 'avatar')
+       ->toMediaCollection('avatar')
+    
+    // ... redirect the user somewhere
+}
+```
 
 ### Passing an initial value to your components
 

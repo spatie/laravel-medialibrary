@@ -3,37 +3,38 @@ title: General
 weight: 1
 ---
 
-Media Library Pro offers [Blade](TODO add link to Blade components page), [Vue](TODO) and [React](TODO) components that make it easy to upload files to the media library. You can only make use this functionality when you have a license for [Media Library Pro](https://medialibrary.pro).
+Media Library Pro offers Blade, Vue, and React components to upload files to your application.
 
-You can use these components in regular forms. Here's an example using the `x-medialibrary-attachment` blade component.
+Media Library Pro ships with two components for every environment: an attachment component, and a collection component.
 
-```html
-<form method="POST">
-    @csrf
+The attachment component can upload one or more files with little or no extra information. It's is a lightweight solution for small bits of UI like avatar fields or message attachments.
 
-    <input id="name" name="name">
+![Screenshot of the attachment component](#)
 
-    <x-medialibrary-attachment name="avatar" />
+The collection component can upload multiple files with custom properties. Use the collection component shines when you need to manage media, for example in admin panels.
 
-    <button type="submit">Submit</button>
-</form>
-```
+![Screenshot of the collection component](#)
 
-The `x-medialibrary-attachment`, and equivalent Vue and React components, will take care of the upload. After a file has been uploaded it will be stored as a temporary upload. In case there are validation errors when submitting the form, the `x-medialibrary-attachment` will display the temporary upload. There's no need for the user to upload the file again.
+If none of those fit the bill, Media Library Pro supplies you with a number helpers to build your own components.
 
-In the controller that handles the form submission, you can add transfer the temporary upload to an Eloquent model like this. This code works Blade, Vue and React components
+## Dive in
 
-```php
-public function store(StoreMultipleUploadsRequest $request)
-{
-    // ... retrieve your model
-    
-    $yourModel
-       ->addMediaFromMediaLibraryRequest($request, 'avatar')
-       ->toMediaCollection('avatar')
-    
-    // ... redirect the user somewhere
-}
-```
+All components upload media to the server with the same API. Before you dive into the frontend, read our server guide.
 
+[Processing uploads on the server](processing-uploads-on-the-server)
 
+Next, you may need to choose your own journey. We have written extensive guides for all three flavours.
+
+### Blade
+
+[Handling uploads with Blade](handling-uploads-with-blade)
+
+### Vue
+
+[Handling uploads with Vue](handling-uploads-with-vue) <br>
+[Creating custom Vue components](creating-custom-vue-components)
+
+### React
+
+[Handling uploads with React](handling-uploads-with-react) <br>
+[Creating custom React components](creating-custom-react-components)
