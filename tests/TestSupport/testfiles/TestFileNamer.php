@@ -1,8 +1,7 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\TestSupport;
+namespace Spatie\MediaLibrary\Tests\TestSupport\testfiles;
 
-use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
 class TestFileNamer extends FileNamer
@@ -12,10 +11,5 @@ class TestFileNamer extends FileNamer
         $fileName = pathinfo($fileName, PATHINFO_FILENAME);
 
         return 'prefix_' . $fileName . '_suffix';
-    }
-
-    public function addConversionToFileName(string $fileName, Conversion $conversion): string
-    {
-        return "{$fileName}---{$conversion->getName()}";
     }
 }

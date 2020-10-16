@@ -10,6 +10,6 @@ class ResponsiveImageFileNamerTest extends ResponsiveImageTest
     {
         parent::setUp();
         config()->set("media-library.file_namer", TestFileNamer::class);
-        $this->file_name = "testing_file_namer";
+        $this->file_name = "prefix_test_suffix";
     }
 }
