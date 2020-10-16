@@ -11,7 +11,7 @@ class DefaultFileNamer extends FileNamer
         return pathinfo($fileName, PATHINFO_FILENAME);
     }
 
-    public function addConversionToFileName(string $fileName, Conversion $conversion): string
+    public function getConversionFileName(string $fileName, Conversion $conversion): string
     {
         return "{$fileName}-{$conversion->getName()}";
     }

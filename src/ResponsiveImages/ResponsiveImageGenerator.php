@@ -106,7 +106,7 @@ class ResponsiveImageGenerator
         $responsiveImageHeight = ImageFactory::load($tempDestination)->getHeight();
 
         // Users can customize the name like they want, but we expect the last part in a certain format
-        $fileName = $this->fileNamer->addPropertiesToFileName(
+        $fileName = $this->addPropertiesToFileName(
             $responsiveImagePath,
             $conversionName,
             $targetWidth,
@@ -185,5 +185,11 @@ class ResponsiveImageGenerator
         $this->filesystem->removeResponsiveImages($media, $conversionName);
 
         return $media;
+    }
+
+    protected function addPropertiesToFileName(string $fileName, string $conversionName, int $width, int $height, string $extension): string
+    {
+        $fileName = pathinfo($fileName, PATHINFO_FILENAME);
+        return "{$fileName}___{$conversionName}_{$width}_{$height}.{$extension}";
     }
 }

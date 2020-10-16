@@ -9,7 +9,7 @@ abstract class FileNamer
 {
     abstract public function getFileName(string $fileName): string;
 
-    abstract public function addConversionToFileName(string $fileName, Conversion $conversion): string;
+    abstract public function getConversionFileName(string $fileName, Conversion $conversion): string;
 
     public function getTemporaryFileName(Media $media, string $extension): string
     {
@@ -19,11 +19,5 @@ abstract class FileNamer
     public function getExtension(string $baseImage): string
     {
         return pathinfo($baseImage, PATHINFO_EXTENSION);
-    }
-
-    public function addPropertiesToFileName(string $fileName, string $conversionName, int $width, int $height, string $extension): string
-    {
-        $fileName = pathinfo($fileName, PATHINFO_FILENAME);
-        return "{$fileName}___{$conversionName}_{$width}_{$height}.{$extension}";
     }
 }

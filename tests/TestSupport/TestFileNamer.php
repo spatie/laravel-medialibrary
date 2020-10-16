@@ -14,7 +14,7 @@ class TestFileNamer extends FileNamer
         return 'prefix_' . $fileName . '_suffix';
     }
 
-    public function addConversionToFileName(string $fileName, Conversion $conversion): string
+    public function getConversionFileName(string $fileName, Conversion $conversion): string
     {
         return "{$fileName}---{$conversion->getName()}";
     }
