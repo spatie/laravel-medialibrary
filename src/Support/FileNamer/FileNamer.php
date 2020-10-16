@@ -26,5 +26,4 @@ abstract class FileNamer
         $fileName = pathinfo($fileName, PATHINFO_FILENAME);
         return "{$fileName}___{$conversionName}_{$width}_{$height}.{$extension}";
     }
-
 }
