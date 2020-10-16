@@ -5,13 +5,14 @@ namespace Spatie\MediaLibrary\Conversions;
 use BadMethodCallException;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
 {
     protected string $name = '';
 
-    protected ConversionFileNamer $conversionFileNamer;
+    protected FileNamer $fileNamer;
 
     protected float $extractVideoFrameAtSecond = 0;
 
@@ -37,7 +38,7 @@ class Conversion
             ->optimize(config('media-library.image_optimizers'))
             ->format(Manipulations::FORMAT_JPG);
 
-        $this->conversionFileNamer = app(config('media-library.conversion_file_namer'));
+        $this->fileNamer = app(config('media-library.file_namer'));
 
         $this->loadingAttributeValue = config('media-library.default_loading_attribute_value');
 
@@ -217,8 +218,11 @@ class Conversion
 
     public function getConversionFile(Media $media): string
     {
-        $fileName = $this->conversionFileNamer->getFileName($this, $media);
-        $extension = $this->conversionFileNamer->getExtension($this, $media);
+        $fileName = $this->fileNamer->getFileName($media->file_name);
+        $fileName = $this->fileNamer->addConversionToFileName($fileName, $this);
+
+        $fileExtension = $this->fileNamer->getExtension($media->file_name);
+        $extension = $this->getResultExtension($fileExtension) ?: $fileExtension;
 
         return "{$fileName}.{$extension}";
     }

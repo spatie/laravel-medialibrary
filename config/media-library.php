@@ -92,7 +92,7 @@ return [
 
     /*
      * This is the class that is responsible for naming files. By default,
-     * it will use the filename of the original and concatenate the conversion name to it.
+     * it will use the filename of the original.
      */
     'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
 
