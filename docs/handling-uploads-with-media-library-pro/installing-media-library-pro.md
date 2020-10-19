@@ -74,7 +74,6 @@ To accept temporary uploads, you must add this macro to your routes file.
 ```php
 // Probably routes/web.php
 
-
 Route::temporaryUploads('temporary-uploads');
 ```
 
