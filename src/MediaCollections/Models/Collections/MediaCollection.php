@@ -36,7 +36,7 @@ class MediaCollection extends Collection implements Htmlable
     {
         MediaLibraryPro::ensureInstalled();
 
-        return json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
+        return e(json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
             return [
                 'name' => $media->name,
                 'file_name' => $media->file_name,
@@ -47,6 +47,6 @@ class MediaCollection extends Collection implements Htmlable
                 'extension' => $media->extension,
                 'size' => $media->size,
             ];
-        })->keyBy('uuid'));
+        })->keyBy('uuid')));
     }
 }
