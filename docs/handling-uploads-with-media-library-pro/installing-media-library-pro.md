@@ -80,5 +80,5 @@ Route::temporaryUploads('temporary-uploads');
 
 ## Publishing the css
 
-TODO: adriaan
+TODO: adriaan & willem
 
