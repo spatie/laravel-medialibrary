@@ -1,6 +1,6 @@
 ---
 title: Handling uploads with Blade 
-weight: 3
+weight: 4
 ---
 
 You can make use of the `x-medialibrary-attachment` and `x-media-library-collection` Blade components to handle uploads.
@@ -171,7 +171,7 @@ You should then pass the path to that view to the `fields-view` prop of the `x-m
 
 This is how that will look like.
 
-![Screenshot of custom propery](/docs/laravel-medialibrary/v9/images/pro/extra.png)
+![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
 
 
 Custom properties can be validated using [a form request](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).

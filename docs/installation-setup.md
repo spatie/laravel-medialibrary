@@ -25,30 +25,10 @@ You need to publish the migration to create the `media` table:
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
 ```
 
-
-If you use [media library pro](https://medialibrary.pro) you also need to issue this command to create the `temporary_uploads` table.
-
-```bash
-php artisan vendor:publish --provider="Spatie\MediaLibraryPro\MediaLibraryProServiceProvider" --tag="migrations"
-```
-
-After that you need to run migrations.
+After that, you need to run migrations.
 
 ```bash
 php artisan migrations
-```
-
-## Automatically removing temporary uploads
-
-If you are using Media Library Pro, you must schedule this artisan command in `app/Console/Kernel` to automatically delete temporary uploads
-
-```php
-// in app/Console/Kernel.php
-
-protected function schedule(Schedule $schedule)
-{
-    $schedule->command('media-library:delete-old-temporary-uploads')->daily()
-}
 ```
 
 ## Publishing the config file
@@ -287,3 +267,11 @@ brew install pngquant
 brew install svgo
 brew install gifsicle
 ```
+
+## Installing Media Library Pro
+
+[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/general) beautifully with the laravel-medialibrary.
+
+You can buy a license for Media Library Pro on [the product page](https://spatie.be/products/media-library-pro) at spatie.be.
+
+To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installing-media-library-pro).

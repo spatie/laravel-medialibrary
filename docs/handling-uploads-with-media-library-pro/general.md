@@ -3,7 +3,7 @@ title: General
 weight: 1
 ---
 
-Media Library Pro offers Blade, Vue, and React components to upload files to your application.
+[Media Library Pro](http://medialibrary.pro) is a paid add-on package that offers Blade, Vue, and React components to upload files to your application.
 
 Media Library Pro ships with two components for every environment: an attachment component, and a collection component.
 
