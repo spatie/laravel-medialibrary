@@ -26,7 +26,7 @@ The package will use these optimizers if they are present on your system:
 - [SVGO](https://github.com/svg/svgo)
 - [Gifsicle](http://www.lcdf.org/gifsicle/)
 
-Head over to [the installation page](https://docs.spatie.be/laravel-medialibrary/v8/installation-setup#optimization-tools) to learn how to install these.
+Head over to [the installation page](https://docs.spatie.be/laravel-medialibrary/v9/installation-setup#optimization-tools) to learn how to install these.
 
 ## Which tools will do what?
 

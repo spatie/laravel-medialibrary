@@ -19,7 +19,7 @@ weight: 5
 
 <article class="article">
   <p>
-      The example above demonstrates the <a href="https://docs.spatie.be/laravel-medialibrary/v8/responsive-images/getting-started-with-responsive-images">responsive images technique</a> used in the Laravel MediaLibrary.
+      The example above demonstrates the <a href="https://docs.spatie.be/laravel-medialibrary/v9/responsive-images/getting-started-with-responsive-images">responsive images technique</a> used in the Laravel MediaLibrary.
   </p>
   <h3>Try this:</h3>
   <ul>
@@ -30,7 +30,7 @@ weight: 5
   <h3>What happens?</h3>
   <ul>
       <li>
-          We start with an image that has <code>srcset</code> values, rendered by the <a href="https://docs.spatie.be/laravel-medialibrary/v8">Laravel MediaLibrary</a>
+          We start with an image that has <code>srcset</code> values, rendered by the <a href="https://docs.spatie.be/laravel-medialibrary/v9">Laravel MediaLibrary</a>
       </li>
       <li>
           An initial <code>sizes="1px"</code> attribute is used to render an inline base64-encoded SVG placeholder first
