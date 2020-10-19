@@ -94,7 +94,7 @@ Here's an example where we only accept `png` and `jpg` files that are 1MB or les
 This validation only applies on the creation of the temporary uploads. You should also perform validation
 when [processing the upload on the server](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
-## Administer the contents of a media library collection.
+## Administer the contents of a media library collection
 
 You can manage the entire contents of a media library collection with `x-media-library-collection` component. This
 component is intended to use in admin sections.
