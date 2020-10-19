@@ -68,10 +68,10 @@ To set a maximum number of files you can add a `max-items` attribute. Here is an
 files.
 
 ```html
-
-<x-medialibrary-attachment multiple
-                           name="images"
-                           max-items="2"
+<x-medialibrary-attachment 
+    multiple
+    name="images"
+    max-items="2"
 />
 ```
 
@@ -83,11 +83,11 @@ you can use any of Laravel's available validation rules that are applicable to f
 Here's an example where we only accept `png` and `jpg` files that are 1MB or less in size.
 
 ```html
-
-<x-medialibrary-attachment multiple
-                           name="images"
-                           max-items="2"
-                           rules="mimes:png,jpg|max:1024"
+<x-medialibrary-attachment 
+    multiple
+    name="images"
+    max-items="2"
+    rules="mimes:png,jpg|max:1024"
 />
 ```
 
@@ -103,7 +103,6 @@ Here is an example where we are going to administer an `images` collection of a 
 already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing-your-model) to handle uploads.
 
 ```html
-
 <x-media-library-collection
     name="images"
     :model="$blogPost"
@@ -123,7 +122,6 @@ Like the `x-medialibrary-attachment` component, the `x-media-library-collection`
 In this example, the collection will be allowed to hold `png` and `jpg` files that are smaller than 1 MB.
 
 ```html
-
 <x-media-library-collection
     name="images"
     :model="$blogPost"
