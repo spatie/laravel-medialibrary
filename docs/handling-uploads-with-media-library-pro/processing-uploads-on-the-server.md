@@ -197,7 +197,7 @@ These rules can be used on `validateMultipleMedia`;
 
 ### Validating attributes and custom properties
 
-If you're [using custom properties](TODO add link to custom properties on handling blade page), you can validate them with the `customProperty` function. The first argument should be the name of the custom property you are validating. The second argument should be a string or an array with rules you'd like to use.
+If you're [using custom properties](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-blade#using-custom-properties), you can validate them with the `customProperty` function. The first argument should be the name of the custom property you are validating. The second argument should be a string or an array with rules you'd like to use.
 
 Here's an example where we validate `extra_propery` and `another_extra_property`.
 
@@ -223,7 +223,7 @@ class StoreLivewireCollectionCustomPropertyRequest extends FormRequest
 
 ## Processing responses
 
-After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](TODO: add link).
+After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](/docs/laravel-medialibrary/v9/basic-usage/preparing-your-model).
 
 ### `addFromMediaLibraryRequest`
 

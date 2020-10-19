@@ -27,7 +27,7 @@ You can use `x-medialibrary-attachment` to upload a single file. Here's an examp
 </form>
 ```
 
-[TODO: add screenshot]
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
 
 The `x-medialibrary-attachment` will take care of the upload. Under the hood the upload is processed by
 a [Livewire](https://laravel-livewire.com) component.
@@ -37,7 +37,7 @@ submitting the form, the `x-medialibrary-attachment` will display the temporary 
 the form. There's no need for the user to upload the file again.
 
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
-model. You can read more on that [on this page](TODO: add link to processing uploads on the server).
+model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 ## Handling multiple uploads
 
@@ -55,12 +55,12 @@ Here's an example of how you can allow multiple uploads
 </form>
 ```
 
-[TODO: add screenshot]
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/multiple.png)
 
 After files have been uploaded, they will be stored as a temporary uploads.
 
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
-model. You can read more on that [on this page](TODO: add link to processing uploads on the server).
+model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 ## Setting a maximum amount of uploads
 
@@ -92,7 +92,7 @@ Here's an example where we only accept `png` and `jpg` files that are 1MB or les
 ```
 
 This validation only applies on the creation of the temporary uploads. You should also perform validation
-when [processing the upload on the server](TODO: add link to processing uploads on the server).
+when [processing the upload on the server](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 ## Administer the contents of a media library collection.
 
@@ -100,7 +100,7 @@ You can manage the entire contents of a media library collection with `x-media-l
 component is intended to use in admin sections.
 
 Here is an example where we are going to administer an `images` collection of a `$blogPost` model. We assume that you
-already [prepared the model](TODO: add-link-to-prepare models) to handle uploads.
+already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing-your-model) to handle uploads.
 
 ```html
 
@@ -116,8 +116,7 @@ New files will be uploaded as temporary uploads.
 
 The value you pass in `name` of the component will be use as the key name in which the component will send the state of
 the collection to the backend. In the controller handling the form submission you should validate the new contents of
-the collection and sync it with the collection of the eloquent model. You can read more on that [on this page](TODO: add
-link).
+the collection and sync it with the collection of the eloquent model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 Like the `x-medialibrary-attachment` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
 
@@ -136,7 +135,7 @@ In this example, the collection will be allowed to hold `png` and `jpg` files th
 
 ### Using custom properties
 
-The media library supports [custom properties](TODO: add link to custom properties) to be saved on a media item. By
+The media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
 default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a
 blade view that will be used to display all form elements on a row in the component.
 
@@ -174,10 +173,10 @@ You should then pass the path to that view to the `fields-view` prop of the `x-m
 
 This is how that will look like.
 
-TODO: add screenshot of custom property
+![Screenshot of custom propery](/docs/laravel-medialibrary/v9/images/pro/extra.png)
 
-Custom properties can be validated using [a form request](TODO: add link to processing uploads on the server (validating
-custom properties)).
+
+Custom properties can be validated using [a form request](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 ## Customizing the preview images
 
