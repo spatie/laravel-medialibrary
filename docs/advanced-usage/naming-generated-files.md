@@ -20,7 +20,7 @@ In your class you should implement 2 methods.
 1. `getFileName` that returns the name of the file without the extension. You can prefix or suffix this part.
 2. `getConversionFileName` that returns the file name combined with the conversion name, by default.
 
-Here the implementation of `Spatie\MediaLibrary\Conversion\DefaultConversionFileNamer`
+Here the implementation of `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer`
 
 ```php
 namespace Spatie\MediaLibrary\Support\FileNamer;
@@ -43,11 +43,11 @@ class DefaultFileNamer extends FileNamer
 
 ### Naming responsive image files
 
-By default, all conversion files will be named in this format:
+By default, all responsive image files will be named in this format:
 
 ```
 {original-file-name-without-extension}___{name-of-the-conversion}_{width}_{height}.{extension}
 ```
 
 Just like the conversion file names, you can use another format for naming your files.
-We do however need the last part in this specific format so the properties can still be extracted.
+We do however need the last part in this specific format, so the properties can still be extracted.

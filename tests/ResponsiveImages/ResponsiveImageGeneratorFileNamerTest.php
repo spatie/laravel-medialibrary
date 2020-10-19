@@ -9,7 +9,9 @@ class ResponsiveImageGeneratorFileNamerTest extends ResponsiveImageGeneratorTest
     public function setUp(): void
     {
         parent::setUp();
+
         config()->set("media-library.file_namer", TestFileNamer::class);
+
         $this->fileName = "prefix_test_suffix";
     }
 }

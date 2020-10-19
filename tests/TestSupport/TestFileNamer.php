@@ -11,7 +11,7 @@ class TestFileNamer extends FileNamer
     {
         $fileName = pathinfo($fileName, PATHINFO_FILENAME);
 
-        return 'prefix_' . $fileName . '_suffix';
+        return "prefix_{$fileName}_suffix";
     }
 
     public function getConversionFileName(string $fileName, Conversion $conversion): string

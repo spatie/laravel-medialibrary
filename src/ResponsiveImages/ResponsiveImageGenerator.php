@@ -114,11 +114,11 @@ class ResponsiveImageGenerator
             $extension
         );
 
-        $finalResponsiveImagePath = $temporaryDirectory->path($fileName);
+        $responsiveImagePath = $temporaryDirectory->path($fileName);
 
-        rename($tempDestination, $finalResponsiveImagePath);
+        rename($tempDestination, $responsiveImagePath);
 
-        $this->filesystem->copyToMediaLibrary($finalResponsiveImagePath, $media, 'responsiveImages');
+        $this->filesystem->copyToMediaLibrary($responsiveImagePath, $media, 'responsiveImages');
 
         ResponsiveImage::register($media, $fileName, $conversionName);
     }

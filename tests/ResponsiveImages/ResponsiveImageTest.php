@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class ResponsiveImageTest extends TestCase
 {
-    public string $file_name = 'test';
+    public string $fileName = 'test';
 
     /** @test */
     public function a_media_instance_can_get_responsive_image_urls()
@@ -20,13 +20,13 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals([
-            "http://localhost/media/1/responsive-images/{$this->file_name}___media_library_original_340_280.jpg",
-            "http://localhost/media/1/responsive-images/{$this->file_name}___media_library_original_284_233.jpg",
-            "http://localhost/media/1/responsive-images/{$this->file_name}___media_library_original_237_195.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg",
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([
-            "http://localhost/media/1/responsive-images/{$this->file_name}___thumb_50_41.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
         ], $media->getResponsiveImageUrls("thumb"));
 
         $this->assertEquals([], $media->getResponsiveImageUrls("non-existing-conversion"));
@@ -43,13 +43,13 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertStringContainsString(
-            "http://localhost/media/1/responsive-images/{$this->file_name}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->file_name}___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/{$this->file_name}___media_library_original_237_195.jpg 237w",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
             $media->getSrcset()
         );
         $this->assertStringContainsString("data:image/svg+xml;base64", $media->getSrcset());
 
         $this->assertStringContainsString(
-            "http://localhost/media/1/responsive-images/{$this->file_name}___thumb_50_41.jpg 50w",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg 50w",
             $media->getSrcset("thumb")
         );
         $this->assertStringContainsString("data:image/svg+xml;base64,", $media->getSrcset("thumb"));
@@ -82,8 +82,8 @@ class ResponsiveImageTest extends TestCase
             ->preservingOriginal()
             ->toMediaCollection("default");
 
-        $standardQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->file_name}___standardQuality_340_280.jpg");
-        $lowerQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->file_name}___lowerQuality_340_280.jpg");
+        $standardQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___standardQuality_340_280.jpg");
+        $lowerQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___lowerQuality_340_280.jpg");
 
         $this->assertLessThan(filesize($standardQualityResponsiveConversion), filesize($lowerQualityResponsiveConversion));
     }
@@ -100,7 +100,7 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals([
-            "http://localhost/media2/1/responsive-images/{$this->file_name}___thumb_50_41.jpg",
+            "http://localhost/media2/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
         ], $media->getResponsiveImageUrls("thumb"));
     }
 }
