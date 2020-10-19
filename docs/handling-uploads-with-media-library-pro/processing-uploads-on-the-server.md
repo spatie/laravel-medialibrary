@@ -290,6 +290,3 @@ $yourModel
     ->withCustomProperties('extra_field', 'another_extra_field')
     ->toMediaCollection('images');
 ```
-
-
-
