@@ -15,7 +15,6 @@ you must follow [Livewire's installation instructions](https://laravel-livewire.
 You can use `x-medialibrary-attachment` to upload a single file. Here's an example:
 
 ```html
-
 <form method="POST">
     @csrf
 
@@ -44,7 +43,6 @@ model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/ha
 Here's an example of how you can allow multiple uploads
 
 ```html
-
 <form method="POST">
     @csrf
     Name: <input type="text" name="name" value="{{ old('name', $formSubmission->name) }}">
