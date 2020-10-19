@@ -139,7 +139,7 @@ blade view that will be used to display all form elements on a row in the compon
 
 In this example we're going to add a custom property form field called `extra_field`.
 
-```blade
+```html
 @include('media-library::livewire.partials.collection.fields')
 
 <div class="medialibrary-field">
@@ -160,7 +160,7 @@ In this example we're going to add a custom property form field called `extra_fi
 
 You should then pass the path to that view to the `fields-view` prop of the `x-media-library-collection` component.
 
-```blade
+```html
 <x-media-library-collection
     name="images"
     :model="$formSubmission"
