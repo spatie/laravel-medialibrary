@@ -12,7 +12,7 @@ class FileResponsiveImageManipulator
         $processFiles = true;
 
         if (
-            (count($only) && !in_array($media->collection_name, $only)) || 
+            (count($only) && !in_array($media->collection_name, $only)) ||
             ($onlyMissing && count($media->responsive_images))
         ) {
             $processFiles = false;
