@@ -11,10 +11,13 @@ class FileResponsiveImageManipulator
     {
         $processFiles = true;
 
-        if (
-            (count($only) && !in_array($media->collection_name, $only)) ||
-            ($onlyMissing && count($media->responsive_images))
-        ) {
+        // generate for a specific collection
+        if (count($only) && !in_array($media->collection_name, $only)) {
+            $processFiles = false;
+        }
+        
+        // generate for only missing
+        if ($onlyMissing && count($media->responsive_images)) {
             $processFiles = false;
         }
 
