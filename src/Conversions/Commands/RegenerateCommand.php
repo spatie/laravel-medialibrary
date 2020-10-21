@@ -29,17 +29,17 @@ class RegenerateCommand extends Command
 
     protected FileManipulator $fileManipulator;
 
-    protected FileResponsiveImageManipulator $fileRIManipulator;
+    protected FileResponsiveImageManipulator $fileResponsiveImageManipulator;
 
     protected array $errorMessages = [];
 
-    public function handle(MediaRepository $mediaRepository, FileManipulator $fileManipulator, FileResponsiveImageManipulator $fileRIManipulator)
+    public function handle(MediaRepository $mediaRepository, FileManipulator $fileManipulator, FileResponsiveImageManipulator $fileResponsiveImageManipulator)
     {
         $this->mediaRepository = $mediaRepository;
 
         $this->fileManipulator = $fileManipulator;
 
-        $this->fileRIManipulator = $fileRIManipulator;
+        $this->fileResponsiveImageManipulator = $fileResponsiveImageManipulator;
 
         if (! $this->confirmToProceed()) {
             return;
@@ -55,7 +55,7 @@ class RegenerateCommand extends Command
         $mediaFiles->each(function (Media $media) use ($progressBar, $only, $missing) {
             try {
                 if ($this->option('responsive-only')) {
-                    $this->fileRIManipulator->createDerivedFiles(
+                    $this->fileResponsiveImageManipulator->createDerivedFiles(
                         $media,
                         $only,
                         $missing
