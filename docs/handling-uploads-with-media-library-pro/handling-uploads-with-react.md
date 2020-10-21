@@ -3,11 +3,11 @@ title: Handling uploads with Vue or React
 weight: 6
 ---
 
-Medialibrary Pro provides beautiful UI components for Vue and React. They work out of the box and pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
+Media Library Pro provides beautiful UI components for Vue and React. They work out of the box and pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
 
 ## Preparing your Laravel app
 
-The Medialibrary Pro package ships with a controller that handles all incoming uploads from Vue and React component. To get started, register that controller in a route.
+The Media Library Pro package ships with a controller that handles all incoming uploads from Vue and React component. To get started, register that controller in a route.
 
 ```php
 // routes/web.php

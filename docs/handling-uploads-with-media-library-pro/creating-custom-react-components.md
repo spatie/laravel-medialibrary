@@ -63,7 +63,7 @@ You can find a full list of props [at the bottom of this page](TODO-link).
 
 ## React
 
-For the React components, you can use `useMediaLibrary`. It hooks into the Medialibrary Pro JavaScript core. This makes it very easy to use in functional components. If you are building a class component, there are several tutorials available online on how to wrap a custom hook in a higher-order component for use in class components.
+For the React components, you can use `useMediaLibrary`. It hooks into the Media Library Pro JavaScript core. This makes it very easy to use in functional components. If you are building a class component, there are several tutorials available online on how to wrap a custom hook in a higher-order component for use in class components.
 
 For more extensive examples, [see the pre-built UI components on GitHub](TODO-link:#examples)
 
@@ -118,7 +118,7 @@ For extensive examples you can have a look at the source of the pre-built UI com
 
 ## Helper components
 
-When building your own UI component using the Medialibrary Pro, you can also make use of these helper components.
+When building your own UI component using the Media Library Pro, you can also make use of these helper components.
 
 ### DropZone
 

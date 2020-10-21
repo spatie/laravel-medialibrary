@@ -3,7 +3,7 @@ title: Handling uploads with Vue
 weight: 5
 ---
 
-Medialibrary Pro provides beautiful UI components for Vue. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
+Media Library Pro provides beautiful UI components for Vue. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, i18n, and robust error handling.
 
 The `MediaLibraryAttachment` component can upload one or more files with little or no extra information. The attachment component is a lightweight solution for small bits of UI like avatar fields.
 
