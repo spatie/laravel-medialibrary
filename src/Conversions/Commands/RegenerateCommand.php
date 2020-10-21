@@ -45,16 +45,13 @@ class RegenerateCommand extends Command
             return;
         }
 
-        // options
         $only = Arr::wrap($this->option('only'));
         $missing = $this->option('only-missing');
 
-        // files
         $mediaFiles = $this->getMediaToBeRegenerated();
 
         $progressBar = $this->output->createProgressBar($mediaFiles->count());
 
-        // process files
         $mediaFiles->each(function (Media $media) use ($progressBar, $only, $missing) {
             try {
                 if ($this->option('responsive-only')) {
@@ -79,22 +76,17 @@ class RegenerateCommand extends Command
 
         $progressBar->finish();
 
-        // errors
         if (count($this->errorMessages)) {
-            $this->warn('All done, but with some error messages:' . PHP_EOL);
+            $this->warn('All done, but with some error messages:');
 
             foreach ($this->errorMessages as $mediaId => $message) {
-                $this->warn("Media id {$mediaId}: `{$message}`" . PHP_EOL);
+                $this->warn("Media id {$mediaId}: `{$message}`");
             }
         }
 
-        // finish
-        $this->info(PHP_EOL . 'All done!');
+        $this->info('All done!');
     }
 
-    /**
-     * filter media by type.
-     */
     public function getMediaToBeRegenerated(): Collection
     {
         $modelType = $this->argument('modelType') ?? '';
@@ -111,9 +103,6 @@ class RegenerateCommand extends Command
         return $this->mediaRepository->getByIds($mediaIds);
     }
 
-    /**
-     * filter media by id.
-     */
     protected function getMediaIds(): array
     {
         $mediaIds = $this->option('ids');
