@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <linearGradient id="a" x1="50" x2="50" y1="70" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#176984"/>
+        <stop offset="1" stop-color="#197593"/>
+    </linearGradient>
+    <path fill="url(#a)" d="M100 70v-60c0-5.5-4.5-10-10-10h-80c-5.5 0-10 4.5-10 10v60h100z"/>
+    <linearGradient id="c" x1="50" x2="50" y1="100" y2="40" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#5e9eb3"/>
+        <stop offset="1" stop-color="#a3c8d4"/>
+    </linearGradient>
+    <path fill="url(#c)" d="M100 70l-25-30-25 30-25-20-25 20v20c0 5.5 4.5 10 10 10h80c5.5 0 10-4.5 10-10v-20z"/>
+    <linearGradient id="b" x1="25" x2="25" y1="37.5" y2="12.5" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#c6dde4"/>
+        <stop offset="1" stop-color="#f4f8fa"/>
+    </linearGradient>
+    <circle fill="url(#b)" cx="25" cy="25" r="12.5"/>
+</svg>

@@ -1,3 +1,5 @@
+<p align="center"><img src="/art/socialcard.png" alt="Social Card of Laravel Media Library"></p>
+
 # Associate files with Eloquent models
 
 [![Latest Version](https://img.shields.io/github/release/spatie/laravel-medialibrary.svg?style=flat-square)](https://github.com/spatie/laravel-medialibrary/releases)
@@ -79,6 +81,8 @@ If you discover any security related issues, please email [freek@spatie.be](mail
 - [All Contributors](../../contributors)
 
 A big thank you to [Nicolas Beauvais](https://github.com/nicolasbeauvais) for helping out with the issues on this repo.
+
+And a special thanks to [Caneco](https://twitter.com/caneco) for the logo ✨
 
 ## Alternatives
 
