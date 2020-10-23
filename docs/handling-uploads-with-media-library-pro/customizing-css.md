@@ -29,9 +29,9 @@ This is exactly what happens in the header of the homepage at [medialibrary.pro]
 
 ## 2. Override only portions in your CSS
 
-If you only want to tinker with certain aspects of the component but like to keep the CSS in sync with future package updates, nothing stops you from overriding only certain CSS rules with your own tweaks. Every DOM-element of the component has a class with prefix `media
+If you only want to tinker with certain aspects of the component but like to keep the CSS in sync with future package updates, nothing stops you from overriding only certain CSS rules with your own tweaks. Every DOM-element of the component has a class with prefix `media-library`.
 
-Let's say your thumbs aren't square and you want to show them entirely. 
+Let's say your thumbs aren't square and you want to show them in their original aspect ratio. 
 Inspect the component in your browser to find out that the thumbnail is rendered in the DOM element with class `media-library-thumb-img`. Next, write some extra CSS for this class:
 
 ```css
