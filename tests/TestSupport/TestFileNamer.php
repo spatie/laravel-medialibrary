@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
 class TestFileNamer extends FileNamer
 {
-    public function getFileName(string $fileName): string
+    public function getResponsiveFileName(string $fileName): string
     {
         $fileName = pathinfo($fileName, PATHINFO_FILENAME);
 
@@ -16,6 +16,8 @@ class TestFileNamer extends FileNamer
 
     public function getConversionFileName(string $fileName, Conversion $conversion): string
     {
-        return "{$fileName}---{$conversion->getName()}";
+        $fileName = pathinfo($fileName, PATHINFO_FILENAME);
+
+        return "prefix_{$fileName}_suffix---{$conversion->getName()}";
     }
 }

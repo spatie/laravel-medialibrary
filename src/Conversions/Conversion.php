@@ -218,8 +218,7 @@ class Conversion
 
     public function getConversionFile(Media $media): string
     {
-        $fileName = $this->fileNamer->getFileName($media->file_name);
-        $fileName = $this->fileNamer->getConversionFileName($fileName, $this);
+        $fileName = $this->fileNamer->getConversionFileName($media->file_name, $this);
 
         $fileExtension = $this->fileNamer->getExtension($media->file_name);
         $extension = $this->getResultExtension($fileExtension) ?: $fileExtension;
