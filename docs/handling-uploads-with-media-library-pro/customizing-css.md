@@ -48,9 +48,10 @@ Inspect the component in your browser to find out that the thumbnail is rendered
 ```
 
 
-## 3. Copy `src/styles.css` to your own project 
+## 3. Copy the CSS to your own project 
 
-If you want to go full-option, you can always copy the entire CSS file to your own project and go wild.
+If you want to go full-option, you can always copy `src/styles.css` to your own project and go wild.
+In this example we renamed the file to `custom/media-library.css`.
 Beware: you will have to manually keep this CSS in sync with changes in future package updates. 
 
 ```css
@@ -58,14 +59,14 @@ Beware: you will have to manually keep this CSS in sync with changes in future p
 
 …
 
-@import "custom/medialibrary.css";
+@import "custom/media-library.css";
 
 ```
 
 One of the many changes we like to do, is detaching the error list at the top and give it rounded corners:
 
 ```css
-/* custom/medialibrary.css */
+/* custom/media-library.css */
 
 …
 
