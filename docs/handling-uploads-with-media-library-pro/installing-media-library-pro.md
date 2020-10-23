@@ -18,7 +18,7 @@ After you've purchased a license, add the `satis.spatie.be` repository in your `
 ],
 ```
 
-Next, you need to create a file called `auth.json` and place it either next to the `composer.json` file in your project, or in the composer home directory. You can determine the composer home directory on *nix machines by using this command.
+Next, you need to create a file called `auth.json` and place it either next to the `composer.json` file in your project, or in the composer home directory. You can determine the composer home directory on \*nix machines by using this command.
 
 ```bash
 composer config --list --global | grep home
@@ -77,7 +77,46 @@ To accept temporary uploads, you must add this macro to your routes file.
 Route::temporaryUploads('temporary-uploads');
 ```
 
-## Publishing the css
+## Using the css
 
-TODO: adriaan & willem
+You have a couple of options for how you can use the UI components' css, depending on your and your project's needs:
 
+### Laravel Mix or Webpack with css-loader
+
+You can import the built css in your own css files using `@import(vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-styles)`. This isn't a very pretty import, but you can make it cleaner by adding some configuration to your Webpack config:
+
+**laravel-mix >6**
+
+```js
+mix.override((webpackConfig) => {
+    webpackConfig.resolve.modules = [
+        "node_modules",
+        __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+    ];
+}
+```
+
+**laravel-mix <6**
+
+```js
+mix.webpackConfig({
+    resolve: {
+        modules: [
+            "node_modules",
+            __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+        ],
+    },
+});
+```
+
+This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import to this:
+
+```css
+@import "medialibrary-pro-styles";
+```
+
+### Directly in blade/html
+
+You should copy the built css from `vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
+
+If you would like to customize the css we provide, refer to the `Customizing css` section of the documentation.
