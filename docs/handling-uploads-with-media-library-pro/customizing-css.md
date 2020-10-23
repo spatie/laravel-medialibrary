@@ -24,7 +24,7 @@ Instead of importing/using the pre-built `dist/styles.css` from the package, you
 
 ```
 
-This is exactly what happens in the header of the homepage at [medialibrary.pro](https://medialibrary.pro): the shown component has a slightly blue-ish look, using the color theme of this site.
+This is exactly what happens in the header of the homepage at [medialibrary.pro](https://medialibrary.pro): the shown component has a slightly blue-ish look, using the color palette of this site.
 
 
 ## 2. Override only portions in your CSS
@@ -32,7 +32,7 @@ This is exactly what happens in the header of the homepage at [medialibrary.pro]
 If you only want to tinker with certain aspects of the component but like to keep the CSS in sync with future package updates, nothing stops you from overriding only certain CSS rules with your own tweaks. Every DOM-element of the component has a class with prefix `media
 
 Let's say your thumbs aren't square and you want to show them entirely. 
-Inspect the component in your browser to find out that the thumbnail is rendered in the DOM element with class `medialibrary-thumb-img`. Next, write some extra CSS for this class:
+Inspect the component in your browser to find out that the thumbnail is rendered in the DOM element with class `media-library-thumb-img`. Next, write some extra CSS for this class:
 
 ```css
 /* app.css */
@@ -41,11 +41,7 @@ Inspect the component in your browser to find out that the thumbnail is rendered
 
 @import "src/styles.css";
 
-.medialibrary-thumb {
-    @apply rounded-full;
-}
-
-.medialibrary-thumb-img {
+.media-library-thumb-img {
     @apply object-contain;
 }
 
@@ -66,14 +62,14 @@ Beware: you will have to manually keep this CSS in sync with changes in future p
 
 ```
 
-Let's detach the error list at the top and give it rounded corners:
+One of the many changes we like to do, is detaching the error list at the top and give it rounded corners:
 
 ```css
 /* custom/medialibrary.css */
 
 …
 
-.medialibrary-listerrors {
+.media-library-listerrors {
     …
     @apply mb-6;
     @apply rounded-lg;
