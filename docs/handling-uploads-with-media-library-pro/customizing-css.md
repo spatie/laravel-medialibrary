@@ -7,7 +7,7 @@ If you want to change the look of the Media Library Pro components to match the 
 
 ## 1. Use your own Tailwind CSS configuration
 
-Instead of importing/using the pre-built `dist/styles.css` from the package, you can import the `src/styles.css` and run every `@apply …` rule through your own `tailwind.config.js`.
+Instead of importing/linking the pre-built `dist/styles.css` from the package, you can import the `src/styles.css` and run every `@apply` rule through your own `tailwind.config.js`.
 
 ```css
 /* app.css */
