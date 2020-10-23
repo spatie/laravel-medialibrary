@@ -25,11 +25,11 @@ All components upload media to the server with the same API. Before you dive int
 
 [Processing uploads on the server](processing-uploads-on-the-server)
 
-Next, choose your own journey. We have written extensive guides for all three flavours.
+Next, choose your own journey. We have written extensive guides for all three flavours. Be sure to first follow [the base installation instructions](/docs/laravel-medialibrary/v9/installation-setup) and [pro installation instructions](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installation).
 
 ### Blade
 
-[Handling uploads with Blade](handling-uploads-with-blade)
+[Handling uploads with Blade](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-blade)
 
 ### Vue
 
