@@ -9,7 +9,7 @@ The standard Medialibary UI components are built using helper components. These 
 
 ## Vue
 
-The Vue implementation uses a renderless component that exposes all the functions and values through a slot scope. 
+The Vue implementation uses a renderless component that exposes all the functions and values through a slot scope.
 
 Note: in a future version if we decide to refactor the Vue implementation to work with the new composition API that was released in Vue 3.
 
@@ -22,9 +22,9 @@ For more extensive examples, [see the pre-built UI components on GitHub](TODO-li
     <media-library-renderless
         ref="mediaLibrary"
         :initial-media="initialValue"
-        :validation-errors="validationErrors"
         :upload-endpoint="uploadEndpoint"
-        :validation="validation"
+        :validation-errors="validationErrors"
+        :validation-rules="validationRules"
         :before-upload="beforeUpload"
         :after-upload="afterUpload"
         :multiple="multiple"
@@ -61,60 +61,12 @@ For more extensive examples, [see the pre-built UI components on GitHub](TODO-li
 
 You can find a full list of props [at the bottom of this page](TODO-link).
 
-## React
-
-For the React components, you can use `useMediaLibrary`. It hooks into the Media Library Pro JavaScript core. This makes it very easy to use in functional components. If you are building a class component, there are several tutorials available online on how to wrap a custom hook in a higher-order component for use in class components.
-
-For more extensive examples, [see the pre-built UI components on GitHub](TODO-link:#examples)
-
-### Getting started
-
-```jsx
-import * as React from "react";
-import { useMediaLibrary } from "medialibrary-pro-react";
-
-export default function MediaLibraryAttachment() {
-    const {
-        state,
-        getImgProps,
-        getFileInputProps,
-        getDropZoneProps,
-        removeMedia,
-        setOrder,
-        replaceMedia,
-        getErrors,
-        clearObjectErrors,
-        clearInvalidMedia,
-        isReadyToSubmit,
-    } = useMediaLibrary({
-        initialMedia: initialValue,
-        validationErrors,
-        uploadEndpoint,
-        validation,
-        multiple,
-        beforeUpload,
-        afterUpload,
-        onChange,
-    });
-
-    return (
-        <div>
-            <input type="file" multiple {...getFileInputProps()} />
-        </div>
-    );
-}
-```
-
-You can find a full list of props [at the bottom of this page](TODO-link).
-
 ## Examples
 
 For extensive examples you can have a look at the source of the pre-built UI components:
 
 -   [Vue attachment component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/medialibrary-pro-vue-attachment)
 -   [Vue collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/medialibrary-pro-vue-collection)
--   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/medialibrary-pro-react-attachment)
--   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/medialibrary-pro-react-collection)
 
 ## Helper components
 
@@ -122,51 +74,44 @@ When building your own UI component using the Media Library Pro, you can also ma
 
 ### DropZone
 
-See code on GitHub: [Vue](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/DropZone.vue) / [React](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-react/src/DropZone.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/DropZone.vue)
 
 TODO screenshot
 TODO description
 
 ### InvalidMedia
 
-See code on GitHub: [Vue](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/InvalidMedia.vue) / [React](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-react/src/InvalidMedia.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/InvalidMedia.vue)
 
 TODO screenshot
 TODO description
 
 ### MediaFormValues
 
-See code on GitHub: [Vue](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/MediaFormValues.vue) / [React](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-react/src/MediaFormValues.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/MediaFormValues.vue)
 
 TODO screenshot
 TODO description
 
 ### PreviewImage
 
-See code on GitHub: [Vue](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/PreviewImage.vue) / [React](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-react/src/PreviewImage.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-vue/src/PreviewImage.vue)
 
 TODO screenshot
 TODO description
 
-### useDragula (React only)
-
-See code on GitHub: [React](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/medialibrary-pro-react/src/useDragula.ts)
-
-TODO description
-TODO explain how to do this in Vue?
-
 ## Props
 
-| prop name (Vue)   | prop name (React) | Default value | Description |
-| ----------------- | ----------------- | ------------- | ----------- |
-| initial-media     | initialMedia      |               |             |
-| upload-endpoint   | uploadEndpoint    |               |             |
-| validation-errors | validationErrors  |               |             |
-| validation        | validation        |               |             |
-| multiple          | multiple          |               |             |
-| before-upload     | beforeUpload      |               |             |
-| after-upload      | afterUpload       |               |             |
-| @change           | onChange          |               |             |
+| prop name (Vue)   | Default value | Description |
+| ----------------- | ------------- | ----------- |
+| initial-media     |               |             |
+| upload-endpoint   |               |             |
+| validation-errors |               |             |
+| validation        |               |             |
+| multiple          |               |             |
+| before-upload     |               |             |
+| after-upload      |               |             |
+| @change           |               |             |
 
 TODO @is-ready-to-submit-change and the "is something uploading" listener
 
