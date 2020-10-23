@@ -38,6 +38,8 @@ The components aren't available through npm, but are located in `vendor/spatie/l
 **laravel-mix >6**
 
 ```js
+// webpack.mix.js
+
 mix.override((webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
@@ -49,6 +51,8 @@ mix.override((webpackConfig) => {
 **laravel-mix <6**
 
 ```js
+// webpack.mix.js
+
 mix.webpackConfig({
     resolve: {
         modules: [
@@ -68,6 +72,8 @@ import MediaLibraryAttachment from "medialibrary-pro-react-attachment";
 If you're using TypeScript, you will also have have to add this to your tsconfig:
 
 ```json
+// tsconfig.json
+
 {
     "compilerOptions": {
         "paths": {
@@ -82,6 +88,8 @@ If you're using TypeScript, you will also have have to add this to your tsconfig
 The most basic components have a `name` prop. This name will be used to identify the media when it's uploaded to the server.
 
 ```jsx
+// MyImageUploader.jsx
+
 import MediaLibraryAttachment from "medialibrary-pro-react-attachment";
 import MediaLibraryCollection from "medialibrary-pro-react-collection";
 
@@ -90,6 +98,8 @@ export default function MyImageUploader() {
         <form>
             <MediaLibraryAttachment name="avatar" />
             <MediaLibraryCollection name="downloads" />
+
+            <button>Submit</button>
         </form>
     );
 }
@@ -102,7 +112,6 @@ You can retrieve your initial values in Laravel using `$yourModel->getMedia($col
 ```jsx
 <form>
     <MediaLibraryAttachment name="avatar" initialValue={avatar} />
-
     <MediaLibraryCollection name="downloads" initialValue={downloads} />
 
     <button>Submit</button>
@@ -144,7 +153,6 @@ You can also set the maximum amount of images that users can be uploaded using t
 ```jsx
 <form>
     <MediaLibraryAttachment name="files" maxItems={2} multiple />
-
     <MediaLibraryCollection name="downloads" maxItems={5} />
 
     <button>Submit</button>

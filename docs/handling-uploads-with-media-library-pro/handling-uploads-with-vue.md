@@ -38,6 +38,8 @@ The components aren't available through npm, but are located in `vendor/spatie/l
 **laravel-mix >6**
 
 ```js
+// webpack.mix.js
+
 mix.override((webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
@@ -49,6 +51,8 @@ mix.override((webpackConfig) => {
 **laravel-mix <6**
 
 ```js
+// webpack.mix.js
+
 mix.webpackConfig({
     resolve: {
         modules: [
@@ -68,6 +72,8 @@ import MediaLibraryAttachment from "medialibrary-pro-vue-attachment";
 If you're using TypeScript, you will also have have to add this to your tsconfig:
 
 ```json
+// tsconfig.json
+
 {
     "compilerOptions": {
         "paths": {
@@ -97,7 +103,7 @@ const app = new Vue({
 You can now use them in any `.blade.php` file in your application.
 
 ```html
-{{-- posts/edit.blade.php --}}
+<!-- posts/edit.blade.php -->
 
 <div id="app">
     <form>
@@ -139,11 +145,27 @@ You may also choose to import the components on the fly in a `.vue` file.
 The most basic components have a `name` prop. This name will be used to identify the media when it's uploaded to the server.
 
 ```html
-<form>
-    <media-library-attachment name="avatar" />
-    <media-library-collection name="downloads" />
-    <button>Submit</button>
-</form>
+<!-- MyImageUploader.vue -->
+
+<template>
+    <form>
+        <media-library-attachment name="avatar" />
+        <media-library-collection name="downloads" />
+        <button>Submit</button>
+    </form>
+</template>
+
+<script>
+    import MediaLibraryAttachment from "medialibrary-pro-vue-attachment";
+    import MediaLibraryCollection from "medialibrary-pro-vue-collection";
+
+    export default {
+        components: {
+            MediaLibraryAttachment,
+            MediaLibraryCollection,
+        },
+    };
+</script>
 ```
 
 If your form modifies an existing set of media, you may pass it through in the `initial-value` prop.
