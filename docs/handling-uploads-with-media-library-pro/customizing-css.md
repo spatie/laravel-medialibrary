@@ -21,7 +21,6 @@ Instead of importing/linking the pre-built `dist/styles.css` from the package, y
 @import "src/styles.css";
 
 …
-
 ```
 
 This is exactly what happens in the header of the homepage at [medialibrary.pro](https://medialibrary.pro): the shown component has a slightly blue-ish look, using the color palette of this site.
@@ -60,7 +59,6 @@ Beware: you will have to manually keep this CSS in sync with changes in future p
 …
 
 @import "custom/media-library.css";
-
 ```
 
 One of the many changes we like to do, is detaching the error list at the top and give it rounded corners:
@@ -76,7 +74,6 @@ One of the many changes we like to do, is detaching the error list at the top an
     @apply rounded-lg;
     …
 }
-
 ```
 
 This is what we've done on the Customized Collection demo on [medialibrary.pro/demo-customized-collection](http://medialibrary.pro/demo-customized-collection). Pick a file that is too big to see the error list in effect. 
