@@ -1,5 +1,5 @@
 ---
-title: Introducing Media Library Pro
+title: Introduction
 weight: 1
 ---
 

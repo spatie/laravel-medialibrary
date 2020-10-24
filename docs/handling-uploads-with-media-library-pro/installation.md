@@ -1,5 +1,5 @@
 ---
-title: Installing Media Library Pro
+title: Installation
 weight: 2
 ---
 
