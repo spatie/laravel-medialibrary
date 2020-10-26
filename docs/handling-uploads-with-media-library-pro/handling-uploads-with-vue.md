@@ -3,7 +3,7 @@ title: Handling uploads with Vue
 weight: 5
 ---
 
-Media Library Pro provides beautiful UI components for Vue. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, and robust error handling.
+Media Library Pro provides beautiful UI components for Vue 2 and Vue 3. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, and robust error handling.
 
 The `MediaLibraryAttachment` component can upload one or more files with little or no extra information. The attachment component is a lightweight solution for small bits of UI like avatar fields.
 
@@ -63,10 +63,12 @@ mix.webpackConfig({
 });
 ```
 
-This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import to this:
+This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import. Notice that the Vue 2 and Vue 3 components are separate components.
 
 ```js
-import MediaLibraryAttachment from "medialibrary-pro-vue-attachment";
+import MediaLibraryAttachment from "medialibrary-pro-vue2-attachment";
+// or
+import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -87,8 +89,8 @@ To use a component in your Blade templates, import the components you plan to us
 
 ```js
 import Vue from "vue";
-import MediaLibraryAttachment from "medialibrary-pro-vue-attachment";
-import MediaLibraryCollection from "medialibrary-pro-vue-collection";
+import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
+import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
 
 const app = new Vue({
     el: "#app",
@@ -128,8 +130,8 @@ You may also choose to import the components on the fly in a `.vue` file.
 </template>
 
 <script>
-    import MediaLibraryAttachment from "medialibrary-pro-vue-attachment";
-    import MediaLibraryCollection from "medialibrary-pro-vue-collection";
+    import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
+    import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
 
     export default {
         components: {
@@ -156,8 +158,8 @@ The most basic components have a `name` prop. This name will be used to identify
 </template>
 
 <script>
-    import MediaLibraryAttachment from "medialibrary-pro-vue-attachment";
-    import MediaLibraryCollection from "medialibrary-pro-vue-collection";
+    import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
+    import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
 
     export default {
         components: {
@@ -377,7 +379,7 @@ The components keep track of whether they're ready to be submitted, you can use 
 </template>
 
 <script>
-    import MediaLibraryAttachment from "medialibrary-pro-vue-attachment";
+    import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
 
     export default {
         components: { MediaLibraryAttachment },
