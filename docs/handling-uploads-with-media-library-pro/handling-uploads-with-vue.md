@@ -87,12 +87,14 @@ If you're using TypeScript, you will also have have to add this to your tsconfig
 
 To use a component in your Blade templates, import the components you plan to use in your `app.js` file, and add them to your main Vue app's `components` object.
 
+**Vue 2**
+
 ```js
 import Vue from "vue";
-import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
-import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
+import MediaLibraryAttachment from "medialibrary-pro-vue2-attachment";
+import MediaLibraryCollection from "medialibrary-pro-vue2-collection";
 
-const app = new Vue({
+new Vue({
     el: "#app",
 
     components: {
@@ -100,6 +102,21 @@ const app = new Vue({
         MediaLibraryCollection,
     },
 });
+```
+
+**Vue 3**
+
+```js
+import { createApp } from "vue";
+import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
+import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
+
+createApp({
+    components: {
+        MediaLibraryAttachment,
+        MediaLibraryCollection,
+    },
+}).mount("#app");
 ```
 
 You can now use them in any `.blade.php` file in your application.
@@ -469,5 +486,5 @@ Pass a method to `before-upload` that accepts a [file](https://developer.mozilla
 | ref                           |                                                       | Used to set a reference to the mediaLibrary instance, so you can change the internal state of the component.                                                                      |
 | before-upload                 |                                                       | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
 | after-upload                  |                                                       | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |
-| @change                       |                                                       |                                                                                                                                                                                   |
+| @changed                      |                                                       |                                                                                                                                                                                   |
 | @is-ready-to-submit-change    |                                                       | Refer to [Checking the upload state](#checking-the-upload-state) section                                                                                                          |
