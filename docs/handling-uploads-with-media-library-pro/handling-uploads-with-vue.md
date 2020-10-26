@@ -197,14 +197,14 @@ You'll probably want to validate what gets uploaded. Use the `validation-rules` 
     <media-library-attachment
         name="avatar"
         :initial-value="@json($post->getMedia('avatar'))"
-        :validation-rules="{ accept: ['image/png', 'image/jpeg'], maxSize: 500000 }"
+        :validation-rules="{ accept: ['image/png', 'image/jpeg'], maxSizeInKB: 5000 }"
         :validation-errors="@json($errors)"
     />
 
     <media-library-collection
         name="downloads"
         :initial-value="@json($post->getMedia('downloads'))"
-        :validation-rules="{ accept: ['image/png', 'image/jpeg'], maxSize: 500000 }"
+        :validation-rules="{ accept: ['image/png', 'image/jpeg'], maxSizeInKB: 5000 }"
         :validation-errors="@json($errors)"
     />
 
@@ -399,15 +399,15 @@ There are a couple of different props that could be labeled as validation. We've
 
 In the `validationRules` object, we've got the `accept` property, which expects an array of mimetypes as strings.
 
-The `minSize` and `maxSize` properties set the minimum and maximum size of any individual file.
+The `minSizeInKB` and `maxSizeInKB` properties set the minimum and maximum size of any individual file.
 
 ```html
 <media-library-attachment
     name="avatar"
     :validation-rules="{
         accept: ['image/jpeg', 'image/gif', 'application/pdf'],
-        minSize: 512,
-        maxSize: 512,
+        minSizeInKB: 512,
+        maxSizeInKB: 512,
     }"
 />
 ```

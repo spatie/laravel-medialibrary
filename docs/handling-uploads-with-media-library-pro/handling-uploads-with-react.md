@@ -129,7 +129,7 @@ You'll probably want to validate what gets uploaded. Use the `validationRules` p
         initialValue={avatar}
         validationRules={{
             accept: ["image/png", "image/jpeg"],
-            maxSize: 500000,
+            maxSizeInKB: 5000,
         }}
         validationErrors={validationErrors}
     />
@@ -139,7 +139,7 @@ You'll probably want to validate what gets uploaded. Use the `validationRules` p
         initialValue={downloads}
         validationRules={{
             accept: ["image/png", "image/jpeg"],
-            maxSize: 500000,
+            maxSizeInKB: 5000,
         }}
         validationErrors={validationErrors}
     />
@@ -294,15 +294,15 @@ There are a couple of different props that could be labeled as validation. We've
 
 In the `validationRules` object, we've got the `accept` property, which expects an array of mimetypes as strings.
 
-The `minSize` and `maxSize` properties set the minimum and maximum size of any individual file.
+The `minSizeInKB` and `maxSizeInKB` properties set the minimum and maximum size of any individual file.
 
 ```jsx
 <MediaLibraryAttachment
     name="avatar"
     validationRules={{
         accept: ["image/jpeg", "image/gif", "application/pdf"],
-        minSize: 512,
-        maxSize: 512,
+        minSizeInKB: 512,
+        maxSizeInKB: 512,
     }}
 />
 ```
