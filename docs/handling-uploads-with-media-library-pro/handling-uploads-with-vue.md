@@ -66,9 +66,9 @@ mix.webpackConfig({
 This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import. Notice that the Vue 2 and Vue 3 components are separate components.
 
 ```js
-import MediaLibraryAttachment from "medialibrary-pro-vue2-attachment";
+import MediaLibraryAttachment from "media-library-pro-vue2-attachment";
 // or
-import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
+import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -91,8 +91,8 @@ To use a component in your Blade templates, import the components you plan to us
 
 ```js
 import Vue from "vue";
-import MediaLibraryAttachment from "medialibrary-pro-vue2-attachment";
-import MediaLibraryCollection from "medialibrary-pro-vue2-collection";
+import MediaLibraryAttachment from "media-library-pro-vue2-attachment";
+import MediaLibraryCollection from "media-library-pro-vue2-collection";
 
 new Vue({
     el: "#app",
@@ -108,8 +108,8 @@ new Vue({
 
 ```js
 import { createApp } from "vue";
-import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
-import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
+import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
+import MediaLibraryCollection from "media-library-pro-vue3-collection";
 
 createApp({
     components: {
@@ -147,8 +147,8 @@ You may also choose to import the components on the fly in a `.vue` file.
 </template>
 
 <script>
-    import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
-    import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
+    import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
+    import MediaLibraryCollection from "media-library-pro-vue3-collection";
 
     export default {
         components: {
@@ -175,8 +175,8 @@ The most basic components have a `name` prop. This name will be used to identify
 </template>
 
 <script>
-    import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
-    import MediaLibraryCollection from "medialibrary-pro-vue3-collection";
+    import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
+    import MediaLibraryCollection from "media-library-pro-vue3-collection";
 
     export default {
         components: {
@@ -264,36 +264,34 @@ Use the `fieldsView` scoped slot to add some fields:
             getNameInputErrors,
         }"
     >
-        <div class="medialibrary-properties">
-            <div class="medialibrary-field">
-                <label class="medialibrary-label">Name</label>
+        <div class="media-library-properties">
+            <div class="media-library-field">
+                <label class="media-library-label">Name</label>
                 <input
-                    class="medialibrary-input"
+                    class="media-library-input"
                     v-bind="getNameInputProps()"
                     v-on="getNameInputListeners()"
-                    dusk="medialibrary-field-name"
                 />
                 <p
                     v-for="error in getNameInputErrors()"
                     :key="error"
-                    class="medialibrary-text-error"
+                    class="media-library-text-error"
                 >
                     @{{ error }}
                 </p>
             </div>
 
-            <div class="medialibrary-field">
-                <label class="medialibrary-label">Extra field</label>
+            <div class="media-library-field">
+                <label class="media-library-label">Extra field</label>
                 <input
-                    class="medialibrary-input"
+                    class="media-library-input"
                     v-bind="getCustomPropertyInputProps('extra_field')"
                     v-on="getCustomPropertyInputListeners('extra_field')"
-                    dusk="medialibrary-extra-field"
                 />
                 <p
                     v-for="error in getCustomPropertyInputErrors('extra_field')"
                     :key="error"
-                    class="medialibrary-text-error"
+                    class="media-library-text-error"
                 >
                     @{{ error }}
                 </p>
@@ -319,7 +317,7 @@ You can customize what is displayed here by using the `propertiesView` scoped sl
     :initial-value="{{ $images }}"
 >
     <template slot="propertiesView" slot-scope="{ object }">
-        <div class="medialibrary-property">
+        <div class="media-library-property">
             {{ object.attributes.name }}
         </div>
     </template>
@@ -396,7 +394,7 @@ The components keep track of whether they're ready to be submitted, you can use 
 </template>
 
 <script>
-    import MediaLibraryAttachment from "medialibrary-pro-vue3-attachment";
+    import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
 
     export default {
         components: { MediaLibraryAttachment },
@@ -416,7 +414,7 @@ There are a couple of different props that could be labeled as validation. We've
 
 **validationRules**
 
-In the `validationRules` object, we've got the `accept` property, which expects an array of mimetypes as strings.
+In the `validationRules` object, we've got the `accept` property, which expects an array of MIME types as strings. Leave it empty to accept all types of files, set its value to `['image/*']` to accept any type of image, or choose your own set of rules using [MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types). Remember, the only valid MIME type of a JPEG/JPG is `image/jpeg`!
 
 The `minSizeInKB` and `maxSizeInKB` properties set the minimum and maximum size of any individual file.
 
@@ -483,7 +481,7 @@ Pass a method to `before-upload` that accepts a [file](https://developer.mozilla
 | max-items                     | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
 | max-size-for-preview-in-bytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                      | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
-| ref                           |                                                       | Used to set a reference to the mediaLibrary instance, so you can change the internal state of the component.                                                                      |
+| ref                           |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |
 | before-upload                 |                                                       | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
 | after-upload                  |                                                       | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |
 | @changed                      |                                                       |                                                                                                                                                                                   |

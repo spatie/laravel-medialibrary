@@ -42,7 +42,7 @@ The profile controller has a simple form that uses the Blade attachment componen
 ```blade
 {{-- resources/views/profile.blade.php --}}
 
-<x-medialibrary-attachment name="avatar" />
+<x-media-library-attachment name="avatar" />
 ```
 
 And, assuming you're familiar with the [basic usage](../basic-usage) of the Media Library, this is how we'd store the uploaded avatar on the user.
@@ -115,7 +115,7 @@ Every component will pass data in a key of a request. The name of that key is th
 ```html 
 // data will get passed via the `avatar` key of the request.
 
-<x-medialibrary-attachment name="avatar" />
+<x-media-library-attachment name="avatar" />
 ```
 
 The content of that request key will be an array. For each file uploaded that array will hold an array with these keys.
@@ -250,7 +250,7 @@ public function yourMethod(YourFormRequest $request)
 
 ### `syncFromMediaLibraryRequest` 
 
-You should use this method when you are using the `x-medialibrary-collection` Blade component (or equivalent Vue or React component).
+You should use this method when you are using the `x-media-library-collection` Blade component (or equivalent Vue or React component).
 
 Here is an example where we are going to sync that the contents of the `images` key in the request to the media library. 
 In this example we use the `images` key, but of course you should use the name that you used.

@@ -83,7 +83,7 @@ You have a couple of options for how you can use the UI components' css, dependi
 
 ### Laravel Mix or Webpack with css-loader
 
-You can import the built css in your own css files using `@import(vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-styles)`. This isn't a very pretty import, but you can make it cleaner by adding some configuration to your Webpack config:
+You can import the built css in your own css files using `@import(vendor/spatie/laravel-medialibrary-pro/ui/media-library-pro-styles)`. This isn't a very pretty import, but you can make it cleaner by adding some configuration to your Webpack config:
 
 **laravel-mix >6**
 
@@ -91,7 +91,7 @@ You can import the built css in your own css files using `@import(vendor/spatie/
 mix.override((webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
-        __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+        __dirname + "/vendor/spatie/laravel-media-library-pro/ui",
     ];
 }
 ```
@@ -103,7 +103,7 @@ mix.webpackConfig({
     resolve: {
         modules: [
             "node_modules",
-            __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+            __dirname + "/vendor/spatie/laravel-media-library-pro/ui",
         ],
     },
 });
@@ -112,11 +112,11 @@ mix.webpackConfig({
 This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import to this:
 
 ```css
-@import "medialibrary-pro-styles";
+@import "media-library-pro-styles";
 ```
 
 ### Directly in blade/html
 
-You should copy the built css from `vendor/spatie/laravel-medialibrary-pro/ui/medialibrary-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
+You should copy the built css from `vendor/spatie/laravel-medialibrary-pro/ui/media-library-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
 
 If you would like to customize the css we provide, refer to the `Customizing css` section of the documentation.

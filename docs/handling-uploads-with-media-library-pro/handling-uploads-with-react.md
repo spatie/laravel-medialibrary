@@ -66,7 +66,7 @@ mix.webpackConfig({
 This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import to this:
 
 ```js
-import MediaLibraryAttachment from "medialibrary-pro-react-attachment";
+import MediaLibraryAttachment from "media-library-pro-react-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -90,8 +90,8 @@ The most basic components have a `name` prop. This name will be used to identify
 ```jsx
 // MyImageUploader.jsx
 
-import MediaLibraryAttachment from "medialibrary-pro-react-attachment";
-import MediaLibraryCollection from "medialibrary-pro-react-collection";
+import MediaLibraryAttachment from "media-library-pro-react-attachment";
+import MediaLibraryCollection from "media-library-pro-react-collection";
 
 export default function MyImageUploader() {
     return (
@@ -177,32 +177,30 @@ Use the `fieldsView` render prop to add some fields:
         getNameInputErrors,
         getNameInputProps,
     }) => (
-        <div className="medialibrary-properties">
-            <div className="medialibrary-field">
-                <label className="medialibrary-label">Name</label>
+        <div className="media-library-properties">
+            <div className="media-library-field">
+                <label className="media-library-label">Name</label>
                 <input
-                    className="medialibrary-input"
+                    className="media-library-input"
                     {...getNameInputProps()}
-                    {...{ dusk: "medialibrary-field-name" }}
                 />
 
                 {getNameInputErrors().map((error) => (
-                    <p key={error} className="medialibrary-text-error">
+                    <p key={error} className="media-library-text-error">
                         {error}
                     </p>
                 ))}
             </div>
 
-            <div className="medialibrary-field">
-                <label className="medialibrary-label">Extra field</label>
+            <div className="media-library-field">
+                <label className="media-library-label">Extra field</label>
                 <input
-                    className="medialibrary-input"
+                    className="media-library-input"
                     {...getCustomPropertyInputProps("extra_field")}
-                    {...{ dusk: "medialibrary-extra-field" }}
                 />
 
                 {getCustomPropertyInputErrors("extra_field").map((error) => (
-                    <p key={error} className="medialibrary-text-error">
+                    <p key={error} className="media-library-text-error">
                         {error}
                     </p>
                 ))}
@@ -214,7 +212,7 @@ Use the `fieldsView` render prop to add some fields:
 
 When you add an image to your collection, it will look like this.
 
-![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
+![Screenshot of custom property](/docs/laravel-media-library/v9/images/pro/extra.png)
 
 ### Customizing the file properties
 
@@ -227,7 +225,7 @@ You can customize what is displayed here by using the `propertiesView` scoped sl
     name="images"
     initialValue={images}
     fieldsView={({ object }) => (
-        <div className="medialibrary-property">{object.attributes.name}</div>
+        <div className="media-library-property">{object.attributes.name}</div>
     )}
 />
 ```
@@ -270,7 +268,7 @@ export function AvatarForm({ values }) {
 The components keep track of whether they're ready to be submitted, you can use this to disable a submit button while a file is still uploading or when there are frontend validation errors. This value can be tracked by listening to `onIsReadyToSubmitChange` in React:
 
 ```jsx
-import MediaLibraryAttachment from "medialibrary-pro-react-attachment";
+import MediaLibraryAttachment from "media-library-pro-react-attachment";
 
 function AvatarComponent() {
     const [isReadyToSubmit, setIsReadyToSubmit] = useState(true);
@@ -292,7 +290,7 @@ There are a couple of different props that could be labeled as validation. We've
 
 **validationRules**
 
-In the `validationRules` object, we've got the `accept` property, which expects an array of mimetypes as strings.
+In the `validationRules` object, we've got the `accept` property, which expects an array of MIME types as strings. Leave it empty to accept all types of files, set its value to `['image/*']` to accept any type of image, or choose your own set of rules using [MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types). Remember, the only valid MIME type of a JPEG/JPG is `image/jpeg`!
 
 The `minSizeInKB` and `maxSizeInKB` properties set the minimum and maximum size of any individual file.
 
@@ -348,7 +346,7 @@ return (
 | maxItems                 | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
 | maxSizeForPreviewInBytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                 | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
-| setMediaLibrary          |                                                       | Used to set a reference to the mediaLibrary instance, so you can change the internal state of the component.                                                                      |
+| setMediaLibrary          |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |
 | beforeUpload             |                                                       | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
 | afterUpload              |                                                       | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |
 | onChange                 |                                                       |                                                                                                                                                                                   |

@@ -3,7 +3,7 @@ title: Handling uploads with Blade
 weight: 4
 ---
 
-You can make use of the `x-medialibrary-attachment` and `x-media-library-collection` Blade components to handle uploads.
+You can make use of the `x-media-library-attachment` and `x-media-library-collection` Blade components to handle uploads.
 
 ## Getting started
 
@@ -12,7 +12,7 @@ you must follow [Livewire's installation instructions](https://laravel-livewire.
 
 ## Handling a single upload
 
-You can use `x-medialibrary-attachment` to upload a single file. Here's an example:
+You can use `x-media-library-attachment` to upload a single file. Here's an example:
 
 ```html
 <form method="POST">
@@ -20,7 +20,7 @@ You can use `x-medialibrary-attachment` to upload a single file. Here's an examp
 
     <input id="name" name="name">
 
-    <x-medialibrary-attachment name="avatar"/>
+    <x-media-library-attachment name="avatar"/>
 
     <button type="submit">Submit</button>
 </form>
@@ -28,11 +28,11 @@ You can use `x-medialibrary-attachment` to upload a single file. Here's an examp
 
 ![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
 
-The `x-medialibrary-attachment` will take care of the upload. Under the hood the upload is processed by
+The `x-media-library-attachment` will take care of the upload. Under the hood the upload is processed by
 a [Livewire](https://laravel-livewire.com) component.
 
 After a file has been uploaded it will be stored as a temporary upload. In case there are validation errors when
-submitting the form, the `x-medialibrary-attachment` will display the temporary upload when you get redirected back to
+submitting the form, the `x-media-library-attachment` will display the temporary upload when you get redirected back to
 the form. There's no need for the user to upload the file again.
 
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
@@ -66,7 +66,7 @@ To set a maximum number of files you can add a `max-items` attribute. Here is an
 files.
 
 ```html
-<x-medialibrary-attachment 
+<x-media-library-attachment 
     multiple
     name="images"
     max-items="2"
@@ -81,7 +81,7 @@ you can use any of Laravel's available validation rules that are applicable to f
 Here's an example where we only accept `png` and `jpg` files that are 1MB or less in size.
 
 ```html
-<x-medialibrary-attachment 
+<x-media-library-attachment 
     multiple
     name="images"
     max-items="2"
@@ -115,7 +115,7 @@ The value you pass in `name` of the component will be use as the key name in whi
 the collection to the backend. In the controller handling the form submission you should validate the new contents of
 the collection and sync it with the collection of the eloquent model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
-Like the `x-medialibrary-attachment` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
+Like the `x-media-library-attachment` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
 
 In this example, the collection will be allowed to hold `png` and `jpg` files that are smaller than 1 MB.
 
@@ -140,16 +140,16 @@ In this example we're going to add a custom property form field called `extra_fi
 ```html
 @include('media-library::livewire.partials.collection.fields')
 
-<div class="medialibrary-field">
-    <label class="medialibrary-label">Extra field</label>
+<div class="media-library-field">
+    <label class="media-library-label">Extra field</label>
     <input
-        class="medialibrary-input"
+        class="media-library-input"
         type="text"
         {{ $mediaItem->customPropertyAttributes('extra_field')  }}
     />
 
     @error($mediaItem->customPropertyErrorName('extra_field'))
-        <span class="medialibrary-text-error">
+        <span class="media-library-text-error">
                {{ $message }}
         </span>
     @enderror
