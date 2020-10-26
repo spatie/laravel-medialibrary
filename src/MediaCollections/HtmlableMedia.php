@@ -70,13 +70,17 @@ class HtmlableMedia implements Htmlable
 
         $viewName = 'image';
         $width = '';
+        $height = '';
 
         if ($this->media->hasResponsiveImages($this->conversionName)) {
             $viewName = config('media-library.responsive_images.use_tiny_placeholders')
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
 
-            $width = $this->media->responsiveImages($this->conversionName)->files->first()->width();
+            $responsiveImage = $this->media->responsiveImages($this->conversionName)->files->first();
+
+            $width = $responsiveImage->width();
+            $height = $responsiveImage->height();
         }
 
         $media = $this->media;
@@ -88,6 +92,7 @@ class HtmlableMedia implements Htmlable
             'attributeString',
             'loadingAttributeValue',
             'width',
+            'height',
         ))->render();
     }
 
