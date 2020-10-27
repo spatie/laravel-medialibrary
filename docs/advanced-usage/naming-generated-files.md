@@ -16,9 +16,9 @@ then you can specify the class name of your own `FileNamer` in the `file_namer` 
 of the `media-library.php` config file.
 
 The only requirements is that your class extends `Spatie\MediaLibrary\Support\FileNamer`.
-In your class you should implement 2 methods.
-1. `conversionFileName` that by default returns the media file name combined with the conversion name.
-2. `responsiveFileName` that by default returns the media file name.
+In your class you should implement 2 methods:
+1. `conversionFileName` should return the media file name combined with the conversion name
+2. `responsiveFileName` should return the media file name
 
 Here is the implementation of `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer`
 
@@ -54,6 +54,4 @@ By default, all responsive image files will be named in this format:
 ```
 
 Just like the conversion file names, you can use another format for naming your files
-by using your own `FileNamer` class.
-It is however only possible to manipulate the first part.
-We need the conversion name, width and height in this specific format, so the properties can still be extracted.
+by using your own `FileNamer` class. It is only possible to prefix the name, because other parts are needed in processing responsive images.
