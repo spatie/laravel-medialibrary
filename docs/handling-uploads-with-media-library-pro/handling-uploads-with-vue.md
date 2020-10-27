@@ -251,12 +251,14 @@ See the [Validation rules section](#validation-rules) for a complete list of all
 
 The Media Library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. The values for these can be chosen by your users. By default, the `MediaLibraryAttachment` component doesn't show any input fields, and the `MediaLibraryCollection` component only shows a `name` field, with the option to add more fields.
 
-Use the `fieldsView` scoped slot to add some fields:
+Use the `fields` scoped slot to add some fields:
+
+**Vue 2**
 
 ```html
 <media-library-collection name="images" :initial-value="{{ $images }}">
     <template
-        slot="fieldsView"
+        slot="fields"
         slot-scope="{
             getCustomPropertyInputProps,
             getCustomPropertyInputListeners,
@@ -303,6 +305,25 @@ Use the `fieldsView` scoped slot to add some fields:
 </media-library-collection>
 ```
 
+**Vue 3**
+
+```html
+<media-library-collection name="images" :initial-value="{{ $images }}">
+    <template
+        #fields="{
+            getCustomPropertyInputProps,
+            getCustomPropertyInputListeners,
+            getCustomPropertyInputErrors,
+            getNameInputProps,
+            getNameInputListeners,
+            getNameInputErrors,
+        }"
+    >
+        … (see Vue 2 example above)
+    </template>
+</media-library-collection>
+```
+
 When you add an image to your collection, it will look like this.
 
 ![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
@@ -311,14 +332,31 @@ When you add an image to your collection, it will look like this.
 
 When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or collection component).
 
-You can customize what is displayed here by using the `propertiesView` scoped slot:
+You can customize what is displayed here by using the `properties` scoped slot:
+
+**Vue 2**
 
 ```html
 <media-library-attachment
     name="images"
     :initial-value="{{ $images }}"
 >
-    <template slot="propertiesView" slot-scope="{ object }">
+    <template slot="properties" slot-scope="{ object }">
+        <div class="media-library-property">
+            {{ object.attributes.name }}
+        </div>
+    </template>
+</media-library-collection>
+```
+
+**Vue 3**
+
+```html
+<media-library-attachment
+    name="images"
+    :initial-value="{{ $images }}"
+>
+    <template #properties="{ object }">
         <div class="media-library-property">
             {{ object.attributes.name }}
         </div>
