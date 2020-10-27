@@ -41,8 +41,6 @@ class DefaultFileNamer extends FileNamer
         return pathinfo($fileName, PATHINFO_FILENAME);
     }
 }
-
-
 ```
 
 ### Naming responsive image files
