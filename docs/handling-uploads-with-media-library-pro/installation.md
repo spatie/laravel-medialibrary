@@ -89,9 +89,11 @@ Route::temporaryUploads('temporary-uploads');
 
 You have a couple of options for how you can use the UI components' CSS, depending on your and your project's needs:
 
-### Laravel Mix or Webpack with css-loader
+### Using Laravel Mix or Webpack with css-loader
 
-You can import the built CSS in your own CSS files using `@import(vendor/spatie/laravel-medialibrary-pro/ui/media-library-pro-styles)`. This isn't a very pretty import, but you can make it cleaner by adding some configuration to your Webpack config:
+You can import the built CSS in your own CSS files using `@import(vendor/spatie/laravel-medialibrary-pro/ui/media-library-pro-styles)`. 
+
+This isn't a very pretty import, but you can make it cleaner by adding this configuration to your Webpack config:
 
 **laravel-mix >6**
 
@@ -123,8 +125,8 @@ This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` w
 @import "media-library-pro-styles";
 ```
 
-### Directly in blade/html
+### Directly in Blade/HTML
 
 You should copy the built CSS from `vendor/spatie/laravel-medialibrary-pro/ui/media-library-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
 
-If you would like to customize the CSS we provide, refer to the `Customizing CSS` section of the documentation.
+If you would like to customize the CSS we provide, head over to [the section on Customizing CSS](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/customizing-css).
