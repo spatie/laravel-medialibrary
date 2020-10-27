@@ -128,10 +128,9 @@ return [
     'default_loading_attribute_value' => null,
 
     /*
-     * This is the class that is responsible for naming conversion files. By default,
-     * it will use the filename of the original and concatenate the conversion name to it.
+     * This is the class that is responsible for naming generated files.
      */
-    'conversion_file_namer' => \Spatie\MediaLibrary\Conversions\DefaultConversionFileNamer::class,
+    'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
 
     /*
      * The class that contains the strategy for determining a media file's path.
