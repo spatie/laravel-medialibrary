@@ -20,12 +20,12 @@ If neither of these fit the bill, we've exposed a set of APIs for you to be bold
 First, the server needs to be able to catch your incoming uploads. Register the Media Library `UploadController` in your routes file.
 
 ```php
-// routes/web.php
+// Probably routes/web.php
 
-use Spatie\MediaLibraryPro\Http\Controllers\UploadController;
-
-Route::post('media-library-upload-components', UploadController::class);
+Route::temporaryUploads('media-library-upload-components');
 ```
+
+### Customizing the upload endpoint
 
 The React components post data to `/media-library-upload-components` by default. If you registered the controller on a different URL, pass it to the `uploadEndpoint` prop of your React components.
 
@@ -33,7 +33,9 @@ The React components post data to `/media-library-upload-components` by default.
 <MediaLibraryAttachment name="avatar" uploadEndpoint="temp-upload" />
 ```
 
-The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/ui` when you install the package through composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
+### Importing the components
+
+The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/ui` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
 
 **laravel-mix >6**
 
@@ -216,7 +218,7 @@ When you add an image to your collection, it will look like this.
 
 ### Customizing the file properties
 
-When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or component component).
+When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or collection component).
 
 You can customize what is displayed here by using the `propertiesView` scoped slot:
 
@@ -333,7 +335,13 @@ return (
 );
 ```
 
-## Props
+## Using a non-local filesystem
+
+TODO adriaan
+
+## Available props
+
+These props are available on both the `attachment` and the `collection` component.
 
 | prop name                | Default value                                         | Description                                                                                                                                                                       |
 | ------------------------ | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

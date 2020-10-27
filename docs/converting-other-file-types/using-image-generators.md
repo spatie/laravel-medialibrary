@@ -41,7 +41,7 @@ The only requirement to perform a conversion of a SVG file is [Imagick](http://p
 
 ## Video
 
-The video image generator uses the [PHP-FFMpeg](https://github.com/PHP-FFMpeg/PHP-FFMpeg) package that you can install via composer:
+The video image generator uses the [PHP-FFMpeg](https://github.com/PHP-FFMpeg/PHP-FFMpeg) package that you can install via Composer:
 
 ```bash
 composer require php-ffmpeg/php-ffmpeg

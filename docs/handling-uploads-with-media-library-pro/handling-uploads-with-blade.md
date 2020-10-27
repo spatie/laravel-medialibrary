@@ -78,7 +78,7 @@ files.
 The upload can be validated before the form is submitted by adding a `rules` attribute. In the value of the attribute
 you can use any of Laravel's available validation rules that are applicable to file uploads.
 
-Here's an example where we only accept `png` and `jpg` files that are 1MB or less in size.
+Here's an example where we only accept `png` and `jpg` files that are 1MB or less.
 
 ```html
 <x-media-library-attachment 
@@ -222,3 +222,6 @@ class BlogPost extends Model implements HasMedia
     }
 }
 ```
+
+## Using a non-local filesystem
+

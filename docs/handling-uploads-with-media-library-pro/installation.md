@@ -26,7 +26,7 @@ After you've purchased a license, add the `satis.spatie.be` repository in your `
 ],
 ```
 
-Next, you need to create a file called `auth.json` and place it either next to the `composer.json` file in your project, or in the composer home directory. You can determine the composer home directory on \*nix machines by using this command.
+Next, you need to create a file called `auth.json` and place it either next to the `composer.json` file in your project, or in the Composer home directory. You can determine the Composer home directory on \*nix machines by using this command.
 
 ```bash
 composer config --list --global | grep home

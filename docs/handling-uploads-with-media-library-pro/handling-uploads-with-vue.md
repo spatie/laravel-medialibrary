@@ -20,12 +20,12 @@ If neither of these fit the bill, we've exposed a set of APIs for you to be bold
 First, the server needs to be able to catch your incoming uploads. Register the Media Library `UploadController` in your routes file.
 
 ```php
-// routes/web.php
+// Probably routes/web.php
 
-use Spatie\MediaLibraryPro\Http\Controllers\UploadController;
-
-Route::post('media-library-upload-components', UploadController::class);
+Route::temporaryUploads('media-library-upload-components');
 ```
+
+### Customizing the upload endpoint
 
 The Vue components post data to `/media-library-upload-components` by default. If you registered the controller on a different URL, pass it to the `upload-endpoint` prop of your Vue components.
 
@@ -33,7 +33,9 @@ The Vue components post data to `/media-library-upload-components` by default. I
 <media-library-attachment name="avatar" upload-endpoint="temp-upload" />
 ```
 
-The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/ui` when you install the package through composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
+### Importing the components
+
+The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/ui` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
 
 **laravel-mix >6**
 
@@ -189,25 +191,25 @@ The most basic components have a `name` prop. This name will be used to identify
 
 If your form modifies an existing set of media, you may pass it through in the `initial-value` prop.
 
-You can retrieve your initial values in Laravel using `$yourModel->getMedia($collectionName);`, this will also take care of any `old` values after an invalid form submit. You can also use this straight in your blade file:
+You can retrieve your initial values in Laravel using `$yourModel->getMedia($collectionName)`. This will also take care of any `old` values after an invalid form submit. You can also use this straight in your blade file:
 
 ```html
 <form>
     <media-library-attachment
         name="avatar"
-        :initial-value="@json($post->getMedia('avatar'))"
+        :initial-value="$post->getMedia('avatar')"
     />
 
     <media-library-collection
         name="downloads"
-        :initial-value="@json($post->getMedia('downloads'))"
+        :initial-value="$post->getMedia('downloads')"
     />
 
     <button>Submit</button>
 </form>
 ```
 
-Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to the `Asynchronously submit data` section.
+Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to [the `Asynchronously submit data` section](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue#asynchronously-submit-data).
 
 You'll probably want to validate what gets uploaded. Use the `validation-rules` prop, and don't forget to pass Laravel's validation errors too. The validation errors returned from the server will find errors under the key used in your `name` prop.
 
@@ -215,16 +217,16 @@ You'll probably want to validate what gets uploaded. Use the `validation-rules` 
 <form>
     <media-library-attachment
         name="avatar"
-        :initial-value="@json($post->getMedia('avatar'))"
+        :initial-value="$post->getMedia('avatar')"
         :validation-rules="{ accept: ['image/png', 'image/jpeg'], maxSizeInKB: 5000 }"
-        :validation-errors="@json($errors)"
+        :validation-errors="$errors"
     />
 
     <media-library-collection
         name="downloads"
-        :initial-value="@json($post->getMedia('downloads'))"
+        :initial-value="$post->getMedia('downloads')"
         :validation-rules="{ accept: ['image/png', 'image/jpeg'], maxSizeInKB: 5000 }"
-        :validation-errors="@json($errors)"
+        :validation-errors="$errors"
     />
 
     <button>Submit</button>
@@ -307,7 +309,7 @@ When you add an image to your collection, it will look like this.
 
 ### Customizing the file properties
 
-When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or component component).
+When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or collection component).
 
 You can customize what is displayed here by using the `propertiesView` scoped slot:
 
@@ -468,7 +470,13 @@ Pass a method to `before-upload` that accepts a [file](https://developer.mozilla
 </script>
 ```
 
-## Props
+## Using a non-local filesystem
+
+TODO adriaan
+
+## Available props
+
+These props are available on both the `attachment` and the `collection` component.
 
 | prop name                     | Default value                                         | Description                                                                                                                                                                       |
 | ----------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

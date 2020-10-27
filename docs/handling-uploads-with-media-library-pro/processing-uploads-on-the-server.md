@@ -18,8 +18,10 @@ To set up temporary uploads, register the temporary uploads route with our handy
 ```php
 // Probably routes/web.php
 
-Route::temporaryUploads();
+Route::temporaryUploads('/temporary-uploads');
 ```
+
+The example above used `/temporary-uploads` as the endpoint, but you can choose whatever endpoint you'd prefer
 
 ## Setting up the view & controller
 
