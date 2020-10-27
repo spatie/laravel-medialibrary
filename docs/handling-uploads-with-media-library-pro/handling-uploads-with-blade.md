@@ -223,5 +223,14 @@ class BlogPost extends Model implements HasMedia
 }
 ```
 
-## Using a non-local filesystem
+## Uploading directly to S3
+
+Under the hood, the `attachment` and `collection` components use Livewire to perform uploads. Currently, Livewire does not support uploading multiple files to S3. That's why only the `attachment` component can be used to upload files to S3.
+
+To get started with upload files to `s3`, make sure to follow Livewire's instructions on [how to upload directly to S3](https://laravel-livewire.com/docs/2.x/file-uploads#upload-to-s3). 
+
+Next, make sure you configured the media disk that uses the S3 driver. 
+
+With that configuration in place, the `attachment` component will now upload directly to S3.
+
 

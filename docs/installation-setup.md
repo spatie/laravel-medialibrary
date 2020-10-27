@@ -235,11 +235,25 @@ By default, the media library will store its files on Laravel's `public` disk. I
     ...
 ```
 
-Don't forget to ignore the directory of your configured disk so the files won't end up in your git repo.
+Don't forget to ignore the directory of your configured disk, so the files won't end up in your git repo.
 
-If you are planning on working with image manipulations it's recommended to configure a queue on your server and specify it in the config file.
+To store all media on that disk by default, you should set the `disk_name` config value in the `media-library` config file to the name of the disk you added.
+
+```php
+// config/media-library.php
+
+return [
+    'disk_name' => 'media',
+
+    // ...
+];
+```
 
 Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/filesystem#configuration).
+
+## Setting up a queue
+
+If you are planning on working with image manipulations it's recommended to configure a queue on your server and specify it in the config file.
 
 ### Setting up optimization tools
 
