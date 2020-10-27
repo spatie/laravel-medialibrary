@@ -65,6 +65,6 @@ class MediaCollection extends Collection implements Htmlable
                     'extension' => $media->extension,
                     'size' => $media->size,
                 ];
-        })->keyBy('uuid');
+            })->keyBy('uuid');
     }
 }
