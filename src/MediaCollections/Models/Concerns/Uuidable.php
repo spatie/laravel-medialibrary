@@ -5,12 +5,12 @@ namespace Spatie\MediaLibrary\MediaCollections\Models\Concerns;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-trait HasUuid
+trait Uuidable
 {
-    public static function bootHasUuid()
+    public static function bootUuidable()
     {
         static::creating(function (Model $model) {
-            if (empty($model->uuid)) {
+            if ($model::usesUuids() && empty($model->uuid)) {
                 $model->uuid = (string) Str::uuid();
             }
         });
@@ -18,6 +18,14 @@ trait HasUuid
 
     public static function findByUuid(string $uuid): ?Model
     {
-        return static::where('uuid', $uuid)->first();
+        if (static::usesUuids()) {
+            return static::where('uuid', $uuid)->first();
+        }
+
+        return null;
+    }
+
+    protected static function usesUuids() {
+        return config('media-library.uses_media_uuids', true);
     }
 }

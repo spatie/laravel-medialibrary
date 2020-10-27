@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
+use Spatie\MediaLibrary\MediaCollections\Models\Concerns\Uuidable;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Support\File;
@@ -28,7 +28,7 @@ class Media extends Model implements Responsable, Htmlable
 {
     use IsSorted,
         CustomMediaProperties,
-        HasUuid;
+        Uuidable;
 
     protected $table = 'media';
 

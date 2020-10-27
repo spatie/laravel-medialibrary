@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -631,5 +632,17 @@ class IntegrationTest extends TestCase
         $result = $this->call('get', 'upload', [], [], ['file' => ['name'=>$fileUpload]]);
 
         $this->assertEquals(200, $result->getStatusCode());
+    }
+
+    /** @test */
+    public function it_can_add_media_thats_not_uuid_enabled()
+    {
+        config()->set('media-library.uses_media_uuids', false);
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection();
+
+        $this->assertEquals(null, $media->uuid);
     }
 }
