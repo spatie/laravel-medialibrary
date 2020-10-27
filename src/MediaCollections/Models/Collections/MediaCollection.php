@@ -52,19 +52,21 @@ class MediaCollection extends Collection implements Htmlable
 
     public function jsonSerialize()
     {
-        return ($this->formFieldName ?? $this->collectionName)
-            ? old($this->formFieldName ?? $this->collectionName)
-            : $this->map(function (Media $media) {
-                return [
-                    'name' => $media->name,
-                    'file_name' => $media->file_name,
-                    'uuid' => $media->uuid,
-                    'preview_url' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : '',
-                    'order' => $media->order_column,
-                    'custom_properties' => $media->custom_properties,
-                    'extension' => $media->extension,
-                    'size' => $media->size,
-                ];
-            })->keyBy('uuid');
+        if (!($this->formFieldName ?? $this->collectionName)) {
+            return [];
+        }
+
+        return old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
+            return [
+                'name' => $media->name,
+                'file_name' => $media->file_name,
+                'uuid' => $media->uuid,
+                'preview_url' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : '',
+                'order' => $media->order_column,
+                'custom_properties' => $media->custom_properties,
+                'extension' => $media->extension,
+                'size' => $media->size,
+            ];
+        })->keyBy('uuid');
     }
 }
