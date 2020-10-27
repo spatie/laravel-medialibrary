@@ -1,5 +1,5 @@
 ---
-title: Customizing css
+title: Customizing CSS
 weight: 9
 ---
 
