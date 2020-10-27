@@ -17,8 +17,8 @@ of the `media-library.php` config file.
 
 The only requirements is that your class extends `Spatie\MediaLibrary\Support\FileNamer`.
 In your class you should implement 2 methods.
-1. `getConversionFileName` that by default returns the media file name combined with the conversion name.
-2. `getResponsiveFileName` that by default returns the media file name.
+1. `conversionFileName` that by default returns the media file name combined with the conversion name.
+2. `responsiveFileName` that by default returns the media file name.
 
 Here is the implementation of `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer`
 
@@ -29,18 +29,19 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 
 class DefaultFileNamer extends FileNamer
 {
-    public function getConversionFileName(string $fileName, Conversion $conversion): string
+    public function conversionFileName(string $fileName, Conversion $conversion): string
     {
         $strippedFileName = pathinfo($fileName, PATHINFO_FILENAME);
 
         return "{$strippedFileName}-{$conversion->getName()}";
     }
 
-    public function getResponsiveFileName(string $fileName): string
+    public function responsiveFileName(string $fileName): string
     {
         return pathinfo($fileName, PATHINFO_FILENAME);
     }
 }
+
 
 ```
 

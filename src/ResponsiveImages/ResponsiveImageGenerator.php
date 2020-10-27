@@ -92,8 +92,8 @@ class ResponsiveImageGenerator
         BaseTemporaryDirectory $temporaryDirectory,
         int $conversionQuality = self::DEFAULT_CONVERSION_QUALITY
     ): void {
-        $extension = $this->fileNamer->getExtension($baseImage);
-        $responsiveImagePath = $this->fileNamer->getTemporaryFileName($media, $extension);
+        $extension = $this->fileNamer->extensionFromBaseImage($baseImage);
+        $responsiveImagePath = $this->fileNamer->temporaryFileName($media, $extension);
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
