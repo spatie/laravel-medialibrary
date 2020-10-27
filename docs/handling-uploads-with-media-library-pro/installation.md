@@ -3,9 +3,17 @@ title: Installation
 weight: 2
 ---
 
-[Media Library Pro](medialibrary.pro) is a paid add-on package for Laravel Media Library. You must buy a license on [the Media Library Pro product page](https://spatie.be/products/media-library-pro) at spatie.be
+[Media Library Pro](medialibrary.pro) is a paid add-on package for Laravel Media Library. In order to use it, you must have the base version of media library installed in your project. Here are [the installation instructions for the base version](/docs/laravel-medialibrary/v9/installation-setup).
+
+## Installing the base package
+
+## Getting a license
+
+You must buy a license on [the Media Library Pro product page](https://spatie.be/products/media-library-pro) at spatie.be
 
 Single application licenses maybe installed in a single Laravel app. In case you bought the unlimited application license, there are no restrictions. A license comes with one year of upgrades. If a license expires, you are still allowed to use Media Library Pro, but you won't get any updates anymore.
+
+## Requiring Media Library Pro
 
 After you've purchased a license, add the `satis.spatie.be` repository in your `composer.json`.
 
