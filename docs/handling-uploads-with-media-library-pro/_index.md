@@ -1,4 +1,4 @@
 ---
 title: Handling uploads with Media Library Pro
-weight: 5
+weight: 4
 ---
