@@ -21,12 +21,6 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../laravel-medialibrary-pro"
-        }
-    ],
     "require": {
         "php": "^7.4",
         "ext-exif": "*",
@@ -55,8 +49,7 @@
         "php-ffmpeg/php-ffmpeg": "^0.16.0",
         "phpunit/phpunit": "^9.1",
         "spatie/pdf-to-image": "^2.0",
-        "spatie/phpunit-snapshot-assertions": "^4.0",
-        "spatie/laravel-medialibrary-pro": "dev-master"
+        "spatie/phpunit-snapshot-assertions": "^4.0"
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
