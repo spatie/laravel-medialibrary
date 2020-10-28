@@ -1,3 +1,5 @@
+<p align="center"><img src="/art/socialcard.png" alt="Social Card of Laravel Media Library"></p>
+
 # Associate files with Eloquent models
 
 [![Latest Version](https://img.shields.io/github/release/spatie/laravel-medialibrary.svg?style=flat-square)](https://github.com/spatie/laravel-medialibrary/releases)
@@ -35,7 +37,7 @@ Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-medialibrary.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-medialibrary)
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-medialibrary.jpg?t=2" width="419px" />](https://spatie.be/github-ad-click/laravel-medialibrary)
 
 We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
 
@@ -79,6 +81,8 @@ If you discover any security related issues, please email [freek@spatie.be](mail
 - [All Contributors](../../contributors)
 
 A big thank you to [Nicolas Beauvais](https://github.com/nicolasbeauvais) for helping out with the issues on this repo.
+
+And a special thanks to [Caneco](https://twitter.com/caneco) for the logo ✨
 
 ## Alternatives
 
