@@ -17,17 +17,24 @@ If neither of these fit the bill, we've exposed a set of APIs for you to be bold
 
 ## Basic setup
 
-First, the server needs to be able to catch your incoming uploads. Register the Media Library `UploadController` in your routes file.
+First, the server needs to be able to catch your incoming uploads. Use the `temporaryUploads` macro in your routes file.
 
 ```php
 // Probably routes/web.php
+Route::temporaryUploads();
+```
 
-Route::temporaryUploads('media-library-upload-components');
+The macro will register a route on `/media-library-upload-components`, which is used by the Vue components by default. If you wish to use a different endpoint, just pass the desired
+URL to the macro.
+
+```php
+// Probably routes/web.php
+Route::temporaryUploads('your-url');
 ```
 
 ### Customizing the upload endpoint
 
-The Vue components post data to `/media-library-upload-components` by default. If you registered the controller on a different URL, pass it to the `upload-endpoint` prop of your Vue components.
+The Vue components post data to `/media-library-uploads` by default. If you registered the controller on a different URL, pass it to the `upload-endpoint` prop of your Vue components.
 
 ```html
 <media-library-attachment name="avatar" upload-endpoint="temp-upload" />
@@ -520,7 +527,7 @@ These props are available on both the `attachment` and the `collection` componen
 | ----------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | name                          |                                                       |                                                                                                                                                                                   |
 | initial-value                 | `[]`                                                  |                                                                                                                                                                                   |
-| upload-endpoint               | `"media-library-upload-components"`                   |                                                                                                                                                                                   |
+| upload-endpoint               | `"media-library-uploads"`                   |                                                                                                                                                                                   |
 | validation-rules              |                                                       | Refer to [validation rules](#validation-rules) section                                                                                                                            |
 | validation-errors             |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                      | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
