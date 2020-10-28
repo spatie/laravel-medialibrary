@@ -5,7 +5,7 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 ## From v8 to v9
 
 - add a column `generated_conversions` to the `media` table. If you are using Media Library Pro you used copy the values you now have in the `generated_conversions` key of the `custom_properties` column to `generated_conversions`
-- rename `conversion_file_namer` key in the `media-library` config to `file_namer`. This will support both the conversions and responsive images from now on.
+- rename `conversion_file_namer` key in the `media-library` config to `file_namer`. This will support both the conversions and responsive images from now on. More info [in our docs](https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files).
 
 ## From v7 to v8
 
