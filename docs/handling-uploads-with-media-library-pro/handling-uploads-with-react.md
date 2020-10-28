@@ -24,7 +24,7 @@ First, the server needs to be able to catch your incoming uploads. Use the `temp
 Route::temporaryUploads();
 ```
 
-The macro will register a route on `/media-library-upload-components`, which is used by the React components by default. If you wish to use a different endpoint, just pass the desired
+The macro will register a route on `/media-library-uploads`, which is used by the React components by default. If you wish to use a different endpoint, just pass the desired
 url to the macro.
 
 ```php
