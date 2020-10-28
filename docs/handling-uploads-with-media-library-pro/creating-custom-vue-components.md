@@ -65,8 +65,8 @@ You can find a full list of props [at the bottom of this page](TODO-link).
 
 For extensive examples you can have a look at the source of the pre-built UI components:
 
--   [Vue attachment component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/media-library-pro-vue-attachment)
--   [Vue collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/media-library-pro-vue-collection)
+-   [Vue attachment component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-vue-attachment)
+-   [Vue collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-vue-collection)
 
 ## Helper components
 
@@ -74,28 +74,28 @@ When building your own UI component using the Media Library Pro, you can also ma
 
 ### DropZone
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-vue/src/DropZone.vue)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue/src/DropZone.vue)
 
 TODO screenshot
 TODO description
 
 ### InvalidMedia
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-vue/src/InvalidMedia.vue)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue/src/InvalidMedia.vue)
 
 TODO screenshot
 TODO description
 
 ### MediaFormValues
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-vue/src/MediaFormValues.vue)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue/src/MediaFormValues.vue)
 
 TODO screenshot
 TODO description
 
 ### PreviewImage
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-vue/src/PreviewImage.vue)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue/src/PreviewImage.vue)
 
 TODO screenshot
 TODO description

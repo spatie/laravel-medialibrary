@@ -91,7 +91,7 @@ You have a couple of options for how you can use the UI components' CSS, dependi
 
 ### Using Laravel Mix or Webpack with css-loader
 
-You can import the built CSS in your own CSS files using `@import(vendor/spatie/laravel-medialibrary-pro/ui/media-library-pro-styles)`. 
+You can import the built CSS in your own CSS files using `@import(vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles)`. 
 
 This isn't a very pretty import, but you can make it cleaner by adding this configuration to your Webpack config:
 
@@ -101,7 +101,7 @@ This isn't a very pretty import, but you can make it cleaner by adding this conf
 mix.override((webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
-        __dirname + "/vendor/spatie/laravel-media-library-pro/ui",
+        __dirname + "/vendor/spatie/laravel-media-library-pro/resources/js",
     ];
 }
 ```
@@ -113,13 +113,13 @@ mix.webpackConfig({
     resolve: {
         modules: [
             "node_modules",
-            __dirname + "/vendor/spatie/laravel-media-library-pro/ui",
+            __dirname + "/vendor/spatie/laravel-media-library-pro/resources/js",
         ],
     },
 });
 ```
 
-This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import to this:
+This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import to this:
 
 ```css
 @import "media-library-pro-styles";
@@ -127,6 +127,6 @@ This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` w
 
 ### Directly in Blade/HTML
 
-You should copy the built CSS from `vendor/spatie/laravel-medialibrary-pro/ui/media-library-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
+You should copy the built CSS from `vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
 
 If you would like to customize the CSS we provide, head over to [the section on Customizing CSS](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/customizing-css).

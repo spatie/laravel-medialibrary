@@ -42,7 +42,7 @@ The React components post data to `/media-library-uploads` by default. If you re
 
 ### Importing the components
 
-The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/ui` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
+The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
 
 **laravel-mix >6**
 
@@ -52,7 +52,7 @@ The components aren't available through npm, but are located in `vendor/spatie/l
 mix.override((webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
-        __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+        __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
     ];
 }
 ```
@@ -66,13 +66,13 @@ mix.webpackConfig({
     resolve: {
         modules: [
             "node_modules",
-            __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+            __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
         ],
     },
 });
 ```
 
-This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import to this:
+This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import to this:
 
 ```js
 import MediaLibraryAttachment from "media-library-pro-react-attachment";
@@ -86,7 +86,7 @@ If you're using TypeScript, you will also have have to add this to your tsconfig
 {
     "compilerOptions": {
         "paths": {
-            "*": ["vendor/spatie/laravel-medialibrary-pro/ui/*"]
+            "*": ["vendor/spatie/laravel-medialibrary-pro/resources/js/*"]
         }
     }
 }
