@@ -24,7 +24,7 @@ First, the server needs to be able to catch your incoming uploads. Use the `temp
 Route::temporaryUploads();
 ```
 
-The macro will register a route on `/media-library-upload-components`, which is used by the React components by default. If you wish to use a different endpoint, just pass the desired
+The macro will register a route on `/media-library-uploads`, which is used by the React components by default. If you wish to use a different endpoint, just pass the desired
 url to the macro.
 
 ```php
@@ -42,7 +42,7 @@ The React components post data to `/media-library-uploads` by default. If you re
 
 ### Importing the components
 
-The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/ui` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
+The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
 
 **laravel-mix >6**
 
@@ -52,7 +52,7 @@ The components aren't available through npm, but are located in `vendor/spatie/l
 mix.override((webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
-        __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+        __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
     ];
 }
 ```
@@ -66,13 +66,13 @@ mix.webpackConfig({
     resolve: {
         modules: [
             "node_modules",
-            __dirname + "/vendor/spatie/laravel-medialibrary-pro/ui",
+            __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
         ],
     },
 });
 ```
 
-This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/ui` when resolving imports, and allows you to shorten your import to this:
+This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import to this:
 
 ```js
 import MediaLibraryAttachment from "media-library-pro-react-attachment";
@@ -86,13 +86,13 @@ If you're using TypeScript, you will also have have to add this to your tsconfig
 {
     "compilerOptions": {
         "paths": {
-            "*": ["vendor/spatie/laravel-medialibrary-pro/ui/*"]
+            "*": ["vendor/spatie/laravel-medialibrary-pro/resources/js/*"]
         }
     }
 }
 ```
 
-### Your first components
+## Your first components
 
 The most basic components have a `name` prop. This name will be used to identify the media when it's uploaded to the server.
 
@@ -114,6 +114,8 @@ export default function MyImageUploader() {
 }
 ```
 
+### Passing an initial value
+
 If your form modifies an existing set of media, you may pass it through in the `initialValue` prop.
 
 You can retrieve your initial values in Laravel using `$yourModel->getMedia($collectionName);`, this will also take care of any `old` values after an invalid form submit.
@@ -128,6 +130,8 @@ You can retrieve your initial values in Laravel using `$yourModel->getMedia($col
 ```
 
 Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to the `Asynchronously submit data` section.
+
+### Setting validation rules
 
 You'll probably want to validate what gets uploaded. Use the `validationRules` prop, and don't forget to pass Laravel's validation errors too. The validation errors returned from the server will find errors under the key used in your `name` prop.
 
@@ -169,6 +173,27 @@ You can also set the maximum amount of images that users can be uploaded using t
 ```
 
 See the [Validation rules section](#validation-rules) for a complete list of all possible validation rules.
+
+### Checking the upload state
+
+The components keep track of whether they're ready to be submitted, you can use this to disable a submit button while a file is still uploading or when there are frontend validation errors. This value can be tracked by passing a listener method to the `onIsReadyToSubmitChange` prop. If you submit a form while a file is uploading, Laravel will return a HTTP 500 error with an `invalid uuid` message.
+
+```jsx
+import MediaLibraryAttachment from "media-library-pro-react-attachment";
+
+function AvatarComponent() {
+    const [isReadyToSubmit, setIsReadyToSubmit] = useState(true);
+
+    return(
+        <MediaLibraryAttachment
+            name="avatar"
+            onIsReadyToSubmitChange={setIsReadyToSubmit}
+        />
+
+        <button disabled={!isReadyToSubmit} onClick={submit}>Submit</button>
+    )
+}
+```
 
 ### Using custom properties
 
@@ -239,8 +264,6 @@ You can customize what is displayed here by using the `propertiesView` scoped sl
 />
 ```
 
-See the [Props section](#props) for a complete list of all props.
-
 ### Asynchronously submit data
 
 If you don't want to use traditional form submits to send your data to the backend, you will have to keep track of the current value of the component using the `onChange` handler. The syntax is the same for all UI components:
@@ -272,30 +295,28 @@ export function AvatarForm({ values }) {
 }
 ```
 
-### Checking the upload state
+### Using with Laravel Vapor
 
-The components keep track of whether they're ready to be submitted, you can use this to disable a submit button while a file is still uploading or when there are frontend validation errors. This value can be tracked by listening to `onIsReadyToSubmitChange` in React:
+If you are planning on deploying your application to AWS using [Laravel Vapor](https://vapor.laravel.com/), you will need to pass `{ enabled: true }` for the optional `vapor` prop to your components so your files can be uploaded to an S3 bucket.
+
+When uploading a file, the component will first get a signed storage URL from Vapor. By default, its value is `'/vapor/signed-storage-url'`. If you changed it in Laravel, you can override it by setting a value for `vapor.signedStorageUrl`.
+
+After uploading the file to S3, the component will notify your application of where the file was stored. For this, you need to register the Media Library S3 uploads controller in your routes file: `Route::mediaLibraryS3Uploads('media-library-post-s3');`. The components expect this endpoint to be `/media-library-post-s3`, if you chose a different endpoint, set it in `vapor.postS3Endpoint`.
 
 ```jsx
-import MediaLibraryAttachment from "media-library-pro-react-attachment";
-
-function AvatarComponent() {
-    const [isReadyToSubmit, setIsReadyToSubmit] = useState(true);
-
-    return(
-        <MediaLibraryAttachment
-            name="avatar"
-            onIsReadyToSubmitChange={setIsReadyToSubmit}
-        />
-
-        <button disabled={!isReadyToSubmit} onClick={submit}>Submit</button>
-    )
-}
+<MediaLibraryAttachment
+    name="media"
+    vapor={{
+        enabled: true,
+        signedStorageUrl: "/vapor/signed-storage-url",
+        postS3Endpoint: "media-library-post-s3",
+    }}
+/>
 ```
 
-### Validation rules
+## Validation rules
 
-There are a couple of different props that could be labeled as validation. We've got `validationRules`, `maxItems` and `beforeUpload`.
+There are a couple of different ways to validate files on the frontend. These props are available to you: `validationRules`, `maxItems` and `beforeUpload`.
 
 **validationRules**
 
@@ -342,11 +363,7 @@ return (
 );
 ```
 
-## Using a non-local filesystem
-
-TODO adriaan
-
-## Available props
+## Props
 
 These props are available on both the `attachment` and the `collection` component.
 
@@ -359,6 +376,7 @@ These props are available on both the `attachment` and the `collection` componen
 | validationErrors         |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                 | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
 | maxItems                 | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
+| vapor                    |                                                       | Set to true if you will deploy your application to Vapor. This enables uploading of the files to S3.                                                                              |
 | maxSizeForPreviewInBytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                 | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
 | setMediaLibrary          |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |

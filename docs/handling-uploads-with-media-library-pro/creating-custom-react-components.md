@@ -55,8 +55,8 @@ You can find a full list of props [at the bottom of this page](TODO-link).
 
 For extensive examples you can have a look at the source of the pre-built UI components:
 
--   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/media-library-pro-react-attachment)
--   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/ui/media-library-pro-react-collection)
+-   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-react-attachment)
+-   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-react-collection)
 
 ## Helper components
 
@@ -64,35 +64,35 @@ When building your own UI component using the Media Library Pro, you can also ma
 
 ### DropZone
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-react/src/DropZone.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-react/src/DropZone.tsx)
 
 TODO screenshot
 TODO description
 
 ### InvalidMedia
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-react/src/InvalidMedia.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-react/src/InvalidMedia.tsx)
 
 TODO screenshot
 TODO description
 
 ### MediaFormValues
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-react/src/MediaFormValues.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-react/src/MediaFormValues.tsx)
 
 TODO screenshot
 TODO description
 
 ### PreviewImage
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-react/src/PreviewImage.tsx)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-react/src/PreviewImage.tsx)
 
 TODO screenshot
 TODO description
 
 ### useDragula (React only)
 
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/ui/media-library-pro-react/src/useDragula.ts)
+[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-react/src/useDragula.ts)
 
 TODO description
 
