@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.0.1 - 2020-10-30
+
+- do not enable vapor uploads by default
+
 ## 9.0.0 - 2020-10-30
 
 - add support for [Media Library Pro](https://medialibrary.pro)
