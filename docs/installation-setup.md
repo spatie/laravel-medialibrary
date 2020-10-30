@@ -63,8 +63,7 @@ return [
     'queue_name' => '',
 
     /*
-     * Choose if your conversions should be generated in queue by default.
-     * Set `false` to have them generated synchronously.
+     * By default all conversions will be performed on a queue.
      */
     'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
 
@@ -77,55 +76,6 @@ return [
      * The fully qualified class name of the model used for temporary uploads.
      */
     'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
-
-    'remote' => [
-        /*
-         * Any extra headers that should be included when uploading media to
-         * a remote disk. Even though supported headers may vary between
-         * different drivers, a sensible default has been provided.
-         *
-         * Supported by S3: CacheControl, Expires, StorageClass,
-         * ServerSideEncryption, Metadata, ACL, ContentEncoding
-         */
-        'extra_headers' => [
-            'CacheControl' => 'max-age=604800',
-        ],
-    ],
-
-    'responsive_images' => [
-
-        /*
-         * This class is responsible for calculating the target widths of the responsive
-         * images. By default we optimize for filesize and create variations that each are 20%
-         * smaller than the previous one. More info in the documentation.
-         *
-         * https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/generating-responsive-images
-         */
-        'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
-
-        /*
-         * By default rendering media to a responsive image will add some javascript and a tiny placeholder.
-         * This ensures that the browser can already determine the correct layout.
-         */
-        'use_tiny_placeholders' => true,
-
-        /*
-         * This class will generate the tiny placeholder used for progressive image loading. By default
-         * the medialibrary will use a tiny blurred jpg image.
-         */
-        'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
-    ],
-
-    /*
-     * When converting Media instances to response the medialibrary will add
-     * a `loading` attribute to the `img` tag. Here you can set the default
-     * value of that attribute.
-     *
-     * Possible values: 'lazy', 'eager', 'auto' or null if you don't want to set any loading instruction.
-     *
-     * More info: https://css-tricks.com/native-lazy-loading/
-     */
-    'default_loading_attribute_value' => null,
 
     /*
      * This is the class that is responsible for naming generated files.
@@ -188,6 +138,12 @@ return [
     ],
 
     /*
+     * The path where to store temporary files while performing image conversions.
+     * If set to null, storage_path('media-library/temp') will be used.
+     */
+    'temporary_directory_path' => null,
+
+    /*
      * The engine that should perform the image conversions.
      * Should be either `gd` or `imagick`.
      */
@@ -202,19 +158,75 @@ return [
     'ffprobe_path' => env('FFPROBE_PATH', '/usr/bin/ffprobe'),
 
     /*
-     * The path where to store temporary files while performing image conversions.
-     * If set to null, storage_path('media-library/temp') will be used.
-     */
-    'temporary_directory_path' => null,
-
-    /*
      * Here you can override the class names of the jobs used by this package. Make sure
      * your custom jobs extend the ones provided by the package.
      */
     'jobs' => [
-        'perform_conversions' => \Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
-        'generate_responsive_images' => \Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
+        'perform_conversions' => Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob::class,
+        'generate_responsive_images' => Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob::class,
     ],
+
+    /*
+     * When using the addMediaFromUrl method you may want to replace the default downloader.
+     * This is particularly useful when the url of the image is behind a firewall and
+     * need to add additional flags, possibly using curl.
+     */
+    'media_downloader' => Spatie\MediaLibrary\Downloaders\DefaultDownloader::class,
+
+    'remote' => [
+        /*
+         * Any extra headers that should be included when uploading media to
+         * a remote disk. Even though supported headers may vary between
+         * different drivers, a sensible default has been provided.
+         *
+         * Supported by S3: CacheControl, Expires, StorageClass,
+         * ServerSideEncryption, Metadata, ACL, ContentEncoding
+         */
+        'extra_headers' => [
+            'CacheControl' => 'max-age=604800',
+        ],
+    ],
+
+    'responsive_images' => [
+        /*
+         * This class is responsible for calculating the target widths of the responsive
+         * images. By default we optimize for filesize and create variations that each are 20%
+         * smaller than the previous one. More info in the documentation.
+         *
+         * https://docs.spatie.be/laravel-medialibrary/v8/advanced-usage/generating-responsive-images
+         */
+        'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
+
+        /*
+         * By default rendering media to a responsive image will add some javascript and a tiny placeholder.
+         * This ensures that the browser can already determine the correct layout.
+         */
+        'use_tiny_placeholders' => true,
+
+        /*
+         * This class will generate the tiny placeholder used for progressive image loading. By default
+         * the media library will use a tiny blurred jpg image.
+         */
+        'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
+    ],
+    
+    /*
+     * When enabling this option, a route will be registered that will enable
+     * the Media Library Pro Vue and React components to move uploaded files
+     * in a S3 bucket to their right place.
+     */
+    'enable_vapor_uploads' => false,
+
+    /*
+     * When converting Media instances to response the media library will add
+     * a `loading` attribute to the `img` tag. Here you can set the default
+     * value of that attribute.
+     *
+     * Possible values: 'lazy', 'eager', 'auto' or null if you don't want to set any loading instruction.
+     *
+     * More info: https://css-tricks.com/native-lazy-loading/
+     */
+    'default_loading_attribute_value' => null,
 ];
 ```
 
