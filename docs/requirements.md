@@ -3,7 +3,7 @@ title: Requirements
 weight: 3
 ---
 
-Laravel Media Library requires **PHP 7.4+** and **Laravel 8+**. 
+Laravel Media Library requires **PHP 7.4+** and **Laravel 7+**. 
 
 This package uses `json` columns. MySQL 5.7 or higher is required.
 
