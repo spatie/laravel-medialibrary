@@ -103,4 +103,30 @@ class ResponsiveImageTest extends TestCase
             "http://localhost/media2/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
         ], $media->getResponsiveImageUrls("thumb"));
     }
+
+    /** @test  */
+    public function it_can_handle_file_names_with_underscore()
+    {
+        $fileName = 'test_';
+
+        $this
+            ->testModelWithResponsiveImages
+            ->addMedia($this->getTestImageEndingWithUnderscore())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $this->assertSame([
+            "http://localhost/media/1/responsive-images/{$fileName}___media_library_original_340_280.jpg",
+            "http://localhost/media/1/responsive-images/{$fileName}___media_library_original_284_233.jpg",
+            "http://localhost/media/1/responsive-images/{$fileName}___media_library_original_237_195.jpg",
+        ], $media->getResponsiveImageUrls());
+
+        $this->assertSame([
+            "http://localhost/media/1/responsive-images/{$fileName}___thumb_50_41.jpg",
+        ], $media->getResponsiveImageUrls("thumb"));
+
+        $this->assertSame([], $media->getResponsiveImageUrls("non-existing-conversion"));
+    }
 }

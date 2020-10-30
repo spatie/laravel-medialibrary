@@ -91,7 +91,9 @@ class ResponsiveImage
 
     protected function stringBetween(string $subject, string $startCharacter, string $endCharacter): string
     {
-        $between = strstr($subject, $startCharacter);
+        $lastPos = strrpos($subject, $startCharacter);
+
+        $between = substr($subject, $lastPos);
 
         $between = str_replace('___', '', $between);
 
