@@ -21,7 +21,7 @@ To set up temporary uploads, register the temporary uploads route with our handy
 Route::mediaLibrary();
 ```
 
-This will registered a route at `/media-library-pro/uploads`
+This will register a route at `/media-library-pro/uploads`
 
 
 ### Enabling Vapor support
@@ -42,7 +42,7 @@ You can customize the upload url by passing a base url to the macro.
 Route::mediaLibrary('my-custom-url');
 ```
 
-This will registered a route at `/my-custom-url/uploads`
+This will register a route at `/my-custom-url/uploads`
 
 ## Setting up the view & controller
 

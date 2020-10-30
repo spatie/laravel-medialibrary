@@ -22,7 +22,7 @@ For more extensive examples, [see the pre-built UI components on GitHub](TODO-li
     <media-library-renderless
         ref="mediaLibrary"
         :initial-media="initialValue"
-        :upload-endpoint="uploadEndpoint"
+        :route-prefix="routePrefix"
         :validation-errors="validationErrors"
         :validation-rules="validationRules"
         :before-upload="beforeUpload"
