@@ -29,14 +29,20 @@ Next, choose your own journey. We have written extensive guides for all three fl
 
 ### Blade
 
-[Handling uploads with Blade](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-blade)
+- [Handling uploads with Blade](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-blade)
 
 ### Vue
 
-[Handling uploads with Vue](handling-uploads-with-vue) <br>
-[Creating custom Vue components](creating-custom-vue-components)
+- [Handling uploads with Vue](handling-uploads-with-vue)
+- [Creating custom Vue components](creating-custom-vue-components)
 
 ### React
 
-[Handling uploads with React](handling-uploads-with-react) <br>
-[Creating custom React components](creating-custom-react-components)
+- [Handling uploads with React](handling-uploads-with-react) <br>
+- [Creating custom React components](creating-custom-react-components)
+
+## Demo application
+
+We've created a demo application in which all components are installed. This way you'll have a full example on how to use components in your project. 
+
+You'll find the code of the demo application in [this repository on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app). In order to `composer install` on that project, you'll need to have [a license](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installation#getting-a-license).
