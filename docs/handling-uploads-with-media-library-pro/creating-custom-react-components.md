@@ -33,7 +33,7 @@ export default function MediaLibraryAttachment() {
     } = useMediaLibrary({
         initialMedia: initialValue,
         validationErrors,
-        uploadEndpoint,
+        routePrefix,
         validationRules,
         multiple,
         beforeUpload,
@@ -101,7 +101,7 @@ TODO description
 | prop name (React) | Default value | Description |
 | ----------------- | ------------- | ----------- |
 | initialMedia      |               |             |
-| uploadEndpoint    |               |             |
+| routePrefix    |               |             |
 | validationErrors  |               |             |
 | validation        |               |             |
 | multiple          |               |             |

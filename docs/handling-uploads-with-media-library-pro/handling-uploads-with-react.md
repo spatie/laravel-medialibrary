@@ -17,27 +17,28 @@ If neither of these fit the bill, we've exposed a set of APIs for you to be bold
 
 ## Basic setup
 
-First, the server needs to be able to catch your incoming uploads. Use the `temporaryUploads` macro in your routes file.
+First, the server needs to be able to catch your incoming uploads. Use the `mediaLibrary` macro in your routes file.
 
 ```php
 // Probably routes/web.php
-Route::temporaryUploads();
+Route::mediaLibrary();
 ```
 
-The macro will register a route on `/media-library-uploads`, which is used by the React components by default. If you wish to use a different endpoint, just pass the desired
-url to the macro.
+The macro will register a route on `/media-library-pro/uploads`, which is used by the Vue components by default. You can change the prefix by passing it to the macro:
 
 ```php
 // Probably routes/web.php
-Route::temporaryUploads('your-url');
+Route::mediaLibrary('my-custom-url');
 ```
+
+This will register a route at `/my-custom-url/uploads` instead.
 
 ### Customizing the upload endpoint
 
-The React components post data to `/media-library-uploads` by default. If you registered the controller on a different URL, pass it to the `uploadEndpoint` prop of your React components.
+The React components post data to `/media-library-pro/uploads` by default. If you registered the controller on a different URL, pass it to the `routePrefix` prop of your React components.
 
 ```jsx
-<MediaLibraryAttachment name="avatar" uploadEndpoint="temp-upload" />
+<MediaLibraryAttachment name="avatar" routePrefix="my-custom-url" />
 ```
 
 ### Importing the components
@@ -297,20 +298,23 @@ export function AvatarForm({ values }) {
 
 ### Using with Laravel Vapor
 
-If you are planning on deploying your application to AWS using [Laravel Vapor](https://vapor.laravel.com/), you will need to pass `{ enabled: true }` for the optional `vapor` prop to your components so your files can be uploaded to an S3 bucket.
+If you are planning on deploying your application to AWS using [Laravel Vapor](https://vapor.laravel.com/), you will need to do some extra configuration to make sure files are uploaded properly to an S3 bucket.
 
-When uploading a file, the component will first get a signed storage URL from Vapor. By default, its value is `'/vapor/signed-storage-url'`. If you changed it in Laravel, you can override it by setting a value for `vapor.signedStorageUrl`.
+First off, make sure you have [enabled Vapor support in Laravel](./processing-uploads-on-the-server#enabling-vapor-support).
 
-After uploading the file to S3, the component will notify your application of where the file was stored. For this, you need to register the Media Library S3 uploads controller in your routes file: `Route::mediaLibraryS3Uploads('media-library-post-s3');`. The components expect this endpoint to be `/media-library-post-s3`, if you chose a different endpoint, set it in `vapor.postS3Endpoint`.
+You will also need to set the `vapor` prop in your components.
+
+```jsx
+<MediaLibraryAttachment name="media" vapor />
+```
+
+If you edited Vapor's signed storage URL in Laravel, you will need to pass the new endpoint to your components in `vaporSignedStorageUrl`. It will use `/vapor/signed-storage-url` by default.
 
 ```jsx
 <MediaLibraryAttachment
     name="media"
-    vapor={{
-        enabled: true,
-        signedStorageUrl: "/vapor/signed-storage-url",
-        postS3Endpoint: "media-library-post-s3",
-    }}
+    vapor
+    vaporSignedStorageUrl="/vapor/signed-storage-url"
 />
 ```
 
@@ -371,12 +375,13 @@ These props are available on both the `attachment` and the `collection` componen
 | ------------------------ | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | name                     |                                                       |                                                                                                                                                                                   |
 | initialValue             | `[]`                                                  |                                                                                                                                                                                   |
-| uploadEndpoint           | `"media-library-uploads"`                   |                                                                                                                                                                                   |
+| routePrefix              | `"media-library-pro"`                                 |                                                                                                                                                                                   |
 | validationRules          |                                                       | Refer to [validation](#validation-rules) section                                                                                                                                  |
 | validationErrors         |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                 | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
 | maxItems                 | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
 | vapor                    |                                                       | Set to true if you will deploy your application to Vapor. This enables uploading of the files to S3.                                                                              |
+| vaporSignedStorageUrl    | `"vapor/signed-storage-url"`                          |                                                                                                                                                                                   |
 | maxSizeForPreviewInBytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                 | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
 | setMediaLibrary          |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |
