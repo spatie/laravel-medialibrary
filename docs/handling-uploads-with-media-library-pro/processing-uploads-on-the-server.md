@@ -57,7 +57,7 @@ use App\Http\Controllers\ProfileController;
 Route::get('profile', [ProfileController::class, 'edit']);
 Route::post('profile', [ProfileController::class, 'store']);
 
-Route::temporaryUploads();
+Route::mediaLibrary();
 ```
 
 The profile controller has a simple form that uses the Blade attachment component.
