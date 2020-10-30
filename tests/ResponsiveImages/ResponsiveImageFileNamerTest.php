@@ -13,5 +13,6 @@ class ResponsiveImageFileNamerTest extends ResponsiveImageTest
         config()->set("media-library.file_namer", TestFileNamer::class);
 
         $this->fileName = "prefix_test_suffix";
+        $this->fileNameWithUnderscore = "prefix_test__suffix";
     }
 }

@@ -227,6 +227,11 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('image');
     }
 
+    public function getTestImageEndingWithUnderscore(): string
+    {
+        return $this->getTestFilesDirectory('test_.jpg');
+    }
+
     public function getAntaresThumbJpgWithAccent(): string
     {
         return $this->getTestFilesDirectory('antarèsthumb.jpg');

@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 class ResponsiveImageTest extends TestCase
 {
     public string $fileName = 'test';
+    public string $fileNameWithUnderscore = 'test_';
 
     /** @test */
     public function a_media_instance_can_get_responsive_image_urls()
@@ -102,5 +103,29 @@ class ResponsiveImageTest extends TestCase
         $this->assertEquals([
             "http://localhost/media2/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
         ], $media->getResponsiveImageUrls("thumb"));
+    }
+
+    /** @test  */
+    public function it_can_handle_file_names_with_underscore()
+    {
+        $this
+            ->testModelWithResponsiveImages
+            ->addMedia($this->getTestImageEndingWithUnderscore())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $this->assertSame([
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_233.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg",
+        ], $media->getResponsiveImageUrls());
+
+        $this->assertSame([
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___thumb_50_41.jpg",
+        ], $media->getResponsiveImageUrls("thumb"));
+
+        $this->assertSame([], $media->getResponsiveImageUrls("non-existing-conversion"));
     }
 }
