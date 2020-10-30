@@ -3,7 +3,7 @@ title: Requirements
 weight: 3
 ---
 
-The MediaLibrary package requires **PHP 7.4+** and **Laravel 6+**. 
+Laravel Media Library requires **PHP 7.4+** and **Laravel 8+**. 
 
 This package uses `json` columns. MySQL 5.7 or higher is required.
 
@@ -16,14 +16,5 @@ If you're running into problems with Ghostscript and/or PDF to image generation 
 
 ## Older versions
 
-We only support the latest version. If you do not meet the requirements, you can opt to use an older version of the package.
-
-Laravel 5.5 and PHP 7.0 users can use [V6 of this package](https://docs.spatie.be/laravel-medialibrary/v6/introduction).
-
-Laravel 5.4 users can use [V5 of this package](https://docs.spatie.be/laravel-medialibrary/v5/introduction).
-
-Using Laravel version 5.1, 5.2 or 5.3? Head over to [V4 of this package](https://docs.spatie.be/laravel-medialibrary/v4/introduction).
-
-If you're stuck on PHP 5 take a look at [V3 of this package](https://docs.spatie.be/laravel-medialibrary/v3/introduction).
-
+If you do not meet the requirements, you can opt to use an older version of the package.
 We only actively maintain the latest version of the media library.

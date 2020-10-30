@@ -5,7 +5,7 @@ weight: 2
 
 A media conversion can be added to your model in the `registerMediaConversions`-function. It should start with a call to `addMediaConversion`. From there on you can use any of the methods available in the API. They are all chainable.
 
-Take a look in the [Defining conversions section](/laravel-medialibrary/v8/converting-images/defining-conversions/)
+Take a look in the [Defining conversions section](/laravel-medialibrary/v9/converting-images/defining-conversions/)
 for more details.
 
 ## General methods

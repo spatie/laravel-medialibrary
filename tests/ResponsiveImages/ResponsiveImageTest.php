@@ -6,6 +6,9 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 class ResponsiveImageTest extends TestCase
 {
+    public string $fileName = 'test';
+    public string $fileNameWithUnderscore = 'test_';
+
     /** @test */
     public function a_media_instance_can_get_responsive_image_urls()
     {
@@ -18,16 +21,16 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals([
-            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg",
         ], $media->getResponsiveImageUrls());
 
         $this->assertEquals([
-            'http://localhost/media/1/responsive-images/test___thumb_50_41.jpg',
-        ], $media->getResponsiveImageUrls('thumb'));
+            "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
+        ], $media->getResponsiveImageUrls("thumb"));
 
-        $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
+        $this->assertEquals([], $media->getResponsiveImageUrls("non-existing-conversion"));
     }
 
     /** @test */
@@ -41,16 +44,16 @@ class ResponsiveImageTest extends TestCase
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertStringContainsString(
-            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg 237w',
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
             $media->getSrcset()
         );
-        $this->assertStringContainsString('data:image/svg+xml;base64', $media->getSrcset());
+        $this->assertStringContainsString("data:image/svg+xml;base64", $media->getSrcset());
 
         $this->assertStringContainsString(
-            'http://localhost/media/1/responsive-images/test___thumb_50_41.jpg 50w',
-            $media->getSrcset('thumb')
+            "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg 50w",
+            $media->getSrcset("thumb")
         );
-        $this->assertStringContainsString('data:image/svg+xml;base64,', $media->getSrcset('thumb'));
+        $this->assertStringContainsString("data:image/svg+xml;base64,", $media->getSrcset("thumb"));
     }
 
     /** @test */
@@ -65,7 +68,7 @@ class ResponsiveImageTest extends TestCase
 
         $responsiveImage = $media->responsiveImages()->files->first();
 
-        $this->assertEquals('media_library_original', $responsiveImage->generatedFor());
+        $this->assertEquals("media_library_original", $responsiveImage->generatedFor());
 
         $this->assertEquals(340, $responsiveImage->width());
 
@@ -78,10 +81,10 @@ class ResponsiveImageTest extends TestCase
         $this->testModelWithResponsiveImages
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
-            ->toMediaCollection('default');
+            ->toMediaCollection("default");
 
-        $standardQualityResponsiveConversion = $this->getTempDirectory('media/1/responsive-images/test___standardQuality_340_280.jpg');
-        $lowerQualityResponsiveConversion = $this->getTempDirectory('media/1/responsive-images/test___lowerQuality_340_280.jpg');
+        $standardQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___standardQuality_340_280.jpg");
+        $lowerQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___lowerQuality_340_280.jpg");
 
         $this->assertLessThan(filesize($standardQualityResponsiveConversion), filesize($lowerQualityResponsiveConversion));
     }
@@ -92,13 +95,37 @@ class ResponsiveImageTest extends TestCase
         $this->testModelWithResponsiveImages
             ->addMedia($this->getTestJpg())
             ->withResponsiveImages()
-            ->storingConversionsOnDisk('secondMediaDisk')
+            ->storingConversionsOnDisk("secondMediaDisk")
             ->toMediaCollection();
 
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
         $this->assertEquals([
-            'http://localhost/media2/1/responsive-images/test___thumb_50_41.jpg',
-        ], $media->getResponsiveImageUrls('thumb'));
+            "http://localhost/media2/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
+        ], $media->getResponsiveImageUrls("thumb"));
+    }
+
+    /** @test  */
+    public function it_can_handle_file_names_with_underscore()
+    {
+        $this
+            ->testModelWithResponsiveImages
+            ->addMedia($this->getTestImageEndingWithUnderscore())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $this->assertSame([
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_233.jpg",
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg",
+        ], $media->getResponsiveImageUrls());
+
+        $this->assertSame([
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___thumb_50_41.jpg",
+        ], $media->getResponsiveImageUrls("thumb"));
+
+        $this->assertSame([], $media->getResponsiveImageUrls("non-existing-conversion"));
     }
 }

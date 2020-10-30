@@ -54,7 +54,7 @@ class PowerPoint extends ImageGenerator
 ## Registering the custom generator
 
 If you want the generator to be applied to all your models, you can override the `Media` class as explained in the
-[using your own model](/laravel-medialibrary/v8/advanced-usage/using-your-own-model/) page and modify the
+[using your own model](/laravel-medialibrary/v9/advanced-usage/using-your-own-model/) page and modify the
 `getImageGenerators` method in your own `Media` class.
 
 

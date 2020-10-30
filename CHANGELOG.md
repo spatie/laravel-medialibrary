@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.0.0 - Unreleased
+
+- names of the generated conversions will now be put in a dedicated `generated_conversions` on media
+- add support for media library pro
+- responsive image files can now be named using the `file_namer` key in the `media-library` config file (#2114)
+
 ## 8.10.1 - 2020-10-05
 
 - add `queue_conversions_by_default` to config file
@@ -85,6 +91,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 8.3.1 - 2020-06-22
 
 - improve handling of file names with special characters (#1937)
+
 
 ## 8.3.0 - 2020-06-11
 

@@ -13,15 +13,13 @@ jobs:
             fail-fast: false
             matrix:
                 php: [7.4]
-                laravel: [8.*, 7.*, 6.*]
+                laravel: [8.*, 7.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 include:
                     - laravel: 8.*
                       testbench: 6.*
                     - laravel: 7.*
                       testbench: 5.*
-                    - laravel: 6.*
-                      testbench: 4.*
 
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
@@ -63,13 +61,3 @@ jobs:
                 AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
                 AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
-
-            - name: Send Slack notification
-              uses: 8398a7/action-slack@v2
-              if: failure()
-              with:
-                  status: ${{ job.status }}
-                  author_name: ${{ github.actor }}
-              env:
-                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

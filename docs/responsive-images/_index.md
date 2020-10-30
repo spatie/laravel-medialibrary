@@ -1,4 +1,4 @@
 ---
 title: Responsive images
-weight: 4
+weight: 5
 ---
