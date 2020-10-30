@@ -37,7 +37,7 @@ $yourModel->getMedia('images')->first()->getUrl('thumb');
 
 We've recorded [a video course](https://spatie.be/videos/discovering-laravel-media-library) on how to use this package. It's the best way to get started using media library
 
-[![video course](/docs/laravel-medialibrary/v9/images/video-course.jpg)](https://spatie.be/videos/discovering-laravel-media-library/intro)
+[![video course](/docs/laravel-medialibrary/v9/images/video-course.jpg)](https://spatie.be/videos/discovering-laravel-media-library/introducing-laravel-media-library)
 
 ## We have badges!
 
