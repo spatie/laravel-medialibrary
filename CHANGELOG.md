@@ -1040,7 +1040,7 @@ model_id and model_type are nullable in your database.
 - Fixed: use FQCN for facades instead of using the aliases
 
 ## 2.2.1
-- Fixed an issue where too much queries were executed
+- Fixed an issue where too many queries were executed
 
 ## 2.2.0
 - Added `hasMediaWithoutConversions`-interface
