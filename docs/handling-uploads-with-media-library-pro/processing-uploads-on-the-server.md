@@ -18,10 +18,22 @@ To set up temporary uploads, register the temporary uploads route with our handy
 ```php
 // Probably routes/web.php
 
-Route::temporaryUploads('/temporary-uploads');
+Route::mediaLibrary();
 ```
 
-The example above used `/temporary-uploads` as the endpoint, but you can choose whatever endpoint you'd prefer
+This will registered a route at `/media-library-pro/uploads`
+
+### Customizing the upload URL
+
+You can customize the upload url by passing a base url to the macro.
+
+```php
+// Probably routes/web.php
+
+Route::mediaLibrary('my-custom-url');
+```
+
+This will registered a route at `/my-custom-url/uploads`
 
 ## Setting up the view & controller
 
