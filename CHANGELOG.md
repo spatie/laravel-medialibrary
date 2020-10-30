@@ -2,10 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 9.0.0 - Unreleased
+## 9.0.0 - 2020-10-30
 
+- add support for [Media Library Pro](https://medialibrary.pro)
 - names of the generated conversions will now be put in a dedicated `generated_conversions` on media
-- add support for media library pro
 - responsive image files can now be named using the `file_namer` key in the `media-library` config file (#2114)
 
 ## 8.10.1 - 2020-10-05
