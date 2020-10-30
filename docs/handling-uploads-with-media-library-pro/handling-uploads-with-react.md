@@ -247,7 +247,7 @@ Use the `fieldsView` render prop to add some fields:
 
 When you add an image to your collection, it will look like this.
 
-![Screenshot of custom property](/docs/laravel-media-library/v9/images/pro/extra.png)
+![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
 
 ### Customizing the file properties
 
