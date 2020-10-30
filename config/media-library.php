@@ -173,7 +173,7 @@ return [
      * the Media Library Pro Vue and React components to move uploaded files
      * in a S3 bucket to their right place.
      */
-    'enable_vapor_uploads' => false,
+    'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', true),
 
     /*
      * When converting Media instances to response the media library will add
