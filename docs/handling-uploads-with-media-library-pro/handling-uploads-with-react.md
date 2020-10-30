@@ -87,7 +87,7 @@ If you're using TypeScript, you will also have have to add this to your tsconfig
 {
     "compilerOptions": {
         "paths": {
-            "*": ["vendor/spatie/laravel-medialibrary-pro/resources/js/*"]
+            "*": ["*", "vendor/spatie/laravel-medialibrary-pro/resources/js/*"]
         }
     }
 }
