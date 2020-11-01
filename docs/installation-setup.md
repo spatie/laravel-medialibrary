@@ -28,7 +28,7 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 After that, you need to run migrations.
 
 ```bash
-php artisan migrations
+php artisan migrate
 ```
 
 ## Publishing the config file
