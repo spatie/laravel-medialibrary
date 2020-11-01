@@ -29,7 +29,7 @@ $newsItem->addMedia($smallFile)->toMediaCollection('downloads', 'local');
 $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
-The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/5.6/filesystem),
+The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/filesystem),
 so you can use any filesystem you like. Additionally the package can create image manipulations
 on images and pdfs that have been added in the media library.
 
