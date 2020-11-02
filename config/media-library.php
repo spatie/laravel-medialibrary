@@ -32,6 +32,8 @@ return [
 
     /*
      * The fully qualified class name of the model used for temporary uploads.
+     *
+     * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
     'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
 
