@@ -41,3 +41,11 @@ $yourModel
 ```
 
 The media library does not restrict what kinds of files may be uploaded or associated with models. If you are accepting file uploads from users, you should take steps to validate those uploads, to ensure you don't introduce security vulnerabilities into your project. Laravel has a [a rule to validate uploads based on MIME type or file extension](https://laravel.com/docs/validation).
+
+## Are you a visual learner?
+
+Here's a video that shows how to add and retrieve media.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ffcB3Anq634" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this one? Check out our [free video course on how to use this package](https://spatie.be/videos/discovering-laravel-media-library).
