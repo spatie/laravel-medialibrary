@@ -28,6 +28,14 @@ The package will use these optimizers if they are present on your system:
 
 Head over to [the installation page](https://docs.spatie.be/laravel-medialibrary/v9/installation-setup#optimization-tools) to learn how to install these.
 
+## Are you a visual learner?
+
+Here's a video that shows how to optimize images
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5Ftv0QnTbwo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use this package](https://spatie.be/videos/discovering-laravel-media-library).
+
 ## Which tools will do what?
 
 The package will automatically decide which tools to use on a particular image.

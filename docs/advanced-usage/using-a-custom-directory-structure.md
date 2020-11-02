@@ -54,3 +54,11 @@ interface PathGenerator
 ```
 
 There aren't any restrictions on how the directories can be named. When a `Media`-object gets deleted the package will delete its entire associated directory. To avoid tears or worse, make sure that every media gets stored its own unique directory.
+
+## Are you a visual learner?
+
+Here's a video that shows customize paths
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hCXtDyGcPSo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use this package](https://spatie.be/videos/discovering-laravel-media-library).

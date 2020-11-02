@@ -36,3 +36,11 @@ Also, there is a `clearMediaCollectionExcept` method which can be useful if you 
 ```php
 $yourModel->clearMediaCollectionExcept('images', $yourModel->getFirstMedia()); // This will remove all associated media in the 'images' collection except the first media
 ```
+
+## Are you a visual learner?
+
+Here's a video that shows how to work with collections.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/H23EGsik7xE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use this package](https://spatie.be/videos/discovering-laravel-media-library).

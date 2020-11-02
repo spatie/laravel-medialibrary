@@ -55,3 +55,11 @@ class DownloadMediaController
    }
 }
 ```
+
+## Are you a visual learner?
+
+Here's a video that shows how to download files.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cVcN03MWTb4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use this package](https://spatie.be/videos/discovering-laravel-media-library).

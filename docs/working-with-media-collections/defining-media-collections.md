@@ -23,6 +23,15 @@ public function registerMediaCollections(): void
 }
 ```
 
+## Are you a visual learner?
+
+Here's a video that shows how to work with media collections.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UmM3R9Mp6hc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use this package](https://spatie.be/videos/discovering-laravel-media-library).
+
+
 ## Getting registered media collections
 
 To retrieve all registered media collections on your model you can use the `getRegisteredMediaCollections` method.  
@@ -165,6 +174,10 @@ $yourModel->addMedia($anotherPathToImage)->toMediaCollection('avatar');
 $yourModel->getMedia('avatar')->count(); // returns 1
 $yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$anotherPathToImage` file
 ```
+
+This video shows you a demo of a single file collection.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OBj89PI4ho4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Limited file collections
 
