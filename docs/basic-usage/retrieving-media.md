@@ -131,4 +131,4 @@ Here's are a couple of videos on adding and retrieving media.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/0liOx4T8RmY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Want to see more videos like these? Check out our [free video course on how to use this package](https://spatie.be/videos/discovering-laravel-media-library).
+Want to see more videos like these? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
