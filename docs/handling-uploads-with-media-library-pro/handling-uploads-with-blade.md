@@ -10,6 +10,8 @@ You can make use of the `x-media-library-attachment` and `x-media-library-collec
 The Blade components that handle uploads leverage [Livewire](https://laravel-livewire.com) under the hood. That's why
 you must follow [Livewire's installation instructions](https://laravel-livewire.com/docs/installation) as well.
 
+
+
 ## Handling a single upload
 
 You can use `x-media-library-attachment` to upload a single file. Here's an example:
@@ -38,6 +40,14 @@ the form. There's no need for the user to upload the file again.
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
 model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
+## Are you a visual learner?
+
+In this video you'll see a demo of the attachment component.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9TwzBSTEKjo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+
 ## Handling multiple uploads
 
 Here's an example of how you can allow multiple uploads
@@ -59,6 +69,10 @@ After files have been uploaded, they will be stored as a temporary uploads.
 
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
 model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+
+Here's a video where multiple uploads are being demoed:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Ftz2pXm9eek" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Setting a maximum amount of uploads
 
@@ -128,6 +142,12 @@ In this example, the collection will be allowed to hold `png` and `jpg` files th
     rules="mimes:png,jpg|max:1024"
 />
 ```
+
+In this video you'll see the collection component in action
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/s9ZOljcq05w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
 
 ### Using custom properties
 

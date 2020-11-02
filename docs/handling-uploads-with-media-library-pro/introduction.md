@@ -19,6 +19,12 @@ The collection component can upload multiple files with custom properties. Use t
 
 If none of those fit the bill, Media Library Pro supplies you with a number helpers to build your own components.
 
+In this video, you'll see a quick overview of the package.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Wdav5rXMlRE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+
 ## Dive in
 
 All components upload media to the server with the same API. Before you dive into the frontend, read our server guide.

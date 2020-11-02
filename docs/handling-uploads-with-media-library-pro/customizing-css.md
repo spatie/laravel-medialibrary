@@ -5,7 +5,15 @@ weight: 9
 
 If you want to change the look of the Media Library Pro components to match the style of your own app, you have multiple options.
 
-## 1. Use your own Tailwind CSS configuration
+## Are you a visual learner?
+
+In this video, you'll see the various option on how to customize the look and feel of the components.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eSRUY6RTtug" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+
+## Option 1: Use your own Tailwind CSS configuration
 
 Instead of importing/linking the pre-built `dist/styles.css` from the package, you can import the `src/styles.css` and run every `@apply` rule through your own `tailwind.config.js`.
 
@@ -26,7 +34,7 @@ Instead of importing/linking the pre-built `dist/styles.css` from the package, y
 This is exactly what happens in the header of the homepage at [medialibrary.pro](https://medialibrary.pro): the shown component has a slightly blue-ish look, using the color palette of this site.
 
 
-## 2. Override only portions in your CSS
+## Option 2: Override only portions in your CSS
 
 If you only want to tinker with certain aspects of the component but like to keep the CSS in sync with future package updates, nothing stops you from overriding only certain CSS rules with your own tweaks. Every DOM-element of the component has a class with prefix `media-library`.
 
@@ -47,7 +55,7 @@ Inspect the component in your browser to find out that the thumbnail is rendered
 ```
 
 
-## 3. Copy the CSS to your own project 
+## Option 3: Copy the CSS to your own project 
 
 If you want to go full-option, you can always copy `src/styles.css` to your own project and go wild.
 In this example we renamed the file to `custom/media-library.css`.

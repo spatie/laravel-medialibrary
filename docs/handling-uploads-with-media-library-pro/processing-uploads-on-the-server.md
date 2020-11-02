@@ -5,6 +5,14 @@ weight: 3
 
 All Blade, Vue and React components communicate with the server in the same way. After a user selects one or more files, they're immediate sent to the server and stored as temporary uploads. When the parent form is submitted, the media items can be attached to a model.
 
+## Are you a visual learner?
+
+This video shows you how Media Library Pro uses temporary uploads under the hood.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mtQFZu72CCo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+
 ## Enabling temporary uploads
 
 Plain HTML file `<input>`s have two major shortcomings: they only upload the file when the form is submitted, and they're unable to remember the file when a form fails to submit. Temporary uploads solve both these problems.
