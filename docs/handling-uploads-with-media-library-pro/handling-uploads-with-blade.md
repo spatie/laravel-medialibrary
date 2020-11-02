@@ -217,6 +217,10 @@ class BlogPost extends Model implements HasMedia
 }
 ```
 
+In this video, you'll see an example of how extra fields can be added.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/rzvJ2Z2Hs-g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Uploading directly to S3
 
 Under the hood, the `attachment` and `collection` components use Livewire to perform uploads. Currently, Livewire does not support uploading multiple files to S3. That's why only the `attachment` component can be used to upload files to S3.
