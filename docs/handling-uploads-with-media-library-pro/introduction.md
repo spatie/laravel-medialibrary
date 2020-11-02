@@ -9,7 +9,7 @@ weight: 1
 
 Media Library Pro ships with two components for every environment: an attachment component, and a collection component.
 
-The attachment component can upload one or more files with little or no extra information. It's is a lightweight solution for small bits of UI like avatar fields or message attachments.
+The attachment component can upload one or more files with little or no extra information. It's a lightweight solution for small bits of UI like avatar fields or message attachments.
 
 ![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
 
