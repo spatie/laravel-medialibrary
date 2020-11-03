@@ -118,7 +118,7 @@ already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing
 <x-media-library-collection
     name="images"
     :model="$blogPost"
-    collection-name="images"
+    collection="images"
 />
 ```
 
@@ -137,7 +137,7 @@ In this example, the collection will be allowed to hold `png` and `jpg` files th
 <x-media-library-collection
     name="images"
     :model="$blogPost"
-    collection-name="images"
+    collection="images"
     max-items="2"
     rules="mimes:png,jpg|max:1024"
 />
