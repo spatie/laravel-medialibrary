@@ -1,6 +1,6 @@
 ---
 title: Requirements
-weight: 3
+weight: 5
 ---
 
 Laravel Media Library requires **PHP 7.4+** and **Laravel 7+**. 
