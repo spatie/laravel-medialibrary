@@ -98,7 +98,7 @@ This isn't a very pretty import, but you can make it cleaner by adding this conf
 **laravel-mix >6**
 
 ```js
-mix.override((webpackConfig) => {
+mix.override(webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
         __dirname + "/vendor/spatie/laravel-media-library-pro/resources/js",
