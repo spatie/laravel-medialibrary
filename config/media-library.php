@@ -187,4 +187,10 @@ return [
      * More info: https://css-tricks.com/native-lazy-loading/
      */
     'default_loading_attribute_value' => null,
+
+    /*
+     * The colours to use for drawing audio waveform thumbnails
+     */
+    'audio_foreground' => env('MEDIALIBRARY_AUDIO_FOREGROUND', '#113554'),
+    'audio_background' => env('MEDIALIBRARY_AUDIO_BACKGROUND', '#CBE2F4'),
 ];

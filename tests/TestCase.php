@@ -222,6 +222,41 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('test.mp4');
     }
 
+    public function getTestM4a(): string
+    {
+        return $this->getTestFilesDirectory('test.m4a');
+    }
+
+    public function getTestMp3(): string
+    {
+        return $this->getTestFilesDirectory('test.mp3');
+    }
+
+    public function getTestAiff(): string
+    {
+        return $this->getTestFilesDirectory('test.aiff');
+    }
+
+    public function getTestWav(): string
+    {
+        return $this->getTestFilesDirectory('test.wav');
+    }
+
+    public function getTestOgg(): string
+    {
+        return $this->getTestFilesDirectory('test.ogg');
+    }
+
+    public function getTestWma(): string
+    {
+        return $this->getTestFilesDirectory('test.wma');
+    }
+
+    public function getTestFlac(): string
+    {
+        return $this->getTestFilesDirectory('test.flac');
+    }
+
     public function getTestImageWithoutExtension(): string
     {
         return $this->getTestFilesDirectory('image');

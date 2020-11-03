@@ -67,3 +67,15 @@ Once the conversion is created you can easily use the thumbnail in a html `video
   Your browser does not support the video tag.
 </video>
 ```
+
+## Audio
+
+The audio image generator uses the same FFMpeg package as is used for video formats. Thumbnails of a mono waveform of the whole audio file are generated using ffmpeg's `waveform` converter, using colours specified in the `media-library.audio_background` and `media-library.audio_foreground` config properties. The conversion supports audio files in these formats:
+* `aiff`
+* `flac`
+* `m4a`
+* `mp3`
+* `mp4`
+* `ogg`
+* `wav`
+* `wma`
