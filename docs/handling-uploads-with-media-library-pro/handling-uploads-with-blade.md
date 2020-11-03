@@ -10,7 +10,7 @@ You can make use of the `x-media-library-attachment` and `x-media-library-collec
 The Blade components that handle uploads leverage [Livewire](https://laravel-livewire.com) under the hood. That's why
 you must follow [Livewire's installation instructions](https://laravel-livewire.com/docs/installation) as well.
 
-
+Our Blade components are meant to be used in a regular HTML form. For now, you can 't use them inside other Livewire components.
 
 ## Handling a single upload
 
