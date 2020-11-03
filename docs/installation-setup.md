@@ -8,13 +8,13 @@ Media library can be installed via Composer:
 If you only use the base package issue this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary:^8.0.0"
+composer require "spatie/laravel-medialibrary:^9.0.0"
 ```
 
 If you have a license for media library pro, you should use `laravel-media-library-pro`
 
 ```bash
-composer require "spatie/laravel-medialibrary-pro:^8.0.0"
+composer require "spatie/laravel-medialibrary-pro:^9.0.0"
 ```
 
 ## Preparing the database
