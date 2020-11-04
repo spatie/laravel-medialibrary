@@ -20,6 +20,7 @@ class TestImageGeneratorWithConfigTest extends TestCase
         $testGeneratorWithConfig = $imageGenerators->first();
 
         $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
+
         $this->assertEquals('firstValue', $testGeneratorWithConfig->firstName);
         $this->assertEquals('secondValue', $testGeneratorWithConfig->secondName);
     }
