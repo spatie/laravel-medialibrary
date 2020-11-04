@@ -339,7 +339,7 @@ class IntegrationTest extends TestCase
     /** @test */
     public function it_can_add_a_remote_file_with_a_space_in_the_name_to_the_medialibrary()
     {
-        $url = 'http://spatie.github.io/laravel-medialibrary/tests/Support/testfiles/test%20with%20space.jpg';
+        $url = 'https://spatie.github.io/laravel-medialibrary/tests/TestSupport/testfiles/test%20with%20space.jpg';
 
         $media = $this->testModel
             ->addMediaFromUrl($url)
