@@ -22,6 +22,5 @@ class TestImageGeneratorWithConfigTest extends TestCase
         $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
         $this->assertEquals('value', $testGeneratorWithConfig->test);
         $this->assertEquals('value2', $testGeneratorWithConfig->test2);
-
     }
 }
