@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.1.0 - 2020-11-04
+
+- allow image generators to accept config (#2156)
+
 ## 9.0.1 - 2020-10-30
 
 - do not enable vapor uploads by default
