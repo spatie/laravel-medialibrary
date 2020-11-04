@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.19.4 - 2020-11-04
+
+- add support for Laravel 8
+
 ## 7.19.3 - 2020-03-09
 
 - fix responsive images extension (#1752)
