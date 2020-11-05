@@ -13,7 +13,7 @@ jobs:
             fail-fast: false
             matrix:
                 php: [7.4]
-                laravel: [8.*, 7.*, 6.*]
+                laravel: [8.*, 7.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 include:
                     - laravel: 8.*
@@ -31,10 +31,10 @@ jobs:
               run: sudo apt-get install ffmpeg
 
             - name: Checkout code
-              uses: actions/checkout@v1
+              uses: actions/checkout@v2
 
             - name: Cache dependencies
-              uses: actions/cache@v1
+              uses: actions/cache@v2
               with:
                   path: ~/.composer/cache/files
                   key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
@@ -61,13 +61,3 @@ jobs:
                 AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                 AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
                 AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
-
-            - name: Send Slack notification
-              uses: 8398a7/action-slack@v2
-              if: failure()
-              with:
-                  status: ${{ job.status }}
-                  author_name: ${{ github.actor }}
-              env:
-                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

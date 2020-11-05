@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +24,8 @@ use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\MediaLibraryPro;
+use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 
 trait InteractsWithMedia
 {
@@ -70,6 +73,11 @@ trait InteractsWithMedia
         return app(FileAdderFactory::class)->create($this, $file);
     }
 
+    public function addMediaFromRequest(string $key): FileAdder
+    {
+        return app(FileAdderFactory::class)->createFromRequest($this, $key);
+    }
+
     /**
      * Add a file from the given disk.
      *
@@ -83,9 +91,26 @@ trait InteractsWithMedia
         return app(FileAdderFactory::class)->createFromDisk($this, $key, $disk ?: config('filesystems.default'));
     }
 
-    public function addMediaFromRequest(string $key): FileAdder
+    public function addFromMediaLibraryRequest(?array $mediaLibraryRequestItems): PendingMediaLibraryRequestHandler
     {
-        return app(FileAdderFactory::class)->createFromRequest($this, $key);
+        MediaLibraryPro::ensureInstalled();
+
+        return new PendingMediaLibraryRequestHandler(
+            $mediaLibraryRequestItems ?? [],
+            $this,
+            $preserveExisting = true
+        );
+    }
+
+    public function syncFromMediaLibraryRequest(?array $mediaLibraryRequestItems): PendingMediaLibraryRequestHandler
+    {
+        MediaLibraryPro::ensureInstalled();
+
+        return new PendingMediaLibraryRequestHandler(
+            $mediaLibraryRequestItems ?? [],
+            $this,
+            $preserveExisting = false
+        );
     }
 
     /**
@@ -238,11 +263,13 @@ trait InteractsWithMedia
      * @param string $collectionName
      * @param array|callable $filters
      *
-     * @return \Illuminate\Support\Collection
+     * @return MediaCollections\Models\Collections\MediaCollection
      */
-    public function getMedia(string $collectionName = 'default', $filters = []): Collection
+    public function getMedia(string $collectionName = 'default', $filters = []): MediaCollections\Models\Collections\MediaCollection
     {
-        return app(MediaRepository::class)->getCollection($this, $collectionName, $filters);
+        return app(MediaRepository::class)
+            ->getCollection($this, $collectionName, $filters)
+            ->collectionName($collectionName);
     }
 
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
@@ -498,6 +525,8 @@ trait InteractsWithMedia
         $collection = $this->exists
             ? $this->media
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
+
+        $collection = new MediaCollections\Models\Collections\MediaCollection($collection);
 
         return $collection
             ->filter(fn (Media $mediaItem) => $mediaItem->collection_name === $collectionName)

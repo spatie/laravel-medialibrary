@@ -2,6 +2,32 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.1.0 - 2020-11-04
+
+- allow image generators to accept config (#2156)
+
+## 9.0.1 - 2020-10-30
+
+- do not enable vapor uploads by default
+
+## 9.0.0 - 2020-10-30
+
+- add support for [Media Library Pro](https://medialibrary.pro)
+- names of the generated conversions will now be put in a dedicated `generated_conversions` on media
+- responsive image files can now be named using the `file_namer` key in the `media-library` config file (#2114)
+
+## 8.10.1 - 2020-10-05
+
+- add `queue_conversions_by_default` to config file
+
+## 8.9.3 - 2020-10-03
+
+- fix responsive images
+
+## 8.9.2 - 2020-10-02
+
+- improve responsive image inline script (#2032)
+
 ## 8.9.1 - 2020-10-02
 
 - missing $loadingAttributeValue test in image view (#2082)
@@ -73,6 +99,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 8.3.1 - 2020-06-22
 
 - improve handling of file names with special characters (#1937)
+
 
 ## 8.3.0 - 2020-06-11
 
@@ -1021,7 +1048,7 @@ model_id and model_type are nullable in your database.
 - Fixed: use FQCN for facades instead of using the aliases
 
 ## 2.2.1
-- Fixed an issue where too much queries were executed
+- Fixed an issue where too many queries were executed
 
 ## 2.2.0
 - Added `hasMediaWithoutConversions`-interface

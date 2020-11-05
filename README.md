@@ -1,3 +1,5 @@
+<p align="center"><img src="/art/socialcard.png" alt="Social Card of Laravel Media Library"></p>
+
 # Associate files with Eloquent models
 
 [![Latest Version](https://img.shields.io/github/release/spatie/laravel-medialibrary.svg?style=flat-square)](https://github.com/spatie/laravel-medialibrary/releases)
@@ -27,7 +29,7 @@ $newsItem->addMedia($smallFile)->toMediaCollection('downloads', 'local');
 $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
-The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/5.6/filesystem),
+The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/filesystem),
 so you can use any filesystem you like. Additionally the package can create image manipulations
 on images and pdfs that have been added in the media library.
 
@@ -35,9 +37,7 @@ Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all
 
 ## Support us
 
-Learn how to create a package like this one, by watching our premium video course:
-
-[![Laravel Package training](https://spatie.be/github/package-training.jpg)](https://laravelpackage.training)
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-medialibrary.jpg?t=2" width="419px" />](https://spatie.be/github-ad-click/laravel-medialibrary)
 
 We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
 
@@ -82,18 +82,13 @@ If you discover any security related issues, please email [freek@spatie.be](mail
 
 A big thank you to [Nicolas Beauvais](https://github.com/nicolasbeauvais) for helping out with the issues on this repo.
 
+And a special thanks to [Caneco](https://twitter.com/caneco) for the logo ✨
+
 ## Alternatives
 
 - [laravel-mediable](https://github.com/plank/laravel-mediable)
 - [laravel-stapler](https://github.com/CodeSleeve/laravel-stapler)
 - [media-manager](https://github.com/talvbansal/media-manager)
-
-## Support us
-
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
-
-Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie).
-All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
 
 ## License
 

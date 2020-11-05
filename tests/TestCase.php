@@ -3,12 +3,14 @@
 namespace Spatie\MediaLibrary\Tests;
 
 use CreateMediaTable;
+use CreateTemporaryUploadsTable;
 use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
@@ -74,9 +76,11 @@ abstract class TestCase extends Orchestra
      */
     protected function getPackageProviders($app)
     {
-        return [
-            MediaLibraryServiceProvider::class,
+        $serviceProviders =  [
+            MedialibraryServiceProvider::class,
         ];
+
+        return $serviceProviders;
     }
 
     /**
@@ -129,7 +133,14 @@ abstract class TestCase extends Orchestra
 
         TestModel::create(['name' => 'test']);
 
-        include_once __DIR__.'/../database/migrations/create_media_table.php.stub';
+
+        if (MediaLibraryPro::isInstalled()) {
+            include_once __DIR__ . '/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
+            (new CreateTemporaryUploadsTable())->up();
+        }
+
+        include_once(__DIR__  . '/../database/migrations/create_media_table.php.stub');
+
         (new CreateMediaTable())->up();
     }
 
@@ -214,6 +225,11 @@ abstract class TestCase extends Orchestra
     public function getTestImageWithoutExtension(): string
     {
         return $this->getTestFilesDirectory('image');
+    }
+
+    public function getTestImageEndingWithUnderscore(): string
+    {
+        return $this->getTestFilesDirectory('test_.jpg');
     }
 
     public function getAntaresThumbJpgWithAccent(): string

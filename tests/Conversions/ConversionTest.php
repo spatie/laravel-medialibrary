@@ -68,20 +68,37 @@ class ConversionTest extends TestCase
     }
 
     /** @test */
+    public function it_will_be_queued_without_config()
+    {
+        config()->set('media-library.queue_conversions_by_default', null);
+        $this->assertTrue($this->conversion->shouldBeQueued());
+    }
+
+    /** @test */
     public function it_will_be_queued_by_default()
     {
+        config()->set('media-library.queue_conversions_by_default', true);
+        $this->assertTrue($this->conversion->shouldBeQueued());
+    }
+
+    /** @test */
+    public function it_will_be_nonQueued_by_default()
+    {
+        config()->set('media-library.queue_conversions_by_default', false);
         $this->assertTrue($this->conversion->shouldBeQueued());
     }
 
     /** @test */
     public function it_can_be_set_to_queued()
     {
+        config()->set('media-library.queue_conversions_by_default', false);
         $this->assertTrue($this->conversion->queued()->shouldBeQueued());
     }
 
     /** @test */
     public function it_can_be_set_to_nonQueued()
     {
+        config()->set('media-library.queue_conversions_by_default', true);
         $this->assertFalse($this->conversion->nonQueued()->shouldBeQueued());
     }
 

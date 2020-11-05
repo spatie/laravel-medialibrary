@@ -83,13 +83,6 @@ class ConversionCollection extends Collection
         return $this->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
     }
 
-    public function getQueuedConversions(string $collectionName = ''): self
-    {
-        return $this
-            ->getConversions($collectionName)
-            ->filter(fn (Conversion $conversion) => $conversion->shouldBeQueued());
-    }
-
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
         /** @var \Spatie\MediaLibrary\Conversions\Conversion|null $conversion */
@@ -114,13 +107,6 @@ class ConversionCollection extends Collection
                 fn (Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations)
             );
         }
-    }
-
-    public function getNonQueuedConversions(string $collectionName = ''): self
-    {
-        return $this
-            ->getConversions($collectionName)
-            ->reject(fn (Conversion $conversion) => $conversion->shouldBeQueued());
     }
 
     public function getConversionsFiles(string $collectionName = ''): self

@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Tests\Conversions;
 
+use Spatie\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 class FileManipulatorTest extends TestCase
@@ -25,7 +25,7 @@ class FileManipulatorTest extends TestCase
         $imageFile = $this->getTestJpg();
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $conversionTempFile = (new FileManipulator)->performManipulations(
+        $conversionTempFile = (new PerformManipulationsAction())->execute(
             $media,
             $this->conversion->withoutManipulations(),
             $imageFile

@@ -7,7 +7,16 @@ Websites are viewed on various devices with widely differing screen sizes and co
 
 The media library has support for generating the necessary files and html markup for responsive images. In addition the medialibrary also has support for progressive image loading.
 
-Try a [demo of the concept](/laravel-medialibrary/v8/responsive-images/demo) here.
+Try a [demo of the concept](/laravel-medialibrary/v9/responsive-images/demo) here.
+
+## Are you a visual learner?
+
+Here's a video that shows you all about responsive images.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-RPDEHV6Zlw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+
 
 ### Introducing the srcset attribute
 
@@ -87,8 +96,7 @@ $this->addMediaConversion('thumb')
    ->withResponsiveImagesIf($condition); // accepts "closure or boolean"
 ```
 
-Behind the scenes, the media library will generate multiple size variations of your image. To learn which variations are generated and how to customize head over [here](/laravel-medialibrary/v8/responsive-images/using-your-own-width-calculator).
-
+Behind the scenes, the media library will generate multiple size variations of your image. To learn which variations are generated and how to customize head over [here](/laravel-medialibrary/v9/responsive-images/using-your-own-width-calculator).
 
 ### Displaying responsive images
 
@@ -107,7 +115,7 @@ Per image attached to your model the resulting html will look more or less like 
 
 ### Generating responsive images for conversions
 
-You can also generate responsive images for any [image conversions](https://docs.spatie.be/laravel-medialibrary/v8/converting-images/defining-conversions) you define. Simply use `withResponsiveImages` when defining a conversion.
+You can also generate responsive images for any [image conversions](https://docs.spatie.be/laravel-medialibrary/v9/converting-images/defining-conversions) you define. Simply use `withResponsiveImages` when defining a conversion.
 
 Here's an example where we define a conversion to make a greyscale version and generate responsive, greyscaled images.
 

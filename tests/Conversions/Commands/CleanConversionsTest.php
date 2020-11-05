@@ -68,7 +68,7 @@ class CleanConversionsTest extends TestCase
 
         Media::where('id', '<>', $media->id)->delete();
 
-        $media->markAsConversionGenerated('test-deprecated', true);
+        $media->markAsConversionGenerated('test-deprecated');
 
         $media->save();
 

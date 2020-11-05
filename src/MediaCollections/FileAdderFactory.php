@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\Support\RemoteFile;
+use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
 
 class FileAdderFactory
 {
@@ -68,5 +69,17 @@ class FileAdderFactory
         $fileKeys = array_keys(request()->allFiles());
 
         return static::createMultipleFromRequest($subject, $fileKeys);
+    }
+
+    public static function createForPendingMedia(Model $subject, PendingMediaItem $pendingMedia): FileAdder
+    {
+        /** @var  \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
+        $fileAdder = app(FileAdder::class);
+
+        return $fileAdder
+            ->setSubject($subject)
+            ->setFile($pendingMedia->temporaryUpload)
+            ->setName($pendingMedia->name)
+            ->setOrder($pendingMedia->order);
     }
 }
