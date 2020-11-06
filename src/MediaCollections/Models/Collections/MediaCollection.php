@@ -5,7 +5,6 @@ namespace Spatie\MediaLibrary\MediaCollections\Models\Collections;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\MediaLibraryPro;
 
 class MediaCollection extends Collection implements Htmlable
 {
