@@ -34,8 +34,6 @@ class MediaCollection extends Collection implements Htmlable
 
     public function toHtml()
     {
-        MediaLibraryPro::ensureInstalled();
-
         return e(json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
             return [
                 'name' => $media->name,
