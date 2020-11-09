@@ -43,7 +43,9 @@ The React components post data to `/media-library-pro/uploads` by default. If yo
 
 ### Importing the components
 
-The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
+The components are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
+
+_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation/#registering-with-git-hub-packages)_
 
 **laravel-mix >6**
 
@@ -380,7 +382,7 @@ These props are available on both the `attachment` and the `collection` componen
 | validationErrors         |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                 | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
 | maxItems                 | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
-| vapor                    |                                                       | Set to true if you will deploy your application to Vapor, this enables uploading of the files to S3. [Read more](#using-with-laravel-vapor)                                                                              |
+| vapor                    |                                                       | Set to true if you will deploy your application to Vapor, this enables uploading of the files to S3. [Read more](#using-with-laravel-vapor)                                       |
 | vaporSignedStorageUrl    | `"vapor/signed-storage-url"`                          |                                                                                                                                                                                   |
 | maxSizeForPreviewInBytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                 | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
