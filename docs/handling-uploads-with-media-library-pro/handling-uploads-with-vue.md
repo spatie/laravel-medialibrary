@@ -43,7 +43,9 @@ The Vue components post data to `/media-library-pro/uploads` by default. If you 
 
 ### Importing the components
 
-The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
+The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
+
+_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation/#registering-with-git-hub-packages)_
 
 **laravel-mix >6**
 

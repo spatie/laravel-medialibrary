@@ -295,8 +295,8 @@ brew install gifsicle
 
 ## Installing Media Library Pro
 
-[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/general) beautifully with the laravel-medialibrary.
+[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/introduction) beautifully with the laravel-medialibrary.
 
 You can buy a license for Media Library Pro on [the product page](https://spatie.be/products/media-library-pro) at spatie.be.
 
-To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installing-media-library-pro).
+To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installation).
