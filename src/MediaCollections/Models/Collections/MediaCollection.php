@@ -40,6 +40,7 @@ class MediaCollection extends Collection implements Htmlable
                 'file_name' => $media->file_name,
                 'uuid' => $media->uuid,
                 'preview_url' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : '',
+                'original_url' => $media->getUrl(),
                 'order' => $media->order_column,
                 'custom_properties' => $media->custom_properties,
                 'extension' => $media->extension,
