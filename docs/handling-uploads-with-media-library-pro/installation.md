@@ -176,11 +176,11 @@ If you get stuck at any point, have a look at [GitHub's documentation on this](h
 Now, you can use `npm install --save` or `yarn add` to download the packages you need.
 
 ```
-yarn add @spatie/media-library-vue3-attachment
+yarn add @spatie/media-library-pro-styles @spatie/media-library-pro-vue3-attachment
 ```
 
 **You will now have to include the `@spatie/` scope when importing the packages**, this is different from examples in the documentation.
 
 ```
-import { MediaLibraryAttachment } from '@spatie/media-library-vue3-attachment';
+import { MediaLibraryAttachment } from '@spatie/media-library-pro-vue3-attachment';
 ```
