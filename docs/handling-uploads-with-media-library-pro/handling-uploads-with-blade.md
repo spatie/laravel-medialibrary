@@ -10,7 +10,19 @@ You can make use of the `x-media-library-attachment` and `x-media-library-collec
 The Blade components that handle uploads leverage [Livewire](https://laravel-livewire.com) under the hood. That's why
 you must follow [Livewire's installation instructions](https://laravel-livewire.com/docs/installation) as well.
 
+Make sure Alpine is available on the page as well. The easiest way is to include it from a cdn
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
+```
+
+Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installation options.
+
+## Use inside other Livewire components
+
 Our Blade components are meant to be used in a regular HTML form. For now, you can 't use them inside other Livewire components.
+
+We're currently investigating on how support can be added [in this PR](https://github.com/spatie/laravel-medialibrary-pro/pull/40). Feel free to chime in. This repo is only visible for license holders of Media Library Pro.
 
 ## Handling a single upload
 
