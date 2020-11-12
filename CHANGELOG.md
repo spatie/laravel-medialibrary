@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.1.3 - 2020-12-12
+
+- improve optimizer defaults
+
 ## 9.1.2 - 2020-11-11
 
 - add `original_url` to `MediaCollection`.

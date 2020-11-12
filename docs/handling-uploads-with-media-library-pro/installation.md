@@ -101,7 +101,7 @@ This isn't a very pretty import, but you can make it cleaner by adding this conf
 mix.override((webpackConfig) => {
     webpackConfig.resolve.modules = [
         "node_modules",
-        __dirname + "/vendor/spatie/laravel-media-library-pro/resources/js",
+        __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
     ];
 });
 ```
@@ -113,7 +113,7 @@ mix.webpackConfig({
     resolve: {
         modules: [
             "node_modules",
-            __dirname + "/vendor/spatie/laravel-media-library-pro/resources/js",
+            __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
         ],
     },
 });
@@ -123,6 +123,12 @@ This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resou
 
 ```css
 @import "media-library-pro-styles";
+```
+
+If you're using PurgeCSS, you might have to add a rule to your whitelist patterns.
+
+```js
+mix.purgeCss({ whitelistPatterns: [/^media-library/] });
 ```
 
 ### Directly in Blade/HTML
@@ -137,7 +143,7 @@ If you can't install the package using `composer` because, for example, you're d
 
 ### Registering with GitHub Packages
 
-You will need to create a Personal Access Token with the `read:packages` permission on the GitHub account that has access to the [spatie/laravel-media-library-pro](https://github.com/spatie/laravel-medialibrary-pro) repository. We suggest creating an entirely new token for this and not using it for anything else. You can safely share this token with team members as long as it has only this permission. Sadly, there is no way to scope the token to only the Media Library Pro repository.
+You will need to create a Personal Access Token with the `read:packages` permission on the GitHub account that has access to the [spatie/laravel-medialibrary-pro](https://github.com/spatie/laravel-medialibrary-pro) repository. We suggest creating an entirely new token for this and not using it for anything else. You can safely share this token with team members as long as it has only this permission. Sadly, there is no way to scope the token to only the Media Library Pro repository.
 
 Next up, create a `.npmrc` file in your project's root directory, with the following content:
 
@@ -176,11 +182,13 @@ If you get stuck at any point, have a look at [GitHub's documentation on this](h
 Now, you can use `npm install --save` or `yarn add` to download the packages you need.
 
 ```
-yarn add @spatie/media-library-vue3-attachment
+yarn add @spatie/media-library-pro-styles @spatie/media-library-pro-vue3-attachment
 ```
 
 **You will now have to include the `@spatie/` scope when importing the packages**, this is different from examples in the documentation.
 
 ```
-import { MediaLibraryAttachment } from '@spatie/media-library-vue3-attachment';
+import { MediaLibraryAttachment } from '@spatie/media-library-pro-vue3-attachment';
 ```
+
+You can find a list of all the packages on the repository: https://github.com/orgs/spatie/packages?repo_name=laravel-medialibrary-pro.

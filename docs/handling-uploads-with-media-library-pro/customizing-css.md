@@ -33,12 +33,11 @@ Instead of importing/linking the pre-built `dist/styles.css` from the package, y
 
 This is exactly what happens in the header of the homepage at [medialibrary.pro](https://medialibrary.pro): the shown component has a slightly blue-ish look, using the color palette of this site.
 
-
 ## Option 2: Override only portions in your CSS
 
 If you only want to tinker with certain aspects of the component but like to keep the CSS in sync with future package updates, nothing stops you from overriding only certain CSS rules with your own tweaks. Every DOM-element of the component has a class with prefix `media-library`.
 
-Let's say your thumbs aren't square and you want to show them in their original aspect ratio. 
+Let's say your thumbs aren't square and you want to show them in their original aspect ratio.
 Inspect the component in your browser to find out that the thumbnail is rendered in the DOM element with class `media-library-thumb-img`. Next, write some extra CSS for this class:
 
 ```css
@@ -54,12 +53,11 @@ Inspect the component in your browser to find out that the thumbnail is rendered
 
 ```
 
-
-## Option 3: Copy the CSS to your own project 
+## Option 3: Copy the CSS to your own project
 
 If you want to go full-option, you can always copy `src/styles.css` to your own project and go wild.
 In this example we renamed the file to `custom/media-library.css`.
-Beware: you will have to manually keep this CSS in sync with changes in future package updates. 
+Beware: you will have to manually keep this CSS in sync with changes in future package updates.
 
 ```css
 /* app.css */
@@ -84,4 +82,12 @@ One of the many changes we like to do, is detaching the error list at the top an
 }
 ```
 
-This is what we've done on the Customized Collection demo on [medialibrary.pro/demo-customized-collection](http://medialibrary.pro/demo-customized-collection). Pick a file that is too big to see the error list in effect. 
+This is what we've done on the Customized Collection demo on [medialibrary.pro/demo-customized-collection](http://medialibrary.pro/demo-customized-collection). Pick a file that is too big to see the error list in effect.
+
+## PurgeCSS
+
+If you're using PurgeCSS, you might have to add a rule to your whitelist patterns.
+
+```js
+mix.purgeCss({ whitelistPatterns: [/^media-library/] });
+```
