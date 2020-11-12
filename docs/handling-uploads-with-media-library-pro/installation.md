@@ -184,3 +184,5 @@ yarn add @spatie/media-library-pro-styles @spatie/media-library-pro-vue3-attachm
 ```
 import { MediaLibraryAttachment } from '@spatie/media-library-pro-vue3-attachment';
 ```
+
+You can find a list of all the packages on the repository: https://github.com/orgs/spatie/packages?repo_name=laravel-medialibrary-pro.
