@@ -125,6 +125,12 @@ This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resou
 @import "media-library-pro-styles";
 ```
 
+If you're using PurgeCSS, you might have to add a rule to your whitelist patterns.
+
+```js
+mix.purgeCss({ whitelistPatterns: [/^media-library/] });
+```
+
 ### Directly in Blade/HTML
 
 You should copy the built CSS from `vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
