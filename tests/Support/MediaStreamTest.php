@@ -175,7 +175,6 @@ class MediaStreamTest extends TestCase
         @$zipStreamResponse->toResponse(request())->sendContent();
         $content = ob_get_contents();
         ob_end_clean();
-
         $temporaryDirectory = (new TemporaryDirectory())->create();
         file_put_contents($temporaryDirectory->path('response.zip'), $content);
 
