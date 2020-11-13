@@ -385,6 +385,7 @@ If you would like to use the components in your own language, you can pass a `tr
         selectOrDragMax: "Select or drag max {maxItems} {file}",
         file: { singular: "file", plural: "files" },
         anyImage: "any image",
+        anyVideo: "any video",
         goBack: "Go back",
         dropFile: "Drop file to upload",
         dragHere: "Drag file here",
