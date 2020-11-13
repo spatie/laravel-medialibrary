@@ -12,7 +12,7 @@ php artisan media-library:regenerate
 If you only want to regenerate the images for a single model, you can specify it as a parameter:
 
 ```bash
-php artisan media-library:regenerate "App\Post"
+php artisan media-library:regenerate "App\Models\Post"
 ```
 
 If you only want to regenerate images for a few specific media items, you can pass their IDs using the `--ids` option:
