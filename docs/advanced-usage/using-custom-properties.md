@@ -93,3 +93,20 @@ $mediaItem->save();
 $mediaStream =  MediaStream::create('export.zip');
 $mediaStream->addMedia($mediaItem);
 ```
+
+
+If you want to save media with a custom name, you can do this with the help of the special custom property 'zip_filename_suffix'.
+
+The extension will be append automatically. 
+
+```php
+$mediaItem = Media::find($id);
+// Original filename : foo.pdf
+
+$mediaItem->setCustomProperty('zip_filename_suffix', 'bar'); // stores $mediaItem as "bar.pdf"
+
+$mediaItem->save();
+
+$mediaStream =  MediaStream::create('export.zip');
+$mediaStream->addMedia($mediaItem);
+```
