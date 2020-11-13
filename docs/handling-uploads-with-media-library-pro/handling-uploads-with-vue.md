@@ -221,7 +221,7 @@ You can retrieve your initial values in Laravel using `$yourModel->getMedia($col
 </form>
 ```
 
-Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to [the `Asynchronously submit data` section](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue#asynchronously-submit-data).
+Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to [the `Asynchronously submit data` section](#asynchronously-submit-data).
 
 ### Setting validation rules
 
@@ -542,6 +542,32 @@ Pass a method to `before-upload` that accepts a [file](https://developer.mozilla
 </script>
 ```
 
+## Translations
+
+If you would like to use the components in your own language, you can pass a `translations` prop to the component.
+
+```html
+<media-library-collection
+    :translations="{
+        fileTypeNotAllowed: 'You must upload a file of type',
+        tooLarge: 'File too large, max',
+        tooSmall: 'File too small, min',
+        tryAgain: 'please try uploading this file again',
+        somethingWentWrong: 'Something went wrong while uploading this file',
+        selectOrDrag: 'Select or drag files',
+        selectOrDragMax: 'Select or drag max {maxItems} {file}',
+        file: { singular: 'file', plural: 'files' },
+        anyImage: 'any image',
+        goBack: 'Go back',
+        dropFile: 'Drop file to upload',
+        dragHere: 'Drag file here',
+        remove: 'Remove',
+    }"
+/>
+```
+
+The values mentioned here are the defaults. Feel free to only pass in a couple of keys, as your object will be merged onto the default.
+
 ## Props
 
 These props are available on both the `attachment` and the `collection` component.
@@ -551,7 +577,7 @@ These props are available on both the `attachment` and the `collection` componen
 | name                          |                                                       |                                                                                                                                                                                   |
 | initial-value                 | `[]`                                                  |                                                                                                                                                                                   |
 | route-prefix                  | `"media-library-pro"`                                 |                                                                                                                                                                                   |
-| validation-rules              |                                                       | Refer to [validation rules](#validation-rules) section                                                                                                                            |
+| validation-rules              |                                                       | Refer to the ["validation rules"](#validation-rules) section                                                                                                                      |
 | validation-errors             |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                      | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
 | max-items                     | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
@@ -559,6 +585,7 @@ These props are available on both the `attachment` and the `collection` componen
 | vapor-signed-storage-url      | `"vapor/signed-storage-url"`                          |                                                                                                                                                                                   |
 | max-size-for-preview-in-bytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                      | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
+| translations                  |                                                       | Refer to the ["Translations"](#translations) section                                                                                                                              |
 | ref                           |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |
 | before-upload                 |                                                       | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
 | after-upload                  |                                                       | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |

@@ -224,21 +224,22 @@ handleClass?: string
 
 ## Parameters
 
-| parameter name           | Default value                | Description                                                                                                                                                               |
-| ------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name                     |                              |                                                                                                                                                                           |
-| initialValue             | `[]`                         |                                                                                                                                                                           |
-| routePrefix              | `"media-library-pro"`        |                                                                                                                                                                           |
-| validationRules          |                              | Refer to [validation](./handling-uploads-with-react#validation-rules) section                                                                                            |
-| validationErrors         |                              | The standard Laravel validation error object                                                                                                                              |
-| maxItems                 |                              |                                                                                                                                                                           |
-| maxSizeForPreviewInBytes |                              |                                                                                                                                                                           |
+| parameter name           | Default value                | Description                                                                                                                                                              |
+| ------------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| name                     |                              |                                                                                                                                                                          |
+| initialValue             | `[]`                         |                                                                                                                                                                          |
+| routePrefix              | `"media-library-pro"`        |                                                                                                                                                                          |
+| validationRules          |                              | Refer to the ["validation"](./handling-uploads-with-react#validation-rules) section                                                                                      |
+| validationErrors         |                              | The standard Laravel validation error object                                                                                                                             |
+| maxItems                 |                              |                                                                                                                                                                          |
+| maxSizeForPreviewInBytes |                              |                                                                                                                                                                          |
+| translations             |                              | Refer to the ["Translations"](./handling-uploads-with-react#translations) section                                                                                        |
 | vapor                    | `false`                      | Set to true if you will deploy your application to Vapor, this enables uploading of the files to S3. [Read more](./handling-uploads-with-react#using-with-laravel-vapor) |
-| vaporSignedStorageUrl    | `"vapor/signed-storage-url"` |                                                                                                                                                                           |
-| multiple                 | `true`                       |                                                                                                                                                                           |
-| beforeUpload             |                              | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                             |
-| afterUpload              |                              | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                              |
-| onChange                 |                              |                                                                                                                                                                           |
+| vaporSignedStorageUrl    | `"vapor/signed-storage-url"` |                                                                                                                                                                          |
+| multiple                 | `true`                       |                                                                                                                                                                          |
+| beforeUpload             |                              | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                            |
+| afterUpload              |                              | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                             |
+| onChange                 |                              |                                                                                                                                                                          |
 
 ## Returned variables
 

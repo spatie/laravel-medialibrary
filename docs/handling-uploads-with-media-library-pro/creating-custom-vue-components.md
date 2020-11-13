@@ -220,23 +220,24 @@ handleClass?: string
 
 ## Props
 
-| prop name                       | Default value                | Description                                                                                                                                                             |
-| ------------------------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name                            |                              |                                                                                                                                                                         |
-| initial-value                   | `[]`                         |                                                                                                                                                                         |
-| route-prefix                    | `"media-library-pro"`        |                                                                                                                                                                         |
-| validation-rules                |                              | Refer to [validation](./handling-uploads-with-vue#validation-rules) section                                                                                                |
-| validation-errors               |                              | The standard Laravel validation error object                                                                                                                            |
-| max-items                       |                              |                                                                                                                                                                         |
-| max-size-for-preview-in-bytes   |                              |                                                                                                                                                                         |
+| prop name                       | Default value                | Description                                                                                                                                                            |
+| ------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                            |                              |                                                                                                                                                                        |
+| initial-value                   | `[]`                         |                                                                                                                                                                        |
+| route-prefix                    | `"media-library-pro"`        |                                                                                                                                                                        |
+| validation-rules                |                              | Refer to the ["validation"](./handling-uploads-with-vue#validation-rules) section                                                                                      |
+| validation-errors               |                              | The standard Laravel validation error object                                                                                                                           |
+| max-items                       |                              |                                                                                                                                                                        |
+| max-size-for-preview-in-bytes   |                              |                                                                                                                                                                        |
+| translations                    |                              | Refer to the ["Translations"](./handling-uploads-with-vue#translations) section                                                                                        |
 | vapor                           | `false`                      | Set to true if you will deploy your application to Vapor, this enables uploading of the files to S3. [Read more](./handling-uploads-with-vue#using-with-laravel-vapor) |
-| vapor-signed-storage-url        | `"vapor/signed-storage-url"` |                                                                                                                                                                         |
-| multiple                        | `true`                       |                                                                                                                                                                         |
-| before-upload                   |                              | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                           |
-| after-upload                    |                              | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                            |
-| @change                         |                              |                                                                                                                                                                         |
-| @is-ready-to-submit-change      |                              | Emits a boolean that tells whether the MediaLibrary instance is ready to submit (has no uploads in progress and has no frontend validation errors)                      |
-| @has-uploads-in-progress-change |                              | Emits a boolean that tells whether the MediaLibrary instance currently has uploads in progress                                                                          |
+| vapor-signed-storage-url        | `"vapor/signed-storage-url"` |                                                                                                                                                                        |
+| multiple                        | `true`                       |                                                                                                                                                                        |
+| before-upload                   |                              | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                          |
+| after-upload                    |                              | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                           |
+| @change                         |                              |                                                                                                                                                                        |
+| @is-ready-to-submit-change      |                              | Emits a boolean that tells whether the MediaLibrary instance is ready to submit (has no uploads in progress and has no frontend validation errors)                     |
+| @has-uploads-in-progress-change |                              | Emits a boolean that tells whether the MediaLibrary instance currently has uploads in progress                                                                         |
 
 ## Returned parameters in scoped slot
 
