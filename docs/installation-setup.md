@@ -14,7 +14,7 @@ composer require "spatie/laravel-medialibrary:^9.0.0"
 If you have a license for media library pro, you should use `laravel-media-library-pro`
 
 ```bash
-composer require "spatie/laravel-medialibrary-pro:^9.0.0"
+composer require spatie/laravel-medialibrary-pro
 ```
 
 ## Preparing the database
