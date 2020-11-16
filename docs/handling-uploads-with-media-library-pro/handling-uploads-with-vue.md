@@ -13,7 +13,7 @@ The `MediaLibraryCollection` component can upload multiple files with custom pro
 
 ![Screenshot of the MediaLibraryCollection Vue component](/docs/laravel-medialibrary/v9/images/pro/collection.png)
 
-If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](#).
+If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](./creating-custom-vue-components).
 
 ## Basic setup
 
@@ -45,7 +45,7 @@ The Vue components post data to `/media-library-pro/uploads` by default. If you 
 
 The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
 
-_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation/#registering-with-git-hub-packages)_
+_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation#usage-in-a-frontend-repository)_
 
 **laravel-mix >6**
 

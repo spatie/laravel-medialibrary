@@ -61,7 +61,7 @@ In Vue 3, you would use the new `v-slot` attribute instead of `slot-scope`:
 v-slot="{ state, getImgProps, … }"
 ```
 
-You can find a full list of available props for the renderless component [at the bottom of this page](TODO-link).
+You can find a full list of available props for the renderless component [at the bottom of this page](#props).
 
 ## Examples
 

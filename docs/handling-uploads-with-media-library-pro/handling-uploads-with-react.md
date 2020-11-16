@@ -13,7 +13,7 @@ The `MediaLibraryCollection` component can upload multiple files with custom pro
 
 ![Screenshot of the MediaLibraryCollection React component](/docs/laravel-medialibrary/v9/images/pro/collection.png)
 
-If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](#).
+If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](./creating-custom-react-components).
 
 ## Basic setup
 
@@ -43,9 +43,9 @@ The React components post data to `/media-library-pro/uploads` by default. If yo
 
 ### Importing the components
 
-The components are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
+_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation#usage-in-a-frontend-repository). [Read this for usage in Next.js](#usage-in-nextjs)_
 
-_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation/#registering-with-git-hub-packages)_
+The components are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
 
 **laravel-mix >6**
 
@@ -403,6 +403,18 @@ window.mediaLibraryTranslations = {
     somethingWentWrong: "whoops",
     remove: "delete",
 };
+```
+
+## Usage in Next.js
+
+Because the components need references `document` and `window`, Server Side Rendering won't work. This means you'll have to use [dynamic imports](https://nextjs.org/docs/advanced-features/dynamic-import) to get the UI components to work.
+
+```js
+import dynamic from "next/dynamic";
+const MediaLibraryCollection = dynamic(
+    () => import("@spatie/media-library-pro-react-collection"),
+    { ssr: false }
+);
 ```
 
 ## Props
