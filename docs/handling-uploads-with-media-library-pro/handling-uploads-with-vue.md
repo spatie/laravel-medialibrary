@@ -569,6 +569,15 @@ If you would like to use the components in your own language, you can pass a `tr
 
 The values mentioned here are the defaults. Feel free to only pass in a couple of keys, as your object will be merged onto the default.
 
+If you use the component in different parts of your app, you might want to set the translations globally.
+
+```js
+window.mediaLibraryTranslations = {
+    somethingWentWrong: "whoops",
+    remove: "delete",
+};
+```
+
 ## Props
 
 These props are available on both the `attachment` and the `collection` component.

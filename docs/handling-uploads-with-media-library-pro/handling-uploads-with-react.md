@@ -396,6 +396,15 @@ If you would like to use the components in your own language, you can pass a `tr
 
 The values mentioned here are the defaults. Feel free to only pass in a couple of keys, as your object will be merged onto the default.
 
+If you use the component in different parts of your app, you might want to set the translations globally.
+
+```js
+window.mediaLibraryTranslations = {
+    somethingWentWrong: "whoops",
+    remove: "delete",
+};
+```
+
 ## Props
 
 These props are available on both the `attachment` and the `collection` component.
@@ -405,7 +414,7 @@ These props are available on both the `attachment` and the `collection` componen
 | name                     |                                                       |                                                                                                                                                                                   |
 | initialValue             | `[]`                                                  |                                                                                                                                                                                   |
 | routePrefix              | `"media-library-pro"`                                 |                                                                                                                                                                                   |
-| validationRules          |                                                       | Refer to the ["validation rules"](#validation-rules) section                                                                                                                            |
+| validationRules          |                                                       | Refer to the ["validation rules"](#validation-rules) section                                                                                                                      |
 | validationErrors         |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                 | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
 | maxItems                 | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
