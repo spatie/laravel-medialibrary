@@ -78,7 +78,7 @@ mix.webpackConfig({
 This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import to this:
 
 ```js
-import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -102,8 +102,8 @@ The most basic components have a `name` prop. This name will be used to identify
 ```jsx
 // MyImageUploader.jsx
 
-import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
-import { MediaLibraryCollection } from "media-library-pro-react-collection";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
+import { MediaLibraryCollection } from "media-library-pro-react-collection";
 
 export default function MyImageUploader() {
     return (
@@ -374,24 +374,24 @@ return (
 If you would like to use the components in your own language, you can pass a `translations` prop to the component.
 
 ```jsx
-<MediaLibraryCollection
-    translations={{
-        fileTypeNotAllowed: "You must upload a file of type",
-        tooLarge: "File too large, max",
-        tooSmall: "File too small, min",
-        tryAgain: "please try uploading this file again",
-        somethingWentWrong: "Something went wrong while uploading this file",
-        selectOrDrag: "Select or drag files",
-        selectOrDragMax: "Select or drag max {maxItems} {file}",
-        file: { singular: "file", plural: "files" },
-        anyImage: "any image",
-        anyVideo: "any video",
-        goBack: "Go back",
-        dropFile: "Drop file to upload",
-        dragHere: "Drag file here",
-        remove: "Remove",
-    }}
-/>
+translations = {
+    fileTypeNotAllowed: "You must upload a file of type",
+    tooLarge: "File too large, max",
+    tooSmall: "File too small, min",
+    tryAgain: "please try uploading this file again",
+    somethingWentWrong: "Something went wrong while uploading this file",
+    selectOrDrag: "Select or drag files",
+    selectOrDragMax: "Select or drag max {maxItems} {file}",
+    file: { singular: "file", plural: "files" },
+    anyImage: "any image",
+    anyVideo: "any video",
+    goBack: "Go back",
+    dropFile: "Drop file to upload",
+    dragHere: "Drag file here",
+    remove: "Remove",
+};
+
+return <MediaLibraryCollection translations={translations} />;
 ```
 
 The values mentioned here are the defaults. Feel free to only pass in a couple of keys, as your object will be merged onto the default.
