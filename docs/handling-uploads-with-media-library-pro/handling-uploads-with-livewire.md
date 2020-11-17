@@ -1,16 +1,15 @@
 ---
-title: Handling uploads with Blade
+title: Handling uploads with Livewire
 weight: 4
 ---
 
-You can make use of the `x-media-library-attachment` and `x-media-library-collection` Blade components to handle uploads.
+You can make use of the `x-media-library-attachment` and `x-media-library-collection` inside of the views of your own Livewire components.
 
 ## Getting started
 
-The Blade components that handle uploads leverage [Livewire](https://laravel-livewire.com) under the hood. That's why
-you must follow [Livewire's installation instructions](https://laravel-livewire.com/docs/installation) as well.
+Make sure to have followed [Livewire's installation instructions](https://laravel-livewire.com/docs/installation).
 
-Make sure Alpine is available on the page as well. The easiest way is to include it from a cdn
+Make sure Alpine is available on the page as well. The easiest way is to include it from a CDN:
 
 ```html
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
@@ -18,58 +17,118 @@ Make sure Alpine is available on the page as well. The easiest way is to include
 
 Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installation options.
 
-## Use inside other Livewire components
-
-Our Blade components are meant to be used in a regular HTML form. For now, you can 't use them inside other Livewire components.
-
-We're currently investigating on how support can be added [in this PR](https://github.com/spatie/laravel-medialibrary-pro/pull/40). Feel free to chime in. This repo is only visible for license holders of Media Library Pro.
-
 ## Handling a single upload
 
-You can use `x-media-library-attachment` to upload a single file. Here's an example:
+You can use `x-media-library-attachment` component to upload a single file.
+
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
+
+Here's how that might look like in the view of your Livewire component
 
 ```html
-<form method="POST">
-    @csrf
+<form method="POST" wire:submit.prevent="submit">
+   
+    <input id="name" wire:model.debounce.500ms="name">
 
-    <input id="name" name="name">
-
-    <x-media-library-attachment name="avatar"/>
+    <x-media-library-attachment name="myUpload" />
 
     <button type="submit">Submit</button>
 </form>
 ```
 
-![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
+In your Livewire component you must:
+- use the `Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia` trait
+- add a public property `$mediaComponentNames` set to array that contains all the names of media library pro components that you are going to use. 
+- for each component that you are going to use you should add a public property with the name you use in the view for that component (in the example above: `myUpload`)
 
-The `x-media-library-attachment` will take care of the upload. Under the hood the upload is processed by
-a [Livewire](https://laravel-livewire.com) component.
+Here is an example component:
 
-After a file has been uploaded it will be stored as a temporary upload. In case there are validation errors when
-submitting the form, the `x-media-library-attachment` will display the temporary upload when you get redirected back to
-the form. There's no need for the user to upload the file again.
+```php
+namespace App\Http\Livewire;
 
-In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
-model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+use App\Models\YourModel;
+use Livewire\Component;
+use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
-## Are you a visual learner?
+class MyForm extends Component
+{
+    use WithMedia;
 
-In this video you'll see a demo of the attachment component.
+    public $name;
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/9TwzBSTEKjo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    public $message = '';
 
-Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+    public $mediaComponentNames = ['myUpload'];
+
+    public $myUpload;
+
+    public function submit()
+    {
+        $formSubmission = YourModel::create([
+            'name' => $this->name,
+        ]);
+
+        $formSubmission
+            ->addFromMediaLibraryRequest($this->myUpload)
+            ->toMediaCollection('images');
+
+        $this->message = 'Your form has been submitted';
+
+        $this->name = '';
+        $this->clearMedia();
+    }
+
+    public function render()
+    {
+        return view('livewire.my-form');
+    }
+}
+```
+
+Immediately after a file has been uploaded it will be stored as a temporary upload.  In the method that handles the form submission you must use the `addFromMediaLibraryRequest` method to move the uploaded file to the model you want. 
+
+To clear out an uploaded file from being displayed, you can call `clearMedia()`. This method will only clear the uploaded file from view, uploaded files will not be deleted.
+
+If you are using multiple attachment components and only want to clear out specificy ones, pass the name of component to `clearMedia`.
+
+```php
+$this->clearMedia('myUpload')
+```
+
+### Validating a single upload
+
+You can pass any Laravel validation rule to the rules prop of the `x-media-library-attachment` component. Here's an example where only `jpeg` and `pngs` will be accepted.
+
+```html
+<x-media-library-attachment name="myUpload" rules="mimes:jpeg,png"/>
+```
+
+You can make the upload required by validating it in your Livewire component
+
+```php
+// in your livewire component
+
+public function submit()
+{
+    $this->validate([
+        'media' => 'myUpload',
+    ]);
+    
+    // process the form submission
+
+}
+```
 
 ## Handling multiple uploads
 
-Here's an example of how you can allow multiple uploads
+Uploading multiple files is very similar to uploading a single file. The only thing you need to the `x-medialibrary-attachment` in the view is `multiple`.
 
 ```html
-<form method="POST">
-    @csrf
-    Name: <input type="text" name="name" value="{{ old('name', $formSubmission->name) }}">
+<form method="POST" wire:submit.prevent="submit">
+   
+    <input id="name" wire:model.debounce.500ms="name">
 
-    <x-medialibrary-attachment multiple name="images"/>
+    <x-media-library-attachment multiple name="images" />
 
     <button type="submit">Submit</button>
 </form>
@@ -77,26 +136,54 @@ Here's an example of how you can allow multiple uploads
 
 ![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/multiple.png)
 
-After files have been uploaded, they will be stored as a temporary uploads.
+In your Livewire component you must:
+- use the `Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia` trait
+- add a public property `$mediaComponentNames` set to array that contains all the names of media library pro components that you are going to use.
+- for each component that you are going to use you should add a public property with the name you use in the view for that component (in the example above: `myUpload`)
 
-In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
-model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+Here is an example component:
 
-Here's a video where multiple uploads are being demoed:
+```php
+namespace App\Http\Livewire;
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Ftz2pXm9eek" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+use App\Models\YourModel;
+use Livewire\Component;
+use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
-## Setting a maximum amount of uploads
+class MyForm extends Component
+{
+    use WithMedia;
 
-To set a maximum number of files you can add a `max-items` attribute. Here is an example where users can only upload two
-files.
+    public $name;
 
-```html
-<x-media-library-attachment 
-    multiple
-    name="images"
-    max-items="2"
-/>
+    public $message = '';
+
+    public $mediaComponentNames = ['images'];
+
+    public $images;
+
+    public function submit()
+    {
+        $formSubmission = YourModel::create([
+            'name' => $this->name,
+        ]);
+
+        $formSubmission
+            ->addFromMediaLibraryRequest($this->images)
+            ->toMediaCollection('images');
+
+        $this->message = 'Your form has been submitted';
+
+        $this->name = '';
+        
+        $this->clearMedia();
+    }
+
+    public function render()
+    {
+        return view('livewire.my-form');
+    }
+}
 ```
 
 ## Validating uploads in real time
@@ -115,9 +202,6 @@ Here's an example where we only accept `png` and `jpg` files that are 1MB or les
 />
 ```
 
-This validation only applies on the creation of the temporary uploads. You should also perform validation
-when [processing the upload on the server](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
-
 ## Administer the contents of a media library collection
 
 You can manage the entire contents of a media library collection with `x-media-library-collection` component. This
@@ -127,120 +211,76 @@ Here is an example where we are going to administer an `images` collection of a 
 already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing-your-model) to handle uploads.
 
 ```html
-<x-media-library-collection
-    name="images"
-    :model="$blogPost"
-    collection="images"
-/>
-```
+<form method="POST" wire:submit.prevent="submit">
 
-This component will display the contents of the entire collection. Files can be added, removed, updated and reordered.
-New files will be uploaded as temporary uploads.
+    <input id="name" wire:model.debounce.500ms="name">
 
-The value you pass in `name` of the component will be use as the key name in which the component will send the state of
-the collection to the backend. In the controller handling the form submission you should validate the new contents of
-the collection and sync it with the collection of the eloquent model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
-
-Like the `x-media-library-attachment` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
-
-In this example, the collection will be allowed to hold `png` and `jpg` files that are smaller than 1 MB.
-
-```html
-<x-media-library-collection
-    name="images"
-    :model="$blogPost"
-    collection="images"
-    max-items="2"
-    rules="mimes:png,jpg|max:1024"
-/>
-```
-
-In this video you'll see the collection component in action
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/s9ZOljcq05w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
-
-### Using custom properties
-
-The media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
-default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a
-blade view that will be used to display all form elements on a row in the component.
-
-In this example we're going to add a custom property form field called `extra_field`.
-
-```html
-@include('media-library::livewire.partials.collection.fields')
-
-<div class="media-library-field">
-    <label class="media-library-label">Extra field</label>
-    <input
-        class="media-library-input"
-        type="text"
-        {{ $mediaItem->customPropertyAttributes('extra_field')  }}
+    <x-media-library-collection
+        name="images"
+        :model="$blogPost"
+        collection="images"
     />
 
-    @error($mediaItem->customPropertyErrorName('extra_field'))
-        <span class="media-library-text-error">
-               {{ $message }}
-        </span>
-    @enderror
-</div>
+    <button type="submit">Submit</button>
+</form>
 ```
 
-You should then pass the path to that view to the `fields-view` prop of the `x-media-library-collection` component.
+In your Livewire component you must:
+- use the `Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia` trait
+- add a public property `$mediaComponentNames` set to array that contains all the names of media library pro componentss that you are going to use.
+- for each component that you are going to use you should add a public property with the name you use in the view for that component (in the example above: `myUpload`)
 
-```html
-<x-media-library-collection
-    name="images"
-    :model="$formSubmission"
-    collection="images"
-    fields-view="app.your-custom-properties-blade-view-path"
-/>
-```
-
-This is how that will look like.
-
-![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
-
-
-Custom properties can be validated using [a form request](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+Here is an example component:
 
 ```php
-namespace App\Models;
+namespace App\Http\Livewire;
 
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Image\Manipulations;
+use App\Models\BlogPost;
+use Livewire\Component;
+use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
-class BlogPost extends Model implements HasMedia
+class MyForm extends Component
 {
-    use InteractsWithMedia;
+    use WithMedia;
 
-    public function registerMediaConversions(Media $media = null): void
+    public $name;
+
+    public $message = '';
+
+    public $mediaComponentNames = ['images'];
+
+    public $images;
+
+    public function submit()
     {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Manipulations::FIT_CROP, 300, 300)
-            ->nonQueued();
+        $formSubmission = BlogPost::create([
+            'name' => $this->name,
+        ]);
+
+        $formSubmission
+            ->addFromMediaLibraryRequest($this->images)
+            ->toMediaCollection('images');
+
+        $this->message = 'Your form has been submitted';       
+    }
+
+    public function render()
+    {
+        return view('livewire.my-form');
     }
 }
 ```
 
-In this video, you'll see an example of how extra fields can be added.
+### Using custom properties
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rzvJ2Z2Hs-g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+TODO
 
 ## Uploading directly to S3
 
-Under the hood, the `attachment` and `collection` components use Livewire to perform uploads. Currently, Livewire does not support uploading multiple files to S3. That's why only the `attachment` component can be used to upload files to S3.
+Currently, Livewire does not support uploading multiple files to S3. That's why only the `attachment` component can be used to upload files to S3.
 
 To get started with upload files to `s3`, make sure to follow Livewire's instructions on [how to upload directly to S3](https://laravel-livewire.com/docs/2.x/file-uploads#upload-to-s3).
 
 Next, make sure you configured the media disk that uses the S3 driver.
 
 With that configuration in place, the `attachment` component will now upload directly to S3.
-
-
