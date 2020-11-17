@@ -78,7 +78,7 @@ mix.webpackConfig({
 This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import to this:
 
 ```js
-import MediaLibraryAttachment from "media-library-pro-react-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -102,8 +102,8 @@ The most basic components have a `name` prop. This name will be used to identify
 ```jsx
 // MyImageUploader.jsx
 
-import MediaLibraryAttachment from "media-library-pro-react-attachment";
-import MediaLibraryCollection from "media-library-pro-react-collection";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
+import { MediaLibraryCollection } from "media-library-pro-react-collection";
 
 export default function MyImageUploader() {
     return (
@@ -182,7 +182,7 @@ See the [Validation rules section](#validation-rules) for a complete list of all
 The components keep track of whether they're ready to be submitted, you can use this to disable a submit button while a file is still uploading or when there are frontend validation errors. This value can be tracked by passing a listener method to the `onIsReadyToSubmitChange` prop. If you submit a form while a file is uploading, Laravel will return a HTTP 500 error with an `invalid uuid` message.
 
 ```jsx
-import MediaLibraryAttachment from "media-library-pro-react-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 
 function AvatarComponent() {
     const [isReadyToSubmit, setIsReadyToSubmit] = useState(true);
