@@ -103,7 +103,7 @@ You can change the order of these sections to be more consistent with your app, 
 Add the following lines to your CSS, and switch the order of the sections around to your liking.
 
 ```css
-.media-library-multiple {
+.media-library {
     grid-template-areas:
         "uploader"
         "items"
