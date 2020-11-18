@@ -161,7 +161,7 @@ Want to see more videos like this? Check out our [free video course on how to us
 
 ### Using custom properties
 
-The media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
+Media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
 default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a
 blade view that will be used to display all form elements on a row in the component.
 
@@ -201,31 +201,7 @@ This is how that will look like.
 
 ![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
 
-
 Custom properties can be validated using [a form request](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
-
-```php
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Image\Manipulations;
-
-class BlogPost extends Model implements HasMedia
-{
-    use InteractsWithMedia;
-
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Manipulations::FIT_CROP, 300, 300)
-            ->nonQueued();
-    }
-}
-```
 
 In this video, you'll see an example of how extra fields can be added.
 

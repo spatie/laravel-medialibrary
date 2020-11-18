@@ -103,19 +103,18 @@ You can pass any Laravel validation rule to the rules prop of the `x-media-libra
 <x-media-library-attachment name="myUpload" rules="mimes:jpeg,png"/>
 ```
 
-You can make the upload required by validating it in your Livewire component
+You can make the upload required by validating it in your Livewire component:
 
 ```php
-// in your livewire component
+// in the method that handles the form submission inside your livewire component
 
 public function submit()
 {
     $this->validate([
-        'media' => 'myUpload',
+        'myUpload' => 'required',
     ]);
     
     // process the form submission
-
 }
 ```
 
@@ -186,20 +185,27 @@ class MyForm extends Component
 }
 ```
 
-## Validating uploads in real time
+### Validating multiple uploads
 
-The upload can be validated before the form is submitted by adding a `rules` attribute. In the value of the attribute
-you can use any of Laravel's available validation rules that are applicable to file uploads.
-
-Here's an example where we only accept `png` and `jpg` files that are 1MB or less.
+You can pass any Laravel validation rule to the rules prop of the `x-media-library-attachment` component. Here's an example where only `jpeg` and `pngs` will be accepted.
 
 ```html
-<x-media-library-attachment 
-    multiple
-    name="images"
-    max-items="2"
-    rules="mimes:png,jpg|max:1024"
-/>
+<x-media-library-attachment name="images" rules="mimes:jpeg,png"/>
+```
+
+You can make the upload required by validating it in your Livewire component. Here's an example where at least one upload is required, but more than three uploads are not allowed.
+
+```php
+// in the method that handles the form submission inside your livewire component
+
+public function submit()
+{
+    $this->validate([
+        'images' => 'required|max:3',
+    ]);
+    
+    // process the form submission
+}
 ```
 
 ## Administer the contents of a media library collection
@@ -227,7 +233,7 @@ already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing
 
 In your Livewire component you must:
 - use the `Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia` trait
-- add a public property `$mediaComponentNames` set to array that contains all the names of media library pro componentss that you are going to use.
+- add a public property `$mediaComponentNames` set to array that contains all the names of media library pro components that you are going to use.
 - for each component that you are going to use you should add a public property with the name you use in the view for that component (in the example above: `myUpload`)
 
 Here is an example component:
@@ -271,9 +277,84 @@ class MyForm extends Component
 }
 ```
 
+### Validating the collection
+
+You can pass any Laravel validation rule to the rules prop of the `x-media-library-collection` component. Here's an example where only `jpeg` and `pngs` will be accepted.
+
+```html
+<x-media-library-collection name="images" rules="mimes:jpeg,png"/>
+```
+
+You can make the upload required by validating it in your Livewire component. Here's an example where at least one upload is required, but more than three uploads are not allowed.
+
+```php
+// in the method that handles the form submission inside your livewire component
+
+public function submit()
+{
+    $this->validate([
+        'images' => 'required|max:3',
+    ]);
+    
+    // process the form submission
+}
+```
+
 ### Using custom properties
 
-TODO
+Media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
+default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a
+blade view that will be used to display all form elements on a row in the component.
+
+In this example we're going to add a custom property form field called `extra_field`.
+
+```html
+@include('media-library::livewire.partials.collection.fields')
+
+<div class="media-library-field">
+    <label class="media-library-label">Extra field</label>
+    <input
+        class="media-library-input"
+        type="text"
+        {{ $mediaItem->livewireCustomPropertyAttributes('extra_field') }}
+    />
+
+    @error($mediaItem->customPropertyErrorName('extra_field'))
+    <span class="media-library-text-error">
+       {{ $message }}
+    </span>
+    @enderror
+</div>
+```
+
+You should then pass the path to that view to the `fields-view` prop of the `x-media-library-collection` component.
+
+```html
+<x-media-library-collection
+    name="images"
+    :model="$formSubmission"
+    collection="images"
+    fields-view="app.your-custom-properties-blade-view-path"
+/>
+```
+
+This is how that will look like.
+
+![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
+
+In your Livewire component, you can validate the custom properties like this. This example assumes that you have set the `name` attribute of `x-media-library-collection` to `images`.
+
+```php
+// inside the method in your Livewire component that handles the form submission
+public function submit()
+{
+    $this->validate([
+        'images.*.custom_properties.extra_field' => 'required',
+    ], ['required' => 'This field is required']);
+
+    // process the form submission
+}
+```
 
 ## Uploading directly to S3
 
