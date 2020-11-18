@@ -58,7 +58,7 @@ Media Library Pro tracks all temporary uploads in a table called `temporary_uplo
 To create the table you need to publish and run the migration:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibraryPro\MediaLibraryProServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\MediaLibraryPro\MediaLibraryProServiceProvider" --tag="media-library-pro-migrations"
 php artisan migrate
 ```
 
