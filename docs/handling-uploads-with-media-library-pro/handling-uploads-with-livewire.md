@@ -17,13 +17,19 @@ Make sure Alpine is available on the page as well. The easiest way is to include
 
 Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installation options.
 
+## Demo application
+
+In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro inside your Livewire components.
+
+If you are having troubles using the components, take a look in that app to see how we've done it.
+
 ## Handling a single upload
 
 You can use `x-media-library-attachment` component to upload a single file.
 
 ![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
 
-Here's how that might look like in the view of your Livewire component
+Here's how that might look like in the view of your Livewire component:
 
 ```html
 <form method="POST" wire:submit.prevent="submit">

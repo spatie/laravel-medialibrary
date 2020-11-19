@@ -15,6 +15,12 @@ The `MediaLibraryCollection` component can upload multiple files with custom pro
 
 If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](./creating-custom-vue-components).
 
+## Demo application
+
+In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro with Vue.
+
+If you are having troubles using the components, take a look in that app to see how we've done it.
+
 ## Basic setup
 
 First, the server needs to be able to catch your incoming uploads. Use the `mediaLibrary` macro in your routes file.

@@ -20,7 +20,13 @@ Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installatio
 
 ## Use inside other Livewire components
 
-Our Blade components are meant to be used in a regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](TODO: add link).
+Our Blade components are meant to be used in a regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-livewire).
+
+## Demo application
+
+In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro inside your Blade views.
+
+If you are having troubles using the components, take a look in that app to see how we've done it.
 
 ## Handling a single upload
 

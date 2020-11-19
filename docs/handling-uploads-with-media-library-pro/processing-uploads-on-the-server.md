@@ -29,7 +29,7 @@ To set up temporary uploads, register the temporary uploads route with our handy
 Route::mediaLibrary();
 ```
 
-This will register a route at `/media-library-pro/uploads`
+This will register a route at `/media-library-pro/uploads`.
 
 
 ### Enabling Vapor support
