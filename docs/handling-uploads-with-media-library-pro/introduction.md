@@ -17,6 +17,8 @@ The collection component can upload multiple files with custom properties. Use t
 
 If none of those fit the bill, Media Library Pro supplies you with a number helpers to build your own components.
 
+## Are you a visual learner?
+
 In this video, you'll see a quick overview of the package.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Wdav5rXMlRE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -31,7 +33,7 @@ Next, choose your own journey. We have written extensive guides for all four fla
 
 ### Blade
 
-You can use the attachment and collection components in regular forms. Behind the scenes these components use Livewire, but no Livewire knowledige is needed to use them.
+You can use the attachment and collection components in regular forms. Behind the scenes these components use Livewire, but no Livewire knowledge is needed to use them.
 
 - [Handling uploads with Blade](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-blade)
 
