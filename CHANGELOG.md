@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 9.1.3 - 2020-12-12
+## 9.1.4 - 2020-11-19
+
+- automatically delete conversion jobs for deleted models (#2191)
+
+## 9.1.3 - 2020-11-12
 
 - improve optimizer defaults
 
