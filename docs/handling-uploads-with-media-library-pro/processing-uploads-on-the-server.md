@@ -322,6 +322,28 @@ $yourModel
     ->toMediaCollection('images');
 ```
 
+### Setting a name
+
+If you want use a specific media name before adding it to disk you can use the `useFileName` method.
+
+```php
+$yourModel
+    ->addFromMediaLibraryRequest($request->images)
+    ->useName('my custom name')
+    ->toMediaCollection('images');
+```
+
+Alternatively, you can pass a callable to `useName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
+
+In this example we're going to lowercase the name of the uploaded file before adding it the media library.
+
+```php
+$yourModel
+    ->addFromMediaLibraryRequest($request->images)
+    ->useName(fn(MediaLibraryRequestItem $item) => strtolower($item->name))
+    ->toMediaCollection('images');
+```
+
 ### Setting a file name
 
 If you want to rename an uploaded file before adding it to disk you can use the `useFileName` method.
@@ -336,6 +358,13 @@ $yourModel
 Alternatively, you can pass a callable to `useFileName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
 
 In this example we're going to lowercase the name of the uploaded file before adding it the media library.
+
+```php
+$yourModel
+    ->addFromMediaLibraryRequest($request->images)
+    ->useFileName(fn(MediaLibraryRequestItem $item) => strtolower($item->name))
+    ->toMediaCollection('images');
+```
 
 ## Customizing the preview images
 
@@ -362,4 +391,3 @@ use `preview` conversion on the `BlogPost` model.
 
 Make sure such an `preview` conversion exists for each model that handles media. We highly recommend to use `nonQueued`
 so the image is immediately available.
-
