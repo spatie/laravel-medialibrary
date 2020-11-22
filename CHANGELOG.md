@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.1.5 - 2020-11-22
+
+- fix custom file names for media library pro
+
 ## 9.1.4 - 2020-11-19
 
 - automatically delete conversion jobs for deleted models (#2191)
