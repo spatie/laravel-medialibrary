@@ -324,45 +324,45 @@ $yourModel
 
 ### Setting a name
 
-If you want use a specific media name before adding it to disk you can use the `useFileName` method.
+If you want use a specific media name before adding it to disk you can use the `usingName` method.
 
 ```php
 $yourModel
     ->addFromMediaLibraryRequest($request->images)
-    ->useName('my custom name')
+    ->usingName('my custom name')
     ->toMediaCollection('images');
 ```
 
-Alternatively, you can pass a callable to `useName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
+Alternatively, you can pass a callable to `usingName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
 
 In this example we're going to lowercase the name of the uploaded file before adding it the media library.
 
 ```php
 $yourModel
     ->addFromMediaLibraryRequest($request->images)
-    ->useName(fn(MediaLibraryRequestItem $item) => strtolower($item->name))
+    ->usingName(fn(MediaLibraryRequestItem $item) => strtolower($item->name))
     ->toMediaCollection('images');
 ```
 
 ### Setting a file name
 
-If you want to rename an uploaded file before adding it to disk you can use the `useFileName` method.
+If you want to rename an uploaded file before adding it to disk you can use the `usingFileName` method.
 
 ```php
 $yourModel
     ->addFromMediaLibraryRequest($request->images)
-    ->useFileName('myFile.jpg')
+    ->usingFileName('myFile.jpg')
     ->toMediaCollection('images');
 ```
 
-Alternatively, you can pass a callable to `useFileName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
+Alternatively, you can pass a callable to `usingFileName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
 
 In this example we're going to lowercase the name of the uploaded file before adding it the media library.
 
 ```php
 $yourModel
     ->addFromMediaLibraryRequest($request->images)
-    ->useFileName(fn(MediaLibraryRequestItem $item) => strtolower($item->name))
+    ->usingFileName(fn(MediaLibraryRequestItem $item) => strtolower($item->name))
     ->toMediaCollection('images');
 ```
 
