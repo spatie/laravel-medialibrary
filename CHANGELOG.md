@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.1.7 - 2020-11-24
+
+- add unique index to UUID column (#2197)
+
 ## 9.1.6 - 2020-11-24
 
 - fixes incompatible return types error caussed PHPStorm's inability to resolve self (#2198)
