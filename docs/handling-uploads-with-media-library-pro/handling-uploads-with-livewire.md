@@ -355,7 +355,7 @@ In your Livewire component, you can validate the custom properties like this. Th
 public function submit()
 {
     $this->validate([
-        'images.*.custom_properties.extra_field' => 'required',
+        'images.*.customProperties.extra_field' => 'required',
     ], ['required' => 'This field is required']);
 
     // process the form submission
