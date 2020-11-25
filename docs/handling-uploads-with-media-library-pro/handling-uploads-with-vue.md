@@ -84,9 +84,9 @@ mix.webpackConfig({
 This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import. Notice that the Vue 2 and Vue 3 components are separate components.
 
 ```js
-import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
 // or
-import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -109,8 +109,8 @@ To use a component in your Blade templates, import the components you plan to us
 
 ```js
 import Vue from "vue";
-import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
-import { MediaLibraryCollection } from "media-library-pro-vue2-collection";
+import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
+import { MediaLibraryCollection } from "media-library-pro-vue2-collection";
 
 new Vue({
     el: "#app",
@@ -126,8 +126,8 @@ new Vue({
 
 ```js
 import { createApp } from "vue";
-import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
-import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
+import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
 createApp({
     components: {
@@ -165,8 +165,8 @@ You may also choose to import the components on the fly in a `.vue` file.
 </template>
 
 <script>
-    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
-    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
     export default {
         components: {
@@ -193,8 +193,8 @@ The most basic components have a `name` prop. This name will be used to identify
 </template>
 
 <script>
-    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
-    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
     export default {
         components: {
@@ -284,7 +284,7 @@ The components keep track of whether they're ready to be submitted, you can use 
 </template>
 
 <script>
-    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
 
     export default {
         components: { MediaLibraryAttachment },
@@ -593,6 +593,7 @@ These props are available on both the `attachment` and the `collection` componen
 | name                          |                                                       |                                                                                                                                                                                   |
 | initial-value                 | `[]`                                                  |                                                                                                                                                                                   |
 | route-prefix                  | `"media-library-pro"`                                 |                                                                                                                                                                                   |
+| upload-domain                 |                                                       | Use this if you're uploading your files to a separate (sub)domain, e.g. `files.mydomain.com` (leave out the trailing slash)                                                       |
 | validation-rules              |                                                       | Refer to the ["validation rules"](#validation-rules) section                                                                                                                      |
 | validation-errors             |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                      | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
