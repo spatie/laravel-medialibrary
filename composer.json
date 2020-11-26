@@ -33,6 +33,7 @@
         "league/flysystem": "^1.0.64",
         "maennchen/zipstream-php": "^1.0|^2.0",
         "spatie/image": "^1.4.0",
+        "spatie/pdf-to-image": "^2.0",
         "spatie/temporary-directory": "^1.1",
         "symfony/console": "^4.4|^5.0"
     },
@@ -47,7 +48,6 @@
         "orchestra/testbench": "^4.0|^5.0|^6.0",
         "php-ffmpeg/php-ffmpeg": "^0.16.0",
         "phpunit/phpunit": "^9.1",
-        "spatie/pdf-to-image": "^2.0",
         "spatie/phpunit-snapshot-assertions": "^4.0"
     },
     "conflict": {
