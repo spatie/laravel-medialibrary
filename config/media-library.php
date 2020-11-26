@@ -38,6 +38,13 @@ return [
     'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
 
     /*
+     * When enabled, Media Library Pro will only process temporary uploads there were uploaded
+     * in the same session. You can opt to disable this for stateless usage of
+     * the pro components.
+     */
+    'enable_temporary_uploads_session_affinity' => true,
+
+    /*
      * This is the class that is responsible for naming generated files.
      */
     'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.2.0 - 2020-11-26
+
+- add `enable_temporary_uploads_session_affinity` config value.
+
 ## 9.1.7 - 2020-11-24
 
 - add unique index to UUID column (#2197)
