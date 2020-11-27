@@ -3,7 +3,7 @@ title: Using image generators
 weight: 1
 ---
 
-The media library has built-in support to convert images. To generate conversions of other media types – most notably PDFs and videos – the medialibrary uses a image generators to create a derived image file of the media. 
+The media library has built-in support to convert images. To generate conversions of other media types – most notably PDFs and videos – the medialibrary uses image generators to create a derived image file of the media. 
 
 Conversion of specific file type are defined in the exact same way as images:
 
@@ -22,7 +22,7 @@ The media library includes image generators for the following file types:
 
 ## PDF
 
-The PDF generator requires [Imagick](http://php.net/manual/en/imagick.setresolution.php) and [Ghostscript](https://www.ghostscript.com/). If you're running into issues with Ghostscript have a look at [issues regarding Ghostscript](https://github.com/spatie/pdf-to-image/blob/master/README.md#issues-regarding-ghostscript).
+The PDF generator requires [Imagick](http://php.net/manual/en/imagick.setresolution.php), [Ghostscript](https://www.ghostscript.com/), and [Spatie Pdf to Image](https://github.com/spatie/pdf-to-image). If you're running into issues with Ghostscript have a look at [issues regarding Ghostscript](https://github.com/spatie/pdf-to-image/blob/master/README.md#issues-regarding-ghostscript).
 
 The pdf image generator allows you to choose at which page of the pdf, the thumbnail should be created using the `pdfPageNumber` on the conversion.
 
