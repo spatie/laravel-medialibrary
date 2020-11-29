@@ -73,7 +73,7 @@ Here's an example of how you can allow multiple uploads
     @csrf
     Name: <input type="text" name="name" value="{{ old('name', $formSubmission->name) }}">
 
-    <x-medialibrary-attachment multiple name="images"/>
+    <x-media-library-attachment multiple name="images"/>
 
     <button type="submit">Submit</button>
 </form>
