@@ -74,8 +74,22 @@ return [
 
     /*
      * The fully qualified class name of the model used for temporary uploads.
+     *
+     * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
     'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+
+    /*
+     * When enabled, Media Library Pro will only process temporary uploads there were uploaded
+     * in the same session. You can opt to disable this for stateless usage of
+     * the pro components.
+     */
+    'enable_temporary_uploads_session_affinity' => true,
+
+    /*
+     * When enabled, Media Library pro will generate thumbnails for uploaded file.
+     */
+    'generate_thumbnails_for_temporary_uploads' => true,
 
     /*
      * This is the class that is responsible for naming generated files.
@@ -106,6 +120,7 @@ return [
      */
     'image_optimizers' => [
         Spatie\ImageOptimizer\Optimizers\Jpegoptim::class => [
+            '-m85', // set maximum quality to 85%
             '--strip-all', // this strips out all text information such as comments and EXIF data
             '--all-progressive', // this will make sure the resulting image is a progressive one
         ],
@@ -123,6 +138,12 @@ return [
         Spatie\ImageOptimizer\Optimizers\Gifsicle::class => [
             '-b', // required parameter for this package
             '-O3', // this produces the slowest but best results
+        ],
+        Spatie\ImageOptimizer\Optimizers\Cwebp::class => [
+                '-m 6', // for the slowest compression method in order to get the best compression.
+                '-pass 10', // for maximizing the amount of analysis pass.
+                '-mt', // multithreading for some speed improvements.
+                '-q 90', //quality factor that brings the least noticeable changes.
         ],
     ],
 
@@ -193,7 +214,7 @@ return [
          * images. By default we optimize for filesize and create variations that each are 20%
          * smaller than the previous one. More info in the documentation.
          *
-         * https://docs.spatie.be/laravel-medialibrary/v8/advanced-usage/generating-responsive-images
+         * https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/generating-responsive-images
          */
         'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
@@ -209,13 +230,13 @@ return [
          */
         'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
-    
+
     /*
      * When enabling this option, a route will be registered that will enable
      * the Media Library Pro Vue and React components to move uploaded files
      * in a S3 bucket to their right place.
      */
-    'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', true),
+    'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', false),
 
     /*
      * When converting Media instances to response the media library will add

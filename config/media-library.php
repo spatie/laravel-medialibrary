@@ -45,6 +45,11 @@ return [
     'enable_temporary_uploads_session_affinity' => true,
 
     /*
+     * When enabled, Media Library pro will generate thumbnails for uploaded file.
+     */
+    'generate_thumbnails_for_temporary_uploads' => true,
+
+    /*
      * This is the class that is responsible for naming generated files.
      */
     'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
