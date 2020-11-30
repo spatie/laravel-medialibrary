@@ -16,7 +16,7 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## 9.1.6 - 2020-11-24
 
-- fixes incompatible return types error caussed PHPStorm's inability to resolve self (#2198)
+- fixes incompatible return types error caused by PHPStorm's inability to resolve self (#2198)
 
 ## 9.1.5 - 2020-11-22
 
