@@ -66,6 +66,11 @@ return [
     'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
 
     /*
+     * Enable when the media file's path uses the media UUID
+     */
+    'path_uses_uuid' => false,
+
+    /*
      * Whether to activate versioning when urls to files get generated.
      * When activated, this attaches a ?v=xx query string to the URL.
      */
