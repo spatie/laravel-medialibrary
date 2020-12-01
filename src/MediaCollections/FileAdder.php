@@ -293,6 +293,10 @@ class FileAdder
         /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
         $media = new $mediaClass();
 
+        if ($this->subject && $this->subject instanceof TemporaryUpload) {
+            $media->uuid = $this->subject->uuid;
+        }
+
         $media->name = $this->mediaName;
 
         $this->fileName = ($this->fileNameSanitizer)($this->fileName);
