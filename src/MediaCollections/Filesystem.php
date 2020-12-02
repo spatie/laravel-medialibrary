@@ -235,6 +235,10 @@ class Filesystem
 
         $oldMedia = (clone $media)->fill($media->getOriginal());
 
+        if ($oldMedia->getPath() === $media->getPath()) {
+            return;
+        }
+
         $this->filesystem->disk($media->disk)
             ->move($factory->getPath($oldMedia), $factory->getPath($media));
     }
