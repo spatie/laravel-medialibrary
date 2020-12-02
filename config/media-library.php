@@ -66,9 +66,10 @@ return [
     'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
 
     /*
-     * Enable when the media file's path uses the media UUID
+     * Moves media on updating to keep path consistent. Enable it only with a custom
+     * PathGenerator that uses, for example, the media UUID.
      */
-    'path_uses_uuid' => false,
+    'moves_media_on_update' => false,
 
     /*
      * Whether to activate versioning when urls to files get generated.

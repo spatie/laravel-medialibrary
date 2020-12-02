@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
-trait PathUuidSafe
+trait MovesOnUpdate
 {
     public static function bootPathUuidSafe()
     {
-        if (! config('media-library.path_uses_uuid', false)) {
+        if (! config('media-library.moves_media_on_update')) {
             return;
         }
 
