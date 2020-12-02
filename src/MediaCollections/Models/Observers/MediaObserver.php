@@ -21,10 +21,14 @@ class MediaObserver
 
     public function updating(Media $media)
     {
-        if ($media->file_name !== $media->getOriginal('file_name')) {
-            /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
-            $filesystem = app(Filesystem::class);
+        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        $filesystem = app(Filesystem::class);
 
+        if (config('media-library.moves_media_on_update')) {
+            $filesystem->syncMediaPath($media);
+        }
+
+        if ($media->file_name !== $media->getOriginal('file_name')) {
             $filesystem->syncFileNames($media);
         }
     }

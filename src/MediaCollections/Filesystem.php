@@ -108,7 +108,7 @@ class Filesystem
         $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
             ? $media->getConversionsDiskDriverName()
             : $media->getDiskDriverName();
-        
+
         if ($diskDriverName === 'local') {
             $this->filesystem
                 ->disk($diskName)
@@ -184,7 +184,7 @@ class Filesystem
     public function removeAllFiles(Media $media): void
     {
         $mediaDirectory = $this->getMediaDirectory($media);
-        
+
         if ($media->disk !== $media->conversions_disk) {
             $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
         }
@@ -227,6 +227,20 @@ class Filesystem
         $this->renameMediaFile($media);
 
         $this->renameConversionFiles($media);
+    }
+
+    public function syncMediaPath(Media $media): void
+    {
+        $factory = PathGeneratorFactory::create();
+
+        $oldMedia = (clone $media)->fill($media->getOriginal());
+
+        if ($oldMedia->getPath() === $media->getPath()) {
+            return;
+        }
+
+        $this->filesystem->disk($media->disk)
+            ->move($factory->getPath($oldMedia), $factory->getPath($media));
     }
 
     protected function renameMediaFile(Media $media): void
