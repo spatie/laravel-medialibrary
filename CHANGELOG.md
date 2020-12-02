@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.4.0 - 2020-12-02
+
+- add `moves_media_on_update` config value
+
 ## 9.3.0 - 2020-11-30
 
 - add `generate_thumbnails_for_temporary_uploads` config value
