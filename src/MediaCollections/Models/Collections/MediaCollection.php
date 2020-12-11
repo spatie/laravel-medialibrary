@@ -33,19 +33,7 @@ class MediaCollection extends Collection implements Htmlable
 
     public function toHtml()
     {
-        return e(json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
-            return [
-                'name' => $media->name,
-                'file_name' => $media->file_name,
-                'uuid' => $media->uuid,
-                'preview_url' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : '',
-                'original_url' => $media->getUrl(),
-                'order' => $media->order_column,
-                'custom_properties' => $media->custom_properties,
-                'extension' => $media->extension,
-                'size' => $media->size,
-            ];
-        })->keyBy('uuid')));
+        return e(json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->collection()));
     }
 
     public function jsonSerialize()
@@ -54,7 +42,21 @@ class MediaCollection extends Collection implements Htmlable
             return [];
         }
 
-        return old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
+        return old($this->formFieldName ?? $this->collectionName) ?? $this->collection();
+    }
+
+    public function toArray()
+    {
+        if (!($this->formFieldName ?? $this->collectionName)) {
+            return [];
+        }
+
+        return old($this->formFieldName ?? $this->collectionName) ?? $this->collection()->toArray();
+    }
+
+    public function collection()
+    {
+        return $this->map(function (Media $media) {
             return [
                 'name' => $media->name,
                 'file_name' => $media->file_name,
