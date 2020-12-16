@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.4.1 - 2020-12-16
+
+- fixed generated conversions race-condition (#2235)
+
 ## 9.4.0 - 2020-12-02
 
 - add `moves_media_on_update` config value
