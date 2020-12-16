@@ -34,8 +34,8 @@ class FileManipulator
             ->partition(fn (Conversion $conversion) => $conversion->shouldBeQueued());
 
         $this
-            ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing)
-            ->performConversions($conversions, $media, $onlyMissing);
+            ->performConversions($conversions, $media, $onlyMissing)
+            ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
     }
 
     public function performConversions(
