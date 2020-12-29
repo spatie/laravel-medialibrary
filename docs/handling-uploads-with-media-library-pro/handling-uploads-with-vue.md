@@ -279,7 +279,7 @@ The components keep track of whether they're ready to be submitted, you can use 
             @is-ready-to-submit-change="isReadyToSubmit = $event"
         />
 
-        <button :disabled="isReadyToSubmit">Submit</button>
+        <button :disabled="!isReadyToSubmit">Submit</button>
     </form>
 </template>
 
