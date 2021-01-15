@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.4.2 - 2021-01-15
+
+- improve `preservingOriginal` (#2258)
+
 ## 9.4.1 - 2020-12-16
 
 - fixed generated conversions race-condition (#2235)
