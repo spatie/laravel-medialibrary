@@ -96,7 +96,7 @@ class ProfileController
         $user = Auth::user();
 
         $user
-            ->addFromMediaLibraryRequest($request, 'avatar')
+            ->addFromMediaLibraryRequest($request->avatar)
             ->toMediaCollection('avatar');
     }
 }
