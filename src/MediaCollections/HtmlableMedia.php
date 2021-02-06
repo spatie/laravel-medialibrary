@@ -45,7 +45,7 @@ class HtmlableMedia implements Htmlable
 
     public function toHtml()
     {
-        if (! (new Image())->canHandleMime($this->media->mime_type)) {
+        if (empty($this->conversionName) && ! (new Image())->canHandleMime($this->media->mime_type)) {
             return '';
         }
 
@@ -62,6 +62,10 @@ class HtmlableMedia implements Htmlable
             $conversionObject = ConversionCollection::createForMedia($this->media)->getByName($this->conversionName);
 
             $loadingAttributeValue = $conversionObject->getLoadingAttributeValue();
+        }
+
+        if (empty($conversionObject) && ! (new Image())->canHandleMime($this->media->mime_type)) {
+            return '';
         }
 
         if ($this->loadingAttributeValue !== '') {
