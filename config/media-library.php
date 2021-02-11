@@ -56,6 +56,9 @@ return [
 
     /*
      * The class that contains the strategy for determining a media file's path.
+     * 
+     * Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator - is a default path generator
+     * Spatie\MediaLibrary\Support\PathGenerator\SeparatedMediaPathGenerator - generator makes media separated
      */
     'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
 
