@@ -29,7 +29,7 @@
     "illuminate/database": "~5.8.35|^6.0|^7.0|^8.0",
     "illuminate/pipeline": "~5.8.35|^6.0|^7.0|^8.0",
     "illuminate/support": "~5.8.35|^6.0|^7.0|^8.0",
-    "league/flysystem": "^1.0.8",
+    "league/flysystem": "^1.0.8|^2.0",
     "maennchen/zipstream-php": "^1.0|^2.0",
     "spatie/image": "^1.4.0",
     "spatie/pdf-to-image": "^2.0",
