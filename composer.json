@@ -45,7 +45,7 @@
     "mockery/mockery": "^1.0",
     "orchestra/testbench": "^3.8|^4.0|^5.0|^6.8",
     "phpunit/phpunit" : "^8.5.8|^9.3.3",
-    "spatie/phpunit-snapshot-assertions": "^2.0"
+    "spatie/phpunit-snapshot-assertions": "^4.0"
   },
   "conflict": {
     "php-ffmpeg/php-ffmpeg": "<0.6.1"
