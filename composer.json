@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php": "^7.2",
+    "php": "^7.2.5|^8.0",
     "ext-fileinfo": "*",
     "illuminate/bus": "~5.8.35|^6.0|^7.0|^8.0",
     "illuminate/console": "~5.8.35|^6.0|^7.0|^8.0",
@@ -34,7 +34,7 @@
     "spatie/image": "^1.4.0",
     "spatie/pdf-to-image": "^2.0",
     "spatie/temporary-directory": "^1.1",
-    "symfony/console": "^4.4|^5.1",
+    "symfony/console": "^4.4|^5.1.4",
     "ext-json": "*"
   },
   "require-dev": {
