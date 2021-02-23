@@ -267,7 +267,7 @@ By default, the media library will store its files on Laravel's `public` disk. I
     ...
 ```
 
-Don't forget to ignore the directory of your configured disk, so the files won't end up in your git repo.
+Don't forget to `.gitignore` the directory of your configured disk, so the files won't end up in your git repo.
 
 To store all media on that disk by default, you should set the `disk_name` config value in the `media-library` config file to the name of the disk you added.
 
