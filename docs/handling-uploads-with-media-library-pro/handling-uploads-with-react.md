@@ -275,7 +275,7 @@ You can customize what is displayed here by using the `propertiesView` scoped sl
 
 ### Asynchronously submit data
 
-If you don't want to use traditional form submits to send your data to the backend, you will have to keep track of the current value of the component using the `onChange` handler. The syntax is the same for all UI components:
+If you don't want to use traditional form submits to send your data to the backend, you will have to keep track of the current value of the component using the `onChange` handler. The syntax is the same for all UI components.
 
 ```jsx
 import Axios from 'axios';
@@ -304,7 +304,7 @@ export function AvatarForm({ values }) {
 }
 ```
 
-### Using with Laravel Vapor
+### Usage with Laravel Vapor
 
 If you are planning on deploying your application to AWS using [Laravel Vapor](https://vapor.laravel.com/), you will need to do some extra configuration to make sure files are uploaded properly to an S3 bucket.
 
@@ -324,6 +324,39 @@ If you edited Vapor's signed storage URL in Laravel, you will need to pass the n
     vapor
     vaporSignedStorageUrl="/vapor/signed-storage-url"
 />
+```
+
+### Usage with Inertia
+
+When using the components in repository that uses Inertia, the setup is very similar to the asynchronous setup.
+
+```jsx
+import React, { useState } from 'react';
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
+import { usePage } from "@inertiajs/inertia-react";
+import { Inertia } from '@inertiajs/inertia';
+
+export default function AccountPage() {
+    const { props } = usePage();
+    const [avatar, setAvatar] = useState(props.values.avatar);
+
+    function handleSubmit() {
+        Inertia.post('', { avatar })
+    }
+
+    return (
+        <div>
+            <MediaLibraryAttachment
+                name="avatar"
+                initialValue={avatar}
+                errors={props.errors}
+                onChange={setAvatar}
+            />
+
+            <button type="button" onClick={handleSubmit}>Submit</button>
+        </div>
+    );
+}
 ```
 
 ## Validation rules
@@ -437,7 +470,7 @@ These props are available on both the `attachment` and the `collection` componen
 | validationErrors         |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                 | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
 | maxItems                 | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
-| vapor                    |                                                       | Set to true if you will deploy your application to Vapor, this enables uploading of the files to S3. [Read more](#using-with-laravel-vapor)                                       |
+| vapor                    |                                                       | Set to true if you will deploy your application to Vapor, this enables uploading of the files to S3. [Read more](#usage-with-laravel-vapor)                                       |
 | vaporSignedStorageUrl    | `"vapor/signed-storage-url"`                          |                                                                                                                                                                                   |
 | maxSizeForPreviewInBytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                 | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |

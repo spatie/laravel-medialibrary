@@ -423,13 +423,15 @@ If you don't want to use traditional form submits to send your data to the backe
 <template>
     <div>
         <media-library-attachment
-            …
+            name="avatar"
+            :initial-value="media"
             :validation-errors="validationErrors"
             @change="onChange"
         />
 
         <media-library-collection
-            …
+            name="media"
+            :initial-value="media"
             :validation-errors="validationErrors"
             @change="onChange"
         />
@@ -466,7 +468,7 @@ If you don't want to use traditional form submits to send your data to the backe
 </script>
 ```
 
-### Using with Laravel Vapor
+### Usage with Laravel Vapor
 
 If you are planning on deploying your application to AWS using [Laravel Vapor](https://vapor.laravel.com/), you will need to do some extra configuration to make sure files are uploaded properly to an S3 bucket.
 
@@ -486,6 +488,48 @@ If you edited Vapor's signed storage URL in Laravel, you will need to pass the n
     vapor
     vapor-signed-storage-url="/vapor/signed-storage-url"
 />
+```
+
+### Usage with Inertia
+
+When using the components in repository that uses Inertia, the setup is very similar to the asynchronous setup.
+
+```html
+<template>
+    <div>
+        <media-library-attachment
+            name="avatar"
+            :initial-value="avatar"
+            :validation-errors="validationErrors"
+            @change="onChange"
+        />
+
+        <button @click="submitForm">Submit</button>
+    </div>
+</template>
+
+<script>
+    import { Inertia } from "@inertiajs/inertia";
+
+    export default {
+        data() {
+            return {
+                validationErrors: this.$page.props.errors,
+                avatar: this.$page.props.values.avatar,
+            };
+        },
+
+        methods: {
+            onChange(avatar) {
+                this.avatar = avatar;
+            },
+
+            submitForm() {
+                Inertia.post('', { avatar: this.avatar });
+            },
+        },
+    };
+</script>
 ```
 
 ## Validation rules
