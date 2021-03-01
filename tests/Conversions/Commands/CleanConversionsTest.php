@@ -188,7 +188,6 @@ class CleanConversionsTest extends TestCase
         $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
     }
 
-
     /** @test */
     public function it_will_throw_an_exception_when_using_a_non_existing_disk()
     {
