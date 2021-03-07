@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.4.3 - 2021-03-07
+
+- `DiskDoesNotExist` moved to it's own class (#2306)
+
 ## 9.4.2 - 2021-01-15
 
 - improve `preservingOriginal` (#2258)
