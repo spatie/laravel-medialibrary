@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
@@ -145,7 +145,7 @@ class CleanCommand extends Command
         $diskName = $this->argument('disk') ?: config('media-library.disk_name');
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
-            throw FileCannotBeAdded::diskDoesNotExist($diskName);
+            throw DiskDoesNotExist::create($diskName);
         }
         $mediaClass = config('media-library.media_model');
         $mediaInstance = new $mediaClass();
