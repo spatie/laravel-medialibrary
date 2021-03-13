@@ -38,9 +38,9 @@ interface HasMedia
      * @param string         $collectionName
      * @param array|callable $filters
      *
-     * @return \Illuminate\Support\Collection
+     * @return MediaCollections\Models\Collections\MediaCollection
      */
-    public function getMedia(string $collectionName = 'default', $filters = []): Collection;
+    public function getMedia(string $collectionName = 'default', $filters = []): MediaCollections\Models\Collections\MediaCollection;
 
     public function clearMediaCollection(string $collectionName = 'default'): HasMedia;
 
