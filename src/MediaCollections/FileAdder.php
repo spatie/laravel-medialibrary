@@ -142,7 +142,7 @@ class FileAdder
         return $this;
     }
 
-    public function setOrder(int $order): self
+    public function setOrder(?int $order): self
     {
         $this->order = $order;
 
