@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.4.4 - 2021-03-15
+
+- allow `null` in the FileAdder 'order' setter (#2336)
+
 ## 9.4.3 - 2021-03-07
 
 - `DiskDoesNotExist` moved to it's own class (#2306)
