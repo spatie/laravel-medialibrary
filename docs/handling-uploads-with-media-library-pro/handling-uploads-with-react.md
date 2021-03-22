@@ -331,17 +331,17 @@ If you edited Vapor's signed storage URL in Laravel, you will need to pass the n
 When using the components in repository that uses Inertia, the setup is very similar to the asynchronous setup.
 
 ```jsx
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 import { usePage } from "@inertiajs/inertia-react";
-import { Inertia } from '@inertiajs/inertia';
+import { Inertia } from "@inertiajs/inertia";
 
 export default function AccountPage() {
     const { props } = usePage();
     const [avatar, setAvatar] = useState(props.values.avatar);
 
     function handleSubmit() {
-        Inertia.post('', { avatar })
+        Inertia.post("", { avatar });
     }
 
     return (
@@ -353,7 +353,9 @@ export default function AccountPage() {
                 onChange={setAvatar}
             />
 
-            <button type="button" onClick={handleSubmit}>Submit</button>
+            <button type="button" onClick={handleSubmit}>
+                Submit
+            </button>
         </div>
     );
 }
@@ -475,6 +477,7 @@ These props are available on both the `attachment` and the `collection` componen
 | maxSizeForPreviewInBytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                 | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
 | translations             |                                                       | Refer to the ["Translations"](#translations) section                                                                                                                              |
+| fileTypeHelpText         |                                                       | Override the automatically generated helptext from `validationRules.accept`                                                                                                       |
 | setMediaLibrary          |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |
 | beforeUpload             |                                                       | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
 | afterUpload              |                                                       | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |

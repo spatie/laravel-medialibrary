@@ -169,6 +169,7 @@ Component used to upload new media objects, or to replace an existing object's f
     multiple: boolean;
     validationRules?: Partial<MediaLibrary.Config["validationRules"]>;
     maxItems?: number;
+    fileTypeHelpText?: string;
     onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

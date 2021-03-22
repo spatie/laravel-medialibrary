@@ -525,7 +525,7 @@ When using the components in repository that uses Inertia, the setup is very sim
             },
 
             submitForm() {
-                Inertia.post('', { avatar: this.avatar });
+                Inertia.post("", { avatar: this.avatar });
             },
         },
     };
@@ -647,6 +647,7 @@ These props are available on both the `attachment` and the `collection` componen
 | max-size-for-preview-in-bytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                      | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
 | translations                  |                                                       | Refer to the ["Translations"](#translations) section                                                                                                                              |
+| file-type-help-text           |                                                       | Override the automatically generated helptext from `validation-rules.accept`                                                                                                       |
 | ref                           |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |
 | before-upload                 |                                                       | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
 | after-upload                  |                                                       | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |

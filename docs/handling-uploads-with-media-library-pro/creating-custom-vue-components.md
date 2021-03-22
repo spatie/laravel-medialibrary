@@ -175,6 +175,7 @@ props: {
     multiple: { default: false, type: Boolean },
     validationRules: { required: false, type: Object },
     maxItems: { required: false, type: Number },
+    fileTypeHelpText: { required: false, type: String },
 },
 ```
 
