@@ -85,7 +85,7 @@ class MediaObserver
         return false;
     }
 
-    private function isLumen(): bool
+    protected function isLumen(): bool
     {
         return app() instanceof \Laravel\Lumen\Application;
     }
