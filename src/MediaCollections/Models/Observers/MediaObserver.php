@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\MediaCollections\Models\Observers;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Application;
+use Laravel\Lumen\Application as Lumen;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -87,7 +88,7 @@ class MediaObserver
 
     protected function isLumen(): bool
     {
-        return app() instanceof \Laravel\Lumen\Application;
+        return app() instanceof Lumen;
     }
 
 }
