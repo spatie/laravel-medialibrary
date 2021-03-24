@@ -41,7 +41,7 @@ class MediaObserver
 
         $original = $media->getOriginal('manipulations');
 
-        if (!$this->isLaravel7orHigher()) {
+        if (!$this->isLumen() && !$this->isLaravel7orHigher()) {
             $original = json_decode($original, true);
         }
 
@@ -84,4 +84,10 @@ class MediaObserver
 
         return false;
     }
+
+    private function isLumen(): bool
+    {
+        return app() instanceof \Laravel\Lumen\Application;
+    }
+
 }
