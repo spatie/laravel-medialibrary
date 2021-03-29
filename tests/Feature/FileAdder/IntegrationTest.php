@@ -560,7 +560,7 @@ class IntegrationTest extends TestCase
     public function a_stream_can_be_accepted_to_be_added_to_the_media_library()
     {
         $string = 'test123';
-        $stream = fopen('php://temp','w+');
+        $stream = fopen('php://temp', 'w+');
         fwrite($stream, $string);
         rewind($stream);
 
