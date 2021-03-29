@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.5.0 - 2021-03-29
+
+- add `addMediaFromStream` (#2363)
+
 ## 9.4.4 - 2021-03-15
 
 - allow `null` in the FileAdder 'order' setter (#2336)
