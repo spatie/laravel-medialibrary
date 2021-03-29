@@ -157,6 +157,28 @@ $model
     ->toMediaCollection();
 ```
 
+### addMediaFromStream
+
+```php
+/**
+ * Add a file to the media library from a stream.
+ *
+ * @param $stream
+ *
+ * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
+ */
+ public function addMediaFromStream($stream): FileAdder
+```
+
+The file will be named 'text.txt' by default. A specific file name can be set using `usingFileName`
+
+```php
+$model
+    ->addMediaFromStream($stream)
+    ->usingFileName('custom-filename.txt')
+    ->toMediaCollection();
+```
+
 ### copyMedia
 
 ```php
