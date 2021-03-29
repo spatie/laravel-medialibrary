@@ -238,6 +238,26 @@ trait InteractsWithMedia
     }
 
     /**
+     * Add a file to the media library from a stream.
+     *
+     * @param $stream
+     *
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
+     */
+    public function addMediaFromStream($stream): FileAdder
+    {
+        $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
+
+        file_put_contents($tmpFile, $stream);
+
+        $file = app(FileAdderFactory::class)
+            ->create($this, $tmpFile)
+            ->usingFileName('text.txt');
+
+        return $file;
+    }
+
+    /**
      * Copy a file to the media library.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
