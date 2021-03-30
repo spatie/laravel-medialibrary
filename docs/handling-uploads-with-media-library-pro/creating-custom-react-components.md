@@ -3,7 +3,7 @@ title: Creating custom React components
 weight: 8
 ---
 
-Both the Vue and React UI components are built on top of the same core, with a language-specific abstraction layer in between that exposes some helper functions. You can extend the core that the UI components are built on. This allow you to customize the UI. This page will go into detail about these abstraction layers.
+Both the Vue and React UI components are built on top of the same core, with a language-specific abstraction layer in between that exposes some helper functions. You can extend the core that the UI components are built on. This allows you to customize the UI. This page will go into detail about these abstraction layers.
 
 To create your own UI components that hook into the Media Library Pro JS core, you can use the `useMediaLibrary` hook in a functional component. If you are building a class component, there are several tutorials available online on how to wrap a custom hook in a higher-order component for use in class components.
 

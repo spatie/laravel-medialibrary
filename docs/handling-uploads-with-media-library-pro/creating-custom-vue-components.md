@@ -3,7 +3,7 @@ title: Creating custom Vue components
 weight: 7
 ---
 
-Both the Vue and UI components are built on top of the same core, with a language-specific abstraction layer in between that exposes some helper functions. You can extend the core that the UI components are built on. This allow you to customize the UI. This page will go into detail about these abstraction layers.
+Both the Vue and UI components are built on top of the same core, with a language-specific abstraction layer in between that exposes some helper functions. You can extend the core that the UI components are built on. This allows you to customize the UI. This page will go into detail about these abstraction layers.
 
 The Vue implementation uses a renderless component that exposes all the functions and values through a slot scope.
 
