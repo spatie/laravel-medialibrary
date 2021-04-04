@@ -27,7 +27,7 @@ Want to see more videos like this? Check out our [free video course on how to us
 
 ## Dive in
 
-All components upload media to the server with the same API. Before you dive into the frontend, read [our server guide]((processing-uploads-on-the-server)).
+All components upload media to the server with the same API. Before you dive into the frontend, read [our server guide](processing-uploads-on-the-server).
 
 Next, choose your own journey. We have written extensive guides for all four flavours. Be sure to first follow [the base installation instructions](/docs/laravel-medialibrary/v9/installation-setup) and [pro installation instructions](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installation).
 
