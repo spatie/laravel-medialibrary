@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.5.1 - 2021-04-05
+
+- return Fallback url or path when conversion is not ready yet (#2369)
+
 ## 9.5.0 - 2021-03-29
 
 - add `addMediaFromStream` (#2363)
