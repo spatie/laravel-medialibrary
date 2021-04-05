@@ -312,7 +312,7 @@ trait InteractsWithMedia
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
-        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)){
+        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -336,7 +336,7 @@ trait InteractsWithMedia
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
-        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)){
+        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
@@ -381,7 +381,7 @@ trait InteractsWithMedia
             return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
-        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)){
+        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
             return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
