@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.5.2 - 2021-04-07
+
+- allow v2 of spatie/temporary-directory
+
 ## 9.5.1 - 2021-04-05
 
 - return Fallback url or path when conversion is not ready yet (#2369)
