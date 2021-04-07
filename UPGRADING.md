@@ -14,8 +14,9 @@ Media::whereNull('generated_conversions')->orWhere('generated_conversions', '')-
    fn (Media $media) => $media->update(['generated_conversions' => []])
 );
 ```
-- You can create this migration by running `php artisan make:migration AddGeneratedConversionsToMediaTable`. Here is the content that should be in the migration file
-```
+- You can create this migration by running `php artisan make:migration AddGeneratedConversionsToMediaTable`.
+- Here is the content that should be in the migration file
+```php
 <?php
 
 use Illuminate\Database\Migrations\Migration;
