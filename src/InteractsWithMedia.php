@@ -313,7 +313,7 @@ trait InteractsWithMedia
         }
 
         if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
-            return $this->getFallbackMediaUrl($collectionName) ?: '';
+            return $media->getUrl();
         }
 
         return $media->getUrl($conversionName);
@@ -337,7 +337,7 @@ trait InteractsWithMedia
         }
 
         if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
-            return $this->getFallbackMediaUrl($collectionName) ?: '';
+            return $media->getTemporaryUrl($expiration);
         }
 
         return $media->getTemporaryUrl($expiration, $conversionName);
@@ -382,7 +382,7 @@ trait InteractsWithMedia
         }
 
         if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
-            return $this->getFallbackMediaPath($collectionName) ?: '';
+            return $media->getPath();
         }
 
         return $media->getPath($conversionName);
