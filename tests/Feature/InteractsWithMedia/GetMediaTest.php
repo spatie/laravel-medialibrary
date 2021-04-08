@@ -291,7 +291,7 @@ class GetMediaTest extends TestCase
         unlink($avatarThumbConversion);
         $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-        $this->assertEquals("/{$media->id}/test.jpg", $this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'));
+        $this->assertEquals("/media/{$media->id}/test.jpg", $this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'));
     }
 
     /** @test */
