@@ -261,7 +261,7 @@ class GetMediaTest extends TestCase
         unlink($avatarThumbConversion);
         $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-        $this->assertEquals($this->getTestJpg(), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
+        $this->assertEquals($this->getMediaDirectory("{$media->id}/test.jpg"), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
     }
     
     /** @test */
@@ -274,9 +274,9 @@ class GetMediaTest extends TestCase
 
         $avatarThumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-avatar_thumb.jpg");
         unlink($avatarThumbConversion);
-        $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionAsGenerated('avatar_thumb');
+        $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionGenerated('avatar_thumb');
 
-        $this->assertEquals($this->testModelWithConversionQueued->getFirstMedia('avatar')->getPath('avatar_thumb'), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
+        $this->assertEquals($media->getPath('avatar_thumb'), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
     }
 
     /** @test */
@@ -291,7 +291,7 @@ class GetMediaTest extends TestCase
         unlink($avatarThumbConversion);
         $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-        $this->assertEquals($this->getTestJpg(), $this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'));
+        $this->assertEquals("/{$media->id}/test.jpg", $this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'));
     }
 
     /** @test */
