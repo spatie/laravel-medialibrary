@@ -254,14 +254,29 @@ class GetMediaTest extends TestCase
     {
         $media = $this
             ->testModelWithConversionQueued
-            ->addMedia($this->getTestFilesDirectory('test.png'))
+            ->addMedia($this->getTestJpg())
             ->toMediaCollection('avatar');
 
         $avatarThumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-avatar_thumb.jpg");
         unlink($avatarThumbConversion);
         $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-        $this->assertEquals('/default.jpg', $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
+        $this->assertEquals($this->getMediaDirectory("{$media->id}/test.jpg"), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
+    }
+    
+    /** @test */
+    public function it_can_get_the_correct_path_to_the_converted_media_in_a_collection_if_conversion_is_marked_as_generated()
+    {
+        $media = $this
+            ->testModelWithConversionQueued
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection('avatar');
+
+        $avatarThumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-avatar_thumb.jpg");
+        unlink($avatarThumbConversion);
+        $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionGenerated('avatar_thumb');
+
+        $this->assertEquals($media->getPath('avatar_thumb'), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
     }
 
     /** @test */
@@ -269,14 +284,14 @@ class GetMediaTest extends TestCase
     {
         $media = $this
             ->testModelWithConversionQueued
-            ->addMedia($this->getTestFilesDirectory('test.png'))
+            ->addMedia($this->getTestJpg())
             ->toMediaCollection('avatar');
 
         $avatarThumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-avatar_thumb.jpg");
         unlink($avatarThumbConversion);
         $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-        $this->assertEquals('/default.jpg', $this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'));
+        $this->assertEquals("/media/{$media->id}/test.jpg", $this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'));
     }
 
     /** @test */
