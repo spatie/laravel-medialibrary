@@ -10,12 +10,11 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 ```php
 <?php
 
-<?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AddGeneratedConversionsToMediaTable extends Migration {
     /**
@@ -29,7 +28,16 @@ class AddGeneratedConversionsToMediaTable extends Migration {
                 $table->json( 'generated_conversions' );
             } );
         }
-        \Spatie\MediaLibrary\MediaCollections\Models\Media::query()->whereNull( 'generated_conversions' )->orWhere( 'generated_conversions', '' )->update( [ 'generated_conversions' => DB::raw( 'custom_properties' ) ] );
+        
+        Media::query()
+                ->whereNull('generated_conversions')
+                ->orWhere('generated_conversions', '')
+                ->orWhereRaw("JSON_TYPE(generated_conversions) = 'NULL'")
+                ->update([
+                    'generated_conversions' => DB::raw('custom_properties->"$.generated_conversions"'),
+                    // OPTIONAL: Remove the generated conversions from the custom_properties field as well:
+                    // 'custom_properties'     => DB::raw("JSON_REMOVE(custom_properties, '$.generated_conversions')")
+                ]);
     }
 
     /**
@@ -38,6 +46,14 @@ class AddGeneratedConversionsToMediaTable extends Migration {
      * @return void
      */
     public function down() {
+        /* Restore the 'generated_conversions' field in the 'custom_properties' column if you removed them in this migration
+        Media::query()
+                ->whereRaw("JSON_TYPE(generated_conversions) != 'NULL'")
+                ->update([
+                    'custom_properties' => DB::raw("JSON_SET(custom_properties, '$.generated_conversions', generated_conversions)")
+                ]);
+        */
+    
         Schema::table( 'media', function ( Blueprint $table ) {
             $table->dropColumn( 'generated_conversions' );
         } );
