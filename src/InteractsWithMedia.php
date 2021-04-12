@@ -120,7 +120,7 @@ trait InteractsWithMedia
      *
      * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
      */
-    public function addMultipleMediaFromRequest(array $keys)
+    public function addMultipleMediaFromRequest(array $keys): Collection
     {
         return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
     }
