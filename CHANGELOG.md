@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.5.4 - 2021-04-12
+
+- add `Collection` typehint to `addMultipleMediaFromRequest` (#2389)
+
 ## 9.5.3 - 2021-04-08
 
 - fix #2372 the fallback should be the original image (#2377)
