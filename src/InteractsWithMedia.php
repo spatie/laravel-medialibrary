@@ -215,7 +215,9 @@ trait InteractsWithMedia
         }
 
         // strict mode filters for non-base64 alphabet characters
-        if (false === ($binaryData = base64_decode($base64data, true))) {
+        $binaryData = base64_decode($base64data, true);
+
+        if (false === $binaryData) {
             throw InvalidBase64Data::create();
         }
 
