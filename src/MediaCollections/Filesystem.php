@@ -49,17 +49,17 @@ class Filesystem
 
         $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
-        if ($file->getDisk() === $media->disk) {
+        $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
+            ? $media->getConversionsDiskDriverName()
+            : $media->getDiskDriverName();
+
+        if ($this->shouldCopyFileOnDisk($file, $media, $diskDriverName)) {
             $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
 
             return;
         }
 
         $storage = Storage::disk($file->getDisk());
-
-        $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
-            ? $media->getConversionsDiskDriverName()
-            : $media->getDiskDriverName();
 
         $headers = $diskDriverName === 'local'
             ? []
@@ -75,6 +75,23 @@ class Filesystem
             $media->disk,
             $headers
         );
+    }
+
+    protected function shouldCopyFileOnDisk(RemoteFile $file, Media $media, string $diskDriverName): bool
+    {
+        if ($file->getDisk() !== $media->disk) {
+            return false;
+        }
+
+        if ($diskDriverName === 'local') {
+            return true;
+        }
+
+        if (count($media->getCustomHeaders()) > 0) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function copyFileOnDisk(string $file, string $destination, string $disk): void
