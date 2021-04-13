@@ -215,16 +215,16 @@ trait InteractsWithMedia
         }
 
         // strict mode filters for non-base64 alphabet characters
-        if (base64_decode($base64data, true) === false) {
+        $binaryData = base64_decode($base64data, true);
+
+        if (false === $binaryData) {
             throw InvalidBase64Data::create();
         }
 
         // decoding and then reencoding should not change the data
-        if (base64_encode(base64_decode($base64data)) !== $base64data) {
+        if (base64_encode($binaryData) !== $base64data) {
             throw InvalidBase64Data::create();
         }
-
-        $binaryData = base64_decode($base64data);
 
         // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
