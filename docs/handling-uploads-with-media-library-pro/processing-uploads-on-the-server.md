@@ -212,7 +212,7 @@ class MyRequest extends FormRequest
 }
 ```
 
-These are the available validation methods on `validateSingleMedia() ` and`validateMultipleMedia`  
+These are the available validation methods on `validateSingleMedia() ` and `validateMultipleMedia`
 
 - `minSizeInKb($minSizeInKb)`: validates that a single upload is not smaller than the `$minSizeInKb` given
 - `maxSizeInKb($maxSizeInKb)`: validates that a single upload is not greater than the `$minSizeInKb` given
@@ -220,6 +220,9 @@ These are the available validation methods on `validateSingleMedia() ` and`valid
 - `mime($mime)`: this rule expects a single mime type as a string or multiple mime types as an array.
 - `itemName($rules)`: This rule accepts rules that should be used to validate the name of a media item.
 - `customProperty($name, $rules)`: this rule accepts a custom property name and rules that should be used to validate the attribute
+- `dimensions($width, $height)`: validates that the image has a specific width and height (in pixels).
+- `width($width)`: validates that the image has a specific width (in pixels). The height is not validated.
+- `height($height)`: validates that the image has a specific height (in pixels). The width is not validated.
 
 These rules can be used on `validateMultipleMedia`;
 
