@@ -613,6 +613,7 @@ If you would like to use the components in your own language, you can pass a `tr
         dropFile: 'Drop file to upload',
         dragHere: 'Drag file here',
         remove: 'Remove',
+        download: 'Download',
     }"
 />
 ```

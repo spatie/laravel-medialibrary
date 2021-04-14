@@ -430,6 +430,7 @@ translations = {
     dropFile: "Drop file to upload",
     dragHere: "Drag file here",
     remove: "Remove",
+    download: "Download",
 };
 
 return <MediaLibraryCollection translations={translations} />;
