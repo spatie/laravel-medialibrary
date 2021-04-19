@@ -284,6 +284,42 @@ class S3IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function extra_headers_are_used_for_all_conversions_when_adding_private_media_from_same_s3_disk()
+    {
+        config()->set('media-library.remote.extra_headers', [
+            'ACL' => 'public-read',
+        ]);
+
+        $randomNumber = rand();
+
+        $fileName = "test{$randomNumber}.jpg";
+
+        Storage::disk('s3_disk')->put("tmp/{$fileName}", file_get_contents($this->getTestJpg()));
+
+        $media = $this->testModelWithConversion
+            ->addMediaFromDisk("tmp/{$fileName}", 's3_disk')
+            ->toMediaCollection('default', 's3_disk');
+
+        $client = $this->getS3Client();
+
+        /** @var \Aws\Result $responseForMainItem */
+        $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
+            'Bucket' => getenv('AWS_BUCKET'),
+            'Key' => $media->getPath(),
+        ]));
+
+        $this->assertEquals('READ', $responseForMainItem->get('Grants')[1]['Permission'] ?? null);
+
+        /** @var \Aws\Result $responseForConversion */
+        $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
+            'Bucket' => getenv('AWS_BUCKET'),
+            'Key' => $media->getPath('thumb'),
+        ]));
+
+        $this->assertEquals('READ', $responseForConversion->get('Grants')[1]['Permission'] ?? null);
+    }
+
+    /** @test */
     public function it_can_regenerate_only_missing_with_s3_disk()
     {
         $mediaExists = $this
