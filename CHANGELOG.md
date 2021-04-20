@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.5.6 - 2021-04-20
+
+- include extra_headers when adding media from same S3 Disk (#2403)
+
 ## 9.5.5 - 2021-04-13
 
 - fix adding private media from same S3 Disk (#2382)
