@@ -91,6 +91,10 @@ class Filesystem
             return false;
         }
 
+        if (count(config('media-library.remote.extra_headers')) > 0) {
+            return false;
+        }
+
         return true;
     }
 
