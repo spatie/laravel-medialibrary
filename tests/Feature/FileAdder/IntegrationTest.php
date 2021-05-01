@@ -649,4 +649,19 @@ class IntegrationTest extends TestCase
 
         $this->assertEquals(200, $result->getStatusCode());
     }
+
+    /** @test */
+    public function it_is_compatible_with_storage_fake(){
+
+        $storage = Storage::fake('images');
+
+        $file = \Illuminate\Http\UploadedFile::fake()->image('fake-image.png');
+
+        config()->set('media-library.disk_name', 'images');
+
+        $media = $this->testModel->addMedia($file)->toMediaCollection('default', 'images');
+
+        $this->assertTrue($storage->exists($media->id.'/'.$media->file_name));
+
+    }
 }

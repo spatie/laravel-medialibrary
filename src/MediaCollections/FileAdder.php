@@ -373,9 +373,14 @@ class FileAdder
 
     protected function ensureDiskExists(string $diskName)
     {
-        if (is_null(config("filesystems.disks.{$diskName}"))) {
+        try{
+            if (!is_a(Storage::disk($diskName), \Illuminate\Contracts\Filesystem\Filesystem::class)) {
+                throw DiskDoesNotExist::create($diskName);
+            }
+        } catch (\Exception $e){
             throw DiskDoesNotExist::create($diskName);
         }
+
     }
 
     public function defaultSanitizer(string $fileName): string
