@@ -1,19 +1,19 @@
 <?php
 
-$finder = Symfony\Component\Finder\Finder::create()
-    ->notPath('spark')
-    ->notPath('bootstrap')
-    ->notPath('storage')
-    ->notPath('vendor')
-    ->in(__DIR__)
-    ->name('*.php')
-    ->name('_ide_helper')
+use PhpCsFixer\Config;
+use PhpCsFixer\Finder;
+
+$finder = Finder::create()
+    ->in([
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ])
     ->notName('*.blade.php')
     ->ignoreDotFiles(true)
-    ->ignoreVCS(true);
+    ->ignoreVCS(true)
+;
 
-
-return PhpCsFixer\Config::create()
+return (new Config())
     ->setRules([
         '@PSR2' => true,
         'array_syntax' => ['syntax' => 'short'],
