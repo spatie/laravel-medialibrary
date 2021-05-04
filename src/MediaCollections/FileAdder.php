@@ -243,7 +243,7 @@ class FileAdder
 
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
         $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
-        $this->fileName = $fileName . '.' . pathinfo($sanitizedFileName, PATHINFO_EXTENSION);
+        $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         $media->file_name = $this->fileName;
 
@@ -278,7 +278,7 @@ class FileAdder
     {
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
         $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
-        $this->fileName = $fileName . '.' . pathinfo($sanitizedFileName, PATHINFO_EXTENSION);
+        $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         if ($this->file instanceof RemoteFile) {
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
@@ -508,5 +508,12 @@ class FileAdder
         $media->save();
 
         return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName, $fileName);
+    }
+
+    protected function appendExtension(string $file, ?string $extension): string
+    {
+        return $extension
+            ? $file . '.' . $extension
+            : $file;
     }
 }

@@ -9,7 +9,7 @@ abstract class FileNamer
 {
     public function originalFileName(string $fileName): string
     {
-        return $fileName;
+        return pathinfo($fileName, PATHINFO_FILENAME);
     }
 
     abstract public function conversionFileName(string $fileName, Conversion $conversion): string;
