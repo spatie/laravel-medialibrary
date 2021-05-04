@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Support\UrlGenerator;
 
 use DateTimeInterface;
 use Illuminate\Support\Str;
+use League\Flysystem\Adapter\AbstractAdapter;
 
 class DefaultUrlGenerator extends BaseUrlGenerator
 {
@@ -36,7 +37,10 @@ class DefaultUrlGenerator extends BaseUrlGenerator
             $adapter = $adapter->getAdapter();
         }
 
-        $pathPrefix = $adapter->getPathPrefix();
+        $pathPrefix = '';
+        if ($adapter instanceof AbstractAdapter) {
+            $pathPrefix = $adapter->getPathPrefix();
+        }
 
         return $pathPrefix.$this->getPathRelativeToRoot();
     }
