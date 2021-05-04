@@ -4,18 +4,65 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## From v8 to v9
 
-- add a `json` column `generated_conversions` to the `media` table (take a look at the default migration for the exact definition). If you are using Media Library Pro, you should copy the values you now have in the `generated_conversions` key of the `custom_properties` column to `generated_conversions`
-  - If you have existing records in the `media` table, you will need to update the value of the `generated_conversions` column to be `[]` to avoid JSON-validation constraint errors
-  - You can do this either by adding `->default('[]')` to the column definition in the migration or by using this snippet (e.g. in Tinker):
-
+- add a `json` column `generated_conversions` to the `media` table (take a look at the default migration for the exact definition). You should copy the values you now have in the `generated_conversions` key of the `custom_properties` column to `generated_conversions`
+- You can create this migration by running `php artisan make:migration AddGeneratedConversionsToMediaTable`.
+- Here is the content that should be in the migration file
 ```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-Media::whereNull('generated_conversions')->orWhere('generated_conversions', '')->cursor()->each(
-   fn (Media $media) => $media->update(['generated_conversions' => []])
-);
+
+class AddGeneratedConversionsToMediaTable extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        if ( ! Schema::hasColumn( 'media', 'generated_conversions' ) ) {
+            Schema::table( 'media', function ( Blueprint $table ) {
+                $table->json( 'generated_conversions' );
+            } );
+        }
+        
+        Media::query()
+                ->whereNull('generated_conversions')
+                ->orWhere('generated_conversions', '')
+                ->orWhereRaw("JSON_TYPE(generated_conversions) = 'NULL'")
+                ->update([
+                    'generated_conversions' => DB::raw('custom_properties->"$.generated_conversions"'),
+                    // OPTIONAL: Remove the generated conversions from the custom_properties field as well:
+                    // 'custom_properties'     => DB::raw("JSON_REMOVE(custom_properties, '$.generated_conversions')")
+                ]);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+        /* Restore the 'generated_conversions' field in the 'custom_properties' column if you removed them in this migration
+        Media::query()
+                ->whereRaw("JSON_TYPE(generated_conversions) != 'NULL'")
+                ->update([
+                    'custom_properties' => DB::raw("JSON_SET(custom_properties, '$.generated_conversions', generated_conversions)")
+                ]);
+        */
+    
+        Schema::table( 'media', function ( Blueprint $table ) {
+            $table->dropColumn( 'generated_conversions' );
+        } );
+    }
+}
 ```
 
 - rename `conversion_file_namer` key in the `media-library` config to `file_namer`. This will support both the conversions and responsive images from now on. More info [in our docs](https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files).
+- You will also need to change the value of this configuration key as the previous class was removed, the new default value is `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class`
 - in several releases of v8 config options were added. We recommend going over your config file in `config/media-library.php` and add any options that are present in the default config file that ships with this package.
 
 ## From v7 to v8

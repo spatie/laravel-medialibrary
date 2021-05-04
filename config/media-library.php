@@ -104,10 +104,10 @@ return [
             '-O3', // this produces the slowest but best results
         ],
         Spatie\ImageOptimizer\Optimizers\Cwebp::class => [
-                '-m 6', // for the slowest compression method in order to get the best compression.
-                '-pass 10', // for maximizing the amount of analysis pass.
-                '-mt', // multithreading for some speed improvements.
-                '-q 90', //quality factor that brings the least noticeable changes.
+            '-m 6', // for the slowest compression method in order to get the best compression.
+            '-pass 10', // for maximizing the amount of analysis pass.
+            '-mt', // multithreading for some speed improvements.
+            '-q 90', //quality factor that brings the least noticeable changes.
         ],
     ],
 

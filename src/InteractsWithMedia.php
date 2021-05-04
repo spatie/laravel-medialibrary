@@ -120,7 +120,7 @@ trait InteractsWithMedia
      *
      * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
      */
-    public function addMultipleMediaFromRequest(array $keys)
+    public function addMultipleMediaFromRequest(array $keys): Collection
     {
         return app(FileAdderFactory::class)->createMultipleFromRequest($this, $keys);
     }
@@ -215,16 +215,16 @@ trait InteractsWithMedia
         }
 
         // strict mode filters for non-base64 alphabet characters
-        if (base64_decode($base64data, true) === false) {
+        $binaryData = base64_decode($base64data, true);
+
+        if (false === $binaryData) {
             throw InvalidBase64Data::create();
         }
 
         // decoding and then reencoding should not change the data
-        if (base64_encode(base64_decode($base64data)) !== $base64data) {
+        if (base64_encode($binaryData) !== $base64data) {
             throw InvalidBase64Data::create();
         }
-
-        $binaryData = base64_decode($base64data);
 
         // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
@@ -312,6 +312,10 @@ trait InteractsWithMedia
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
+        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
+            return $media->getUrl();
+        }
+
         return $media->getUrl($conversionName);
     }
 
@@ -330,6 +334,10 @@ trait InteractsWithMedia
 
         if (!$media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
+        }
+
+        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
+            return $media->getTemporaryUrl($expiration);
         }
 
         return $media->getTemporaryUrl($expiration, $conversionName);
@@ -371,6 +379,10 @@ trait InteractsWithMedia
 
         if (!$media) {
             return $this->getFallbackMediaPath($collectionName) ?: '';
+        }
+
+        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
+            return $media->getPath();
         }
 
         return $media->getPath($conversionName);
