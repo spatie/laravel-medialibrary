@@ -17,6 +17,7 @@ class ImageGeneratorFactory
                     $imageGeneratorConfig = $imageGeneratorClassName;
                     $imageGeneratorClassName = $key;
                 }
+
                 return app($imageGeneratorClassName, $imageGeneratorConfig);
             });
     }

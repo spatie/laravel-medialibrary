@@ -47,7 +47,7 @@ trait InteractsWithMedia
             }
 
             if (in_array(SoftDeletes::class, class_uses_recursive($model))) {
-                if (!$model->forceDeleting) {
+                if (! $model->forceDeleting) {
                     return;
                 }
             }
@@ -147,7 +147,7 @@ trait InteractsWithMedia
      */
     public function addMediaFromUrl(string $url, ...$allowedMimeTypes): FileAdder
     {
-        if (!Str::startsWith($url, ['http://', 'https://'])) {
+        if (! Str::startsWith($url, ['http://', 'https://'])) {
             throw InvalidUrl::doesNotStartWithProtocol($url);
         }
 
@@ -164,7 +164,7 @@ trait InteractsWithMedia
 
         $mediaExtension = explode('/', mime_content_type($temporaryFile));
 
-        if (!Str::contains($filename, '.')) {
+        if (! Str::contains($filename, '.')) {
             $filename = "{$filename}.{$mediaExtension[1]}";
         }
 
@@ -308,11 +308,11 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
-        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
+        if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
             return $media->getUrl();
         }
 
@@ -332,11 +332,11 @@ trait InteractsWithMedia
     ): string {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return $this->getFallbackMediaUrl($collectionName) ?: '';
         }
 
-        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
+        if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
             return $media->getTemporaryUrl($expiration);
         }
 
@@ -377,11 +377,11 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
-        if (!$media) {
+        if (! $media) {
             return $this->getFallbackMediaPath($collectionName) ?: '';
         }
 
-        if ($conversionName !== '' && !$media->hasGeneratedConversion($conversionName)) {
+        if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
             return $media->getPath();
         }
 
@@ -507,7 +507,7 @@ trait InteractsWithMedia
 
         $media = $this->media->find($mediaId);
 
-        if (!$media) {
+        if (! $media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
         }
 

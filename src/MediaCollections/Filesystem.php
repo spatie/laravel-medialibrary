@@ -217,8 +217,9 @@ class Filesystem
         collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
             ->each(function (string $directory) use ($media) {
                 try {
-                    if ($this->filesystem->disk($media->conversions_disk)->exists($directory))
+                    if ($this->filesystem->disk($media->conversions_disk)->exists($directory)) {
                         $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                    }
                 } catch (Exception $exception) {
                     report($exception);
                 }

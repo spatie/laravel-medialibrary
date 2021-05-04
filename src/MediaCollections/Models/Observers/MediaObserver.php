@@ -42,7 +42,7 @@ class MediaObserver
 
         $original = $media->getOriginal('manipulations');
 
-        if (!$this->isLumen() && !$this->isLaravel7orHigher()) {
+        if (! $this->isLumen() && ! $this->isLaravel7orHigher()) {
             $original = json_decode($original, true);
         }
 
@@ -62,7 +62,7 @@ class MediaObserver
     public function deleted(Media $media)
     {
         if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
-            if (!$media->isForceDeleting()) {
+            if (! $media->isForceDeleting()) {
                 return;
             }
         }
@@ -90,5 +90,4 @@ class MediaObserver
     {
         return app() instanceof Lumen;
     }
-
 }
