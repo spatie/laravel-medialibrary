@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class IntegrationTest extends TestCase
@@ -439,6 +440,19 @@ class IntegrationTest extends TestCase
 
         $this->assertEquals('test', $media->name);
         $this->assertFileExists($this->getMediaDirectory($media->id.'/new_file_name.jpg'));
+    }
+
+    /** @test */
+    public function the_file_name_can_be_modified_using_a_file_namer()
+    {
+        config()->set('media-library.file_namer', RenameOriginalFileNamer::class);
+
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection();
+
+        $this->assertEquals('test', $media->name);
+        $this->assertFileExists($this->getMediaDirectory($media->id.'/renamed_original_file.jpg'));
     }
 
     /** @test */

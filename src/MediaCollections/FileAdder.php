@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
 use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 use Spatie\MediaLibrary\Support\RemoteFile;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
@@ -240,7 +241,9 @@ class FileAdder
 
         $media->name = $this->mediaName;
 
-        $this->fileName = ($this->fileNameSanitizer)($this->fileName);
+        $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
+        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $this->fileName = $fileName . '.' . pathinfo($sanitizedFileName, PATHINFO_EXTENSION);
 
         $media->file_name = $this->fileName;
 
@@ -273,6 +276,10 @@ class FileAdder
 
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
+        $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
+        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $this->fileName = $fileName . '.' . pathinfo($sanitizedFileName, PATHINFO_EXTENSION);
+
         if ($this->file instanceof RemoteFile) {
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
         }
@@ -294,8 +301,6 @@ class FileAdder
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
-
-        $this->fileName = ($this->fileNameSanitizer)($this->fileName);
 
         $media->file_name = $this->fileName;
 
