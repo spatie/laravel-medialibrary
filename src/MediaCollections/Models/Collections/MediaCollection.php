@@ -50,7 +50,7 @@ class MediaCollection extends Collection implements Htmlable
 
     public function jsonSerialize()
     {
-        if (!($this->formFieldName ?? $this->collectionName)) {
+        if (! ($this->formFieldName ?? $this->collectionName)) {
             return [];
         }
 

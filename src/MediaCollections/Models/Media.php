@@ -30,9 +30,9 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
 class Media extends Model implements Responsable, Htmlable
 {
-    use IsSorted,
-        CustomMediaProperties,
-        HasUuid;
+    use IsSorted;
+    use CustomMediaProperties;
+    use HasUuid;
 
     protected $table = 'media';
 

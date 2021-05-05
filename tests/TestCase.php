@@ -76,7 +76,7 @@ abstract class TestCase extends Orchestra
      */
     protected function getPackageProviders($app)
     {
-        $serviceProviders =  [
+        $serviceProviders = [
             MedialibraryServiceProvider::class,
         ];
 

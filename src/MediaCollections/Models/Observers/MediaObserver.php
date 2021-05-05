@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\MediaCollections\Models\Observers;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Application;
+use Laravel\Lumen\Application as Lumen;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -41,7 +42,7 @@ class MediaObserver
 
         $original = $media->getOriginal('manipulations');
 
-        if (!$this->isLaravel7orHigher()) {
+        if (! $this->isLumen() && ! $this->isLaravel7orHigher()) {
             $original = json_decode($original, true);
         }
 
@@ -61,7 +62,7 @@ class MediaObserver
     public function deleted(Media $media)
     {
         if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
-            if (!$media->isForceDeleting()) {
+            if (! $media->isForceDeleting()) {
                 return;
             }
         }
@@ -83,5 +84,10 @@ class MediaObserver
         }
 
         return false;
+    }
+
+    protected function isLumen(): bool
+    {
+        return app() instanceof Lumen;
     }
 }
