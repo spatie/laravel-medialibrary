@@ -162,9 +162,8 @@ trait InteractsWithMedia
             $filename = 'file';
         }
 
-        $mediaExtension = explode('/', mime_content_type($temporaryFile));
-
         if (! Str::contains($filename, '.')) {
+            $mediaExtension = explode('/', mime_content_type($temporaryFile));
             $filename = "{$filename}.{$mediaExtension[1]}";
         }
 
