@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.6.2 - 2021-05-6
+
+- simplify and speed up code for copying a stream to disk (#2425)
+
 ## 9.6.1 - 2021-05-06
 
 - update InteractsWithMedia.php (#2421)
