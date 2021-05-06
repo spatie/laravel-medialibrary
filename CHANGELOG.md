@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.6.0 - 2021-05-05
+
+- add a way to rename files globally (#2418)
+
 ## 9.5.6 - 2021-04-20
 
 - include extra_headers when adding media from same S3 Disk (#2403)
