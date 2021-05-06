@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.6.1 - 2021-05-06
+
+- update InteractsWithMedia.php (#2421)
+
 ## 9.6.0 - 2021-05-05
 
 - add a way to rename files globally (#2418)
