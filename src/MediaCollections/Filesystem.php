@@ -184,21 +184,7 @@ class Filesystem
 
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
-        touch($targetFile);
-
-        $stream = $this->getStream($media);
-
-        $targetFileStream = fopen($targetFile, 'a');
-
-        while (! feof($stream)) {
-            $chunk = fgets($stream, 1024);
-            fwrite($targetFileStream, $chunk);
-        }
-
-        fclose($stream);
-
-        fclose($targetFileStream);
-
+        file_put_contents($targetFile, $this->getStream($media));
         return $targetFile;
     }
 
