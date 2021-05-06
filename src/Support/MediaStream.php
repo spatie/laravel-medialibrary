@@ -98,7 +98,7 @@ class MediaStream implements Responsable
     protected function getZipStreamContents(): Collection
     {
         return $this->mediaItems->map(fn (Media $media, $mediaItemIndex) => [
-            'fileNameInZip' => $this->getZipFileNamePrefix($this->mediaItems, $mediaItemIndex).$this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
+            'fileNameInZip' => $this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
             'media' => $media,
         ]);
     }
@@ -107,14 +107,14 @@ class MediaStream implements Responsable
     {
         $fileNameCount = 0;
 
-        $fileName = $mediaItems[$currentIndex]->file_name;
+        $fileName = $this->getZipFileName($mediaItems, $currentIndex);
 
         foreach ($mediaItems as $index => $media) {
             if ($index >= $currentIndex) {
                 break;
             }
 
-            if ($this->getZipFileNamePrefix($mediaItems, $index).$media->file_name === $this->getZipFileNamePrefix($mediaItems, $currentIndex).$fileName) {
+            if ($this->getZipFileName($mediaItems, $index) === $fileName) {
                 $fileNameCount++;
             }
         }
@@ -125,12 +125,28 @@ class MediaStream implements Responsable
 
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);
         $fileNameWithoutExtension = pathinfo($fileName, PATHINFO_FILENAME);
+        $folder = pathinfo($fileName, PATHINFO_DIRNAME);
 
-        return "{$fileNameWithoutExtension} ({$fileNameCount}).{$extension}";
+        $fileNameWithSuffix = "{$fileNameWithoutExtension} ({$fileNameCount}).{$extension}";
+
+        if ($folder == '.') {
+            return $fileNameWithSuffix;
+        }
+
+        return "{$folder}/{$fileNameWithSuffix}";
     }
 
     protected function getZipFileNamePrefix(Collection $mediaItems, int $currentIndex): string
     {
         return $mediaItems[$currentIndex]->hasCustomProperty('zip_filename_prefix') ? $mediaItems[$currentIndex]->getCustomProperty('zip_filename_prefix') : '';
+    }
+
+    protected function getZipFileName(Collection $mediaItems, int $currentIndex): string
+    {
+        $mediaItem = $mediaItems[$currentIndex];
+
+        $zipFileName = $mediaItem->hasCustomProperty('zip_filename') ? $mediaItem->getCustomProperty('zip_filename') : $mediaItem->file_name;
+
+        return $this->getZipFileNamePrefix($mediaItems, $currentIndex) . $zipFileName;
     }
 }
