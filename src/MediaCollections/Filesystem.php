@@ -108,7 +108,7 @@ class Filesystem
         $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
             ? $media->getConversionsDiskDriverName()
             : $media->getDiskDriverName();
-        
+
         if ($diskDriverName === 'local') {
             $this->filesystem
                 ->disk($diskName)
@@ -163,28 +163,14 @@ class Filesystem
 
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
-        touch($targetFile);
-
-        $stream = $this->getStream($media);
-
-        $targetFileStream = fopen($targetFile, 'a');
-
-        while (! feof($stream)) {
-            $chunk = fgets($stream, 1024);
-            fwrite($targetFileStream, $chunk);
-        }
-
-        fclose($stream);
-
-        fclose($targetFileStream);
-
+        file_put_contents($targetFile, $this->getStream($media));
         return $targetFile;
     }
 
     public function removeAllFiles(Media $media): void
     {
         $mediaDirectory = $this->getMediaDirectory($media);
-        
+
         if ($media->disk !== $media->conversions_disk) {
             $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
         }
