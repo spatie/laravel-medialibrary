@@ -185,6 +185,7 @@ class Filesystem
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         file_put_contents($targetFile, $this->getStream($media));
+
         return $targetFile;
     }
 
