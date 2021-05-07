@@ -161,4 +161,128 @@ class MediaStreamTest extends TestCase
 
         $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'just_a_string_prefix test.jpg');
     }
+
+    /** @test */
+    public function media_with_zip_file_folder_name_property_saved_in_correct_zip_folder_and_correct_name()
+    {
+        foreach (range(1, 2) as $i) {
+            $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->toMediaCollection();
+        }
+
+        foreach (range(1, 2) as $i) {
+            $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->withCustomProperties([
+                    'zip_filename' => 'folder/subfolder/test.jpg',
+                ])
+                ->toMediaCollection();
+        }
+
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
+
+        ob_start();
+        @$zipStreamResponse->toResponse(request())->sendContent();
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test.jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test (1).jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test (2).jpg');
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test.jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test (1).jpg');
+    }
+
+    /** @test */
+    public function media_with_zip_file_name_property_saved_with_correct_name()
+    {
+        $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->withCustomProperties([
+                'zip_filename' => 'test_name.jpg',
+            ])
+            ->toMediaCollection();
+
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
+
+        ob_start();
+        @$zipStreamResponse->toResponse(request())->sendContent();
+        $content = ob_get_contents();
+        ob_end_clean();
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test_name.jpg');
+    }
+
+    /** @test */
+    public function media_with_zip_file_name_and_prefix_property_saved_in_correct_zip_folder_and_correct_name()
+    {
+        foreach (range(1, 2) as $i) {
+            $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->toMediaCollection();
+        }
+
+        foreach (range(1, 2) as $i) {
+            $this->testModel
+                ->addMedia($this->getTestJpg())
+                ->preservingOriginal()
+                ->withCustomProperties([
+                    'zip_filename_prefix' => 'folder/subfolder/',
+                    'zip_filename' => 'test.jpg',
+                ])
+                ->toMediaCollection();
+        }
+
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
+
+        ob_start();
+        @$zipStreamResponse->toResponse(request())->sendContent();
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test.jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test (1).jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'test (2).jpg');
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test.jpg');
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test (1).jpg');
+    }
+
+    /** @test */
+    public function media_with_zip_file_name_and_prefix_property_saved_with_correct_name()
+    {
+        $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->withCustomProperties([
+                'zip_filename_prefix' => 'alakazam_',
+                'zip_filename' => 'test_name.jpg',
+            ])
+            ->toMediaCollection();
+
+        $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
+
+        ob_start();
+        @$zipStreamResponse->toResponse(request())->sendContent();
+        $content = ob_get_contents();
+        ob_end_clean();
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+        file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+        $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'alakazam_test_name.jpg');
+    }
 }

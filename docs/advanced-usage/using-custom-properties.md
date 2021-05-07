@@ -75,7 +75,8 @@ title: Special custom properties
 weight: 2
 ---
 
-## ZIP File Folders
+## File Structure customization in zip files
+### Folders and Subfolders
 
 The ZIP export stores all media files in the root folder of the ZIP file.
 
@@ -87,6 +88,23 @@ Each media can be assigned to a subfolder.
 $mediaItem = Media::find($id);
 
 $mediaItem->setCustomProperty('zip_filename_prefix', 'folder/subfolder/'); // stores $mediaItem in Subfolder
+
+$mediaItem->save();
+
+$mediaStream =  MediaStream::create('export.zip');
+$mediaStream->addMedia($mediaItem);
+```
+
+### Custom Filename
+
+The ZIP export uses the original filename of the media.
+
+If you want to save media with custom names, you can do this with the help of the special custom property 'zip_filename'.
+
+```php
+$mediaItem = Media::find($id);
+
+$mediaItem->setCustomProperty('zip_filename', 'custom_filename.jpg'); // stores $mediaItem as custom_filename.jpg
 
 $mediaItem->save();
 
