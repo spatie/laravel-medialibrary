@@ -571,6 +571,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function a_string_that_is_added_to_the_media_library_can_have_a_custom_filename()
+    {
+        $filename = 'mytest.file';
+
+        $media = $this->testModel
+            ->addMediaFromString('foobar', $filename)
+            ->toMediaCollection();
+
+        $this->assertEquals($filename, $media->file_name);
+    }
+
+    /** @test */
     public function a_stream_can_be_accepted_to_be_added_to_the_media_library()
     {
         $string = 'test123';
@@ -583,6 +595,21 @@ class IntegrationTest extends TestCase
             ->toMediaCollection();
 
         $this->assertEquals($string, file_get_contents($media->getPath()));
+    }
+
+    public function a_stream_htat_is_added_to_the_media_library_can_have_a_custom_filename()
+    {
+        $string = 'test123';
+        $stream = fopen('php://temp', 'w+');
+        fwrite($stream, $string);
+        rewind($stream);
+        $filename = 'mytest.file';
+
+        $media = $this->testModel
+            ->addMediaFromStream($stream, $filename)
+            ->toMediaCollection();
+
+        $this->assertEquals($filename, $media->file_name);
     }
 
     /** @test */

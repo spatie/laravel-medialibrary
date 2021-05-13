@@ -181,7 +181,7 @@ trait InteractsWithMedia
      *
      * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
-    public function addMediaFromString(string $text): FileAdder
+    public function addMediaFromString(string $text, string $filename = 'text.txt'): FileAdder
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
@@ -189,7 +189,7 @@ trait InteractsWithMedia
 
         $file = app(FileAdderFactory::class)
             ->create($this, $tmpFile)
-            ->usingFileName('text.txt');
+            ->usingFileName($filename);
 
         return $file;
     }
@@ -243,7 +243,7 @@ trait InteractsWithMedia
      *
      * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
      */
-    public function addMediaFromStream($stream): FileAdder
+    public function addMediaFromStream($stream, string $filename = 'text.txt'): FileAdder
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
@@ -251,7 +251,7 @@ trait InteractsWithMedia
 
         $file = app(FileAdderFactory::class)
             ->create($this, $tmpFile)
-            ->usingFileName('text.txt');
+            ->usingFileName($filename);
 
         return $file;
     }
