@@ -63,7 +63,7 @@ mix.override((webpackConfig) => {
         "node_modules",
         __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
     ];
-}
+});
 ```
 
 **laravel-mix <6**
