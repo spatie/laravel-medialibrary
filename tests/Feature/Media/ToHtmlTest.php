@@ -24,13 +24,13 @@ class ToHtmlTest extends TestCase
     /** @test */
     public function it_can_render_itself_as_an_image()
     {
-        $this->assertEquals('<img src="/media/1/test.jpg" alt="test">', Media::first()->img());
+        $this->assertEquals('<img src="/media/1/test.jpg" alt="test">', Media::first()->img()->render());
     }
 
     /** @test */
     public function it_can_render_a_conversion_of_itself_as_an_image()
     {
-        $this->assertEquals('<img src="/media/1/conversions/test-thumb.jpg" alt="test">', Media::first()->img('thumb'));
+        $this->assertEquals('<img src="/media/1/conversions/test-thumb.jpg" alt="test">', Media::first()->img('thumb')->render());
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class ToHtmlTest extends TestCase
     {
         $this->assertEquals(
             '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-             Media::first()->img('thumb', ['class' => 'my-class', 'id' => 'my-id'])
+             Media::first()->img('thumb', ['class' => 'my-class', 'id' => 'my-id'])->render()
         );
     }
 
@@ -47,7 +47,7 @@ class ToHtmlTest extends TestCase
     {
         $this->assertEquals(
             '<img class="my-class" id="my-id" src="/media/1/test.jpg" alt="test">',
-             Media::first()->img(['class' => 'my-class', 'id' => 'my-id'])
+             Media::first()->img(['class' => 'my-class', 'id' => 'my-id'])->render()
         );
     }
 
@@ -56,7 +56,7 @@ class ToHtmlTest extends TestCase
     {
         $this->assertEquals(
             '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-             Media::first()->img(['class' => 'my-class', 'id' => 'my-id', 'conversion' => 'thumb'])
+             Media::first()->img(['class' => 'my-class', 'id' => 'my-id', 'conversion' => 'thumb'])->render()
         );
     }
 
@@ -77,7 +77,7 @@ class ToHtmlTest extends TestCase
             ->addMedia($this->getTestPdf())
             ->toMediaCollection();
 
-        $this->assertEquals('', $media->img());
+        $this->assertEquals('', $media->img()->render());
     }
 
     /** @test */
@@ -88,7 +88,7 @@ class ToHtmlTest extends TestCase
             ->withResponsiveImages()
             ->toMediaCollection();
 
-        $image = $media->refresh()->img();
+        $image = $media->refresh()->img()->render();
 
         $this->assertEquals(3, substr_count($image, '/media/2/responsive-images/'));
         $this->assertTrue(Str::contains($image, 'data:image/svg+xml;base64,'));
@@ -101,7 +101,7 @@ class ToHtmlTest extends TestCase
             ->addMedia($this->getTestJpg())
             ->toMediaCollection();
 
-        $image = $media->refresh()->img('thumb');
+        $image = $media->refresh()->img('thumb')->render();
 
         $this->assertStringContainsString('/media/2/responsive-images/', $image);
         $this->assertStringContainsString('data:image/svg+xml;base64,', $image);
@@ -117,7 +117,7 @@ class ToHtmlTest extends TestCase
             ->withResponsiveImages()
             ->toMediaCollection();
 
-        $imgTag = $media->refresh()->img();
+        $imgTag = $media->refresh()->img()->render();
 
         $this->assertEquals('<img srcset="http://localhost/media/2/responsive-images/test___medialibrary_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___medialibrary_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___medialibrary_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340">', $imgTag);
     }
