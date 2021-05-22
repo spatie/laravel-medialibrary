@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 8.10.2 - 2021-05-18
+
+- add support for PHP 8
+
 ## 8.10.1 - 2020-10-05
 
 - add `queue_conversions_by_default` to config file
