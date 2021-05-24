@@ -30,14 +30,17 @@ class AddGeneratedConversionsToMediaTable extends Migration {
         }
         
         Media::query()
-                ->whereNull('generated_conversions')
-                ->orWhere('generated_conversions', '')
-                ->orWhereRaw("JSON_TYPE(generated_conversions) = 'NULL'")
-                ->update([
-                    'generated_conversions' => DB::raw('custom_properties->"$.generated_conversions"'),
-                    // OPTIONAL: Remove the generated conversions from the custom_properties field as well:
-                    // 'custom_properties'     => DB::raw("JSON_REMOVE(custom_properties, '$.generated_conversions')")
-                ]);
+            ->where(function ($query) {
+                $query->whereNull('generated_conversions')
+                    ->orWhere('generated_conversions', '')
+                    ->orWhereRaw("JSON_TYPE(generated_conversions) = 'NULL'");
+            })
+            ->whereRaw("JSON_LENGTH(custom_properties) > 0")
+            ->update([
+                'generated_conversions' => DB::raw('custom_properties->"$.generated_conversions"'),
+                // OPTIONAL: Remove the generated conversions from the custom_properties field as well:
+                // 'custom_properties'     => DB::raw("JSON_REMOVE(custom_properties, '$.generated_conversions')")
+            ]);
     }
 
     /**
