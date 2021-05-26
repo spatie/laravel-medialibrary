@@ -51,7 +51,8 @@ jobs:
             - name: Install dependencies
               run: |
                   composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-                  composer require league/flysystem-aws-s3-v3
+                  composer require league/flysystem-aws-s3-v3:"^1.0.13"
+                  composer require doctrine/inflector:"^1.4.1|^2.0"
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
             - name: Execute tests
