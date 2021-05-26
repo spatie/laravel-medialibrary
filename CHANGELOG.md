@@ -290,6 +290,10 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 To learn how to upgrade, take a look in UPGRADING.md
 
+## 7.20.0 - 2021-05-26
+
+- add support for PHP 8
+
 ## 7.19.3 - 2020-03-09
 
 - fix responsive images extension (#1752)
