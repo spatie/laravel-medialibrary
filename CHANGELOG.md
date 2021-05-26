@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 7.20.0 - 2021-05-26
+
+- add support for PHP 8
+
 ## 7.19.5 - 2020-11-04
 
 - add support for Laravel 8
