@@ -14,7 +14,7 @@ composer require "spatie/laravel-medialibrary:^9.0.0"
 If you have a license for media library pro, you should use `laravel-media-library-pro`
 
 ```bash
-composer require "spatie/laravel-medialibrary-pro:^9.0.0"
+composer require spatie/laravel-medialibrary-pro
 ```
 
 ## Preparing the database
@@ -74,8 +74,22 @@ return [
 
     /*
      * The fully qualified class name of the model used for temporary uploads.
+     *
+     * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
     'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+
+    /*
+     * When enabled, Media Library Pro will only process temporary uploads there were uploaded
+     * in the same session. You can opt to disable this for stateless usage of
+     * the pro components.
+     */
+    'enable_temporary_uploads_session_affinity' => true,
+
+    /*
+     * When enabled, Media Library pro will generate thumbnails for uploaded file.
+     */
+    'generate_thumbnails_for_temporary_uploads' => true,
 
     /*
      * This is the class that is responsible for naming generated files.
@@ -106,6 +120,7 @@ return [
      */
     'image_optimizers' => [
         Spatie\ImageOptimizer\Optimizers\Jpegoptim::class => [
+            '-m85', // set maximum quality to 85%
             '--strip-all', // this strips out all text information such as comments and EXIF data
             '--all-progressive', // this will make sure the resulting image is a progressive one
         ],
@@ -123,6 +138,12 @@ return [
         Spatie\ImageOptimizer\Optimizers\Gifsicle::class => [
             '-b', // required parameter for this package
             '-O3', // this produces the slowest but best results
+        ],
+        Spatie\ImageOptimizer\Optimizers\Cwebp::class => [
+                '-m 6', // for the slowest compression method in order to get the best compression.
+                '-pass 10', // for maximizing the amount of analysis pass.
+                '-mt', // multithreading for some speed improvements.
+                '-q 90', //quality factor that brings the least noticeable changes.
         ],
     ],
 
@@ -193,7 +214,7 @@ return [
          * images. By default we optimize for filesize and create variations that each are 20%
          * smaller than the previous one. More info in the documentation.
          *
-         * https://docs.spatie.be/laravel-medialibrary/v8/advanced-usage/generating-responsive-images
+         * https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/generating-responsive-images
          */
         'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
@@ -209,13 +230,13 @@ return [
          */
         'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
-    
+
     /*
      * When enabling this option, a route will be registered that will enable
      * the Media Library Pro Vue and React components to move uploaded files
      * in a S3 bucket to their right place.
      */
-    'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', true),
+    'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', false),
 
     /*
      * When converting Media instances to response the media library will add
@@ -246,7 +267,7 @@ By default, the media library will store its files on Laravel's `public` disk. I
     ...
 ```
 
-Don't forget to ignore the directory of your configured disk, so the files won't end up in your git repo.
+Don't forget to `.gitignore` the directory of your configured disk, so the files won't end up in your git repo.
 
 To store all media on that disk by default, you should set the `disk_name` config value in the `media-library` config file to the name of the disk you added.
 
@@ -295,8 +316,8 @@ brew install gifsicle
 
 ## Installing Media Library Pro
 
-[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/general) beautifully with the laravel-medialibrary.
+[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/introduction) beautifully with the laravel-medialibrary.
 
 You can buy a license for Media Library Pro on [the product page](https://spatie.be/products/media-library-pro) at spatie.be.
 
-To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installing-media-library-pro).
+To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installation).

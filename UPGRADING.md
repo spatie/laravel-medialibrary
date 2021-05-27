@@ -4,8 +4,68 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 ## From v8 to v9
 
-- add a `json` column `generated_conversions` to the `media` table (take a look at the default migration for the exact definition). If you are using Media Library Pro, you should copy the values you now have in the `generated_conversions` key of the `custom_properties` column to `generated_conversions`
+- add a `json` column `generated_conversions` to the `media` table (take a look at the default migration for the exact definition). You should copy the values you now have in the `generated_conversions` key of the `custom_properties` column to `generated_conversions`
+- You can create this migration by running `php artisan make:migration AddGeneratedConversionsToMediaTable`.
+- Here is the content that should be in the migration file
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+class AddGeneratedConversionsToMediaTable extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        if ( ! Schema::hasColumn( 'media', 'generated_conversions' ) ) {
+            Schema::table( 'media', function ( Blueprint $table ) {
+                $table->json( 'generated_conversions' );
+            } );
+        }
+        
+        Media::query()
+            ->where(function ($query) {
+                $query->whereNull('generated_conversions')
+                    ->orWhere('generated_conversions', '')
+                    ->orWhereRaw("JSON_TYPE(generated_conversions) = 'NULL'");
+            })
+            ->whereRaw("JSON_LENGTH(custom_properties) > 0")
+            ->update([
+                'generated_conversions' => DB::raw('custom_properties->"$.generated_conversions"'),
+                // OPTIONAL: Remove the generated conversions from the custom_properties field as well:
+                // 'custom_properties'     => DB::raw("JSON_REMOVE(custom_properties, '$.generated_conversions')")
+            ]);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+        /* Restore the 'generated_conversions' field in the 'custom_properties' column if you removed them in this migration
+        Media::query()
+                ->whereRaw("JSON_TYPE(generated_conversions) != 'NULL'")
+                ->update([
+                    'custom_properties' => DB::raw("JSON_SET(custom_properties, '$.generated_conversions', generated_conversions)")
+                ]);
+        */
+    
+        Schema::table( 'media', function ( Blueprint $table ) {
+            $table->dropColumn( 'generated_conversions' );
+        } );
+    }
+}
+```
+
 - rename `conversion_file_namer` key in the `media-library` config to `file_namer`. This will support both the conversions and responsive images from now on. More info [in our docs](https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files).
+- You will also need to change the value of this configuration key as the previous class was removed, the new default value is `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class`
 - in several releases of v8 config options were added. We recommend going over your config file in `config/media-library.php` and add any options that are present in the default config file that ships with this package.
 
 ## From v7 to v8
@@ -36,6 +96,89 @@ Media::cursor()->each(
 - if the `url_generator` key in the `media-library` config file was set to `null`, change the value to `Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class`
 - the `rawUrlEncodeFilename` method on `BaseUrlGenerator` has been removed. Remove all calls in your own code to this method.
 - `getConversionFile` on `Conversion` now accepts a `Media` instance instead of a `string`. In normal circumstance you wouldn't have used this function directly.
+- the default collection name for responsive images was changed from `medialibrary_original` to `media_library_original` which requires you to update the `responsive_images` column and rename all generated files with that collection name. This is an example migration of how to do that (**read through the code and make sure it does what you want**):
+```php
+use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Database\Migrations\Migration;
+use App\Models\Media;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
+
+class RenameResponsiveImagesCollectionNameInMedia extends Migration
+{
+
+    const OLD_COLLECTION_NAME = 'medialibrary_original';
+    const NEW_COLLECTION_NAME = 'media_library_original';
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        $this->change(self::OLD_COLLECTION_NAME, self::NEW_COLLECTION_NAME);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        $this->change(self::NEW_COLLECTION_NAME, self::OLD_COLLECTION_NAME);
+    }
+
+    public function change(string $from, string $to)
+    {
+        /** @var Factory $filesystem */
+        $filesystem = app(Factory::class);
+
+        $pathGenerator = PathGeneratorFactory::create();
+
+        // Find media with the old collection name is present
+        Media::query()
+            ->withoutGlobalScopes()
+            ->whereNotNull('responsive_images->' . $from)
+            ->cursor()
+            ->each(function($media) use ($from, $to, $filesystem, $pathGenerator) {
+                // Change the old collection key
+                $responsive_images = array_merge(
+                    $media->responsive_images,
+                    [
+                        $to => $media->responsive_images[$from],
+                        $from => null
+                    ]
+                );
+                // Remove it completely
+                unset($responsive_images[$from]);
+
+                // Responsive image path for this media
+                $directory = $pathGenerator->getPathForResponsiveImages($media);
+                // Media disk
+                $disk = $filesystem->disk($media->disk);
+
+                foreach($responsive_images[$to]['urls'] as &$filename) {
+                    // Replace the old collection name with the new one
+                    $newFilename = str_replace(
+                        $from,
+                        $to,
+                        $filename
+                    );
+                    // If the old file exists move it on disk
+                    if($disk->exists($directory . $filename)) {
+                        $disk->move($directory . $filename, $directory . $newFilename);
+                        // Update the new array by ref
+                        $filename = $newFilename;
+                    }
+                }
+                // Save the new array
+                $media->responsive_images = $responsive_images;
+                $media->save();
+            });
+    }
+}
+```
 
 ## 7.3.0
 

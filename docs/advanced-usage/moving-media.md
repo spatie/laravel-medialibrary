@@ -15,7 +15,7 @@ Any conversions defined on `$anotherModel` will be performed. The `name` and the
 
 ## Copying media
 
-You can aslo copy media from one model with the `copy` method.
+You can also copy media from one model with the `copy` method.
 
 ```php
 $mediaItem = $model->getMedia()->first();

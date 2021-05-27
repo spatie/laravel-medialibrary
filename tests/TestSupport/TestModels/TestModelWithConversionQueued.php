@@ -11,6 +11,10 @@ class TestModelWithConversionQueued extends TestModel
         $this->addMediaConversion('thumb')
             ->width(50);
 
+        $this->addMediaConversion('avatar_thumb')
+            ->performOnCollections('avatar')
+            ->width(50);
+
         $this->addMediaConversion('keep_original_format')
             ->keepOriginalImageFormat();
     }

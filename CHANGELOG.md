@@ -2,6 +2,106 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.6.2 - 2021-05-6
+
+- simplify and speed up code for copying a stream to disk (#2425)
+
+## 9.6.1 - 2021-05-06
+
+- update InteractsWithMedia.php (#2421)
+
+## 9.6.0 - 2021-05-05
+
+- add a way to rename files globally (#2418)
+
+## 9.5.6 - 2021-04-20
+
+- include extra_headers when adding media from same S3 Disk (#2403)
+
+## 9.5.5 - 2021-04-13
+
+- fix adding private media from same S3 Disk (#2382)
+
+## 9.5.4 - 2021-04-12
+
+- add `Collection` typehint to `addMultipleMediaFromRequest` (#2389)
+
+## 9.5.3 - 2021-04-08
+
+- fix #2372 the fallback should be the original image (#2377)
+
+## 9.5.2 - 2021-04-07
+
+- allow v2 of spatie/temporary-directory
+
+## 9.5.1 - 2021-04-05
+
+- return Fallback url or path when conversion is not ready yet (#2369)
+
+## 9.5.0 - 2021-03-29
+
+- add `addMediaFromStream` (#2363)
+
+## 9.4.4 - 2021-03-15
+
+- allow `null` in the FileAdder 'order' setter (#2336)
+
+## 9.4.3 - 2021-03-07
+
+- `DiskDoesNotExist` moved to it's own class (#2306)
+
+## 9.4.2 - 2021-01-15
+
+- improve `preservingOriginal` (#2258)
+
+## 9.4.1 - 2020-12-16
+
+- fixed generated conversions race-condition (#2235)
+
+## 9.4.0 - 2020-12-02
+
+- add `moves_media_on_update` config value
+
+## 9.3.0 - 2020-11-30
+
+- add `generate_thumbnails_for_temporary_uploads` config value
+
+## 9.2.0 - 2020-11-26
+
+- add `enable_temporary_uploads_session_affinity` config value
+
+## 9.1.7 - 2020-11-24
+
+- add unique index to UUID column (#2197)
+
+## 9.1.6 - 2020-11-24
+
+- fixes incompatible return types error caused by PHPStorm's inability to resolve self (#2198)
+
+## 9.1.5 - 2020-11-22
+
+- fix custom file names for media library pro
+
+## 9.1.4 - 2020-11-19
+
+- automatically delete conversion jobs for deleted models (#2191)
+
+## 9.1.3 - 2020-11-12
+
+- improve optimizer defaults
+
+## 9.1.2 - 2020-11-11
+
+- add `original_url` to `MediaCollection`.
+
+## 9.1.1 - 2020-11-05
+
+- allow media collection to work with media library pro
+
+## 9.1.0 - 2020-11-04
+
+- allow image generators to accept config (#2156)
+
 ## 9.0.1 - 2020-10-30
 
 - do not enable vapor uploads by default
@@ -189,6 +289,10 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 - improved naming of classes and namespaces.
 
 To learn how to upgrade, take a look in UPGRADING.md
+
+## 7.20.0 - 2021-05-26
+
+- add support for PHP 8
 
 ## 7.19.3 - 2020-03-09
 

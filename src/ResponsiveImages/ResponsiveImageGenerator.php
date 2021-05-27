@@ -190,6 +190,7 @@ class ResponsiveImageGenerator
     protected function addPropertiesToFileName(string $fileName, string $conversionName, int $width, int $height, string $extension): string
     {
         $fileName = pathinfo($fileName, PATHINFO_FILENAME);
+
         return "{$fileName}___{$conversionName}_{$width}_{$height}.{$extension}";
     }
 }

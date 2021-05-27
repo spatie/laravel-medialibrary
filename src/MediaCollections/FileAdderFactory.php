@@ -73,7 +73,7 @@ class FileAdderFactory
 
     public static function createForPendingMedia(Model $subject, PendingMediaItem $pendingMedia): FileAdder
     {
-        /** @var  \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
+        /** @var \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
         $fileAdder = app(FileAdder::class);
 
         return $fileAdder

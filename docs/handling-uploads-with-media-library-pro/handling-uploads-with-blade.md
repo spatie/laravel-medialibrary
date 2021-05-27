@@ -10,7 +10,23 @@ You can make use of the `x-media-library-attachment` and `x-media-library-collec
 The Blade components that handle uploads leverage [Livewire](https://laravel-livewire.com) under the hood. That's why
 you must follow [Livewire's installation instructions](https://laravel-livewire.com/docs/installation) as well.
 
-Our Blade components are meant to be used in a regular HTML form. For now, you can 't use them inside other Livewire components.
+Make sure Alpine is available on the page as well. The easiest way is to include it from a cdn
+
+```html
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.6.0/dist/alpine.min.js" defer></script>
+```
+
+Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installation options.
+
+## Use inside other Livewire components
+
+Our Blade components are meant to be used in a regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-livewire).
+
+## Demo application
+
+In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro inside your Blade views.
+
+If you are having troubles using the components, take a look in that app to see how we've done it.
 
 ## Handling a single upload
 
@@ -57,7 +73,7 @@ Here's an example of how you can allow multiple uploads
     @csrf
     Name: <input type="text" name="name" value="{{ old('name', $formSubmission->name) }}">
 
-    <x-medialibrary-attachment multiple name="images"/>
+    <x-media-library-attachment multiple name="images"/>
 
     <button type="submit">Submit</button>
 </form>
@@ -118,7 +134,7 @@ already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing
 <x-media-library-collection
     name="images"
     :model="$blogPost"
-    collection-name="images"
+    collection="images"
 />
 ```
 
@@ -137,7 +153,7 @@ In this example, the collection will be allowed to hold `png` and `jpg` files th
 <x-media-library-collection
     name="images"
     :model="$blogPost"
-    collection-name="images"
+    collection="images"
     max-items="2"
     rules="mimes:png,jpg|max:1024"
 />
@@ -151,7 +167,7 @@ Want to see more videos like this? Check out our [free video course on how to us
 
 ### Using custom properties
 
-The media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
+Media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
 default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a
 blade view that will be used to display all form elements on a row in the component.
 
@@ -191,31 +207,7 @@ This is how that will look like.
 
 ![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
 
-
 Custom properties can be validated using [a form request](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
-
-```php
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Image\Manipulations;
-
-class BlogPost extends Model implements HasMedia
-{
-    use InteractsWithMedia;
-
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Manipulations::FIT_CROP, 300, 300)
-            ->nonQueued();
-    }
-}
-```
 
 In this video, you'll see an example of how extra fields can be added.
 

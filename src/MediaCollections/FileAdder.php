@@ -123,9 +123,9 @@ class FileAdder
         throw UnknownType::create();
     }
 
-    public function preservingOriginal(): self
+    public function preservingOriginal(bool $preserveOriginal = true): self
     {
-        $this->preserveOriginal = true;
+        $this->preserveOriginal = $preserveOriginal;
 
         return $this;
     }
@@ -142,7 +142,7 @@ class FileAdder
         return $this;
     }
 
-    public function setOrder(int $order): self
+    public function setOrder(?int $order): self
     {
         $this->order = $order;
 
@@ -240,7 +240,9 @@ class FileAdder
 
         $media->name = $this->mediaName;
 
-        $this->fileName = ($this->fileNameSanitizer)($this->fileName);
+        $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
+        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         $media->file_name = $this->fileName;
 
@@ -273,12 +275,16 @@ class FileAdder
 
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
+        $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
+        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
+
         if ($this->file instanceof RemoteFile) {
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
         }
 
         if ($this->file instanceof TemporaryUpload) {
-            return $this->toMediaCollectionFromTemporaryUpload($collectionName, $diskName);
+            return $this->toMediaCollectionFromTemporaryUpload($collectionName, $diskName, $this->fileName);
         }
 
         if (! is_file($this->pathToFile)) {
@@ -294,8 +300,6 @@ class FileAdder
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
-
-        $this->fileName = ($this->fileNameSanitizer)($this->fileName);
 
         $media->file_name = $this->fileName;
 
@@ -486,7 +490,7 @@ class FileAdder
         }
     }
 
-    protected function toMediaCollectionFromTemporaryUpload(string $collectionName, string $diskName): Media
+    protected function toMediaCollectionFromTemporaryUpload(string $collectionName, string $diskName, string $fileName = ''): Media
     {
         /** @var TemporaryUpload $temporaryUpload */
         $temporaryUpload = $this->file;
@@ -502,6 +506,13 @@ class FileAdder
 
         $media->save();
 
-        return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName);
+        return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName, $fileName);
+    }
+
+    protected function appendExtension(string $file, ?string $extension): string
+    {
+        return $extension
+            ? $file . '.' . $extension
+            : $file;
     }
 }

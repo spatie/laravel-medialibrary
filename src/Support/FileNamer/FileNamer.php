@@ -7,6 +7,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 abstract class FileNamer
 {
+    public function originalFileName(string $fileName): string
+    {
+        return pathinfo($fileName, PATHINFO_FILENAME);
+    }
+
     abstract public function conversionFileName(string $fileName, Conversion $conversion): string;
 
     abstract public function responsiveFileName(string $fileName): string;
