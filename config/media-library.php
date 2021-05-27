@@ -38,6 +38,18 @@ return [
     'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
 
     /*
+     * When enabled, Media Library Pro will only process temporary uploads there were uploaded
+     * in the same session. You can opt to disable this for stateless usage of
+     * the pro components.
+     */
+    'enable_temporary_uploads_session_affinity' => true,
+
+    /*
+     * When enabled, Media Library pro will generate thumbnails for uploaded file.
+     */
+    'generate_thumbnails_for_temporary_uploads' => true,
+
+    /*
      * This is the class that is responsible for naming generated files.
      */
     'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
@@ -54,6 +66,12 @@ return [
     'url_generator' => Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator::class,
 
     /*
+     * Moves media on updating to keep path consistent. Enable it only with a custom
+     * PathGenerator that uses, for example, the media UUID.
+     */
+    'moves_media_on_update' => false,
+
+    /*
      * Whether to activate versioning when urls to files get generated.
      * When activated, this attaches a ?v=xx query string to the URL.
      */
@@ -66,6 +84,7 @@ return [
      */
     'image_optimizers' => [
         Spatie\ImageOptimizer\Optimizers\Jpegoptim::class => [
+            '-m85', // set maximum quality to 85%
             '--strip-all', // this strips out all text information such as comments and EXIF data
             '--all-progressive', // this will make sure the resulting image is a progressive one
         ],
@@ -83,6 +102,12 @@ return [
         Spatie\ImageOptimizer\Optimizers\Gifsicle::class => [
             '-b', // required parameter for this package
             '-O3', // this produces the slowest but best results
+        ],
+        Spatie\ImageOptimizer\Optimizers\Cwebp::class => [
+            '-m 6', // for the slowest compression method in order to get the best compression.
+            '-pass 10', // for maximizing the amount of analysis pass.
+            '-mt', // multithreading for some speed improvements.
+            '-q 90', //quality factor that brings the least noticeable changes.
         ],
     ],
 

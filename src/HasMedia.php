@@ -42,7 +42,7 @@ interface HasMedia
      */
     public function getMedia(string $collectionName = 'default', $filters = []): Collection;
 
-    public function clearMediaCollection(string $collectionName = 'default'): self;
+    public function clearMediaCollection(string $collectionName = 'default'): HasMedia;
 
     /**
      * Remove all media in the given collection except some.
@@ -52,7 +52,7 @@ interface HasMedia
      *
      * @return $this
      */
-    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []): self;
+    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []): HasMedia;
 
     /**
      * Determines if the media files should be preserved when the media object gets deleted.

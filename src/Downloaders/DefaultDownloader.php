@@ -8,7 +8,7 @@ class DefaultDownloader implements Downloader
 {
     public function getTempFile(string $url): string
     {
-        if (!$stream = @fopen($url, 'r')) {
+        if (! $stream = @fopen($url, 'r')) {
             throw UnreachableUrl::create($url);
         }
 

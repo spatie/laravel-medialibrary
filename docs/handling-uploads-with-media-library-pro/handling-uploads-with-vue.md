@@ -13,7 +13,13 @@ The `MediaLibraryCollection` component can upload multiple files with custom pro
 
 ![Screenshot of the MediaLibraryCollection Vue component](/docs/laravel-medialibrary/v9/images/pro/collection.png)
 
-If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](#).
+If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](./creating-custom-vue-components).
+
+## Demo application
+
+In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro with Vue.
+
+If you are having troubles using the components, take a look in that app to see how we've done it.
 
 ## Basic setup
 
@@ -43,7 +49,9 @@ The Vue components post data to `/media-library-pro/uploads` by default. If you 
 
 ### Importing the components
 
-The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration:
+The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
+
+_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation#usage-in-a-frontend-repository)_
 
 **laravel-mix >6**
 
@@ -55,7 +63,7 @@ mix.override((webpackConfig) => {
         "node_modules",
         __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
     ];
-}
+});
 ```
 
 **laravel-mix <6**
@@ -76,9 +84,9 @@ mix.webpackConfig({
 This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import. Notice that the Vue 2 and Vue 3 components are separate components.
 
 ```js
-import MediaLibraryAttachment from "media-library-pro-vue2-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
 // or
-import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -101,8 +109,8 @@ To use a component in your Blade templates, import the components you plan to us
 
 ```js
 import Vue from "vue";
-import MediaLibraryAttachment from "media-library-pro-vue2-attachment";
-import MediaLibraryCollection from "media-library-pro-vue2-collection";
+import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
+import { MediaLibraryCollection } from "media-library-pro-vue2-collection";
 
 new Vue({
     el: "#app",
@@ -118,8 +126,8 @@ new Vue({
 
 ```js
 import { createApp } from "vue";
-import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
-import MediaLibraryCollection from "media-library-pro-vue3-collection";
+import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
 createApp({
     components: {
@@ -157,8 +165,8 @@ You may also choose to import the components on the fly in a `.vue` file.
 </template>
 
 <script>
-    import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
-    import MediaLibraryCollection from "media-library-pro-vue3-collection";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
     export default {
         components: {
@@ -185,8 +193,8 @@ The most basic components have a `name` prop. This name will be used to identify
 </template>
 
 <script>
-    import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
-    import MediaLibraryCollection from "media-library-pro-vue3-collection";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
     export default {
         components: {
@@ -219,7 +227,7 @@ You can retrieve your initial values in Laravel using `$yourModel->getMedia($col
 </form>
 ```
 
-Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to [the `Asynchronously submit data` section](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-vue#asynchronously-submit-data).
+Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to [the `Asynchronously submit data` section](#asynchronously-submit-data).
 
 ### Setting validation rules
 
@@ -271,12 +279,12 @@ The components keep track of whether they're ready to be submitted, you can use 
             @is-ready-to-submit-change="isReadyToSubmit = $event"
         />
 
-        <button :disabled="isReadyToSubmit">Submit</button>
+        <button :disabled="!isReadyToSubmit">Submit</button>
     </form>
 </template>
 
 <script>
-    import MediaLibraryAttachment from "media-library-pro-vue3-attachment";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
 
     export default {
         components: { MediaLibraryAttachment },
@@ -415,13 +423,15 @@ If you don't want to use traditional form submits to send your data to the backe
 <template>
     <div>
         <media-library-attachment
-            …
+            name="avatar"
+            :initial-value="media"
             :validation-errors="validationErrors"
             @change="onChange"
         />
 
         <media-library-collection
-            …
+            name="media"
+            :initial-value="media"
             :validation-errors="validationErrors"
             @change="onChange"
         />
@@ -458,7 +468,7 @@ If you don't want to use traditional form submits to send your data to the backe
 </script>
 ```
 
-### Using with Laravel Vapor
+### Usage with Laravel Vapor
 
 If you are planning on deploying your application to AWS using [Laravel Vapor](https://vapor.laravel.com/), you will need to do some extra configuration to make sure files are uploaded properly to an S3 bucket.
 
@@ -478,6 +488,48 @@ If you edited Vapor's signed storage URL in Laravel, you will need to pass the n
     vapor
     vapor-signed-storage-url="/vapor/signed-storage-url"
 />
+```
+
+### Usage with Inertia
+
+When using the components in repository that uses Inertia, the setup is very similar to the asynchronous setup.
+
+```html
+<template>
+    <div>
+        <media-library-attachment
+            name="avatar"
+            :initial-value="avatar"
+            :validation-errors="validationErrors"
+            @change="onChange"
+        />
+
+        <button @click="submitForm">Submit</button>
+    </div>
+</template>
+
+<script>
+    import { Inertia } from "@inertiajs/inertia";
+
+    export default {
+        data() {
+            return {
+                validationErrors: this.$page.props.errors,
+                avatar: this.$page.props.values.avatar,
+            };
+        },
+
+        methods: {
+            onChange(avatar) {
+                this.avatar = avatar;
+            },
+
+            submitForm() {
+                Inertia.post("", { avatar: this.avatar });
+            },
+        },
+    };
+</script>
 ```
 
 ## Validation rules
@@ -540,6 +592,43 @@ Pass a method to `before-upload` that accepts a [file](https://developer.mozilla
 </script>
 ```
 
+## Translations
+
+If you would like to use the components in your own language, you can pass a `translations` prop to the component.
+
+```html
+<media-library-collection
+    :translations="{
+        fileTypeNotAllowed: 'You must upload a file of type',
+        tooLarge: 'File too large, max',
+        tooSmall: 'File too small, min',
+        tryAgain: 'please try uploading this file again',
+        somethingWentWrong: 'Something went wrong while uploading this file',
+        selectOrDrag: 'Select or drag files',
+        selectOrDragMax: 'Select or drag max {maxItems} {file}',
+        file: { singular: 'file', plural: 'files' },
+        anyImage: 'any image',
+        anyVideo: 'any video',
+        goBack: 'Go back',
+        dropFile: 'Drop file to upload',
+        dragHere: 'Drag file here',
+        remove: 'Remove',
+        download: 'Download',
+    }"
+/>
+```
+
+The values mentioned here are the defaults. Feel free to only pass in a couple of keys, as your object will be merged onto the default.
+
+If you use the component in different parts of your app, you might want to set the translations globally.
+
+```js
+window.mediaLibraryTranslations = {
+    somethingWentWrong: "whoops",
+    remove: "delete",
+};
+```
+
 ## Props
 
 These props are available on both the `attachment` and the `collection` component.
@@ -549,7 +638,8 @@ These props are available on both the `attachment` and the `collection` componen
 | name                          |                                                       |                                                                                                                                                                                   |
 | initial-value                 | `[]`                                                  |                                                                                                                                                                                   |
 | route-prefix                  | `"media-library-pro"`                                 |                                                                                                                                                                                   |
-| validation-rules              |                                                       | Refer to [validation rules](#validation-rules) section                                                                                                                            |
+| upload-domain                 |                                                       | Use this if you're uploading your files to a separate (sub)domain, e.g. `files.mydomain.com` (leave out the trailing slash)                                                       |
+| validation-rules              |                                                       | Refer to the ["validation rules"](#validation-rules) section                                                                                                                      |
 | validation-errors             |                                                       | The standard Laravel validation error object                                                                                                                                      |
 | multiple                      | `false` (always `true` in the `collection` component) | Only exists on the `attachment` components                                                                                                                                        |
 | max-items                     | `1` when `multiple` = `false`, otherwise `undefined   |                                                                                                                                                                                   |
@@ -557,6 +647,8 @@ These props are available on both the `attachment` and the `collection` componen
 | vapor-signed-storage-url      | `"vapor/signed-storage-url"`                          |                                                                                                                                                                                   |
 | max-size-for-preview-in-bytes | `5242880` (5 MB)                                      | When an image is added, the component will try to generate a local preview for it. This is done on the main thread, and can freeze the component and/or page for very large files |
 | sortable                      | `true`                                                | Only exists on the `collection` components. Allows the user to drag images to change their order, this will be reflected by a zero-based `order` attribute in the value           |
+| translations                  |                                                       | Refer to the ["Translations"](#translations) section                                                                                                                              |
+| file-type-help-text           |                                                       | Override the automatically generated helptext from `validation-rules.accept`                                                                                                       |
 | ref                           |                                                       | Used to set a reference to the MediaLibrary instance, so you can change the internal state of the component.                                                                      |
 | before-upload                 |                                                       | A method that is run right before a temporary upload is started. You can throw an `Error` from this function with a custom validation message                                     |
 | after-upload                  |                                                       | A method that is run right after a temporary upload has completed, `{ success: true, uuid }`                                                                                      |

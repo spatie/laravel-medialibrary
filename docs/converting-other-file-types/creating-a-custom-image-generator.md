@@ -7,7 +7,7 @@ If you want to generate a conversion for a file type that is not covered out of 
 
 In the following example we'll create a custom generator that can convert a Powerpoint to an image.
 
-## Creating the custom generator
+## Creating a custom image generator
 
 The first step for creating a custom generator is to create a class that extends `Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator`:
 
@@ -53,10 +53,41 @@ class PowerPoint extends ImageGenerator
 
 ## Registering the custom generator
 
-If you want the generator to be applied to all your models, you can override the `Media` class as explained in the
-[using your own model](/laravel-medialibrary/v9/advanced-usage/using-your-own-model/) page and modify the
-`getImageGenerators` method in your own `Media` class.
+After creating your custom image generator, you should add the class name to the `image_generators` key of the `media-library` config file.
 
+```php
+// in config/laravel-medialibrary.php
+'image_generators' => [
+    // ...
+    YourImageGenerator::class,
+], 
+```
+
+## Passing configuration to a custom image generator
+
+When registering a custom image generator in the `media-library` config file, you can pass values like this
+
+```php
+// in config/laravel-medialibrary.php
+'image_generators' => [
+    // ...
+    YourImageGenerator::class => ['myArgument' => 'value', 'myOtherArgument' => 'otherValue'],
+], 
+```
+
+In your custom image generator you can accept those arguments in the constructor.
+
+```php
+class YourImageGenerator
+{
+    public function __construct(string $myArgument, string $myOtherArgument)
+    {
+        // do something with these arguments
+    }
+}
+```
+
+## Only using a custom image generator a specific model
 
 If the generator only needs to be applied to one of your models you can override the `getImageGenerators` in that model like this:
 

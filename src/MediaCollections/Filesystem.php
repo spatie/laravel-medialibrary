@@ -49,17 +49,17 @@ class Filesystem
 
         $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
-        if ($file->getDisk() === $media->disk) {
+        $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
+            ? $media->getConversionsDiskDriverName()
+            : $media->getDiskDriverName();
+
+        if ($this->shouldCopyFileOnDisk($file, $media, $diskDriverName)) {
             $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
 
             return;
         }
 
         $storage = Storage::disk($file->getDisk());
-
-        $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
-            ? $media->getConversionsDiskDriverName()
-            : $media->getDiskDriverName();
 
         $headers = $diskDriverName === 'local'
             ? []
@@ -75,6 +75,27 @@ class Filesystem
             $media->disk,
             $headers
         );
+    }
+
+    protected function shouldCopyFileOnDisk(RemoteFile $file, Media $media, string $diskDriverName): bool
+    {
+        if ($file->getDisk() !== $media->disk) {
+            return false;
+        }
+
+        if ($diskDriverName === 'local') {
+            return true;
+        }
+
+        if (count($media->getCustomHeaders()) > 0) {
+            return false;
+        }
+
+        if (count(config('media-library.remote.extra_headers')) > 0) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function copyFileOnDisk(string $file, string $destination, string $disk): void
@@ -108,7 +129,7 @@ class Filesystem
         $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
             ? $media->getConversionsDiskDriverName()
             : $media->getDiskDriverName();
-        
+
         if ($diskDriverName === 'local') {
             $this->filesystem
                 ->disk($diskName)
@@ -163,20 +184,7 @@ class Filesystem
 
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
-        touch($targetFile);
-
-        $stream = $this->getStream($media);
-
-        $targetFileStream = fopen($targetFile, 'a');
-
-        while (! feof($stream)) {
-            $chunk = fgets($stream, 1024);
-            fwrite($targetFileStream, $chunk);
-        }
-
-        fclose($stream);
-
-        fclose($targetFileStream);
+        file_put_contents($targetFile, $this->getStream($media));
 
         return $targetFile;
     }
@@ -184,7 +192,7 @@ class Filesystem
     public function removeAllFiles(Media $media): void
     {
         $mediaDirectory = $this->getMediaDirectory($media);
-        
+
         if ($media->disk !== $media->conversions_disk) {
             $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
         }
@@ -196,7 +204,9 @@ class Filesystem
         collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
             ->each(function (string $directory) use ($media) {
                 try {
-                    $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                    if ($this->filesystem->disk($media->conversions_disk)->exists($directory)) {
+                        $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                    }
                 } catch (Exception $exception) {
                     report($exception);
                 }
@@ -227,6 +237,20 @@ class Filesystem
         $this->renameMediaFile($media);
 
         $this->renameConversionFiles($media);
+    }
+
+    public function syncMediaPath(Media $media): void
+    {
+        $factory = PathGeneratorFactory::create();
+
+        $oldMedia = (clone $media)->fill($media->getOriginal());
+
+        if ($oldMedia->getPath() === $media->getPath()) {
+            return;
+        }
+
+        $this->filesystem->disk($media->disk)
+            ->move($factory->getPath($oldMedia), $factory->getPath($media));
     }
 
     protected function renameMediaFile(Media $media): void

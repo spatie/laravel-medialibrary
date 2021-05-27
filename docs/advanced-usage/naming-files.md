@@ -3,22 +3,24 @@ title: Naming generated files
 weight: 11
 ---
 
-### Naming conversion files
+### Naming original and conversion files
 
-By default, all conversion files will be named in this format:
+
+By default, all original files will retain the original name. All conversion files will be named in this format:
 
 ```
 {original-file-name-without-extension}-{name-of-the-conversion}.{extension}
 ```
 
-Should you want to name your conversion file using another format,
+Should you want to name your original or conversion file using another format,
 then you can specify the class name of your own `FileNamer` in the `file_namer` key
 of the `media-library.php` config file.
 
 The only requirements is that your class extends `Spatie\MediaLibrary\Support\FileNamer`.
-In your class you should implement 2 methods:
-1. `conversionFileName` should return the media file name combined with the conversion name
-2. `responsiveFileName` should return the media file name
+In your class you should implement 3 methods:
+1. `originalFileName` should return the name you'd like for the original file. Return the name without the extension.
+2. `conversionFileName` should return the media file name combined with the conversion name
+3. `responsiveFileName` should return the media file name
 
 Here is the implementation of `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer`
 
@@ -29,6 +31,11 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 
 class DefaultFileNamer extends FileNamer
 {
+    public function originalFileName(string $fileName): string
+    {
+        return pathinfo($fileName, PATHINFO_FILENAME);
+    }
+
     public function conversionFileName(string $fileName, Conversion $conversion): string
     {
         $strippedFileName = pathinfo($fileName, PATHINFO_FILENAME);
