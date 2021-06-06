@@ -383,7 +383,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\Image\Manipulations;
 
 // in a service provider
-TemporaryUpload::manipulatePreview(function(Conversion $conversion) {
+TemporaryUpload::previewManipulation(function(Conversion $conversion) {
     $conversion->fit(Manipulations::FIT_CROP, 300, 300);
 });
 ```
