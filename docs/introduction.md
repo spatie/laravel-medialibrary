@@ -3,7 +3,7 @@ title: Introduction
 weight: 1
 ---
 
-This package can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with. The [Pro version of the package](https://medialibrary.pro) offers Blade, Vue and React components to handle uploads to the media library and to adminster the content of a medialibrary collection.
+This package can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with. The [Pro version of the package](https://medialibrary.pro) offers Blade, Vue and React components to handle uploads to the media library and to administer the content of a medialibrary collection.
 
 Here are some quick code examples:
 
