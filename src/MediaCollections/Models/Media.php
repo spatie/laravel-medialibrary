@@ -83,6 +83,13 @@ class Media extends Model implements Responsable, Htmlable
         return $urlGenerator->getPath();
     }
 
+    public function getPathRelativeToRoot(string $conversionName = ''): string
+    {
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
+
+        return $urlGenerator->getPathRelativeToRoot();
+    }
+
     public function getTypeAttribute(): string
     {
         $type = $this->getTypeFromExtension();
