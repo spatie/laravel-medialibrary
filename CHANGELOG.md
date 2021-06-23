@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.6.4 - 2021-06-23
+
+- fix syntax error
+
 ## 9.6.3 - 2021-06-23
 
 - add the option to skip 'deprecated conversions' when cleaning the media directory
