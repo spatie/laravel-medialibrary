@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
-## 9.6.2 - 2021-05-6
+## 9.6.3 - 2021-06-23
+
+- add the option to skip 'deprecated conversions' when cleaning the media directory
+
+## 9.6.2 - 2021-05-06
 
 - simplify and speed up code for copying a stream to disk (#2425)
 
