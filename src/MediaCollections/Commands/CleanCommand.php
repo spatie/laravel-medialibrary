@@ -24,7 +24,7 @@ class CleanCommand extends Command
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production},
     {--rate-limit= : Limit the number of requests per second },
-    {--skip-conversions: Do not remove deprecated conversions}';
+    {--skip-conversions : Do not remove deprecated conversions}';
 
     protected $description = 'Clean deprecated conversions and files without related model.';
 
@@ -57,8 +57,8 @@ class CleanCommand extends Command
 
         $this->isDryRun = $this->option('dry-run');
         $this->rateLimit = (int) $this->option('rate-limit');
-        
-        if(!$this->option('skip-conversions') {
+
+        if (! $this->option('skip-conversions')) {
             $this->deleteFilesGeneratedForDeprecatedConversions();
         }
 
