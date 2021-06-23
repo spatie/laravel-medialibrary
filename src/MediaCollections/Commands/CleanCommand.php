@@ -24,7 +24,7 @@ class CleanCommand extends Command
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production},
     {--rate-limit= : Limit the number of requests per second },
-    {--skip-conversions: Dont remove deprecated conversions}';
+    {--skip-conversions: Do not remove deprecated conversions}';
 
     protected $description = 'Clean deprecated conversions and files without related model.';
 
