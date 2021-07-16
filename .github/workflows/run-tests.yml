@@ -46,8 +46,11 @@ jobs:
                   echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
             - name: Fix Imagick Policy
+              run: sudo sed -i 's/none/read|write/g' /etc/ImageMagick-6/policy.xml
+
+            - name: Fix ghostscript symlinks
               run: |
-                sudo sed -i 's/none/read|write/g' /etc/ImageMagick-6/policy.xml
+                which gs
                 sudo ln -s /usr/local/bin/gs /usr/bin/gs
 
             - name: Install dependencies
