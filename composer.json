@@ -46,7 +46,7 @@
         "league/flysystem-aws-s3-v3": "^1.0.23",
         "mockery/mockery": "^1.4",
         "orchestra/testbench": "^5.0|^6.0",
-        "phpunit/phpunit": "^9.1",
+        "phpunit/phpunit": "^9.3",
         "spatie/pdf-to-image": "^2.0",
         "spatie/phpunit-snapshot-assertions": "^4.0"
     },
