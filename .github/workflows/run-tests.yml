@@ -51,11 +51,6 @@ jobs:
             - name: Fix Imagick Policy
               run: sudo sed -i 's/none/read|write/g' /etc/ImageMagick-6/policy.xml
 
-            - name: Fix ghostscript symlinks
-              run: |
-                which gs
-                sudo ln -s /usr/local/bin/gs /usr/bin/gs
-
             - name: Install dependencies
               run: |
                   composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
