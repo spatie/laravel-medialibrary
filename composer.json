@@ -41,7 +41,7 @@
         "ext-pdo_sqlite": "*",
         "ext-zip": "*",
         "aws/aws-sdk-php": "^3.133.11",
-        "doctrine/dbal": "^2.5.2",
+        "doctrine/dbal": "^2.12",
         "guzzlehttp/guzzle": "^6.3|^7.0",
         "league/flysystem-aws-s3-v3": "^1.0.23",
         "mockery/mockery": "^1.3",
