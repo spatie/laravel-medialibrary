@@ -237,7 +237,7 @@ When adding an image to `my-collection` a thumbnail that fits inside 100x100 wil
 ```php
 $yourModel->addMedia($pathToImage)->toMediaCollection('my-collection');
 
-$yourModel->getFirstMediaUrl('thumb') // returns an url to a 100x100 version of the added image.
+$yourModel->getFirstMediaUrl('my-collection', 'thumb') // returns an url to a 100x100 version of the added image.
 ```
 
 Take a look at the [defining conversions section](/laravel-medialibrary/v9/converting-images/defining-conversions) to learn all the functions you can tack on to `addMediaConversion`.
