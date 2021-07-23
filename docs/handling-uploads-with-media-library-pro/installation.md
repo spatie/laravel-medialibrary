@@ -187,8 +187,15 @@ yarn add @spatie/media-library-pro-styles @spatie/media-library-pro-vue3-attachm
 
 **You will now have to include the `@spatie/` scope when importing the packages**, this is different from examples in the documentation.
 
+JS:
 ```
 import { MediaLibraryAttachment } from '@spatie/media-library-pro-vue3-attachment';
 ```
+
+CSS:
+```
+@import '@spatie/media-library-pro-styles/dist/styles.css';
+```
+
 
 You can find a list of all the packages on the repository: https://github.com/orgs/spatie/packages?repo_name=laravel-medialibrary-pro.
