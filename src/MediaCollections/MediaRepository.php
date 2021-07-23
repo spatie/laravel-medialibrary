@@ -80,7 +80,7 @@ class MediaRepository
             ->get();
     }
 
-    public function query(): Builder
+    protected function query(): Builder
     {
         return $this->model->newQuery();
     }
