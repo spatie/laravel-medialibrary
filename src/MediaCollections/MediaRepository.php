@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -51,22 +52,22 @@ class MediaRepository
 
     public function all(): DbCollection
     {
-        return $this->model->all();
+        return $this->query()->get();
     }
 
     public function getByModelType(string $modelType): DbCollection
     {
-        return $this->model->where('model_type', $modelType)->get();
+        return $this->query()->where('model_type', $modelType)->get();
     }
 
     public function getByIds(array $ids): DbCollection
     {
-        return $this->model->whereIn($this->model->getKeyName(), $ids)->get();
+        return $this->query()->whereIn($this->model->getKeyName(), $ids)->get();
     }
 
     public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection
     {
-        return $this->model
+        return $this->query()
             ->where('model_type', $modelType)
             ->where('collection_name', $collectionName)
             ->get();
@@ -74,9 +75,14 @@ class MediaRepository
 
     public function getByCollectionName(string $collectionName): DbCollection
     {
-        return $this->model
+        return $this->query()
             ->where('collection_name', $collectionName)
             ->get();
+    }
+
+    protected function query(): Builder
+    {
+        return $this->model->newQuery();
     }
 
     protected function getDefaultFilterFunction(array $filters): Closure
