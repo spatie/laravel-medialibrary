@@ -2,7 +2,9 @@ name: run-tests
 
 on:
     push:
+        branches: [main]
     pull_request:
+        branches: [main]
     schedule:
         - cron: '0 0 * * *'
 
@@ -30,6 +32,9 @@ jobs:
             - name: Install ffmpeg
               run: sudo apt-get install ffmpeg
 
+            - name: Install ghostscript
+              run: sudo apt-get install ghostscript
+
             - name: Checkout code
               uses: actions/checkout@v2
 
@@ -52,6 +57,10 @@ jobs:
               run: |
                   composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+            - name: Use specific glide version
+              if: ${{ matrix.php == '8' && matrix.dependency-version == 'prefer-lowest' }}
+              run: composer require league/glide 1.7.0
 
             - name: Execute tests
               run: vendor/bin/phpunit
