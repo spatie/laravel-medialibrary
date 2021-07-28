@@ -60,7 +60,7 @@ jobs:
 
             - name: Use specific glide version
               if: ${{ matrix.php == '8' && matrix.dependency-version == 'prefer-lowest' }}
-              run: composer require league/glide 1.6.0
+              run: composer require league/glide 1.7.0
 
             - name: Execute tests
               run: vendor/bin/phpunit
