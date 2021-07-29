@@ -23,6 +23,14 @@ class ConversionFileExtensionTest extends TestCase
     }
 
     /** @test */
+    public function it_can_keep_the_original_image_format_if_the_original_file_is_an_image_with_uppercase_extension()
+    {
+        $media = $this->testModelWithConversion->addMedia($this->getUppercaseExtensionTestPng())->toMediaCollection();
+
+        $this->assertExtensionEquals('png', $media->getUrl('keep_original_format'));
+    }
+    
+    /** @test */
     public function it_always_defaults_to_jpg_when_the_original_file_is_not_an_image()
     {
         $media = $this->testModelWithConversion->addMedia($this->getTestMp4())->toMediaCollection();
