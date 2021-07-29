@@ -2,9 +2,13 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.7.1 - 2021-07-29
+
+- allow `keepOriginalImageFormat()` method to work with uppercase file extensions (#2527)
+
 ## 9.7.0 - 2021-07-28
 
--add getMediaRepository() to InteractsWithMedia and query() to MediaRepository (#2523)
+- add getMediaRepository() to InteractsWithMedia and query() to MediaRepository (#2523)
 
 ## 9.6.4 - 2021-06-23
 
