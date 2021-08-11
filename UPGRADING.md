@@ -75,7 +75,7 @@ class AddGeneratedConversionsToMediaTable extends Migration {
 - update in `config/media-library.php` the `media_model` to `Spatie\MediaLibrary\MediaCollections\Models\Media::class`
 
 - all medialibrary commands have been renamed from `medialibrary:xxx` to `media-library:xxx`. Make sure to update all media library commands in your console kernel.
-- the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\InteractsWithMedia`. Make sure to update this in all models that use media.
+- the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\InteractsWithMedia`. Make sure to update this in all models that use media. Also make sure that they implement the `HasMedia` interface, see [Preparing your model](https://spatie.be/docs/laravel-medialibrary/v8/basic-usage/preparing-your-model).
 - Add a `conversions_disk` field to the `media` table ( varchar 255 nullable; you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
 - Add a `uuid` field to the `media` table ( char 36 nullable) and fill each row with a unique value, preferably a `uuid`
 
