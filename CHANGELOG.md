@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.7.2 - 2021-08-22
+
+- add custom header support for temporary uploads (#2557)
+
 ## 9.7.1 - 2021-07-29
 
 - allow `keepOriginalImageFormat()` method to work with uppercase file extensions (#2527)
