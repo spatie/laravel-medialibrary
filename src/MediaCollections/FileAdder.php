@@ -504,6 +504,8 @@ class FileAdder
             $media->order_column = $this->order;
         }
 
+        $media->setCustomHeaders($this->customHeaders);
+
         $media->save();
 
         return $temporaryUpload->moveMedia($this->subject, $collectionName, $diskName, $fileName);
