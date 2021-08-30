@@ -16,7 +16,7 @@ Should you want to name your original or conversion file using another format,
 then you can specify the class name of your own `FileNamer` in the `file_namer` key
 of the `media-library.php` config file.
 
-The only requirements is that your class extends `Spatie\MediaLibrary\Support\FileNamer`.
+The only requirements is that your class extends `Spatie\MediaLibrary\Support\FileNamer\FileNamer`.
 In your class you should implement 3 methods:
 1. `originalFileName` should return the name you'd like for the original file. Return the name without the extension.
 2. `conversionFileName` should return the media file name combined with the conversion name
