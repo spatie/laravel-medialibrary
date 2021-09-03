@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.7.3 - 2021-09-04
+
+- make sure only the extension is removed on DefaultFileNamer (#2575)
+
 ## 9.7.2 - 2021-08-22
 
 - add custom header support for temporary uploads (#2557)
