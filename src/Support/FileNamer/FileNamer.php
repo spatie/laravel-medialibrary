@@ -10,7 +10,7 @@ abstract class FileNamer
     public function originalFileName(string $fileName): string
     {
         $name = pathinfo($fileName, PATHINFO_FILENAME);
-        
+
         return preg_replace("/{$name}\..*/", $name, $fileName);
     }
 

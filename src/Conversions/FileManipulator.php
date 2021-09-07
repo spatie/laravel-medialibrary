@@ -65,7 +65,7 @@ class FileManipulator
                 return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
             })
             ->each(function (Conversion $conversion) use ($media, $copiedOriginalFile) {
-                (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile);
+                (new PerformConversionAction())->execute($conversion, $media, $copiedOriginalFile);
             });
 
         $temporaryDirectory->delete();

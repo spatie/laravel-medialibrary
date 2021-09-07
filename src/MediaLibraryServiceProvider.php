@@ -32,7 +32,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->singleton(MediaRepository::class, function () {
             $mediaClass = config('media-library.media_model');
 
-            return new MediaRepository(new $mediaClass);
+            return new MediaRepository(new $mediaClass());
         });
 
         $this->registerCommands();

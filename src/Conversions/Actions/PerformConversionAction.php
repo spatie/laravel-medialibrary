@@ -23,7 +23,7 @@ class PerformConversionAction
 
         $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
-        $manipulationResult = (new PerformManipulationsAction)->execute($media, $conversion, $copiedOriginalFile);
+        $manipulationResult = (new PerformManipulationsAction())->execute($media, $conversion, $copiedOriginalFile);
 
         $newFileName = $conversion->getConversionFile($media);
 

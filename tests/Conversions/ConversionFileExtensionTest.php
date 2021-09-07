@@ -29,7 +29,7 @@ class ConversionFileExtensionTest extends TestCase
 
         $this->assertExtensionEquals('png', $media->getUrl('keep_original_format'));
     }
-    
+
     /** @test */
     public function it_always_defaults_to_jpg_when_the_original_file_is_not_an_image()
     {
