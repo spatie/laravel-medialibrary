@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.7.4 - 2021-09-10
+
+- include --force param to image_optimzer . jpegoptim (#2580)
+
 ## 9.7.3 - 2021-09-04
 
 - make sure only the extension is removed on DefaultFileNamer (#2575)
