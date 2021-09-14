@@ -9,9 +9,10 @@ abstract class FileNamer
 {
     public function originalFileName(string $fileName): string
     {
-        $name = pathinfo($fileName, PATHINFO_FILENAME);
+        $extLength = strlen(pathinfo($fileName, PATHINFO_EXTENSION));
+        $baseName = substr($fileName, 0, strlen($fileName) - ($extLength ? $extLength + 1 : 0));
 
-        return preg_replace("/{$name}\..*/", $name, $fileName);
+        return $baseName;
     }
 
     abstract public function conversionFileName(string $fileName, Conversion $conversion): string;
