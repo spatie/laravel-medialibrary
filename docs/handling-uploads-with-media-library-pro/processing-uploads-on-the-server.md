@@ -235,7 +235,7 @@ These rules can be used on `validateMultipleMedia`;
 
 If you're [using custom properties](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-blade#using-custom-properties), you can validate them with the `customProperty` function. The first argument should be the name of the custom property you are validating. The second argument should be a string or an array with rules you'd like to use.
 
-Here's an example where we validate `extra_propery` and `another_extra_property`.
+Here's an example where we validate `extra_property` and `another_extra_property`.
 
 ```php
 use Illuminate\Foundation\Http\FormRequest;
