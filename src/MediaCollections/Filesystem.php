@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenDeleted;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
@@ -211,6 +212,8 @@ class Filesystem
                     report($exception);
                 }
             });
+
+        event(new MediaHasBeenDeleted($media));
     }
 
     public function removeFile(Media $media, string $path): void
