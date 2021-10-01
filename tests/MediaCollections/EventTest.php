@@ -24,12 +24,12 @@ class EventTest extends TestCase
 
         Event::assertDispatched(MediaHasBeenAdded::class);
     }
-    
+
     /** @test */
     public function it_will_fire_the_media_deleted_event_when_a_media_entity_is_deleted()
     {
         Event::fake([
-            MediaHasBeenDeleted::class
+            MediaHasBeenDeleted::class,
         ]);
 
         $this->addMediaTo($this->testModel);
