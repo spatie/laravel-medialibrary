@@ -5,7 +5,7 @@ weight: 6
 
 By default, when using the `addMediaFromUrl` method, the package internally uses `fopen` to download the media. In some cases though, the media can be behind a firewall or you need to attach specific headers to get access.
 
-To do that, you can specify your own Media Downloader by creating a class that implements the Downloadder interface. This method must fetch the resource and return the location of the temporary file.
+To do that, you can specify your own Media Downloader by creating a class that implements the Downloader interface. This method must fetch the resource and return the location of the temporary file.
 
 For example, consider the following example which uses curl with custom headers to fetch the media.
 

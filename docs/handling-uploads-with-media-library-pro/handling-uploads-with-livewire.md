@@ -95,7 +95,7 @@ Immediately after a file has been uploaded it will be stored as a temporary uplo
 
 To clear out an uploaded file from being displayed, you can call `clearMedia()`. This method will only clear the uploaded file from view, uploaded files will not be deleted.
 
-If you are using multiple attachment components and only want to clear out specificy ones, pass the name of component to `clearMedia`.
+If you are using multiple attachment components and only want to clear out specific ones, pass the name of component to `clearMedia`.
 
 ```php
 $this->clearMedia('myUpload')

@@ -8,7 +8,7 @@ Here are some common problems and how to solve them.
 
 ## Cannot find module '@babel/compat-data/corejs3-shipped-proposals'
 
-This is caused by a compatability issue between a version of `@babel/preset-env` that an older release of Laravel Mix required, and certain versions of node.
+This is caused by a compatibility issue between a version of `@babel/preset-env` that an older release of Laravel Mix required, and certain versions of node.
 
 ### Fix
 
