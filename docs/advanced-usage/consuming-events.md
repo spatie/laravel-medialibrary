@@ -10,6 +10,11 @@ This event is fired after a file has been saved to disk.
 
 The event has a property `media` that holds the `\Spatie\MediaLibrary\Models\Media`-object of which the file has been stored.
 
+### MediaHasBeenDeleted
+This event is fired after a `Media` model entry was deleted.
+
+The event has a property `media` that holds the `\Spatie\MediaLibrary\Models\Media`-object of which the file was stored previously.
+
 ### ConversionWillStart
 This event is fired right before a conversion will start.
 
