@@ -174,12 +174,12 @@ abstract class TestCase extends Orchestra
 
     public function getMediaDirectory($suffix = ''): string
     {
-        return $this->getTempDirectory() . '/media' . ($suffix == '' ? '' : '/'.$suffix);
+        return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getTestFilesDirectory($suffix = ''): string
     {
-        return $this->getTempDirectory() . '/testfiles' . ($suffix == '' ? '' : '/'.$suffix);
+        return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getTestJpg(): string
