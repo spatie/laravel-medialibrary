@@ -316,4 +316,13 @@ abstract class TestCase extends Orchestra
 
         return false;
     }
+
+    protected function makePathOsSafe(string $path): string
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return str_replace('/', '\\', $path);
+        }
+
+        return $path;
+    }
 }
