@@ -214,8 +214,8 @@ return [
     'default_loading_attribute_value' => null,
 
     /*
-     * Optionally, add prefix where all media are stored inside your storage or S3 bucket.
-     * Defaults to the root of your storage or S3 bucket.
+     * You can specify a prefix for that is used for storing all media.
+     * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
     'prefix' => env('MEDIA_PREFIX', ''),
 ];
