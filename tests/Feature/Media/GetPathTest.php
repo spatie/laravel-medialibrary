@@ -12,18 +12,11 @@ class GetPathTest extends TestCase
     {
         $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $expected = str_replace('/', '\\', $this->getMediaDirectory() . "/{$media->id}/test.jpg");
-            $actual = str_replace('/', '\\', $media->getPath());
+        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/test.jpg");
 
-            $this->assertEquals($expected, $actual);
+        $actual = $this->makePathOsSafe($media->getPath());
 
-            return 'windows-os-test';
-        }
-
-        $this->assertEquals($this->getMediaDirectory() . "/{$media->id}/test.jpg", $media->getPath());
-
-        return 'linux-os-test';
+        $this->assertEquals($expected, $actual);
     }
 
     /** @test */
@@ -32,21 +25,12 @@ class GetPathTest extends TestCase
         $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
         $conversionName = 'thumb';
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $expected = str_replace('/', '\\', $this->getMediaDirectory() . "/{$media->id}/conversions/test-{$conversionName}.jpg");
-            $actual = str_replace('/', '\\', $media->getPath($conversionName));
 
-            $this->assertEquals($expected, $actual);
+        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/conversions/test-{$conversionName}.jpg");
 
-            return 'windows-os-test';
-        }
+        $actual = $this->makePathOsSafe($media->getPath($conversionName));
 
-        $this->assertEquals(
-            $this->getMediaDirectory() . "/{$media->id}/conversions/test-{$conversionName}.jpg",
-            $media->getPath($conversionName)
-        );
-
-        return 'linux-os-test';
+        $this->assertEquals($expected, $actual);
     }
 
     /** @test */
@@ -66,18 +50,11 @@ class GetPathTest extends TestCase
 
         $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $expected = str_replace('/', '\\', $this->getMediaDirectory() . "/prefix/{$media->id}/test.jpg");
-            $actual = str_replace('/', '\\', $media->getPath());
+        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/test.jpg");
 
-            $this->assertEquals($expected, $actual);
+        $actual = $this->makePathOsSafe($media->getPath());
 
-            return 'windows-os-test';
-        }
-
-        $this->assertEquals($this->getMediaDirectory() . "/prefix/{$media->id}/test.jpg", $media->getPath());
-
-        return 'linux-os-test';
+        $this->assertEquals($expected, $actual);
     }
 
     /** @test */
@@ -89,21 +66,11 @@ class GetPathTest extends TestCase
 
         $conversionName = 'thumb';
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $expected = str_replace('/', '\\', $this->getMediaDirectory() . "/prefix/{$media->id}/conversions/test-{$conversionName}.jpg");
-            $actual = str_replace('/', '\\', $media->getPath($conversionName));
+        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/conversions/test-{$conversionName}.jpg");
 
-            $this->assertEquals($expected, $actual);
+        $actual = $this->makePathOsSafe($media->getPath($conversionName));
 
-            return 'windows-os-test';
-        }
-
-        $this->assertEquals(
-            $this->getMediaDirectory() . "/prefix/{$media->id}/conversions/test-{$conversionName}.jpg",
-            $media->getPath($conversionName)
-        );
-
-        return 'linux-os-test';
+        $this->assertEquals($expected, $actual);
     }
 
 }
