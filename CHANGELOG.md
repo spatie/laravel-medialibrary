@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.8.0 - 2021-10-04
+
+- add simpler way to prefix the root directory where media are saved (#2576)
+
 ## 9.7.5 - 2021-10-03
 
 - Remove regex on FileNamer (#2587)
