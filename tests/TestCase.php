@@ -135,11 +135,11 @@ abstract class TestCase extends Orchestra
 
 
         if (MediaLibraryPro::isInstalled()) {
-            include_once __DIR__.'/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
+            include_once __DIR__ . '/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
             (new CreateTemporaryUploadsTable())->up();
         }
 
-        include_once(__DIR__.'/../database/migrations/create_media_table.php.stub');
+        include_once(__DIR__ . '/../database/migrations/create_media_table.php.stub');
 
         (new CreateMediaTable())->up();
     }
@@ -169,17 +169,17 @@ abstract class TestCase extends Orchestra
 
     public function getTempDirectory($suffix = ''): string
     {
-        return __DIR__.'/TestSupport/temp'.($suffix == '' ? '' : '/' . $suffix);
+        return __DIR__.'/TestSupport/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getMediaDirectory($suffix = ''): string
     {
-        return $this->getTempDirectory().'/media' . ($suffix == '' ? '' : '/' . $suffix);
+        return $this->getTempDirectory().'/media' . ($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getTestFilesDirectory($suffix = ''): string
     {
-        return $this->getTempDirectory().'/testfiles' . ($suffix == '' ? '' : '/' . $suffix);
+        return $this->getTempDirectory().'/testfiles' . ($suffix == '' ? '' : '/'.$suffix);
     }
 
     public function getTestJpg(): string
@@ -268,7 +268,7 @@ abstract class TestCase extends Orchestra
             $view = view($view)->with($parameters);
         }
 
-        return trim((string)($view));
+        return trim((string) ($view));
     }
 
     protected function assertFileExistsInZip(string $zipPath, string $filename)
