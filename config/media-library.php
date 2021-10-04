@@ -9,12 +9,6 @@ return [
     'disk_name' => env('MEDIA_DISK', 'public'),
 
     /*
-     * Optionally, add prefix where all media are stored inside your storage or S3 bucket.
-     * Defaults to the root of your storage or S3 bucket.
-     */
-    'prefix' => env('MEDIA_PREFIX', ''),
-
-    /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
@@ -218,4 +212,10 @@ return [
      * More info: https://css-tricks.com/native-lazy-loading/
      */
     'default_loading_attribute_value' => null,
+
+    /*
+     * Optionally, add prefix where all media are stored inside your storage or S3 bucket.
+     * Defaults to the root of your storage or S3 bucket.
+     */
+    'prefix' => env('MEDIA_PREFIX', ''),
 ];
