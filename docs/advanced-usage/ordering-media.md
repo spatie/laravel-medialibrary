@@ -3,7 +3,7 @@ title: Ordering media
 weight: 6
 ---
 
-This package has a built in feature to help you order the media in your project. By default all inserted media items are ordered by their creation order (from the oldest to the newest) using the `order_column` column of the `media` table.
+This package has a built-in feature to help you order the media in your project. By default, all inserted media items are arranged in order by their time of creation (from the oldest to the newest) using the `order_column` column of the `media` table.
 
 You can easily reorder a list of media by calling  ̀Media::setNewOrder`:
 
@@ -20,7 +20,7 @@ You can easily reorder a list of media by calling  ̀Media::setNewOrder`:
 Media::setNewOrder([11, 2, 26]);
 ```
 
-Of course you can also manually change the value of the `order_column`.
+Of course, you can also manually change the value of the `order_column`.
 
 ```php
 $media->order_column = 10;
