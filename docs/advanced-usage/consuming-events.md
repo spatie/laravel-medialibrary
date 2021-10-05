@@ -36,7 +36,7 @@ The event has two public properties:
 
 ## Sample usage
 
-First you must created a listener class. Here's one that will log the paths of added media.
+First you must create a listener class. Here's one that will log the paths of added media.
 
 ```php
 namespace App\Listeners;
