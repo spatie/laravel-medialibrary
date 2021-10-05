@@ -6,17 +6,17 @@ weight: 11
 ### Naming original and conversion files
 
 
-By default, all original files will retain the original name. All conversion files will be named in this format:
+By default, all original files will retain the original name. All converted files will be named in this format:
 
 ```
 {original-file-name-without-extension}-{name-of-the-conversion}.{extension}
 ```
 
-Should you want to name your original or conversion file using another format,
-then you can specify the class name of your own `FileNamer` in the `file_namer` key
-of the `media-library.php` config file.
+If you want to use a different formatting to name your original or converted file(s),
+you can specify the class name of your own `FileNamer` under the `file_namer` key
+within the `media-library.php` config file.
 
-The only requirements is that your class extends `Spatie\MediaLibrary\Support\FileNamer\FileNamer`.
+The only requirement is that your class extends `Spatie\MediaLibrary\Support\FileNamer\FileNamer`.
 In your class you should implement 3 methods:
 1. `originalFileName` should return the name you'd like for the original file. Return the name without the extension.
 2. `conversionFileName` should return the media file name combined with the conversion name
@@ -58,5 +58,5 @@ By default, all responsive image files will be named in this format:
 {original-file-name-without-extension}___{name-of-the-conversion}_{width}_{height}.{extension}
 ```
 
-Just like the conversion file names, you can use another format for naming your files
+Just like the naming of converted files, you can use another format for naming your files
 by using your own `FileNamer` class. It is only possible to prefix the name, because other parts are needed in processing responsive images.
