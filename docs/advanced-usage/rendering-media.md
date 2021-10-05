@@ -23,7 +23,7 @@ You can also use this shorthand:
 Here is the converted image: {{ $media('thumb') }}
 ```
 
-You can extra attributes by calling `attributes`.
+You can add extra attributes by calling `attributes`.
 
 ```blade
 Here is the image with some attributes: {{ $media->img()->attributes(['class' => 'my-class']) }}

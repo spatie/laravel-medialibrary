@@ -6,7 +6,7 @@ weight: 8
 The media library will fire the following events that your handlers can listen for:
 
 ### MediaHasBeenAdded
-This event is fired after the a file has been saved to disk.
+This event is fired after a file has been saved to disk.
 
 The event has a property `media` that holds the `\Spatie\MediaLibrary\Models\Media`-object of which the file has been stored.
 
@@ -36,7 +36,7 @@ The event has two public properties:
 
 ## Sample usage
 
-First you must created a listener class. Here's one that will log the paths of added media.
+First you must create a listener class. Here's one that will log the paths of added media.
 
 ```php
 namespace App\Listeners;
