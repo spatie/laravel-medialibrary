@@ -30,7 +30,7 @@ class MediaCollection extends Collection implements Htmlable
     {
         return $this->sum('size');
     }
-    
+
     public function toArray()
     {
         if (! ($this->formFieldName ?? $this->collectionName)) {
