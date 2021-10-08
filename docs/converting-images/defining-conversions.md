@@ -95,13 +95,13 @@ This is how that looks like in the model:
 
 ```php
 // in your model
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-              ->width(368)
-              ->height(232)
-              ->performOnCollections('images', 'downloads');
-    }
+public function registerMediaConversions(Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+          ->width(368)
+          ->height(232)
+          ->performOnCollections('images', 'downloads');
+}
 ```
 
 
@@ -150,15 +150,15 @@ true` on your model.
 
 ```php
 // in your model
-    public $registerMediaConversionsUsingModelInstance = true;
+public $registerMediaConversionsUsingModelInstance = true;
 
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-              ->width($this->width)
-              ->height($this->height)
-              ->performOnCollections('images', 'downloads');
-    }
+public function registerMediaConversions(Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+          ->width($this->width)
+          ->height($this->height)
+          ->performOnCollections('images', 'downloads');
+}
 ```
 
 Be aware that this can lead to a hit in performance. When processing media the media library has to perform queries to fetch each separate model.
