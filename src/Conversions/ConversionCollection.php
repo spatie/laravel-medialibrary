@@ -57,7 +57,7 @@ class ConversionCollection extends Collection
         if ($model->registerMediaConversionsUsingModelInstance) {
             $model = $media->model;
 
-            $model->mediaConversion = [];
+            $model->mediaConversions = [];
         }
 
         $model->registerAllMediaConversions($media);
