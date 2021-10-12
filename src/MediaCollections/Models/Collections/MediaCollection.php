@@ -30,6 +30,16 @@ class MediaCollection extends Collection implements Htmlable
     {
         return $this->sum('size');
     }
+    
+    public function toArray()
+    {
+        return $this->map(function (Media $media) {
+            return array_merge($media->toArray(), [
+                'preview_url' => $media->hasGeneratedConversion('preview') ? $media->getUrl('preview') : null,
+                'original_url' => $media->getUrl()
+            ]);
+        })->all();
+    }
 
     public function toHtml()
     {
