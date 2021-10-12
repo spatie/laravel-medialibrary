@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.8.2 - 2021-10-13
+
+- revert #2609
+
 ## 9.8.1 - 2021-10-08
 
 - fix missing image preview URLs in Inertia Projects (#2609)
