@@ -39,6 +39,7 @@ class MediaCollection extends Collection implements Htmlable
 
         return old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
             return [
+                'id' => $media->id,
                 'name' => $media->name,
                 'file_name' => $media->file_name,
                 'uuid' => $media->uuid,
@@ -49,7 +50,7 @@ class MediaCollection extends Collection implements Htmlable
                 'extension' => $media->extension,
                 'size' => $media->size,
             ];
-        })->keyBy('uuid');
+        })->keyBy('uuid')->values()->toArray();
     }
 
     public function toHtml()
