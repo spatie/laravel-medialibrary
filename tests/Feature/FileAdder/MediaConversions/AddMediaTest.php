@@ -61,7 +61,7 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
     {
-        $modelClass = new class() extends TestModelWithConversion {
+        $modelClass = new class () extends TestModelWithConversion {
             public function registerMediaConversions(Media $media = null): void
             {
                 $this->addMediaConversion('my-conversion')
@@ -116,7 +116,7 @@ class AddMediaTest extends TestCase
     /** @test */
     public function it_will_have_access_the_model_instance_when_registerMediaConversionsUsingModelInstance_has_been_set()
     {
-        $modelClass = new class() extends TestModel {
+        $modelClass = new class () extends TestModel {
             public bool $registerMediaConversionsUsingModelInstance = true;
 
             /**
