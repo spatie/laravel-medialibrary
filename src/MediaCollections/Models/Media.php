@@ -40,6 +40,8 @@ class Media extends Model implements Responsable, Htmlable
 
     protected $guarded = [];
 
+    protected $appends = ['original_url', 'preview_url'];
+
     protected $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
@@ -261,6 +263,14 @@ class Media extends Model implements Responsable, Htmlable
     public function getSrcset(string $conversionName = ''): string
     {
         return $this->responsiveImages($conversionName)->getSrcset();
+    }
+
+    public function getPreviewUrlAttribute() {
+        return $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '';
+    }
+
+    public function getOriginalUrlAttribute() {
+        return $this->getUrl();
     }
 
     public function move(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
