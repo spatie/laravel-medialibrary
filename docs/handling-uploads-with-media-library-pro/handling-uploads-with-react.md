@@ -129,6 +129,8 @@ If your form modifies an existing set of media, you may pass it through in the `
 
 You can retrieve your initial values in Laravel using `$yourModel->getMedia($collectionName);`, this will also take care of any `old` values after an invalid form submit.
 
+If you're using the components in a context outside of Blade, you might have to add `->jsonSerialize()` to your `getMedia` method to get old values to display properly.
+
 ```jsx
 <form>
     <MediaLibraryAttachment name="avatar" initialValue={avatar} />

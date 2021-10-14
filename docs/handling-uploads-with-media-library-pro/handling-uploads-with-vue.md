@@ -209,7 +209,9 @@ The most basic components have a `name` prop. This name will be used to identify
 
 If your form modifies an existing set of media, you may pass it through in the `initial-value` prop.
 
-You can retrieve your initial values in Laravel using `$yourModel->getMedia($collectionName)`. This will also take care of any `old` values after an invalid form submit. You can also use this straight in your blade file:
+You can retrieve your initial values in Laravel using `$yourModel->getMedia($collectionName)`. This will also take care of any `old` values after an invalid form submit. You can also use this straight in your blade file.
+
+If you're using the components in a context outside of Blade, you might have to add `->jsonSerialize()` to your `getMedia` method to get old values to display properly.
 
 ```html
 <form>
