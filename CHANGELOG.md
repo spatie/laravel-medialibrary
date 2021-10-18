@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.8.3 - 2021-10-19
+
+- appends preview_url and original_url to Media object
+
 ## 9.8.2 - 2021-10-13
 
 - revert #2609
