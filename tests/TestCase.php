@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueu
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnOtherDisk;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithPreviewConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithResponsiveImages;
 use ZipArchive;
 
@@ -27,6 +28,8 @@ abstract class TestCase extends Orchestra
     protected TestModel $testUnsavedModel;
 
     protected TestModelWithConversion $testModelWithConversion;
+
+    protected TestModelWithPreviewConversion $testModelWithPreviewConversion;
 
     protected TestModelWithoutMediaConversions $testModelWithoutMediaConversions;
 
@@ -51,6 +54,7 @@ abstract class TestCase extends Orchestra
         $this->testModel = TestModel::first();
         $this->testUnsavedModel = new TestModel();
         $this->testModelWithConversion = TestModelWithConversion::first();
+        $this->testModelWithPreviewConversion = TestModelWithPreviewConversion::first();
         $this->testModelWithConversionQueued = TestModelWithConversionQueued::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
@@ -135,11 +139,11 @@ abstract class TestCase extends Orchestra
 
 
         if (MediaLibraryPro::isInstalled()) {
-            include_once __DIR__ . '/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
+            include_once __DIR__.'/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
             (new CreateTemporaryUploadsTable())->up();
         }
 
-        include_once(__DIR__  . '/../database/migrations/create_media_table.php.stub');
+        include_once(__DIR__.'/../database/migrations/create_media_table.php.stub');
 
         (new CreateMediaTable())->up();
     }
