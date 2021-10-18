@@ -265,11 +265,13 @@ class Media extends Model implements Responsable, Htmlable
         return $this->responsiveImages($conversionName)->getSrcset();
     }
 
-    public function getPreviewUrlAttribute() {
+    public function getPreviewUrlAttribute()
+    {
         return $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '';
     }
 
-    public function getOriginalUrlAttribute() {
+    public function getOriginalUrlAttribute()
+    {
         return $this->getUrl();
     }
 
