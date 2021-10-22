@@ -26,7 +26,7 @@ class ToResponseTest extends TestCase
     /** @test */
     public function test_to_response_sends_correct_attachment_header()
     {
-        $media = $this->testModel->addMedia($testPdf = $this->getTestPdf())->preservingOriginal()->toMediaCollection();
+        $media = $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection();
 
         $response = $media->toResponse(request());
 
@@ -36,7 +36,7 @@ class ToResponseTest extends TestCase
     /** @test */
     public function test_to_inline_response_sends_correct_attachment_header()
     {
-        $media = $this->testModel->addMedia($testPdf = $this->getTestPdf())->preservingOriginal()->toMediaCollection();
+        $media = $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection();
 
         $response = $media->toInlineResponse(request());
 
