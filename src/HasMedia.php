@@ -42,17 +42,17 @@ interface HasMedia
      */
     public function getMedia(string $collectionName = 'default', $filters = []): Collection;
 
-    public function clearMediaCollection(string $collectionName = 'default'): self;
+    public function clearMediaCollection(string $collectionName = 'default'): HasMedia;
 
     /**
      * Remove all media in the given collection except some.
      *
      * @param string $collectionName
-     * @param \Spatie\MediaLibrary\Media[]|\Illuminate\Support\Collection $excludedMedia
+     * @param \Spatie\MediaLibrary\MediaCollections\Models\Media[]|\Illuminate\Support\Collection $excludedMedia
      *
      * @return $this
      */
-    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []): self;
+    public function clearMediaCollectionExcept(string $collectionName = 'default', $excludedMedia = []): HasMedia;
 
     /**
      * Determines if the media files should be preserved when the media object gets deleted.
@@ -67,6 +67,7 @@ interface HasMedia
      * @param string $collectionName
      *
      * @return mixed
+     *
      */
     public function loadMedia(string $collectionName);
 

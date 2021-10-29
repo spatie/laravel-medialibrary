@@ -60,6 +60,9 @@ class ConversionsDiskTest extends TestCase
         $media->delete();
 
         $this->assertFileDoesNotExist($media->getPath('thumb'));
+
+        $originalFilePath = $media->getPath();
+        $this->assertFileDoesNotExist($originalFilePath);
     }
 
     /** @test */

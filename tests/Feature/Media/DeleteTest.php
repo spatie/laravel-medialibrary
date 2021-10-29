@@ -38,7 +38,7 @@ class DeleteTest extends TestCase
     /** @test */
     public function it_will_remove_files_when_deleting_a_media_object_with_a_custom_path_generator()
     {
-        config(['medialibrary.path_generator' => TestPathGenerator::class]);
+        config(['media-library.path_generator' => TestPathGenerator::class]);
 
         $pathGenerator = new TestPathGenerator();
 

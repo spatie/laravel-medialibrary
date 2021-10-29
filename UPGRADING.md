@@ -2,18 +2,84 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v8 to v9
+
+- add a `json` column `generated_conversions` to the `media` table (take a look at the default migration for the exact definition). You should copy the values you now have in the `generated_conversions` key of the `custom_properties` column to `generated_conversions`
+- You can create this migration by running `php artisan make:migration AddGeneratedConversionsToMediaTable`.
+- Here is the content that should be in the migration file
+```php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+class AddGeneratedConversionsToMediaTable extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up() {
+        if ( ! Schema::hasColumn( 'media', 'generated_conversions' ) ) {
+            Schema::table( 'media', function ( Blueprint $table ) {
+                $table->json( 'generated_conversions' );
+            } );
+        }
+        
+        Media::query()
+                ->whereNull('generated_conversions')
+                ->orWhere('generated_conversions', '')
+                ->orWhereRaw("JSON_TYPE(generated_conversions) = 'NULL'")
+                ->update([
+                    'generated_conversions' => DB::raw('custom_properties->"$.generated_conversions"'),
+                    // OPTIONAL: Remove the generated conversions from the custom_properties field as well:
+                    // 'custom_properties'     => DB::raw("JSON_REMOVE(custom_properties, '$.generated_conversions')")
+                ]);
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down() {
+        /* Restore the 'generated_conversions' field in the 'custom_properties' column if you removed them in this migration
+        Media::query()
+                ->whereRaw("JSON_TYPE(generated_conversions) != 'NULL'")
+                ->update([
+                    'custom_properties' => DB::raw("JSON_SET(custom_properties, '$.generated_conversions', generated_conversions)")
+                ]);
+        */
+    
+        Schema::table( 'media', function ( Blueprint $table ) {
+            $table->dropColumn( 'generated_conversions' );
+        } );
+    }
+}
+```
+
+- rename `conversion_file_namer` key in the `media-library` config to `file_namer`. This will support both the conversions and responsive images from now on. More info [in our docs](https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files).
+- You will also need to change the value of this configuration key as the previous class was removed, the new default value is `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class`
+- in several releases of v8 config options were added. We recommend going over your config file in `config/media-library.php` and add any options that are present in the default config file that ships with this package.
+
 ## From v7 to v8
 
-- internally the media library has been restructured an nearly all namespaces have changed. Class names remained the same. In your application code hunt to any usages of classes that start with `Spatie\MediaLibrary`. Take a look in the source code of medialibrary what the new namespace of the class is and use that. 
+- internally the media library has been restructured and nearly all namespaces have changed. Class names remained the same. In your application code hunt to any usages of classes that start with `Spatie\MediaLibrary`. Take a look in the source code of medialibrary what the new namespace of the class is and use that. 
 - rename `config/medialibrary.php` to `config/media-library.php`
+- update in `config/media-library.php` the `media_model` to `Spatie\MediaLibrary\MediaCollections\Models\Media::class`
+
 - all medialibrary commands have been renamed from `medialibrary:xxx` to `media-library:xxx`. Make sure to update all media library commands in your console kernel.
 - the `Spatie\MediaLibrary\HasMedia\HasMediaTrait` has been renamed to `Spatie\MediaLibrary\InteractsWithMedia`. Make sure to update this in all models that use media.
-- Add a `conversions_disk` field to the `media` table (you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
-- Add a `uuid` field to the `media` table and fill each row with a unique value, preferably a `uuid`
+- Add a `conversions_disk` field to the `media` table ( varchar 255 nullable; you'll find the definition in the migrations file of the package) and for each row copy the value of `disk` to `conversions_disk`.
+- Add a `uuid` field to the `media` table ( char 36 nullable) and fill each row with a unique value, preferably a `uuid`
 
-You can use this snippet to fill the `uuid` field:
+You can use this snippet (in e.g. tinker) to fill the `uuid` field:
 
 ```php
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 Media::cursor()->each(
    fn (Media $media) => $media->update(['uuid' => Str::uuid()])
 );
@@ -47,7 +113,7 @@ If you want your own filesystem implementation, you should extend the `Filesyste
 - add the `responsive_images` column in the media table: `$table->json('responsive_images');`
 - rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;`
 - rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;` as well (the distinction was [removed](https://github.com/spatie/laravel-medialibrary/commit/48f371a7b10cc82bbee5b781ab8784acc5ad0fc3#diff-f12df6f7f30b5ee54d9ccc6e56e8f93e)).
-- all converted files should now start with the name of the original file. TODO: add instructions / or maybe a script
+- all converted files should now start with the name of the original file. One way to achieve this is to navigate to your storage/media folder and run `find -type d -name "conversions" -exec rm -rf {} \;` (bash) to remove all existing converted files and then run `php artisan medialibrary:regenerate` to automatically recreate them with the proper file names. For those upgrading multiple versions at once, you might instead choose to change the conversion file naming strategy by using a [custom file namer class in v9](https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-files) or a [custom conversion namer class in v8](https://spatie.be/docs/laravel-medialibrary/v8/converting-images/naming-conversion-files). Within the appropriate method, you would return `$conversion->getName()` to revert to the original naming strategy.
 - `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app
 - The method definitions of `Spatie\MediaLibrary\Filesystem\Filesystem::add` and `Spatie\MediaLibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
 

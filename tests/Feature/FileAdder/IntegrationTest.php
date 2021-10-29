@@ -28,6 +28,16 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function toMediaCollection_has_an_alias_called_toMediaLibrary()
+    {
+        $media = $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toMediaLibrary();
+
+        $this->assertEquals('default', $media->collection_name);
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_adding_a_non_existing_file()
     {
         $this->expectException(FileDoesNotExist::class);
@@ -163,6 +173,8 @@ class IntegrationTest extends TestCase
             'image/jpeg',
             filesize($this->getTestFilesDirectory('test.jpg'))
         );
+
+        $this->withoutExceptionHandling();
 
         $result = $this->call('get', 'upload', [], [], ['file' => $fileUpload]);
 
@@ -346,6 +358,18 @@ class IntegrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_add_a_remote_file_with_an_accent_in_the_name_to_the_media_library()
+    {
+        $url = 'https://orbit.brightbox.com/v1/acc-jqzwj/Marquis-Leisure/reviews/images/000/000/898/original/Antar%C3%A8sThumb.jpg';
+
+        $media = $this->testModel
+            ->addMediaFromUrl($url)
+            ->toMediaCollection();
+
+        $this->assertFileExists($this->getMediaDirectory("{$media->id}/AntarèsThumb.jpg"));
+    }
+
+    /** @test */
     public function it_wil_thrown_an_exception_when_a_remote_file_could_not_be_added()
     {
         $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
@@ -518,6 +542,33 @@ class IntegrationTest extends TestCase
             ->toMediaCollection();
 
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
+    }
+
+    /** @test */
+    public function a_string_can_be_accepted_to_be_added_to_the_media_library()
+    {
+        $string = 'test123';
+
+        $media = $this->testModel
+            ->addMediaFromString($string)
+            ->toMediaCollection();
+
+        $this->assertEquals($string, file_get_contents($media->getPath()));
+    }
+
+    /** @test */
+    public function a_stream_can_be_accepted_to_be_added_to_the_media_library()
+    {
+        $string = 'test123';
+        $stream = fopen('php://temp', 'w+');
+        fwrite($stream, $string);
+        rewind($stream);
+
+        $media = $this->testModel
+            ->addMediaFromStream($stream)
+            ->toMediaCollection();
+
+        $this->assertEquals($string, file_get_contents($media->getPath()));
     }
 
     /** @test */

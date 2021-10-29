@@ -10,7 +10,15 @@ class ImageGeneratorFactory
     public static function getImageGenerators(): Collection
     {
         return collect(config('media-library.image_generators'))
-            ->map(fn (string $imageGeneratorClassName) => app($imageGeneratorClassName));
+            ->map(function ($imageGeneratorClassName, $key) {
+                $imageGeneratorConfig = [];
+
+                if (! is_numeric($key)) {
+                    $imageGeneratorConfig = $imageGeneratorClassName;
+                    $imageGeneratorClassName = $key;
+                }
+                return app($imageGeneratorClassName, $imageGeneratorConfig);
+            });
     }
 
     public static function forExtension(?string $extension): ?ImageGenerator

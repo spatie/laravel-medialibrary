@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
 
 use Illuminate\Support\Facades\DB;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
@@ -68,7 +69,7 @@ class CleanConversionsTest extends TestCase
 
         Media::where('id', '<>', $media->id)->delete();
 
-        $media->markAsConversionGenerated('test-deprecated', true);
+        $media->markAsConversionGenerated('test-deprecated');
 
         $media->save();
 
@@ -185,5 +186,16 @@ class CleanConversionsTest extends TestCase
 
         $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
         $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_when_using_a_non_existing_disk()
+    {
+        $this->expectException(DiskDoesNotExist::class);
+
+        config(['media-library.disk_name' => 'diskdoesnotexist']);
+
+        $this->artisan('media-library:clean')
+            ->assertExitCode(1);
     }
 }

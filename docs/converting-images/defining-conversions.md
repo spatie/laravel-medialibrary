@@ -9,6 +9,14 @@ Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `pdf`, `mp4 
 
 Internally, [spatie/image](https://docs.spatie.be/image/v1/) is used to manipulate the images. You can use [any manipulation function](https://docs.spatie.be/image) from that package.
 
+## Are you a visual learner?
+
+Here's a video that shows how to working with conversion.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1i-HTyyEmvM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+
 ## A single conversion
 
 You should add a method called `registerMediaConversions` to your model. In that model you can define the media conversion. Here's an example:
@@ -81,7 +89,7 @@ $media->getUrl('old-picture') // the url to the sepia, bordered version
 
 ## Performing conversions on specific collections
 
-By default a conversion will be performed on all files regardless of which [collection](/laravel-medialibrary/v8/working-with-media-collections/simple-media-collections) is used.  Conversions can also be performed on all specific collections by adding a call to  `performOnCollections`.
+By default a conversion will be performed on all files regardless of which [collection](/laravel-medialibrary/v9/working-with-media-collections/simple-media-collections) is used.  Conversions can also be performed on all specific collections by adding a call to  `performOnCollections`.
 
 This is how that looks like in the model:
 
@@ -109,7 +117,7 @@ $media->getUrl('thumb') // returns ''
 
 ## Queuing conversions
 
-By default, a conversion will be added to the queue that you've [specified in the configuration](https://docs.spatie.be/laravel-medialibrary/v8/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
+By default, a conversion will be added to the queue that you've [specified in the configuration](https://docs.spatie.be/laravel-medialibrary/v9/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
 
 ```php
 // in your model
@@ -122,6 +130,18 @@ public function registerMediaConversions(Media $media = null): void
 }
 ```
 
+If you have set `queue_conversions_by_default` in the `media-library` config file to `false`, all conversions will all be generated synchronously. If you want to generate a conversion on a queue, while `queue_conversions_by_default` is set to `false`, use the `queued` method.
+
+```php
+// in your model
+public function registerMediaConversions(Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->queued();
+}
+```
 
 ## Using model properties in a conversion
 

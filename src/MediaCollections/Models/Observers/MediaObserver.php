@@ -13,16 +13,22 @@ class MediaObserver
     public function creating(Media $media)
     {
         if ($media->shouldSortWhenCreating()) {
-            $media->setHighestOrderNumber();
+            if (is_null($media->order_column)) {
+                $media->setHighestOrderNumber();
+            }
         }
     }
 
     public function updating(Media $media)
     {
-        if ($media->file_name !== $media->getOriginal('file_name')) {
-            /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
-            $filesystem = app(Filesystem::class);
+        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        $filesystem = app(Filesystem::class);
 
+        if (config('media-library.moves_media_on_update')) {
+            $filesystem->syncMediaPath($media);
+        }
+
+        if ($media->file_name !== $media->getOriginal('file_name')) {
             $filesystem->syncFileNames($media);
         }
     }
@@ -35,7 +41,7 @@ class MediaObserver
 
         $original = $media->getOriginal('manipulations');
 
-        if (! $this->isLaravel7orHigher()) {
+        if (!$this->isLaravel7orHigher()) {
             $original = json_decode($original, true);
         }
 
@@ -55,7 +61,7 @@ class MediaObserver
     public function deleted(Media $media)
     {
         if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
-            if (! $media->isForceDeleting()) {
+            if (!$media->isForceDeleting()) {
                 return;
             }
         }

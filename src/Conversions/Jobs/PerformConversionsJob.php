@@ -14,6 +14,8 @@ class PerformConversionsJob implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels, Queueable;
 
+    public $deleteWhenMissingModels = true;
+
     protected ConversionCollection $conversions;
 
     protected Media $media;

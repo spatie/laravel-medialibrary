@@ -40,13 +40,17 @@ class S3IntegrationTest extends TestCase
     /** @test */
     public function it_can_add_media_from_a_disk_to_s3()
     {
-        Storage::disk('s3_disk')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+        $randomNumber = rand();
+
+        $fileName = "test{$randomNumber}.jpg";
+
+        Storage::disk('s3_disk')->put("tmp/{$fileName}", file_get_contents($this->getTestJpg()));
 
         $media = $this->testModel
-            ->addMediaFromDisk('tmp/test.jpg', 's3_disk')
+            ->addMediaFromDisk("tmp/{$fileName}", 's3_disk')
             ->toMediaCollection('default', 's3_disk');
 
-        $this->assertS3FileExists("{$this->s3BaseDirectory}/{$media->id}/test.jpg");
+        $this->assertS3FileExists("{$this->s3BaseDirectory}/{$media->id}/{$fileName}");
     }
 
     /** @test */
@@ -220,6 +224,41 @@ class S3IntegrationTest extends TestCase
     {
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestJpg())
+            ->addCustomHeaders([
+                'ACL' => 'public-read',
+            ])
+            ->toMediaCollection('default', 's3_disk');
+
+        $client = $this->getS3Client();
+
+        /** @var \Aws\Result $responseForMainItem */
+        $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
+            'Bucket' => getenv('AWS_BUCKET'),
+            'Key' => $media->getPath(),
+        ]));
+
+        $this->assertEquals('READ', $responseForMainItem->get('Grants')[1]['Permission'] ?? null);
+
+        /** @var \Aws\Result $responseForConversion */
+        $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
+            'Bucket' => getenv('AWS_BUCKET'),
+            'Key' => $media->getPath('thumb'),
+        ]));
+
+        $this->assertEquals('READ', $responseForConversion->get('Grants')[1]['Permission'] ?? null);
+    }
+
+    /** @test */
+    public function custom_headers_are_used_for_all_conversions_when_adding_private_media_from_same_s3_disk()
+    {
+        $randomNumber = rand();
+
+        $fileName = "test{$randomNumber}.jpg";
+
+        Storage::disk('s3_disk')->put("tmp/{$fileName}", file_get_contents($this->getTestJpg()));
+
+        $media = $this->testModelWithConversion
+            ->addMediaFromDisk("tmp/{$fileName}", 's3_disk')
             ->addCustomHeaders([
                 'ACL' => 'public-read',
             ])
