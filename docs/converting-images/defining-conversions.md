@@ -77,6 +77,9 @@ use Spatie\Image\Manipulations;
         $this->addMediaConversion('old-picture')
               ->sepia()
               ->border(10, 'black', Manipulations::BORDER_OVERLAY);
+              
+        $this->addMediaConversion('thumb-cropped')
+            ->crop('crop-center', 400, 400); // Trim or crop the image to the center for sepecified width and height.
     }
 ```
 
