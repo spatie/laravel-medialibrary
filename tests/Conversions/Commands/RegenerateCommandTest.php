@@ -241,9 +241,9 @@ class RegenerateCommandTest extends TestCase
             ->addMedia($this->getTestFilesDirectory('test.jpg'))
             ->withResponsiveImages()
             ->toMediaCollection();
-        
+
         $responsiveImages = glob($this->getMediaDirectory($media->id.'/responsive-images/*'));
-        
+
         array_map('unlink', $responsiveImages);
 
         $this->artisan('media-library:regenerate', ['--with-responsive-images' => true])->assertExitCode(0);
