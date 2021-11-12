@@ -9,6 +9,7 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
 
 class FileManipulator
@@ -16,7 +17,8 @@ class FileManipulator
     public function createDerivedFiles(
         Media $media,
         array $onlyConversionNames = [],
-        bool $onlyMissing = false
+        bool $onlyMissing = false,
+        bool $withResponsiveImages = false
     ): void {
         if (! $this->canConvertMedia($media)) {
             return;
@@ -35,7 +37,8 @@ class FileManipulator
 
         $this
             ->performConversions($conversions, $media, $onlyMissing)
-            ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing);
+            ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing)
+            ->generateResponsiveImages($media, $withResponsiveImages);
     }
 
     public function performConversions(
@@ -89,6 +92,30 @@ class FileManipulator
 
         /** @var PerformConversionsJob $job */
         $job = (new $performConversionsJobClass($conversions, $media, $onlyMissing))
+            ->onQueue(config('media-library.queue_name'));
+
+        dispatch($job);
+
+        return $this;
+    }
+
+    protected function generateResponsiveImages(Media $media, bool $withResponsiveImages)
+    {
+        if (! $withResponsiveImages) {
+            return $this;
+        }
+
+        if (! count($media->responsive_images)) {
+            return $this;
+        }
+
+        $generateResponsiveImagesJobClass = config(
+            'media-library.jobs.generate_responsive_images',
+            GenerateResponsiveImagesJob::class
+        );
+
+        /** @var GenerateResponsiveImagesJob $job */
+        $job = (new $generateResponsiveImagesJobClass($media))
             ->onQueue(config('media-library.queue_name'));
 
         dispatch($job);
