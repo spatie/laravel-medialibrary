@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.8.4 - 2021-11-12
+
+## What's Changed
+* Update defining-conversions.md by @mansoorkhan96 in https://github.com/spatie/laravel-medialibrary/pull/2665
+* Add --with-responsive-images option to RegenerateCommand by @DanielHudson in https://github.com/spatie/laravel-medialibrary/pull/2671
+
+## New Contributors
+* @mansoorkhan96 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2665
+* @DanielHudson made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2671
+
 ## 9.8.3 - 2021-10-19
 
 - appends preview_url and original_url to Media object
