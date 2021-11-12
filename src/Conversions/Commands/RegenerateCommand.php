@@ -19,6 +19,7 @@ class RegenerateCommand extends Command
     protected $signature = 'media-library:regenerate {modelType?} {--ids=*}
     {--only=* : Regenerate specific conversions}
     {--only-missing : Regenerate only missing conversions}
+    {--with-responsive-images : Regenerate responsive images}
     {--force : Force the operation to run when in production}';
 
     protected $description = 'Regenerate the derived images of media';
@@ -49,6 +50,7 @@ class RegenerateCommand extends Command
                     $media,
                     Arr::wrap($this->option('only')),
                     $this->option('only-missing'),
+                    $this->option('with-responsive-images')
                 );
             } catch (Exception $exception) {
                 $this->errorMessages[$media->getKey()] = $exception->getMessage();

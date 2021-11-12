@@ -38,3 +38,9 @@ If you only want to regenerate missing images, you can use the `--only-missing` 
 ```bash
 php artisan media-library:regenerate --only-missing
 ```
+
+If you want to force responsive images to be regenerated, you can use the `--with-responsive-images` option:
+
+```bash
+php artisan media-library:regenerate --with-responsive-images
+```

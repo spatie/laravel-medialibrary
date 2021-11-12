@@ -232,4 +232,24 @@ class RegenerateCommandTest extends TestCase
 
         $this->artisan('media-library:regenerate')->assertExitCode(0);
     }
+
+    /** @test */
+    public function it_can_regenerate_responsive_images()
+    {
+        $media = $this
+            ->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->withResponsiveImages()
+            ->toMediaCollection();
+        
+        $responsiveImages = glob($this->getMediaDirectory($media->id.'/responsive-images/*'));
+        
+        array_map('unlink', $responsiveImages);
+
+        $this->artisan('media-library:regenerate', ['--with-responsive-images' => true])->assertExitCode(0);
+
+        foreach ($responsiveImages as $image) {
+            $this->assertFileExists($image);
+        }
+    }
 }
