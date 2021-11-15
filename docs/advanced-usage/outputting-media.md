@@ -5,7 +5,7 @@ weight: 5
 
 If you want to output your `$media` instance to the browser, you may use the `toResponse` & `toInlineResponse` methods.
 
-```bash
+```php
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -19,7 +19,7 @@ By using `toResponse`, your browser is instructed to download the file with the 
 
 If you want to output your `$media` instance to your browser, but want to inline render it, you may use `toInlineResponse`
 
-```bash
+```php
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
