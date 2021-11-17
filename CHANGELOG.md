@@ -2,15 +2,25 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.9.0 - 2021-11-17
+
+## What's Changed
+
+- Add 'toInlineResponse' to Media by @mbardelmeijer in https://github.com/spatie/laravel-medialibrary/pull/2636
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.8.4...9.9.0
+
 ## 9.8.4 - 2021-11-12
 
 ## What's Changed
-* Update defining-conversions.md by @mansoorkhan96 in https://github.com/spatie/laravel-medialibrary/pull/2665
-* Add --with-responsive-images option to RegenerateCommand by @DanielHudson in https://github.com/spatie/laravel-medialibrary/pull/2671
+
+- Update defining-conversions.md by @mansoorkhan96 in https://github.com/spatie/laravel-medialibrary/pull/2665
+- Add --with-responsive-images option to RegenerateCommand by @DanielHudson in https://github.com/spatie/laravel-medialibrary/pull/2671
 
 ## New Contributors
-* @mansoorkhan96 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2665
-* @DanielHudson made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2671
+
+- @mansoorkhan96 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2665
+- @DanielHudson made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2671
 
 ## 9.8.3 - 2021-10-19
 
@@ -253,7 +263,6 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 ## 8.3.1 - 2020-06-22
 
 - improve handling of file names with special characters (#1937)
-
 
 ## 8.3.0 - 2020-06-11
 
@@ -668,20 +677,27 @@ To learn how to upgrade, take a look in UPGRADING.md
 ## 7.0.0 - 2018-03-17
 
 - added support for responsive images
+- 
 - added `MediaCollections`
+- 
 - added single file collections
+- 
 - added `ZipStreamResponse`
-
+- 
 - added `move` and `copy` methods on `Media`
-
+- 
 - file names will be lowercased when adding them to the media library
+- 
 - the names of converted images will now start with the name of the original file
-
+- 
 - dropped support for soft deletes
+- 
 - removed distinction between `HasMedia` and `HasMediaConversions`
+- 
 - dropped support for PHP 7.0
-
+- 
 - `ffmpeg_binaries` renamed to `ffmpeg_path`, `ffprobe_binaries` renamed to `ffprobe_path`
+- 
 
 ## 6.9.0 - 2018-03-04
 
@@ -710,7 +726,6 @@ To learn how to upgrade, take a look in UPGRADING.md
 ## 6.6.6 - 2017-12-30
 
 - fix download error
-
 
 ## 6.6.5 - 2017-12-30
 
@@ -798,6 +813,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 - fix error when try to close a file that was already closed by flysystem
 
 ## 5.13.1 - 2017-08-03
+
 - fix `MediaCannotBeDeleted` exception
 
 ## 5.13.0 - 2017-07-22
@@ -921,75 +937,98 @@ To learn how to upgrade, take a look in UPGRADING.md
 **KNOWN BUG: loading manipulations from the db doesn't work in certain edge cases, fix incoming soon**
 
 ## 4.13.0 - 2017-01-30
+
 - add `FilesystemInterface`
 
 ## 4.12.1 - 2017-01-27
+
 - avoid unnecessary regeneration of conversions when saving a model
 
 ## 4.12.0 - 2017-01-23
+
 - add support for Laravel 5.4
 - drop support for Laravel 5.1
 
 ## 4.11.3 - 2017-01-20
+
 - put files using `r` mode instead of `r+`
 
 ## 4.11.2 - 2017-01-17
+
 - avoid creating / deleting temp dir if no conversions should be performed
 
 ## 4.11.1 - 2017-01-14
+
 - fix bug in `setNewOrder`
 
 ## 4.11.0 - 2017-01-10
+
 - added `hasNestedCustomProperty`, `getNestedCustomProperty`, `setNestedCustomProperty` and `forgetNestedCustomProperty` to use dot notation with custom properties
 - renamed `removeCustomProperty` to `forgetCustomProperty` (`removeCustomProperty` still exists but is marked as deprecated)
 
 ## 4.10.3 - 2017-01-09
+
 - fix for getting preloaded media in the wrong order
 
 ## 4.10.2 - 2016-12-17
+
 - refactored the preloading of media
 
 ## 4.10.1 - 2016-12-12
+
 - reduce amount of calls to `s3`
 
 ## 4.10.0 - 2016-12-09
+
 - add `addCustomHeaders` function
 
 ## 4.9.5 - 2016-10-25
+
 - improve returned values for `getUrl` methods
 
 ## 4.9.4 - 2016-10-21
+
 - fix for image generators when using S3
 
 ## 4.9.3 - 2016-10-13
+
 - the image generators wil now do their supported extensions check in a case insensitive manner
 
 ## 4.9.2 - 2016-10-06
+
 - fixed bug where an exception would be raised when using S3
 
 ## 4.9.1 - 2016-09-23
+
 - fix bug where urls to media would not be encoded anymore
 
 ## 4.9.0 - 2016-09-23
+
 - introduced `ImageGenerators`
 
 ## 4.8.4 - 2016-09-15
+
 - encode urls to media
 
 ## 4.8.3 - 2016-08-25
--  fix svg and pdf file path when performing conversions
+
+- fix svg and pdf file path when performing conversions
 
 ## 4.8.2 - 2016-08-24
+
 - made compatible with L5.3
 
 ## 4.8.1 - 2016-08-19
+
 - fixed some files that had a wrong namespace
 
 ## 4.8.0 - 2016-08-07
+
 - added thumbnail generation for video's
 - added force option to the artisan commands
 
 ## 4.7.1 - 2016-08-02
+
 - fixed the `src` format option when dealing with jpegs
 
 ## 4.7.0 - 2016-07-18
@@ -1006,188 +1045,248 @@ To learn how to upgrade, take a look in UPGRADING.md
 - the `media-library:regenerate` will continue regenerating files even if a primary media file is missing
 
 ## 4.4.1 - 2016-07-08
+
 - Fix regeneration command (see #260). It'll now properly regenerate files for all passed media id's
 
 ## 4.4.0 - 2016-07-06
+
 - Add support for converting svg's
 
 ## 4.3.0 - 2016-06-23
+
 - Add Lumen compatibility
 
 ## 4.2.1 - 2016-06-03
+
 - Delete the conversion directory even when it is not underneath the media directory
 
 ## 4.2 - 2016-06-03
+
 - Added the `src` option for the `fm` conversion parameter
 
 ## 4.1 - 2016-06-02
+
 - Added `shouldDeletePreservingMedia`
 
 ## 4.0.1 - 2016-04-25
+
 - Fixed queued jobs in Laravel 5.1
 
 ## 4.0.0 - 2016-04-13
+
 - add support for Glide 1.0
 - added `addMediaFromRequest` method
 - small refactors
 
 ## 3.17.4 - 2016-04-12
+
 - Only detect mimetype from file on local disks
 
 ## 3.17.3 - 2016-04-04
+
 - Fixed an issue that occured when deleting models with media in some php versions
 
 ## 3.17.2 - 2016-03-25
+
 - Fixed mistakes in the version constraints on the illuminate components
 
 ## 3.17.1 - 2016-03-24
+
 - Improved the file type detection for files without an extension
 
 ## 3.17.0 - 2016-03-23
+
 - Added support for `morphMap`
 
 ## 3.16.1 - 2016-03-20
+
 - Improved the compatiblity with packages that hook into the `delete` method of an Eloquent model
 
 ## 3.16.0
+
 - The `regenerate`-command now accepts an `ids`-option
 
 ## 3.15.0
+
 - Added `media-library:clear` command
 
 ## 3.14.1
+
 - Make migrations compatible with mysql's strict mode
 
 ## 3.14.0
+
 - Added a `deletePreservingMedia`-function that will delete the model but not remove the associated files
 
 ## 3.13.4
+
 - Use `config_path` helper in ServiceProvider to allow easier integration in Lumen
 
 ## 3.13.3
+
 - Recognize gifs as images
 
 ## 3.12.2
+
 - Removed support for laravel-glide v3
 - Added missing `InvalidNewOrder`-exception
 
 ## 3.12.1
+
 *Important node: there is a bug in this version that prevents the creation
 of derived files*
+
 - Add support for laravel-glide v3
 
 ## 3.12.0
+
 - Add configurable headers when uploading media to a remote disk
 
 ## 3.11.3
+
 - use database_path when publishing migrations
 
 ## 3.11.2
+
 - Fixed the processing a file name with special characters
 
 ## 3.11.1
+
 - Remove adding .gitignore files
 
 ## 3.11.0
+
 - Accept Symfony\Component\HttpFoundation\File\File-object when adding files
 
 ## 3.10.2
+
 - Fixed mime-type errors when using the local filesystem
 
 ## 3.10.1
+
 - Fixed the event names to make them more readable `CollectionHasBeenCleared`, `ConversionHasBeenCompleted`, `MediaHasBeenAdded`
 
 ## 3.10.0
+
 - Added `CollectionClearedEvent`, `ConversionCompleteEvent`, `MediaAddedEvent`
 
 ## 3.9.2
+
 - Fixed an issue where a model would not regenerate manipulations after changing manipulations on media
 
 ## 3.9.1
+
 - Fix bug when using a custom UrlGenerator class
 
 ## 3.9.0
+
 - Added PathGenerator
 
 **This version contains a bug when using a custom UrlGenerator, please upgrade to 3.9.1**
 
 ## 3.8.0
+
 - Added ability to add media from a url
 
 $media = $this->testModel->addMediaFromUrl($url)
+
 ## 3.7.3
+
 - `clearMediaCollection` is now chainable
 
 ## 3.7.2
+
 - Add mimetype when putting a file on a disk.
 
 ## 3.7.1
+
 - Fix generation of local url's on non-unix hosts
 
 ## 3.7.0
+
 - Added `setCustomProperty`-method on Media
 
 ## 3.6.0
+
 - Added `withProperties` and `withAttributes` methods
 
 ## 3.5.1
+
 - Bugfix: `HasMediaTrait::updateMedia` now also updates custom properties. It also updates the order column starting at 1 instead of 0 (behaves the same as the sortable trait)
 
 ## 3.5.0
+
 - Added the ability to provide a default value fallback to the `getCustomProperty` method
 
 ## 3.4.0
+
 - Added support for using a custom model
 
 ## 3.3.1
+
 - Fixed a bug where conversions would always be performed on the default queue
 
 ## 3.3.0
+
 - Added `hasCustomProperty`- and `getCustomProperty`-convenience-methods
 
 ## 3.2.5
+
 - Allow 0 for `x` and `y` parameters in `setRectangle`
 
 ## 3.2.4
+
 - Removed dependency on spatie/eloquent-sortable
 
 ## 3.2.3
+
 - Add index to morphable fields in migration which could improve performance.
 - Remove unnecessary query when adding a file
 
 ## 3.2.2
+
 - Fixes tests
 
 ## 3.2.1
+
 - Add index to morphable fields in migration which could improve performance.
-NOTE: if you started out using this version, the tests will be broken. You should make sure
-model_id and model_type are nullable in your database.
+- NOTE: if you started out using this version, the tests will be broken. You should make sure
+- model_id and model_type are nullable in your database.
 
 ## 3.2.0
+
 - Added functions to get a path to a file in the media library
 
 ## 3.1.5
+
 - Avoid creating empty conversions-directories
 
 ## 3.1.4
+
 - Fixed a bug where chaining the conversion convenience methods would not give the right result
 
 ## 3.1.3
+
 - Fixed a bug where getByModelType would return null
 
 ## 3.1.2
+
 - Images and pdf with capitalized extensions will now be recognized
 
 ## 3.1.1
+
 - Fixed: a rare issue where binding the command would fail
 
 ## 3.1.0
+
 - Added: methods to rename the media object and file name before adding a file to the collection
 
 ## 3.0.1
+
 - Fixed: `updateMedia` now returns updated media
 
 ## 3.0.0
+
 - Replaced `addMedia` by a fluent interface
 - Added the ability to store custom properties on a media object
 - Added support for multi-filesystem libraries
@@ -1197,43 +1296,57 @@ model_id and model_type are nullable in your database.
 - Renamed various classes to better reflect their functionality
 
 ## 2.3.0
+
 - Added: hasMedia convenience method
 
 ## 2.2.3
+
 - Fixed: when renaming file_name on a media object the orginal file gets renamed as well
 
 ## 2.2.2
+
 - Fixed: use FQCN for facades instead of using the aliases
 
 ## 2.2.1
+
 - Fixed an issue where too many queries were executed
 
 ## 2.2.0
+
 - Added `hasMediaWithoutConversions`-interface
 
 ## 2.1.5
+
 - Fixes a bug where a valid UrlGenerator would not be recognized
 
 ## 2.1.4
+
 - Fixes a bug where an exception would be thrown when adding a pdf on systems without Imagick installed
 
 ## 2.1.3
+
 - Fixes some bugs where files would not be removed when deleting a media-object
 
 ## 2.1.2
+
 - Require correct version of spatie/string
 
 ## 2.1.1
+
 - Bugfix: correct typehint in HasMediaTrait
 
 ## 2.1.0
+
 - Added some convenience methods for some frequent used manipulations
 
 ## 2.0.1
+
 - fix bug in regenerate command
 
 ## 2.0.0
+
 This version is a complete rewrite. Though there are lots of breaking changes most features of v1 are retained. Notable new functions:
+
 - filesystem abstraction:  associated files can be stored on any filesystem Laravel 5's filesystem allows. So you could for instance store everything on S3.
 - thumbnails can now be generated for pdf files
 - registering conversions has been made more intuïtive
@@ -1241,46 +1354,60 @@ This version is a complete rewrite. Though there are lots of breaking changes mo
 - images can be manipulated per media object
 
 ## 1.6.2
+
 - Bugfix: prevent migration from being published multiple times
 
 ## 1.6.1
+
 - Small bugfixes
 
 ## 1.6.0
+
 - Added: `Spatie\MediaLibrary\Models\Media::getHumanReadableFileSize()`
 
 ## 1.5.6
+
 - Bugfix: make compatible with Laravel 5.1
 
 ## 1.5.5
+
 - Bugfix: Renamed the boot method of MediaLibraryModeltrait so it plays nice with the boot method of
-other traits and the base model.
+- other traits and the base model.
 
 ## 1.5.4
+
 - Feature: The `profile` parameter in `Media::getUrl()` and `MediaLibraryModelTrait::getUrl()` is now optional. On null, it retrieves the original file's url.
 - Bugfix: `Media::getOriginalUrl()` now returns the correct url.
 
 ## 1.5.3
+
 - Bugfix: Removed unnecessary static methods from `MediaLibraryModelInterface`
 
 ## 1.5.0
+
 - Added a method to remove all media in a collection.
 
 ## 1.1.4
+
 - Fixed a bug where not all image profiles would be processed
 - Added `getImageProfileProperties()`to interface
 
 ## 1.1.3
+
 - Create the media library directory if it does not exist
 
 ## 1.1.2
+
 - Files without extensions are now allowed
 
 ## 1.1.1
+
 - Added check to make sure the file that must be added to the media library exists
 
 ## 1.1.0
+
 - Added option to specify the name of the queue that should be used to create image manipulations
 
 ## 1.0.0
+
 - initial release
