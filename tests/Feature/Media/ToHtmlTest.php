@@ -109,7 +109,7 @@ class ToHtmlTest extends TestCase
             ->withResponsiveImages()
             ->toMediaCollection();
 
-        $imgTag = $media->refresh()->img();
+        $imgTag = (string)$media->refresh()->img();
 
         $expectedImgTag = '<img srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">';
 
