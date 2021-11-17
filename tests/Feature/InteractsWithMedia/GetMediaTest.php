@@ -317,7 +317,7 @@ class GetMediaTest extends TestCase
         ], $preloadedTestModel
             ->getMedia('images')
             ->pluck('order_column', 'id')
-            ->map(fn($value) => (int)$value)
+            ->map(fn ($value) => (int)$value)
             ->toArray());
 
         $firstMedia->order_column = 3;
