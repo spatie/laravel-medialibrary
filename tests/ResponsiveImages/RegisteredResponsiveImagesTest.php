@@ -18,8 +18,8 @@ class RegisteredResponsiveImagesTest extends TestCase
         $media = $this->testModel->getFirstMedia();
 
         $file = $this->runningOnPhp('8.1')
-            ? 'test___media_library_original_284_233.jpg'
-            : 'test___media_library_original_284_234.jpg';
+            ? 'test___media_library_original_284_234.jpg'
+            : 'test___media_library_original_284_233.jpg';
 
         $this->assertEquals([
             'test___media_library_original_340_280.jpg',
