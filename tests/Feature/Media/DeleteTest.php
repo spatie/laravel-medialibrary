@@ -57,7 +57,7 @@ class DeleteTest extends TestCase
      */
     public function it_will_not_remove_the_files_when_shouldDeletePreservingMedia_returns_true()
     {
-        $testModelClass = new class() extends TestModel {
+        $testModelClass = new class () extends TestModel {
             public function shouldDeletePreservingMedia(): bool
             {
                 return true;
@@ -80,7 +80,7 @@ class DeleteTest extends TestCase
      */
     public function it_will_remove_the_files_when_shouldDeletePreservingMedia_returns_false()
     {
-        $testModelClass = new class() extends TestModel {
+        $testModelClass = new class () extends TestModel {
             public function shouldDeletePreservingMedia(): bool
             {
                 return false;
@@ -101,7 +101,7 @@ class DeleteTest extends TestCase
     /** @test */
     public function it_will_not_remove_the_file_when_model_uses_softdelete()
     {
-        $testModelClass = new class() extends TestModel {
+        $testModelClass = new class () extends TestModel {
             use SoftDeletes;
         };
 
@@ -122,7 +122,7 @@ class DeleteTest extends TestCase
     /** @test */
     public function it_will_remove_the_file_when_model_uses_softdelete_with_force()
     {
-        $testModelClass = new class() extends TestModel {
+        $testModelClass = new class () extends TestModel {
             use SoftDeletes;
         };
 
