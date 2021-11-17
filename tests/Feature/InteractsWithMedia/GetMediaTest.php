@@ -312,12 +312,12 @@ class GetMediaTest extends TestCase
             ->first();
 
         $this->assertEquals([
-            1 => 1,
-            2 => 2,
+            1 => (string)1,
+            2 => (string)2,
         ], $preloadedTestModel
             ->getMedia('images')
             ->pluck('order_column', 'id')
-            ->map(fn ($value) => (int)$value)
+            ->map(fn ($value) => (string)$value)
             ->toArray());
 
         $firstMedia->order_column = 3;
