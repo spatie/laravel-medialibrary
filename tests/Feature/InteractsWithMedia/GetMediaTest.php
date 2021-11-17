@@ -311,7 +311,7 @@ class GetMediaTest extends TestCase
             ->where('id', $this->testModel->id)
             ->first();
 
-        $this->assertSame([
+        $this->assertEquals([
             1 => 1,
             2 => 2,
         ], $preloadedTestModel
