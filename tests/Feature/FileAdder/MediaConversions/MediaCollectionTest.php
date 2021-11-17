@@ -193,9 +193,13 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->getMedia('images')->first();
 
+        $file = $this->runningOnPhp('8.1')
+            ? 'http://localhost/media/1/responsive-images/test___media_library_original_284_234.jpg'
+            : 'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg';
+
         $this->assertEquals([
             'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+            $file,
             'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
         ], $media->getResponsiveImageUrls());
 
@@ -220,9 +224,13 @@ class MediaCollectionTest extends TestCase
 
         $media = $model->getMedia('images')->first();
 
+        $file = $this->runningOnPhp('8.1')
+            ? 'http://localhost/media/1/responsive-images/test___media_library_original_284_234.jpg'
+            : 'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg';
+
         $this->assertEquals([
             'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+            $file,
             'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
         ], $media->getResponsiveImageUrls());
 

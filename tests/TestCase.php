@@ -8,6 +8,7 @@ use Dotenv\Dotenv;
 use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Str;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
@@ -328,5 +329,10 @@ abstract class TestCase extends Orchestra
         }
 
         return $path;
+    }
+
+    protected function runningOnPhp(string $version)
+    {
+        return Str::startsWith(PHP_VERSION, $version);
     }
 }
