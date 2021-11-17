@@ -56,10 +56,6 @@ jobs:
                   composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
-            - name: Use specific glide version
-              if: ${{ matrix.php == '8' && matrix.dependency-version == 'prefer-lowest' }}
-              run: composer require league/glide 1.7.0
-
             - name: Execute tests
               run: vendor/bin/phpunit
               env:

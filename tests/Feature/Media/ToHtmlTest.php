@@ -109,15 +109,9 @@ class ToHtmlTest extends TestCase
             ->withResponsiveImages()
             ->toMediaCollection();
 
-        $imgTag = (string)$media->refresh()->img();
+        $imgTag = $media->refresh()->img();
 
-        $expectedImgTag = '<img srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">';
-
-        if ($this->runningOnPhp('8.1')) {
-            $expectedImgTag = str_replace('_233', '_234', $expectedImgTag);
-        }
-
-        $this->assertEquals($expectedImgTag, $imgTag);
+        $this->assertEquals('<img srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">', $imgTag);
     }
 
     /** @test */

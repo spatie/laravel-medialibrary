@@ -330,9 +330,4 @@ abstract class TestCase extends Orchestra
 
         return $path;
     }
-
-    protected function runningOnPhp(string $version)
-    {
-        return Str::startsWith(PHP_VERSION, $version);
-    }
 }

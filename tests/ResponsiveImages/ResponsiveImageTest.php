@@ -20,14 +20,9 @@ class ResponsiveImageTest extends TestCase
 
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
-
-        $file = $this->runningOnPhp('8.1')
-            ? "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg"
-            : "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg";
-
         $this->assertEquals([
             "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg",
-            $file,
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg",
             "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg",
         ], $media->getResponsiveImageUrls());
 
@@ -48,14 +43,8 @@ class ResponsiveImageTest extends TestCase
 
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
-        $expected = "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w";
-
-        if ($this->runningOnPhp('8.1')) {
-            $expected = str_replace('_233', '_234', $expected);
-        }
-
         $this->assertStringContainsString(
-            $expected,
+            "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
             $media->getSrcset()
         );
         $this->assertStringContainsString("data:image/svg+xml;base64", $media->getSrcset());
@@ -127,14 +116,9 @@ class ResponsiveImageTest extends TestCase
 
         $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
-
-        $file = $this->runningOnPhp('8.1')
-            ? "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg"
-            : "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_233.jpg";
-
         $this->assertSame([
             "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg",
-            $file,
+            "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_233.jpg",
             "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg",
         ], $media->getResponsiveImageUrls());
 
