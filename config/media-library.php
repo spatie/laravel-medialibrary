@@ -219,4 +219,10 @@ return [
      * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
     'prefix' => env('MEDIA_PREFIX', ''),
+
+    /*
+     * When disabling this option, Media Library Pro don't include a script tag to load the dragula library via a CDN.
+     * You have to include the dragula library by yourself!
+     */
+    'include_dragula_cdn_script' => true,
 ];
