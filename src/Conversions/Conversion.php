@@ -205,7 +205,7 @@ class Conversion
     {
         if ($this->shouldKeepOriginalImageFormat()) {
             if (in_array(strtolower($originalFileExtension), ['jpg', 'jpeg', 'pjpg', 'png', 'gif'])) {
-                return strtolower($originalFileExtension);
+                return $originalFileExtension;
             }
         }
 
