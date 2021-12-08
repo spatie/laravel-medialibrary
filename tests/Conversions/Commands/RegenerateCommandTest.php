@@ -252,4 +252,35 @@ class RegenerateCommandTest extends TestCase
             $this->assertFileExists($image);
         }
     }
+
+    /** @test */
+    public function it_can_regenerate_files_by_created_date()
+    {
+        $this->travelTo(now()->subWeek());
+
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $this->travelBack();
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+
+        $this->artisan('media-library:regenerate', ['--after-date' => now()->toDateString()]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+    }
 }

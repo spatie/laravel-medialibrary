@@ -65,6 +65,11 @@ class MediaRepository
         return $this->query()->whereIn($this->model->getKeyName(), $ids)->get();
     }
 
+    public function getByCreatedAfter(string $datetime): DbCollection
+    {
+        return $this->query()->whereDate($this->model->getCreatedAtColumn(), '>=', $datetime)->get();
+    }
+
     public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection
     {
         return $this->query()
