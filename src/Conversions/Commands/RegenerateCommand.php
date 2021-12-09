@@ -18,7 +18,7 @@ class RegenerateCommand extends Command
 
     protected $signature = 'media-library:regenerate {modelType?} {--ids=*}
     {--only=* : Regenerate specific conversions}
-    {--after-date= : Regenerate media after a certain date}
+    {--starting-from-id= : Regenerate media with an id equal to or higher than the provided value}
     {--only-missing : Regenerate only missing conversions}
     {--with-responsive-images : Regenerate responsive images}
     {--force : Force the operation to run when in production}';
@@ -76,21 +76,23 @@ class RegenerateCommand extends Command
     public function getMediaToBeRegenerated(): Collection
     {
         $modelType = $this->argument('modelType') ?? '';
+
         $mediaIds = $this->getMediaIds();
-        $date = $this->option('after-date') ?? '';
-        $noDate = $date === '';
         $noIds = count($mediaIds) === 0;
 
-        if ($modelType === '' && $noIds && $noDate) {
+        $startingFromId = (int)$this->option('starting-from-id');
+        $noStartingId = $startingFromId === 0;
+
+        if ($modelType === '' && $noIds && $noStartingId) {
             return $this->mediaRepository->all();
         }
 
-        if ($noIds && $noDate) {
+        if ($noIds && $noStartingId) {
             return $this->mediaRepository->getByModelType($modelType);
         }
 
-        if (!$noDate) {
-            return $this->mediaRepository->getByCreatedAfter($date);
+        if ($noIds) {
+            return $this->mediaRepository->getByIdGreaterThan($startingFromId);
         }
 
         return $this->mediaRepository->getByIds($mediaIds);

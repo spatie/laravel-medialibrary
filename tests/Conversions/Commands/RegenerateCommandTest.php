@@ -254,16 +254,12 @@ class RegenerateCommandTest extends TestCase
     }
 
     /** @test */
-    public function it_can_regenerate_files_by_created_date()
+    public function it_can_regenerate_files_by_starting_from_id()
     {
-        $this->travelTo(now()->subWeek());
-
         $media = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('test.jpg'))
             ->preservingOriginal()
             ->toMediaCollection('images');
-
-        $this->travelBack();
 
         $media2 = $this->testModelWithConversion
             ->addMedia($this->getTestFilesDirectory('test.jpg'))
@@ -278,7 +274,7 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileDoesNotExist($derivedImage);
         $this->assertFileDoesNotExist($derivedImage2);
 
-        $this->artisan('media-library:regenerate', ['--after-date' => now()->toDateString()]);
+        $this->artisan('media-library:regenerate', ['--starting-from-id' => $media2->getKey()]);
 
         $this->assertFileDoesNotExist($derivedImage);
         $this->assertFileExists($derivedImage2);
