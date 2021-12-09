@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.10.0 - 2021-12-09
+
+## What's Changed
+
+- Fixed typo in attribute name by @trnxpace in https://github.com/spatie/laravel-medialibrary/pull/2617
+- Remove the need for a TemporaryDirectory when copying media by @cole-flexsim in https://github.com/spatie/laravel-medialibrary/pull/2638
+- add filter param to hasMedia() by @fheider in https://github.com/spatie/laravel-medialibrary/pull/2648
+
+## New Contributors
+
+- @trnxpace made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2617
+- @cole-flexsim made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2638
+- @fheider made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2648
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.9.1...9.10.0
+
 ## 9.9.1 - 2021-12-03
 
 ## What's Changed
