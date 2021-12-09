@@ -40,7 +40,7 @@ interface HasMedia
      */
     public function copyMedia($file): FileAdder;
 
-    public function hasMedia(string $collectionMedia = ''): bool;
+    public function hasMedia(string $collectionName = ''): bool;
 
     /**
      * Get media collection by its collectionName.
