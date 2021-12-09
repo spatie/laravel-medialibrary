@@ -61,6 +61,13 @@ class Filesystem
 
         $storage = Storage::disk($file->getDisk());
 
+        if ($file->getDisk() == $media->disk) {
+            $storage->move($file->getKey(), $destination);
+
+            return;
+        }
+
+
         $headers = $diskDriverName === 'local'
             ? []
             : $this->getRemoteHeadersForFile(

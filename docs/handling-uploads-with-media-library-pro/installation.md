@@ -199,4 +199,4 @@ A few days before a license expires, we'll send you a reminder mail to renew you
 
 Should you decide not to renew your license, you won't be able to use composer anymore to install this package. You won't get any new features or bug fixes.
 
-Instead, you can download a zip containing the latest version that your license covered. This can be done on  [your purchases page on spatie.be](https://spatie.be/purchases). You are allowed to host this version in a private repo of your own.
+Instead, you can download a zip containing the latest version that your license covered. This can be done on  [your purchases page on spatie.be](https://spatie.be/profile/purchases). You are allowed to host this version in a private repo of your own.

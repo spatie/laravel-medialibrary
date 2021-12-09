@@ -22,6 +22,16 @@ interface HasMedia
     public function addMedia($file): FileAdder;
 
     /**
+     * Add a file from the given disk.
+     *
+     * @param string $key
+     * @param string $disk
+     *
+     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
+     */
+    public function addMediaFromDisk(string $key, string $disk = null): FileAdder;
+
+    /**
      * Copy a file to the media library.
      *
      * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
@@ -30,7 +40,7 @@ interface HasMedia
      */
     public function copyMedia($file): FileAdder;
 
-    public function hasMedia(string $collectionMedia = ''): bool;
+    public function hasMedia(string $collectionName = ''): bool;
 
     /**
      * Get media collection by its collectionName.

@@ -27,7 +27,7 @@ class ConversionFileExtensionTest extends TestCase
     {
         $media = $this->testModelWithConversion->addMedia($this->getUppercaseExtensionTestPng())->toMediaCollection();
 
-        $this->assertExtensionEquals('png', $media->getUrl('keep_original_format'));
+        $this->assertExtensionEquals('PNG', $media->getUrl('keep_original_format'));
     }
 
     /** @test */

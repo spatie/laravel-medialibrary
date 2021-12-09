@@ -271,9 +271,9 @@ trait InteractsWithMedia
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = 'default'): bool
+    public function hasMedia(string $collectionName = 'default', array $filters = []): bool
     {
-        return count($this->getMedia($collectionName)) ? true : false;
+        return count($this->getMedia($collectionName, $filters)) ? true : false;
     }
 
     /**
