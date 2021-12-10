@@ -33,9 +33,8 @@
         "illuminate/support": "^8.71",
         "intervention/image": "^2.7",
         "league/flysystem": "^1.0.64",
-        "league/glide": "^1.7",
         "maennchen/zipstream-php": "^1.0|^2.0",
-        "spatie/image": "^1.10.5",
+        "spatie/image": "^1.10.5|^2.0",
         "spatie/temporary-directory": "^1.1|^2.0",
         "symfony/console": "^4.4|^5.0"
     },
