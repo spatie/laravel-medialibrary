@@ -50,3 +50,10 @@ If you want to regenerate images starting at a specific id (inclusive), you can 
 ```bash
 php artisan media-library:regenerate --starting-from-id=1
 ```
+
+You can also start after the provided id by also passing the `--exclude-starting-id` or `-X` options
+
+```bash
+php artisan media-library:regenerate --starting-from-id=1 --exclude-starting-id
+php artisan media-library:regenerate --starting-from-id=1 -X
+```

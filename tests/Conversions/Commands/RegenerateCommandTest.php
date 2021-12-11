@@ -279,4 +279,64 @@ class RegenerateCommandTest extends TestCase
         $this->assertFileDoesNotExist($derivedImage);
         $this->assertFileExists($derivedImage2);
     }
+
+    /** @test */
+    public function it_can_regenerate_files_starting_after_the_provided_id()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+
+        $this->artisan('media-library:regenerate', [
+            '--starting-from-id' => $media->getKey(),
+            '--exclude-starting-id' => true,
+        ]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+    }
+
+    /** @test */
+    public function it_can_regenerate_files_starting_after_the_provided_id_with_shortcut()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+
+        $this->artisan('media-library:regenerate', [
+            '--starting-from-id' => $media->getKey(),
+            '-X' => true,
+        ]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+    }
 }
