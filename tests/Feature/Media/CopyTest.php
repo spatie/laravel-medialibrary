@@ -146,4 +146,21 @@ class CopyTest extends TestCase
         $this->assertEquals($movedMedia->name, 'custom-name');
         $this->assertEquals($movedMedia->getCustomProperty('custom-property-name'), 'custom-property-value');
     }
+
+    /** @test */
+    public function it_preserves_original_file_on_copy_media_item_to_model()
+    {
+        $model = TestModel::create(['name' => 'original']);
+
+        $media = $model
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection();
+
+        $anotherModel = TestModel::create(['name' => 'target']);
+
+        $anotherMedia = $media->copy($anotherModel);
+
+        $this->assertFileExists($media->getPath());
+        $this->assertFileExists($anotherMedia->getPath());
+    }
 }

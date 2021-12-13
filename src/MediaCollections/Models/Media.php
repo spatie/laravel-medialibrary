@@ -301,6 +301,7 @@ class Media extends Model implements Responsable, Htmlable
 
         $fileAdder = $model
             ->addMediaFromDisk($path, $this->disk)
+            ->preservingOriginal()
             ->usingName($this->name)
             ->setOrder($this->order_column)
             ->withCustomProperties($this->custom_properties);
