@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.10.1 - 2021-12-13
+
+## What's Changed
+
+- Update installation-setup.md by @Ondoz in https://github.com/spatie/laravel-medialibrary/pull/2693
+- Fix for deleted files on copy media to model by @jon-sm in https://github.com/spatie/laravel-medialibrary/pull/2694
+
+## New Contributors
+
+- @Ondoz made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2693
+- @jon-sm made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2694
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.10.0...9.10.1
+
 ## 9.10.0 - 2021-12-09
 
 ## What's Changed
