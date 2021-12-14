@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.10.2 - 2021-12-14
+
+## What's Changed
+
+- Reverts #2638 which proved to be buggy by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/2697
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.10.1...9.10.2
+
 ## 9.10.1 - 2021-12-13
 
 ## What's Changed
