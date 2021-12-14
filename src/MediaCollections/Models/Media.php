@@ -24,6 +24,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
+use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
@@ -294,24 +295,27 @@ class Media extends Model implements Responsable, Htmlable
 
     public function copy(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
     {
+        $temporaryDirectory = TemporaryDirectory::create();
+
+        $temporaryFile = $temporaryDirectory->path('/') . DIRECTORY_SEPARATOR . $this->file_name;
+
         /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
-        $path = $filesystem->getMediaDirectory($this) . '/' . $this->file_name;
+        $filesystem->copyFromMediaLibrary($this, $temporaryFile);
 
         $fileAdder = $model
-            ->addMediaFromDisk($path, $this->disk)
-            ->preservingOriginal()
+            ->addMedia($temporaryFile)
             ->usingName($this->name)
             ->setOrder($this->order_column)
             ->withCustomProperties($this->custom_properties);
-
         if ($fileName !== '') {
             $fileAdder->usingFileName($fileName);
         }
-
         $newMedia = $fileAdder
             ->toMediaCollection($collectionName, $diskName);
+
+        $temporaryDirectory->delete();
 
         return $newMedia;
     }
