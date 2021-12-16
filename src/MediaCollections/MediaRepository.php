@@ -65,9 +65,12 @@ class MediaRepository
         return $this->query()->whereIn($this->model->getKeyName(), $ids)->get();
     }
 
-    public function getByIdGreaterThan(int $startingFromId, bool $excludeStartingId = false): DbCollection
+    public function getByIdGreaterThan(int $startingFromId, bool $excludeStartingId = false, string $modelType = ''): DbCollection
     {
-        return $this->query()->where($this->model->getKeyName(), $excludeStartingId ? '>' : '>=', $startingFromId)->get();
+        return $this->query()
+            ->where($this->model->getKeyName(), $excludeStartingId ? '>' : '>=', $startingFromId)
+            ->when($modelType !== '', fn(Builder $q) => $q->where('model_type', $modelType))
+            ->get();
     }
 
     public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection

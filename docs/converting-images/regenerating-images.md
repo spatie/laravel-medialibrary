@@ -57,3 +57,9 @@ You can also start after the provided id by also passing the `--exclude-starting
 php artisan media-library:regenerate --starting-from-id=1 --exclude-starting-id
 php artisan media-library:regenerate --starting-from-id=1 -X
 ```
+
+The `--starting-from-id` option can also be combined with the `modelType` argument
+
+```bash
+php artisan media-library:regenerate "App\Models\Post" --starting-from-id=1
+```

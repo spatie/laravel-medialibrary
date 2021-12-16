@@ -3,6 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
 
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 class RegenerateCommandTest extends TestCase
 {
@@ -338,5 +340,45 @@ class RegenerateCommandTest extends TestCase
 
         $this->assertFileDoesNotExist($derivedImage);
         $this->assertFileExists($derivedImage2);
+    }
+
+    /** @test */
+    public function it_can_regenerate_files_starting_from_id_with_model_type()
+    {
+        $media = $this->testModelWithConversionsOnOtherDisk
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media3 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+        $derivedImage3 = $this->getMediaDirectory("{$media3->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+        unlink($derivedImage3);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+        $this->assertFileDoesNotExist($derivedImage3);
+
+        $this->artisan('media-library:regenerate', [
+            '--starting-from-id' => $media->getKey(),
+            'modelType' => TestModelWithConversion::class,
+        ]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+        $this->assertFileExists($derivedImage3);
     }
 }

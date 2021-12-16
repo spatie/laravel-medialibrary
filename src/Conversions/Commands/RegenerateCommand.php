@@ -76,15 +76,17 @@ class RegenerateCommand extends Command
 
     public function getMediaToBeRegenerated(): Collection
     {
+        // Get this arg first as it can also be passed to the greater-than-id branch
         $modelType = $this->argument('modelType') ?? '';
-        if ($modelType !== '') {
-            return $this->mediaRepository->getByModelType($modelType);
-        }
 
         $startingFromId = (int)$this->option('starting-from-id');
         if ($startingFromId !== 0) {
             $excludeStartingId = $this->option('exclude-starting-id') ?? false;
-            return $this->mediaRepository->getByIdGreaterThan($startingFromId, $excludeStartingId);
+            return $this->mediaRepository->getByIdGreaterThan($startingFromId, $excludeStartingId, $modelType);
+        }
+
+        if ($modelType !== '') {
+            return $this->mediaRepository->getByModelType($modelType);
         }
 
         $mediaIds = $this->getMediaIds();
