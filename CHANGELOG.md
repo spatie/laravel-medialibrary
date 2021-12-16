@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.10.3 - 2021-12-16
+
+## What's Changed
+
+- Update .gitattributes by @PaolaRuby in https://github.com/spatie/laravel-medialibrary/pull/2701
+
+## New Contributors
+
+- @PaolaRuby made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2701
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.10.2...9.10.3
+
 ## 9.10.2 - 2021-12-14
 
 ## What's Changed
