@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.11.0 - 2021-12-17
+
+## What's Changed
+
+- Add starting-from-id option to regenerate command by @billypoke in https://github.com/spatie/laravel-medialibrary/pull/2688
+
+## New Contributors
+
+- @billypoke made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2688
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.10.3...9.11.0
+
 ## 9.10.3 - 2021-12-16
 
 ## What's Changed
