@@ -82,6 +82,7 @@ class RegenerateCommand extends Command
         $startingFromId = (int)$this->option('starting-from-id');
         if ($startingFromId !== 0) {
             $excludeStartingId = $this->option('exclude-starting-id') ?? false;
+
             return $this->mediaRepository->getByIdGreaterThan($startingFromId, $excludeStartingId, $modelType);
         }
 

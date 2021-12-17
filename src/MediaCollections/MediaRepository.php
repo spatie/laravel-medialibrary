@@ -69,7 +69,7 @@ class MediaRepository
     {
         return $this->query()
             ->where($this->model->getKeyName(), $excludeStartingId ? '>' : '>=', $startingFromId)
-            ->when($modelType !== '', fn(Builder $q) => $q->where('model_type', $modelType))
+            ->when($modelType !== '', fn (Builder $q) => $q->where('model_type', $modelType))
             ->get();
     }
 
