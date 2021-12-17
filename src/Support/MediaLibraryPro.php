@@ -9,7 +9,7 @@ class MediaLibraryPro
 {
     public static function ensureInstalled()
     {
-        if (! class_exists(TemporaryUpload::class)) {
+        if (! self::isInstalled()) {
             throw FunctionalityNotAvailable::mediaLibraryProRequired();
         }
     }
