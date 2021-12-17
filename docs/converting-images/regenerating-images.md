@@ -44,3 +44,22 @@ If you want to force responsive images to be regenerated, you can use the `--wit
 ```bash
 php artisan media-library:regenerate --with-responsive-images
 ```
+
+If you want to regenerate images starting at a specific id (inclusive), you can use the `--starting-from-id` option
+
+```bash
+php artisan media-library:regenerate --starting-from-id=1
+```
+
+You can also start after the provided id by also passing the `--exclude-starting-id` or `-X` options
+
+```bash
+php artisan media-library:regenerate --starting-from-id=1 --exclude-starting-id
+php artisan media-library:regenerate --starting-from-id=1 -X
+```
+
+The `--starting-from-id` option can also be combined with the `modelType` argument
+
+```bash
+php artisan media-library:regenerate "App\Models\Post" --starting-from-id=1
+```

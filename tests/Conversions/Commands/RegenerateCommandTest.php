@@ -3,6 +3,8 @@
 namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
 
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 class RegenerateCommandTest extends TestCase
 {
@@ -251,5 +253,132 @@ class RegenerateCommandTest extends TestCase
         foreach ($responsiveImages as $image) {
             $this->assertFileExists($image);
         }
+    }
+
+    /** @test */
+    public function it_can_regenerate_files_by_starting_from_id()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+
+        $this->artisan('media-library:regenerate', ['--starting-from-id' => $media2->getKey()]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+    }
+
+    /** @test */
+    public function it_can_regenerate_files_starting_after_the_provided_id()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+
+        $this->artisan('media-library:regenerate', [
+            '--starting-from-id' => $media->getKey(),
+            '--exclude-starting-id' => true,
+        ]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+    }
+
+    /** @test */
+    public function it_can_regenerate_files_starting_after_the_provided_id_with_shortcut()
+    {
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+
+        $this->artisan('media-library:regenerate', [
+            '--starting-from-id' => $media->getKey(),
+            '-X' => true,
+        ]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+    }
+
+    /** @test */
+    public function it_can_regenerate_files_starting_from_id_with_model_type()
+    {
+        $media = $this->testModelWithConversionsOnOtherDisk
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media2 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $media3 = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->preservingOriginal()
+            ->toMediaCollection('images');
+
+        $derivedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+        $derivedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/test-thumb.jpg");
+        $derivedImage3 = $this->getMediaDirectory("{$media3->id}/conversions/test-thumb.jpg");
+
+        unlink($derivedImage);
+        unlink($derivedImage2);
+        unlink($derivedImage3);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileDoesNotExist($derivedImage2);
+        $this->assertFileDoesNotExist($derivedImage3);
+
+        $this->artisan('media-library:regenerate', [
+            '--starting-from-id' => $media->getKey(),
+            'modelType' => TestModelWithConversion::class,
+        ]);
+
+        $this->assertFileDoesNotExist($derivedImage);
+        $this->assertFileExists($derivedImage2);
+        $this->assertFileExists($derivedImage3);
     }
 }
