@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.11.1 - 2021-12-17
+
+## What's Changed
+
+- add index to order_column migration by @petsoukos in https://github.com/spatie/laravel-medialibrary/pull/2704
+
+## New Contributors
+
+- @petsoukos made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2704
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.11.0...9.11.1
+
 ## 9.11.0 - 2021-12-17
 
 ## What's Changed
