@@ -7,7 +7,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
 
 This package can associate all sorts of files with Eloquent models. It provides a
-simple API to work with. To learn all about it, head over to [the extensive documentation](https://docs.spatie.be/laravel-medialibrary).
+simple API to work with. To learn all about it, head over to [the extensive documentation](https://spatie.be/docs/laravel-medialibrary).
 
 Here are a few short examples of what you can do:
 
@@ -45,7 +45,7 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Documentation
 
-You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary](https://docs.spatie.be/laravel-medialibrary).
+You'll find the documentation on [https://spatie.be/docs/laravel-medialibrary](https://spatie.be/docs/laravel-medialibrary).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
 
