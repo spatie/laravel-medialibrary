@@ -57,7 +57,7 @@ function s3BaseUrl(): string
 
 function cleanUpS3()
 {
-    collect(Storage::disk('s3_disk')->allDirectories(self::getS3BaseTestDirectory()))->each(function ($directory) {
+    collect(Storage::disk('s3_disk')->allDirectories(getS3BaseTestDirectory()))->each(function ($directory) {
         Storage::disk('s3_disk')->deleteDirectory($directory);
     });
 }
