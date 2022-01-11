@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Pdf;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can convert a pdf', function () {
     $imageGenerator = new Pdf();

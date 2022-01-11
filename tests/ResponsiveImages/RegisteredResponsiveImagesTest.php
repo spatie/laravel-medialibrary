@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('will register generated responsive images in the db', function () {
     $this->testModel

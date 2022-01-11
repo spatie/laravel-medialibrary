@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can get a path of an original item', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();

@@ -1,6 +1,5 @@
 <?php
 
-use Spatie\MediaLibrary\Tests\TestCase;
 
 
 it('wil rename the file if it is changed on the media object', function () {

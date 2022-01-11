@@ -3,10 +3,8 @@
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
-
 
 it('will use the disk from a media collection', function () {
     $testModel = new class () extends TestModelWithConversion {

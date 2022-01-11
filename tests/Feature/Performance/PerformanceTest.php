@@ -1,6 +1,5 @@
 <?php
 
-use Spatie\MediaLibrary\Tests\TestCase;
 
 
 it('can use eagerly loaded media', function () {

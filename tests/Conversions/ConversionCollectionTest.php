@@ -1,9 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 beforeEach(function () {
     $media = $this->testModelWithConversion

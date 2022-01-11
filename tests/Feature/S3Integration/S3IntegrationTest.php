@@ -6,9 +6,7 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Support\MediaStream;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
-
 
 beforeEach(function () {
     if (! canTestS3()) {

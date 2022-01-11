@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\Support\ImageFactory;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 test('loading an image uses the correct driver', function () {
     config(['media-library.image_driver' => 'imagick']);

@@ -2,10 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
-
 
 it('will remove the files when deleting an object that has media', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');

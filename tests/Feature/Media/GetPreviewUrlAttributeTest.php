@@ -1,6 +1,5 @@
 <?php
 
-use Spatie\MediaLibrary\Tests\TestCase;
 
 
 test('the preview url attribute exists', function () {

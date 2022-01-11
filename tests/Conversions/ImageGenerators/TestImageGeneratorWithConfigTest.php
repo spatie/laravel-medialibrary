@@ -1,9 +1,7 @@
 <?php
 
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestImageGeneratorWithConfig;
-
 
 test('image generators can get parameter from the config file', function () {
     config()->set('media-library.image_generators', [

@@ -2,8 +2,6 @@
 
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can convert a video', function () {
     $imageGenerator = new Video();

@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
 use Spatie\Snapshots\MatchesSnapshots;
 

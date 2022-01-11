@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can convert a svg', function () {
     $imageGenerator = new Svg();

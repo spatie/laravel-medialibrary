@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can add a file to a named collection on a specific disk', function () {
     $collectionName = 'images';

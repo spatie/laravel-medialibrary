@@ -1,12 +1,7 @@
 <?php
 
-use Illuminate\Config\Repository;
-use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 beforeEach(function () {
     $this->config = app('config');

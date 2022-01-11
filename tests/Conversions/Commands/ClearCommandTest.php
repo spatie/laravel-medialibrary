@@ -1,8 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-
 
 beforeEach(function () {
     $this->media['model1']['collection1'] = $this->testModel

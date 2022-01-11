@@ -1,9 +1,7 @@
 <?php
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-
 
 it('will create derived files when manipulations have changed', function () {
     $testModelClass = new class () extends TestModel {

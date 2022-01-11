@@ -3,9 +3,7 @@
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-
 
 it('can handle an empty collection', function () {
     $emptyCollection = $this->testModel->getMedia('images');

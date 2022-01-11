@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\Support\File;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can determine a human readable filesize', function () {
     expect(File::getHumanReadableSize(10))->toEqual('10 B');

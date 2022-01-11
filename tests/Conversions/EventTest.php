@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 beforeEach(function () {
     parent::setup();

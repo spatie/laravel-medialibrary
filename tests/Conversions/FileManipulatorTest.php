@@ -2,8 +2,6 @@
 
 use Spatie\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 beforeEach(function () {
     $this->conversion = new Conversion($this->conversionName);

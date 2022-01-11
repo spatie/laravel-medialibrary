@@ -3,10 +3,8 @@
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-
 
 beforeEach(function () {
     $this->media['model1']['collection1'] = $this->testModel

@@ -1,8 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-
 
 it('can regenerate all files', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection('images');

@@ -1,9 +1,7 @@
 <?php
 
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
-
 
 it('can use a custom media model', function () {
     $this->testModel

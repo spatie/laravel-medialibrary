@@ -10,10 +10,8 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 
 it('can add an file to the default collection', function () {
     $media = $this->testModel

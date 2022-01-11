@@ -1,8 +1,6 @@
 <?php
 
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can convert an image', function () {
     $imageGenerator = new Image();

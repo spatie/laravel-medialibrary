@@ -2,8 +2,6 @@
 
 use Carbon\Carbon;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
-use Spatie\MediaLibrary\Tests\TestCase;
-
 
 it('can get an url of an original item', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
