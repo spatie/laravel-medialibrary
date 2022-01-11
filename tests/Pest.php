@@ -36,7 +36,7 @@ function assertS3FileNotExists(string $filePath): void
 
 function canTestS3(): bool
 {
-    return !empty(getenv('AWS_ACCESS_KEY_ID'));
+    return ! empty(getenv('AWS_ACCESS_KEY_ID'));
 }
 
 function getS3BaseTestDirectory(): string
