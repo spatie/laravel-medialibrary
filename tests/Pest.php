@@ -1,6 +1,5 @@
 <?php
 
-use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Tests\TestCase;
