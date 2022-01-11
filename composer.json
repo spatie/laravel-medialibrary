@@ -49,7 +49,7 @@
         "league/flysystem-aws-s3-v3": "^1.0.29|^2.1",
         "mockery/mockery": "^1.4",
         "orchestra/testbench": "^6.23|^7.0",
-        "spatie/laravel-ray": "^1.27",
+        "spatie/laravel-ray": "^1.28",
         "spatie/pdf-to-image": "^2.1",
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "pestphp/pest": "^1.20"
