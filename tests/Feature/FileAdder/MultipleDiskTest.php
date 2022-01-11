@@ -51,7 +51,7 @@ it('can put files on the cloud disk configured the filesystems config file', fun
 
     $diskName = 'secondMediaDisk';
 
-    app()['config']->set('filesystems.cloud', 'secondMediaDisk');
+    config()->set('filesystems.cloud', 'secondMediaDisk');
 
     $media = $this->testModel
         ->addMedia($this->getTestJpg())

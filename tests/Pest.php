@@ -54,3 +54,10 @@ function s3BaseUrl(): string
 {
     return 'https://laravel-medialibrary-tests.s3.eu-west-1.amazonaws.com';
 }
+
+function cleanUpS3()
+{
+    collect(Storage::disk('s3_disk')->allDirectories(self::getS3BaseTestDirectory()))->each(function ($directory) {
+        Storage::disk('s3_disk')->deleteDirectory($directory);
+    });
+}

@@ -13,7 +13,7 @@ beforeEach(function () {
 
     $this->s3BaseDirectory = getS3BaseTestDirectory();
 
-    app()['config']->set('media-library.path_generator', S3TestPathGenerator::class);
+    config()->set('media-library.path_generator', S3TestPathGenerator::class);
 });
 
 afterEach(function () {

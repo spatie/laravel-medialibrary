@@ -475,7 +475,7 @@ it('will throw an exception when setting the file to a wrong type', function () 
 });
 
 it('will throw an exception when adding a file that is too big', function () {
-    app()['config']->set('media-library.max_file_size', 1);
+    config()->set('media-library.max_file_size', 1);
 
     $this->expectException(FileIsTooBig::class);
 
