@@ -26,12 +26,12 @@ function getS3Client(): S3Client
 
 function assertS3FileExists(string $filePath): void
 {
-    expect(Storage::disk('s3_disk')->has($filePath))->toBeTrue();
+    expect(Storage::disk('s3_disk')->exists($filePath))->toBeTrue();
 }
 
 function assertS3FileNotExists(string $filePath): void
 {
-    expect(Storage::disk('s3_disk')->has($filePath))->toBeFalse();
+    expect(Storage::disk('s3_disk')->exists($filePath))->toBeFalse();
 }
 
 function canTestS3(): bool
