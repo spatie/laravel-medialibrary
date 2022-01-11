@@ -24,19 +24,19 @@ function getS3Client(): S3Client
     return $client;
 }
 
-function assertS3FileExists(string $filePath)
+function assertS3FileExists(string $filePath): void
 {
     expect(Storage::disk('s3_disk')->has($filePath))->toBeTrue();
 }
 
-function assertS3FileNotExists(string $filePath)
+function assertS3FileNotExists(string $filePath): void
 {
     expect(Storage::disk('s3_disk')->has($filePath))->toBeFalse();
 }
 
 function canTestS3(): bool
 {
-    return ! empty(getenv('AWS_ACCESS_KEY_ID'));
+    return !empty(getenv('AWS_ACCESS_KEY_ID'));
 }
 
 function getS3BaseTestDirectory(): string
@@ -55,9 +55,10 @@ function s3BaseUrl(): string
     return 'https://laravel-medialibrary-tests.s3.eu-west-1.amazonaws.com';
 }
 
-function cleanUpS3()
+function cleanUpS3(): void
 {
-    collect(Storage::disk('s3_disk')->allDirectories(getS3BaseTestDirectory()))->each(function ($directory) {
-        Storage::disk('s3_disk')->deleteDirectory($directory);
-    });
+    collect(Storage::disk('s3_disk')->allDirectories(getS3BaseTestDirectory()))
+        ->each(function ($directory) {
+            Storage::disk('s3_disk')->deleteDirectory($directory);
+        });
 }
