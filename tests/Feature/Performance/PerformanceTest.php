@@ -1,7 +1,5 @@
 <?php
 
-
-
 it('can use eagerly loaded media', function () {
     foreach (range(1, 10) as $index) {
         $testModel = $this->testModelWithConversion->create(['name' => "test{$index}"]);

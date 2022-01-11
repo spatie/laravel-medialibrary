@@ -1,5 +1,8 @@
 <?php
 
+use Aws\S3\S3Client;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
@@ -9,3 +12,45 @@ expect()->extend('toHaveExtension', function (string $expectedExtension) {
 
     expect($actualExtension)->toEqual($expectedExtension);
 });
+
+function getS3Client(): S3Client
+{
+    /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
+    $disk = app(Factory::class)->disk('s3_disk');
+
+    /** @var \Aws\S3\S3Client $client */
+    $client = $disk->getDriver()->getAdapter()->getClient();
+
+    return $client;
+}
+
+function assertS3FileExists(string $filePath)
+{
+    expect(Storage::disk('s3_disk')->has($filePath))->toBeTrue();
+}
+
+function assertS3FileNotExists(string $filePath)
+{
+    expect(Storage::disk('s3_disk')->has($filePath))->toBeFalse();
+}
+
+function canTestS3(): bool
+{
+    return ! empty(getenv('AWS_ACCESS_KEY_ID'));
+}
+
+function getS3BaseTestDirectory(): string
+{
+    static $uuid = null;
+
+    if (is_null($uuid)) {
+        $uuid = Str::uuid();
+    }
+
+    return $uuid;
+}
+
+function s3BaseUrl(): string
+{
+    return 'https://laravel-medialibrary-tests.s3.eu-west-1.amazonaws.com';
+}
