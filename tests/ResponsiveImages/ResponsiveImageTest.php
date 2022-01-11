@@ -1,5 +1,10 @@
 <?php
 
+beforeEach(function() {
+    $this->fileName = 'test';
+    $this->fileNameWithUnderscore = 'test_';
+});
+
 test('a media instance can get responsive image urls', function () {
     $this
         ->testModelWithResponsiveImages
