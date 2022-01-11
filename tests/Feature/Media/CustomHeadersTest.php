@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('does not set empty custom headers when saved', function () {
     $media = $this->testModel

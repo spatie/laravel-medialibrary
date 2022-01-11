@@ -6,7 +6,6 @@ use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     parent::setup();

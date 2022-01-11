@@ -7,7 +7,6 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     foreach (range(1, 3) as $i) {

@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('wil rename the file if it is changed on the media object', function () {
     $testFile = $this->getTestFilesDirectory('test.jpg');

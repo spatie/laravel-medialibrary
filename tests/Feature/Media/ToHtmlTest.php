@@ -6,7 +6,6 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
 use Spatie\Snapshots\MatchesSnapshots;
 
-uses(TestCase::class);
 uses(MatchesSnapshots::class);
 
 beforeEach(function () {

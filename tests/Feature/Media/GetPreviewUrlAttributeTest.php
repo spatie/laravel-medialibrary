@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 test('the preview url attribute exists', function () {
     $media = $this->testModelWithPreviewConversion->addMedia($this->getTestJpg())->toMediaCollection();

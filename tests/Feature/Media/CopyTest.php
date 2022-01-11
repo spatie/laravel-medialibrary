@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
-uses(TestCase::class);
 
 it('can copy media from one model to another', function () {
     /** @var TestModel $model */

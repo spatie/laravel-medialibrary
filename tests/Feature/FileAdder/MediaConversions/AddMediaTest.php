@@ -8,7 +8,6 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
-uses(TestCase::class);
 
 it('can add an file to the default collection', function () {
     $media = $this->testModelWithoutMediaConversions

@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     parent::setup();

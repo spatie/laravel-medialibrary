@@ -4,7 +4,6 @@ use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     $media = $this->testModelWithConversion

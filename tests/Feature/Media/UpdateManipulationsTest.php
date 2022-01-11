@@ -4,7 +4,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
-uses(TestCase::class);
 
 it('will create derived files when manipulations have changed', function () {
     $testModelClass = new class () extends TestModel {

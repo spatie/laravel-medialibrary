@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     $this->testModel->addMedia($this->getTestJpg())->usingName('test1')->preservingOriginal()->toMediaCollection();

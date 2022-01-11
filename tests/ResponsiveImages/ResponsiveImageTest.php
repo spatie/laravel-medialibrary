@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 test('a media instance can get responsive image urls', function () {
     $this

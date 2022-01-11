@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('will register generated responsive images in the db', function () {
     $this->testModel

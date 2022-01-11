@@ -14,7 +14,6 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-uses(TestCase::class);
 
 it('can add an file to the default collection', function () {
     $media = $this->testModel

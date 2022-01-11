@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     $this->media['model1']['collection1'] = $this->testModel

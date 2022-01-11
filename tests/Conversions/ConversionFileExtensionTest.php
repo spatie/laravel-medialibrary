@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('defaults to jpg when the original file is an image', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();

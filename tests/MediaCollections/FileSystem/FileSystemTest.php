@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     $this->filesystem = app()->make(Filesystem::class);

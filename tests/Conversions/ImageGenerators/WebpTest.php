@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can convert a webp', function () {
     $imageGenerator = new Webp();

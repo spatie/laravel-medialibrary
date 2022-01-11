@@ -9,7 +9,6 @@ use Spatie\MediaLibrary\Support\MediaStream;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     if (! canTestS3()) {

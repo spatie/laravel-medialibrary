@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
-uses(TestCase::class);
 
 it('can move media from one model to another', function () {
     $model = TestModel::create(['name' => 'test']);

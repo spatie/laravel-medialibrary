@@ -7,7 +7,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     $this->config = app('config');

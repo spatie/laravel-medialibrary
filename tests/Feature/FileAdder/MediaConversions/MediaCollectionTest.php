@@ -7,7 +7,6 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 
-uses(TestCase::class);
 
 it('will use the disk from a media collection', function () {
     $testModel = new class () extends TestModelWithConversion {

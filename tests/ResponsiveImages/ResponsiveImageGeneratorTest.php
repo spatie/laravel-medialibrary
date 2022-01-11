@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can generate responsive images', function () {
     $this->testModel

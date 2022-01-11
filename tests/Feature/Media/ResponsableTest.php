@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can return an image as a response', function () {
     app()['router']->get('/upload', fn () => $this->testModel

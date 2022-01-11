@@ -4,7 +4,6 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     $this->conversion = new Conversion($this->conversionName);

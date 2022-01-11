@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can calculate the optimized widths from a file', function () {
     $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidthsFromFile($this->getTestJpg());

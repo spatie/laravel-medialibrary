@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can clean responsive images', function () {
     $media = $this->testModelWithResponsiveImages

@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can save conversions on a separate disk', function () {
     $media = $this->testModelWithConversion

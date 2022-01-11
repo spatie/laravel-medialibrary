@@ -1,5 +1,7 @@
 <?php
 
+uses(\Spatie\MediaLibrary\Tests\TestCase::class)->in('tests', 'Conversions', 'Feature', 'Image', 'MediaCollections', 'ResponsiveImages', 'Support', 'TestSupport');
+
 /*
 |--------------------------------------------------------------------------
 | Test Case

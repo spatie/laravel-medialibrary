@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Pdf;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can convert a pdf', function () {
     $imageGenerator = new Pdf();

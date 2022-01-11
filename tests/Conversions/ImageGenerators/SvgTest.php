@@ -3,7 +3,6 @@
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can convert a svg', function () {
     $imageGenerator = new Svg();

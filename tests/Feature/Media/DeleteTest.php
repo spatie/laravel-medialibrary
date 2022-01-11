@@ -6,7 +6,6 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
 
-uses(TestCase::class);
 
 it('will remove the files when deleting an object that has media', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');

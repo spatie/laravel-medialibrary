@@ -2,7 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('returns false for an empty collection', function () {
     expect($this->testModel->hasMedia())->toBeFalse();
