@@ -10,4 +10,3 @@ beforeEach(function () {
     $this->fileName = "prefix_test_suffix";
     $this->fileNameWithUnderscore = "prefix_test__suffix";
 });
-

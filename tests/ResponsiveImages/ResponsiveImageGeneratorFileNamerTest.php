@@ -9,4 +9,3 @@ beforeEach(function () {
 
     $this->fileName = "prefix_test_suffix";
 });
-
