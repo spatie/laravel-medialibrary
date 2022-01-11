@@ -156,6 +156,11 @@ parameters:
 			path: src/Conversions/ConversionCollection.php
 
 		-
+			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\ConversionCollection\\:\\:getConversions\\(\\) should return Spatie\\\\MediaLibrary\\\\Conversions\\\\ConversionCollection but returns Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\), mixed\\>\\.$#"
+			count: 1
+			path: src/Conversions/ConversionCollection.php
+
+		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\ConversionCollection\\:\\:getConversionsFiles\\(\\) return type has no value type specified in iterable type Spatie\\\\MediaLibrary\\\\Conversions\\\\ConversionCollection\\.$#"
 			count: 1
 			path: src/Conversions/ConversionCollection.php
@@ -172,6 +177,16 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:each\\(\\) expects callable\\(mixed, \\(int\\|string\\)\\)\\: bool\\|void, Closure\\(Spatie\\\\MediaLibrary\\\\Conversions\\\\Conversion\\)\\: Spatie\\\\MediaLibrary\\\\Conversions\\\\Conversion given\\.$#"
+			count: 1
+			path: src/Conversions/ConversionCollection.php
+
+		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/Conversions/ConversionCollection.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
 			count: 1
 			path: src/Conversions/ConversionCollection.php
 
@@ -221,6 +236,16 @@ parameters:
 			path: src/Conversions/FileManipulator.php
 
 		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:reject\\(\\) expects bool\\|\\(callable\\(\\(int\\|string\\)\\)\\: bool\\), Closure\\(Spatie\\\\MediaLibrary\\\\Conversions\\\\Conversion\\)\\: bool given\\.$#"
+			count: 1
+			path: src/Conversions/FileManipulator.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<TKey of \\(int\\|string\\),\\(int\\|string\\)\\>\\:\\:each\\(\\) expects callable\\(\\(int\\|string\\), TKey of \\(int\\|string\\)\\)\\: bool\\|void, Closure\\(Spatie\\\\MediaLibrary\\\\Conversions\\\\Conversion\\)\\: void given\\.$#"
+			count: 1
+			path: src/Conversions/FileManipulator.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$mime_type\\.$#"
 			count: 1
 			path: src/Conversions/ImageGenerators/ImageGenerator.php
@@ -246,9 +271,54 @@ parameters:
 			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
 
 		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
+
+		-
 			message: "#^Unable to resolve the template type TReturn in call to method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\)$#"
 			count: 1
 			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function collect expects Illuminate\\\\Contracts\\\\Support\\\\Arrayable\\<\\(int\\|string\\), mixed\\>\\|iterable\\<\\(int\\|string\\), mixed\\>\\|null, 'pdf' given\\.$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Pdf.php
+
+		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Pdf.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Pdf.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function collect expects Illuminate\\\\Contracts\\\\Support\\\\Arrayable\\<\\(int\\|string\\), mixed\\>\\|iterable\\<\\(int\\|string\\), mixed\\>\\|null, 'image/svg\\+xml' given\\.$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Svg.php
+
+		-
+			message: "#^Parameter \\#1 \\$value of function collect expects Illuminate\\\\Contracts\\\\Support\\\\Arrayable\\<\\(int\\|string\\), mixed\\>\\|iterable\\<\\(int\\|string\\), mixed\\>\\|null, 'svg' given\\.$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Svg.php
+
+		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 2
+			path: src/Conversions/ImageGenerators/Svg.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
+			count: 2
+			path: src/Conversions/ImageGenerators/Svg.php
 
 		-
 			message: "#^Call to static method create\\(\\) on an unknown class FFMpeg\\\\FFMpeg\\.$#"
@@ -341,12 +411,22 @@ parameters:
 			path: src/MediaCollections/Commands/CleanCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),float\\|int\\|string\\>\\:\\:each\\(\\) expects callable\\(float\\|int\\|numeric\\-string, \\(int\\|string\\)\\)\\: bool\\|void, Closure\\(string\\)\\: void given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:each\\(\\) expects callable\\(mixed, \\(int\\|string\\)\\)\\: bool\\|void, Closure\\(bool, string\\)\\: Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media given\\.$#"
 			count: 1
 			path: src/MediaCollections/Commands/CleanCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:each\\(\\) expects callable\\(mixed, \\(int\\|string\\)\\)\\: bool\\|void, Closure\\(bool, string\\)\\: Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:filter\\(\\) expects \\(callable\\(mixed\\)\\: bool\\)\\|null, Closure\\(bool, string\\)\\: bool given\\.$#"
+			count: 1
+			path: src/MediaCollections/Commands/CleanCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<TKey of \\(int\\|string\\),int\\>\\:\\:each\\(\\) expects callable\\(int, TKey of \\(int\\|string\\)\\)\\: bool\\|void, Closure\\(Spatie\\\\MediaLibrary\\\\ResponsiveImages\\\\RegisteredResponsiveImages\\)\\: void given\\.$#"
+			count: 1
+			path: src/MediaCollections/Commands/CleanCommand.php
+
+		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,Spatie\\\\MediaLibrary\\\\ResponsiveImages\\\\RegisteredResponsiveImages\\>\\:\\:reject\\(\\) expects bool\\|\\(callable\\(int\\)\\: bool\\), Closure\\(Spatie\\\\MediaLibrary\\\\ResponsiveImages\\\\RegisteredResponsiveImages\\)\\: bool given\\.$#"
 			count: 1
 			path: src/MediaCollections/Commands/CleanCommand.php
 
@@ -786,6 +866,16 @@ parameters:
 			path: src/MediaCollections/FileAdder.php
 
 		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
 			message: "#^Access to property \\$name on an unknown class Spatie\\\\MediaLibraryPro\\\\Dto\\\\PendingMediaItem\\.$#"
 			count: 1
 			path: src/MediaCollections/FileAdderFactory.php
@@ -817,7 +907,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$conversions_disk\\.$#"
-			count: 6
+			count: 5
 			path: src/MediaCollections/Filesystem.php
 
 		-
@@ -1012,11 +1102,6 @@ parameters:
 
 		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Collections\\\\MediaCollection\\:\\:formFieldName\\(\\) return type has no value type specified in iterable type Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Collections\\\\MediaCollection\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Collections/MediaCollection.php
-
-		-
-			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Collections\\\\MediaCollection\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/MediaCollections/Models/Collections/MediaCollection.php
 
@@ -1221,6 +1306,21 @@ parameters:
 			path: src/MediaCollections/Models/Media.php
 
 		-
+			message: "#^Return type of call to function collect contains unresolvable type\\.$#"
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$file_name\\.$#"
 			count: 1
 			path: src/MediaCollections/Models/Observers/MediaObserver.php
@@ -1271,7 +1371,7 @@ parameters:
 			path: src/MediaCollections/Models/Observers/MediaObserver.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between '8\\.78\\.1' and '7\\.x\\-dev' will always evaluate to false\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between '9\\.x\\-dev' and '7\\.x\\-dev' will always evaluate to false\\.$#"
 			count: 1
 			path: src/MediaCollections/Models/Observers/MediaObserver.php
 
@@ -1307,6 +1407,16 @@ parameters:
 
 		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\ResponsiveImages\\\\RegisteredResponsiveImages\\:\\:getUrls\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ResponsiveImages/RegisteredResponsiveImages.php
+
+		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/ResponsiveImages/RegisteredResponsiveImages.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
 			count: 1
 			path: src/ResponsiveImages/RegisteredResponsiveImages.php
 
@@ -1361,11 +1471,6 @@ parameters:
 			path: src/ResponsiveImages/ResponsiveImageGenerator.php
 
 		-
-			message: "#^Method Spatie\\\\MediaLibrary\\\\ResponsiveImages\\\\ResponsiveImageGenerator\\:\\:getConversionQuality\\(\\) should return int but returns int\\|string\\.$#"
-			count: 1
-			path: src/ResponsiveImages/ResponsiveImageGenerator.php
-
-		-
 			message: "#^Parameter \\#1 \\$string of function base64_encode expects string, string\\|false given\\.$#"
 			count: 1
 			path: src/ResponsiveImages/ResponsiveImageGenerator.php
@@ -1386,6 +1491,16 @@ parameters:
 			path: src/ResponsiveImages/WidthCalculator/FileSizeOptimizedWidthCalculator.php
 
 		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/ResponsiveImages/WidthCalculator/FileSizeOptimizedWidthCalculator.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
+			count: 1
+			path: src/ResponsiveImages/WidthCalculator/FileSizeOptimizedWidthCalculator.php
+
+		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\Support\\\\File\\:\\:getMimeType\\(\\) should return string but returns string\\|false\\.$#"
 			count: 1
 			path: src/Support/File.php
@@ -1401,12 +1516,27 @@ parameters:
 			path: src/Support/MediaStream.php
 
 		-
+			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:reduce\\(\\) expects callable\\(array, \\(int\\|string\\)\\)\\: non\\-empty\\-array, Closure\\(array, Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\)\\: non\\-empty\\-array given\\.$#"
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
 			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int\\|string,mixed\\>\\:\\:each\\(\\) expects callable\\(mixed, int\\|string\\)\\: bool\\|void, Closure\\(Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\)\\: Illuminate\\\\Support\\\\Collection given\\.$#"
 			count: 1
 			path: src/Support/MediaStream.php
 
 		-
+			message: "#^Unable to resolve the template type TKey in call to function collect$#"
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
 			message: "#^Unable to resolve the template type TReturn in call to method Illuminate\\\\Support\\\\Collection\\<int\\|string,mixed\\>\\:\\:flatMap\\(\\)$#"
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: "#^Unable to resolve the template type TValue in call to function collect$#"
 			count: 1
 			path: src/Support/MediaStream.php
 
@@ -1444,16 +1574,6 @@ parameters:
 			message: "#^Parameter \\#1 \\$media of method Spatie\\\\MediaLibrary\\\\Conversions\\\\Conversion\\:\\:getConversionFile\\(\\) expects Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media, Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\|null given\\.$#"
 			count: 1
 			path: src/Support/UrlGenerator/BaseUrlGenerator.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Filesystem\\\\Filesystem\\:\\:getAdapter\\(\\)\\.$#"
-			count: 1
-			path: src/Support/UrlGenerator/DefaultUrlGenerator.php
-
-		-
-			message: "#^Call to method getAdapter\\(\\) on an unknown class \\\\League\\\\Flysystem\\\\Cached\\\\CachedAdapter\\.$#"
-			count: 1
-			path: src/Support/UrlGenerator/DefaultUrlGenerator.php
 
 		-
 			message: "#^Cannot call method getPathForResponsiveImages\\(\\) on Spatie\\\\MediaLibrary\\\\Support\\\\PathGenerator\\\\PathGenerator\\|null\\.$#"
