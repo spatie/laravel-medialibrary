@@ -12,7 +12,7 @@ it('can get a path of an original item', function () {
 
     $actual = $this->makePathOsSafe($media->getPath());
 
-    $this->assertEquals($expected, $actual);
+    expect($actual)->toEqual($expected);
 });
 
 it('can get a path of a derived image', function () {
@@ -24,7 +24,7 @@ it('can get a path of a derived image', function () {
 
     $actual = $this->makePathOsSafe($media->getPath($conversionName));
 
-    $this->assertEquals($expected, $actual);
+    expect($actual)->toEqual($expected);
 });
 
 it('returns an exception when getting a path for an unknown conversion', function () {
@@ -44,7 +44,7 @@ it('can get a path of an original item with prefix', function () {
 
     $actual = $this->makePathOsSafe($media->getPath());
 
-    $this->assertEquals($expected, $actual);
+    expect($actual)->toEqual($expected);
 });
 
 it('can get a path of a derived image with prefix', function () {
@@ -58,5 +58,5 @@ it('can get a path of a derived image with prefix', function () {
 
     $actual = $this->makePathOsSafe($media->getPath($conversionName));
 
-    $this->assertEquals($expected, $actual);
+    expect($actual)->toEqual($expected);
 });

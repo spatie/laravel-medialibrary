@@ -15,5 +15,5 @@ it('can get url of preview image', function () {
 
     $conversionName = 'preview';
 
-    $this->assertEquals("/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->preview_url);
+    expect($media->preview_url)->toEqual("/media/{$media->id}/conversions/test-{$conversionName}.jpg");
 });

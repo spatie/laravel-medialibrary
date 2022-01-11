@@ -24,7 +24,7 @@ test('to response sends correct attachment header', function () {
 
     $response = $media->toResponse(request());
 
-    $this->assertEquals('attachment; filename="test.pdf"', $response->headers->get('Content-Disposition'));
+    expect($response->headers->get('Content-Disposition'))->toEqual('attachment; filename="test.pdf"');
 });
 
 test('to inline response sends correct attachment header', function () {
@@ -32,5 +32,5 @@ test('to inline response sends correct attachment header', function () {
 
     $response = $media->toInlineResponse(request());
 
-    $this->assertEquals('inline; filename="test.pdf"', $response->headers->get('Content-Disposition'));
+    expect($response->headers->get('Content-Disposition'))->toEqual('inline; filename="test.pdf"');
 });

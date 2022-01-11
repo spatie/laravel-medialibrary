@@ -14,9 +14,9 @@ it('can convert a webp', function () {
 
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestWebp())->toMediaCollection();
 
-    $this->assertTrue($imageGenerator->canConvert($media));
+    expect($imageGenerator->canConvert($media))->toBeTrue();
 
     $imageFile = $imageGenerator->convert($media->getPath());
 
-    $this->assertEquals('image/png', mime_content_type($imageFile));
+    expect(mime_content_type($imageFile))->toEqual('image/png');
 });

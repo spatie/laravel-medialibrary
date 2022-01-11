@@ -13,7 +13,7 @@ it('can use a custom media model', function () {
 
     $mediaRepository = app(MediaRepository::class);
 
-    $this->assertEquals(TestCustomMediaModel::class, $mediaRepository->all()->getQueueableClass());
+    expect($mediaRepository->all()->getQueueableClass())->toEqual(TestCustomMediaModel::class);
 });
 
 // Helpers

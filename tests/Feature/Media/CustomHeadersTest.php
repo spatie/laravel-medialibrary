@@ -9,8 +9,8 @@ it('does not set empty custom headers when saved', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection();
 
-    $this->assertFalse($media->hasCustomProperty('custom_headers'));
-    $this->assertEquals([], $media->getCustomHeaders());
+    expect($media->hasCustomProperty('custom_headers'))->toBeFalse();
+    expect($media->getCustomHeaders())->toEqual([]);
 });
 
 it('can set and retrieve custom headers when explicitly added', function () {
@@ -23,6 +23,6 @@ it('can set and retrieve custom headers when explicitly added', function () {
         ->toMediaCollection()
         ->setCustomHeaders($headers);
 
-    $this->assertTrue($media->hasCustomProperty('custom_headers'));
-    $this->assertEquals($headers, $media->getCustomHeaders());
+    expect($media->hasCustomProperty('custom_headers'))->toBeTrue();
+    expect($media->getCustomHeaders())->toEqual($headers);
 });

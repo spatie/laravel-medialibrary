@@ -14,20 +14,20 @@ it('can get the sum of all media item sizes', function () {
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
         ->toMediaCollection();
-    $this->assertGreaterThan(0, $mediaItem->size);
+    expect($mediaItem->size)->toBeGreaterThan(0);
 
     $anotherMediaItem = $this
         ->testModel
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
         ->toMediaCollection();
-    $this->assertGreaterThan(0, $anotherMediaItem->size);
+    expect($anotherMediaItem->size)->toBeGreaterThan(0);
 
     $mediaCollection = Media::get();
 
     $totalSize = $mediaCollection->totalSizeInBytes();
 
-    $this->assertEquals($mediaItem->size + $anotherMediaItem->size, $totalSize);
+    expect($totalSize)->toEqual($mediaItem->size + $anotherMediaItem->size);
 });
 
 it('can get registered media collections', function () {
@@ -35,9 +35,9 @@ it('can get registered media collections', function () {
     // \Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel->registerMediaCollections()
     $collections = $this->testModel->getRegisteredMediaCollections();
 
-    $this->assertCount(1, $collections);
-    $this->assertInstanceOf(MediaCollection::class, $collections->first());
-    $this->assertEquals('avatar', $collections->first()->name);
+    expect($collections)->toHaveCount(1);
+    expect($collections->first())->toBeInstanceOf(MediaCollection::class);
+    expect($collections->first()->name)->toEqual('avatar');
 });
 
 it('doesnt move media on change', function () {
@@ -54,12 +54,12 @@ it('doesnt move media on change', function () {
 
     $oldMediaPath = $mediaItem->getPath();
 
-    $this->assertFileExists($oldMediaPath);
+    expect($oldMediaPath)->toBeFile();
 
     $mediaItem->update(['uuid' => Str::uuid()]);
 
     $this->assertNotEquals($oldMediaPath, $mediaItem->getPath());
-    $this->assertFileExists($oldMediaPath);
+    expect($oldMediaPath)->toBeFile();
     $this->assertFileDoesNotExist($mediaItem->getPath());
 });
 
@@ -77,11 +77,11 @@ it('moves media on change', function () {
 
     $oldMediaPath = $mediaItem->getPath();
 
-    $this->assertFileExists($oldMediaPath);
+    expect($oldMediaPath)->toBeFile();
 
     $mediaItem->update(['uuid' => Str::uuid()]);
 
     $this->assertNotEquals($oldMediaPath, $mediaItem->getPath());
     $this->assertFileDoesNotExist($oldMediaPath);
-    $this->assertFileExists($mediaItem->getPath());
+    expect($mediaItem->getPath())->toBeFile();
 });

@@ -10,11 +10,11 @@ it('can save conversions on a separate disk', function () {
         ->storingConversionsOnDisk('secondMediaDisk')
         ->toMediaCollection();
 
-    $this->assertEquals('public', $media->disk);
-    $this->assertEquals('secondMediaDisk', $media->conversions_disk);
+    expect($media->disk)->toEqual('public');
+    expect($media->conversions_disk)->toEqual('secondMediaDisk');
 
-    $this->assertEquals("/media/{$media->id}/test.jpg", $media->getUrl());
-    $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
+    expect($media->getUrl())->toEqual("/media/{$media->id}/test.jpg");
+    expect($media->getUrl('thumb'))->toEqual("/media2/{$media->id}/conversions/test-thumb.jpg");
 
     $originalFilePath = $media->getPath();
 
@@ -22,14 +22,14 @@ it('can save conversions on a separate disk', function () {
         $this->getTestsPath('TestSupport/temp/media/1/test.jpg'),
         $originalFilePath
     );
-    $this->assertFileExists($originalFilePath);
+    expect($originalFilePath)->toBeFile();
 
     $conversionsFilePath = $media->getPath('thumb');
     $this->assertEquals(
         $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
         $conversionsFilePath
     );
-    $this->assertFileExists($conversionsFilePath);
+    expect($conversionsFilePath)->toBeFile();
 });
 
 test('the responsive images will get saved on the same disk as the conversions', function () {
@@ -38,7 +38,7 @@ test('the responsive images will get saved on the same disk as the conversions',
         ->storingConversionsOnDisk('secondMediaDisk')
         ->toMediaCollection();
 
-    $this->assertFileExists($this->getTempDirectory('media2/1/responsive-images/test___thumb_50_41.jpg'));
+    expect($this->getTempDirectory('media2/1/responsive-images/test___thumb_50_41.jpg'))->toBeFile();
 });
 
 test('deleting media will also delete conversions on the separate disk', function () {
@@ -47,7 +47,7 @@ test('deleting media will also delete conversions on the separate disk', functio
         ->storingConversionsOnDisk('secondMediaDisk')
         ->toMediaCollection();
 
-    $this->assertFileExists($media->getPath('thumb'));
+    expect($media->getPath('thumb'))->toBeFile();
 
     $media->delete();
 
@@ -67,5 +67,5 @@ it('will store the conversion on the disk specified in on the media collection',
         $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
         $conversionsFilePath
     );
-    $this->assertFileExists($conversionsFilePath);
+    expect($conversionsFilePath)->toBeFile();
 });

@@ -15,10 +15,10 @@ test('image generators can get parameter from the config file', function () {
 
     $testGeneratorWithConfig = $imageGenerators->first();
 
-    $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
+    expect($testGeneratorWithConfig)->toBeInstanceOf(TestImageGeneratorWithConfig::class);
 
-    $this->assertEquals('firstValue', $testGeneratorWithConfig->firstName);
-    $this->assertEquals('secondValue', $testGeneratorWithConfig->secondName);
+    expect($testGeneratorWithConfig->firstName)->toEqual('firstValue');
+    expect($testGeneratorWithConfig->secondName)->toEqual('secondValue');
 });
 
 test('image generators will receive config parameters by name', function () {
@@ -30,7 +30,7 @@ test('image generators will receive config parameters by name', function () {
 
     $testGeneratorWithConfig = $imageGenerators->first();
 
-    $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
-    $this->assertEquals('firstValue', $testGeneratorWithConfig->firstName);
-    $this->assertEquals('secondValue', $testGeneratorWithConfig->secondName);
+    expect($testGeneratorWithConfig)->toBeInstanceOf(TestImageGeneratorWithConfig::class);
+    expect($testGeneratorWithConfig->firstName)->toEqual('firstValue');
+    expect($testGeneratorWithConfig->secondName)->toEqual('secondValue');
 });

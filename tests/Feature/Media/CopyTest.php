@@ -24,14 +24,14 @@ it('can copy media from one model to another', function () {
 
     $movedMedia->refresh();
 
-    $this->assertCount(1, $model->getMedia('default'));
+    expect($model->getMedia('default'))->toHaveCount(1);
     $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 
-    $this->assertCount(1, $anotherModel->getMedia('images'));
+    expect($anotherModel->getMedia('images'))->toHaveCount(1);
     $this->assertFileExists($this->getMediaDirectory($movedMedia->id.'/test.jpg'));
-    $this->assertEquals($movedMedia->model->id, $anotherModel->id);
-    $this->assertEquals($movedMedia->name, 'custom-name');
-    $this->assertEquals($movedMedia->getCustomProperty('custom-property-name'), 'custom-property-value');
+    expect($anotherModel->id)->toEqual($movedMedia->model->id);
+    expect('custom-name')->toEqual($movedMedia->name);
+    expect('custom-property-value')->toEqual($movedMedia->getCustomProperty('custom-property-name'));
 });
 
 it('can copy file without extension', function () {
@@ -59,14 +59,14 @@ it('can copy file without extension', function () {
 
     $movedMedia->refresh();
 
-    $this->assertCount(1, $model->getMedia('default'));
+    expect($model->getMedia('default'))->toHaveCount(1);
     $this->assertFileExists($this->getMediaDirectory($media->id.'/image'));
 
-    $this->assertCount(1, $anotherModel->getMedia('images'));
+    expect($anotherModel->getMedia('images'))->toHaveCount(1);
     $this->assertFileExists($this->getMediaDirectory($movedMedia->id.'/image'));
-    $this->assertEquals($movedMedia->model->id, $anotherModel->id);
-    $this->assertEquals($movedMedia->name, 'custom-name');
-    $this->assertEquals($movedMedia->getCustomProperty('custom-property-name'), 'custom-property-value');
+    expect($anotherModel->id)->toEqual($movedMedia->model->id);
+    expect('custom-name')->toEqual($movedMedia->name);
+    expect('custom-property-value')->toEqual($movedMedia->getCustomProperty('custom-property-name'));
 });
 
 it('can copy media from one model to another on a specific disk', function () {
@@ -90,16 +90,16 @@ it('can copy media from one model to another on a specific disk', function () {
 
     $movedMedia->refresh();
 
-    $this->assertCount(1, $model->getMedia('default'));
+    expect($model->getMedia('default'))->toHaveCount(1);
     $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 
-    $this->assertCount(1, $anotherModel->getMedia('images'));
+    expect($anotherModel->getMedia('images'))->toHaveCount(1);
     $this->assertFileExists($this->getTempDirectory('media2').'/'.$movedMedia->id.'/test.jpg');
-    $this->assertEquals($movedMedia->collection_name, 'images');
-    $this->assertEquals($movedMedia->disk, $diskName);
-    $this->assertEquals($movedMedia->model->id, $anotherModel->id);
-    $this->assertEquals($movedMedia->name, 'custom-name');
-    $this->assertEquals($movedMedia->getCustomProperty('custom-property-name'), 'custom-property-value');
+    expect('images')->toEqual($movedMedia->collection_name);
+    expect($diskName)->toEqual($movedMedia->disk);
+    expect($anotherModel->id)->toEqual($movedMedia->model->id);
+    expect('custom-name')->toEqual($movedMedia->name);
+    expect('custom-property-value')->toEqual($movedMedia->getCustomProperty('custom-property-name'));
 });
 
 it('can copy file with accent', function () {
@@ -127,14 +127,14 @@ it('can copy file with accent', function () {
 
     $movedMedia->refresh();
 
-    $this->assertCount(1, $model->getMedia('default'));
+    expect($model->getMedia('default'))->toHaveCount(1);
     $this->assertFileExists($this->getMediaDirectory($media->id.'/antarèsthumb.jpg'));
 
-    $this->assertCount(1, $anotherModel->getMedia('images'));
+    expect($anotherModel->getMedia('images'))->toHaveCount(1);
     $this->assertFileExists($this->getMediaDirectory($movedMedia->id.'/antarèsthumb.jpg'));
-    $this->assertEquals($movedMedia->model->id, $anotherModel->id);
-    $this->assertEquals($movedMedia->name, 'custom-name');
-    $this->assertEquals($movedMedia->getCustomProperty('custom-property-name'), 'custom-property-value');
+    expect($anotherModel->id)->toEqual($movedMedia->model->id);
+    expect('custom-name')->toEqual($movedMedia->name);
+    expect('custom-property-value')->toEqual($movedMedia->getCustomProperty('custom-property-name'));
 });
 
 it('preserves original file on copy media item to model', function () {
@@ -148,6 +148,6 @@ it('preserves original file on copy media item to model', function () {
 
     $anotherMedia = $media->copy($anotherModel);
 
-    $this->assertFileExists($media->getPath());
-    $this->assertFileExists($anotherMedia->getPath());
+    expect($media->getPath())->toBeFile();
+    expect($anotherMedia->getPath())->toBeFile();
 });

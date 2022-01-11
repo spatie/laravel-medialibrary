@@ -33,10 +33,10 @@ beforeEach(function () {
     mkdir($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/conversions"));
     mkdir($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/conversions"));
 
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"))->toBeFile();
 });
 
 it('can clean deprecated conversion files with none arguments given', function () {
@@ -44,12 +44,12 @@ it('can clean deprecated conversion files with none arguments given', function (
     $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
 
     touch($deprecatedImage);
-    $this->assertFileExists($deprecatedImage);
+    expect($deprecatedImage)->toBeFile();
 
     $this->artisan('media-library:clean');
 
     $this->assertFileDoesNotExist($deprecatedImage);
-    $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
+    expect($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"))->toBeFile();
 });
 
 test('generated conversion are cleared after cleanup', function () {
@@ -62,7 +62,7 @@ test('generated conversion are cleared after cleanup', function () {
 
     $media->save();
 
-    $this->assertTrue($media->refresh()->hasGeneratedConversion('test-deprecated'));
+    expect($media->refresh()->hasGeneratedConversion('test-deprecated'))->toBeTrue();
 
     $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
 
@@ -72,7 +72,7 @@ test('generated conversion are cleared after cleanup', function () {
 
     $media->refresh();
 
-    $this->assertFalse($media->hasGeneratedConversion('test-deprecated'));
+    expect($media->hasGeneratedConversion('test-deprecated'))->toBeFalse();
 });
 
 it('can clean deprecated conversion files from a specific model type', function () {
@@ -88,7 +88,7 @@ it('can clean deprecated conversion files from a specific model type', function 
         'modelType' => TestModelWithConversion::class,
     ]);
 
-    $this->assertFileExists($deprecatedImage1);
+    expect($deprecatedImage1)->toBeFile();
     $this->assertFileDoesNotExist($deprecatedImage2);
 });
 
@@ -105,7 +105,7 @@ it('can clean deprecated conversion files from a specific collection', function 
         'collectionName' => 'collection2',
     ]);
 
-    $this->assertFileExists($deprecatedImage1);
+    expect($deprecatedImage1)->toBeFile();
     $this->assertFileDoesNotExist($deprecatedImage2);
 });
 
@@ -128,8 +128,8 @@ it('can clean deprecated conversion files from a specific model type and collect
     ]);
 
     $this->assertFileDoesNotExist($deprecatedImage1);
-    $this->assertFileExists($deprecatedImage2);
-    $this->assertFileExists($deprecatedImage3);
+    expect($deprecatedImage2)->toBeFile();
+    expect($deprecatedImage3)->toBeFile();
 });
 
 it('can clean orphan files in the media disk', function () {
@@ -139,7 +139,7 @@ it('can clean orphan files in the media disk', function () {
     $this->artisan('media-library:clean');
 
     $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model1']['collection1']->id));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"))->toBeFile();
 });
 
 it('can clean responsive images', function () {
@@ -163,7 +163,7 @@ it('can clean responsive images', function () {
 
     $media->refresh();
 
-    $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
+    expect($media->responsive_images)->toEqual($originalResponsiveImagesContent);
     $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
 });
 

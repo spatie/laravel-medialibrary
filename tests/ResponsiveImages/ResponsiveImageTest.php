@@ -23,7 +23,7 @@ test('a media instance can get responsive image urls', function () {
         "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
     ], $media->getResponsiveImageUrls("thumb"));
 
-    $this->assertEquals([], $media->getResponsiveImageUrls("non-existing-conversion"));
+    expect($media->getResponsiveImageUrls("non-existing-conversion"))->toEqual([]);
 });
 
 test('a media instance can generate the contents of scrset', function () {
@@ -38,13 +38,13 @@ test('a media instance can generate the contents of scrset', function () {
         "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
         $media->getSrcset()
     );
-    $this->assertStringContainsString("data:image/svg+xml;base64", $media->getSrcset());
+    expect($media->getSrcset())->toContain("data:image/svg+xml;base64");
 
     $this->assertStringContainsString(
         "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg 50w",
         $media->getSrcset("thumb")
     );
-    $this->assertStringContainsString("data:image/svg+xml;base64,", $media->getSrcset("thumb"));
+    expect($media->getSrcset("thumb"))->toContain("data:image/svg+xml;base64,");
 });
 
 test('a responsive image can return some properties', function () {
@@ -57,11 +57,11 @@ test('a responsive image can return some properties', function () {
 
     $responsiveImage = $media->responsiveImages()->files->first();
 
-    $this->assertEquals("media_library_original", $responsiveImage->generatedFor());
+    expect($responsiveImage->generatedFor())->toEqual("media_library_original");
 
-    $this->assertEquals(340, $responsiveImage->width());
+    expect($responsiveImage->width())->toEqual(340);
 
-    $this->assertEquals(280, $responsiveImage->height());
+    expect($responsiveImage->height())->toEqual(280);
 });
 
 test('responsive image generation respects the conversion quality setting', function () {
@@ -73,7 +73,7 @@ test('responsive image generation respects the conversion quality setting', func
     $standardQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___standardQuality_340_280.jpg");
     $lowerQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___lowerQuality_340_280.jpg");
 
-    $this->assertLessThan(filesize($standardQualityResponsiveConversion), filesize($lowerQualityResponsiveConversion));
+    expect(filesize($lowerQualityResponsiveConversion))->toBeLessThan(filesize($standardQualityResponsiveConversion));
 });
 
 test('a media instance can get responsive image urls with conversions stored on second media disk', function () {
@@ -109,5 +109,5 @@ it('can handle file names with underscore', function () {
         "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___thumb_50_41.jpg",
     ], $media->getResponsiveImageUrls("thumb"));
 
-    $this->assertSame([], $media->getResponsiveImageUrls("non-existing-conversion"));
+    expect($media->getResponsiveImageUrls("non-existing-conversion"))->toBe([]);
 });

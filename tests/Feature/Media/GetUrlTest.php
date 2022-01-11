@@ -9,7 +9,7 @@ uses(TestCase::class);
 it('can get an url of an original item', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $this->assertEquals($media->getUrl(), "/media/{$media->id}/test.jpg");
+    expect("/media/{$media->id}/test.jpg")->toEqual($media->getUrl());
 });
 
 it('can get an url of a derived image', function () {
@@ -17,7 +17,7 @@ it('can get an url of a derived image', function () {
 
     $conversionName = 'thumb';
 
-    $this->assertEquals("/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getUrl($conversionName));
+    expect($media->getUrl($conversionName))->toEqual("/media/{$media->id}/conversions/test-{$conversionName}.jpg");
 });
 
 it('returns an exception when getting an url for an unknown conversion', function () {
@@ -31,7 +31,7 @@ it('returns an exception when getting an url for an unknown conversion', functio
 it('can get the full url of an original item', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $this->assertEquals($media->getFullUrl(), "http://localhost/media/{$media->id}/test.jpg");
+    expect("http://localhost/media/{$media->id}/test.jpg")->toEqual($media->getFullUrl());
 });
 
 it('can get the full url of a derived image', function () {
@@ -39,7 +39,7 @@ it('can get the full url of a derived image', function () {
 
     $conversionName = 'thumb';
 
-    $this->assertEquals("http://localhost/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getFullUrl($conversionName));
+    expect($media->getFullUrl($conversionName))->toEqual("http://localhost/media/{$media->id}/conversions/test-{$conversionName}.jpg");
 });
 
 it('throws an exception when trying to get a temporary url on local disk', function () {

@@ -16,8 +16,8 @@ it('removes a media item if its not in the update array', function () {
     $this->testModel->updateMedia($mediaArray);
     $this->testModel->load('media');
 
-    $this->assertCount(1, $this->testModel->media);
-    $this->assertEquals('test2', $this->testModel->getFirstMedia()->name);
+    expect($this->testModel->media)->toHaveCount(1);
+    expect($this->testModel->getFirstMedia()->name)->toEqual('test2');
 });
 
 it('removes a media item with eager loaded relation', function () {
@@ -27,8 +27,8 @@ it('removes a media item with eager loaded relation', function () {
     $this->testModel->load('media');
     $this->testModel->updateMedia($mediaArray);
 
-    $this->assertCount(1, $this->testModel->media);
-    $this->assertEquals('test2', $this->testModel->getFirstMedia()->name);
+    expect($this->testModel->media)->toHaveCount(1);
+    expect($this->testModel->getFirstMedia()->name)->toEqual('test2');
 });
 
 it('renames media items', function () {
@@ -40,8 +40,8 @@ it('renames media items', function () {
     $this->testModel->updateMedia($mediaArray);
     $this->testModel->load('media');
 
-    $this->assertEquals('testFoo', $this->testModel->media[0]->name);
-    $this->assertEquals('testBar', $this->testModel->media[1]->name);
+    expect($this->testModel->media[0]->name)->toEqual('testFoo');
+    expect($this->testModel->media[1]->name)->toEqual('testBar');
 });
 
 it('updates media item custom properties', function () {
@@ -52,7 +52,7 @@ it('updates media item custom properties', function () {
     $this->testModel->updateMedia($mediaArray);
     $this->testModel->load('media');
 
-    $this->assertEquals('bar', $this->testModel->media[0]->getCustomProperty('foo'));
+    expect($this->testModel->media[0]->getCustomProperty('foo'))->toEqual('bar');
 });
 
 it('reorders media items', function () {
@@ -65,6 +65,6 @@ it('reorders media items', function () {
 
     $orderedMedia = $this->testModel->media->sortBy('order_column');
 
-    $this->assertEquals($mediaArray[0]['order_column'], $orderedMedia[1]->order_column);
-    $this->assertEquals($mediaArray[1]['order_column'], $orderedMedia[0]->order_column);
+    expect($orderedMedia[1]->order_column)->toEqual($mediaArray[0]['order_column']);
+    expect($orderedMedia[0]->order_column)->toEqual($mediaArray[1]['order_column']);
 });

@@ -10,14 +10,14 @@ uses(TestCase::class);
 
 it('can handle an empty collection', function () {
     $emptyCollection = $this->testModel->getMedia('images');
-    $this->assertInstanceOf(Collection::class, $emptyCollection);
-    $this->assertCount(0, $emptyCollection);
+    expect($emptyCollection)->toBeInstanceOf(Collection::class);
+    expect($emptyCollection)->toHaveCount(0);
 });
 
 it('will only get media from the specified collection', function () {
-    $this->assertCount(0, $this->testModel->getMedia('images'));
-    $this->assertCount(0, $this->testModel->getMedia('downloads'));
-    $this->assertCount(0, $this->testModel->getMedia());
+    expect($this->testModel->getMedia('images'))->toHaveCount(0);
+    expect($this->testModel->getMedia('downloads'))->toHaveCount(0);
+    expect($this->testModel->getMedia())->toHaveCount(0);
 
     $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('images');
     $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('downloads');
@@ -25,52 +25,52 @@ it('will only get media from the specified collection', function () {
 
     $this->testModel = $this->testModel->fresh();
 
-    $this->assertCount(1, $this->testModel->getMedia('images'));
-    $this->assertCount(1, $this->testModel->getMedia('downloads'));
-    $this->assertCount(1, $this->testModel->getMedia());
+    expect($this->testModel->getMedia('images'))->toHaveCount(1);
+    expect($this->testModel->getMedia('downloads'))->toHaveCount(1);
+    expect($this->testModel->getMedia())->toHaveCount(1);
 });
 
 it('will return media repository', function () {
-    $this->assertInstanceOf(MediaRepository::class, $this->testModel->getMediaRepository());
+    expect($this->testModel->getMediaRepository())->toBeInstanceOf(MediaRepository::class);
 });
 
 it('returns a media collection as a laravel collection', function () {
     $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
 
-    $this->assertInstanceOf(Collection::class, $this->testModel->getMedia());
+    expect($this->testModel->getMedia())->toBeInstanceOf(Collection::class);
 });
 
 it('returns collections filled with media objects', function () {
     $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
 
-    $this->assertInstanceOf(Media::class, $this->testModel->getMedia()->first());
+    expect($this->testModel->getMedia()->first())->toBeInstanceOf(Media::class);
 });
 
 it('can get multiple media from the default collection', function () {
     $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
     $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
 
-    $this->assertCount(2, $this->testModel->getMedia());
+    expect($this->testModel->getMedia())->toHaveCount(2);
 });
 
 it('can get multiple media from the default collection empty', function () {
     $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
 
-    $this->assertCount(1, $this->testModel->getMedia());
-    $this->assertCount(0, $this->testModel->getMedia(''));
+    expect($this->testModel->getMedia())->toHaveCount(1);
+    expect($this->testModel->getMedia(''))->toHaveCount(0);
 
     $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('');
 
-    $this->assertCount(1, $this->testModel->refresh()->getMedia());
-    $this->assertCount(1, $this->testModel->refresh()->getMedia(''));
+    expect($this->testModel->refresh()->getMedia())->toHaveCount(1);
+    expect($this->testModel->refresh()->getMedia(''))->toHaveCount(1);
 });
 
 it('can get files from a named collection', function () {
     $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
     $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-    $this->assertCount(1, $this->testModel->getMedia('images'));
-    $this->assertEquals('images', $this->testModel->getMedia('images')[0]->collection_name);
+    expect($this->testModel->getMedia('images'))->toHaveCount(1);
+    expect($this->testModel->getMedia('images')[0]->collection_name)->toEqual('images');
 });
 
 it('can get files from a collection using a filter', function () {
@@ -99,8 +99,8 @@ it('can get files from a collection using a filter', function () {
         ->toMediaCollection('images');
 
     $collection = $this->testModel->getMedia('images', ['filter2' => 'value1']);
-    $this->assertCount(1, $collection);
-    $this->assertSame($collection->first()->id, $media3->id);
+    expect($collection)->toHaveCount(1);
+    expect($media3->id)->toBe($collection->first()->id);
 });
 
 it('can get files from a collection using a filter callback', function () {
@@ -130,8 +130,8 @@ it('can get files from a collection using a filter callback', function () {
 
     $collection = $this->testModel->getMedia('images', fn (Media $media) => isset($media->custom_properties['filter1']));
 
-    $this->assertCount(1, $collection);
-    $this->assertSame($collection->first()->id, $media2->id);
+    expect($collection)->toHaveCount(1);
+    expect($media2->id)->toBe($collection->first()->id);
 });
 
 it('can get the first media from a collection', function () {
@@ -143,7 +143,7 @@ it('can get the first media from a collection', function () {
     $media->name = 'second';
     $media->save();
 
-    $this->assertEquals('first', $this->testModel->getFirstMedia('images')->name);
+    expect($this->testModel->getFirstMedia('images')->name)->toEqual('first');
 });
 
 it('can get the first media from a collection using a filter', function () {
@@ -162,7 +162,7 @@ it('can get the first media from a collection using a filter', function () {
     $media->name = 'second';
     $media->save();
 
-    $this->assertEquals('first', $this->testModel->getFirstMedia('images', ['extra_property' => 'yes'])->name);
+    expect($this->testModel->getFirstMedia('images', ['extra_property' => 'yes'])->name)->toEqual('first');
 });
 
 it('can get the first media from a collection using a filter callback', function () {
@@ -183,7 +183,7 @@ it('can get the first media from a collection using a filter callback', function
 
     $firstMedia = $this->testModel->getFirstMedia('images', fn (Media $media) => isset($media->custom_properties['extra_property']));
 
-    $this->assertEquals('first', $firstMedia->name);
+    expect($firstMedia->name)->toEqual('first');
 });
 
 it('can get the url to first media in a collection', function () {
@@ -193,7 +193,7 @@ it('can get the url to first media in a collection', function () {
     $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
     $secondMedia->save();
 
-    $this->assertEquals($firstMedia->getUrl(), $this->testModel->getFirstMediaUrl('images'));
+    expect($this->testModel->getFirstMediaUrl('images'))->toEqual($firstMedia->getUrl());
 });
 
 it('can get the path to first media in a collection', function () {
@@ -203,15 +203,15 @@ it('can get the path to first media in a collection', function () {
     $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
     $secondMedia->save();
 
-    $this->assertEquals($firstMedia->getPath(), $this->testModel->getFirstMediaPath('images'));
+    expect($this->testModel->getFirstMediaPath('images'))->toEqual($firstMedia->getPath());
 });
 
 it('can get the default path to the first media in a collection', function () {
-    $this->assertEquals('/default.jpg', $this->testModel->getFirstMediaPath('avatar'));
+    expect($this->testModel->getFirstMediaPath('avatar'))->toEqual('/default.jpg');
 });
 
 it('can get the default url to the first media in a collection', function () {
-    $this->assertEquals('/default.jpg', $this->testModel->getFirstMediaUrl('avatar'));
+    expect($this->testModel->getFirstMediaUrl('avatar'))->toEqual('/default.jpg');
 });
 
 it('can get the default path to the first media in a collection if conversion not marked as generated yet', function () {
@@ -224,7 +224,7 @@ it('can get the default path to the first media in a collection if conversion no
     unlink($avatarThumbConversion);
     $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-    $this->assertEquals($this->getMediaDirectory("{$media->id}/test.jpg"), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
+    expect($this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'))->toEqual($this->getMediaDirectory("{$media->id}/test.jpg"));
 });
 
 it('can get the correct path to the converted media in a collection if conversion is marked as generated', function () {
@@ -237,7 +237,7 @@ it('can get the correct path to the converted media in a collection if conversio
     unlink($avatarThumbConversion);
     $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionGenerated('avatar_thumb');
 
-    $this->assertEquals($media->getPath('avatar_thumb'), $this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'));
+    expect($this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'))->toEqual($media->getPath('avatar_thumb'));
 });
 
 it('can get the default url to the first media in a collection if conversion not marked as generated yet', function () {
@@ -250,7 +250,7 @@ it('can get the default url to the first media in a collection if conversion not
     unlink($avatarThumbConversion);
     $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-    $this->assertEquals("/media/{$media->id}/test.jpg", $this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'));
+    expect($this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'))->toEqual("/media/{$media->id}/test.jpg");
 });
 
 it('will return preloaded media sorting on order column', function () {
@@ -290,17 +290,17 @@ it('will return preloaded media sorting on order column', function () {
 it('will cache loaded media', function () {
     DB::enableQueryLog();
 
-    $this->assertFalse($this->testModel->relationLoaded('media'));
-    $this->assertCount(0, DB::getQueryLog());
+    expect($this->testModel->relationLoaded('media'))->toBeFalse();
+    expect(DB::getQueryLog())->toHaveCount(0);
 
     $this->testModel->getMedia('images');
 
-    $this->assertTrue($this->testModel->relationLoaded('media'));
-    $this->assertCount(1, DB::getQueryLog());
+    expect($this->testModel->relationLoaded('media'))->toBeTrue();
+    expect(DB::getQueryLog())->toHaveCount(1);
 
     $this->testModel->getMedia('images');
 
-    $this->assertCount(1, DB::getQueryLog());
+    expect(DB::getQueryLog())->toHaveCount(1);
 
     DB::DisableQueryLog();
 });
@@ -308,5 +308,5 @@ it('will cache loaded media', function () {
 // Helpers
 function it_returns_false_when_getting_first_media_for_an_empty_collection()
 {
-    test()->assertFalse(test()->testModel->getFirstMedia());
+    expect(test()->testModel->getFirstMedia())->toBeFalse();
 }

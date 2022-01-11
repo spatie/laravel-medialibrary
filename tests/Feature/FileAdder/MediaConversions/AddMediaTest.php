@@ -15,7 +15,7 @@ it('can add an file to the default collection', function () {
         ->copyMedia($this->getTestFilesDirectory('test.jpg'))
         ->toMediaCollection();
 
-    $this->assertEquals('default', $media->collection_name);
+    expect($media->collection_name)->toEqual('default');
 });
 
 it('can create a derived version of an image', function () {
@@ -75,7 +75,7 @@ it('can create a derived version of a pdf if imagick exists', function () {
     $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
 
     class_exists(Imagick::class)
-        ? $this->assertFileExists($thumbPath)
+        ? expect($thumbPath)->toBeFile()
         : $this->assertFileDoesNotExist($thumbPath);
 });
 
@@ -93,7 +93,7 @@ it('will not create a derived version if manipulations did not change', function
 
     $thumbsCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
 
-    $this->assertEquals($originalThumbCreatedAt, $thumbsCreatedAt);
+    expect($thumbsCreatedAt)->toEqual($originalThumbCreatedAt);
 });
 
 it('will have access the model instance when register media conversions using model instance has been set', function () {
@@ -130,5 +130,5 @@ it('will have access the model instance when register media conversions using mo
         ->getManipulationSequence()
         ->toArray()[0];
 
-    $this->assertEquals(123, $conversionManipulations['width']);
+    expect($conversionManipulations['width'])->toEqual(123);
 });

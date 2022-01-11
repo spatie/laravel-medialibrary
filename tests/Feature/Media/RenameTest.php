@@ -50,6 +50,6 @@ it('keeps valid file name when renaming with missing conversions', function () {
     // Reload attributes from the database
     $media = $media->fresh();
 
-    $this->assertFileExists($media->getPath());
-    $this->assertEquals($new_filename, $media->file_name);
+    expect($media->getPath())->toBeFile();
+    expect($media->file_name)->toEqual($new_filename);
 });

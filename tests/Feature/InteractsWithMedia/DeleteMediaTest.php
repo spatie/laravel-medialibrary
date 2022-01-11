@@ -12,26 +12,26 @@ beforeEach(function () {
 });
 
 it('can clear a collection', function () {
-    $this->assertCount(3, $this->testModel->getMedia('default'));
-    $this->assertCount(3, $this->testModel->getMedia('images'));
+    expect($this->testModel->getMedia('default'))->toHaveCount(3);
+    expect($this->testModel->getMedia('images'))->toHaveCount(3);
 
     $this->testModel->clearMediaCollection('images');
 
-    $this->assertCount(3, $this->testModel->getMedia('default'));
-    $this->assertCount(0, $this->testModel->getMedia('images'));
+    expect($this->testModel->getMedia('default'))->toHaveCount(3);
+    expect($this->testModel->getMedia('images'))->toHaveCount(0);
 });
 
 it('will remove the files when clearing a collection', function () {
     $ids = $this->testModel->getMedia('images')->pluck('id');
 
     $ids->map(function ($id) {
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
     });
 
     $this->testModel->clearMediaCollection('images');
 
     $ids->map(function ($id) {
-        $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
     });
 });
 
@@ -39,13 +39,13 @@ it('will remove the files when deleting a subject', function () {
     $ids = $this->testModel->getMedia('images')->pluck('id');
 
     $ids->map(function ($id) {
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
     });
 
     $this->testModel->delete();
 
     $ids->map(function ($id) {
-        $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
     });
 });
 
@@ -58,18 +58,18 @@ it('will remove the files when using a custom model and deleting it', function (
 
     addMedia($testModel);
 
-    $this->assertInstanceOf(TestCustomMediaModel::class, $testModel->getFirstMedia());
+    expect($testModel->getFirstMedia())->toBeInstanceOf(TestCustomMediaModel::class);
 
     $ids = $testModel->getMedia('images')->pluck('id');
 
     $ids->map(function ($id) {
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
     });
 
     $testModel->delete();
 
     $ids->map(function ($id) {
-        $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
     });
 });
 
@@ -77,13 +77,13 @@ it('will not remove the files when deleting a subject and preserving media', fun
     $ids = $this->testModel->getMedia('images')->pluck('id');
 
     $ids->map(function ($id) {
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
     });
 
     $this->testModel->deletePreservingMedia();
 
     $ids->map(function ($id) {
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
     });
 });
 

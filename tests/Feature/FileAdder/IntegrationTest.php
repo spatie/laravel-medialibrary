@@ -21,7 +21,7 @@ it('can add an file to the default collection', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection();
 
-    $this->assertEquals('default', $media->collection_name);
+    expect($media->collection_name)->toEqual('default');
 });
 
 test('to media collection has an alias called to media library', function () {
@@ -29,7 +29,7 @@ test('to media collection has an alias called to media library', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaLibrary();
 
-    $this->assertEquals('default', $media->collection_name);
+    expect($media->collection_name)->toEqual('default');
 });
 
 it('will throw an exception when adding a non existing file', function () {
@@ -45,7 +45,7 @@ it('can set the name of the media', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
 });
 
 it('can add a file to a named collection', function () {
@@ -55,7 +55,7 @@ it('can add a file to a named collection', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection($collectionName);
 
-    $this->assertEquals($collectionName, $media->collection_name);
+    expect($media->collection_name)->toEqual($collectionName);
 });
 
 it('can move the original file to the media library', function () {
@@ -76,7 +76,7 @@ it('can copy the original file to the media library', function () {
         ->copyMedia($testFile)
         ->toMediaCollection('images');
 
-    $this->assertFileExists($testFile);
+    expect($testFile)->toBeFile();
     $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
 });
 
@@ -85,13 +85,13 @@ it('can handle a file without an extension', function () {
         ->addMedia($this->getTestFilesDirectory('test'))
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
 
-    $this->assertEquals('test', $media->file_name);
+    expect($media->file_name)->toEqual('test');
 
-    $this->assertEquals("/media/{$media->id}/test", $media->getUrl());
+    expect($media->getUrl())->toEqual("/media/{$media->id}/test");
 
-    $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test"));
+    expect($this->getMediaDirectory("/{$media->id}/test"))->toBeFile();
 });
 
 it('can handle an image file without an extension', function () {
@@ -99,7 +99,7 @@ it('can handle an image file without an extension', function () {
         ->addMedia($this->getTestFilesDirectory('image'))
         ->toMediaCollection();
 
-    $this->assertEquals('image', $media->type);
+    expect($media->type)->toEqual('image');
 });
 
 it('can handle a non image and non pdf file', function () {
@@ -107,13 +107,13 @@ it('can handle a non image and non pdf file', function () {
         ->addMedia($this->getTestFilesDirectory('test.txt'))
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
 
-    $this->assertEquals('test.txt', $media->file_name);
+    expect($media->file_name)->toEqual('test.txt');
 
-    $this->assertEquals("/media/{$media->id}/test.txt", $media->getUrl());
+    expect($media->getUrl())->toEqual("/media/{$media->id}/test.txt");
 
-    $this->assertFileExists($this->getMediaDirectory("/{$media->id}/test.txt"));
+    expect($this->getMediaDirectory("/{$media->id}/test.txt"))->toBeFile();
 });
 
 it('can add an upload to the media library', function () {
@@ -128,7 +128,7 @@ it('can add an upload to the media library', function () {
         ->addMedia($uploadedFile)
         ->toMediaCollection();
 
-    $this->assertEquals('alternativename', $media->name);
+    expect($media->name)->toEqual('alternativename');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
 });
 
@@ -138,7 +138,7 @@ it('can add an upload to the media library from the current request', function (
             ->addMediaFromRequest('file')
             ->toMediaCollection();
 
-        $this->assertEquals('alternativename', $media->name);
+        expect($media->name)->toEqual('alternativename');
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     });
 
@@ -153,7 +153,7 @@ it('can add an upload to the media library from the current request', function (
 
     $result = $this->call('get', 'upload', [], [], ['file' => $fileUpload]);
 
-    $this->assertEquals(200, $result->getStatusCode());
+    expect($result->getStatusCode())->toEqual(200);
 });
 
 it('can add multiple uploads to the media library from the current request', function () {
@@ -166,11 +166,11 @@ it('can add multiple uploads to the media library from the current request', fun
         $fileAdders->each(function ($fileAdder) {
             $media = $fileAdder->toMediaCollection();
 
-            $this->assertEquals('alternativename', $media->name);
+            expect($media->name)->toEqual('alternativename');
             $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
         });
 
-        $this->assertCount(2, $fileAdders);
+        expect($fileAdders)->toHaveCount(2);
     });
 
     $uploadedFiles = [
@@ -190,7 +190,7 @@ it('can add multiple uploads to the media library from the current request', fun
 
     $result = $this->call('get', 'upload', [], [], $uploadedFiles);
 
-    $this->assertEquals(200, $result->getStatusCode());
+    expect($result->getStatusCode())->toEqual(200);
 });
 
 it('can add handle file keys that contain an array to the media library from the current request', function () {
@@ -205,12 +205,12 @@ it('can add handle file keys that contain an array to the media library from the
             foreach ($fileAdder as $item) {
                 $media = $item->toMediaCollection();
 
-                $this->assertEquals('alternativename', $media->name);
+                expect($media->name)->toEqual('alternativename');
                 $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
             }
         });
 
-        $this->assertCount(4, $fileAdders);
+        expect($fileAdders)->toHaveCount(4);
     });
 
     $uploadedFiles = [
@@ -244,7 +244,7 @@ it('can add handle file keys that contain an array to the media library from the
 
     $result = $this->call('get', 'upload', [], [], $uploadedFiles);
 
-    $this->assertEquals(200, $result->getStatusCode());
+    expect($result->getStatusCode())->toEqual(200);
 });
 
 it('will throw an exception when trying to add a non existing key from a request', function () {
@@ -259,7 +259,7 @@ it('will throw an exception when trying to add a non existing key from a request
             $exceptionWasThrown = true;
         }
 
-        $this->assertTrue($exceptionWasThrown);
+        expect($exceptionWasThrown)->toBeTrue();
     });
 
     $this->call('get', 'upload');
@@ -272,8 +272,8 @@ it('can add a remote file to the media library', function () {
         ->addMediaFromUrl($url)
         ->toMediaCollection();
 
-    $this->assertEquals('header', $media->name);
-    $this->assertFileExists($this->getMediaDirectory("{$media->id}/header.jpg"));
+    expect($media->name)->toEqual('header');
+    expect($this->getMediaDirectory("{$media->id}/header.jpg"))->toBeFile();
 });
 
 it('will not add local files when an url is expected', function () {
@@ -291,18 +291,18 @@ it('can add a file from a separate disk to the media library', function () {
         ->addMediaFromDisk('tmp/test.jpg', 'secondMediaDisk')
         ->toMediaCollection();
 
-    $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$media->id}/test.jpg"))->toBeFile();
 });
 
 it('can natively copy a remote file from the same disk to the media library', function () {
     Storage::disk('public')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
-    $this->assertFileExists($this->getMediaDirectory('tmp/test.jpg'));
+    expect($this->getMediaDirectory('tmp/test.jpg'))->toBeFile();
 
     $media = $this->testModel
         ->addMediaFromDisk('tmp/test.jpg', 'public')
         ->toMediaCollection();
 
-    $this->assertFileExists($this->getMediaDirectory("{$media->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$media->id}/test.jpg"))->toBeFile();
     $this->assertFileDoesNotExist($this->getMediaDirectory('tmp/test.jpg'));
 });
 
@@ -313,7 +313,7 @@ it('can add a remote file with a space in the name to the media library', functi
         ->addMediaFromUrl($url)
         ->toMediaCollection();
 
-    $this->assertFileExists($this->getMediaDirectory("{$media->id}/test-with-space.jpg"));
+    expect($this->getMediaDirectory("{$media->id}/test-with-space.jpg"))->toBeFile();
 });
 
 it('can add a remote file with an accent in the name to the media library', function () {
@@ -323,7 +323,7 @@ it('can add a remote file with an accent in the name to the media library', func
         ->addMediaFromUrl($url)
         ->toMediaCollection();
 
-    $this->assertFileExists($this->getMediaDirectory("{$media->id}/AntarèsThumb.jpg"));
+    expect($this->getMediaDirectory("{$media->id}/AntarèsThumb.jpg"))->toBeFile();
 });
 
 it('wil thrown an exception when a remote file could not be added', function () {
@@ -352,7 +352,7 @@ it('can rename the media before it gets added', function () {
         ->usingName('othername')
         ->toMediaCollection();
 
-    $this->assertEquals('othername', $media->name);
+    expect($media->name)->toEqual('othername');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 });
 
@@ -362,7 +362,7 @@ it('can rename the file before it gets added', function () {
         ->usingFileName('othertest.jpg')
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/othertest.jpg'));
 });
 
@@ -372,7 +372,7 @@ it('will remove strange characters from the file name', function () {
         ->usingFileName('other#test.jpg')
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/other-test.jpg'));
 });
 
@@ -382,7 +382,7 @@ it('will sanitize the file name using callable', function () {
         ->sanitizingFileName(fn ($fileName) => 'new_file_name.jpg')
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/new_file_name.jpg'));
 });
 
@@ -393,7 +393,7 @@ test('the file name can be modified using a file namer', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/renamed_original_file.jpg'));
 });
 
@@ -404,7 +404,7 @@ test('the file name can be modified using custom sanitizing and default file nam
         ->sanitizingFileName(fn ($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/other/otherfilename.jpg'));
 });
 
@@ -415,7 +415,7 @@ test('the file name can be modified using custom sanitizing and default file nam
         ->sanitizingFileName(fn ($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
         ->toMediaCollection();
 
-    $this->assertEquals('test', $media->name);
+    expect($media->name)->toEqual('test');
     $this->assertFileExists($this->getMediaDirectory($media->id.'/other/[0]-{0}-(0)-otherfile.name.jpg'));
 });
 
@@ -427,7 +427,7 @@ it('can save media in the right order', function () {
             ->preservingOriginal()
             ->toMediaCollection();
 
-        $this->assertEquals($index + 1, $media[$index]->order_column);
+        expect($media[$index]->order_column)->toEqual($index + 1);
     }
 });
 
@@ -438,7 +438,7 @@ it('can add properties to the saved media', function () {
         ->withProperties(['name' => 'testName'])
         ->toMediaCollection();
 
-    $this->assertEquals('testName', $media->name);
+    expect($media->name)->toEqual('testName');
 
     $media = $this->testModel
         ->addMedia($this->getTestJpg())
@@ -446,7 +446,7 @@ it('can add properties to the saved media', function () {
         ->withAttributes(['name' => 'testName'])
         ->toMediaCollection();
 
-    $this->assertEquals('testName', $media->name);
+    expect($media->name)->toEqual('testName');
 });
 
 it('can add manipulations to the saved media', function () {
@@ -456,7 +456,7 @@ it('can add manipulations to the saved media', function () {
         ->withManipulations(['thumb' => ['width' => '10']])
         ->toMediaCollection();
 
-    $this->assertEquals('10', $media->manipulations['thumb']['width']);
+    expect($media->manipulations['thumb']['width'])->toEqual('10');
 });
 
 it('can add file to model with morph map', function () {
@@ -464,7 +464,7 @@ it('can add file to model with morph map', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection();
 
-    $this->assertEquals($this->testModelWithMorphMap->getMorphClass(), $media->model_type);
+    expect($media->model_type)->toEqual($this->testModelWithMorphMap->getMorphClass());
 });
 
 it('will throw an exception when setting the file to a wrong type', function () {
@@ -513,7 +513,7 @@ test('a string can be accepted to be added to the media library', function () {
         ->addMediaFromString($string)
         ->toMediaCollection();
 
-    $this->assertEquals($string, file_get_contents($media->getPath()));
+    expect(file_get_contents($media->getPath()))->toEqual($string);
 });
 
 test('a stream can be accepted to be added to the media library', function () {
@@ -526,7 +526,7 @@ test('a stream can be accepted to be added to the media library', function () {
         ->addMediaFromStream($stream)
         ->toMediaCollection();
 
-    $this->assertEquals($string, file_get_contents($media->getPath()));
+    expect(file_get_contents($media->getPath()))->toEqual($string);
 });
 
 it('can add data uri prefixed base64 encoded file to the medialibrary', function () {
@@ -573,7 +573,7 @@ it('can add files on an unsaved model even if not preserving the original', func
 
     $media = $this->testUnsavedModel->getMedia();
 
-    $this->assertCount(2, $media);
+    expect($media)->toHaveCount(2);
 });
 
 it('can add an upload to the media library using dot notation', function () {
@@ -582,7 +582,7 @@ it('can add an upload to the media library using dot notation', function () {
             ->addMediaFromRequest('file.name')
             ->toMediaCollection();
 
-        $this->assertEquals('alternativename', $media->name);
+        expect($media->name)->toEqual('alternativename');
         $this->assertFileExists($this->getMediaDirectory($media->id.'/'.$media->file_name));
     });
 
@@ -595,5 +595,5 @@ it('can add an upload to the media library using dot notation', function () {
 
     $result = $this->call('get', 'upload', [], [], ['file' => ['name' => $fileUpload]]);
 
-    $this->assertEquals(200, $result->getStatusCode());
+    expect($result->getStatusCode())->toEqual(200);
 });

@@ -13,5 +13,5 @@ test('the original url attribute exists', function () {
 it('can get url of original image', function () {
     $media = $this->testModelWithPreviewConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $this->assertEquals("/media/{$media->id}/test.jpg", $media->original_url);
+    expect($media->original_url)->toEqual("/media/{$media->id}/test.jpg");
 });

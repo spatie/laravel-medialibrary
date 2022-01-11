@@ -172,7 +172,7 @@ it('can generate responsive images', function () {
         'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
     ], $media->getResponsiveImageUrls());
 
-    $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
+    expect($media->getResponsiveImageUrls('non-existing-conversion'))->toEqual([]);
 });
 
 it('can generate responsive images on condition', function () {
@@ -196,7 +196,7 @@ it('can generate responsive images on condition', function () {
         'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
     ], $media->getResponsiveImageUrls());
 
-    $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
+    expect($media->getResponsiveImageUrls('non-existing-conversion'))->toEqual([]);
 });
 
 test('if the single file method is specified it will delete all other media and will only keep the new one', function () {
@@ -214,7 +214,7 @@ test('if the single file method is specified it will delete all other media and 
     $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
     $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-    $this->assertCount(1, $model->getMedia('images'));
+    expect($model->getMedia('images'))->toHaveCount(1);
 });
 
 test('if the only keeps latest method is specified it will delete all other media and will only keep the latest n ones', function () {
@@ -234,5 +234,5 @@ test('if the only keeps latest method is specified it will delete all other medi
     $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
     $this->assertFalse($model->getMedia('images')->contains(fn ($model) => $model->is($firstFile)));
-    $this->assertCount(3, $model->getMedia('images'));
+    expect($model->getMedia('images'))->toHaveCount(3);
 });

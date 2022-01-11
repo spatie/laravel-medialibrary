@@ -15,8 +15,8 @@ it('can use a custom file namer', function () {
 
     $path = $this->testModelWithConversion->refresh()->getFirstMediaPath("default", "thumb");
 
-    $this->assertStringEndsWith("{$this->fileName}---thumb.jpg", $path);
-    $this->assertFileExists($path);
+    expect($path)->toEndWith("{$this->fileName}---thumb.jpg");
+    expect($path)->toBeFile();
 
-    $this->assertEquals("/media/1/conversions/{$this->fileName}---thumb.jpg", $this->testModelWithConversion->getFirstMediaUrl("default", "thumb"));
+    expect($this->testModelWithConversion->getFirstMediaUrl("default", "thumb"))->toEqual("/media/1/conversions/{$this->fileName}---thumb.jpg");
 });

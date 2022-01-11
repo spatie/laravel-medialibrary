@@ -19,8 +19,8 @@ it('can regenerate all files', function () {
 
     $this->artisan('media-library:regenerate');
 
-    $this->assertFileExists($derivedImage);
-    $this->assertGreaterThan($createdAt, filemtime($derivedImage));
+    expect($derivedImage)->toBeFile();
+    expect(filemtime($derivedImage))->toBeGreaterThan($createdAt);
 });
 
 it('can regenerate only missing files', function () {
@@ -52,11 +52,11 @@ it('can regenerate only missing files', function () {
         '--only-missing' => true,
     ]);
 
-    $this->assertFileExists($derivedMissingImage);
+    expect($derivedMissingImage)->toBeFile();
 
-    $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
+    expect(filemtime($derivedImageExists))->toBe($existsCreatedAt);
 
-    $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
+    expect(filemtime($derivedMissingImage))->toBeGreaterThan($missingCreatedAt);
 });
 
 it('can regenerate missing files queued', function () {
@@ -88,11 +88,11 @@ it('can regenerate missing files queued', function () {
         '--only-missing' => true,
     ]);
 
-    $this->assertFileExists($derivedMissingImage);
+    expect($derivedMissingImage)->toBeFile();
 
-    $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
+    expect(filemtime($derivedImageExists))->toBe($existsCreatedAt);
 
-    $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
+    expect(filemtime($derivedMissingImage))->toBeGreaterThan($missingCreatedAt);
 });
 
 it('can regenerate all files of named conversions', function () {
@@ -114,7 +114,7 @@ it('can regenerate all files of named conversions', function () {
         '--only' => 'thumb',
     ]);
 
-    $this->assertFileExists($derivedImage);
+    expect($derivedImage)->toBeFile();
     $this->assertFileDoesNotExist($derivedMissingImage);
 });
 
@@ -149,10 +149,10 @@ it('can regenerate only missing files of named conversions', function () {
         '--only' => 'thumb',
     ]);
 
-    $this->assertFileExists($derivedMissingImage);
+    expect($derivedMissingImage)->toBeFile();
     $this->assertFileDoesNotExist($derivedMissingImageOriginal);
-    $this->assertSame($existsCreatedAt, filemtime($derivedImageExists));
-    $this->assertGreaterThan($missingCreatedAt, filemtime($derivedMissingImage));
+    expect(filemtime($derivedImageExists))->toBe($existsCreatedAt);
+    expect(filemtime($derivedMissingImage))->toBeGreaterThan($missingCreatedAt);
 });
 
 it('can regenerate files by media ids', function () {
@@ -177,7 +177,7 @@ it('can regenerate files by media ids', function () {
     $this->artisan('media-library:regenerate', ['--ids' => [2]]);
 
     $this->assertFileDoesNotExist($derivedImage);
-    $this->assertFileExists($derivedImage2);
+    expect($derivedImage2)->toBeFile();
 });
 
 it('can regenerate files by comma separated media ids', function () {
@@ -201,8 +201,8 @@ it('can regenerate files by comma separated media ids', function () {
 
     $this->artisan('media-library:regenerate', ['--ids' => ['1,2']]);
 
-    $this->assertFileExists($derivedImage);
-    $this->assertFileExists($derivedImage2);
+    expect($derivedImage)->toBeFile();
+    expect($derivedImage2)->toBeFile();
 });
 
 it('can regenerate files even if there are files missing', function () {
@@ -230,7 +230,7 @@ it('can regenerate responsive images', function () {
     $this->artisan('media-library:regenerate', ['--with-responsive-images' => true])->assertExitCode(0);
 
     foreach ($responsiveImages as $image) {
-        $this->assertFileExists($image);
+        expect($image)->toBeFile();
     }
 });
 
@@ -256,7 +256,7 @@ it('can regenerate files by starting from id', function () {
     $this->artisan('media-library:regenerate', ['--starting-from-id' => $media2->getKey()]);
 
     $this->assertFileDoesNotExist($derivedImage);
-    $this->assertFileExists($derivedImage2);
+    expect($derivedImage2)->toBeFile();
 });
 
 it('can regenerate files starting after the provided id', function () {
@@ -284,7 +284,7 @@ it('can regenerate files starting after the provided id', function () {
     ]);
 
     $this->assertFileDoesNotExist($derivedImage);
-    $this->assertFileExists($derivedImage2);
+    expect($derivedImage2)->toBeFile();
 });
 
 it('can regenerate files starting after the provided id with shortcut', function () {
@@ -312,7 +312,7 @@ it('can regenerate files starting after the provided id with shortcut', function
     ]);
 
     $this->assertFileDoesNotExist($derivedImage);
-    $this->assertFileExists($derivedImage2);
+    expect($derivedImage2)->toBeFile();
 });
 
 it('can regenerate files starting from id with model type', function () {
@@ -349,6 +349,6 @@ it('can regenerate files starting from id with model type', function () {
     ]);
 
     $this->assertFileDoesNotExist($derivedImage);
-    $this->assertFileExists($derivedImage2);
-    $this->assertFileExists($derivedImage3);
+    expect($derivedImage2)->toBeFile();
+    expect($derivedImage3)->toBeFile();
 });

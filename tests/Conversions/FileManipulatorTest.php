@@ -20,5 +20,5 @@ it('does not perform manipulations if not necessary', function () {
         $imageFile
     );
 
-    $this->assertEquals($imageFile, $conversionTempFile);
+    expect($conversionTempFile)->toEqual($imageFile);
 });

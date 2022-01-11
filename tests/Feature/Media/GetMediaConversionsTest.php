@@ -10,12 +10,12 @@ it('can get the names of registered conversions', function () {
         ->preservingOriginal()
         ->toMediaCollection();
 
-    $this->assertSame([], $media->getMediaConversionNames());
+    expect($media->getMediaConversionNames())->toBe([]);
 
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
         ->toMediaCollection();
 
-    $this->assertSame(['thumb', 'keep_original_format'], $media->getMediaConversionNames());
+    expect($media->getMediaConversionNames())->toBe(['thumb', 'keep_original_format']);
 });

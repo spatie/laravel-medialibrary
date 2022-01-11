@@ -19,5 +19,5 @@ it('can use eagerly loaded media', function () {
         $testModel->getFirstMediaUrl('images', 'thumb');
     }
 
-    $this->assertCount(2, DB::getQueryLog());
+    expect(DB::getQueryLog())->toHaveCount(2);
 });

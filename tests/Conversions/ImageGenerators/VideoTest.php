@@ -15,11 +15,11 @@ it('can convert a video', function () {
 
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestWebm())->toMediaCollection();
 
-    $this->assertTrue($imageGenerator->canConvert($media));
+    expect($imageGenerator->canConvert($media))->toBeTrue();
 
     $imageFile = $imageGenerator->convert($media->getPath(), new Conversion('test'));
 
-    $this->assertEquals('image/jpeg', mime_content_type($imageFile));
+    expect(mime_content_type($imageFile))->toEqual('image/jpeg');
 
-    $this->assertEquals($imageFile, str_replace('.webm', '.jpg', $media->getPath()));
+    expect(str_replace('.webm', '.jpg', $media->getPath()))->toEqual($imageFile);
 });

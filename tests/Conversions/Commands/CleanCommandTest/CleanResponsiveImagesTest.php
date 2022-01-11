@@ -25,6 +25,6 @@ it('can clean responsive images', function () {
 
     $media->refresh();
 
-    $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
+    expect($media->responsive_images)->toEqual($originalResponsiveImagesContent);
     $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
 });

@@ -13,8 +13,8 @@ it('can add a file to a named collection on a specific disk', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection($collectionName, $diskName);
 
-    $this->assertEquals($collectionName, $media->collection_name);
-    $this->assertEquals($diskName, $media->disk);
+    expect($media->collection_name)->toEqual($collectionName);
+    expect($media->disk)->toEqual($diskName);
     $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
 });
 
@@ -34,8 +34,8 @@ it('will save the derived images on the same disk as the original file', functio
         ->addMedia($this->getTestJpg())
         ->toMediaCollection($collectionName, $diskName);
 
-    $this->assertEquals($collectionName, $media->collection_name);
-    $this->assertEquals($diskName, $media->disk);
+    expect($media->collection_name)->toEqual($collectionName);
+    expect($media->disk)->toEqual($diskName);
     $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
     $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/conversions/test-thumb.jpg');
 });
@@ -45,8 +45,8 @@ it('can generate urls to media on an alternative disk', function () {
         ->addMedia($this->getTestJpg())
         ->toMediaCollection('', 'secondMediaDisk');
 
-    $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
-    $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
+    expect($media->getUrl())->toEqual("/media2/{$media->id}/test.jpg");
+    expect($media->getUrl('thumb'))->toEqual("/media2/{$media->id}/conversions/test-thumb.jpg");
 });
 
 it('can put files on the cloud disk configured the filesystems config file', function () {
@@ -60,7 +60,7 @@ it('can put files on the cloud disk configured the filesystems config file', fun
         ->addMedia($this->getTestJpg())
         ->toMediaCollectionOnCloudDisk($collectionName);
 
-    $this->assertEquals($collectionName, $media->collection_name);
-    $this->assertEquals($diskName, $media->disk);
+    expect($media->collection_name)->toEqual($collectionName);
+    expect($media->disk)->toEqual($diskName);
     $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
 });

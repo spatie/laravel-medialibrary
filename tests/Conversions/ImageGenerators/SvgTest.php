@@ -14,9 +14,9 @@ it('can convert a svg', function () {
 
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestSvg())->toMediaCollection();
 
-    $this->assertTrue($imageGenerator->canConvert($media));
+    expect($imageGenerator->canConvert($media))->toBeTrue();
 
     $imageFile = $imageGenerator->convert($media->getPath());
 
-    $this->assertEquals('image/jpeg', mime_content_type($imageFile));
+    expect(mime_content_type($imageFile))->toEqual('image/jpeg');
 });

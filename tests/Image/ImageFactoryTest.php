@@ -18,5 +18,5 @@ test('loading an image uses the correct driver', function () {
 
     $imageDriverValue = $imageDriver->getValue($image);
 
-    $this->assertEquals('imagick', $imageDriverValue);
+    expect($imageDriverValue)->toEqual('imagick');
 });

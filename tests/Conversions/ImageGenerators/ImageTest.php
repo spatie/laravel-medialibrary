@@ -10,10 +10,10 @@ it('can convert an image', function () {
 
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $this->assertTrue($imageGenerator->canConvert($media));
+    expect($imageGenerator->canConvert($media))->toBeTrue();
 
     $imageFile = $imageGenerator->convert($media->getPath());
 
-    $this->assertEquals('image/jpeg', mime_content_type($imageFile));
-    $this->assertEquals($imageFile, $media->getPath());
+    expect(mime_content_type($imageFile))->toEqual('image/jpeg');
+    expect($media->getPath())->toEqual($imageFile);
 });

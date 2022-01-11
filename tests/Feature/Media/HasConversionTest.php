@@ -7,5 +7,5 @@ uses(TestCase::class);
 test('test', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $this->assertTrue($media->hasGeneratedConversion('thumb'));
+    expect($media->hasGeneratedConversion('thumb'))->toBeTrue();
 });

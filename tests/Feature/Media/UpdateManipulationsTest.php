@@ -33,7 +33,7 @@ it('will create derived files when manipulations have changed', function () {
 
     $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
 
-    $this->assertGreaterThan($conversionModificationTime, $modificationTimeAfterManipulationChanged);
+    expect($modificationTimeAfterManipulationChanged)->toBeGreaterThan($conversionModificationTime);
 });
 
 it('will not create derived files when manipulations have not changed', function () {
@@ -72,5 +72,5 @@ it('will not create derived files when manipulations have not changed', function
 
     $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
 
-    $this->assertEquals($conversionModificationTime, $modificationTimeAfterManipulationChanged);
+    expect($modificationTimeAfterManipulationChanged)->toEqual($conversionModificationTime);
 });

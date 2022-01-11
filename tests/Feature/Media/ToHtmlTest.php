@@ -53,7 +53,7 @@ test('converting a non image to an image tag will not blow up', function () {
         ->addMedia($this->getTestPdf())
         ->toMediaCollection();
 
-    $this->assertEquals('', $media->img());
+    expect($media->img())->toEqual('');
 });
 
 it('can render itself with responsive images and a placeholder', function () {
@@ -64,8 +64,8 @@ it('can render itself with responsive images and a placeholder', function () {
 
     $image = $media->refresh()->img();
 
-    $this->assertEquals(3, substr_count($image, '/media/2/responsive-images/'));
-    $this->assertTrue(Str::contains($image, 'data:image/svg+xml;base64,'));
+    expect(substr_count($image, '/media/2/responsive-images/'))->toEqual(3);
+    expect(Str::contains($image, 'data:image/svg+xml;base64,'))->toBeTrue();
 });
 
 it('can render itself with responsive images of a conversion and a placeholder', function () {
@@ -75,8 +75,8 @@ it('can render itself with responsive images of a conversion and a placeholder',
 
     $image = $media->refresh()->img('thumb');
 
-    $this->assertStringContainsString('/media/2/responsive-images/', $image);
-    $this->assertStringContainsString('data:image/svg+xml;base64,', $image);
+    expect($image)->toContain('/media/2/responsive-images/');
+    expect($image)->toContain('data:image/svg+xml;base64,');
 });
 
 it('will not rendering extra javascript or including base64 svg when tiny placeholders are turned off', function () {
@@ -89,7 +89,7 @@ it('will not rendering extra javascript or including base64 svg when tiny placeh
 
     $imgTag = $media->refresh()->img();
 
-    $this->assertEquals('<img srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">', $imgTag);
+    expect($imgTag)->toEqual('<img srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_233.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">');
 });
 
 test('the loading attribute can be specified on the conversion', function () {
@@ -98,13 +98,13 @@ test('the loading attribute can be specified on the conversion', function () {
         ->toMediaCollection();
 
     $originalImgTag = $media->refresh()->img();
-    $this->assertEquals('<img src="/media/2/test.jpg" alt="test">', $originalImgTag);
+    expect($originalImgTag)->toEqual('<img src="/media/2/test.jpg" alt="test">');
 
     $lazyConversionImageTag = $media->refresh()->img('lazy-conversion');
-    $this->assertEquals('<img loading="lazy" src="/media/2/conversions/test-lazy-conversion.jpg" alt="test">', $lazyConversionImageTag);
+    expect($lazyConversionImageTag)->toEqual('<img loading="lazy" src="/media/2/conversions/test-lazy-conversion.jpg" alt="test">');
 
     $eagerConversionImageTag = $media->refresh()->img('eager-conversion');
-    $this->assertEquals('<img loading="eager" src="/media/2/conversions/test-eager-conversion.jpg" alt="test">', $eagerConversionImageTag);
+    expect($eagerConversionImageTag)->toEqual('<img loading="eager" src="/media/2/conversions/test-eager-conversion.jpg" alt="test">');
 });
 
 it('has a shorthand function to use lazy loading', function () {

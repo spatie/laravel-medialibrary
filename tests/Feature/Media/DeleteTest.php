@@ -11,21 +11,21 @@ uses(TestCase::class);
 it('will remove the files when deleting an object that has media', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
 
     $this->testModel->delete();
 
-    $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeFalse();
 });
 
 it('will remove the files when deleting a media instance', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
 
     $media->delete();
 
-    $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeFalse();
 });
 
 it('will remove files when deleting a media object with a custom path generator', function () {
@@ -36,11 +36,11 @@ it('will remove files when deleting a media object with a custom path generator'
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
     $path = $pathGenerator->getPath($media);
 
-    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
 
     $this->testModel->delete();
 
-    $this->assertFalse(File::isDirectory($this->getTempDirectory($path)));
+    expect(File::isDirectory($this->getTempDirectory($path)))->toBeFalse();
 });
 
 it('will not remove the files when should delete preserving media returns true', function () {
@@ -78,7 +78,7 @@ it('will remove the files when should delete preserving media returns false', fu
 
     $testModel->delete();
 
-    $this->assertNull(Media::find($media->id));
+    expect(Media::find($media->id))->toBeNull();
 });
 
 it('will not remove the file when model uses softdelete', function () {
@@ -91,13 +91,13 @@ it('will not remove the file when model uses softdelete', function () {
 
     $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
 
     $testModel = $testModel->fresh();
 
     $testModel->delete();
 
-    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
 });
 
 it('will remove the file when model uses softdelete with force', function () {
@@ -110,11 +110,11 @@ it('will remove the file when model uses softdelete with force', function () {
 
     $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
 
     $testModel = $testModel->fresh();
 
     $testModel->forceDelete();
 
-    $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeFalse();
 });

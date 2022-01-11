@@ -36,7 +36,7 @@ it('can render a srcset when the base64svg is not rendered yet', function () {
 
     $registeredResponsiveImage = new RegisteredResponsiveImages($media);
 
-    $this->assertNull($registeredResponsiveImage->getPlaceholderSvg());
+    expect($registeredResponsiveImage->getPlaceholderSvg())->toBeNull();
 
     $this->assertNotEmpty($registeredResponsiveImage->getSrcset());
 });

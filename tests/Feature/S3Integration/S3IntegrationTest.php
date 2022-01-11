@@ -171,7 +171,7 @@ it('can get the temporary url to first media in a collection', function () {
     $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
     $secondMedia->save();
 
-    $this->assertEquals($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)), $this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images'));
+    expect($this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
 });
 
 it('retrieves a temporary media conversion url from s3', function () {
@@ -201,7 +201,7 @@ test('custom headers are used for all conversions', function () {
         'Key' => $media->getPath(),
     ]));
 
-    $this->assertEquals('READ', $responseForMainItem->get('Grants')[1]['Permission'] ?? null);
+    expect($responseForMainItem->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
 
     /** @var \Aws\Result $responseForConversion */
     $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
@@ -209,7 +209,7 @@ test('custom headers are used for all conversions', function () {
         'Key' => $media->getPath('thumb'),
     ]));
 
-    $this->assertEquals('READ', $responseForConversion->get('Grants')[1]['Permission'] ?? null);
+    expect($responseForConversion->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
 });
 
 test('custom headers are used for all conversions when adding private media from same s3 disk', function () {
@@ -234,7 +234,7 @@ test('custom headers are used for all conversions when adding private media from
         'Key' => $media->getPath(),
     ]));
 
-    $this->assertEquals('READ', $responseForMainItem->get('Grants')[1]['Permission'] ?? null);
+    expect($responseForMainItem->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
 
     /** @var \Aws\Result $responseForConversion */
     $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
@@ -242,7 +242,7 @@ test('custom headers are used for all conversions when adding private media from
         'Key' => $media->getPath('thumb'),
     ]));
 
-    $this->assertEquals('READ', $responseForConversion->get('Grants')[1]['Permission'] ?? null);
+    expect($responseForConversion->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
 });
 
 test('extra headers are used for all conversions when adding private media from same s3 disk', function () {
@@ -268,7 +268,7 @@ test('extra headers are used for all conversions when adding private media from 
         'Key' => $media->getPath(),
     ]));
 
-    $this->assertEquals('READ', $responseForMainItem->get('Grants')[1]['Permission'] ?? null);
+    expect($responseForMainItem->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
 
     /** @var \Aws\Result $responseForConversion */
     $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
@@ -276,7 +276,7 @@ test('extra headers are used for all conversions when adding private media from 
         'Key' => $media->getPath('thumb'),
     ]));
 
-    $this->assertEquals('READ', $responseForConversion->get('Grants')[1]['Permission'] ?? null);
+    expect($responseForConversion->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
 });
 
 it('can regenerate only missing with s3 disk', function () {
@@ -308,8 +308,8 @@ it('can regenerate only missing with s3 disk', function () {
 
     assertS3FileExists($derivedMissingImage);
 
-    $this->assertSame($existsCreatedAt, Storage::disk('s3_disk')->lastModified($derivedImageExists));
-    $this->assertGreaterThan($missingCreatedAt, Storage::disk('s3_disk')->lastModified($derivedMissingImage));
+    expect(Storage::disk('s3_disk')->lastModified($derivedImageExists))->toBe($existsCreatedAt);
+    expect(Storage::disk('s3_disk')->lastModified($derivedMissingImage))->toBeGreaterThan($missingCreatedAt);
 });
 
 it('can regenerate only missing files of named conversions with s3 disk', function () {
@@ -345,8 +345,8 @@ it('can regenerate only missing files of named conversions with s3 disk', functi
 
     assertS3FileExists($derivedMissingImage);
     assertS3FileNotExists($derivedMissingImageOriginal);
-    $this->assertSame($existsCreatedAt, Storage::disk('s3_disk')->lastModified($derivedImageExists));
-    $this->assertGreaterThan($missingCreatedAt, Storage::disk('s3_disk')->lastModified($derivedMissingImage));
+    expect(Storage::disk('s3_disk')->lastModified($derivedImageExists))->toBe($existsCreatedAt);
+    expect(Storage::disk('s3_disk')->lastModified($derivedMissingImage))->toBeGreaterThan($missingCreatedAt);
 });
 
 it('can retrieve a zip with s3 disk', function () {
@@ -388,12 +388,12 @@ function getS3Client(): S3Client
 
 function assertS3FileExists(string $filePath)
 {
-    test()->assertTrue(Storage::disk('s3_disk')->has($filePath));
+    expect(Storage::disk('s3_disk')->has($filePath))->toBeTrue();
 }
 
 function assertS3FileNotExists(string $filePath)
 {
-    test()->assertFalse(Storage::disk('s3_disk')->has($filePath));
+    expect(Storage::disk('s3_disk')->has($filePath))->toBeFalse();
 }
 
 function canTestS3(): bool

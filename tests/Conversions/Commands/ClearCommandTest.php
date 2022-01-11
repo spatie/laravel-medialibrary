@@ -26,10 +26,10 @@ beforeEach(function () {
         ->preservingOriginal()
         ->toMediaCollection('collection2');
 
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"))->toBeFile();
 });
 
 it('can clear all media', function () {
@@ -50,8 +50,8 @@ it('can clear media from a specific model type', function () {
     $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
     $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
 
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"))->toBeFile();
 });
 
 it('can clear media from a specific collection', function () {
@@ -59,10 +59,10 @@ it('can clear media from a specific collection', function () {
         'collectionName' => 'collection2',
     ]);
 
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"))->toBeFile();
     $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
 
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"))->toBeFile();
     $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
 });
 
@@ -72,9 +72,9 @@ it('can clear media from a specific model type and collection', function () {
         'collectionName' => 'collection2',
     ]);
 
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"))->toBeFile();
     $this->assertFileDoesNotExist($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
 
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
-    $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
+    expect($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"))->toBeFile();
 });

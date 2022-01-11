@@ -34,5 +34,5 @@ function assertExtensionEquals(string $expectedExtension, string $file)
 {
     $actualExtension = pathinfo($file, PATHINFO_EXTENSION);
 
-    test()->assertEquals($expectedExtension, $actualExtension);
+    expect($actualExtension)->toEqual($expectedExtension);
 }

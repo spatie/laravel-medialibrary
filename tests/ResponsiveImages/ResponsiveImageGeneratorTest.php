@@ -12,9 +12,9 @@ it('can generate responsive images', function () {
             ->withResponsiveImages()
             ->toMediaCollection();
 
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"));
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"));
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"));
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"))->toBeFile();
 });
 
 it('will generate responsive images if with responsive images if returns true', function () {
@@ -23,9 +23,9 @@ it('will generate responsive images if with responsive images if returns true', 
             ->withResponsiveImagesIf(fn () => true)
             ->toMediaCollection();
 
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"));
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"));
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"));
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"))->toBeFile();
 });
 
 it('will not generate responsive images if with responsive images if returns false', function () {
@@ -43,7 +43,7 @@ test('its conversions can have responsive images', function () {
                 ->withResponsiveImages()
                 ->toMediaCollection();
 
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg"));
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg"))->toBeFile();
 });
 
 test('its conversions can have responsive images and change format', function () {
@@ -52,7 +52,7 @@ test('its conversions can have responsive images and change format', function ()
         ->withResponsiveImages()
         ->toMediaCollection();
 
-    $this->assertFileExists($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___pngtojpg_700_883.jpg"));
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___pngtojpg_700_883.jpg"))->toBeFile();
 });
 
 it('triggers an event when the responsive images are generated', function () {
@@ -72,10 +72,10 @@ it('cleans the responsive images urls from the db before regeneration', function
         ->withResponsiveImages()
         ->toMediaCollection();
 
-    $this->assertCount(1, $media->fresh()->responsive_images["thumb"]["urls"]);
+    expect($media->fresh()->responsive_images["thumb"]["urls"])->toHaveCount(1);
 
     $this->artisan("media-library:regenerate");
-    $this->assertCount(1, $media->fresh()->responsive_images["thumb"]["urls"]);
+    expect($media->fresh()->responsive_images["thumb"]["urls"])->toHaveCount(1);
 });
 
 it('will add responsive image entries when there were none when regenerating', function () {
@@ -89,8 +89,8 @@ it('will add responsive image entries when there were none when regenerating', f
     $responsiveImages["thumb"]["urls"] = [];
     $media->responsive_images = $responsiveImages;
     $media->save();
-    $this->assertCount(0, $media->fresh()->responsive_images["thumb"]["urls"]);
+    expect($media->fresh()->responsive_images["thumb"]["urls"])->toHaveCount(0);
 
     $this->artisan("media-library:regenerate");
-    $this->assertCount(1, $media->fresh()->responsive_images["thumb"]["urls"]);
+    expect($media->fresh()->responsive_images["thumb"]["urls"])->toHaveCount(1);
 });

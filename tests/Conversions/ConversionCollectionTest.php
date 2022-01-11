@@ -37,7 +37,7 @@ it('will prepend the manipulation saved on the model and the wildmark manipulati
 
     $conversion = $conversionCollection->getConversions()[0];
 
-    $this->assertEquals('thumb', $conversion->getName());
+    expect($conversion->getName())->toEqual('thumb');
 
     $manipulationSequence = $conversion
         ->getManipulations()
@@ -62,7 +62,7 @@ it('will prepend the manipulation saved on the model', function () {
 
     $conversion = $conversionCollection->getConversions()[0];
 
-    $this->assertEquals('thumb', $conversion->getName());
+    expect($conversion->getName())->toEqual('thumb');
 
     $manipulationSequence = $conversion
         ->getManipulations()
@@ -98,5 +98,5 @@ it('will apply the manipulation on the equally named conversion of every model',
         $manipulations[] = $manipulationSequence;
     }
 
-    $this->assertEquals($manipulations[0], $manipulations[1]);
+    expect($manipulations[1])->toEqual($manipulations[0]);
 });

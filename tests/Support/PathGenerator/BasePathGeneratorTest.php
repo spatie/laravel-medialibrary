@@ -26,7 +26,7 @@ it('can get the custom path for media without conversions', function () {
 
     $pathRelativeToRoot = md5($media->id).'/'.$media->file_name;
 
-    $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+    expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
 });
 
 it('can get the custom path for media with conversions', function () {
@@ -39,5 +39,5 @@ it('can get the custom path for media with conversions', function () {
 
     $pathRelativeToRoot = md5($media->id).'/c/test-'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
 
-    $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+    expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
 });

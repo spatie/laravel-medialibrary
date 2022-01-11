@@ -22,13 +22,13 @@ beforeEach(function () {
 it('can return a stream of media', function () {
     $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
 
-    $this->assertEquals(count(Media::all()), $zipStreamResponse->getMediaItems()->count());
+    expect($zipStreamResponse->getMediaItems()->count())->toEqual(count(Media::all()));
 
     Route::get('stream-test', fn () => $zipStreamResponse);
 
     $response = $this->get('stream-test');
 
-    $this->assertInstanceOf(StreamedResponse::class, $response->baseResponse);
+    expect($response->baseResponse)->toBeInstanceOf(StreamedResponse::class);
 });
 
 it('can return a stream of multiple files with the same filename', function () {
@@ -52,14 +52,14 @@ test('media can be added to it one by one', function () {
         ->addMedia(Media::find(1))
         ->addMedia(Media::find(2));
 
-    $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
+    expect($zipStreamResponse->getMediaItems()->count())->toEqual(2);
 });
 
 test('an array of media can be added to it', function () {
     $zipStreamResponse = MediaStream::create('my-media.zip')
         ->addMedia([Media::find(1), Media::find(2)]);
 
-    $this->assertEquals(2, $zipStreamResponse->getMediaItems()->count());
+    expect($zipStreamResponse->getMediaItems()->count())->toEqual(2);
 });
 
 test('media with zip file folder prefix property saved in correct zip folder', function () {

@@ -11,7 +11,7 @@ it('can return an image as a response', function () {
 
     $result = $this->call('get', 'upload');
 
-    $this->assertEquals(200, $result->getStatusCode());
+    expect($result->getStatusCode())->toEqual(200);
     $result->assertHeader('Content-Type', 'image/jpeg');
     $result->assertHeader('Content-Length', 29085);
 });
@@ -23,7 +23,7 @@ it('can return a text as a response', function () {
 
     $result = $this->call('get', 'upload');
 
-    $this->assertEquals(200, $result->getStatusCode());
+    expect($result->getStatusCode())->toEqual(200);
     $result->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
     $result->assertHeader('Content-Length', 45);
 });

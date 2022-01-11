@@ -31,7 +31,7 @@ beforeEach(function () {
 it('can get the path relative to the root of media folder', function () {
     $pathRelativeToRoot = $this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 
-    $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+    expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
 });
 
 it('can get the path relative to the root of media folder when keeping the original image format', function () {
@@ -42,7 +42,7 @@ it('can get the path relative to the root of media folder when keeping the origi
         'test-'.$this->conversionKeepingOriginalImageFormat->getName()
         .'.png';
 
-    $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+    expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
 });
 
 it('appends a version string when versioning is enabled', function () {
@@ -50,17 +50,17 @@ it('appends a version string when versioning is enabled', function () {
 
     $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg?v='.$this->media->updated_at->timestamp;
 
-    $this->assertEquals($url, $this->urlGenerator->getUrl());
+    expect($this->urlGenerator->getUrl())->toEqual($url);
 
     config()->set('media-library.version_urls', false);
 
     $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 
-    $this->assertEquals($url, $this->urlGenerator->getUrl());
+    expect($this->urlGenerator->getUrl())->toEqual($url);
 });
 
 it('can get the responsive images directory url', function () {
     $this->config->set('filesystems.disks.public.url', 'http://localhost/media/');
 
-    $this->assertEquals('http://localhost/media/1/responsive-images/', $this->urlGenerator->getResponsiveImagesDirectoryUrl());
+    expect($this->urlGenerator->getResponsiveImagesDirectoryUrl())->toEqual('http://localhost/media/1/responsive-images/');
 });
