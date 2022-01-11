@@ -1,79 +1,66 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
-
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class MultipleDiskTest extends TestCase
-{
-    /** @test */
-    public function it_can_add_a_file_to_a_named_collection_on_a_specific_disk()
-    {
-        $collectionName = 'images';
-        $diskName = 'secondMediaDisk';
+uses(TestCase::class);
 
-        $media = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection($collectionName, $diskName);
+it('can add a file to a named collection on a specific disk', function () {
+    $collectionName = 'images';
+    $diskName = 'secondMediaDisk';
 
-        $this->assertEquals($collectionName, $media->collection_name);
-        $this->assertEquals($diskName, $media->disk);
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
-    }
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection($collectionName, $diskName);
 
-    /** @test */
-    public function it_will_throw_an_exception_when_using_a_non_existing_disk()
-    {
-        $this->expectException(FileCannotBeAdded::class);
+    $this->assertEquals($collectionName, $media->collection_name);
+    $this->assertEquals($diskName, $media->disk);
+    $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+});
 
-        $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection('images', 'diskdoesnotexist');
-    }
+it('will throw an exception when using a non existing disk', function () {
+    $this->expectException(FileCannotBeAdded::class);
 
-    /** @test */
-    public function it_will_save_the_derived_images_on_the_same_disk_as_the_original_file()
-    {
-        $collectionName = 'images';
-        $diskName = 'secondMediaDisk';
+    $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('images', 'diskdoesnotexist');
+});
 
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection($collectionName, $diskName);
+it('will save the derived images on the same disk as the original file', function () {
+    $collectionName = 'images';
+    $diskName = 'secondMediaDisk';
 
-        $this->assertEquals($collectionName, $media->collection_name);
-        $this->assertEquals($diskName, $media->disk);
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/conversions/test-thumb.jpg');
-    }
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection($collectionName, $diskName);
 
-    /** @test */
-    public function it_can_generate_urls_to_media_on_an_alternative_disk()
-    {
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection('', 'secondMediaDisk');
+    $this->assertEquals($collectionName, $media->collection_name);
+    $this->assertEquals($diskName, $media->disk);
+    $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+    $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/conversions/test-thumb.jpg');
+});
 
-        $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
-        $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
-    }
+it('can generate urls to media on an alternative disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('', 'secondMediaDisk');
 
-    /** @test */
-    public function it_can_put_files_on_the_cloud_disk_configured_the_filesystems_config_file()
-    {
-        $collectionName = 'images';
+    $this->assertEquals("/media2/{$media->id}/test.jpg", $media->getUrl());
+    $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
+});
 
-        $diskName = 'secondMediaDisk';
+it('can put files on the cloud disk configured the filesystems config file', function () {
+    $collectionName = 'images';
 
-        $this->app['config']->set('filesystems.cloud', 'secondMediaDisk');
+    $diskName = 'secondMediaDisk';
 
-        $media = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollectionOnCloudDisk($collectionName);
+    app()['config']->set('filesystems.cloud', 'secondMediaDisk');
 
-        $this->assertEquals($collectionName, $media->collection_name);
-        $this->assertEquals($diskName, $media->disk);
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
-    }
-}
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollectionOnCloudDisk($collectionName);
+
+    $this->assertEquals($collectionName, $media->collection_name);
+    $this->assertEquals($diskName, $media->disk);
+    $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+});

@@ -1,24 +1,17 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class GetOriginalUrlAttributeTest extends TestCase
-{
-    /** @test */
-    public function the_original_url_attribute_exists()
-    {
-        $media = $this->testModelWithPreviewConversion->addMedia($this->getTestJpg())->toMediaCollection();
+uses(TestCase::class);
 
-        $this->assertArrayHasKey('original_url', $media->toArray());
-    }
+test('the original url attribute exists', function () {
+    $media = $this->testModelWithPreviewConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-    /** @test */
-    public function it_can_get_url_of_original_image()
-    {
-        $media = $this->testModelWithPreviewConversion->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertArrayHasKey('original_url', $media->toArray());
+});
 
-        $this->assertEquals("/media/{$media->id}/test.jpg", $media->original_url);
-    }
-}
+it('can get url of original image', function () {
+    $media = $this->testModelWithPreviewConversion->addMedia($this->getTestJpg())->toMediaCollection();
+
+    $this->assertEquals("/media/{$media->id}/test.jpg", $media->original_url);
+});

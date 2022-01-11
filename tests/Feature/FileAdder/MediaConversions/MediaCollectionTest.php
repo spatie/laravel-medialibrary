@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
-
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -9,267 +7,232 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 
-class MediaCollectionTest extends TestCase
-{
-    /** @test */
-    public function it_will_use_the_disk_from_a_media_collection()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this->addMediaCollection('images')
-                    ->useDisk('secondMediaDisk');
-            }
-        };
+uses(TestCase::class);
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('will use the disk from a media collection', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this->addMediaCollection('images')
+                ->useDisk('secondMediaDisk');
+        }
+    };
 
-        $media = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->assertFileDoesNotExist($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
+    $media = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+    $this->assertFileDoesNotExist($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
 
-        $media = $model->addMedia($this->getTestJpg())->toMediaCollection('other-images');
+    $this->assertFileExists($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
-    }
+    $media = $model->addMedia($this->getTestJpg())->toMediaCollection('other-images');
 
-    /** @test */
-    public function it_will_not_use_the_disk_name_of_the_collection_if_a_diskname_is_specified_while_adding()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this->addMediaCollection('images')
-                    ->useDisk('secondMediaDisk');
-            }
-        };
+    $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('will not use the disk name of the collection if a diskname is specified while adding', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this->addMediaCollection('images')
+                ->useDisk('secondMediaDisk');
+        }
+    };
 
-        $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
+    $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
 
-        $this->assertFileDoesNotExist($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
-    }
+    $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/test.jpg');
 
-    /** @test */
-    public function it_can_register_media_conversions_when_defining_media_collections()
-    {
-        $testModel = new class () extends TestModelWithoutMediaConversions {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->registerMediaConversions(function (Media $media) {
-                        $this
-                            ->addMediaConversion('thumb')
-                            ->greyscale();
-                    });
-            }
-        };
+    $this->assertFileDoesNotExist($this->getTempDirectory('media2').'/'.$media->id.'/test.jpg');
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('can register media conversions when defining media collections', function () {
+    $testModel = new class () extends TestModelWithoutMediaConversions {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->registerMediaConversions(function (Media $media) {
+                    $this
+                        ->addMediaConversion('thumb')
+                        ->greyscale();
+                });
+        }
+    };
 
-        $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
-    }
+    $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
 
-    /** @test */
-    public function it_will_not_use_media_conversions_from_an_unrelated_collection()
-    {
-        $testModel = new class () extends TestModelWithoutMediaConversions {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->registerMediaConversions(function (Media $media) {
-                        $this
-                            ->addMediaConversion('thumb')
-                            ->greyscale();
-                    });
-            }
-        };
+    $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('will not use media conversions from an unrelated collection', function () {
+    $testModel = new class () extends TestModelWithoutMediaConversions {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->registerMediaConversions(function (Media $media) {
+                    $this
+                        ->addMediaConversion('thumb')
+                        ->greyscale();
+                });
+        }
+    };
 
-        $media = $model->addMedia($this->getTestJpg())->toMediaCollection('unrelated-collection');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->assertFileDoesNotExist($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
-    }
+    $media = $model->addMedia($this->getTestJpg())->toMediaCollection('unrelated-collection');
 
-    /** @test */
-    public function it_will_use_conversions_defined_in_conversions_and_conversions_defined_in_collections()
-    {
-        $testModel = new class () extends TestModelWithoutMediaConversions {
-            public function registerMediaConversions(Media $media = null): void
-            {
-                $this
-                    ->addMediaConversion('another-thumb')
-                    ->greyscale();
-            }
+    $this->assertFileDoesNotExist($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
+});
 
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->registerMediaConversions(function (Media $media = null) {
-                        $this
-                            ->addMediaConversion('thumb')
-                            ->greyscale();
-                    });
-            }
-        };
+it('will use conversions defined in conversions and conversions defined in collections', function () {
+    $testModel = new class () extends TestModelWithoutMediaConversions {
+        public function registerMediaConversions(Media $media = null) {
+            $this
+                ->addMediaConversion('another-thumb')
+                ->greyscale();
+        }
 
-        $model = $testModel::create(['name' => 'testmodel']);
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->registerMediaConversions(function (Media $media = null) {
+                    $this
+                        ->addMediaConversion('thumb')
+                        ->greyscale();
+                });
+        }
+    };
 
-        $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
+    $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images', 'public');
 
-        $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-another-thumb.jpg');
-    }
+    $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-thumb.jpg');
 
-    /** @test */
-    public function it_can_accept_certain_files()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->acceptsFile(fn (File $file) => $file->mimeType === 'image/jpeg');
-            }
-        };
+    $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/conversions/test-another-thumb.jpg');
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('can accept certain files', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->acceptsFile(fn (File $file) => $file->mimeType === 'image/jpeg');
+        }
+    };
 
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->expectException(FileUnacceptableForCollection::class);
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
-    }
+    $this->expectException(FileUnacceptableForCollection::class);
 
-    /** @test * */
-    public function it_can_guard_against_invalid_mimetypes()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->acceptsMimeTypes(['image/jpeg']);
-            }
-        };
+    $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('can guard against invalid mimetypes', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->acceptsMimeTypes(['image/jpeg']);
+        }
+    };
 
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->expectException(FileUnacceptableForCollection::class);
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
-    }
+    $this->expectException(FileUnacceptableForCollection::class);
 
-    /** @test * */
-    public function it_can_generate_responsive_images()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->withResponsiveImages();
-            }
-        };
+    $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('can generate responsive images', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->withResponsiveImages();
+        }
+    };
 
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $media = $model->getMedia('images')->first();
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertEquals([
-            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
-        ], $media->getResponsiveImageUrls());
+    $media = $model->getMedia('images')->first();
 
-        $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
-    }
+    $this->assertEquals([
+        'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
+        'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+        'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
+    ], $media->getResponsiveImageUrls());
 
-    /** @test * */
-    public function it_can_generate_responsive_images_on_condition()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->withResponsiveImagesIf(true);
-            }
-        };
+    $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+it('can generate responsive images on condition', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->withResponsiveImagesIf(true);
+        }
+    };
 
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $media = $model->getMedia('images')->first();
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $this->assertEquals([
-            'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
-            'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
-        ], $media->getResponsiveImageUrls());
+    $media = $model->getMedia('images')->first();
 
-        $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
-    }
+    $this->assertEquals([
+        'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
+        'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+        'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
+    ], $media->getResponsiveImageUrls());
 
-    /** @test */
-    public function if_the_single_file_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_new_one()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->singleFile();
-            }
-        };
+    $this->assertEquals([], $media->getResponsiveImageUrls('non-existing-conversion'));
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+test('if the single file method is specified it will delete all other media and will only keep the new one', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->singleFile();
+        }
+    };
 
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->assertCount(1, $model->getMedia('images'));
-    }
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-    /** @test */
-    public function if_the_only_keeps_latest_method_is_specified_it_will_delete_all_other_media_and_will_only_keep_the_latest_n_ones()
-    {
-        $testModel = new class () extends TestModelWithConversion {
-            public function registerMediaCollections(): void
-            {
-                $this
-                    ->addMediaCollection('images')
-                    ->onlyKeepLatest(3);
-            }
-        };
+    $this->assertCount(1, $model->getMedia('images'));
+});
 
-        $model = $testModel::create(['name' => 'testmodel']);
+test('if the only keeps latest method is specified it will delete all other media and will only keep the latest n ones', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections() {
+            $this
+                ->addMediaCollection('images')
+                ->onlyKeepLatest(3);
+        }
+    };
 
-        $firstFile = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
-        $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model = $testModel::create(['name' => 'testmodel']);
 
-        $this->assertFalse($model->getMedia('images')->contains(fn ($model) => $model->is($firstFile)));
-        $this->assertCount(3, $model->getMedia('images'));
-    }
-}
+    $firstFile = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+    $this->assertFalse($model->getMedia('images')->contains(fn ($model) => $model->is($firstFile)));
+    $this->assertCount(3, $model->getMedia('images'));
+});

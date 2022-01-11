@@ -1,66 +1,49 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\InteractsWithMedia;
-
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class HasMediaTest extends TestCase
-{
-    /** @test */
-    public function it_returns_false_for_an_empty_collection()
-    {
-        $this->assertFalse($this->testModel->hasMedia());
-    }
+uses(TestCase::class);
 
-    /** @test */
-    public function it_returns_true_for_a_non_empty_collection()
-    {
-        $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+it('returns false for an empty collection', function () {
+    $this->assertFalse($this->testModel->hasMedia());
+});
 
-        $this->assertTrue($this->testModel->hasMedia());
-    }
+it('returns true for a non empty collection', function () {
+    $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    /** @test */
-    public function it_returns_true_for_a_non_empty_collection_in_an_unsaved_model()
-    {
-        $this->testUnsavedModel->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertTrue($this->testModel->hasMedia());
+});
 
-        $this->assertTrue($this->testUnsavedModel->hasMedia());
-    }
+it('returns true for a non empty collection in an unsaved model', function () {
+    $this->testUnsavedModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    /** @test */
-    public function it_returns_true_if_any_collection_is_not_empty()
-    {
-        $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $this->assertTrue($this->testUnsavedModel->hasMedia());
+});
 
-        $this->assertTrue($this->testModel->hasMedia('images'));
-    }
+it('returns true if any collection is not empty', function () {
+    $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    /** @test */
-    public function it_returns_false_for_an_empty_named_collection()
-    {
-        $this->assertFalse($this->testModel->hasMedia('images'));
-    }
+    $this->assertTrue($this->testModel->hasMedia('images'));
+});
 
-    /** @test */
-    public function it_returns_true_for_a_non_empty_named_collection()
-    {
-        $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+it('returns false for an empty named collection', function () {
+    $this->assertFalse($this->testModel->hasMedia('images'));
+});
 
-        $this->assertTrue($this->testModel->hasMedia('images'));
-        $this->assertFalse($this->testModel->hasMedia('downloads'));
-    }
+it('returns true for a non empty named collection', function () {
+    $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    /** @test */
-    public function it_returns_true_for_a_filtered_collection()
-    {
-        $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->withCustomProperties(['test' => true])
-            ->toMediaCollection();
+    $this->assertTrue($this->testModel->hasMedia('images'));
+    $this->assertFalse($this->testModel->hasMedia('downloads'));
+});
 
-        $this->assertTrue($this->testModel->hasMedia('default'));
-        $this->assertTrue($this->testModel->hasMedia('default', ['test' => true]));
-        $this->assertFalse($this->testModel->hasMedia('default', ['test' => false]));
-    }
-}
+it('returns true for a filtered collection', function () {
+    $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withCustomProperties(['test' => true])
+        ->toMediaCollection();
+
+    $this->assertTrue($this->testModel->hasMedia('default'));
+    $this->assertTrue($this->testModel->hasMedia('default', ['test' => true]));
+    $this->assertFalse($this->testModel->hasMedia('default', ['test' => false]));
+});

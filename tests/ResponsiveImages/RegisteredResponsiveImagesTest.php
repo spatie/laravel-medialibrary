@@ -1,49 +1,42 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\ResponsiveImages;
-
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class RegisteredResponsiveImagesTest extends TestCase
-{
-    /** @test */
-    public function it_will_register_generated_responsive_images_in_the_db()
-    {
-        $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->withResponsiveImages()
-            ->toMediaCollection();
+uses(TestCase::class);
 
-        $media = $this->testModel->getFirstMedia();
+it('will register generated responsive images in the db', function () {
+    $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withResponsiveImages()
+        ->toMediaCollection();
 
-        $this->assertEquals([
-            'test___media_library_original_340_280.jpg',
-            'test___media_library_original_284_233.jpg',
-            'test___media_library_original_237_195.jpg',
-        ], $media->responsive_images['media_library_original']['urls']);
-    }
+    $media = $this->testModel->getFirstMedia();
 
-    /** @test */
-    public function it_can_render_a_srcset_when_the_base64svg_is_not_rendered_yet()
-    {
-        $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->withResponsiveImages()
-            ->toMediaCollection();
+    $this->assertEquals([
+        'test___media_library_original_340_280.jpg',
+        'test___media_library_original_284_233.jpg',
+        'test___media_library_original_237_195.jpg',
+    ], $media->responsive_images['media_library_original']['urls']);
+});
 
-        $media = $this->testModel->getFirstMedia();
+it('can render a srcset when the base64svg is not rendered yet', function () {
+    $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withResponsiveImages()
+        ->toMediaCollection();
 
-        $responsiveImages = $media->responsive_images;
+    $media = $this->testModel->getFirstMedia();
 
-        unset($responsiveImages['media_library_original']['base64svg']);
+    $responsiveImages = $media->responsive_images;
 
-        $media->responsive_images = $responsiveImages;
+    unset($responsiveImages['media_library_original']['base64svg']);
 
-        $registeredResponsiveImage = new RegisteredResponsiveImages($media);
+    $media->responsive_images = $responsiveImages;
 
-        $this->assertNull($registeredResponsiveImage->getPlaceholderSvg());
+    $registeredResponsiveImage = new RegisteredResponsiveImages($media);
 
-        $this->assertNotEmpty($registeredResponsiveImage->getSrcset());
-    }
-}
+    $this->assertNull($registeredResponsiveImage->getPlaceholderSvg());
+
+    $this->assertNotEmpty($registeredResponsiveImage->getSrcset());
+});

@@ -1,35 +1,28 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class CustomHeadersTest extends TestCase
-{
-    /** @test */
-    public function it_does_not_set_empty_custom_headers_when_saved()
-    {
-        $media = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection();
+uses(TestCase::class);
 
-        $this->assertFalse($media->hasCustomProperty('custom_headers'));
-        $this->assertEquals([], $media->getCustomHeaders());
-    }
+it('does not set empty custom headers when saved', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection();
 
-    /** @test */
-    public function it_can_set_and_retrieve_custom_headers_when_explicitly_added()
-    {
-        $headers = [
-            'Header' => 'Present',
-        ];
+    $this->assertFalse($media->hasCustomProperty('custom_headers'));
+    $this->assertEquals([], $media->getCustomHeaders());
+});
 
-        $media = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection()
-            ->setCustomHeaders($headers);
+it('can set and retrieve custom headers when explicitly added', function () {
+    $headers = [
+        'Header' => 'Present',
+    ];
 
-        $this->assertTrue($media->hasCustomProperty('custom_headers'));
-        $this->assertEquals($headers, $media->getCustomHeaders());
-    }
-}
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection()
+        ->setCustomHeaders($headers);
+
+    $this->assertTrue($media->hasCustomProperty('custom_headers'));
+    $this->assertEquals($headers, $media->getCustomHeaders());
+});

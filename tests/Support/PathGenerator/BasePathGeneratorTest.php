@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Support\PathGenerator;
-
 use Illuminate\Config\Repository;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
@@ -9,55 +7,37 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class BasePathGeneratorTest extends TestCase
-{
-    protected Repository $config;
+uses(TestCase::class);
 
-    protected Media $media;
+beforeEach(function () {
+    $this->config = app('config');
 
-    protected Conversion $conversion;
+    $this->urlGenerator = new DefaultUrlGenerator($this->config);
 
-    protected DefaultUrlGenerator $urlGenerator;
+    $this->pathGenerator = new CustomPathGenerator();
 
-    protected CustomPathGenerator $pathGenerator;
+    $this->urlGenerator->setPathGenerator($this->pathGenerator);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can get the custom path for media without conversions', function () {
+    $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
 
-        $this->config = app('config');
+    $this->urlGenerator->setMedia($media);
 
-        $this->urlGenerator = new DefaultUrlGenerator($this->config);
+    $pathRelativeToRoot = md5($media->id).'/'.$media->file_name;
 
-        $this->pathGenerator = new CustomPathGenerator();
+    $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+});
 
-        $this->urlGenerator->setPathGenerator($this->pathGenerator);
-    }
+it('can get the custom path for media with conversions', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
+    $conversion = ConversionCollection::createForMedia($media)->getByName('thumb');
 
-    /** @test */
-    public function it_can_get_the_custom_path_for_media_without_conversions()
-    {
-        $media = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
+    $this->urlGenerator
+        ->setMedia($media)
+        ->setConversion($conversion);
 
-        $this->urlGenerator->setMedia($media);
+    $pathRelativeToRoot = md5($media->id).'/c/test-'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
 
-        $pathRelativeToRoot = md5($media->id).'/'.$media->file_name;
-
-        $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
-    }
-
-    /** @test */
-    public function it_can_get_the_custom_path_for_media_with_conversions()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestFilesDirectory('test.jpg'))->toMediaCollection();
-        $conversion = ConversionCollection::createForMedia($media)->getByName('thumb');
-
-        $this->urlGenerator
-            ->setMedia($media)
-            ->setConversion($conversion);
-
-        $pathRelativeToRoot = md5($media->id).'/c/test-'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
-
-        $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
-    }
-}
+    $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+});

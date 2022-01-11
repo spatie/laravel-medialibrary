@@ -1,64 +1,55 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class RenameTest extends TestCase
-{
-    /** @test */
-    public function it_wil_rename_the_file_if_it_is_changed_on_the_media_object()
-    {
-        $testFile = $this->getTestFilesDirectory('test.jpg');
+uses(TestCase::class);
 
-        $media = $this->testModel->addMedia($testFile)->toMediaCollection();
+it('wil rename the file if it is changed on the media object', function () {
+    $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
+    $media = $this->testModel->addMedia($testFile)->toMediaCollection();
 
-        $media->file_name = 'test-new-name.jpg';
-        $media->save();
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/test-new-name.jpg'));
-    }
+    $media->file_name = 'test-new-name.jpg';
+    $media->save();
 
-    /** @test */
-    public function it_will_rename_conversions()
-    {
-        $testFile = $this->getTestFilesDirectory('test.jpg');
+    $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/test-new-name.jpg'));
+});
 
-        $media = $this->testModelWithConversion->addMedia($testFile)->toMediaCollection();
+it('will rename conversions', function () {
+    $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+    $media = $this->testModelWithConversion->addMedia($testFile)->toMediaCollection();
 
-        $media->file_name = 'test-new-name.jpg';
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
 
-        $media->save();
+    $media->file_name = 'test-new-name.jpg';
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-new-name-thumb.jpg'));
-    }
+    $media->save();
 
-    /** @test */
-    public function it_keeps_valid_file_name_when_renaming_with_missing_conversions()
-    {
-        $testFile = $this->getTestFilesDirectory('test.jpg');
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-new-name-thumb.jpg'));
+});
 
-        $media = $this->testModelWithConversion->addMedia($testFile)->toMediaCollection();
+it('keeps valid file name when renaming with missing conversions', function () {
+    $testFile = $this->getTestFilesDirectory('test.jpg');
 
-        $this->assertFileExists(
-            $thumb_conversion = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg')
-        );
+    $media = $this->testModelWithConversion->addMedia($testFile)->toMediaCollection();
 
-        unlink($thumb_conversion);
+    $this->assertFileExists(
+        $thumb_conversion = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg')
+    );
 
-        $media->file_name = $new_filename = 'test-new-name.jpg';
+    unlink($thumb_conversion);
 
-        $media->save();
+    $media->file_name = $new_filename = 'test-new-name.jpg';
 
-        // Reload attributes from the database
-        $media = $media->fresh();
+    $media->save();
 
-        $this->assertFileExists($media->getPath());
-        $this->assertEquals($new_filename, $media->file_name);
-    }
-}
+    // Reload attributes from the database
+    $media = $media->fresh();
+
+    $this->assertFileExists($media->getPath());
+    $this->assertEquals($new_filename, $media->file_name);
+});

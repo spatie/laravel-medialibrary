@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -9,134 +7,115 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
 
-class DeleteTest extends TestCase
-{
-    /** @test */
-    public function it_will_remove_the_files_when_deleting_an_object_that_has_media()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+uses(TestCase::class);
 
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+it('will remove the files when deleting an object that has media', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $this->testModel->delete();
+    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
 
-        $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
-    }
+    $this->testModel->delete();
 
-    /** @test */
-    public function it_will_remove_the_files_when_deleting_a_media_instance()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+});
 
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+it('will remove the files when deleting a media instance', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $media->delete();
+    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
 
-        $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
-    }
+    $media->delete();
 
-    /** @test */
-    public function it_will_remove_files_when_deleting_a_media_object_with_a_custom_path_generator()
-    {
-        config(['media-library.path_generator' => TestPathGenerator::class]);
+    $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+});
 
-        $pathGenerator = new TestPathGenerator();
+it('will remove files when deleting a media object with a custom path generator', function () {
+    config(['media-library.path_generator' => TestPathGenerator::class]);
 
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
-        $path = $pathGenerator->getPath($media);
+    $pathGenerator = new TestPathGenerator();
 
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $path = $pathGenerator->getPath($media);
 
-        $this->testModel->delete();
+    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
 
-        $this->assertFalse(File::isDirectory($this->getTempDirectory($path)));
-    }
+    $this->testModel->delete();
 
-    /**
-     * @test
-     */
-    public function it_will_not_remove_the_files_when_shouldDeletePreservingMedia_returns_true()
-    {
-        $testModelClass = new class () extends TestModel {
-            public function shouldDeletePreservingMedia(): bool
-            {
-                return true;
-            }
-        };
+    $this->assertFalse(File::isDirectory($this->getTempDirectory($path)));
+});
 
-        $testModel = $testModelClass::find($this->testModel->id);
+it('will not remove the files when should delete preserving media returns true', function () {
+    $testModelClass = new class () extends TestModel {
+        public function shouldDeletePreservingMedia(): bool
+        {
+            return true;
+        }
+    };
 
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $testModel = $testModelClass::find($this->testModel->id);
 
-        $testModel = $testModel->fresh();
+    $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $testModel->delete();
+    $testModel = $testModel->fresh();
 
-        $this->assertNotNull(Media::find($media->id));
-    }
+    $testModel->delete();
 
-    /**
-     * @test
-     */
-    public function it_will_remove_the_files_when_shouldDeletePreservingMedia_returns_false()
-    {
-        $testModelClass = new class () extends TestModel {
-            public function shouldDeletePreservingMedia(): bool
-            {
-                return false;
-            }
-        };
+    $this->assertNotNull(Media::find($media->id));
+});
 
-        $testModel = $testModelClass::find($this->testModel->id);
+it('will remove the files when should delete preserving media returns false', function () {
+    $testModelClass = new class () extends TestModel {
+        public function shouldDeletePreservingMedia(): bool
+        {
+            return false;
+        }
+    };
 
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $testModel = $testModelClass::find($this->testModel->id);
 
-        $testModel = $testModel->fresh();
+    $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $testModel->delete();
+    $testModel = $testModel->fresh();
 
-        $this->assertNull(Media::find($media->id));
-    }
+    $testModel->delete();
 
-    /** @test */
-    public function it_will_not_remove_the_file_when_model_uses_softdelete()
-    {
-        $testModelClass = new class () extends TestModel {
-            use SoftDeletes;
-        };
+    $this->assertNull(Media::find($media->id));
+});
 
-        /** @var TestModel $testModel */
-        $testModel = $testModelClass::find($this->testModel->id);
+it('will not remove the file when model uses softdelete', function () {
+    $testModelClass = new class () extends TestModel {
+        use SoftDeletes;
+    };
 
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    /** @var TestModel $testModel */
+    $testModel = $testModelClass::find($this->testModel->id);
 
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $testModel = $testModel->fresh();
+    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
 
-        $testModel->delete();
+    $testModel = $testModel->fresh();
 
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
-    }
+    $testModel->delete();
 
-    /** @test */
-    public function it_will_remove_the_file_when_model_uses_softdelete_with_force()
-    {
-        $testModelClass = new class () extends TestModel {
-            use SoftDeletes;
-        };
+    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+});
 
-        /** @var TestModel $testModel */
-        $testModel = $testModelClass::find($this->testModel->id);
+it('will remove the file when model uses softdelete with force', function () {
+    $testModelClass = new class () extends TestModel {
+        use SoftDeletes;
+    };
 
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    /** @var TestModel $testModel */
+    $testModel = $testModelClass::find($this->testModel->id);
 
-        $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
+    $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $testModel = $testModel->fresh();
+    $this->assertTrue(File::isDirectory($this->getMediaDirectory($media->id)));
 
-        $testModel->forceDelete();
+    $testModel = $testModel->fresh();
 
-        $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
-    }
-}
+    $testModel->forceDelete();
+
+    $this->assertFalse(File::isDirectory($this->getMediaDirectory($media->id)));
+});

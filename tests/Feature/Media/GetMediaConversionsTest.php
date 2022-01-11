@@ -1,26 +1,21 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class GetMediaConversionsTest extends TestCase
-{
-    /** @test */
-    public function it_can_get_the_names_of_registered_conversions()
-    {
-        $media = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection();
+uses(TestCase::class);
 
-        $this->assertSame([], $media->getMediaConversionNames());
+it('can get the names of registered conversions', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
 
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection();
+    $this->assertSame([], $media->getMediaConversionNames());
 
-        $this->assertSame(['thumb', 'keep_original_format'], $media->getMediaConversionNames());
-    }
-}
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    $this->assertSame(['thumb', 'keep_original_format'], $media->getMediaConversionNames());
+});

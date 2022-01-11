@@ -1,43 +1,36 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions\ImageGenerators;
-
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestImageGeneratorWithConfig;
 
-class TestImageGeneratorWithConfigTest extends TestCase
-{
-    /** @test */
-    public function image_generators_can_get_parameter_from_the_config_file()
-    {
-        config()->set('media-library.image_generators', [
-            TestImageGeneratorWithConfig::class => ['firstName' => 'firstValue', 'secondName' => 'secondValue'],
-        ]);
+uses(TestCase::class);
 
-        $imageGenerators = ImageGeneratorFactory::getImageGenerators();
+test('image generators can get parameter from the config file', function () {
+    config()->set('media-library.image_generators', [
+        TestImageGeneratorWithConfig::class => ['firstName' => 'firstValue', 'secondName' => 'secondValue'],
+    ]);
 
-        $testGeneratorWithConfig = $imageGenerators->first();
+    $imageGenerators = ImageGeneratorFactory::getImageGenerators();
 
-        $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
+    $testGeneratorWithConfig = $imageGenerators->first();
 
-        $this->assertEquals('firstValue', $testGeneratorWithConfig->firstName);
-        $this->assertEquals('secondValue', $testGeneratorWithConfig->secondName);
-    }
+    $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
 
-    /** @test */
-    public function image_generators_will_receive_config_parameters_by_name()
-    {
-        config()->set('media-library.image_generators', [
-            TestImageGeneratorWithConfig::class => ['secondName' => 'secondValue', 'firstName' => 'firstValue', ],
-        ]);
+    $this->assertEquals('firstValue', $testGeneratorWithConfig->firstName);
+    $this->assertEquals('secondValue', $testGeneratorWithConfig->secondName);
+});
 
-        $imageGenerators = ImageGeneratorFactory::getImageGenerators();
+test('image generators will receive config parameters by name', function () {
+    config()->set('media-library.image_generators', [
+        TestImageGeneratorWithConfig::class => ['secondName' => 'secondValue', 'firstName' => 'firstValue', ],
+    ]);
 
-        $testGeneratorWithConfig = $imageGenerators->first();
+    $imageGenerators = ImageGeneratorFactory::getImageGenerators();
 
-        $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
-        $this->assertEquals('firstValue', $testGeneratorWithConfig->firstName);
-        $this->assertEquals('secondValue', $testGeneratorWithConfig->secondName);
-    }
-}
+    $testGeneratorWithConfig = $imageGenerators->first();
+
+    $this->assertInstanceOf(TestImageGeneratorWithConfig::class, $testGeneratorWithConfig);
+    $this->assertEquals('firstValue', $testGeneratorWithConfig->firstName);
+    $this->assertEquals('secondValue', $testGeneratorWithConfig->secondName);
+});

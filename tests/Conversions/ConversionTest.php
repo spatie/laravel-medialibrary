@@ -1,217 +1,167 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions;
-
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class ConversionTest extends TestCase
-{
-    protected string $conversionName = 'test';
+uses(TestCase::class);
 
-    protected Conversion $conversion;
+beforeEach(function () {
+    $this->conversion = new Conversion($this->conversionName);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can get its name', function () {
+    $this->assertEquals($this->conversionName, $this->conversion->getName());
+});
 
-        $this->conversion = new Conversion($this->conversionName);
-    }
+it('will add a format parameter if it was not given', function () {
+    $this->conversion->width(10);
 
-    /** @test */
-    public function it_can_get_its_name()
-    {
-        $this->assertEquals($this->conversionName, $this->conversion->getName());
-    }
+    $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulationArgument('format'));
+});
 
-    /** @test */
-    public function it_will_add_a_format_parameter_if_it_was_not_given()
-    {
-        $this->conversion->width(10);
+it('will use the format parameter if it was given', function () {
+    $this->conversion->format('png');
 
-        $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulationArgument('format'));
-    }
+    $this->assertEquals('png', $this->conversion->getManipulations()->getManipulationArgument('format'));
+});
 
-    /** @test */
-    public function it_will_use_the_format_parameter_if_it_was_given()
-    {
-        $this->conversion->format('png');
+it('will be performed on the given collection names', function () {
+    $this->conversion->performOnCollections('images', 'downloads');
+    $this->assertTrue($this->conversion->shouldBePerformedOn('images'));
+    $this->assertTrue($this->conversion->shouldBePerformedOn('downloads'));
+    $this->assertFalse($this->conversion->shouldBePerformedOn('unknown'));
+});
 
-        $this->assertEquals('png', $this->conversion->getManipulations()->getManipulationArgument('format'));
-    }
+it('will be performed on all collections if not collection names are set', function () {
+    $this->conversion->performOnCollections('*');
+    $this->assertTrue($this->conversion->shouldBePerformedOn('images'));
+    $this->assertTrue($this->conversion->shouldBePerformedOn('downloads'));
+    $this->assertTrue($this->conversion->shouldBePerformedOn('unknown'));
+});
 
-    /** @test */
-    public function it_will_be_performed_on_the_given_collection_names()
-    {
-        $this->conversion->performOnCollections('images', 'downloads');
-        $this->assertTrue($this->conversion->shouldBePerformedOn('images'));
-        $this->assertTrue($this->conversion->shouldBePerformedOn('downloads'));
-        $this->assertFalse($this->conversion->shouldBePerformedOn('unknown'));
-    }
+it('will be performed on all collections if not collection name is a star', function () {
+    $this->assertTrue($this->conversion->shouldBePerformedOn('images'));
+    $this->assertTrue($this->conversion->shouldBePerformedOn('downloads'));
+    $this->assertTrue($this->conversion->shouldBePerformedOn('unknown'));
+});
 
-    /** @test */
-    public function it_will_be_performed_on_all_collections_if_not_collection_names_are_set()
-    {
-        $this->conversion->performOnCollections('*');
-        $this->assertTrue($this->conversion->shouldBePerformedOn('images'));
-        $this->assertTrue($this->conversion->shouldBePerformedOn('downloads'));
-        $this->assertTrue($this->conversion->shouldBePerformedOn('unknown'));
-    }
+it('will be queued without config', function () {
+    config()->set('media-library.queue_conversions_by_default', null);
+    $this->assertTrue($this->conversion->shouldBeQueued());
+});
 
-    /** @test */
-    public function it_will_be_performed_on_all_collections_if_not_collection_name_is_a_star()
-    {
-        $this->assertTrue($this->conversion->shouldBePerformedOn('images'));
-        $this->assertTrue($this->conversion->shouldBePerformedOn('downloads'));
-        $this->assertTrue($this->conversion->shouldBePerformedOn('unknown'));
-    }
+it('will be queued by default', function () {
+    config()->set('media-library.queue_conversions_by_default', true);
+    $this->assertTrue($this->conversion->shouldBeQueued());
+});
 
-    /** @test */
-    public function it_will_be_queued_without_config()
-    {
-        config()->set('media-library.queue_conversions_by_default', null);
-        $this->assertTrue($this->conversion->shouldBeQueued());
-    }
+it('will be non queued by default', function () {
+    config()->set('media-library.queue_conversions_by_default', false);
+    $this->assertTrue($this->conversion->shouldBeQueued());
+});
 
-    /** @test */
-    public function it_will_be_queued_by_default()
-    {
-        config()->set('media-library.queue_conversions_by_default', true);
-        $this->assertTrue($this->conversion->shouldBeQueued());
-    }
+it('can be set to queued', function () {
+    config()->set('media-library.queue_conversions_by_default', false);
+    $this->assertTrue($this->conversion->queued()->shouldBeQueued());
+});
 
-    /** @test */
-    public function it_will_be_nonQueued_by_default()
-    {
-        config()->set('media-library.queue_conversions_by_default', false);
-        $this->assertTrue($this->conversion->shouldBeQueued());
-    }
+it('can be set to non queued', function () {
+    config()->set('media-library.queue_conversions_by_default', true);
+    $this->assertFalse($this->conversion->nonQueued()->shouldBeQueued());
+});
 
-    /** @test */
-    public function it_can_be_set_to_queued()
-    {
-        config()->set('media-library.queue_conversions_by_default', false);
-        $this->assertTrue($this->conversion->queued()->shouldBeQueued());
-    }
+it('can determine the extension of the result', function () {
+    $this->conversion->width(50);
 
-    /** @test */
-    public function it_can_be_set_to_nonQueued()
-    {
-        config()->set('media-library.queue_conversions_by_default', true);
-        $this->assertFalse($this->conversion->nonQueued()->shouldBeQueued());
-    }
+    $this->assertEquals('jpg', $this->conversion->getResultExtension());
 
-    /** @test */
-    public function it_can_determine_the_extension_of_the_result()
-    {
-        $this->conversion->width(50);
+    $this->conversion->width(100)->format('png');
 
-        $this->assertEquals('jpg', $this->conversion->getResultExtension());
+    $this->assertEquals('png', $this->conversion->getResultExtension());
+});
 
-        $this->conversion->width(100)->format('png');
+it('can remove a previously set manipulation', function () {
+    $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulationArgument('format'));
 
-        $this->assertEquals('png', $this->conversion->getResultExtension());
-    }
+    $this->conversion->removeManipulation('format');
 
-    /** @test */
-    public function it_can_remove_a_previously_set_manipulation()
-    {
-        $this->assertEquals('jpg', $this->conversion->getManipulations()->getManipulationArgument('format'));
+    $this->assertNull($this->conversion->getManipulations()->getManipulationArgument('format'));
+});
 
-        $this->conversion->removeManipulation('format');
+it('can remove all previously set manipulations', function () {
+    $this->assertFalse($this->conversion->getManipulations()->isEmpty());
 
-        $this->assertNull($this->conversion->getManipulations()->getManipulationArgument('format'));
-    }
+    $this->conversion->withoutManipulations();
 
-    /** @test */
-    public function it_can_remove_all_previously_set_manipulations()
-    {
-        $this->assertFalse($this->conversion->getManipulations()->isEmpty());
+    $this->assertTrue($this->conversion->getManipulations()->isEmpty());
+});
 
-        $this->conversion->withoutManipulations();
+it('will use the extract duration parameter if it was given', function () {
+    $this->conversion->extractVideoFrameAtSecond(10);
 
-        $this->assertTrue($this->conversion->getManipulations()->isEmpty());
-    }
+    $this->assertEquals(10, $this->conversion->getExtractVideoFrameAtSecond());
+});
 
-    /** @test */
-    public function it_will_use_the_extract_duration_parameter_if_it_was_given()
-    {
-        $this->conversion->extractVideoFrameAtSecond(10);
+test('manipulations can be set using an instance of manipulations', function () {
+    $this->conversion->setManipulations((new Manipulations())->width(10));
 
-        $this->assertEquals(10, $this->conversion->getExtractVideoFrameAtSecond());
-    }
+    $manipulations = $this->conversion
+        ->getManipulations()
+        ->getManipulationSequence()
+        ->toArray();
 
-    /** @test */
-    public function manipulations_can_be_set_using_an_instance_of_manipulations()
-    {
-        $this->conversion->setManipulations((new Manipulations())->width(10));
+    $this->assertArrayHasKey('optimize', $manipulations[0]);
 
-        $manipulations = $this->conversion
-            ->getManipulations()
-            ->getManipulationSequence()
-            ->toArray();
+    unset($manipulations[0]['optimize']);
 
-        $this->assertArrayHasKey('optimize', $manipulations[0]);
+    $this->assertEquals([[
+        'width' => 10,
+        'format' => 'jpg',
+    ]], $manipulations);
+});
 
-        unset($manipulations[0]['optimize']);
+test('manipulations can be set using a closure', function () {
+    $this->conversion->setManipulations(function (Manipulations $manipulations) {
+        $manipulations->width(10);
+    });
 
-        $this->assertEquals([[
-            'width' => 10,
-            'format' => 'jpg',
-        ]], $manipulations);
-    }
+    $manipulations = $this->conversion
+        ->getManipulations()
+        ->getManipulationSequence()
+        ->toArray();
 
-    /** @test */
-    public function manipulations_can_be_set_using_a_closure()
-    {
-        $this->conversion->setManipulations(function (Manipulations $manipulations) {
-            $manipulations->width(10);
-        });
+    $this->assertArrayHasKey('optimize', $manipulations[0]);
 
-        $manipulations = $this->conversion
-            ->getManipulations()
-            ->getManipulationSequence()
-            ->toArray();
+    unset($manipulations[0]['optimize']);
 
-        $this->assertArrayHasKey('optimize', $manipulations[0]);
+    $this->assertEquals([[
+        'width' => 10,
+        'format' => 'jpg',
+    ]], $manipulations);
+});
 
-        unset($manipulations[0]['optimize']);
+it('will optimize the converted image by default', function () {
+    $manipulations = (new Conversion('test'))
+        ->getManipulations()
+        ->getManipulationSequence()
+        ->toArray();
 
-        $this->assertEquals([[
-            'width' => 10,
-            'format' => 'jpg',
-        ]], $manipulations);
-    }
+    $this->assertArrayHasKey('optimize', $manipulations[0]);
+});
 
-    /** @test */
-    public function it_will_optimize_the_converted_image_by_default()
-    {
-        $manipulations = (new Conversion('test'))
-            ->getManipulations()
-            ->getManipulationSequence()
-            ->toArray();
+it('can remove the optimization', function () {
+    $manipulations = (new Conversion('test'))
+        ->nonOptimized()
+        ->getManipulations()
+        ->getManipulationSequence()
+        ->toArray();
 
-        $this->assertArrayHasKey('optimize', $manipulations[0]);
-    }
+    $this->assertArrayNotHasKey('optimize', $manipulations[0]);
+});
 
-    /** @test */
-    public function it_can_remove_the_optimization()
-    {
-        $manipulations = (new Conversion('test'))
-            ->nonOptimized()
-            ->getManipulations()
-            ->getManipulationSequence()
-            ->toArray();
+it('will use the pdf page number parameter if it was given', function () {
+    $this->conversion->pdfPageNumber(10);
 
-        $this->assertArrayNotHasKey('optimize', $manipulations[0]);
-    }
-
-    /** @test */
-    public function it_will_use_the_pdf_page_number_parameter_if_it_was_given()
-    {
-        $this->conversion->pdfPageNumber(10);
-
-        $this->assertEquals(10, $this->conversion->getPdfPageNumber());
-    }
-}
+    $this->assertEquals(10, $this->conversion->getPdfPageNumber());
+});

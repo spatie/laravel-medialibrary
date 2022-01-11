@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
-
 use Carbon\Carbon;
 use Imagick;
 use Spatie\Image\Manipulations;
@@ -11,148 +9,127 @@ use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
-class AddMediaTest extends TestCase
-{
-    /** @test */
-    public function it_can_add_an_file_to_the_default_collection()
-    {
-        $media = $this->testModelWithoutMediaConversions
-            ->copyMedia($this->getTestFilesDirectory('test.jpg'))
-            ->toMediaCollection();
+uses(TestCase::class);
 
-        $this->assertEquals('default', $media->collection_name);
-    }
+it('can add an file to the default collection', function () {
+    $media = $this->testModelWithoutMediaConversions
+        ->copyMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection();
 
-    /** @test */
-    public function it_can_create_a_derived_version_of_an_image()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $this->assertEquals('default', $media->collection_name);
+});
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
-    }
+it('can create a derived version of an image', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    /** @test */
-    public function it_will_not_create_a_derived_version_for_non_registered_collections()
-    {
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection('downloads');
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+});
 
-        $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
-    }
+it('will not create a derived version for non registered collections', function () {
+    $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection('downloads');
 
-    /** @test */
-    public function it_will_create_a_derived_version_for_an_image_without_an_extension()
-    {
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestFilesDirectory('image'))
-            ->toMediaCollection('images');
+    $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+});
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/image-thumb.jpg'));
-    }
+it('will create a derived version for an image without an extension', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('image'))
+        ->toMediaCollection('images');
 
-    /** @test */
-    public function it_can_create_a_derived_version_for_an_image_keeping_the_original_format()
-    {
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestPng())
-            ->toMediaCollection('images');
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/image-thumb.jpg'));
+});
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-keep_original_format.png'));
-    }
+it('can create a derived version for an image keeping the original format', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestPng())
+        ->toMediaCollection('images');
 
-    /** @test */
-    public function it_will_use_the_name_of_the_conversion_for_naming_the_converted_file()
-    {
-        $modelClass = new class () extends TestModelWithConversion {
-            public function registerMediaConversions(Media $media = null): void
-            {
-                $this->addMediaConversion('my-conversion')
-                    ->setManipulations(function (Manipulations $manipulations) {
-                        $manipulations
-                            ->removeManipulation('format');
-                    })
-                    ->nonQueued();
-            }
-        };
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-keep_original_format.png'));
+});
 
-        $model = $modelClass::first();
+it('will use the name of the conversion for naming the converted file', function () {
+    $modelClass = new class () extends TestModelWithConversion {
+        public function registerMediaConversions(Media $media = null) {
+            $this->addMediaConversion('my-conversion')
+                ->setManipulations(function (Manipulations $manipulations) {
+                    $manipulations
+                        ->removeManipulation('format');
+                })
+                ->nonQueued();
+        }
+    };
 
-        $media = $model
-            ->addMedia($this->getTestFilesDirectory('test.png'))
-            ->toMediaCollection('images');
+    $model = $modelClass::first();
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-my-conversion.png'));
-    }
+    $media = $model
+        ->addMedia($this->getTestFilesDirectory('test.png'))
+        ->toMediaCollection('images');
 
-    /** @test */
-    public function it_can_create_a_derived_version_of_a_pdf_if_imagick_exists()
-    {
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestFilesDirectory('test.pdf'))
-            ->toMediaCollection('images');
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-my-conversion.png'));
+});
 
-        $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
+it('can create a derived version of a pdf if imagick exists', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('test.pdf'))
+        ->toMediaCollection('images');
 
-        class_exists(Imagick::class)
-            ? $this->assertFileExists($thumbPath)
-            : $this->assertFileDoesNotExist($thumbPath);
-    }
+    $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
 
-    /** @test */
-    public function it_will_not_create_a_derived_version_if_manipulations_did_not_change()
-    {
-        Carbon::setTestNow();
+    class_exists(Imagick::class)
+        ? $this->assertFileExists($thumbPath)
+        : $this->assertFileDoesNotExist($thumbPath);
+});
 
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
+it('will not create a derived version if manipulations did not change', function () {
+    Carbon::setTestNow();
 
-        $originalThumbCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        Carbon::setTestNow(Carbon::now()->addMinute());
+    $originalThumbCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
 
-        $media->order_column += 1;
-        $media->save();
+    Carbon::setTestNow(Carbon::now()->addMinute());
 
-        $thumbsCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+    $media->order_column += 1;
+    $media->save();
 
-        $this->assertEquals($originalThumbCreatedAt, $thumbsCreatedAt);
-    }
+    $thumbsCreatedAt = filemtime($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
 
-    /** @test */
-    public function it_will_have_access_the_model_instance_when_registerMediaConversionsUsingModelInstance_has_been_set()
-    {
-        $modelClass = new class () extends TestModel {
-            public bool $registerMediaConversionsUsingModelInstance = true;
+    $this->assertEquals($originalThumbCreatedAt, $thumbsCreatedAt);
+});
 
-            /**
-             * Register the conversions that should be performed.
-             *
-             * @return array
-             */
-            public function registerMediaConversions(Media $media = null): void
-            {
-                $this->addMediaConversion('thumb')
-                    ->width($this->width)
-                    ->nonQueued();
-            }
-        };
+it('will have access the model instance when register media conversions using model instance has been set', function () {
+    $modelClass = new class () extends TestModel {
+        public bool $registerMediaConversionsUsingModelInstance = true;
 
-        $model = new $modelClass();
-        $model->name = 'testmodel';
-        $model->width = 123;
-        $model->save();
+        /**
+         * Register the conversions that should be performed.
+         *
+         * @return array
+         */
+        public function registerMediaConversions(Media $media = null) {
+            $this->addMediaConversion('thumb')
+                ->width($this->width)
+                ->nonQueued();
+        }
+    };
 
-        $media = $model
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection();
+    $model = new $modelClass();
+    $model->name = 'testmodel';
+    $model->width = 123;
+    $model->save();
 
-        $conversionCollection = ConversionCollection::createForMedia($media);
+    $media = $model
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection();
 
-        $conversion = $conversionCollection->getConversions()[0];
+    $conversionCollection = ConversionCollection::createForMedia($media);
 
-        $conversionManipulations = $conversion
-            ->getManipulations()
-            ->getManipulationSequence()
-            ->toArray()[0];
+    $conversion = $conversionCollection->getConversions()[0];
 
-        $this->assertEquals(123, $conversionManipulations['width']);
-    }
-}
+    $conversionManipulations = $conversion
+        ->getManipulations()
+        ->getManipulationSequence()
+        ->toArray()[0];
+
+    $this->assertEquals(123, $conversionManipulations['width']);
+});

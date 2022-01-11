@@ -1,24 +1,19 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions\ImageGenerators;
-
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class ImageTest extends TestCase
-{
-    /** @test */
-    public function it_can_convert_an_image()
-    {
-        $imageGenerator = new Image();
+uses(TestCase::class);
 
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
+it('can convert an image', function () {
+    $imageGenerator = new Image();
 
-        $this->assertTrue($imageGenerator->canConvert($media));
+    $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $imageFile = $imageGenerator->convert($media->getPath());
+    $this->assertTrue($imageGenerator->canConvert($media));
 
-        $this->assertEquals('image/jpeg', mime_content_type($imageFile));
-        $this->assertEquals($imageFile, $media->getPath());
-    }
-}
+    $imageFile = $imageGenerator->convert($media->getPath());
+
+    $this->assertEquals('image/jpeg', mime_content_type($imageFile));
+    $this->assertEquals($imageFile, $media->getPath());
+});

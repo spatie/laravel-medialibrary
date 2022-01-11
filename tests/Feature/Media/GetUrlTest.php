@@ -1,67 +1,52 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Carbon\Carbon;
 use RuntimeException;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class GetUrlTest extends TestCase
-{
-    /** @test */
-    public function it_can_get_an_url_of_an_original_item()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+uses(TestCase::class);
 
-        $this->assertEquals($media->getUrl(), "/media/{$media->id}/test.jpg");
-    }
+it('can get an url of an original item', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    /** @test */
-    public function it_can_get_an_url_of_a_derived_image()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertEquals($media->getUrl(), "/media/{$media->id}/test.jpg");
+});
 
-        $conversionName = 'thumb';
+it('can get an url of a derived image', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $this->assertEquals("/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getUrl($conversionName));
-    }
+    $conversionName = 'thumb';
 
-    /** @test */
-    public function it_returns_an_exception_when_getting_an_url_for_an_unknown_conversion()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertEquals("/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getUrl($conversionName));
+});
 
-        $this->expectException(InvalidConversion::class);
+it('returns an exception when getting an url for an unknown conversion', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $media->getUrl('unknownConversionName');
-    }
+    $this->expectException(InvalidConversion::class);
 
-    /** @test */
-    public function it_can_get_the_full_url_of_an_original_item()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+    $media->getUrl('unknownConversionName');
+});
 
-        $this->assertEquals($media->getFullUrl(), "http://localhost/media/{$media->id}/test.jpg");
-    }
+it('can get the full url of an original item', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    /** @test */
-    public function it_can_get_the_full_url_of_a_derived_image()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertEquals($media->getFullUrl(), "http://localhost/media/{$media->id}/test.jpg");
+});
 
-        $conversionName = 'thumb';
+it('can get the full url of a derived image', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $this->assertEquals("http://localhost/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getFullUrl($conversionName));
-    }
+    $conversionName = 'thumb';
 
-    /** @test */
-    public function it_throws_an_exception_when_trying_to_get_a_temporary_url_on_local_disk()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertEquals("http://localhost/media/{$media->id}/conversions/test-{$conversionName}.jpg", $media->getFullUrl($conversionName));
+});
 
-        $this->expectException(RuntimeException::class);
+it('throws an exception when trying to get a temporary url on local disk', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $media->getTemporaryUrl(Carbon::now()->addMinutes(5));
-    }
-}
+    $this->expectException(RuntimeException::class);
+
+    $media->getTemporaryUrl(Carbon::now()->addMinutes(5));
+});

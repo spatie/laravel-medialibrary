@@ -1,28 +1,23 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Image;
-
 use ReflectionClass;
 use Spatie\MediaLibrary\Support\ImageFactory;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class ImageFactoryTest extends TestCase
-{
-    /** @test */
-    public function loading_an_image_uses_the_correct_driver()
-    {
-        config(['media-library.image_driver' => 'imagick']);
+uses(TestCase::class);
 
-        $image = ImageFactory::load($this->getTestJpg());
+test('loading an image uses the correct driver', function () {
+    config(['media-library.image_driver' => 'imagick']);
 
-        $reflection = new ReflectionClass($image);
+    $image = ImageFactory::load($this->getTestJpg());
 
-        $imageDriver = $reflection->getProperty('imageDriver');
+    $reflection = new ReflectionClass($image);
 
-        $imageDriver->setAccessible(true);
+    $imageDriver = $reflection->getProperty('imageDriver');
 
-        $imageDriverValue = $imageDriver->getValue($image);
+    $imageDriver->setAccessible(true);
 
-        $this->assertEquals('imagick', $imageDriverValue);
-    }
-}
+    $imageDriverValue = $imageDriver->getValue($image);
+
+    $this->assertEquals('imagick', $imageDriverValue);
+});

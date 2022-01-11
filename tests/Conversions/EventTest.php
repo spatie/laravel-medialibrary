@@ -1,48 +1,38 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class EventTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setup();
+uses(TestCase::class);
 
-        Event::fake();
-    }
+beforeEach(function () {
+    parent::setup();
 
-    /** @test */
-    public function it_will_fire_the_conversion_will_start_event()
-    {
-        $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
+    Event::fake();
+});
 
-        Event::assertDispatched(ConversionWillStart::class);
-    }
+it('will fire the conversion will start event', function () {
+    $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    /** @test */
-    public function it_will_fire_the_conversion_complete_event()
-    {
-        $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
+    Event::assertDispatched(ConversionWillStart::class);
+});
 
-        Event::assertDispatched(ConversionHasBeenCompleted::class);
-    }
+it('will fire the conversion complete event', function () {
+    $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-    /** @test */
-    public function it_will_fire_the_collection_cleared_event()
-    {
-        $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection('images');
+    Event::assertDispatched(ConversionHasBeenCompleted::class);
+});
 
-        $this->testModel->clearMediaCollection('images');
+it('will fire the collection cleared event', function () {
+    $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('images');
 
-        Event::assertDispatched(CollectionHasBeenCleared::class);
-    }
-}
+    $this->testModel->clearMediaCollection('images');
+
+    Event::assertDispatched(CollectionHasBeenCleared::class);
+});

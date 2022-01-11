@@ -1,74 +1,63 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions\ImageGenerators;
-
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestImageGenerator;
 
-class DualTypeCheckingTest extends TestCase
-{
-    /** @test */
-    public function it_can_convert_an_image_with_a_valid_extension_and_mime_type()
-    {
-        $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
+uses(TestCase::class);
 
-        $generator->supportedMimetypes->push('supported-mime-type');
-        $generator->supportedExtensions->push('supported-extension');
+it('can convert an image with a valid extension and mime type', function () {
+    $generator = new TestImageGenerator();
+    $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
-        $media = new Media();
-        $media->mime_type = 'supported-mime-type';
-        $media->file_name = 'some-file.supported-extension';
+    $generator->supportedMimetypes->push('supported-mime-type');
+    $generator->supportedExtensions->push('supported-extension');
 
-        $this->assertTrue($generator->canConvert($media));
-    }
+    $media = new Media();
+    $media->mime_type = 'supported-mime-type';
+    $media->file_name = 'some-file.supported-extension';
 
-    /** @test */
-    public function it_cannot_convert_an_image_with_an_invalid_extension_and_mime_type()
-    {
-        $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
+    $this->assertTrue($generator->canConvert($media));
+});
 
-        $generator->supportedMimetypes->push('supported-mime-type');
-        $generator->supportedExtensions->push('supported-extension');
+it('cannot convert an image with an invalid extension and mime type', function () {
+    $generator = new TestImageGenerator();
+    $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
-        $media = new Media();
-        $media->mime_type = 'invalid-mime-type';
-        $media->file_name = 'some-file.invalid-extension';
+    $generator->supportedMimetypes->push('supported-mime-type');
+    $generator->supportedExtensions->push('supported-extension');
 
-        $this->assertFalse($generator->canConvert($media));
-    }
+    $media = new Media();
+    $media->mime_type = 'invalid-mime-type';
+    $media->file_name = 'some-file.invalid-extension';
 
-    /** @test */
-    public function it_cannot_convert_an_image_with_only_a_valid_mime_type()
-    {
-        $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
+    $this->assertFalse($generator->canConvert($media));
+});
 
-        $generator->supportedMimetypes->push('supported-mime-type');
-        $generator->supportedExtensions->push('supported-extension');
+it('cannot convert an image with only a valid mime type', function () {
+    $generator = new TestImageGenerator();
+    $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
-        $media = new Media();
-        $media->mime_type = 'supported-mime-type';
-        $media->file_name = 'some-file.invalid-extension';
+    $generator->supportedMimetypes->push('supported-mime-type');
+    $generator->supportedExtensions->push('supported-extension');
 
-        $this->assertFalse($generator->canConvert($media));
-    }
+    $media = new Media();
+    $media->mime_type = 'supported-mime-type';
+    $media->file_name = 'some-file.invalid-extension';
 
-    /** @test */
-    public function it_cannot_convert_an_image_with_only_a_valid_extension()
-    {
-        $generator = new TestImageGenerator();
-        $generator->shouldMatchBothExtensionsAndMimeTypes = true;
+    $this->assertFalse($generator->canConvert($media));
+});
 
-        $generator->supportedExtensions->push('supported-extension');
-        $generator->supportedMimetypes->push('supported-mime-type');
+it('cannot convert an image with only a valid extension', function () {
+    $generator = new TestImageGenerator();
+    $generator->shouldMatchBothExtensionsAndMimeTypes = true;
 
-        $media = new Media();
-        $media->mime_type = 'invalid-mime-type';
-        $media->file_name = 'some-file.supported-extension';
+    $generator->supportedExtensions->push('supported-extension');
+    $generator->supportedMimetypes->push('supported-mime-type');
 
-        $this->assertFalse($generator->canConvert($media));
-    }
-}
+    $media = new Media();
+    $media->mime_type = 'invalid-mime-type';
+    $media->file_name = 'some-file.supported-extension';
+
+    $this->assertFalse($generator->canConvert($media));
+});

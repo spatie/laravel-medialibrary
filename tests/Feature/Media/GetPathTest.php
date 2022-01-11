@@ -1,75 +1,62 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class GetPathTest extends TestCase
-{
-    /** @test */
-    public function it_can_get_a_path_of_an_original_item()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+uses(TestCase::class);
 
-        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/test.jpg");
+it('can get a path of an original item', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $actual = $this->makePathOsSafe($media->getPath());
+    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/test.jpg");
 
-        $this->assertEquals($expected, $actual);
-    }
+    $actual = $this->makePathOsSafe($media->getPath());
 
-    /** @test */
-    public function it_can_get_a_path_of_a_derived_image()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertEquals($expected, $actual);
+});
 
-        $conversionName = 'thumb';
+it('can get a path of a derived image', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/conversions/test-{$conversionName}.jpg");
+    $conversionName = 'thumb';
 
-        $actual = $this->makePathOsSafe($media->getPath($conversionName));
+    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/conversions/test-{$conversionName}.jpg");
 
-        $this->assertEquals($expected, $actual);
-    }
+    $actual = $this->makePathOsSafe($media->getPath($conversionName));
 
-    /** @test */
-    public function it_returns_an_exception_when_getting_a_path_for_an_unknown_conversion()
-    {
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+    $this->assertEquals($expected, $actual);
+});
 
-        $this->expectException(InvalidConversion::class);
+it('returns an exception when getting a path for an unknown conversion', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $media->getPath('unknownConversionName');
-    }
+    $this->expectException(InvalidConversion::class);
 
-    /** @test */
-    public function it_can_get_a_path_of_an_original_item_with_prefix()
-    {
-        config(['media-library.prefix' => 'prefix']);
+    $media->getPath('unknownConversionName');
+});
 
-        $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
+it('can get a path of an original item with prefix', function () {
+    config(['media-library.prefix' => 'prefix']);
 
-        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/test.jpg");
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $actual = $this->makePathOsSafe($media->getPath());
+    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/test.jpg");
 
-        $this->assertEquals($expected, $actual);
-    }
+    $actual = $this->makePathOsSafe($media->getPath());
 
-    /** @test */
-    public function it_can_get_a_path_of_a_derived_image_with_prefix()
-    {
-        config(['media-library.prefix' => 'prefix']);
+    $this->assertEquals($expected, $actual);
+});
 
-        $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
+it('can get a path of a derived image with prefix', function () {
+    config(['media-library.prefix' => 'prefix']);
 
-        $conversionName = 'thumb';
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/conversions/test-{$conversionName}.jpg");
+    $conversionName = 'thumb';
 
-        $actual = $this->makePathOsSafe($media->getPath($conversionName));
+    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/conversions/test-{$conversionName}.jpg");
 
-        $this->assertEquals($expected, $actual);
-    }
-}
+    $actual = $this->makePathOsSafe($media->getPath($conversionName));
+
+    $this->assertEquals($expected, $actual);
+});

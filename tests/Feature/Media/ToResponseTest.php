@@ -1,45 +1,36 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-class ToResponseTest extends TestCase
-{
-    /** @test */
-    public function test_to_response_sends_the_content()
-    {
-        $media = $this->testModel->addMedia($testPdf = $this->getTestPdf())->preservingOriginal()->toMediaCollection();
+uses(TestCase::class);
 
-        ob_start();
-        @$media->toResponse(request())->sendContent();
-        $content = ob_get_contents();
-        ob_end_clean();
+test('to response sends the content', function () {
+    $media = $this->testModel->addMedia($testPdf = $this->getTestPdf())->preservingOriginal()->toMediaCollection();
 
-        $temporaryDirectory = (new TemporaryDirectory())->create();
-        file_put_contents($temporaryDirectory->path('response.pdf'), $content);
+    ob_start();
+    @$media->toResponse(request())->sendContent();
+    $content = ob_get_contents();
+    ob_end_clean();
 
-        $this->assertFileEquals($testPdf, $temporaryDirectory->path('response.pdf'));
-    }
+    $temporaryDirectory = (new TemporaryDirectory())->create();
+    file_put_contents($temporaryDirectory->path('response.pdf'), $content);
 
-    /** @test */
-    public function test_to_response_sends_correct_attachment_header()
-    {
-        $media = $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection();
+    $this->assertFileEquals($testPdf, $temporaryDirectory->path('response.pdf'));
+});
 
-        $response = $media->toResponse(request());
+test('to response sends correct attachment header', function () {
+    $media = $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection();
 
-        $this->assertEquals('attachment; filename="test.pdf"', $response->headers->get('Content-Disposition'));
-    }
+    $response = $media->toResponse(request());
 
-    /** @test */
-    public function test_to_inline_response_sends_correct_attachment_header()
-    {
-        $media = $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection();
+    $this->assertEquals('attachment; filename="test.pdf"', $response->headers->get('Content-Disposition'));
+});
 
-        $response = $media->toInlineResponse(request());
+test('to inline response sends correct attachment header', function () {
+    $media = $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection();
 
-        $this->assertEquals('inline; filename="test.pdf"', $response->headers->get('Content-Disposition'));
-    }
-}
+    $response = $media->toInlineResponse(request());
+
+    $this->assertEquals('inline; filename="test.pdf"', $response->headers->get('Content-Disposition'));
+});

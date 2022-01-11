@@ -1,36 +1,24 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions;
-
 use Spatie\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 
-class FileManipulatorTest extends TestCase
-{
-    protected string $conversionName = 'test';
+uses(TestCase::class);
 
-    protected Conversion $conversion;
+beforeEach(function () {
+    $this->conversion = new Conversion($this->conversionName);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('does not perform manipulations if not necessary', function () {
+    $imageFile = $this->getTestJpg();
+    $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
-        $this->conversion = new Conversion($this->conversionName);
-    }
+    $conversionTempFile = (new PerformManipulationsAction())->execute(
+        $media,
+        $this->conversion->withoutManipulations(),
+        $imageFile
+    );
 
-    /** @test */
-    public function it_does_not_perform_manipulations_if_not_necessary()
-    {
-        $imageFile = $this->getTestJpg();
-        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
-
-        $conversionTempFile = (new PerformManipulationsAction())->execute(
-            $media,
-            $this->conversion->withoutManipulations(),
-            $imageFile
-        );
-
-        $this->assertEquals($imageFile, $conversionTempFile);
-    }
-}
+    $this->assertEquals($imageFile, $conversionTempFile);
+});

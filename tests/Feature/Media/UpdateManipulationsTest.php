@@ -1,85 +1,76 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
-class UpdateManipulationsTest extends TestCase
-{
-    /** @test */
-    public function it_will_create_derived_files_when_manipulations_have_changed()
-    {
-        $testModelClass = new class () extends TestModel {
-            public function registerMediaConversions(Media $media = null): void
-            {
-                $this->addMediaConversion('update_test');
-            }
-        };
+uses(TestCase::class);
 
-        $testModel = $testModelClass::find($this->testModel->id);
+it('will create derived files when manipulations have changed', function () {
+    $testModelClass = new class () extends TestModel {
+        public function registerMediaConversions(Media $media = null) {
+            $this->addMediaConversion('update_test');
+        }
+    };
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $testModel = $testModelClass::find($this->testModel->id);
 
-        touch($media->getPath('update_test'), time() - 1);
+    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $conversionModificationTime = filemtime($media->getPath('update_test'));
+    touch($media->getPath('update_test'), time() - 1);
 
-        $media->manipulations = [
-            'update_test' => [
-                'width' => 1,
-                'height' => 1,
-            ],
-        ];
+    $conversionModificationTime = filemtime($media->getPath('update_test'));
 
-        $media->save();
+    $media->manipulations = [
+        'update_test' => [
+            'width' => 1,
+            'height' => 1,
+        ],
+    ];
 
-        $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
+    $media->save();
 
-        $this->assertGreaterThan($conversionModificationTime, $modificationTimeAfterManipulationChanged);
-    }
+    $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
 
-    /** @test */
-    public function it_will_not_create_derived_files_when_manipulations_have_not_changed()
-    {
-        $testModelClass = new class () extends TestModel {
-            public function registerMediaConversions(Media $media = null): void
-            {
-                $this->addMediaConversion('update_test');
-            }
-        };
+    $this->assertGreaterThan($conversionModificationTime, $modificationTimeAfterManipulationChanged);
+});
 
-        $testModel = $testModelClass::find($this->testModel->id);
+it('will not create derived files when manipulations have not changed', function () {
+    $testModelClass = new class () extends TestModel {
+        public function registerMediaConversions(Media $media = null) {
+            $this->addMediaConversion('update_test');
+        }
+    };
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
-        $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $testModel = $testModelClass::find($this->testModel->id);
 
-        $media->manipulations = [
-            'update_test' => [
-                'width' => 1,
-                'height' => 1,
-            ], ];
+    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
-        $media->save();
+    $media->manipulations = [
+        'update_test' => [
+            'width' => 1,
+            'height' => 1,
+        ], ];
 
-        touch($media->getPath('update_test'), time() - 1);
+    $media->save();
 
-        $conversionModificationTime = filemtime($media->getPath('update_test'));
+    touch($media->getPath('update_test'), time() - 1);
 
-        $media->manipulations = [
-            'update_test' => [
-                'width' => 1,
-                'height' => 1,
-            ], ];
+    $conversionModificationTime = filemtime($media->getPath('update_test'));
 
-        $media->updated_at = now()->addSecond();
+    $media->manipulations = [
+        'update_test' => [
+            'width' => 1,
+            'height' => 1,
+        ], ];
 
-        $media->save();
+    $media->updated_at = now()->addSecond();
 
-        $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
+    $media->save();
 
-        $this->assertEquals($conversionModificationTime, $modificationTimeAfterManipulationChanged);
-    }
-}
+    $modificationTimeAfterManipulationChanged = filemtime($media->getPath('update_test'));
+
+    $this->assertEquals($conversionModificationTime, $modificationTimeAfterManipulationChanged);
+});
