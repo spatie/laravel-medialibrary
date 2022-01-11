@@ -4,9 +4,6 @@ namespace Spatie\MediaLibrary\Support\UrlGenerator;
 
 use DateTimeInterface;
 use Illuminate\Support\Str;
-use League\Flysystem\Adapter\AbstractAdapter;
-use League\Flysystem\FilesystemAdapter;
-use League\Flysystem\Local\LocalFilesystemAdapter;
 
 class DefaultUrlGenerator extends BaseUrlGenerator
 {
