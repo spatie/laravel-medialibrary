@@ -2,13 +2,14 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Support\MediaStream;
 use Spatie\MediaLibrary\Tests\Feature\S3Integration\S3TestPathGenerator;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 beforeEach(function () {
     if (! canTestS3()) {
-        $this->markTestSkipped('Skipping S3 tests because no S3 env variables found');
+        $this->markTestSkipped('Skipping S3 tests because no S3 getenv variables found');
     }
 
     $this->s3BaseDirectory = getS3BaseTestDirectory();
@@ -107,34 +108,6 @@ it('retrieve a media conversion url from s3', function () {
     );
 });
 
-it('retrieve a media responsive urls from s3', function () {
-    $media = $this->testModelWithResponsiveImages
-        ->addMedia($this->getTestJpg())
-        ->withResponsiveImages()
-        ->toMediaCollection('default', 's3_disk');
-
-    $this->assertEquals([
-        s3BaseUrl()."/{$this->s3BaseDirectory}/{$media->id}/responsive-images/test___thumb_50_41.jpg",
-    ], $media->getResponsiveImageUrls('thumb'));
-});
-
-it('retrieves a temporary media url from s3', function () {
-    $media = $this->testModel
-        ->addMedia($this->getTestJpg())
-        ->preservingOriginal()
-        ->toMediaCollection('default', 's3_disk');
-
-    $this->assertStringContainsString(
-        "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
-        $media->getTemporaryUrl(Carbon::now()->addMinutes(5))
-    );
-
-    $this->assertEquals(
-        sha1(file_get_contents($this->getTestJpg())),
-        sha1(file_get_contents($media->getTemporaryUrl(Carbon::now()->addMinutes(5))))
-    );
-});
-
 it('retrieves a temporary media url from s3 when s3 root not empty', function () {
     config()->set('filesystems.disks.s3_disk.root', 'test-root');
 
@@ -178,100 +151,6 @@ it('retrieves a temporary media conversion url from s3', function () {
         "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg",
         $media->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb')
     );
-});
-
-test('custom headers are used for all conversions', function () {
-    $media = $this->testModelWithConversion
-        ->addMedia($this->getTestJpg())
-        ->addCustomHeaders([
-            'ACL' => 'public-read',
-        ])
-        ->toMediaCollection('default', 's3_disk');
-
-    $client = getS3Client();
-
-    /** @var \Aws\Result $responseForMainItem */
-    $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-        'Bucket' => getenv('AWS_BUCKET'),
-        'Key' => $media->getPath(),
-    ]));
-
-    expect($responseForMainItem->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
-
-    /** @var \Aws\Result $responseForConversion */
-    $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-        'Bucket' => getenv('AWS_BUCKET'),
-        'Key' => $media->getPath('thumb'),
-    ]));
-
-    expect($responseForConversion->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
-});
-
-test('custom headers are used for all conversions when adding private media from same s3 disk', function () {
-    $randomNumber = rand();
-
-    $fileName = "test{$randomNumber}.jpg";
-
-    Storage::disk('s3_disk')->put("tmp/{$fileName}", file_get_contents($this->getTestJpg()));
-
-    $media = $this->testModelWithConversion
-        ->addMediaFromDisk("tmp/{$fileName}", 's3_disk')
-        ->addCustomHeaders([
-            'ACL' => 'public-read',
-        ])
-        ->toMediaCollection('default', 's3_disk');
-
-    $client = getS3Client();
-
-    /** @var \Aws\Result $responseForMainItem */
-    $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-        'Bucket' => getenv('AWS_BUCKET'),
-        'Key' => $media->getPath(),
-    ]));
-
-    expect($responseForMainItem->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
-
-    /** @var \Aws\Result $responseForConversion */
-    $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-        'Bucket' => getenv('AWS_BUCKET'),
-        'Key' => $media->getPath('thumb'),
-    ]));
-
-    expect($responseForConversion->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
-});
-
-test('extra headers are used for all conversions when adding private media from same s3 disk', function () {
-    config()->set('media-library.remote.extra_headers', [
-        'ACL' => 'public-read',
-    ]);
-
-    $randomNumber = random_int(0, mt_getrandmax());
-
-    $fileName = "test{$randomNumber}.jpg";
-
-    Storage::disk('s3_disk')->put("tmp/{$fileName}", file_get_contents($this->getTestJpg()));
-
-    $media = $this->testModelWithConversion
-        ->addMediaFromDisk("tmp/{$fileName}", 's3_disk')
-        ->toMediaCollection('default', 's3_disk');
-
-    $client = getS3Client();
-
-    /** @var \Aws\Result $responseForMainItem */
-    $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-        'Bucket' => getenv('AWS_BUCKET'),
-        'Key' => $media->getPath(),
-    ]));
-
-    expect($responseForMainItem->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
-
-    /** @var \Aws\Result $responseForConversion */
-    $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-        'Bucket' => getenv('AWS_BUCKET'),
-        'Key' => $media->getPath('thumb'),
-    ]));
-
-    expect($responseForConversion->get('Grants')[1]['Permission'] ?? null)->toEqual('READ');
 });
 
 it('can regenerate only missing with s3 disk', function () {

@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\Tests;
 
 use CreateMediaTable;
 use CreateTemporaryUploadsTable;
-use Dotenv\Dotenv;
+use Dotgetenv\Dotgetenv;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\File;
@@ -64,11 +64,11 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables()
     {
-        if (! file_exists(__DIR__.'/../.env')) {
+        if (! file_exists(__DIR__.'/../.getenv')) {
             return;
         }
 
-        $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
+        $dotEnv = Dotgetenv::createImmutable(__DIR__.'/..');
 
         $dotEnv->load();
     }

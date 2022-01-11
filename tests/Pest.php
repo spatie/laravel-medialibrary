@@ -13,17 +13,6 @@ expect()->extend('toHaveExtension', function (string $expectedExtension) {
     expect($actualExtension)->toEqual($expectedExtension);
 });
 
-function getS3Client(): S3Client
-{
-    /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
-    $disk = app(Factory::class)->disk('s3_disk');
-
-    /** @var \Aws\S3\S3Client $client */
-    $client = $disk->getDriver()->getAdapter()->getClient();
-
-    return $client;
-}
-
 function assertS3FileExists(string $filePath): void
 {
     expect(Storage::disk('s3_disk')->exists($filePath))->toBeTrue();
