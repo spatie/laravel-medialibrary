@@ -1,80 +1,57 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 
-class CustomPropertyTest extends TestCase
-{
-    protected Media $media;
+beforeEach(function () {
+    $this->media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withCustomProperties([
+            'customName' => 'customValue',
+            'nested' => [
+                'customName' => 'nested customValue',
+            ],
+        ])
+        ->toMediaCollection('images');
+});
 
-    protected Media $mediaWithoutCustomProperty;
+it('can determine if a media item has a custom property', function () {
+    expect($this->media->hasCustomProperty('customName'))->toBeTrue();
+    expect($this->media->hasCustomProperty('nested.customName'))->toBeTrue();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    expect($this->media->hasCustomProperty('nonExisting'))->toBeFalse();
+    expect($this->media->hasCustomProperty('nested.nonExisting'))->toBeFalse();
+});
 
-        $this->media = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->withCustomProperties([
-                'customName' => 'customValue',
-                'nested' => [
-                    'customName' => 'nested customValue',
-                ],
-            ])
-            ->toMediaCollection('images');
-    }
+it('can get a custom property', function () {
+    expect($this->media->getCustomProperty('customName'))->toEqual('customValue');
+    expect($this->media->getCustomProperty('nested.customName'))->toEqual('nested customValue');
 
-    /** @test */
-    public function it_can_determine_if_a_media_item_has_a_custom_property()
-    {
-        $this->assertTrue($this->media->hasCustomProperty('customName'));
-        $this->assertTrue($this->media->hasCustomProperty('nested.customName'));
+    expect($this->media->getCustomProperty('nonExisting'))->toBeNull();
+    expect($this->media->getCustomProperty('nested.nonExisting'))->toBeNull();
+});
 
-        $this->assertFalse($this->media->hasCustomProperty('nonExisting'));
-        $this->assertFalse($this->media->hasCustomProperty('nested.nonExisting'));
-    }
+it('can set a custom property', function () {
+    $this->media->setCustomProperty('anotherName', 'anotherValue');
 
-    /** @test */
-    public function it_can_get_a_custom_property()
-    {
-        $this->assertEquals('customValue', $this->media->getCustomProperty('customName'));
-        $this->assertEquals('nested customValue', $this->media->getCustomProperty('nested.customName'));
+    expect($this->media->getCustomProperty('anotherName'))->toEqual('anotherValue');
+    expect($this->media->getCustomProperty('customName'))->toEqual('customValue');
 
-        $this->assertNull($this->media->getCustomProperty('nonExisting'));
-        $this->assertNull($this->media->getCustomProperty('nested.nonExisting'));
-    }
+    $this->media->setCustomProperty('nested.anotherName', 'anotherValue');
+    expect($this->media->getCustomProperty('nested.anotherName'))->toEqual('anotherValue');
+});
 
-    /** @test */
-    public function it_can_set_a_custom_property()
-    {
-        $this->media->setCustomProperty('anotherName', 'anotherValue');
+it('can forget a custom property', function () {
+    expect($this->media->hasCustomProperty('customName'))->toBeTrue();
+    expect($this->media->hasCustomProperty('nested.customName'))->toBeTrue();
 
-        $this->assertEquals('anotherValue', $this->media->getCustomProperty('anotherName'));
-        $this->assertEquals('customValue', $this->media->getCustomProperty('customName'));
+    $this->media->forgetCustomProperty('customName');
+    $this->media->forgetCustomProperty('nested.customName');
 
-        $this->media->setCustomProperty('nested.anotherName', 'anotherValue');
-        $this->assertEquals('anotherValue', $this->media->getCustomProperty('nested.anotherName'));
-    }
+    expect($this->media->hasCustomProperty('customName'))->toBeFalse();
+    expect($this->media->hasCustomProperty('nested.customName'))->toBeFalse();
+});
 
-    /** @test */
-    public function it_can_forget_a_custom_property()
-    {
-        $this->assertTrue($this->media->hasCustomProperty('customName'));
-        $this->assertTrue($this->media->hasCustomProperty('nested.customName'));
-
-        $this->media->forgetCustomProperty('customName');
-        $this->media->forgetCustomProperty('nested.customName');
-
-        $this->assertFalse($this->media->hasCustomProperty('customName'));
-        $this->assertFalse($this->media->hasCustomProperty('nested.customName'));
-    }
-
-    /** @test */
-    public function it_returns_a_fallback_if_a_custom_property_isnt_set()
-    {
-        $this->assertEquals('foo', $this->media->getCustomProperty('imNotHere', 'foo'));
-    }
-}
+it('returns a fallback if a custom property isnt set', function () {
+    expect($this->media->getCustomProperty('imNotHere', 'foo'))->toEqual('foo');
+});

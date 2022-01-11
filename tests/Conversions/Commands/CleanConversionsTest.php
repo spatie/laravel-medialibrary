@@ -1,201 +1,174 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions\Commands;
-
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
-class CleanConversionsTest extends TestCase
-{
-    protected array $media;
+beforeEach(function () {
+    $this->media['model1']['collection1'] = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    $this->media['model1']['collection2'] = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection2');
 
-        $this->media['model1']['collection1'] = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection('collection1');
+    $this->media['model2']['collection1'] = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
 
-        $this->media['model1']['collection2'] = $this->testModel
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection('collection2');
+    $this->media['model2']['collection2'] = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection2');
 
-        $this->media['model2']['collection1'] = $this->testModelWithConversion
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection('collection1');
+    mkdir($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/conversions"));
+    mkdir($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/conversions"));
 
-        $this->media['model2']['collection2'] = $this->testModelWithConversion
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection('collection2');
+    expect($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"))->toBeFile();
+});
 
-        mkdir($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/conversions"));
-        mkdir($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/conversions"));
+it('can clean deprecated conversion files with none arguments given', function () {
+    $media = $this->media['model2']['collection1'];
+    $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
 
-        $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/test.jpg"));
-        $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
-        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection1']->id}/test.jpg"));
-        $this->assertFileExists($this->getMediaDirectory("{$this->media['model2']['collection2']->id}/test.jpg"));
-    }
+    touch($deprecatedImage);
+    expect($deprecatedImage)->toBeFile();
 
-    /** @test */
-    public function it_can_clean_deprecated_conversion_files_with_none_arguments_given()
-    {
-        $media = $this->media['model2']['collection1'];
-        $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
+    $this->artisan('media-library:clean');
 
-        touch($deprecatedImage);
-        $this->assertFileExists($deprecatedImage);
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"))->toBeFile();
+});
 
-        $this->artisan('media-library:clean');
+test('generated conversion are cleared after cleanup', function () {
+    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    $media = $this->media['model2']['collection1'];
 
-        $this->assertFileDoesNotExist($deprecatedImage);
-        $this->assertFileExists($this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
-    }
+    Media::where('id', '<>', $media->id)->delete();
 
-    /** @test */
-    public function generated_conversion_are_cleared_after_cleanup()
-    {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
-        $media = $this->media['model2']['collection1'];
+    $media->markAsConversionGenerated('test-deprecated');
 
-        Media::where('id', '<>', $media->id)->delete();
+    $media->save();
 
-        $media->markAsConversionGenerated('test-deprecated');
+    expect($media->refresh()->hasGeneratedConversion('test-deprecated'))->toBeTrue();
 
-        $media->save();
+    $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
 
-        $this->assertTrue($media->refresh()->hasGeneratedConversion('test-deprecated'));
+    touch($deprecatedImage);
 
-        $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
+    $this->artisan('media-library:clean');
 
-        touch($deprecatedImage);
+    $media->refresh();
 
-        $this->artisan('media-library:clean');
+    expect($media->hasGeneratedConversion('test-deprecated'))->toBeFalse();
+});
 
-        $media->refresh();
+it('can clean deprecated conversion files from a specific model type', function () {
+    $media1 = $this->media['model1']['collection1'];
+    $media2 = $this->media['model2']['collection1'];
 
-        $this->assertFalse($media->hasGeneratedConversion('test-deprecated'));
-    }
+    $deprecatedImage1 = $this->getMediaDirectory("{$media1->id}/conversions/deprecated.jpg");
+    $deprecatedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/deprecated.jpg");
+    touch($deprecatedImage1);
+    touch($deprecatedImage2);
 
-    /** @test */
-    public function it_can_clean_deprecated_conversion_files_from_a_specific_model_type()
-    {
-        $media1 = $this->media['model1']['collection1'];
-        $media2 = $this->media['model2']['collection1'];
+    $this->artisan('media-library:clean', [
+        'modelType' => TestModelWithConversion::class,
+    ]);
 
-        $deprecatedImage1 = $this->getMediaDirectory("{$media1->id}/conversions/deprecated.jpg");
-        $deprecatedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/deprecated.jpg");
-        touch($deprecatedImage1);
-        touch($deprecatedImage2);
+    expect($deprecatedImage1)->toBeFile();
+    $this->assertFileDoesNotExist($deprecatedImage2);
+});
 
-        $this->artisan('media-library:clean', [
-            'modelType' => TestModelWithConversion::class,
-        ]);
+it('can clean deprecated conversion files from a specific collection', function () {
+    $media1 = $this->media['model1']['collection1'];
+    $media2 = $this->media['model1']['collection2'];
 
-        $this->assertFileExists($deprecatedImage1);
-        $this->assertFileDoesNotExist($deprecatedImage2);
-    }
+    $deprecatedImage1 = $this->getMediaDirectory("{$media1->id}/conversions/deprecated.jpg");
+    $deprecatedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/deprecated.jpg");
+    touch($deprecatedImage1);
+    touch($deprecatedImage2);
 
-    /** @test */
-    public function it_can_clean_deprecated_conversion_files_from_a_specific_collection()
-    {
-        $media1 = $this->media['model1']['collection1'];
-        $media2 = $this->media['model1']['collection2'];
+    $this->artisan('media-library:clean', [
+        'collectionName' => 'collection2',
+    ]);
 
-        $deprecatedImage1 = $this->getMediaDirectory("{$media1->id}/conversions/deprecated.jpg");
-        $deprecatedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/deprecated.jpg");
-        touch($deprecatedImage1);
-        touch($deprecatedImage2);
+    expect($deprecatedImage1)->toBeFile();
+    $this->assertFileDoesNotExist($deprecatedImage2);
+});
 
-        $this->artisan('media-library:clean', [
-            'collectionName' => 'collection2',
-        ]);
+it('can clean deprecated conversion files from a specific model type and collection', function () {
+    $media1 = $this->media['model1']['collection1'];
+    $media2 = $this->media['model1']['collection2'];
+    $media3 = $this->media['model2']['collection1'];
 
-        $this->assertFileExists($deprecatedImage1);
-        $this->assertFileDoesNotExist($deprecatedImage2);
-    }
+    $deprecatedImage1 = $this->getMediaDirectory("{$media1->id}/conversions/deprecated.jpg");
+    $deprecatedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/deprecated.jpg");
+    $deprecatedImage3 = $this->getMediaDirectory("{$media3->id}/conversions/deprecated.jpg");
 
-    /** @test */
-    public function it_can_clean_deprecated_conversion_files_from_a_specific_model_type_and_collection()
-    {
-        $media1 = $this->media['model1']['collection1'];
-        $media2 = $this->media['model1']['collection2'];
-        $media3 = $this->media['model2']['collection1'];
+    touch($deprecatedImage1);
+    touch($deprecatedImage2);
+    touch($deprecatedImage3);
 
-        $deprecatedImage1 = $this->getMediaDirectory("{$media1->id}/conversions/deprecated.jpg");
-        $deprecatedImage2 = $this->getMediaDirectory("{$media2->id}/conversions/deprecated.jpg");
-        $deprecatedImage3 = $this->getMediaDirectory("{$media3->id}/conversions/deprecated.jpg");
+    $this->artisan('media-library:clean', [
+        'modelType' => TestModel::class,
+        'collectionName' => 'collection1',
+    ]);
 
-        touch($deprecatedImage1);
-        touch($deprecatedImage2);
-        touch($deprecatedImage3);
+    $this->assertFileDoesNotExist($deprecatedImage1);
+    expect($deprecatedImage2)->toBeFile();
+    expect($deprecatedImage3)->toBeFile();
+});
 
-        $this->artisan('media-library:clean', [
-            'modelType' => TestModel::class,
-            'collectionName' => 'collection1',
-        ]);
+it('can clean orphan files in the media disk', function () {
+    // Dirty delete
+    DB::table('media')->delete($this->media['model1']['collection1']->id);
 
-        $this->assertFileDoesNotExist($deprecatedImage1);
-        $this->assertFileExists($deprecatedImage2);
-        $this->assertFileExists($deprecatedImage3);
-    }
+    $this->artisan('media-library:clean');
 
-    /** @test */
-    public function it_can_clean_orphan_files_in_the_media_disk()
-    {
-        // Dirty delete
-        DB::table('media')->delete($this->media['model1']['collection1']->id);
+    $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model1']['collection1']->id));
+    expect($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"))->toBeFile();
+});
 
-        $this->artisan('media-library:clean');
+it('can clean responsive images', function () {
+    $media = $this->testModelWithResponsiveImages
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
 
-        $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model1']['collection1']->id));
-        $this->assertFileExists($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"));
-    }
+    $deprecatedResponsiveImageFileName = 'test___deprecatedConversion_50_41.jpg';
+    $deprecatedReponsiveImagesPath = $this->getMediaDirectory("5/responsive-images/{$deprecatedResponsiveImageFileName}");
+    touch($deprecatedReponsiveImagesPath);
 
-    /** @test */
-    public function it_can_clean_responsive_images()
-    {
-        $media = $this->testModelWithResponsiveImages
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->toMediaCollection();
+    $originalResponsiveImagesContent = $media->responsive_images;
+    $newResponsiveImages = $originalResponsiveImagesContent;
+    $newResponsiveImages['deprecatedConversion'] = $originalResponsiveImagesContent['thumb'];
+    $newResponsiveImages['deprecatedConversion']['urls'][0] = $deprecatedResponsiveImageFileName;
+    $media->responsive_images = $newResponsiveImages;
+    $media->save();
 
-        $deprecatedResponsiveImageFileName = 'test___deprecatedConversion_50_41.jpg';
-        $deprecatedReponsiveImagesPath = $this->getMediaDirectory("5/responsive-images/{$deprecatedResponsiveImageFileName}");
-        touch($deprecatedReponsiveImagesPath);
+    $this->artisan('media-library:clean');
 
-        $originalResponsiveImagesContent = $media->responsive_images;
-        $newResponsiveImages = $originalResponsiveImagesContent;
-        $newResponsiveImages['deprecatedConversion'] = $originalResponsiveImagesContent['thumb'];
-        $newResponsiveImages['deprecatedConversion']['urls'][0] = $deprecatedResponsiveImageFileName;
-        $media->responsive_images = $newResponsiveImages;
-        $media->save();
+    $media->refresh();
 
-        $this->artisan('media-library:clean');
+    expect($media->responsive_images)->toEqual($originalResponsiveImagesContent);
+    $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
+});
 
-        $media->refresh();
+it('will throw an exception when using a non existing disk', function () {
+    $this->expectException(DiskDoesNotExist::class);
 
-        $this->assertEquals($originalResponsiveImagesContent, $media->responsive_images);
-        $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
-    }
+    config(['media-library.disk_name' => 'diskdoesnotexist']);
 
-    /** @test */
-    public function it_will_throw_an_exception_when_using_a_non_existing_disk()
-    {
-        $this->expectException(DiskDoesNotExist::class);
-
-        config(['media-library.disk_name' => 'diskdoesnotexist']);
-
-        $this->artisan('media-library:clean')
-            ->assertExitCode(1);
-    }
-}
+    $this->artisan('media-library:clean')
+        ->assertExitCode(1);
+});

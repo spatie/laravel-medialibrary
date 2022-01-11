@@ -1,82 +1,69 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder;
 
-use Spatie\MediaLibrary\Tests\TestCase;
 
-class ConversionsDiskTest extends TestCase
-{
-    /** @test */
-    public function it_can_save_conversions_on_a_separate_disk()
-    {
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestJpg())
-            ->storingConversionsOnDisk('secondMediaDisk')
-            ->toMediaCollection();
+it('can save conversions on a separate disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
 
-        $this->assertEquals('public', $media->disk);
-        $this->assertEquals('secondMediaDisk', $media->conversions_disk);
+    expect($media->disk)->toEqual('public');
+    expect($media->conversions_disk)->toEqual('secondMediaDisk');
 
-        $this->assertEquals("/media/{$media->id}/test.jpg", $media->getUrl());
-        $this->assertEquals("/media2/{$media->id}/conversions/test-thumb.jpg", $media->getUrl('thumb'));
+    expect($media->getUrl())->toEqual("/media/{$media->id}/test.jpg");
+    expect($media->getUrl('thumb'))->toEqual("/media2/{$media->id}/conversions/test-thumb.jpg");
 
-        $originalFilePath = $media->getPath();
+    $originalFilePath = $media->getPath();
 
-        $this->assertEquals(
-            $this->getTestsPath('TestSupport/temp/media/1/test.jpg'),
-            $originalFilePath
-        );
-        $this->assertFileExists($originalFilePath);
+    $this->assertEquals(
+        $this->getTestsPath('TestSupport/temp/media/1/test.jpg'),
+        $originalFilePath
+    );
+    expect($originalFilePath)->toBeFile();
 
-        $conversionsFilePath = $media->getPath('thumb');
-        $this->assertEquals(
-            $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
-            $conversionsFilePath
-        );
-        $this->assertFileExists($conversionsFilePath);
-    }
+    $conversionsFilePath = $media->getPath('thumb');
+    $this->assertEquals(
+        $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
+        $conversionsFilePath
+    );
+    expect($conversionsFilePath)->toBeFile();
+});
 
-    /** @test */
-    public function the_responsive_images_will_get_saved_on_the_same_disk_as_the_conversions()
-    {
-        $this->testModelWithResponsiveImages
-            ->addMedia($this->getTestJpg())
-            ->storingConversionsOnDisk('secondMediaDisk')
-            ->toMediaCollection();
+test('the responsive images will get saved on the same disk as the conversions', function () {
+    $this->testModelWithResponsiveImages
+        ->addMedia($this->getTestJpg())
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
 
-        $this->assertFileExists($this->getTempDirectory('media2/1/responsive-images/test___thumb_50_41.jpg'));
-    }
+    expect($this->getTempDirectory('media2/1/responsive-images/test___thumb_50_41.jpg'))->toBeFile();
+});
 
-    /** @test */
-    public function deleting_media_will_also_delete_conversions_on_the_separate_disk()
-    {
-        $media = $this->testModelWithConversion
-            ->addMedia($this->getTestJpg())
-            ->storingConversionsOnDisk('secondMediaDisk')
-            ->toMediaCollection();
+test('deleting media will also delete conversions on the separate disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
 
-        $this->assertFileExists($media->getPath('thumb'));
+    expect($media->getPath('thumb'))->toBeFile();
 
-        $media->delete();
+    $media->delete();
 
-        $this->assertFileDoesNotExist($media->getPath('thumb'));
+    $this->assertFileDoesNotExist($media->getPath('thumb'));
 
-        $originalFilePath = $media->getPath();
-        $this->assertFileDoesNotExist($originalFilePath);
-    }
+    $originalFilePath = $media->getPath();
+    $this->assertFileDoesNotExist($originalFilePath);
+});
 
-    /** @test */
-    public function it_will_store_the_conversion_on_the_disk_specified_in_on_the_media_collection()
-    {
-        $media = $this->testModelWithConversionsOnOtherDisk
-            ->addMedia($this->getTestJpg())
-            ->toMediaCollection('thumb');
+it('will store the conversion on the disk specified in on the media collection', function () {
+    $media = $this->testModelWithConversionsOnOtherDisk
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('thumb');
 
-        $conversionsFilePath = $media->getPath('thumb');
-        $this->assertEquals(
-            $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
-            $conversionsFilePath
-        );
-        $this->assertFileExists($conversionsFilePath);
-    }
-}
+    $conversionsFilePath = $media->getPath('thumb');
+    $this->assertEquals(
+        $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
+        $conversionsFilePath
+    );
+    expect($conversionsFilePath)->toBeFile();
+});

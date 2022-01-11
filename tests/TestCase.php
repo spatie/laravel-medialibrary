@@ -41,7 +41,7 @@ abstract class TestCase extends Orchestra
 
     protected TestModelWithConversionsOnOtherDisk $testModelWithConversionsOnOtherDisk;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->loadEnvironmentVariables();
 
@@ -90,7 +90,7 @@ abstract class TestCase extends Orchestra
     /**
      * @param \Illuminate\Foundation\Application $app
      */
-    protected function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app)
     {
         $this->initializeDirectory($this->getTempDirectory());
 

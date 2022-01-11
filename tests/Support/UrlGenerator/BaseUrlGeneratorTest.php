@@ -1,92 +1,60 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Support\UrlGenerator;
-
-use Illuminate\Config\Repository;
-use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
-use Spatie\MediaLibrary\Tests\TestCase;
 
-class BaseUrlGeneratorTest extends TestCase
-{
-    protected Repository $config;
+beforeEach(function () {
+    $this->config = app('config');
 
-    protected Media $media;
+    $this->media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
 
-    protected Conversion $conversion;
+    $this->conversion = ConversionCollection::createForMedia($this->media)->getByName('thumb');
 
-    protected Conversion $conversionKeepingOriginalImageFormat;
+    $this->conversionKeepingOriginalImageFormat = ConversionCollection::createForMedia($this->media)->getByName('keep_original_format');
 
-    protected DefaultUrlGenerator $urlGenerator;
+    $this->urlGenerator = new DefaultUrlGenerator($this->config);
+    $this->pathGenerator = new DefaultPathGenerator();
 
-    protected DefaultPathGenerator $pathGenerator;
+    $this->urlGenerator
+        ->setMedia($this->media)
+        ->setConversion($this->conversion)
+        ->setPathGenerator($this->pathGenerator);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can get the path relative to the root of media folder', function () {
+    $pathRelativeToRoot = $this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 
-        $this->config = app('config');
+    expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
+});
 
-        $this->media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
+it('can get the path relative to the root of media folder when keeping the original image format', function () {
+    $this->urlGenerator->setConversion($this->conversionKeepingOriginalImageFormat);
 
-        $this->conversion = ConversionCollection::createForMedia($this->media)->getByName('thumb');
+    $pathRelativeToRoot = $this->media->id
+        .'/conversions/'.
+        'test-'.$this->conversionKeepingOriginalImageFormat->getName()
+        .'.png';
 
-        $this->conversionKeepingOriginalImageFormat = ConversionCollection::createForMedia($this->media)->getByName('keep_original_format');
+    expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
+});
 
-        $this->urlGenerator = new DefaultUrlGenerator($this->config);
-        $this->pathGenerator = new DefaultPathGenerator();
+it('appends a version string when versioning is enabled', function () {
+    config()->set('media-library.version_urls', true);
 
-        $this->urlGenerator
-            ->setMedia($this->media)
-            ->setConversion($this->conversion)
-            ->setPathGenerator($this->pathGenerator);
-    }
+    $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg?v='.$this->media->updated_at->timestamp;
 
-    /** @test */
-    public function it_can_get_the_path_relative_to_the_root_of_media_folder()
-    {
-        $pathRelativeToRoot = $this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
+    expect($this->urlGenerator->getUrl())->toEqual($url);
 
-        $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
-    }
+    config()->set('media-library.version_urls', false);
 
-    /** @test */
-    public function it_can_get_the_path_relative_to_the_root_of_media_folder_when_keeping_the_original_image_format()
-    {
-        $this->urlGenerator->setConversion($this->conversionKeepingOriginalImageFormat);
+    $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 
-        $pathRelativeToRoot = $this->media->id
-            .'/conversions/'.
-            'test-'.$this->conversionKeepingOriginalImageFormat->getName()
-            .'.png';
+    expect($this->urlGenerator->getUrl())->toEqual($url);
+});
 
-        $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
-    }
+it('can get the responsive images directory url', function () {
+    $this->config->set('filesystems.disks.public.url', 'http://localhost/media/');
 
-    /** @test * */
-    public function it_appends_a_version_string_when_versioning_is_enabled()
-    {
-        config()->set('media-library.version_urls', true);
-
-        $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg?v='.$this->media->updated_at->timestamp;
-
-        $this->assertEquals($url, $this->urlGenerator->getUrl());
-
-        config()->set('media-library.version_urls', false);
-
-        $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
-
-        $this->assertEquals($url, $this->urlGenerator->getUrl());
-    }
-
-    /** @test */
-    public function it_can_get_the_responsive_images_directory_url()
-    {
-        $this->config->set('filesystems.disks.public.url', 'http://localhost/media/');
-
-        $this->assertEquals('http://localhost/media/1/responsive-images/', $this->urlGenerator->getResponsiveImagesDirectoryUrl());
-    }
-}
+    expect($this->urlGenerator->getResponsiveImagesDirectoryUrl())->toEqual('http://localhost/media/1/responsive-images/');
+});

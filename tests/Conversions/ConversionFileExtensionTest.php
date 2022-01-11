@@ -1,48 +1,36 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Conversions;
 
-use Spatie\MediaLibrary\Tests\TestCase;
 
-class ConversionFileExtensionTest extends TestCase
+it('defaults to jpg when the original file is an image', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
+
+    assertExtensionEquals('jpg', $media->getUrl('thumb'));
+});
+
+it('can keep the original image format if the original file is an image', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
+
+    assertExtensionEquals('png', $media->getUrl('keep_original_format'));
+});
+
+it('can keep the original image format if the original file is an image with uppercase extension', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getUppercaseExtensionTestPng())->toMediaCollection();
+
+    assertExtensionEquals('PNG', $media->getUrl('keep_original_format'));
+});
+
+it('always defaults to jpg when the original file is not an image', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestMp4())->toMediaCollection();
+
+    assertExtensionEquals('jpg', $media->getUrl('thumb'));
+    assertExtensionEquals('jpg', $media->getUrl('keep_original_format'));
+});
+
+// Helpers
+function assertExtensionEquals(string $expectedExtension, string $file)
 {
-    /** @test */
-    public function it_defaults_to_jpg_when_the_original_file_is_an_image()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
+    $actualExtension = pathinfo($file, PATHINFO_EXTENSION);
 
-        $this->assertExtensionEquals('jpg', $media->getUrl('thumb'));
-    }
-
-    /** @test */
-    public function it_can_keep_the_original_image_format_if_the_original_file_is_an_image()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
-
-        $this->assertExtensionEquals('png', $media->getUrl('keep_original_format'));
-    }
-
-    /** @test */
-    public function it_can_keep_the_original_image_format_if_the_original_file_is_an_image_with_uppercase_extension()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getUppercaseExtensionTestPng())->toMediaCollection();
-
-        $this->assertExtensionEquals('PNG', $media->getUrl('keep_original_format'));
-    }
-
-    /** @test */
-    public function it_always_defaults_to_jpg_when_the_original_file_is_not_an_image()
-    {
-        $media = $this->testModelWithConversion->addMedia($this->getTestMp4())->toMediaCollection();
-
-        $this->assertExtensionEquals('jpg', $media->getUrl('thumb'));
-        $this->assertExtensionEquals('jpg', $media->getUrl('keep_original_format'));
-    }
-
-    private function assertExtensionEquals(string $expectedExtension, string $file)
-    {
-        $actualExtension = pathinfo($file, PATHINFO_EXTENSION);
-
-        $this->assertEquals($expectedExtension, $actualExtension);
-    }
+    expect($actualExtension)->toEqual($expectedExtension);
 }

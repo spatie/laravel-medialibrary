@@ -1,67 +1,57 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\Media;
-
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
-class MoveTest extends TestCase
-{
-    /** @test */
-    public function it_can_move_media_from_one_model_to_another()
-    {
-        $model = TestModel::create(['name' => 'test']);
+it('can move media from one model to another', function () {
+    $model = TestModel::create(['name' => 'test']);
 
-        $media = $model
-            ->addMedia($this->getTestJpg())
-            ->usingName('custom-name')
-            ->withCustomProperties(['custom-property-name' => 'custom-property-value'])
-            ->toMediaCollection();
+    $media = $model
+        ->addMedia($this->getTestJpg())
+        ->usingName('custom-name')
+        ->withCustomProperties(['custom-property-name' => 'custom-property-value'])
+        ->toMediaCollection();
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        $anotherModel = TestModel::create(['name' => 'another-test']);
+    $anotherModel = TestModel::create(['name' => 'another-test']);
 
-        $movedMedia = $media->move($anotherModel, 'images');
+    $movedMedia = $media->move($anotherModel, 'images');
 
-        $this->assertCount(0, $model->getMedia('default'));
-        $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
+    expect($model->getMedia('default'))->toHaveCount(0);
+    $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        $this->assertCount(1, $anotherModel->getMedia('images'));
-        $this->assertFileExists($this->getMediaDirectory($movedMedia->id.'/test.jpg'));
-        $this->assertEquals($movedMedia->model->id, $anotherModel->id);
-        $this->assertEquals($movedMedia->name, 'custom-name');
-        $this->assertEquals($movedMedia->getCustomProperty('custom-property-name'), 'custom-property-value');
-    }
+    expect($anotherModel->getMedia('images'))->toHaveCount(1);
+    $this->assertFileExists($this->getMediaDirectory($movedMedia->id.'/test.jpg'));
+    expect($anotherModel->id)->toEqual($movedMedia->model->id);
+    expect('custom-name')->toEqual($movedMedia->name);
+    expect('custom-property-value')->toEqual($movedMedia->getCustomProperty('custom-property-name'));
+});
 
-    /** @test */
-    public function it_can_move_media_from_one_model_to_another_on_a_specific_disk()
-    {
-        $diskName = 'secondMediaDisk';
+it('can move media from one model to another on a specific disk', function () {
+    $diskName = 'secondMediaDisk';
 
-        $model = TestModel::create(['name' => 'test']);
+    $model = TestModel::create(['name' => 'test']);
 
-        $media = $model
-            ->addMedia($this->getTestJpg())
-            ->usingName('custom-name')
-            ->withCustomProperties(['custom-property-name' => 'custom-property-value'])
-            ->toMediaCollection();
+    $media = $model
+        ->addMedia($this->getTestJpg())
+        ->usingName('custom-name')
+        ->withCustomProperties(['custom-property-name' => 'custom-property-value'])
+        ->toMediaCollection();
 
-        $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        $anotherModel = TestModel::create(['name' => 'another-test']);
+    $anotherModel = TestModel::create(['name' => 'another-test']);
 
-        $movedMedia = $media->move($anotherModel, 'images', $diskName);
+    $movedMedia = $media->move($anotherModel, 'images', $diskName);
 
-        $this->assertCount(0, $model->getMedia('default'));
-        $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
+    expect($model->getMedia('default'))->toHaveCount(0);
+    $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
 
-        $this->assertCount(1, $anotherModel->getMedia('images'));
-        $this->assertFileExists($this->getTempDirectory('media2').'/'.$movedMedia->id.'/test.jpg');
-        $this->assertEquals($movedMedia->collection_name, 'images');
-        $this->assertEquals($movedMedia->disk, $diskName);
-        $this->assertEquals($movedMedia->model->id, $anotherModel->id);
-        $this->assertEquals($movedMedia->name, 'custom-name');
-        $this->assertEquals($movedMedia->getCustomProperty('custom-property-name'), 'custom-property-value');
-    }
-}
+    expect($anotherModel->getMedia('images'))->toHaveCount(1);
+    $this->assertFileExists($this->getTempDirectory('media2').'/'.$movedMedia->id.'/test.jpg');
+    expect('images')->toEqual($movedMedia->collection_name);
+    expect($diskName)->toEqual($movedMedia->disk);
+    expect($anotherModel->id)->toEqual($movedMedia->model->id);
+    expect('custom-name')->toEqual($movedMedia->name);
+    expect('custom-property-value')->toEqual($movedMedia->getCustomProperty('custom-property-name'));
+});
