@@ -41,7 +41,7 @@ abstract class TestCase extends Orchestra
 
     protected TestModelWithConversionsOnOtherDisk $testModelWithConversionsOnOtherDisk;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->loadEnvironmentVariables();
 
