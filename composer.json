@@ -43,7 +43,7 @@
         "aws/aws-sdk-php": "^3.133.11",
         "doctrine/dbal": "^2.13",
         "guzzlehttp/guzzle": "^7.4",
-        "league/flysystem-aws-s3-v3": "^1.0.29",
+        "league/flysystem-aws-s3-v3": "^1.0.29|^2.1",
         "mockery/mockery": "^1.4",
         "orchestra/testbench": "^6.23|^7.0",
         "phpunit/phpunit": "^9.5",
