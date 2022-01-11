@@ -66,7 +66,7 @@
     },
     "scripts": {
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/pest"
     },
     "autoload-dev": {
         "psr-4": {
