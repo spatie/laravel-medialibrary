@@ -2,6 +2,10 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v9 to v10
+
+Upgrading from v9 to v10 is straightforward. The biggest change is that we dropped support for PHP 7, and are using PHP 8 features.
+
 ## From v8 to v9
 
 - add a `json` column `generated_conversions` to the `media` table (take a look at the default migration for the exact definition). You should copy the values you now have in the `generated_conversions` key of the `custom_properties` column to `generated_conversions`
