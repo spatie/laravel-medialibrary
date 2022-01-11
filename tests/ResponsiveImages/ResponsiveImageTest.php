@@ -16,7 +16,7 @@ test('a media instance can get responsive image urls', function () {
 
     $this->assertEquals([
         "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg",
-        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg",
+        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg",
         "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg",
     ], $media->getResponsiveImageUrls());
 
@@ -36,7 +36,7 @@ test('a media instance can generate the contents of scrset', function () {
     $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
     $this->assertStringContainsString(
-        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
+        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
         $media->getSrcset()
     );
     expect($media->getSrcset())->toContain("data:image/svg+xml;base64");
@@ -102,7 +102,7 @@ it('can handle file names with underscore', function () {
 
     $this->assertSame([
         "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg",
-        "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_233.jpg",
+        "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg",
         "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg",
     ], $media->getResponsiveImageUrls());
 

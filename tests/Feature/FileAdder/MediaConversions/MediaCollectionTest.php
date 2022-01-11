@@ -174,7 +174,7 @@ it('can generate responsive images', function () {
 
     $this->assertEquals([
         'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-        'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+        'http://localhost/media/1/responsive-images/test___media_library_original_284_234.jpg',
         'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
     ], $media->getResponsiveImageUrls());
 
@@ -199,7 +199,7 @@ it('can generate responsive images on condition', function () {
 
     $this->assertEquals([
         'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-        'http://localhost/media/1/responsive-images/test___media_library_original_284_233.jpg',
+        'http://localhost/media/1/responsive-images/test___media_library_original_284_234.jpg',
         'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
     ], $media->getResponsiveImageUrls());
 

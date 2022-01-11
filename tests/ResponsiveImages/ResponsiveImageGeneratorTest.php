@@ -14,7 +14,7 @@ it('can generate responsive images', function () {
             ->toMediaCollection();
 
     expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"))->toBeFile();
-    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg"))->toBeFile();
     expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"))->toBeFile();
 });
 
@@ -25,7 +25,7 @@ it('will generate responsive images if with responsive images if returns true', 
             ->toMediaCollection();
 
     expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg"))->toBeFile();
-    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_233.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg"))->toBeFile();
     expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"))->toBeFile();
 });
 
