@@ -19,6 +19,12 @@ interface UrlGenerator
 
     public function setPathGenerator(PathGenerator $pathGenerator): self;
 
+    /**
+     * @param DateTimeInterface $expiration
+     * @param array<string, mixed> $options
+     *
+     * @return string
+     */
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string;
 
     public function getResponsiveImagesDirectoryUrl(): string;

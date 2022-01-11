@@ -15,9 +15,9 @@ class MediaStream implements Responsable
 
     protected ArchiveOptions $zipOptions;
 
-    public static function create(string $zipName)
+    public static function create(string $zipName): self
     {
-        return new static($zipName);
+        return new self($zipName);
     }
 
     public function __construct(protected string $zipName)

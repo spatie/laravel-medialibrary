@@ -22,7 +22,7 @@ class DefaultUrlGenerator extends BaseUrlGenerator
         return $this->getDisk()->temporaryUrl($this->getPathRelativeToRoot(), $expiration, $options);
     }
 
-    public function getBaseMediaDirectoryUrl()
+    public function getBaseMediaDirectoryUrl(): string
     {
         return $this->getDisk()->url('/');
     }

@@ -33,6 +33,8 @@
         "illuminate/support": "^8.71|^9.0",
         "intervention/image": "^2.7",
         "maennchen/zipstream-php": "^2.0",
+        "nunomaduro/larastan": "^1.0",
+        "phpstan/extension-installer": "^1.1",
         "spatie/image": "^1.10|^2.2",
         "spatie/temporary-directory": "^2.0",
         "symfony/console": "^5.4|^6.0"
@@ -50,7 +52,7 @@
         "spatie/laravel-ray": "^1.27",
         "spatie/pdf-to-image": "^2.1",
         "spatie/phpunit-snapshot-assertions": "^4.2",
-        "pestphp/pest": "^1.20",
+        "pestphp/pest": "^1.20"
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
@@ -66,6 +68,7 @@
         }
     },
     "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/pest"
     },
@@ -84,7 +87,8 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
         }
     },
     "minimum-stability": "stable",

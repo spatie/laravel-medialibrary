@@ -7,3 +7,4 @@ phpunit.xml
 .env
 .phpunit.result.cache
 .php-cs-fixer.cache
+phpstan.neon
