@@ -14,7 +14,8 @@ class MediaRepository
 {
     public function __construct(
         protected Media $model
-    ) {}
+    ) {
+    }
 
     /**
      * Get all media in the collection.
@@ -26,8 +27,7 @@ class MediaRepository
         HasMedia $model,
         string $collectionName,
         array|callable $filter = []
-    ): Collection
-    {
+    ): Collection {
         return $this->applyFilterToMediaCollection($model->loadMedia($collectionName), $filter);
     }
 
@@ -42,8 +42,7 @@ class MediaRepository
     protected function applyFilterToMediaCollection(
         Collection $media,
         array|callable $filter
-    ): Collection
-    {
+    ): Collection {
         if (is_array($filter)) {
             $filter = $this->getDefaultFilterFunction($filter);
         }

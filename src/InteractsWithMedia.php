@@ -443,8 +443,7 @@ trait InteractsWithMedia
     public function clearMediaCollectionExcept(
         string $collectionName = 'default',
         array|Collection|Media $excludedMedia = []
-    ): HasMedia
-    {
+    ): HasMedia {
         if ($excludedMedia instanceof Media) {
             $excludedMedia = collect()->push($excludedMedia);
         }

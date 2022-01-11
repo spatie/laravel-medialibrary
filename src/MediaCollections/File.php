@@ -12,7 +12,8 @@ class File implements \Stringable
     public function __construct(
         public string $name,
         public int $size,
-        public string $mimeType)
+        public string $mimeType
+    )
     {
     }
 
