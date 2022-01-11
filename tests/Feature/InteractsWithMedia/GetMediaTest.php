@@ -1,6 +1,5 @@
 <?php
 
-use DB;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

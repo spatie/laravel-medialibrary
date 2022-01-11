@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-use Imagick;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

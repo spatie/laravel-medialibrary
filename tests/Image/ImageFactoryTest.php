@@ -1,6 +1,5 @@
 <?php
 
-use ReflectionClass;
 use Spatie\MediaLibrary\Support\ImageFactory;
 use Spatie\MediaLibrary\Tests\TestCase;
 

@@ -1,6 +1,5 @@
 <?php
 
-use File;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;

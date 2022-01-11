@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-use RuntimeException;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\Tests\TestCase;
 

@@ -1,6 +1,5 @@
 <?php
 
-use DB;
 use Spatie\MediaLibrary\Tests\TestCase;
 
 uses(TestCase::class);
