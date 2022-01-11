@@ -9,10 +9,7 @@ class MediaHasBeenAdded
 {
     use SerializesModels;
 
-    public Media $media;
-
-    public function __construct(Media $media)
+    public function __construct(public Media $media)
     {
-        $this->media = $media;
     }
 }

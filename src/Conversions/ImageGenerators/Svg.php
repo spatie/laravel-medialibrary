@@ -25,7 +25,7 @@ class Svg extends ImageGenerator
 
     public function requirementsAreInstalled(): bool
     {
-        return class_exists('Imagick');
+        return class_exists(\Imagick::class);
     }
 
     public function supportedExtensions(): Collection

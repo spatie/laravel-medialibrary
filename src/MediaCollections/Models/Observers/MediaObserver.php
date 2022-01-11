@@ -43,7 +43,7 @@ class MediaObserver
         $original = $media->getOriginal('manipulations');
 
         if (! $this->isLumen() && ! $this->isLaravel7orHigher()) {
-            $original = json_decode($original, true);
+            $original = json_decode($original, true, 512, JSON_THROW_ON_ERROR);
         }
 
         if ($media->manipulations !== $original) {

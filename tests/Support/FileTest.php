@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections;
+namespace Spatie\MediaLibrary\Tests\Support;
 
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Tests\TestCase;
@@ -14,9 +14,9 @@ class FileTest extends TestCase
         $this->assertEquals('100 B', File::getHumanReadableSize(100));
         $this->assertEquals('1000 B', File::getHumanReadableSize(1000));
         $this->assertEquals('9.77 KB', File::getHumanReadableSize(10000));
-        $this->assertEquals('976.56 KB', File::getHumanReadableSize(1000000));
-        $this->assertEquals('9.54 MB', File::getHumanReadableSize(10000000));
-        $this->assertEquals('9.31 GB', File::getHumanReadableSize(10000000000));
+        $this->assertEquals('976.56 KB', File::getHumanReadableSize(1_000_000));
+        $this->assertEquals('9.54 MB', File::getHumanReadableSize(10_000_000));
+        $this->assertEquals('9.31 GB', File::getHumanReadableSize(10_000_000_000));
     }
 
     /** @test */

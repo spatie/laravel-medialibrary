@@ -11,17 +11,14 @@ use Spatie\MediaLibrary\Support\PathGenerator\PathGenerator;
 
 abstract class BaseUrlGenerator implements UrlGenerator
 {
-    protected ?Media $media;
+    protected ?Media $media = null;
 
     protected ?Conversion $conversion = null;
 
-    protected ?PathGenerator $pathGenerator;
+    protected ?PathGenerator $pathGenerator = null;
 
-    protected Config $config;
-
-    public function __construct(Config $config)
+    public function __construct(protected Config $config)
     {
-        $this->config = $config;
     }
 
     public function setMedia(Media $media): UrlGenerator

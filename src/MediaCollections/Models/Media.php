@@ -149,15 +149,13 @@ class Media extends Model implements Responsable, Htmlable
      *
      * @return mixed
      */
-    public function getCustomProperty(string $propertyName, $default = null)
+    public function getCustomProperty(string $propertyName, $default = null): mixed
     {
         return Arr::get($this->custom_properties, $propertyName, $default);
     }
 
     /**
-     * @param string $name
      * @param mixed $value
-     *
      * @return $this
      */
     public function setCustomProperty(string $name, $value): self

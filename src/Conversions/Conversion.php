@@ -10,8 +10,6 @@ use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
 {
-    protected string $name = '';
-
     protected FileNamer $fileNamer;
 
     protected float $extractVideoFrameAtSecond = 0;
@@ -30,10 +28,9 @@ class Conversion
 
     protected int $pdfPageNumber = 1;
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-
+    public function __construct(
+        protected string $name
+    ) {
         $this->manipulations = (new Manipulations())
             ->optimize(config('media-library.image_optimizers'))
             ->format(Manipulations::FORMAT_JPG);

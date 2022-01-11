@@ -9,10 +9,6 @@ use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
 class ResponsiveImage
 {
-    public string $fileName = '';
-
-    public Media $media;
-
     public static function register(Media $media, $fileName, $conversionName)
     {
         $responsiveImages = $media->responsive_images;
@@ -35,11 +31,8 @@ class ResponsiveImage
         $media->save();
     }
 
-    public function __construct(string $fileName, Media $media)
+    public function __construct(public string $fileName, public Media $media)
     {
-        $this->fileName = $fileName;
-
-        $this->media = $media;
     }
 
     public function url(): string

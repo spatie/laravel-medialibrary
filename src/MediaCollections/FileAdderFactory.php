@@ -7,16 +7,11 @@ use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\Support\RemoteFile;
 use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdderFactory
 {
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $subject
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
-     *
-     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
-     */
-    public static function create(Model $subject, $file): FileAdder
+    public static function create(Model $subject, string|UploadedFile $file): FileAdder
     {
         /** @var \Spatie\MediaLibrary\MediaCollections\FileAdder $fileAdder */
         $fileAdder = app(FileAdder::class);

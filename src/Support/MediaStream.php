@@ -11,8 +11,6 @@ use ZipStream\ZipStream;
 
 class MediaStream implements Responsable
 {
-    protected string $zipName;
-
     protected Collection $mediaItems;
 
     protected ArchiveOptions $zipOptions;
@@ -22,10 +20,8 @@ class MediaStream implements Responsable
         return new static($zipName);
     }
 
-    public function __construct(string $zipName)
+    public function __construct(protected string $zipName)
     {
-        $this->zipName = $zipName;
-
         $this->mediaItems = collect();
 
         $this->zipOptions = new ArchiveOptions();

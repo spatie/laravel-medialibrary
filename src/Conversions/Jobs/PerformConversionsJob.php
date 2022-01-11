@@ -18,19 +18,8 @@ class PerformConversionsJob implements ShouldQueue
 
     public $deleteWhenMissingModels = true;
 
-    protected ConversionCollection $conversions;
-
-    protected Media $media;
-
-    protected bool $onlyMissing;
-
-    public function __construct(ConversionCollection $conversions, Media $media, bool $onlyMissing = false)
+    public function __construct(protected ConversionCollection $conversions, protected Media $media, protected bool $onlyMissing = false)
     {
-        $this->conversions = $conversions;
-
-        $this->media = $media;
-
-        $this->onlyMissing = $onlyMissing;
     }
 
     public function handle(FileManipulator $fileManipulator): bool
