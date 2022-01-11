@@ -233,7 +233,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForMainItem */
         $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => env('AWS_BUCKET'),
+            'Bucket' => getenv('AWS_BUCKET'),
             'Key' => $media->getPath(),
         ]));
 
@@ -241,7 +241,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForConversion */
         $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => env('AWS_BUCKET'),
+            'Bucket' => getenv('AWS_BUCKET'),
             'Key' => $media->getPath('thumb'),
         ]));
 
@@ -268,7 +268,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForMainItem */
         $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => env('AWS_BUCKET'),
+            'Bucket' => getenv('AWS_BUCKET'),
             'Key' => $media->getPath(),
         ]));
 
@@ -276,7 +276,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForConversion */
         $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => env('AWS_BUCKET'),
+            'Bucket' => getenv('AWS_BUCKET'),
             'Key' => $media->getPath('thumb'),
         ]));
 
@@ -304,7 +304,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForMainItem */
         $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => env('AWS_BUCKET'),
+            'Bucket' => getenv('AWS_BUCKET'),
             'Key' => $media->getPath(),
         ]));
 
@@ -312,7 +312,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForConversion */
         $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => env('AWS_BUCKET'),
+            'Bucket' => getenv('AWS_BUCKET'),
             'Key' => $media->getPath('thumb'),
         ]));
 
@@ -443,7 +443,7 @@ class S3IntegrationTest extends TestCase
 
     public function canTestS3(): bool
     {
-        return ! empty(env('AWS_ACCESS_KEY_ID'));
+        return ! empty(getenv('AWS_ACCESS_KEY_ID'));
     }
 
     public static function getS3BaseTestDirectory(): string
