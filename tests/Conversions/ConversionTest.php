@@ -4,8 +4,8 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Conversions\Conversion;
 
 beforeEach(function () {
-    $this->conversion = new Conversion($this->conversionName);
     $this->conversionName = 'test';
+    $this->conversion = new Conversion($this->conversionName);
 });
 
 it('can get its name', function () {

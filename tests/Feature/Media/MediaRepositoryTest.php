@@ -4,6 +4,8 @@ use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
 
 it('can use a custom media model', function () {
+    config()->set('media-library.media_model', TestCustomMediaModel::class);
+
     $this->testModel
         ->addMedia($this->getTestJpg())
         ->toMediaCollection();
@@ -12,11 +14,3 @@ it('can use a custom media model', function () {
 
     expect($mediaRepository->all()->getQueueableClass())->toEqual(TestCustomMediaModel::class);
 });
-
-// Helpers
-function getEnvironmentSetUp($app)
-{
-    test()->getEnvironmentSetUp($app);
-
-    $app['config']->set('media-library.media_model', TestCustomMediaModel::class);
-}

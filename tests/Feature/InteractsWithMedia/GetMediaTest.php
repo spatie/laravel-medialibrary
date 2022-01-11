@@ -302,8 +302,6 @@ it('will cache loaded media', function () {
     DB::DisableQueryLog();
 });
 
-// Helpers
-function it_returns_false_when_getting_first_media_for_an_empty_collection()
-{
-    expect(test()->testModel->getFirstMedia())->toBeFalse();
-}
+it('returns null when getting first media for an empty collection', function() {
+    expect($this->testModel->getFirstMedia())->toBeNull();
+});

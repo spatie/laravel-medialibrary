@@ -364,13 +364,6 @@ it('can retrieve a zip with s3 disk', function () {
     $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'test.jpg');
 });
 
-// Helpers
-function cleanUpS3()
-{
-    collect(Storage::disk('s3_disk')->allDirectories(getS3BaseTestDirectory()))->each(function ($directory) {
-        Storage::disk('s3_disk')->deleteDirectory($directory);
-    });
-}
 
 function getS3Client(): S3Client
 {

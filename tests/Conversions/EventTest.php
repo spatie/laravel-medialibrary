@@ -6,8 +6,6 @@ use Spatie\MediaLibrary\Conversions\Events\ConversionWillStart;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
 
 beforeEach(function () {
-    parent::setup();
-
     Event::fake();
 });
 

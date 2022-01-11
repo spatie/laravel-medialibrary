@@ -17,26 +17,26 @@ beforeEach(function () {
 it('can render itself as an image', function () {
     $this->assertEquals(
         '<img src="/media/1/test.jpg" alt="test">',
-        firstMedia()->img(),
+        Media::first()->img(),
     );
 });
 
 it('can render a conversion of itself as an image', function () {
     $this->assertEquals(
         '<img src="/media/1/conversions/test-thumb.jpg" alt="test">',
-        firstMedia()->img('thumb')
+        Media::first()->img('thumb')
     );
 });
 
 it('can render extra attributes', function () {
     $this->assertEquals(
         '<img class="my-class" id="my-id" src="/media/1/conversions/test-thumb.jpg" alt="test">',
-        firstMedia()->img('thumb', ['class' => 'my-class', 'id' => 'my-id']),
+        Media::first()->img('thumb', ['class' => 'my-class', 'id' => 'my-id']),
     );
 });
 
 test('a media instance is htmlable', function () {
-    $media = firstMedia();
+    $media = Media::first();
 
     $renderedView = $this->renderView('media', compact('media'));
 
@@ -73,8 +73,8 @@ it('can render itself with responsive images of a conversion and a placeholder',
 
     $image = $media->refresh()->img('thumb');
 
-    expect($image)->toContain('/media/2/responsive-images/');
-    expect($image)->toContain('data:image/svg+xml;base64,');
+    expect((string)$image)->toContain('/media/2/responsive-images/');
+    expect((string)$image)->toContain('data:image/svg+xml;base64,');
 });
 
 it('will not rendering extra javascript or including base64 svg when tiny placeholders are turned off', function () {
@@ -108,19 +108,13 @@ test('the loading attribute can be specified on the conversion', function () {
 it('has a shorthand function to use lazy loading', function () {
     $this->assertEquals(
         '<img loading="lazy" src="/media/1/test.jpg" alt="test">',
-        firstMedia()->img()->lazy()
+        Media::first()->img()->lazy()
     );
 });
 
 it('can set extra attributes', function () {
     $this->assertEquals(
         '<img extra="value" src="/media/1/test.jpg" alt="test">',
-        (string) firstMedia()->img()->attributes(['extra' => 'value'])
+        (string) Media::first()->img()->attributes(['extra' => 'value'])
     );
 });
-
-// Helpers
-function firstMedia(): Media
-{
-    return Media::first();
-}

@@ -1,6 +1,6 @@
 <?php
 
-beforeEach(function () {
+beforeEach(function() {
     $this->fileName = 'test';
     $this->fileNameWithUnderscore = 'test_';
 });

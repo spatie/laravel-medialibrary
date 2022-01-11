@@ -5,9 +5,9 @@ namespace Spatie\MediaLibrary\Tests;
 use CreateMediaTable;
 use CreateTemporaryUploadsTable;
 use Dotenv\Dotenv;
-use File;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
@@ -171,17 +171,17 @@ abstract class TestCase extends Orchestra
         return __DIR__.$suffix;
     }
 
-    public function getTempDirectory($suffix = ''): string
+    public function getTempDirectory(string $suffix = ''): string
     {
         return __DIR__.'/TestSupport/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
-    public function getMediaDirectory($suffix = ''): string
+    public function getMediaDirectory(string $suffix = ''): string
     {
         return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
     }
 
-    public function getTestFilesDirectory($suffix = ''): string
+    public function getTestFilesDirectory(string $suffix = ''): string
     {
         return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
     }

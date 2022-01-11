@@ -1,36 +1,26 @@
 <?php
 
-
-
 it('defaults to jpg when the original file is an image', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
 
-    assertExtensionEquals('jpg', $media->getUrl('thumb'));
+    expect($media->getUrl('thumb'))->toHaveExtension('jpg');
 });
 
 it('can keep the original image format if the original file is an image', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection();
 
-    assertExtensionEquals('png', $media->getUrl('keep_original_format'));
+    expect($media->getUrl('keep_original_format'))->toHaveExtension('png');
 });
 
 it('can keep the original image format if the original file is an image with uppercase extension', function () {
     $media = $this->testModelWithConversion->addMedia($this->getUppercaseExtensionTestPng())->toMediaCollection();
 
-    assertExtensionEquals('PNG', $media->getUrl('keep_original_format'));
+    expect($media->getUrl('keep_original_format'))->toHaveExtension('PNG');
 });
 
 it('always defaults to jpg when the original file is not an image', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestMp4())->toMediaCollection();
 
-    assertExtensionEquals('jpg', $media->getUrl('thumb'));
-    assertExtensionEquals('jpg', $media->getUrl('keep_original_format'));
+    expect($media->getUrl('thumb'))->toHaveExtension('jpg');
+    expect($media->getUrl('keep_original_format'))->toHaveExtension('jpg');
 });
-
-// Helpers
-function assertExtensionEquals(string $expectedExtension, string $file)
-{
-    $actualExtension = pathinfo($file, PATHINFO_EXTENSION);
-
-    expect($actualExtension)->toEqual($expectedExtension);
-}

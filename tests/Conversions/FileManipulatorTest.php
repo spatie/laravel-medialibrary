@@ -4,6 +4,7 @@ use Spatie\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
 use Spatie\MediaLibrary\Conversions\Conversion;
 
 beforeEach(function () {
+    $this->conversionName = 'test';
     $this->conversion = new Conversion($this->conversionName);
 });
 

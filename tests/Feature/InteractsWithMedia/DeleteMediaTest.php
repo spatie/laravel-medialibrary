@@ -84,7 +84,6 @@ it('will not remove the files when deleting a subject and preserving media', fun
     });
 });
 
-// Helpers
 function addMedia(TestModel $model)
 {
     foreach (range(1, 3) as $index) {
