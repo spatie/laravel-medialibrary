@@ -49,6 +49,7 @@
         "mockery/mockery": "^1.4",
         "orchestra/testbench": "^5.20|^6.23",
         "phpunit/phpunit": "^9.3",
+        "rector/rector": "^0.12.12",
         "spatie/laravel-ray": "^1.24",
         "spatie/pdf-to-image": "^2.1",
         "spatie/phpunit-snapshot-assertions": "^4.0"
