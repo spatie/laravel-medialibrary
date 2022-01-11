@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConver
 
 it('will use the disk from a media collection', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this->addMediaCollection('images')
                 ->useDisk('secondMediaDisk');
@@ -30,7 +30,7 @@ it('will use the disk from a media collection', function () {
 
 it('will not use the disk name of the collection if a diskname is specified while adding', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this->addMediaCollection('images')
                 ->useDisk('secondMediaDisk');
@@ -48,7 +48,7 @@ it('will not use the disk name of the collection if a diskname is specified whil
 
 it('can register media conversions when defining media collections', function () {
     $testModel = new class () extends TestModelWithoutMediaConversions {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -69,7 +69,7 @@ it('can register media conversions when defining media collections', function ()
 
 it('will not use media conversions from an unrelated collection', function () {
     $testModel = new class () extends TestModelWithoutMediaConversions {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -90,14 +90,14 @@ it('will not use media conversions from an unrelated collection', function () {
 
 it('will use conversions defined in conversions and conversions defined in collections', function () {
     $testModel = new class () extends TestModelWithoutMediaConversions {
-        public function registerMediaConversions(Media $media = null)
+        public function registerMediaConversions(Media $media = null): void
         {
             $this
                 ->addMediaConversion('another-thumb')
                 ->greyscale();
         }
 
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -120,7 +120,7 @@ it('will use conversions defined in conversions and conversions defined in colle
 
 it('can accept certain files', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -139,7 +139,7 @@ it('can accept certain files', function () {
 
 it('can guard against invalid mimetypes', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -158,7 +158,7 @@ it('can guard against invalid mimetypes', function () {
 
 it('can generate responsive images', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -183,7 +183,7 @@ it('can generate responsive images', function () {
 
 it('can generate responsive images on condition', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -208,7 +208,7 @@ it('can generate responsive images on condition', function () {
 
 test('if the single file method is specified it will delete all other media and will only keep the new one', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')
@@ -227,7 +227,7 @@ test('if the single file method is specified it will delete all other media and 
 
 test('if the only keeps latest method is specified it will delete all other media and will only keep the latest n ones', function () {
     $testModel = new class () extends TestModelWithConversion {
-        public function registerMediaCollections()
+        public function registerMediaCollections(): void
         {
             $this
                 ->addMediaCollection('images')

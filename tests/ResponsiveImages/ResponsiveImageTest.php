@@ -1,7 +1,5 @@
 <?php
 
-
-
 test('a media instance can get responsive image urls', function () {
     $this
         ->testModelWithResponsiveImages

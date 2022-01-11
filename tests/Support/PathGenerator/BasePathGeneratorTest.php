@@ -2,6 +2,7 @@
 
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
 
 beforeEach(function () {
     $this->config = app('config');

@@ -45,7 +45,7 @@ it('can create a derived version for an image keeping the original format', func
 
 it('will use the name of the conversion for naming the converted file', function () {
     $modelClass = new class () extends TestModelWithConversion {
-        public function registerMediaConversions(Media $media = null)
+        public function registerMediaConversions(Media $media = null): void
         {
             $this->addMediaConversion('my-conversion')
                 ->setManipulations(function (Manipulations $manipulations) {
@@ -103,7 +103,7 @@ it('will have access the model instance when register media conversions using mo
          *
          * @return array
          */
-        public function registerMediaConversions(Media $media = null)
+        public function registerMediaConversions(Media $media = null): void
         {
             $this->addMediaConversion('thumb')
                 ->width($this->width)

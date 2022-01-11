@@ -40,6 +40,7 @@
     "require-dev": {
         "ext-pdo_sqlite": "*",
         "ext-zip": "*",
+        "ext-imagick": "*",
         "aws/aws-sdk-php": "^3.133.11",
         "doctrine/dbal": "^2.13",
         "guzzlehttp/guzzle": "^7.4",
@@ -49,7 +50,7 @@
         "spatie/laravel-ray": "^1.27",
         "spatie/pdf-to-image": "^2.1",
         "spatie/phpunit-snapshot-assertions": "^4.2",
-        "pestphp/pest": "^1.20"
+        "pestphp/pest": "^1.20",
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
