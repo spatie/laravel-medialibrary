@@ -5,6 +5,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 
 beforeEach(function () {
     $this->conversion = new Conversion($this->conversionName);
+    $this->conversionName = 'test';
 });
 
 it('can get its name', function () {
