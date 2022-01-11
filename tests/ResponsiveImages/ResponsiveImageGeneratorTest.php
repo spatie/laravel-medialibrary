@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
 
+beforeEach(function() {
+   $this->fileName = 'test';
+});
+
 it('can generate responsive images', function () {
     $this->testModel
             ->addMedia($this->getTestJpg())
