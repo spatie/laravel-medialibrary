@@ -16,7 +16,7 @@ it('can use a custom media model', function () {
 // Helpers
 function getEnvironmentSetUp($app)
 {
-    parent::getEnvironmentSetUp($app);
+    test()->getEnvironmentSetUp($app);
 
     $app['config']->set('media-library.media_model', TestCustomMediaModel::class);
 }

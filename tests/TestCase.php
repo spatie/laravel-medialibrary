@@ -90,7 +90,7 @@ abstract class TestCase extends Orchestra
     /**
      * @param \Illuminate\Foundation\Application $app
      */
-    protected function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app)
     {
         $this->initializeDirectory($this->getTempDirectory());
 

@@ -2,8 +2,6 @@
 
 use Spatie\MediaLibrary\Tests\TestSupport\TestFileNamer;
 
-uses(ResponsiveImageGeneratorTest::class);
-
 beforeEach(function () {
     config()->set("media-library.file_namer", TestFileNamer::class);
 
