@@ -32,12 +32,10 @@
         "illuminate/pipeline": "^8.71|^9.0",
         "illuminate/support": "^8.71|^9.0",
         "intervention/image": "^2.7",
-        "league/flysystem": "^1.0.64",
-        "league/glide": "^1.7",
         "maennchen/zipstream-php": "^2.0",
-        "spatie/image": "^1.10.5",
+        "spatie/image": "^1.10.6",
         "spatie/temporary-directory": "^2.0",
-        "symfony/console": "^5.3|^6.0"
+        "symfony/console": "^5.4|^6.0"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
@@ -47,12 +45,11 @@
         "guzzlehttp/guzzle": "^7.0",
         "league/flysystem-aws-s3-v3": "^1.0.23",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^6.23",
+        "orchestra/testbench": "^6.23|^7.0",
         "phpunit/phpunit": "^9.3",
-        "rector/rector": "^0.12.12",
-        "spatie/laravel-ray": "^1.24",
+        "spatie/laravel-ray": "^1.27",
         "spatie/pdf-to-image": "^2.1",
-        "spatie/phpunit-snapshot-assertions": "^4.0"
+        "spatie/phpunit-snapshot-assertions": "^4.2"
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
