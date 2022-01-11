@@ -461,7 +461,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->usingFileName('other/otherFileName.jpg')
-            ->sanitizingFileName(fn($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
+            ->sanitizingFileName(fn ($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
             ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
@@ -474,7 +474,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->usingFileName('other/[0]-{0}-(0)-otherFile.Name.jpg')
-            ->sanitizingFileName(fn($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
+            ->sanitizingFileName(fn ($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
             ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
