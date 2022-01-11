@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
 
 use Carbon\Carbon;
+use Imagick;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -91,7 +92,9 @@ class AddMediaTest extends TestCase
 
         $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
 
-        class_exists('Imagick') ? $this->assertFileExists($thumbPath) : $this->assertFileDoesNotExist($thumbPath);
+        class_exists(Imagick::class)
+            ? $this->assertFileExists($thumbPath)
+            : $this->assertFileDoesNotExist($thumbPath);
     }
 
     /** @test */

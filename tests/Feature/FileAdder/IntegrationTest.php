@@ -287,7 +287,7 @@ class IntegrationTest extends TestCase
                 $this->testModel
                     ->addMediaFromRequest('non existing key')
                     ->toMediaCollection();
-            } catch (RequestDoesNotHaveFile $exception) {
+            } catch (RequestDoesNotHaveFile) {
                 $exceptionWasThrown = true;
             }
 
@@ -461,9 +461,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->usingFileName('other/otherFileName.jpg')
-            ->sanitizingFileName(function ($fileName) {
-                return strtolower(str_replace(['#', '\\', ' '], '-', $fileName));
-            })
+            ->sanitizingFileName(fn($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
             ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);
@@ -476,9 +474,7 @@ class IntegrationTest extends TestCase
         $media = $this->testModel
             ->addMedia($this->getTestJpg())
             ->usingFileName('other/[0]-{0}-(0)-otherFile.Name.jpg')
-            ->sanitizingFileName(function ($fileName) {
-                return strtolower(str_replace(['#', '\\', ' '], '-', $fileName));
-            })
+            ->sanitizingFileName(fn($fileName) => strtolower(str_replace(['#', '\\', ' '], '-', $fileName)))
             ->toMediaCollection();
 
         $this->assertEquals('test', $media->name);

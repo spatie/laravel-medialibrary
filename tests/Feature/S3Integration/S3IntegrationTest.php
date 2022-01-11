@@ -233,7 +233,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForMainItem */
         $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => getenv('AWS_BUCKET'),
+            'Bucket' => env('AWS_BUCKET'),
             'Key' => $media->getPath(),
         ]));
 
@@ -241,7 +241,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForConversion */
         $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => getenv('AWS_BUCKET'),
+            'Bucket' => env('AWS_BUCKET'),
             'Key' => $media->getPath('thumb'),
         ]));
 
@@ -268,7 +268,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForMainItem */
         $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => getenv('AWS_BUCKET'),
+            'Bucket' => env('AWS_BUCKET'),
             'Key' => $media->getPath(),
         ]));
 
@@ -276,7 +276,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForConversion */
         $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => getenv('AWS_BUCKET'),
+            'Bucket' => env('AWS_BUCKET'),
             'Key' => $media->getPath('thumb'),
         ]));
 
@@ -290,7 +290,7 @@ class S3IntegrationTest extends TestCase
             'ACL' => 'public-read',
         ]);
 
-        $randomNumber = rand();
+        $randomNumber = random_int(0, mt_getrandmax());
 
         $fileName = "test{$randomNumber}.jpg";
 
@@ -304,7 +304,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForMainItem */
         $responseForMainItem = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => getenv('AWS_BUCKET'),
+            'Bucket' => env('AWS_BUCKET'),
             'Key' => $media->getPath(),
         ]));
 
@@ -312,7 +312,7 @@ class S3IntegrationTest extends TestCase
 
         /** @var \Aws\Result $responseForConversion */
         $responseForConversion = $client->execute($client->getCommand('GetObjectAcl', [
-            'Bucket' => getenv('AWS_BUCKET'),
+            'Bucket' => env('AWS_BUCKET'),
             'Key' => $media->getPath('thumb'),
         ]));
 
@@ -441,9 +441,9 @@ class S3IntegrationTest extends TestCase
         $this->assertFalse(Storage::disk('s3_disk')->has($filePath));
     }
 
-    public function canTestS3()
+    public function canTestS3(): bool
     {
-        return ! empty(getenv('AWS_ACCESS_KEY_ID'));
+        return ! empty(env('AWS_ACCESS_KEY_ID'));
     }
 
     public static function getS3BaseTestDirectory(): string

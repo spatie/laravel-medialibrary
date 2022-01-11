@@ -257,10 +257,10 @@ abstract class TestCase extends Orchestra
     {
         config()->set('filesystems.disks.s3_disk', [
             'driver' => 's3',
-            'key' => getenv('AWS_ACCESS_KEY_ID'),
-            'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
-            'region' => getenv('AWS_DEFAULT_REGION'),
-            'bucket' => getenv('AWS_BUCKET'),
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
         ]);
     }
 
