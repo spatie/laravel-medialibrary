@@ -33,6 +33,6 @@ class S3TestPathGenerator implements PathGenerator
      */
     protected function getBasePath(Media $media): string
     {
-        return (S3IntegrationTest::getS3BaseTestDirectory()).'/'.$media->getKey();
+        return (getS3BaseTestDirectory()).'/'.$media->getKey();
     }
 }
