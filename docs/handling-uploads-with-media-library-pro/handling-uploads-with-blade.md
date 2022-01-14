@@ -20,7 +20,7 @@ Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installatio
 
 ## Use inside other Livewire components
 
-Our Blade components are meant to be used in a regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/handling-uploads-with-livewire).
+Our Blade components are meant to be used in a regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/handling-uploads-with-livewire).
 
 ## Demo application
 
@@ -44,7 +44,7 @@ You can use `x-media-library-attachment` to upload a single file. Here's an exam
 </form>
 ```
 
-![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/attachment.png)
 
 The `x-media-library-attachment` will take care of the upload. Under the hood the upload is processed by
 a [Livewire](https://laravel-livewire.com) component.
@@ -54,7 +54,7 @@ submitting the form, the `x-media-library-attachment` will display the temporary
 the form. There's no need for the user to upload the file again.
 
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
-model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+model. You can read more on that [on this page](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 ## Are you a visual learner?
 
@@ -79,12 +79,12 @@ Here's an example of how you can allow multiple uploads
 </form>
 ```
 
-![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/multiple.png)
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/multiple.png)
 
 After files have been uploaded, they will be stored as a temporary uploads.
 
 In the controller handling the form submission you should validate the temporary upload and transfer it to an Eloquent
-model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+model. You can read more on that [on this page](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 Here's a video where multiple uploads are being demoed:
 
@@ -120,7 +120,7 @@ Here's an example where we only accept `png` and `jpg` files that are 1MB or les
 ```
 
 This validation only applies on the creation of the temporary uploads. You should also perform validation
-when [processing the upload on the server](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+when [processing the upload on the server](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 ## Administer the contents of a media library collection
 
@@ -128,7 +128,7 @@ You can manage the entire contents of a media library collection with `x-media-l
 component is intended to use in admin sections.
 
 Here is an example where we are going to administer an `images` collection of a `$blogPost` model. We assume that you
-already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing-your-model) to handle uploads.
+already [prepared the model](/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model) to handle uploads.
 
 ```html
 <x-media-library-collection
@@ -143,7 +143,7 @@ New files will be uploaded as temporary uploads.
 
 The value you pass in `name` of the component will be use as the key name in which the component will send the state of
 the collection to the backend. In the controller handling the form submission you should validate the new contents of
-the collection and sync it with the collection of the eloquent model. You can read more on that [on this page](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+the collection and sync it with the collection of the eloquent model. You can read more on that [on this page](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 Like the `x-media-library-attachment` component, the `x-media-library-collection` accepts `max-items` and `rules` props.
 
@@ -167,7 +167,7 @@ Want to see more videos like this? Check out our [free video course on how to us
 
 ### Using custom properties
 
-Media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
+Media library supports [custom properties](/docs/laravel-medialibrary/v10/advanced-usage/using-custom-properties) to be saved on a media item. By
 default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a
 blade view that will be used to display all form elements on a row in the component.
 
@@ -205,9 +205,9 @@ You should then pass the path to that view to the `fields-view` prop of the `x-m
 
 This is how that will look like.
 
-![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
+![Screenshot of custom property](/docs/laravel-medialibrary/v10/images/pro/extra.png)
 
-Custom properties can be validated using [a form request](/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
+Custom properties can be validated using [a form request](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/processing-uploads-on-the-server).
 
 In this video, you'll see an example of how extra fields can be added.
 

@@ -27,7 +27,7 @@ If you are having troubles using the components, take a look in that app to see 
 
 You can use `x-media-library-attachment` component to upload a single file.
 
-![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/attachment.png)
 
 Here's how that might look like in the view of your Livewire component:
 
@@ -139,7 +139,7 @@ Uploading multiple files is very similar to uploading a single file. The only th
 </form>
 ```
 
-![Screenshot of the attachment component](/docs/laravel-medialibrary/v9/images/pro/multiple.png)
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/multiple.png)
 
 In your Livewire component you must:
 - use the `Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia` trait
@@ -220,7 +220,7 @@ You can manage the entire contents of a media library collection with `x-media-l
 component is intended to use in admin sections.
 
 Here is an example where we are going to administer an `images` collection of a `$blogPost` model. We assume that you
-already [prepared the model](/docs/laravel-medialibrary/v9/basic-usage/preparing-your-model) to handle uploads.
+already [prepared the model](/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model) to handle uploads.
 
 ```html
 <form method="POST" wire:submit.prevent="submit">
@@ -308,7 +308,7 @@ public function submit()
 
 ### Using custom properties
 
-Media library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. By
+Media library supports [custom properties](/docs/laravel-medialibrary/v10/advanced-usage/using-custom-properties) to be saved on a media item. By
 default, the  `x-media-library-collection` component doesn't show the custom properties. To add them you should create a
 blade view that will be used to display all form elements on a row in the component.
 
@@ -346,7 +346,7 @@ You should then pass the path to that view to the `fields-view` prop of the `x-m
 
 This is how that will look like.
 
-![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
+![Screenshot of custom property](/docs/laravel-medialibrary/v10/images/pro/extra.png)
 
 In your Livewire component, you can validate the custom properties like this. This example assumes that you have set the `name` attribute of `x-media-library-collection` to `images`.
 

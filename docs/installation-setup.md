@@ -8,7 +8,7 @@ Media library can be installed via Composer:
 If you only use the base package issue this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary:^9.0.0"
+composer require "spatie/laravel-medialibrary:^10.0.0"
 ```
 
 If you have a license for media library pro, you should use `laravel-media-library-pro`
@@ -214,7 +214,7 @@ return [
          * images. By default we optimize for filesize and create variations that each are 20%
          * smaller than the previous one. More info in the documentation.
          *
-         * https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/generating-responsive-images
+         * https://docs.spatie.be/laravel-medialibrary/v10/advanced-usage/generating-responsive-images
          */
         'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
@@ -296,7 +296,7 @@ If you are planning on working with image manipulations it's recommended to conf
 
 ### Setting up optimization tools
 
-Media library will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v9/converting-images/optimizing-converted-images) if they are present on your system:
+Media library will use these tools to [optimize converted images](https://docs.spatie.be/laravel-medialibrary/v10/converting-images/optimizing-converted-images) if they are present on your system:
 
 - [JpegOptim](http://freecode.com/projects/jpegoptim)
 - [Optipng](http://optipng.sourceforge.net/)
@@ -323,8 +323,8 @@ brew install gifsicle
 
 ## Installing Media Library Pro
 
-[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/introduction) beautifully with the laravel-medialibrary.
+[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/introduction) beautifully with the laravel-medialibrary.
 
 You can buy a license for Media Library Pro on [the product page](https://spatie.be/products/media-library-pro) at spatie.be.
 
-To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v9/handling-uploads-with-media-library-pro/installation).
+To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/installation).

@@ -7,11 +7,11 @@ Media Library Pro provides beautiful UI components for React. They pack a lot of
 
 The `MediaLibraryAttachment` component can upload one or more files with little or no extra information. The attachment component is a lightweight solution for small bits of UI like avatar fields.
 
-![Screenshot of the MediaLibraryAttachment React component](/docs/laravel-medialibrary/v9/images/pro/attachment.png)
+![Screenshot of the MediaLibraryAttachment React component](/docs/laravel-medialibrary/v10/images/pro/attachment.png)
 
 The `MediaLibraryCollection` component can upload multiple files with custom properties. The collection component shines when you need to manage media, like in backoffices.
 
-![Screenshot of the MediaLibraryCollection React component](/docs/laravel-medialibrary/v9/images/pro/collection.png)
+![Screenshot of the MediaLibraryCollection React component](/docs/laravel-medialibrary/v10/images/pro/collection.png)
 
 If neither of these fit the bill, we've exposed a set of APIs for you to be bold and [roll your own components](./creating-custom-react-components).
 
@@ -206,7 +206,7 @@ function AvatarComponent() {
 
 ### Using custom properties
 
-The Media Library supports [custom properties](/docs/laravel-medialibrary/v9/advanced-usage/using-custom-properties) to be saved on a media item. The values for these can be chosen by your users. By default, the `MediaLibraryAttachment` component doesn't show any input fields, and the `MediaLibraryCollection` component only shows a `name` field, with the option to add more fields.
+The Media Library supports [custom properties](/docs/laravel-medialibrary/v10/advanced-usage/using-custom-properties) to be saved on a media item. The values for these can be chosen by your users. By default, the `MediaLibraryAttachment` component doesn't show any input fields, and the `MediaLibraryCollection` component only shows a `name` field, with the option to add more fields.
 
 Use the `fieldsView` render prop to add some fields:
 
@@ -255,7 +255,7 @@ Use the `fieldsView` render prop to add some fields:
 
 When you add an image to your collection, it will look like this.
 
-![Screenshot of custom property](/docs/laravel-medialibrary/v9/images/pro/extra.png)
+![Screenshot of custom property](/docs/laravel-medialibrary/v10/images/pro/extra.png)
 
 ### Customizing the file properties
 
