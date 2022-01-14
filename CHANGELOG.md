@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.0.0 - 2022-01-14
+
+## What's Changed
+
+- Add support for Laravel 9
+- Tiny refactoring of file by @hichxm in https://github.com/spatie/laravel-medialibrary/pull/2707
+- Fix Test by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/2712
+- Add docs to disable dragula cdn by @lukasleitsch in https://github.com/spatie/laravel-medialibrary/pull/2711
+
+## New Contributors
+
+- @hichxm made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2707
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.11.1...10.0.0
+
 ## 9.11.1 - 2021-12-17
 
 ## What's Changed
