@@ -8,15 +8,10 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 
 class TestImageGeneratorWithConfig extends ImageGenerator
 {
-    public string $firstName;
-
-    public string $secondName;
-
-    public function __construct(string $firstName, string $secondName)
-    {
-        $this->firstName = $firstName;
-
-        $this->secondName = $secondName;
+    public function __construct(
+        public string $firstName,
+        public string $secondName
+    ) {
     }
 
     public function convert(string $file, Conversion $conversion = null): string

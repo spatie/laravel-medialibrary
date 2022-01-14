@@ -1,120 +1,100 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\InteractsWithMedia;
-
-use File;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
-class DeleteMediaTest extends TestCase
+beforeEach(function () {
+    addMedia($this->testModel);
+});
+
+it('can clear a collection', function () {
+    expect($this->testModel->getMedia('default'))->toHaveCount(3);
+    expect($this->testModel->getMedia('images'))->toHaveCount(3);
+
+    $this->testModel->clearMediaCollection('images');
+
+    expect($this->testModel->getMedia('default'))->toHaveCount(3);
+    expect($this->testModel->getMedia('images'))->toHaveCount(0);
+});
+
+it('will remove the files when clearing a collection', function () {
+    $ids = $this->testModel->getMedia('images')->pluck('id');
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
+
+    $this->testModel->clearMediaCollection('images');
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
+    });
+});
+
+it('will remove the files when deleting a subject', function () {
+    $ids = $this->testModel->getMedia('images')->pluck('id');
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
+
+    $this->testModel->delete();
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
+    });
+});
+
+it('will remove the files when using a custom model and deleting it', function () {
+    config()->set('media-library.media_model', TestCustomMediaModel::class);
+
+    (new MediaLibraryServiceProvider(app()))->boot();
+
+    $testModel = TestModel::create(['name' => 'test']);
+
+    addMedia($testModel);
+
+    expect($testModel->getFirstMedia())->toBeInstanceOf(TestCustomMediaModel::class);
+
+    $ids = $testModel->getMedia('images')->pluck('id');
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
+
+    $testModel->delete();
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
+    });
+});
+
+it('will not remove the files when deleting a subject and preserving media', function () {
+    $ids = $this->testModel->getMedia('images')->pluck('id');
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
+
+    $this->testModel->deletePreservingMedia();
+
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
+});
+
+function addMedia(TestModel $model)
 {
-    public function setUp(): void
-    {
-        parent::setUp();
+    foreach (range(1, 3) as $index) {
+        $model
+            ->addMedia(test()->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection();
 
-        $this->addMedia($this->testModel);
-    }
-
-    /** @test */
-    public function it_can_clear_a_collection()
-    {
-        $this->assertCount(3, $this->testModel->getMedia('default'));
-        $this->assertCount(3, $this->testModel->getMedia('images'));
-
-        $this->testModel->clearMediaCollection('images');
-
-        $this->assertCount(3, $this->testModel->getMedia('default'));
-        $this->assertCount(0, $this->testModel->getMedia('images'));
-    }
-
-    /** @test */
-    public function it_will_remove_the_files_when_clearing_a_collection()
-    {
-        $ids = $this->testModel->getMedia('images')->pluck('id');
-
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
-
-        $this->testModel->clearMediaCollection('images');
-
-        $ids->map(function ($id) {
-            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
-        });
-    }
-
-    /** @test */
-    public function it_will_remove_the_files_when_deleting_a_subject()
-    {
-        $ids = $this->testModel->getMedia('images')->pluck('id');
-
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
-
-        $this->testModel->delete();
-
-        $ids->map(function ($id) {
-            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
-        });
-    }
-
-    /** @test */
-    public function it_will_remove_the_files_when_using_a_custom_model_and_deleting_it()
-    {
-        config()->set('media-library.media_model', TestCustomMediaModel::class);
-
-        (new MediaLibraryServiceProvider($this->app))->boot();
-
-        $testModel = TestModel::create(['name' => 'test']);
-
-        $this->addMedia($testModel);
-
-        $this->assertInstanceOf(TestCustomMediaModel::class, $testModel->getFirstMedia());
-
-        $ids = $testModel->getMedia('images')->pluck('id');
-
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
-
-        $testModel->delete();
-
-        $ids->map(function ($id) {
-            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
-        });
-    }
-
-    /** @test */
-    public function it_will_not_remove_the_files_when_deleting_a_subject_and_preserving_media()
-    {
-        $ids = $this->testModel->getMedia('images')->pluck('id');
-
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
-
-        $this->testModel->deletePreservingMedia();
-
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
-    }
-
-    private function addMedia(TestModel $model)
-    {
-        foreach (range(1, 3) as $index) {
-            $model
-                ->addMedia($this->getTestJpg())
-                ->preservingOriginal()
-                ->toMediaCollection();
-
-            $model
-                ->addMedia($this->getTestJpg())
-                ->preservingOriginal()
-                ->toMediaCollection('images');
-        }
+        $model
+            ->addMedia(test()->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('images');
     }
 }

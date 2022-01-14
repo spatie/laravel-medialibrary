@@ -22,36 +22,38 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
-        "illuminate/bus": "^8.71",
-        "illuminate/console": "^8.71",
-        "illuminate/database": "^8.71",
-        "illuminate/pipeline": "^8.71",
-        "illuminate/support": "^8.71",
+        "illuminate/bus": "^9.0",
+        "illuminate/console": "^9.0",
+        "illuminate/database": "^9.0",
+        "illuminate/pipeline": "^9.0",
+        "illuminate/support": "^9.0",
         "intervention/image": "^2.7",
-        "league/flysystem": "^1.0.64",
-        "league/glide": "^1.7",
-        "maennchen/zipstream-php": "^1.0|^2.0",
-        "spatie/image": "^1.10.5",
-        "spatie/temporary-directory": "^1.1|^2.0",
-        "symfony/console": "^4.4|^5.0"
+        "laravel/framework": "9.*",
+        "maennchen/zipstream-php": "^2.0",
+        "nunomaduro/larastan": "^1.0",
+        "orchestra/testbench": "7.*",
+        "phpstan/extension-installer": "^1.1",
+        "spatie/image": "^2.2",
+        "spatie/temporary-directory": "^2.0",
+        "symfony/console": "^6.0"
     },
     "require-dev": {
         "ext-pdo_sqlite": "*",
         "ext-zip": "*",
+        "ext-imagick": "*",
         "aws/aws-sdk-php": "^3.133.11",
-        "doctrine/dbal": "^2.12",
-        "guzzlehttp/guzzle": "^7.0",
-        "league/flysystem-aws-s3-v3": "^1.0.23",
+        "doctrine/dbal": "^2.13",
+        "guzzlehttp/guzzle": "^7.4",
+        "league/flysystem-aws-s3-v3": "^2.1",
         "mockery/mockery": "^1.4",
-        "orchestra/testbench": "^5.20|^6.23",
-        "phpunit/phpunit": "^9.3",
-        "spatie/laravel-ray": "^1.24",
+        "spatie/laravel-ray": "^1.28",
         "spatie/pdf-to-image": "^2.1",
-        "spatie/phpunit-snapshot-assertions": "^4.0"
+        "spatie/phpunit-snapshot-assertions": "^4.2",
+        "pestphp/pest": "^1.20"
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
@@ -67,8 +69,9 @@
         }
     },
     "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/pest"
     },
     "autoload-dev": {
         "psr-4": {
@@ -83,8 +86,12 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

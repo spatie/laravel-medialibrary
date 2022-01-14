@@ -2,29 +2,21 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
-class File
+class File implements \Stringable
 {
-    public string $name;
-
-    public int $size;
-
-    public string $mimeType;
-
     public static function createFromMedia($media)
     {
         return new static($media->file_name, $media->size, $media->mime_type);
     }
 
-    public function __construct(string $name, int $size, string $mimeType)
-    {
-        $this->name = $name;
-
-        $this->size = $size;
-
-        $this->mimeType = $mimeType;
+    public function __construct(
+        public string $name,
+        public int $size,
+        public string $mimeType
+    ) {
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return "name: {$this->name}, size: {$this->size}, mime: {$this->mimeType}";
     }

@@ -7,16 +7,12 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class RegisteredResponsiveImages
 {
-    protected Media $media;
-
     public Collection $files;
 
     public string $generatedFor;
 
-    public function __construct(Media $media, string $conversionName = '')
+    public function __construct(protected Media $media, string $conversionName = '')
     {
-        $this->media = $media;
-
         $this->generatedFor = $conversionName === ''
             ? 'media_library_original'
             : $conversionName;

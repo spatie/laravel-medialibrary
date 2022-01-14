@@ -3,9 +3,7 @@ title: Requirements
 weight: 5
 ---
 
-Laravel Media Library requires **PHP 7.4+** and **Laravel 7+**. 
-
-This package uses `json` columns. MySQL 5.7 or higher is required.
+Laravel Media Library requires **PHP 8+** and **Laravel 9+**. 
 
 The [exif extension](http://php.net/manual/en/exif.installation.php) is required (on most systems it will be installed by default). 
 To create derived images **[GD](http://php.net/manual/en/book.image.php)** needs to be installed on your server. 

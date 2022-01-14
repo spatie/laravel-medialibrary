@@ -100,7 +100,7 @@ class CleanCommand extends Command
             }
 
             if ($this->rateLimit) {
-                usleep((1 / $this->rateLimit) * 1000000 * 2);
+                usleep((1 / $this->rateLimit) * 1_000_000 * 2);
             }
         });
     }
@@ -164,7 +164,7 @@ class CleanCommand extends Command
                 }
 
                 if ($this->rateLimit) {
-                    usleep((1 / $this->rateLimit) * 1000000);
+                    usleep((1 / $this->rateLimit) * 1_000_000);
                 }
 
                 $this->info("Orphaned media directory `{$directory}` ".($this->isDryRun ? 'found' : 'has been removed'));

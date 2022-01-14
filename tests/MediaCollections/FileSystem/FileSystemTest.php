@@ -1,69 +1,52 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\MediaCollections\FileSystem;
-
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\Tests\TestCase;
 
-class FileSystemTest extends TestCase
-{
-    protected Filesystem $filesystem;
+beforeEach(function () {
+    $this->filesystem = app()->make(Filesystem::class);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can determine the header for file that will be copied to an external filesytem', function () {
+    $expectedHeaders = [
+        'ContentType' => 'image/jpeg',
+        'CacheControl' => 'max-age=604800',
+    ];
 
-        $this->filesystem = $this->app->make(Filesystem::class);
-    }
+    $this->assertEquals(
+        $expectedHeaders,
+        $this->filesystem->getRemoteHeadersForFile($this->getTestJpg())
+    );
+});
 
-    /** @test */
-    public function it_can_determine_the_header_for_file_that_will_be_copied_to_an_external_filesytem()
-    {
-        $expectedHeaders = [
-            'ContentType' => 'image/jpeg',
-            'CacheControl' => 'max-age=604800',
-        ];
+it('can add custom headers for file that will be copied to an external filesytem', function () {
+    $this->filesystem->addCustomRemoteHeaders([
+        'ACL' => 'public-read',
+    ]);
 
-        $this->assertEquals(
-            $expectedHeaders,
-            $this->filesystem->getRemoteHeadersForFile($this->getTestJpg())
-        );
-    }
+    $expectedHeaders = [
+        'ContentType' => 'image/jpeg',
+        'CacheControl' => 'max-age=604800',
+        'ACL' => 'public-read',
+    ];
 
-    /** @test */
-    public function it_can_add_custom_headers_for_file_that_will_be_copied_to_an_external_filesytem()
-    {
-        $this->filesystem->addCustomRemoteHeaders([
-            'ACL' => 'public-read',
-        ]);
+    $this->assertEquals(
+        $expectedHeaders,
+        $this->filesystem->getRemoteHeadersForFile($this->getTestJpg())
+    );
+});
 
-        $expectedHeaders = [
-            'ContentType' => 'image/jpeg',
-            'CacheControl' => 'max-age=604800',
-            'ACL' => 'public-read',
-        ];
+it('can use custom headers when copying the media to an external filesystem', function () {
+    $this->filesystem->addCustomRemoteHeaders([
+        'CacheControl' => 'max-age=302400',
+    ]);
 
-        $this->assertEquals(
-            $expectedHeaders,
-            $this->filesystem->getRemoteHeadersForFile($this->getTestJpg())
-        );
-    }
+    $expectedHeaders = [
+        'ContentType' => 'image/jpeg',
+        'CacheControl' => 'max-age=302400',
+    ];
 
-    /** @test */
-    public function it_can_use_custom_headers_when_copying_the_media_to_an_external_filesystem()
-    {
-        $this->filesystem->addCustomRemoteHeaders([
-            'CacheControl' => 'max-age=302400',
-        ]);
-
-        $expectedHeaders = [
-            'ContentType' => 'image/jpeg',
-            'CacheControl' => 'max-age=302400',
-        ];
-
-        $this->assertEquals(
-            $expectedHeaders,
-            $this->filesystem->getRemoteHeadersForFile($this->getTestJpg())
-        );
-    }
-}
+    $this->assertEquals(
+        $expectedHeaders,
+        $this->filesystem->getRemoteHeadersForFile($this->getTestJpg())
+    );
+});

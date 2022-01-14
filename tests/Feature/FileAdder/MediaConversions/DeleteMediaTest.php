@@ -1,142 +1,113 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\Feature\FileAdder\MediaConversions;
-
 use Illuminate\Support\Facades\File;
-use Spatie\MediaLibrary\Tests\TestCase;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 
-class DeleteMediaTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    foreach (range(1, 3) as $index) {
+        $this->testModelWithoutMediaConversions
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection();
 
-        foreach (range(1, 3) as $index) {
-            $this->testModelWithoutMediaConversions
-                ->addMedia($this->getTestJpg())
-                ->preservingOriginal()
-                ->toMediaCollection();
-
-            $this->testModelWithoutMediaConversions
-                ->addMedia($this->getTestJpg())
-                ->preservingOriginal()
-                ->toMediaCollection('images');
-        }
+        $this->testModelWithoutMediaConversions
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection('images');
     }
+});
 
-    /** @test */
-    public function it_can_clear_a_collection()
-    {
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('images'));
+it('can clear a collection', function () {
+    expect($this->testModelWithoutMediaConversions->getMedia('default'))->toHaveCount(3);
+    expect($this->testModelWithoutMediaConversions->getMedia('images'))->toHaveCount(3);
 
-        $this->testModelWithoutMediaConversions->clearMediaCollection('images');
-        $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
+    $this->testModelWithoutMediaConversions->clearMediaCollection('images');
+    $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
 
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
-        $this->assertCount(0, $this->testModelWithoutMediaConversions->getMedia('images'));
-    }
+    expect($this->testModelWithoutMediaConversions->getMedia('default'))->toHaveCount(3);
+    expect($this->testModelWithoutMediaConversions->getMedia('images'))->toHaveCount(0);
+});
 
-    /** @test */
-    public function it_can_clear_the_default_collection()
-    {
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('images'));
+it('can clear the default collection', function () {
+    expect($this->testModelWithoutMediaConversions->getMedia('default'))->toHaveCount(3);
+    expect($this->testModelWithoutMediaConversions->getMedia('images'))->toHaveCount(3);
 
-        $this->testModelWithoutMediaConversions->clearMediaCollection();
-        $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
+    $this->testModelWithoutMediaConversions->clearMediaCollection();
+    $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
 
-        $this->assertCount(0, $this->testModelWithoutMediaConversions->getMedia('default'));
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('images'));
-    }
+    expect($this->testModelWithoutMediaConversions->getMedia('default'))->toHaveCount(0);
+    expect($this->testModelWithoutMediaConversions->getMedia('images'))->toHaveCount(3);
+});
 
-    /** @test */
-    public function it_can_clear_a_collection_excluding_a_single_media()
-    {
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('images'));
+it('can clear a collection excluding a single media', function () {
+    expect($this->testModelWithoutMediaConversions->getMedia('images'))->toHaveCount(3);
 
-        $excludedMedia = $this->testModelWithoutMediaConversions->getFirstMedia('images');
+    $excludedMedia = $this->testModelWithoutMediaConversions->getFirstMedia('images');
 
-        $this->testModelWithoutMediaConversions->clearMediaCollectionExcept('images', $excludedMedia);
+    $this->testModelWithoutMediaConversions->clearMediaCollectionExcept('images', $excludedMedia);
 
-        $this->assertEquals($this->testModelWithoutMediaConversions->getMedia('images')[0], $excludedMedia);
-        $this->assertCount(1, $this->testModelWithoutMediaConversions->getMedia('images'));
-    }
+    expect($excludedMedia)->toEqual($this->testModelWithoutMediaConversions->getMedia('images')[0]);
+    expect($this->testModelWithoutMediaConversions->getMedia('images'))->toHaveCount(1);
+});
 
-    /** @test */
-    public function it_can_clear_a_collection_excluding_some_media()
-    {
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('images'));
+it('can clear a collection excluding some media', function () {
+    expect($this->testModelWithoutMediaConversions->getMedia('default'))->toHaveCount(3);
+    expect($this->testModelWithoutMediaConversions->getMedia('images'))->toHaveCount(3);
 
-        $excludedMedia = $this->testModelWithoutMediaConversions->getMedia('images')->take(2);
+    $excludedMedia = $this->testModelWithoutMediaConversions->getMedia('images')->take(2);
 
-        $this->testModelWithoutMediaConversions->clearMediaCollectionExcept('images', $excludedMedia);
-        $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
+    $this->testModelWithoutMediaConversions->clearMediaCollectionExcept('images', $excludedMedia);
+    $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
 
-        $this->assertCount(3, $this->testModelWithoutMediaConversions->getMedia('default'));
-        $this->assertEquals($this->testModelWithoutMediaConversions->getMedia('images')[0], $excludedMedia[0]);
-        $this->assertEquals($this->testModelWithoutMediaConversions->getMedia('images')[1], $excludedMedia[1]);
-    }
+    expect($this->testModelWithoutMediaConversions->getMedia('default'))->toHaveCount(3);
+    expect($excludedMedia[0])->toEqual($this->testModelWithoutMediaConversions->getMedia('images')[0]);
+    expect($excludedMedia[1])->toEqual($this->testModelWithoutMediaConversions->getMedia('images')[1]);
+});
 
-    /** @test */
-    public function it_provides_a_chainable_method_for_clearing_a_collection()
-    {
-        $result = $this->testModelWithoutMediaConversions->clearMediaCollection('images');
+it('provides a chainable method for clearing a collection', function () {
+    $result = $this->testModelWithoutMediaConversions->clearMediaCollection('images');
 
-        $this->assertInstanceOf(TestModelWithoutMediaConversions::class, $result);
-    }
+    expect($result)->toBeInstanceOf(TestModelWithoutMediaConversions::class);
+});
 
-    /**
-     * @test
-     */
-    public function it_will_remove_the_files_when_clearing_a_collection()
-    {
-        $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
+it('will remove the files when clearing a collection', function () {
+    $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
 
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
 
-        $this->testModelWithoutMediaConversions->clearMediaCollection('images');
+    $this->testModelWithoutMediaConversions->clearMediaCollection('images');
 
-        $ids->map(function ($id) {
-            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
-        });
-    }
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
+    });
+});
 
-    /**
-     * @test
-     */
-    public function it_will_remove_the_files_when_deleting_a_subject_without_media_conversions()
-    {
-        $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
+it('will remove the files when deleting a subject without media conversions', function () {
+    $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
 
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
 
-        $this->testModelWithoutMediaConversions->delete();
+    $this->testModelWithoutMediaConversions->delete();
 
-        $ids->map(function ($id) {
-            $this->assertFalse(File::isDirectory($this->getMediaDirectory($id)));
-        });
-    }
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
+    });
+});
 
-    /** @test */
-    public function it_will_not_remove_the_files_when_deleting_a_subject_and_preserving_media()
-    {
-        $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
+it('will not remove the files when deleting a subject and preserving media', function () {
+    $ids = $this->testModelWithoutMediaConversions->getMedia('images')->pluck('id');
 
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
 
-        $this->testModelWithoutMediaConversions->deletePreservingMedia();
+    $this->testModelWithoutMediaConversions->deletePreservingMedia();
 
-        $ids->map(function ($id) {
-            $this->assertTrue(File::isDirectory($this->getMediaDirectory($id)));
-        });
-    }
-}
+    $ids->map(function ($id) {
+        expect(File::isDirectory($this->getMediaDirectory($id)))->toBeTrue();
+    });
+});

@@ -16,13 +16,11 @@ use Spatie\MediaLibrary\Support\RemoteFile;
 
 class Filesystem
 {
-    protected Factory $filesystem;
-
     protected array $customRemoteHeaders = [];
 
-    public function __construct(Factory $filesystem)
-    {
-        $this->filesystem = $filesystem;
+    public function __construct(
+        protected Factory $filesystem
+    ) {
     }
 
     public function add(string $file, Media $media, ?string $targetFileName = null): void
@@ -91,7 +89,7 @@ class Filesystem
             return false;
         }
 
-        if (count(config('media-library.remote.extra_headers')) > 0) {
+        if ((is_countable(config('media-library.remote.extra_headers')) ? count(config('media-library.remote.extra_headers')) : 0) > 0) {
             return false;
         }
 
@@ -204,9 +202,7 @@ class Filesystem
         collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
             ->each(function (string $directory) use ($media) {
                 try {
-                    if ($this->filesystem->disk($media->conversions_disk)->exists($directory)) {
-                        $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
-                    }
+                    $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
                 } catch (Exception $exception) {
                     report($exception);
                 }
@@ -294,6 +290,7 @@ class Filesystem
 
     public function getMediaDirectory(Media $media, ?string $type = null): string
     {
+        $directory = null;
         $pathGenerator = PathGeneratorFactory::create();
 
         if (! $type) {

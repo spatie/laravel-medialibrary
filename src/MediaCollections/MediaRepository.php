@@ -12,24 +12,22 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaRepository
 {
-    protected Media $model;
-
-    public function __construct(Media $model)
-    {
-        $this->model = $model;
+    public function __construct(
+        protected Media $model
+    ) {
     }
 
     /**
      * Get all media in the collection.
      *
-     * @param \Spatie\MediaLibrary\HasMedia $model
-     * @param string $collectionName
      * @param array|callable $filter
      *
-     * @return \Illuminate\Support\Collection
      */
-    public function getCollection(HasMedia $model, string $collectionName, $filter = []): Collection
-    {
+    public function getCollection(
+        HasMedia $model,
+        string $collectionName,
+        array|callable $filter = []
+    ): Collection {
         return $this->applyFilterToMediaCollection($model->loadMedia($collectionName), $filter);
     }
 
@@ -41,8 +39,10 @@ class MediaRepository
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function applyFilterToMediaCollection(Collection $media, $filter): Collection
-    {
+    protected function applyFilterToMediaCollection(
+        Collection $media,
+        array|callable $filter
+    ): Collection {
         if (is_array($filter)) {
             $filter = $this->getDefaultFilterFunction($filter);
         }

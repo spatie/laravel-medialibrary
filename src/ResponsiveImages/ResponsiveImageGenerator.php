@@ -18,27 +18,15 @@ use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 
 class ResponsiveImageGenerator
 {
-    protected Filesystem $filesystem;
-
-    protected WidthCalculator $widthCalculator;
-
-    protected TinyPlaceholderGenerator $tinyPlaceholderGenerator;
-
     protected const DEFAULT_CONVERSION_QUALITY = 90;
 
     protected FileNamer $fileNamer;
 
     public function __construct(
-        Filesystem $filesystem,
-        WidthCalculator $widthCalculator,
-        TinyPlaceholderGenerator $tinyPlaceholderGenerator
+        protected Filesystem $filesystem,
+        protected WidthCalculator $widthCalculator,
+        protected TinyPlaceholderGenerator $tinyPlaceholderGenerator
     ) {
-        $this->filesystem = $filesystem;
-
-        $this->widthCalculator = $widthCalculator;
-
-        $this->tinyPlaceholderGenerator = $tinyPlaceholderGenerator;
-
         $this->fileNamer = app(config('media-library.file_namer'));
     }
 

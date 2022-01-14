@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\Support\UrlGenerator;
 
 use DateTimeInterface;
 use Illuminate\Support\Str;
-use League\Flysystem\Adapter\AbstractAdapter;
 
 class DefaultUrlGenerator extends BaseUrlGenerator
 {
@@ -12,9 +11,7 @@ class DefaultUrlGenerator extends BaseUrlGenerator
     {
         $url = $this->getDisk()->url($this->getPathRelativeToRoot());
 
-        $url = $this->versionUrl($url);
-
-        return $url;
+        return $this->versionUrl($url);
     }
 
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
@@ -22,27 +19,14 @@ class DefaultUrlGenerator extends BaseUrlGenerator
         return $this->getDisk()->temporaryUrl($this->getPathRelativeToRoot(), $expiration, $options);
     }
 
-    public function getBaseMediaDirectoryUrl()
+    public function getBaseMediaDirectoryUrl(): string
     {
         return $this->getDisk()->url('/');
     }
 
     public function getPath(): string
     {
-        $adapter = $this->getDisk()->getAdapter();
-
-        $cachedAdapter = '\League\Flysystem\Cached\CachedAdapter';
-
-        if ($adapter instanceof $cachedAdapter) {
-            $adapter = $adapter->getAdapter();
-        }
-
-        $pathPrefix = '';
-        if ($adapter instanceof AbstractAdapter) {
-            $pathPrefix = $adapter->getPathPrefix();
-        }
-
-        return $pathPrefix.$this->getPathRelativeToRoot();
+        return $this->getRootOfDisk().$this->getPathRelativeToRoot();
     }
 
     public function getResponsiveImagesDirectoryUrl(): string
@@ -52,5 +36,10 @@ class DefaultUrlGenerator extends BaseUrlGenerator
         $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
 
         return Str::finish(url($base.$path), '/');
+    }
+
+    protected function getRootOfDisk(): string
+    {
+        return config("filesystems.disks.{$this->getDiskName()}.root") . '/';
     }
 }

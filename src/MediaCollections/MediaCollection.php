@@ -9,8 +9,6 @@ class MediaCollection
 {
     use Macroable;
 
-    public string $name = '';
-
     public string $diskName = '';
 
     public string $conversionsDiskName = '';
@@ -34,10 +32,9 @@ class MediaCollection
 
     public string $fallbackPath = '';
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-
+    public function __construct(
+        public string $name
+    ) {
         $this->mediaConversionRegistrations = function () {
         };
 

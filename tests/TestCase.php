@@ -4,10 +4,10 @@ namespace Spatie\MediaLibrary\Tests;
 
 use CreateMediaTable;
 use CreateTemporaryUploadsTable;
-use Dotenv\Dotenv;
-use File;
+use Dotgetenv\Dotgetenv;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
@@ -41,7 +41,7 @@ abstract class TestCase extends Orchestra
 
     protected TestModelWithConversionsOnOtherDisk $testModelWithConversionsOnOtherDisk;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->loadEnvironmentVariables();
 
@@ -64,11 +64,11 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables()
     {
-        if (! file_exists(__DIR__.'/../.env')) {
+        if (! file_exists(__DIR__.'/../.getenv')) {
             return;
         }
 
-        $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
+        $dotEnv = Dotgetenv::createImmutable(__DIR__.'/..');
 
         $dotEnv->load();
     }
@@ -90,7 +90,7 @@ abstract class TestCase extends Orchestra
     /**
      * @param \Illuminate\Foundation\Application $app
      */
-    protected function getEnvironmentSetUp($app)
+    public function getEnvironmentSetUp($app)
     {
         $this->initializeDirectory($this->getTempDirectory());
 
@@ -171,17 +171,17 @@ abstract class TestCase extends Orchestra
         return __DIR__.$suffix;
     }
 
-    public function getTempDirectory($suffix = ''): string
+    public function getTempDirectory(string $suffix = ''): string
     {
         return __DIR__.'/TestSupport/temp'.($suffix == '' ? '' : '/'.$suffix);
     }
 
-    public function getMediaDirectory($suffix = ''): string
+    public function getMediaDirectory(string $suffix = ''): string
     {
         return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
     }
 
-    public function getTestFilesDirectory($suffix = ''): string
+    public function getTestFilesDirectory(string $suffix = ''): string
     {
         return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
     }

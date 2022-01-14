@@ -26,9 +26,7 @@ class FileAdder
 {
     use Macroable;
 
-    protected ?Model $subject;
-
-    protected ?Filesystem $filesystem;
+    protected ?Model $subject = null;
 
     protected bool $preserveOriginal = false;
 
@@ -59,10 +57,9 @@ class FileAdder
 
     public ?int $order = null;
 
-    public function __construct(Filesystem $fileSystem)
-    {
-        $this->filesystem = $fileSystem;
-
+    public function __construct(
+        protected ?Filesystem $filesystem
+    ) {
         $this->fileNameSanitizer = fn ($fileName) => $this->defaultSanitizer($fileName);
     }
 
@@ -399,7 +396,7 @@ class FileAdder
         if (! $this->subject->exists) {
             $this->subject->prepareToAttachMedia($media, $this);
 
-            $class = get_class($this->subject);
+            $class = $this->subject::class;
 
             $class::created(function ($model) {
                 $model->processUnattachedMedia(function (Media $media, self $fileAdder) use ($model) {
@@ -415,7 +412,7 @@ class FileAdder
 
     protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
     {
-        $this->guardAgainstDisallowedFileAdditions($media, $model);
+        $this->guardAgainstDisallowedFileAdditions($media);
 
         $this->checkGenerateResponsiveImages($media);
 
