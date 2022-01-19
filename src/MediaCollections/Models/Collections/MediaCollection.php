@@ -48,7 +48,7 @@ class MediaCollection extends Collection implements Htmlable
         })->keyBy('uuid')));
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         if (! ($this->formFieldName ?? $this->collectionName)) {
             return [];
