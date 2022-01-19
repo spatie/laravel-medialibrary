@@ -204,11 +204,11 @@ it('can get the path to first media in a collection', function () {
 });
 
 it('can get the default path to the first media in a collection', function () {
-    expect($this->testModel->getFirstMediaPath('avatar'))->toEqual('/default.jpg');
+    expect($this->testModel->getFirstMediaPath('avatar'))->toEqual('/default-path.jpg');
 });
 
 it('can get the default url to the first media in a collection', function () {
-    expect($this->testModel->getFirstMediaUrl('avatar'))->toEqual('/default.jpg');
+    expect($this->testModel->getFirstMediaUrl('avatar'))->toEqual('/default-url.jpg');
 });
 
 it('can get the default path to the first media in a collection if conversion not marked as generated yet', function () {
