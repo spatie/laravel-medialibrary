@@ -91,7 +91,7 @@ You have a couple of options for how you can use the UI components' CSS, dependi
 
 ### Using Laravel Mix or Webpack with css-loader
 
-You can import the built CSS in your own CSS files using `@import(vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles)`.
+You can import the built CSS in your own CSS files using `@import "vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles";`.
 
 This isn't a very pretty import, but you can make it cleaner by adding this configuration to your Webpack config:
 
