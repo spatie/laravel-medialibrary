@@ -19,11 +19,11 @@ class Image extends ImageGenerator
 
     public function supportedExtensions(): Collection
     {
-        return collect(['png', 'jpg', 'jpeg', 'gif']);
+        return collect(['png', 'jpg', 'jpeg', 'gif', 'heic']);
     }
 
     public function supportedMimeTypes(): Collection
     {
-        return collect(['image/jpeg', 'image/gif', 'image/png']);
+        return collect(['image/jpeg', 'image/gif', 'image/png', 'image/heic']);
     }
 }
