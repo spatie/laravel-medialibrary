@@ -48,7 +48,7 @@
         "aws/aws-sdk-php": "^3.133.11",
         "doctrine/dbal": "^2.13",
         "guzzlehttp/guzzle": "^7.4",
-        "league/flysystem-aws-s3-v3": "^2.1",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "mockery/mockery": "^1.4",
         "spatie/laravel-ray": "^1.28",
         "spatie/pdf-to-image": "^2.1",
