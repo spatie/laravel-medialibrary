@@ -18,6 +18,8 @@ Make sure Alpine is available on the page as well. The easiest way is to include
 
 Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installation options.
 
+In some cases, you'll have to clear your Laravel caches by running `php artisan optimize:clear` to get the components to show up.
+
 ## Use inside other Livewire components
 
 Our Blade components are meant to be used in a regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/handling-uploads-with-livewire).
