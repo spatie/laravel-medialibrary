@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.0.3 - 2022-02-03
+
+## What's Changed
+
+- Fix `jsonSerialize` return type by @orkhanahmadov in https://github.com/spatie/laravel-medialibrary/pull/2756
+
+## New Contributors
+
+- @orkhanahmadov made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2756
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.0.2...10.0.3
+
 ## 10.0.2 - 2022-01-28
 
 Move Larastan to dev deps
