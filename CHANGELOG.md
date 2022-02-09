@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.0.4 - 2022-02-09
+
+- improve dependencies
+
 ## 10.0.3 - 2022-02-03
 
 ## What's Changed
