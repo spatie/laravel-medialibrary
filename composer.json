@@ -35,7 +35,6 @@
         "laravel/framework": "9.*",
         "maennchen/zipstream-php": "^2.0",
         "orchestra/testbench": "7.*",
-        "phpstan/extension-installer": "^1.1",
         "spatie/image": "^2.2",
         "spatie/temporary-directory": "^2.0",
         "symfony/console": "^6.0"
@@ -50,6 +49,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "mockery/mockery": "^1.4",
         "nunomaduro/larastan": "^2.0",
+        "phpstan/extension-installer": "^1.1",
         "spatie/laravel-ray": "^1.28",
         "spatie/pdf-to-image": "^2.1",
         "spatie/phpunit-snapshot-assertions": "^4.2",
