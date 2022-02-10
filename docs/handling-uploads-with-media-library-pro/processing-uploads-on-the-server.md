@@ -155,9 +155,9 @@ The content of that request key will be an array. For each file uploaded that ar
 - `uuid`: the UUID of a `Media` model. For newly uploaded files that have not been associated to a model yet, the `Media` model will be associated with a `TemporaryUpload` model
 - `order`: the order in which this item should be stored in a media collection.
 
-## Validating responses
+## Validating requests
 
-Even though the upload components do some validation of their own, we highly recommend always validating responses on the server as well.
+Even though the upload components do some validation of their own, we highly recommend always validating requests on the server as well.
 
 You should handle validation in a form request. On the form request you should use the `Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia` trait. This will give you access to the `validateSingleMedia` and `validateMultipleMedia` methods.
 
