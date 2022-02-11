@@ -32,7 +32,6 @@
         "illuminate/pipeline": "^9.0",
         "illuminate/support": "^9.0",
         "intervention/image": "^2.7",
-        "laravel/framework": "9.*",
         "maennchen/zipstream-php": "^2.0",
 
         "spatie/image": "^2.2",
