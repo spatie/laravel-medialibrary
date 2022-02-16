@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.11.2 - 2022-02-16
+
+## What's Changed
+
+- Tiny refactoring of file by @hichxm in https://github.com/spatie/laravel-medialibrary/pull/2707
+- Fix Test by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/2712
+- Add docs to disable dragula cdn by @lukasleitsch in https://github.com/spatie/laravel-medialibrary/pull/2711
+- fix: explicitly load media by @jaulz in https://github.com/spatie/laravel-medialibrary/pull/2785
+
+## New Contributors
+
+- @hichxm made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2707
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.11.1...9.11.2
+
 ## 10.0.7 - 2022-02-16
 
 ## What's Changed
