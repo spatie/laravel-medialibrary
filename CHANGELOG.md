@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.0.7 - 2022-02-16
+
+## What's Changed
+
+- fix: explicitly load media by @jaulz in https://github.com/spatie/laravel-medialibrary/pull/2784
+
+## New Contributors
+
+- @jaulz made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2784
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.0.6...10.0.7
+
 ## 10.0.6 - 2022-02-11
 
 - improve deps
