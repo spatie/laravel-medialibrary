@@ -559,7 +559,7 @@ trait InteractsWithMedia
     public function loadMedia(string $collectionName): Collection
     {
         $collection = $this->exists
-            ? $this->media
+            ? $this->loadMissing('media')->media
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         $collection = new MediaCollections\Models\Collections\MediaCollection($collection);
