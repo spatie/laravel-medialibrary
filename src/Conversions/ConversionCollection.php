@@ -9,6 +9,12 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @template TKey of array-key
+ * @template TValue of \Spatie\MediaLibrary\Conversions\Conversion
+ *
+ * @extends \Illuminate\Support\Collection<TKey, TValue>
+ */
 class ConversionCollection extends Collection
 {
     protected Media $media;
