@@ -25,7 +25,7 @@ class ImageTest extends TestCase
     /** @test */
     public function it_can_convert_a_tiff_image()
     {
-        if (!extension_loaded('imagick')) {
+        if (! extension_loaded('imagick')) {
             $this->markTestSkipped(
                 'The imagick extension is not available.'
             );

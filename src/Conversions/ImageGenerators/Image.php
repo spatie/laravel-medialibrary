@@ -23,6 +23,7 @@ class Image extends ImageGenerator
         if (config('media-library.image_driver') === 'imagick') {
             $extensions[] = 'tiff';
         }
+
         return collect($extensions);
     }
 
@@ -32,6 +33,7 @@ class Image extends ImageGenerator
         if (config('media-library.image_driver') === 'imagick') {
             $mimeTypes[] = 'image/tiff';
         }
+
         return collect($mimeTypes);
     }
 }
