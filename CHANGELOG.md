@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.11.3 - 2022-02-21
+
+## What's Changed
+
+- Tiff support by @Synchro in https://github.com/spatie/laravel-medialibrary/pull/2799
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.11.2...9.11.3
+
 ## 9.11.2 - 2022-02-16
 
 ## What's Changed
