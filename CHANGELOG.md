@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.1.0 - 2022-02-22
+
+## What's Changed
+
+- Update UPGRADING.md by @JesseKoper in https://github.com/spatie/laravel-medialibrary/pull/2787
+- Add collection template to collections by @bastien-phi in https://github.com/spatie/laravel-medialibrary/pull/2788
+- remove white space by @HAstaShakiba in https://github.com/spatie/laravel-medialibrary/pull/2795
+- Fix class case by @Synchro in https://github.com/spatie/laravel-medialibrary/pull/2798
+- Add TIFF support in v10 by @Synchro in https://github.com/spatie/laravel-medialibrary/pull/2802
+
+## New Contributors
+
+- @JesseKoper made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2787
+- @bastien-phi made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2788
+- @HAstaShakiba made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2795
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.0.7...10.1.0
+
 ## 9.11.3 - 2022-02-21
 
 ## What's Changed
