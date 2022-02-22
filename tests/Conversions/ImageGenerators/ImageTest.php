@@ -15,7 +15,9 @@ it('can convert an image', function () {
     expect($media->getPath())->toEqual($imageFile);
 });
 
-it('can convert a tiff image', function () {
+it(
+    'can convert a tiff image',
+    function () {
     //TIFF format requires imagick
     config(['media-library.image_driver' => 'imagick']);
 
