@@ -14,3 +14,22 @@ it('can convert an image', function () {
     expect(mime_content_type($imageFile))->toEqual('image/jpeg');
     expect($media->getPath())->toEqual($imageFile);
 });
+
+it(
+    'can convert a tiff image',
+    function () {
+    //TIFF format requires imagick
+    config(['media-library.image_driver' => 'imagick']);
+
+    $imageGenerator = new Image();
+
+    $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestTiff())->toMediaCollection();
+
+    expect($imageGenerator->canConvert($media))->toBeTrue();
+
+    $imageFile = $imageGenerator->convert($media->getPath());
+
+    expect(mime_content_type($imageFile))->toEqual('image/tiff');
+    expect($media->getPath())->toEqual($imageFile);
+}
+)->skip(! extension_loaded('imagick'), 'The imagick extension is not available.');
