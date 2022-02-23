@@ -288,7 +288,7 @@ class Media extends Model implements Responsable, Htmlable
     {
         $newMedia = $this->copy($model, $collectionName, $diskName, $fileName);
 
-        $this->delete();
+        $this->forceDelete();
 
         return $newMedia;
     }
