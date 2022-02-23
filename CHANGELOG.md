@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.1.1 - 2022-02-23
+
+## What's Changed
+
+- Change to forceDelete in move method of Media by @ziming in https://github.com/spatie/laravel-medialibrary/pull/2803
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.1.0...10.1.1
+
 ## 10.1.0 - 2022-02-22
 
 ## What's Changed
