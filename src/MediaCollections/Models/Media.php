@@ -29,6 +29,13 @@ use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
+/**
+ * @property-read string $type
+ * @property-read string $extension
+ * @property-read string $humanReadableSize
+ * @property-read string $previewUrl
+ * @property-read string $originalUrl
+ */
 class Media extends Model implements Responsable, Htmlable
 {
     use IsSorted;
