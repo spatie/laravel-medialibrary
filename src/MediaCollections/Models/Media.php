@@ -88,15 +88,16 @@ class Media extends Model implements Responsable, Htmlable
 
     protected function type(): Attribute
     {
-        return Attribute::get(function () {
-                $type = $this->getTypeFromExtension();
+        return Attribute::get(
+            function () {
+            $type = $this->getTypeFromExtension();
 
-                if ($type !== self::TYPE_OTHER) {
-                    return $type;
-                }
-
-                return $this->getTypeFromMime();
+            if ($type !== self::TYPE_OTHER) {
+                return $type;
             }
+
+            return $this->getTypeFromMime();
+        }
         );
     }
 
