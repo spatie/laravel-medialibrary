@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -85,15 +86,19 @@ class Media extends Model implements Responsable, Htmlable
         return $urlGenerator->getPath();
     }
 
-    public function getTypeAttribute(): string
+    protected function type(): Attribute
     {
-        $type = $this->getTypeFromExtension();
+        return new Attribute(
+            get: function () {
+                $type = $this->getTypeFromExtension();
 
-        if ($type !== self::TYPE_OTHER) {
-            return $type;
-        }
+                if ($type !== self::TYPE_OTHER) {
+                    return $type;
+                }
 
-        return $this->getTypeFromMime();
+                return $this->getTypeFromMime();
+            }
+        );
     }
 
     public function getTypeFromExtension(): string
@@ -114,14 +119,18 @@ class Media extends Model implements Responsable, Htmlable
             : static::TYPE_OTHER;
     }
 
-    public function getExtensionAttribute(): string
+    protected function extension(): Attribute
     {
-        return pathinfo($this->file_name, PATHINFO_EXTENSION);
+        return new Attribute(
+            get: fn () => pathinfo($this->file_name, PATHINFO_EXTENSION)
+        );
     }
 
-    public function getHumanReadableSizeAttribute(): string
+    protected function humanReadableSize(): Attribute
     {
-        return File::getHumanReadableSize($this->size);
+        return new Attribute(
+            get: fn () => File::getHumanReadableSize($this->size)
+        );
     }
 
     public function getDiskDriverName(): string
@@ -272,14 +281,18 @@ class Media extends Model implements Responsable, Htmlable
         return $this->responsiveImages($conversionName)->getSrcset();
     }
 
-    public function getPreviewUrlAttribute()
+    protected function previewUrl(): Attribute
     {
-        return $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '';
+        return new Attribute(
+            get: fn () => $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '',
+        );
     }
 
-    public function getOriginalUrlAttribute()
+    protected function originalUrl(): Attribute
     {
-        return $this->getUrl();
+        return new Attribute(
+            get: fn () => $this->getUrl(),
+        );
     }
 
     public function move(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
