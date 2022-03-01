@@ -88,8 +88,7 @@ class Media extends Model implements Responsable, Htmlable
 
     protected function type(): Attribute
     {
-        return new Attribute(
-            get: function () {
+        return Attribute::get(function () {
                 $type = $this->getTypeFromExtension();
 
                 if ($type !== self::TYPE_OTHER) {
@@ -121,16 +120,12 @@ class Media extends Model implements Responsable, Htmlable
 
     protected function extension(): Attribute
     {
-        return new Attribute(
-            get: fn () => pathinfo($this->file_name, PATHINFO_EXTENSION)
-        );
+        return Attribute::get(fn () => pathinfo($this->file_name, PATHINFO_EXTENSION));
     }
 
     protected function humanReadableSize(): Attribute
     {
-        return new Attribute(
-            get: fn () => File::getHumanReadableSize($this->size)
-        );
+        return Attribute::get(fn () => File::getHumanReadableSize($this->size));
     }
 
     public function getDiskDriverName(): string
@@ -283,16 +278,14 @@ class Media extends Model implements Responsable, Htmlable
 
     protected function previewUrl(): Attribute
     {
-        return new Attribute(
-            get: fn () => $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '',
+        return Attribute::get(
+            fn () => $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '',
         );
     }
 
     protected function originalUrl(): Attribute
     {
-        return new Attribute(
-            get: fn () => $this->getUrl(),
-        );
+        return Attribute::get(fn () => $this->getUrl());
     }
 
     public function move(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
