@@ -16,6 +16,11 @@ parameters:
 			path: src/Conversions/Actions/PerformConversionAction.php
 
 		-
+			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
+			count: 3
+			path: src/Conversions/Actions/PerformManipulationsAction.php
+
+		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\Commands\\\\RegenerateCommand\\:\\:getMediaIds\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Conversions/Commands/RegenerateCommand.php
@@ -201,6 +206,11 @@ parameters:
 			path: src/Conversions/FileManipulator.php
 
 		-
+			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
+			count: 1
+			path: src/Conversions/FileManipulator.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$responsive_images\\.$#"
 			count: 1
 			path: src/Conversions/FileManipulator.php
@@ -239,6 +249,11 @@ parameters:
 			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\ImageGenerators\\\\Image\\:\\:supportedMimeTypes\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/Conversions/ImageGenerators/Image.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGenerator.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$mime_type\\.$#"
@@ -1221,6 +1236,11 @@ parameters:
 			path: src/MediaCollections/Models/Collections/MediaCollection.php
 
 		-
+			message: "#^Access to an undefined property TModel of Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
+			count: 2
+			path: src/MediaCollections/Models/Collections/MediaCollection.php
+
+		-
 			message: "#^Access to an undefined property TModel of Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$file_name\\.$#"
 			count: 2
 			path: src/MediaCollections/Models/Collections/MediaCollection.php
@@ -1232,6 +1252,16 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property TModel of Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$order_column\\.$#"
+			count: 2
+			path: src/MediaCollections/Models/Collections/MediaCollection.php
+
+		-
+			message: "#^Access to an undefined property TModel of Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$original_url\\.$#"
+			count: 2
+			path: src/MediaCollections/Models/Collections/MediaCollection.php
+
+		-
+			message: "#^Access to an undefined property TModel of Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$preview_url\\.$#"
 			count: 2
 			path: src/MediaCollections/Models/Collections/MediaCollection.php
 
@@ -1283,6 +1313,11 @@ parameters:
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$disk\\.$#"
 			count: 2
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
+			count: 1
 			path: src/MediaCollections/Models/Media.php
 
 		-
@@ -1382,16 +1417,6 @@ parameters:
 
 		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:getMediaConversionNames\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Media.php
-
-		-
-			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:getOriginalUrlAttribute\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Media.php
-
-		-
-			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:getPreviewUrlAttribute\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/MediaCollections/Models/Media.php
 
@@ -1644,6 +1669,11 @@ parameters:
 			message: "#^Parameter \\#2 \\$offset of function substr expects int, int\\|false given\\.$#"
 			count: 1
 			path: src/ResponsiveImages/ResponsiveImage.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
+			count: 1
+			path: src/ResponsiveImages/ResponsiveImageGenerator.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$responsive_images\\.$#"
