@@ -67,6 +67,7 @@ class CleanCommand extends Command
         $this->info('All done!');
     }
 
+    /** @return Collection<int, Media> */
     public function getMediaItems(): Collection
     {
         $modelType = $this->argument('modelType');
@@ -131,6 +132,7 @@ class CleanCommand extends Command
             ->map(fn (Conversion $conversion) => $conversion->getName())
             ->push('media_library_original');
 
+        /** @var array<int, string> $responsiveImagesGeneratedFor */
         $responsiveImagesGeneratedFor = array_keys($media->responsive_images);
 
         collect($responsiveImagesGeneratedFor)
@@ -156,9 +158,13 @@ class CleanCommand extends Command
 
         $mediaIds = collect($this->mediaRepository->all()->pluck($keyName)->toArray());
 
-        collect($this->fileSystem->disk($diskName)->directories())
+        /** @var array<int, string> */
+        $directories = $this->fileSystem->disk($diskName)->directories();
+
+        collect($directories)
             ->filter(fn (string $directory) => is_numeric($directory))
-            ->reject(fn (string $directory) => $mediaIds->contains((int) $directory))->each(function (string $directory) use ($diskName) {
+            ->reject(fn (string $directory) => $mediaIds->contains((int) $directory))
+            ->each(function (string $directory) use ($diskName) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }

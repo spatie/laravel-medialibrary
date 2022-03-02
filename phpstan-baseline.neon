@@ -176,11 +176,6 @@ parameters:
 			path: src/Conversions/ConversionCollection.php
 
 		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:each\\(\\) expects callable\\(mixed\\)\\: mixed, Closure\\(mixed, mixed\\)\\: void given\\.$#"
-			count: 1
-			path: src/Conversions/ConversionCollection.php
-
-		-
 			message: "#^Unable to resolve the template type TKey in call to function collect$#"
 			count: 1
 			path: src/Conversions/ConversionCollection.php
@@ -486,42 +481,7 @@ parameters:
 			path: src/MediaCollections/Commands/CleanCommand.php
 
 		-
-			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Commands\\\\CleanCommand\\:\\:getMediaItems\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Collection does not specify its types\\: TKey, TModel$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Commands\\\\CleanCommand\\:\\:handle\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:each\\(\\) expects callable\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\: mixed, Closure\\(Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\)\\: void given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),float\\|int\\|string\\>\\:\\:each\\(\\) expects callable\\(float\\|int\\|numeric\\-string\\)\\: mixed, Closure\\(string\\)\\: void given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),float\\|int\\|string\\>\\:\\:reject\\(\\) expects bool\\|\\(callable\\(float\\|int\\|numeric\\-string\\)\\: bool\\), Closure\\(string\\)\\: bool given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:each\\(\\) expects callable\\(mixed\\)\\: mixed, Closure\\(bool, string\\)\\: Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:filter\\(\\) expects \\(callable\\(mixed\\)\\: bool\\)\\|null, Closure\\(bool, string\\)\\: bool given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<int,int\\|string\\>\\:\\:map\\(\\) expects callable\\(int\\|string, int\\)\\: Spatie\\\\MediaLibrary\\\\ResponsiveImages\\\\RegisteredResponsiveImages, Closure\\(string\\)\\: Spatie\\\\MediaLibrary\\\\ResponsiveImages\\\\RegisteredResponsiveImages given\\.$#"
 			count: 1
 			path: src/MediaCollections/Commands/CleanCommand.php
 
@@ -561,17 +521,7 @@ parameters:
 			path: src/MediaCollections/Commands/CleanCommand.php
 
 		-
-			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Commands\\\\ClearCommand\\:\\:getMediaItems\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Collection does not specify its types\\: TKey, TModel$#"
-			count: 1
-			path: src/MediaCollections/Commands/ClearCommand.php
-
-		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Commands\\\\ClearCommand\\:\\:handle\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/ClearCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$callback of method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:each\\(\\) expects callable\\(Illuminate\\\\Database\\\\Eloquent\\\\Model\\)\\: mixed, Closure\\(Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\)\\: void given\\.$#"
 			count: 1
 			path: src/MediaCollections/Commands/ClearCommand.php
 
@@ -1511,11 +1461,6 @@ parameters:
 			path: src/MediaCollections/Models/Media.php
 
 		-
-			message: "#^Return type of call to function collect contains unresolvable type\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Media.php
-
-		-
 			message: "#^Unable to resolve the template type TKey in call to function collect$#"
 			count: 1
 			path: src/MediaCollections/Models/Media.php
@@ -1546,16 +1491,6 @@ parameters:
 			path: src/MediaCollections/Models/Observers/MediaObserver.php
 
 		-
-			message: "#^Class Laravel\\\\Lumen\\\\Application not found\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Observers/MediaObserver.php
-
-		-
-			message: "#^If condition is always true\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Observers/MediaObserver.php
-
-		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Observers\\\\MediaObserver\\:\\:creating\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/MediaCollections/Models/Observers/MediaObserver.php
@@ -1572,16 +1507,6 @@ parameters:
 
 		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Observers\\\\MediaObserver\\:\\:updating\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Observers/MediaObserver.php
-
-		-
-			message: "#^Strict comparison using \\=\\=\\= between '9\\.x\\-dev' and '7\\.x\\-dev' will always evaluate to false\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Observers/MediaObserver.php
-
-		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 1
 			path: src/MediaCollections/Models/Observers/MediaObserver.php
 
