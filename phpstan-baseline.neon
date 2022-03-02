@@ -15,10 +15,6 @@ parameters:
 			count: 1
 			path: src/Conversions/Actions/PerformConversionAction.php
 
-		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
-			count: 3
-			path: src/Conversions/Actions/PerformManipulationsAction.php
 
 		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\Commands\\\\RegenerateCommand\\:\\:getMediaIds\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -200,10 +196,6 @@ parameters:
 			count: 2
 			path: src/Conversions/FileManipulator.php
 
-		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
-			count: 1
-			path: src/Conversions/FileManipulator.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$responsive_images\\.$#"
@@ -245,10 +237,6 @@ parameters:
 			count: 1
 			path: src/Conversions/ImageGenerators/Image.php
 
-		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
-			count: 1
-			path: src/Conversions/ImageGenerators/ImageGenerator.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$mime_type\\.$#"
@@ -1211,11 +1199,6 @@ parameters:
 			path: src/MediaCollections/Models/Collections/MediaCollection.php
 
 		-
-			message: "#^Access to an undefined property TModel of Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$preview_url\\.$#"
-			count: 2
-			path: src/MediaCollections/Models/Collections/MediaCollection.php
-
-		-
 			message: "#^Access to an undefined property TModel of Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$size\\.$#"
 			count: 2
 			path: src/MediaCollections/Models/Collections/MediaCollection.php
@@ -1265,10 +1248,6 @@ parameters:
 			count: 2
 			path: src/MediaCollections/Models/Media.php
 
-		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Media.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$file_name\\.$#"
@@ -1595,10 +1574,6 @@ parameters:
 			count: 1
 			path: src/ResponsiveImages/ResponsiveImage.php
 
-		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$extension\\.$#"
-			count: 1
-			path: src/ResponsiveImages/ResponsiveImageGenerator.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$responsive_images\\.$#"
