@@ -41,6 +41,7 @@ class ClearCommand extends Command
         $this->info('All done!');
     }
 
+    /** @return Collection<int, Media> */
     public function getMediaItems(): Collection
     {
         $modelType = $this->argument('modelType');
