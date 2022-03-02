@@ -90,14 +90,14 @@ class Media extends Model implements Responsable, Htmlable
     {
         return Attribute::get(
             function () {
-            $type = $this->getTypeFromExtension();
+                $type = $this->getTypeFromExtension();
 
-            if ($type !== self::TYPE_OTHER) {
-                return $type;
+                if ($type !== self::TYPE_OTHER) {
+                    return $type;
+                }
+
+                return $this->getTypeFromMime();
             }
-
-            return $this->getTypeFromMime();
-        }
         );
     }
 
