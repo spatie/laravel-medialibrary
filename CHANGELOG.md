@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.1.2 - 2022-03-04
+
+## What's Changed
+
+- remove unused import by @HAstaShakiba in https://github.com/spatie/laravel-medialibrary/pull/2806
+- Use newer syntax for accessors by @phh in https://github.com/spatie/laravel-medialibrary/pull/2813
+- Fix phpstan errors in ci by @phh in https://github.com/spatie/laravel-medialibrary/pull/2817
+- add property-read for accessors by @phh in https://github.com/spatie/laravel-medialibrary/pull/2814
+- [10.x] Added string support for id in deleteMedia() by @rcerljenko in https://github.com/spatie/laravel-medialibrary/pull/2823
+
+## New Contributors
+
+- @phh made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2813
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.1.1...10.1.2
+
 ## 9.11.4 - 2022-02-23
 
 ## What's Changed
