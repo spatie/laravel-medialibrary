@@ -476,7 +476,7 @@ trait InteractsWithMedia
      *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
      */
-    public function deleteMedia(int|Media $mediaId): void
+    public function deleteMedia(int|string|Media $mediaId): void
     {
         if ($mediaId instanceof Media) {
             $mediaId = $mediaId->getKey();
