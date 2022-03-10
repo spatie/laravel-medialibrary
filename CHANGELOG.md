@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.1.3 - 2022-03-10
+
+## What's Changed
+
+- Update .gitattributes by @angeljqv in https://github.com/spatie/laravel-medialibrary/pull/2829
+- Update DefaultUrlGenerator.php by @prullenbak in https://github.com/spatie/laravel-medialibrary/pull/2831
+
+## New Contributors
+
+- @angeljqv made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2829
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.1.2...10.1.3
+
 ## 10.1.2 - 2022-03-04
 
 ## What's Changed
