@@ -47,10 +47,8 @@ class DefaultUrlGenerator extends BaseUrlGenerator
 
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        $base = Str::finish($this->getBaseMediaDirectoryUrl(), '/');
-
         $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
 
-        return Str::finish(url($base.$path), '/');
+        return Str::finish($this->getDisk()->url($path), '/');
     }
 }
