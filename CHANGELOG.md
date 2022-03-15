@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.1.4 - 2022-03-15
+
+## What's Changed
+
+- Fix High CPU Usage by @voyula in https://github.com/spatie/laravel-medialibrary/pull/2840
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.1.3...10.1.4
+
 ## 10.1.3 - 2022-03-10
 
 ## What's Changed
