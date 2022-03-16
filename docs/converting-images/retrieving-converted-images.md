@@ -25,3 +25,12 @@ If a conversion is queued, a file may not exist yet on the generated url. You ca
 ```php
 $yourModel->getMedia('images')[0]->hasGeneratedConversion('thumb'); // returns true or false
 ```
+
+If a conversion does not exist, you might want to fallback to an other conversion or even the original file. This can be achieved using the `getAvailableUrl`, `getAvailableFullUrl` or `getAvailablePath` method. Each of these methods accepts an array of conversion names. It will return the url or path of the first conversion that has been generated and is available. If none of the provided conversions have been generated yet, then it will use the url or path of the original file.
+
+```php
+$mediaItems = $yourModel->getMedia('images');
+$mediaItems[0]->getAvailableUrl(['small', 'medium', 'large']);
+$mediaItems[0]->getAvailableFullUrl(['small', 'medium', 'large']);
+$mediaItems[0]->getAvailablePath(['small', 'medium', 'large']);
+```
