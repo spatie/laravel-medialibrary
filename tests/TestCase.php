@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionAndC
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnOtherDisk;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMultipleConversions;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithPreviewConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithResponsiveImages;
@@ -31,6 +32,8 @@ abstract class TestCase extends Orchestra
     protected TestModelWithConversion $testModelWithConversion;
 
     protected TestModelWithConversionAndCustomPathGenerator $testModelWithConversionAndCustomPathGenerator;
+
+    protected TestModelWithMultipleConversion $testModelWithMultipleConversion;
 
     protected TestModelWithPreviewConversion $testModelWithPreviewConversion;
 
@@ -58,7 +61,7 @@ abstract class TestCase extends Orchestra
         $this->testUnsavedModel = new TestModel();
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithConversionAndCustomPathGenerator = TestModelWithConversionAndCustomPathGenerator::first();
-
+        $this->testModelWithMultipleConversions = TestModelWithMultipleConversions::first();
         $this->testModelWithPreviewConversion = TestModelWithPreviewConversion::first();
         $this->testModelWithConversionQueued = TestModelWithConversionQueued::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();

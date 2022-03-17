@@ -94,9 +94,49 @@ class Media extends Model implements Responsable, Htmlable
         return $urlGenerator->getPath();
     }
 
+
     public function getUrlGenerator(string $conversionName): UrlGenerator
     {
         return UrlGeneratorFactory::createForMedia($this, $conversionName);
+    }
+
+    public function getAvailableUrl(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getUrl($conversionName);
+        }
+
+        return $this->getUrl();
+    }
+
+    public function getAvailableFullUrl(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getFullUrl($conversionName);
+        }
+
+        return $this->getFullUrl();
+    }
+
+    public function getAvailablePath(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getPath($conversionName);
+        }
+
+        return $this->getPath();
     }
 
     protected function type(): Attribute
