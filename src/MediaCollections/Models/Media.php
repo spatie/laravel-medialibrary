@@ -26,6 +26,7 @@ use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
@@ -81,16 +82,22 @@ class Media extends Model implements Responsable, Htmlable
 
     public function getTemporaryUrl(DateTimeInterface $expiration, string $conversionName = '', array $options = []): string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getTemporaryUrl($expiration, $options);
     }
 
     public function getPath(string $conversionName = ''): string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getPath();
+    }
+
+
+    public function getUrlGenerator(string $conversionName): UrlGenerator
+    {
+        return UrlGeneratorFactory::createForMedia($this, $conversionName);
     }
 
     public function getAvailableUrl(array $conversionNames): string
