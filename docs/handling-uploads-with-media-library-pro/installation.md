@@ -153,7 +153,6 @@ RateLimiter::for('medialibrary-pro-uploads', function (Request $request) {
 });
 ```
 
-
 ## Using the CSS
 
 You have a couple of options for how you can use the UI components' CSS, depending on your and your project's needs:
