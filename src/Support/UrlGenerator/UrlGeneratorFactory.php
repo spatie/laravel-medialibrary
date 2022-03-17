@@ -24,9 +24,11 @@ class UrlGeneratorFactory
 
         $pathGenerator = PathGeneratorFactory::create();
 
+        /*
         if (method_exists($media->model, 'getPathGeneratorClass')) {
             $pathGenerator = app($media->model->getPathGeneratorClass());
         }
+        */
 
         $urlGenerator
             ->setMedia($media)
