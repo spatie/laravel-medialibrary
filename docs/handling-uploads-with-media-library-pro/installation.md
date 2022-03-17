@@ -13,6 +13,12 @@ You must buy a license on [the Media Library Pro product page](https://spatie.be
 
 Single application licenses maybe installed in a single Laravel app. In case you bought the unlimited application license, there are no restrictions. A license comes with one year of upgrades. If a license expires, you are still allowed to use Media Library Pro, but you won't get any updates anymore.
 
+## Current version
+
+The current version of Media Library Pro is v3.
+
+You will find upgrade instructions [here](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/upgrading).
+
 ## Requiring Media Library Pro
 
 After you've purchased a license, add the `satis.spatie.be` repository in your `composer.json`.
@@ -48,7 +54,7 @@ This is the content you should put in `auth.json`:
 With the configuration above in place, you'll be able to install the Media Library Pro into your project using this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary-pro:^2.0.0"
+composer require "spatie/laravel-medialibrary-pro:^3.0.0"
 ```
 
 ## Prepare the database
@@ -77,13 +83,64 @@ protected function schedule(Schedule $schedule)
 
 ## Add the route macro
 
-To accept temporary uploads, you must add this macro to your routes file.
+To accept temporary uploads via React and Vue, you must add this macro to your routes file. 
+You do not need to register this endpoint when using the Blade/Livewire components.
 
 ```php
 // Probably routes/web.php
 
 Route::mediaLibrary();
 ```
+
+This macro will add the routes to controllers that accept file uploads for all components. 
+
+#### Validating mime types
+
+For security purposes, only files that pass [Laravel's `mimes` validation](https://laravel.com/docs/master/validation#rule-mimetypes) with these extensions are allowed by the temporary upload controllers:
+
+- jpg
+- jpeg
+- png
+- csv
+- xslx
+- doc
+- docx
+- pdf
+- rtf
+- txt
+
+If you want your components to except other mimetypes, add a key `temporary_uploads_allowed_mimetypes` in the `media-library.php` config file.
+
+```php
+// in config/medialibrary.php
+
+return [
+   // ...
+   
+   'temporary_uploads_allowed_mimetypes' => ['jpg', 'jpeg', //...],
+]
+```
+
+#### Rate limiting
+
+To protect you from users that upload too many files, the temporary uploads controllers are rate limited. By default, only 10 files can be upload per minute per ip iddress.
+
+To customize rate limiting, add [a rate limiter](https://laravel.com/docs/master/rate-limiting#introduction) named `medialibrary-pro-uploads`. Typically, this would be done in a service provider.
+
+Here's an example where's we'll allow 15 files.
+
+```php
+// in a service provider
+
+use Illuminate\Support\Facades\RateLimiter;
+
+RateLimiter::for('medialibrary-pro-uploads', function (Request $request) {
+    return [
+        Limit::perMinute(10)->by($request->ip()),
+    ];
+});
+```
+
 
 ## Using the CSS
 

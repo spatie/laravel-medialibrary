@@ -1,0 +1,17 @@
+---
+title: Upgrading
+weight: 10
+---
+
+## Upgrading
+
+This file contains instructions on how to upgrade to another major version of the package.
+
+## From v2 to v3
+
+v3 was created to solve security issues.
+
+## From v1 to v2
+
+No changes to the public API were made. Support for PHP 7 was dropped.
+You should be able to upgrade without making any changes.
