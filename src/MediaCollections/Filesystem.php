@@ -237,7 +237,7 @@ class Filesystem
 
     public function syncMediaPath(Media $media): void
     {
-        $factory = PathGeneratorFactory::create();
+        $factory = PathGeneratorFactory::create($media);
 
         $oldMedia = (clone $media)->fill($media->getOriginal());
 
@@ -291,7 +291,7 @@ class Filesystem
     public function getMediaDirectory(Media $media, ?string $type = null): string
     {
         $directory = null;
-        $pathGenerator = PathGeneratorFactory::create();
+        $pathGenerator = PathGeneratorFactory::create($media);
 
         if (! $type) {
             $directory = $pathGenerator->getPath($media);
