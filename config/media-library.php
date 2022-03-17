@@ -60,6 +60,13 @@ return [
     'path_generator' => Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
 
     /*
+     * Here you can specify which path generator should be used for the given class.
+     */
+    'custom_path_generators' => [
+        // Model::class => PathGenerator::class
+    ],
+
+    /*
      * When urls to files get generated, this class will be called. Use the default
      * if your files are stored locally above the site root or on s3.
      */
