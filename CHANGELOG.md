@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.2.0 - 2022-03-17
+
+## What's Changed
+
+- Allow path generators to be customised per model by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/2845
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.1.5...10.2.0
+
 ## 10.1.4 - 2022-03-15
 
 ## What's Changed
