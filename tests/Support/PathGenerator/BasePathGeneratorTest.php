@@ -36,3 +36,11 @@ it('can get the custom path for media with conversions', function () {
 
     expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
 });
+
+it('can use a custom path generator on the model', function() {
+    $media = $this->testModelWithConversionAndCustomPathGenerator
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection();
+
+    expect($media->getUrl())->toEqual('/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
+});

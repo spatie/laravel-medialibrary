@@ -13,12 +13,20 @@ class UrlGeneratorFactory
     {
         $urlGeneratorClass = config('media-library.url_generator');
 
+        if (method_exists($media->model, 'getUrlGeneratorClass')) {
+            $urlGeneratorClass = $media->model->getUrlGeneratorClass();
+        }
+
         static::guardAgainstInvalidUrlGenerator($urlGeneratorClass);
 
         /** @var \Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator $urlGenerator */
         $urlGenerator = app($urlGeneratorClass);
 
         $pathGenerator = PathGeneratorFactory::create();
+
+        if (method_exists($media->model, 'getPathGeneratorClass')) {
+            $pathGenerator = app($media->model->getPathGeneratorClass());
+        }
 
         $urlGenerator
             ->setMedia($media)
