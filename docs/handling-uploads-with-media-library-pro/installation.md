@@ -92,7 +92,19 @@ You do not need to register this endpoint when using the Blade/Livewire componen
 Route::mediaLibrary();
 ```
 
-This macro will add the routes to controllers that accept file uploads for all components. 
+This macro will add the routes to controllers that accept file uploads for all components.
+
+#### Only allow authenticated users to upload files
+
+If in your project, you only want authenticated users to upload files, you can put the macro in a group that applies autentication middleware.
+
+```php
+Route::middleware('auth')->group(function() {
+    Route::mediaLibrary();
+});
+```
+
+We highly encourage you to do this, if you only need authenticated users to upload files.
 
 #### Validating mime types
 
@@ -127,7 +139,7 @@ To protect you from users that upload too many files, the temporary uploads cont
 
 To customize rate limiting, add [a rate limiter](https://laravel.com/docs/master/rate-limiting#introduction) named `medialibrary-pro-uploads`. Typically, this would be done in a service provider.
 
-Here's an example where's we'll allow 15 files.
+Here's an example where's we'll allow 15 files:
 
 ```php
 // in a service provider
