@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\Support\PathGenerator;
 
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidPathGenerator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\Factories\TemporaryUploadFactory;
 
 class PathGeneratorFactory
 {
@@ -21,7 +20,7 @@ class PathGeneratorFactory
     {
         $defaultPathGeneratorClass = config('media-library.path_generator');
 
-        foreach(config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
+        foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
             if (is_a($media->model_type, $modelClass, true)) {
                 return $customPathGeneratorClass;
             }
