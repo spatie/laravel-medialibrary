@@ -10,7 +10,8 @@ The built-in model (`Spatie\MediaLibrary\MediaCollections\Models\Media`) will us
 If you need to change this database, connection you can create a custom model and set the `$connection` property (https://laravel.com/docs/8.x/eloquent#database-connections). See <a href="https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/using-your-own-model">Using your own model</a> for more information.
 
 ```php
-<?
+<?php
+
 namespace App\Models;
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
@@ -27,7 +28,8 @@ class Media extends BaseMedia {
 The `Spatie\MediaLibrary\InteractsWithMedia` trait defines a `MorphMany` relationship to the media model. Eloquent automatically uses the database connection of your parent model when querying the database. In the example below, the user media results will use the `tenant` database connection rather than the application's default connection.
 
 ```php
-<?
+<?php
+
 namespace App\Models;
 
 use Spatie\MediaLibrary\HasMedia;
