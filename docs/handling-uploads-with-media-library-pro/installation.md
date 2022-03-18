@@ -108,20 +108,9 @@ We highly encourage you to do this, if you only need authenticated users to uplo
 
 #### Validating mime types
 
-For security purposes, only files that pass [Laravel's `mimes` validation](https://laravel.com/docs/master/validation#rule-mimetypes) with these extensions are allowed by the temporary upload controllers:
+For security purposes, only files that pass [Laravel's `mimes` validation](https://laravel.com/docs/master/validation#rule-mimetypes) with the extensions [mentioned in this class](https://github.com/spatie/laravel-medialibrary-pro/blob/ba6eedd5b2a7f743909b441c0b6fd111d1a73794/src/Support/DefaultAllowedExtensions.php#L5) are allowed by the temporary upload controllers.
 
-- jpg
-- jpeg
-- png
-- csv
-- xslx
-- doc
-- docx
-- pdf
-- rtf
-- txt
-
-If you want your components to except other mimetypes, add a key `temporary_uploads_allowed_mimetypes` in the `media-library.php` config file.
+If you want your components to accept other mimetypes, add a key `temporary_uploads_allowed_extensions` in the `media-library.php` config file.
 
 ```php
 // in config/medialibrary.php
@@ -129,7 +118,11 @@ If you want your components to except other mimetypes, add a key `temporary_uplo
 return [
    // ...
    
-   'temporary_uploads_allowed_mimetypes' => ['jpg', 'jpeg', //...],
+   'temporary_uploads_allowed_extensions' => [
+        // your extensions
+        ... \Spatie\MediaLibraryPro\Support\DefaultAllowedExtensions::all(), // add this if you want to allow the default ones too
+   ],
+],
 ]
 ```
 
