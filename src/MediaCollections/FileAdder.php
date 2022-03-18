@@ -416,6 +416,10 @@ class FileAdder
 
         $this->checkGenerateResponsiveImages($media);
 
+        if (! $media->getConnectionName()) {
+            $media->setConnection($model->getConnectionName());
+        }
+
         $model->media()->save($media);
 
         if ($fileAdder->file instanceof RemoteFile) {
