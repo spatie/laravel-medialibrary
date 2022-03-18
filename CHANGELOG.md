@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.0 - 2022-03-18
+
+## What's Changed
+
+- Documentation improvements by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/2844
+- Added setConnection in FileAdder processMediaItem (v10) by @davidrushton in https://github.com/spatie/laravel-medialibrary/pull/2846
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.2.0...10.3.0
+
 ## 9.12.0 - 2022-03-18
 
 ## What's Changed
