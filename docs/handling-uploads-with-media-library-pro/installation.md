@@ -54,7 +54,7 @@ This is the content you should put in `auth.json`:
 With the configuration above in place, you'll be able to install the Media Library Pro into your project using this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary-pro:^3.0.0"
+composer require "spatie/laravel-medialibrary-pro:^2.0.0"
 ```
 
 ## Prepare the database
