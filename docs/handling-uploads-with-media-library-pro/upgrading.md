@@ -9,5 +9,6 @@ This file contains instructions on how to upgrade to another major version of th
 
 ## From v1 to v2
 
-No changes to the public API were made. Support for PHP 7 was dropped.
+No changes to the public API were made. Support for PHP 7 and Laravel 8 was dropped.
+
 You should be able to upgrade without making any changes.
