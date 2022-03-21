@@ -2,6 +2,37 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.0 - 2022-03-18
+
+## What's Changed
+
+- Documentation improvements by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/2844
+- Added setConnection in FileAdder processMediaItem (v10) by @davidrushton in https://github.com/spatie/laravel-medialibrary/pull/2846
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.2.0...10.3.0
+
+## 9.12.0 - 2022-03-18
+
+## What's Changed
+
+- Update DefaultUrlGenerator.php by @matt127127 in https://github.com/spatie/laravel-medialibrary/pull/2837
+- Added setConnection in FileAdder processMediaItem by @davidrushton in https://github.com/spatie/laravel-medialibrary/pull/2843
+
+## New Contributors
+
+- @matt127127 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2837
+- @davidrushton made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2843
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.11.4...9.11.5
+
+## 10.2.0 - 2022-03-17
+
+## What's Changed
+
+- Allow path generators to be customised per model by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/2845
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.1.5...10.2.0
+
 ## 10.1.4 - 2022-03-15
 
 ## What's Changed
