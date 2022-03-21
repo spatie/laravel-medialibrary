@@ -6,7 +6,8 @@ All notable changes to `laravel-medialibrary` will be documented in this file
 
 ## What's Changed
 
-- add index to order_column migration by @petsoukos in https://github.com/spatie/laravel-medialibrary/pull/2704
+- add index to order_column migration by @petsoukos in https://github.com/spatie/laravel-medialibrary/pull/270
+
 
 ## New Contributors
 
