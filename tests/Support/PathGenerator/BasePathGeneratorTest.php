@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\Tests\TestCase;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 class BasePathGeneratorTest extends TestCase
 {
@@ -59,5 +60,18 @@ class BasePathGeneratorTest extends TestCase
         $pathRelativeToRoot = md5($media->id).'/c/test-'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
 
         $this->assertEquals($pathRelativeToRoot, $this->urlGenerator->getPathRelativeToRoot());
+    }
+
+    public function it_can_use_a_custom_path_generator_on_the_model()
+    {
+        config()->set('media-library.custom_path_generators', [
+            TestModelWithConversion::class => CustomPathGenerator::class,
+        ]);
+
+        $media = $this->testModelWithConversion
+            ->addMedia($this->getTestFilesDirectory('test.jpg'))
+            ->toMediaCollection();
+
+        $this->assertEquals($media->getUrl(), '/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
     }
 }

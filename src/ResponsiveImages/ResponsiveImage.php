@@ -104,7 +104,7 @@ class ResponsiveImage
 
     public function delete(): self
     {
-        $pathGenerator = PathGeneratorFactory::create();
+        $pathGenerator = PathGeneratorFactory::create($this->media);
 
         $path = $pathGenerator->getPathForResponsiveImages($this->media);
 
