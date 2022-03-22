@@ -259,7 +259,7 @@ class StoreLivewireCollectionCustomPropertyRequest extends FormRequest
 
 ## Processing responses
 
-After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model).
+After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model). Either way call the method `toMediaCollection` to update your media-model in the database. This will also ensure that temporary uploads are converted to the appropriate model.
 
 ### `addFromMediaLibraryRequest`
 
