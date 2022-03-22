@@ -15,13 +15,13 @@ test('a media instance can get responsive image urls', function () {
     $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
     $this->assertEquals([
-        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg",
-        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg",
-        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg",
+        "/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg",
+        "/media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg",
+        "/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg",
     ], $media->getResponsiveImageUrls());
 
     $this->assertEquals([
-        "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
+        "/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
     ], $media->getResponsiveImageUrls("thumb"));
 
     expect($media->getResponsiveImageUrls("non-existing-conversion"))->toEqual([]);
@@ -36,13 +36,13 @@ test('a media instance can generate the contents of scrset', function () {
     $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
     $this->assertStringContainsString(
-        "http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg 284w, http://localhost/media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
+        "/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, /media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg 284w, /media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
         $media->getSrcset()
     );
     expect($media->getSrcset())->toContain("data:image/svg+xml;base64");
 
     $this->assertStringContainsString(
-        "http://localhost/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg 50w",
+        "/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg 50w",
         $media->getSrcset("thumb")
     );
     expect($media->getSrcset("thumb"))->toContain("data:image/svg+xml;base64,");
@@ -87,7 +87,7 @@ test('a media instance can get responsive image urls with conversions stored on 
     $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
     $this->assertEquals([
-        "http://localhost/media2/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
+        "/media2/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
     ], $media->getResponsiveImageUrls("thumb"));
 });
 
@@ -101,13 +101,13 @@ it('can handle file names with underscore', function () {
     $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
     $this->assertSame([
-        "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg",
-        "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg",
-        "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg",
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg",
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg",
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg",
     ], $media->getResponsiveImageUrls());
 
     $this->assertSame([
-        "http://localhost/media/1/responsive-images/{$this->fileNameWithUnderscore}___thumb_50_41.jpg",
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}___thumb_50_41.jpg",
     ], $media->getResponsiveImageUrls("thumb"));
 
     expect($media->getResponsiveImageUrls("non-existing-conversion"))->toBe([]);
