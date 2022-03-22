@@ -183,7 +183,7 @@ return [
     'responsive_images' => [
         /*
          * This class is responsible for calculating the target widths of the responsive
-         * images. By default we optimize for filesize and create variations that each are 20%
+         * images. By default we optimize for filesize and create variations that each are 30%
          * smaller than the previous one. More info in the documentation.
          *
          * https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/generating-responsive-images
