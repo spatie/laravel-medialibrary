@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 9.12.2 - 2022-03-24
+
+## What's Changed
+
+- Add explanation for processing responses by @SahinU88 in https://github.com/spatie/laravel-medialibrary/pull/2850
+- Update percentage value in the config file by @ClouddJR in https://github.com/spatie/laravel-medialibrary/pull/2856
+- Fix responsive url generation by @mabdullahsari in https://github.com/spatie/laravel-medialibrary/pull/2852
+
+## New Contributors
+
+- @SahinU88 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2850
+- @ClouddJR made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2856
+- @mabdullahsari made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2852
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.12.1...9.12.2
+
 ## 9.12.1 - 2022-03-21
 
 ## What's Changed
