@@ -136,11 +136,6 @@ parameters:
 			path: src/Conversions/ConversionCollection.php
 
 		-
-			message: "#^Access to an undefined property mixed\\:\\:\\$mediaConversions\\.$#"
-			count: 1
-			path: src/Conversions/ConversionCollection.php
-
-		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\ConversionCollection\\:\\:addManipulationToConversion\\(\\) has no return type specified\\.$#"
 			count: 1
 			path: src/Conversions/ConversionCollection.php
@@ -1492,11 +1487,6 @@ parameters:
 
 		-
 			message: "#^Property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$appends type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Media.php
-
-		-
-			message: "#^Property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$casts type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/MediaCollections/Models/Media.php
 

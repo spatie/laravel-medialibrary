@@ -48,10 +48,21 @@ test('a media instance is htmlable', function () {
 
 test('converting a non image to an image tag will not blow up', function () {
     $media = $this->testModelWithConversion
-        ->addMedia($this->getTestPdf())
+        ->addMedia($this->getTestTiff())
         ->toMediaCollection();
 
     expect($media->img())->toEqual('');
+});
+
+it('can render pdf thumbnail as an image', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestPdf())
+        ->toMediaCollection();
+
+    $this->assertEquals(
+        "<img src=\"/media/{$media->id}/conversions/test-thumb.jpg\" alt=\"test\">",
+        $media->img('thumb'),
+    );
 });
 
 it('can render itself with responsive images and a placeholder', function () {
