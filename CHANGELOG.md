@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.1 - 2022-03-31
+
+## What's Changed
+
+- Fix Htmlable render media by @Balsakup in https://github.com/spatie/laravel-medialibrary/pull/2864
+
+## New Contributors
+
+- @Balsakup made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2864
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.12.2...10.3.1
+
 ## 9.12.2 - 2022-03-24
 
 ## What's Changed
