@@ -346,9 +346,7 @@ For this we have to add the `editableName` attribute to the component:
 <x-media-library-attachment name="images" editableName />
 ```
 
-The component now will render an editable input field for the name. This is how that will look like.
-
-![Screenshot of the attachment component with the editable name field](/docs/laravel-medialibrary/v10/images/pro/attachment-setting-name.png)
+The component now will render an editable input field for the name.
 
 In this example we're going to lowercase the name of the uploaded file before adding it the media library.
 
