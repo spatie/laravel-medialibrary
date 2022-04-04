@@ -79,7 +79,7 @@ use Spatie\Image\Manipulations;
               ->border(10, 'black', Manipulations::BORDER_OVERLAY);
               
         $this->addMediaConversion('thumb-cropped')
-            ->crop('crop-center', 400, 400); // Trim or crop the image to the center for sepecified width and height.
+            ->crop('crop-center', 400, 400); // Trim or crop the image to the center for specified width and height.
     }
 ```
 
