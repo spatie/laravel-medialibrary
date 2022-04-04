@@ -340,6 +340,14 @@ $yourModel
 
 Alternatively, you can pass a callable to `usingName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
 
+For this we have to add the `editableName` attribute to the component:
+
+```html
+<x-media-library-attachment name="images" editableName />
+```
+
+The component now will render an editable input field for the name.
+
 In this example we're going to lowercase the name of the uploaded file before adding it the media library.
 
 ```php
