@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.2 - 2022-04-07
+
+## What's Changed
+
+- Change `MediaRepository` to scoped instance (Octane support) by @AlexVanderbist in https://github.com/spatie/laravel-medialibrary/pull/2876
+
+## New Contributors
+
+- @JavierMartinz made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2871
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.3.1...10.3.2
+
 ## 10.3.1 - 2022-03-31
 
 ## What's Changed
