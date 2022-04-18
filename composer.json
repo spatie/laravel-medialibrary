@@ -31,6 +31,7 @@
         "illuminate/database": "^9.0",
         "illuminate/pipeline": "^9.0",
         "illuminate/support": "^9.0",
+        "illuminate/view": "^9.0",
         "intervention/image": "^2.7",
         "maennchen/zipstream-php": "^2.0",
         "spatie/image": "^2.2.2",

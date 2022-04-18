@@ -51,7 +51,8 @@ class HtmlableMedia implements Htmlable, \Stringable
         }
 
         $attributeString = collect($this->extraAttributes)
-            ->map(fn ($value, $name) => $name.'="'.$value.'"')->implode(' ');
+            ->map(fn ($value, $name) => $name.'="'. \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($value) .'"')
+            ->implode(' ');
 
         if (strlen($attributeString)) {
             $attributeString = ' '.$attributeString;

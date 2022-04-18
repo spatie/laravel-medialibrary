@@ -391,9 +391,9 @@ class Media extends Model implements Responsable, Htmlable
         return $filesystem->getStream($this);
     }
 
-    public function toHtml()
+    public function toHtml($attributes = [])
     {
-        return $this->img()->toHtml();
+        return $this->img('', $attributes)->toHtml();
     }
 
     public function img(string $conversionName = '', $extraAttributes = []): HtmlableMedia
