@@ -51,6 +51,14 @@ This is the content you should put in `auth.json`:
 }
 ```
 
+If you are using [Laravel Forge](https://forge.laravel.com), you don't need to create the `auth.json` file manually. Instead, you can set the credentials on the Composer Package Authentication screen of your server. Fill out the fields with these values:
+
+- Repository URL: `satis.spatie.be`
+- Username: Fill this field with your spatie.be account email address
+- Password: Fill this field with your Media Library Pro license key
+
+![screenshot](/docs/laravel-medialibrary/v10/images/forge.png)
+
 With the configuration above in place, you'll be able to install the Media Library Pro into your project using this command:
 
 ```bash
