@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.3 - 2022-05-03
+
+## What's Changed
+
+- Bump laravel version in docs by @karvaka in https://github.com/spatie/laravel-medialibrary/pull/2885
+- fix anchor links by @goellner in https://github.com/spatie/laravel-medialibrary/pull/2902
+- Prevent error when extracting an image from a video by @prullenbak in https://github.com/spatie/laravel-medialibrary/pull/2904
+
+## New Contributors
+
+- @karvaka made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2885
+- @goellner made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2902
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.3.2...10.3.3
+
 ## 9.12.3 - 2022-04-07
 
 ## What's Changed
