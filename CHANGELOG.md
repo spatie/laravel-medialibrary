@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.4 - 2022-05-05
+
+- use anonymous migration
+
 ## 10.3.3 - 2022-05-03
 
 ## What's Changed
