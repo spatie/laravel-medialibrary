@@ -47,18 +47,18 @@ class ClearCommand extends Command
         $modelType = $this->argument('modelType');
         $collectionName = $this->argument('collectionName');
 
-        if (! is_null($modelType) && ! is_null($collectionName)) {
+        if (is_string($modelType) && is_string($collectionName)) {
             return $this->mediaRepository->getByModelTypeAndCollectionName(
                 $modelType,
                 $collectionName
             );
         }
 
-        if (! is_null($modelType)) {
+        if (is_string($modelType)) {
             return $this->mediaRepository->getByModelType($modelType);
         }
 
-        if (! is_null($collectionName)) {
+        if (is_string($collectionName)) {
             return $this->mediaRepository->getByCollectionName($collectionName);
         }
 
