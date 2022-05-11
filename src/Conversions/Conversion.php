@@ -167,9 +167,27 @@ class Conversion
         return $this;
     }
 
+    public function queuedIf(bool $condition): self
+    {
+        if ($condition) {
+            $this->performOnQueue = true;
+        }
+
+        return $this;
+    }
+
     public function nonQueued(): self
     {
         $this->performOnQueue = false;
+
+        return $this;
+    }
+
+    public function nonQueuedIf(bool $condition): self
+    {
+        if ($condition) {
+            $this->performOnQueue = false;
+        }
 
         return $this;
     }

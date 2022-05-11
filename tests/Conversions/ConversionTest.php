@@ -64,9 +64,19 @@ it('can be set to queued', function () {
     expect($this->conversion->queued()->shouldBeQueued())->toBeTrue();
 });
 
+it('can be conditionally set to queued', function () {
+    config()->set('media-library.queue_conversions_by_default', false);
+    expect($this->conversion->queuedIf(true)->shouldBeQueued())->toBeTrue();
+});
+
 it('can be set to non queued', function () {
     config()->set('media-library.queue_conversions_by_default', true);
     expect($this->conversion->nonQueued()->shouldBeQueued())->toBeFalse();
+});
+
+it('can be conditionally set to non queued', function () {
+    config()->set('media-library.queue_conversions_by_default', true);
+    expect($this->conversion->nonQueuedIf(true)->shouldBeQueued())->toBeFalse();
 });
 
 it('can determine the extension of the result', function () {
