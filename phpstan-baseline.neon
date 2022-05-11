@@ -31,26 +31,6 @@ parameters:
 			path: src/Conversions/Commands/RegenerateCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$modelType of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByModelType\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/Conversions/Commands/RegenerateCommand.php
-
-		-
-			message: "#^Parameter \\#2 \\$excludeStartingId of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByIdGreaterThan\\(\\) expects bool, array\\|bool\\|string given\\.$#"
-			count: 1
-			path: src/Conversions/Commands/RegenerateCommand.php
-
-		-
-			message: "#^Parameter \\#2 \\$string of function explode expects string, bool\\|string\\|null given\\.$#"
-			count: 1
-			path: src/Conversions/Commands/RegenerateCommand.php
-
-		-
-			message: "#^Parameter \\#3 \\$modelType of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByIdGreaterThan\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/Conversions/Commands/RegenerateCommand.php
-
-		-
 			message: "#^Parameter \\#3 \\$onlyMissing of method Spatie\\\\MediaLibrary\\\\Conversions\\\\FileManipulator\\:\\:createDerivedFiles\\(\\) expects bool, array\\|bool\\|string\\|null given\\.$#"
 			count: 1
 			path: src/Conversions/Commands/RegenerateCommand.php
@@ -276,11 +256,6 @@ parameters:
 			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
 
 		-
-			message: "#^Unable to resolve the template type TMapValue in call to method Illuminate\\\\Support\\\\Collection\\<\\(int\\|string\\),mixed\\>\\:\\:map\\(\\)$#"
-			count: 1
-			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
-
-		-
 			message: "#^Unable to resolve the template type TValue in call to function collect$#"
 			count: 1
 			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
@@ -466,11 +441,6 @@ parameters:
 			path: src/MediaCollections/Commands/CleanCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$collectionName of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByCollectionName\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
 			message: "#^Parameter \\#1 \\$microseconds of function usleep expects int, float\\|int\\<min, \\-1000000\\>\\|int\\<1000000, max\\> given\\.$#"
 			count: 1
 			path: src/MediaCollections/Commands/CleanCommand.php
@@ -481,47 +451,12 @@ parameters:
 			path: src/MediaCollections/Commands/CleanCommand.php
 
 		-
-			message: "#^Parameter \\#1 \\$modelType of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByModelType\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$modelType of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByModelTypeAndCollectionName\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
-			message: "#^Parameter \\#2 \\$collectionName of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByModelTypeAndCollectionName\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/CleanCommand.php
-
-		-
 			message: "#^Property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Commands\\\\CleanCommand\\:\\:\\$isDryRun \\(bool\\) does not accept array\\|bool\\|string\\|null\\.$#"
 			count: 1
 			path: src/MediaCollections/Commands/CleanCommand.php
 
 		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Commands\\\\ClearCommand\\:\\:handle\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/ClearCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$collectionName of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByCollectionName\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/ClearCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$modelType of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByModelType\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/ClearCommand.php
-
-		-
-			message: "#^Parameter \\#1 \\$modelType of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByModelTypeAndCollectionName\\(\\) expects string, array\\|string given\\.$#"
-			count: 1
-			path: src/MediaCollections/Commands/ClearCommand.php
-
-		-
-			message: "#^Parameter \\#2 \\$collectionName of method Spatie\\\\MediaLibrary\\\\MediaCollections\\\\MediaRepository\\:\\:getByModelTypeAndCollectionName\\(\\) expects string, array\\|string given\\.$#"
 			count: 1
 			path: src/MediaCollections/Commands/ClearCommand.php
 
@@ -1231,11 +1166,6 @@ parameters:
 			path: src/MediaCollections/Models/Media.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$conversions_disk\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Media.php
-
-		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$custom_properties\\.$#"
 			count: 7
 			path: src/MediaCollections/Models/Media.php
@@ -1252,7 +1182,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$generated_conversions\\.$#"
-			count: 5
+			count: 4
 			path: src/MediaCollections/Models/Media.php
 
 		-
@@ -1282,11 +1212,6 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$size\\.$#"
-			count: 2
-			path: src/MediaCollections/Models/Media.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$sortable\\.$#"
 			count: 2
 			path: src/MediaCollections/Models/Media.php
 
@@ -1557,7 +1482,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\MediaCollections\\\\Models\\\\Media\\:\\:\\$responsive_images\\.$#"
-			count: 4
+			count: 2
 			path: src/ResponsiveImages/RegisteredResponsiveImages.php
 
 		-
