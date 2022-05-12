@@ -160,18 +160,9 @@ class Conversion
         return in_array($collectionName, $this->performOnCollections);
     }
 
-    public function queued(): self
+    public function queued(bool $performOnQueue = true): self
     {
-        $this->performOnQueue = true;
-
-        return $this;
-    }
-
-    public function queuedIf(bool $condition): self
-    {
-        if ($condition) {
-            $this->performOnQueue = true;
-        }
+        $this->performOnQueue = $performOnQueue;
 
         return $this;
     }
@@ -179,15 +170,6 @@ class Conversion
     public function nonQueued(): self
     {
         $this->performOnQueue = false;
-
-        return $this;
-    }
-
-    public function nonQueuedIf(bool $condition): self
-    {
-        if ($condition) {
-            $this->performOnQueue = false;
-        }
 
         return $this;
     }

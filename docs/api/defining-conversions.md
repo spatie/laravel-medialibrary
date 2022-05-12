@@ -28,20 +28,20 @@ public function addMediaConversion(string $name): \Spatie\MediaLibrary\Conversio
  * @param string $collectionNames,...
  */
 public function performOnCollections($collectionNames): self
-``` 
+```
 
 ### queued
 
-```php 
+```php
 /*
  * Mark this conversion as one that should be queued.
  */
- public function queued(): self
+ public function queued(bool $performOnQueue = true): self
 ```
 
 ### nonQueued
 
-```php 
+```php
 /*
  * Mark this conversion as one that should not be queued.
  */
@@ -57,4 +57,3 @@ You can learn more on native lazy loading [in this post on css-tricks](https://c
 ## Image manipulations
 
 You may add any call to one of [the manipulation functions](https://docs.spatie.be/image) available on [the spatie/image package](https://github.com/spatie/image).
-

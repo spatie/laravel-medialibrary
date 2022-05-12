@@ -76,8 +76,8 @@ use Spatie\Image\Manipulations;
 
         $this->addMediaConversion('old-picture')
               ->sepia()
-              ->border(10, 'black', Manipulations::BORDER_OVERLAY);
-              
+              ->border(10, 'black', Manipulations::BORDER_OVERLAY;
+
         $this->addMediaConversion('thumb-cropped')
             ->crop('crop-center', 400, 400); // Trim or crop the image to the center for specified width and height.
     }
@@ -143,6 +143,19 @@ public function registerMediaConversions(Media $media = null): void
             ->width(368)
             ->height(232)
             ->queued();
+}
+```
+
+The `queued` method also accepts a value (true by default) to determine whether or not the conversion should be queued; You can override this behavior to optionally disable the queue for some scenarios. In this example, the conversion queue will only be applied if the app is running in the console:
+
+```php
+// in your model
+public function registerMediaConversions(Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->queued(app()->runingInConsole());
 }
 ```
 
