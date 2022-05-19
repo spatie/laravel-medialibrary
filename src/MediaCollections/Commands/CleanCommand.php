@@ -111,6 +111,7 @@ class CleanCommand extends Command
 
         collect($currentFilePaths)
             ->reject(fn (string $currentFilePath) => $conversionFilePaths->contains(basename($currentFilePath)))
+            ->reject(fn (string $currentFilePath) => $media->file_name === basename($currentFilePath))
             ->each(function (string $currentFilePath) use ($media) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($media->disk)->delete($currentFilePath);
