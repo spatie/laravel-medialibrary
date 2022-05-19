@@ -14,7 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
-use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class CleanCommand extends Command
 {
@@ -34,8 +34,6 @@ class CleanCommand extends Command
 
     protected Factory $fileSystem;
 
-    protected DefaultPathGenerator $basePathGenerator;
-
     protected bool $isDryRun = false;
 
     protected int $rateLimit = 0;
@@ -44,12 +42,10 @@ class CleanCommand extends Command
         MediaRepository $mediaRepository,
         FileManipulator $fileManipulator,
         Factory $fileSystem,
-        DefaultPathGenerator $basePathGenerator
     ) {
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
         $this->fileSystem = $fileSystem;
-        $this->basePathGenerator = $basePathGenerator;
 
         if (! $this->confirmToProceed()) {
             return;
@@ -110,7 +106,7 @@ class CleanCommand extends Command
     {
         $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
 
-        $conversionPath = $this->basePathGenerator->getPathForConversions($media);
+        $conversionPath = PathGeneratorFactory::create($media)->getPathForConversions($media);
         $currentFilePaths = $this->fileSystem->disk($media->disk)->files($conversionPath);
 
         collect($currentFilePaths)

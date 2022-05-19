@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
@@ -172,3 +174,33 @@ it('will throw an exception when using a non existing disk', function () {
     $this->artisan('media-library:clean')
         ->assertExitCode(1);
 });
+
+it('can clean deprecated conversion files in custom path', function () {
+    $this->config = app('config');
+
+    $this->urlGenerator = new DefaultUrlGenerator($this->config);
+
+    $this->pathGenerator = new CustomPathGenerator();
+
+    $this->urlGenerator->setPathGenerator($this->pathGenerator);
+
+    config()->set('media-library.custom_path_generators', [
+        TestModelWithConversion::class => CustomPathGenerator::class,
+    ]);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    $deprecatedImage = $this->getMediaDirectory(md5($media->id) . "/c/test-deprecated.jpg");
+
+    touch($deprecatedImage);
+    expect($deprecatedImage)->toBeFile();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($this->getMediaDirectory(md5($media->id) . "/c/test-thumb.jpg"))->toBeFile();
+});
+
