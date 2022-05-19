@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.5 - 2022-05-19
+
+## What's Changed
+
+- Fix PhpStan test by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/2910
+- Fix `media-library:clean` command when using custom path generators by @YellowFish085 in https://github.com/spatie/laravel-medialibrary/pull/2925
+
+## New Contributors
+
+- @YellowFish085 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2925
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.3.4...10.3.5
+
 ## 10.3.4 - 2022-05-05
 
 - use anonymous migration
