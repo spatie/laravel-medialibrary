@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.3.6 - 2022-05-23
+
+## What's Changed
+
+- add webp conversion support by @Jim-Webfox in https://github.com/spatie/laravel-medialibrary/pull/2928
+
+## New Contributors
+
+- @Jim-Webfox made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2928
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.3.5...10.3.6
+
 ## 10.3.5 - 2022-05-19
 
 ## What's Changed
