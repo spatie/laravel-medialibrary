@@ -201,7 +201,7 @@ class Conversion
     public function getResultExtension(string $originalFileExtension = ''): string
     {
         if ($this->shouldKeepOriginalImageFormat()) {
-            if (in_array(strtolower($originalFileExtension), ['jpg', 'jpeg', 'pjpg', 'png', 'gif', 'webp'])) {
+            if (in_array(strtolower($originalFileExtension), config('default_image_conversion_types'))) {
                 return $originalFileExtension;
             }
         }

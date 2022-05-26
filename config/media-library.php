@@ -226,4 +226,9 @@ return [
      * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
     'prefix' => env('MEDIA_PREFIX', ''),
+
+    /**
+     * Allow user to specify the default image conversion mime types.
+     */
+    'default_image_conversion_types' => ['jpg', 'jpeg', 'pjpg', 'png', 'gif', 'webp'],
 ];
