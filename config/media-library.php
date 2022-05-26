@@ -230,5 +230,6 @@ return [
     /**
      * Allow user to specify the default image conversion mime types.
      */
-    'default_image_conversion_types' => ['jpg', 'jpeg', 'pjpg', 'png', 'gif', 'webp'],
+
+    'keep_image_formats' => ['jpg', 'jpeg', 'pjpg', 'png', 'gif', 'webp'],
 ];
