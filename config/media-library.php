@@ -7,7 +7,7 @@ return [
      * one or more of the disks you've configured in config/filesystems.php.
      */
     'disk_name' => env('MEDIA_DISK', 'public'),
-    'default_image_first_url'  => null,
+    'default_image_first_url'  => '',
 
     /*
      * The maximum file size of an item in bytes.
