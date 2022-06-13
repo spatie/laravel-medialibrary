@@ -293,7 +293,7 @@ trait InteractsWithMedia
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return $this->getFallbackMediaUrl($collectionName) ?: '';
+              return $this->getFallbackMediaUrl($collectionName) ?: config('media-library.default_image_first_url');
         }
 
         if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
