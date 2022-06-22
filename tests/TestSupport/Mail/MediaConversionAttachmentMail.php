@@ -9,7 +9,6 @@ class MediaConversionAttachmentMail extends Mailable
 {
     public function __construct(public Media $media)
     {
-
     }
 
     public function build()

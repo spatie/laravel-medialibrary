@@ -105,7 +105,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     public function getAvailableUrl(array $conversionNames): string
     {
         foreach ($conversionNames as $conversionName) {
-            if (!$this->hasGeneratedConversion($conversionName)) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
                 continue;
             }
 
@@ -118,7 +118,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     public function getAvailableFullUrl(array $conversionNames): string
     {
         foreach ($conversionNames as $conversionName) {
-            if (!$this->hasGeneratedConversion($conversionName)) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
                 continue;
             }
 
@@ -131,7 +131,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     public function getAvailablePath(array $conversionNames): string
     {
         foreach ($conversionNames as $conversionName) {
-            if (!$this->hasGeneratedConversion($conversionName)) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
                 continue;
             }
 
@@ -176,12 +176,12 @@ class Media extends Model implements Responsable, Htmlable, Attachable
 
     protected function extension(): Attribute
     {
-        return Attribute::get(fn() => pathinfo($this->file_name, PATHINFO_EXTENSION));
+        return Attribute::get(fn () => pathinfo($this->file_name, PATHINFO_EXTENSION));
     }
 
     protected function humanReadableSize(): Attribute
     {
-        return Attribute::get(fn() => File::getHumanReadableSize($this->size));
+        return Attribute::get(fn () => File::getHumanReadableSize($this->size));
     }
 
     public function getDiskDriverName(): string
@@ -245,7 +245,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     {
         $conversions = ConversionCollection::createForMedia($this);
 
-        return $conversions->map(fn(Conversion $conversion) => $conversion->getName())->toArray();
+        return $conversions->map(fn (Conversion $conversion) => $conversion->getName())->toArray();
     }
 
     public function getGeneratedConversions(): Collection
@@ -336,13 +336,13 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     protected function previewUrl(): Attribute
     {
         return Attribute::get(
-            fn() => $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '',
+            fn () => $this->hasGeneratedConversion('preview') ? $this->getUrl('preview') : '',
         );
     }
 
     protected function originalUrl(): Attribute
     {
-        return Attribute::get(fn() => $this->getUrl());
+        return Attribute::get(fn () => $this->getUrl());
     }
 
     public function move(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
@@ -427,7 +427,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
             ->whereHasMorph(
                 'model',
                 [TemporaryUpload::class],
-                fn(Builder $builder) => $builder->where('session_id', session()->getId())
+                fn (Builder $builder) => $builder->where('session_id', session()->getId())
             )
             ->get();
     }
