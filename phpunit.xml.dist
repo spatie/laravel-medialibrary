@@ -10,4 +10,7 @@
       <directory>tests</directory>
     </testsuite>
   </testsuites>
+    <php>
+    <env name="MAIL_MAILER" value="log"/>
+    </php>
 </phpunit>

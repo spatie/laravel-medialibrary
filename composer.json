@@ -26,11 +26,11 @@
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
-        "illuminate/bus": "^9.0",
-        "illuminate/console": "^9.0",
-        "illuminate/database": "^9.0",
-        "illuminate/pipeline": "^9.0",
-        "illuminate/support": "^9.0",
+        "illuminate/bus": "^9.18",
+        "illuminate/console": "^9.18",
+        "illuminate/database": "^9.18",
+        "illuminate/pipeline": "^9.18",
+        "illuminate/support": "^9.18",
         "intervention/image": "^2.7",
         "maennchen/zipstream-php": "^2.0",
         "spatie/image": "^2.2.2",
@@ -52,7 +52,7 @@
         "spatie/laravel-ray": "^1.28",
         "spatie/pdf-to-image": "^2.1",
         "spatie/phpunit-snapshot-assertions": "^4.2",
-        "pestphp/pest": "^1.20"
+        "pestphp/pest": "^1.21"
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
@@ -69,6 +69,8 @@
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
+        "baseline": "vendor/bin/phpstan analyse --generate-baseline",
+
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/pest"
     },

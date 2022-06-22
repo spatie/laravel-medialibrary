@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\MediaCollections\Models;
 
 use DateTimeInterface;
+use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Mail\Attachment;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
@@ -37,7 +39,7 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
  * @property-read string $previewUrl
  * @property-read string $originalUrl
  */
-class Media extends Model implements Responsable, Htmlable
+class Media extends Model implements Responsable, Htmlable, Attachable
 {
     use IsSorted;
     use CustomMediaProperties;
@@ -214,6 +216,7 @@ class Media extends Model implements Responsable, Htmlable
 
     /**
      * @param mixed $value
+     *
      * @return $this
      */
     public function setCustomProperty(string $name, $value): self
@@ -427,5 +430,23 @@ class Media extends Model implements Responsable, Htmlable
                 fn (Builder $builder) => $builder->where('session_id', session()->getId())
             )
             ->get();
+    }
+
+    public function mailAttachment(string $conversion = ''): Attachment
+    {
+        $path = $this->getUrlGenerator($conversion)->getPathRelativeToRoot();
+
+        $attachment = Attachment::fromStorageDisk($this->disk, $path)->as($this->file_name);
+
+        if ($this->mime_type) {
+            $attachment->withMime($this->mime);
+        }
+
+        return $attachment;
+    }
+
+    public function toMailAttachment(): Attachment
+    {
+        return $this->mailAttachment();
     }
 }
