@@ -69,6 +69,8 @@
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
+        "baseline": "vendor/bin/phpstan analyse --generate-baseline",
+
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/pest"
     },
