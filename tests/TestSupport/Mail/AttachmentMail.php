@@ -9,13 +9,10 @@ class AttachmentMail extends Mailable
 {
     public function __construct(public Media $media)
     {
-
     }
 
     public function build()
     {
-
-
         return $this
             ->to('johndoe@example.com')
             ->view('mailable')

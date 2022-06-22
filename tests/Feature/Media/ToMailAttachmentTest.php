@@ -8,19 +8,19 @@ use Spatie\MediaLibrary\Tests\TestSupport\Mail\AttachmentMail;
 use Spatie\MediaLibrary\Tests\TestSupport\Mail\InvalidMediaConversionAttachmentMail;
 use Spatie\MediaLibrary\Tests\TestSupport\Mail\MediaConversionAttachmentMail;
 
-beforeEach(function() {
+beforeEach(function () {
     $this->testModelWithConversion
         ->addMedia($this->getTestJpg())
         ->toMediaCollection();
 });
 
-it('can create a mail attachment from a media', function() {
+it('can create a mail attachment from a media', function () {
     $mailAttachment = Media::first()->toMailAttachment();
 
     expect($mailAttachment)->toBeInstanceOf(Attachment::class);
 });
 
-it('can send a mail with a media attached', function() {
+it('can send a mail with a media attached', function () {
     $mailable = new AttachmentMail(Media::first());
 
     Mail::send($mailable);
@@ -29,13 +29,13 @@ it('can send a mail with a media attached', function() {
     expect(true)->toBeTrue();
 });
 
-it('can create an attachment to a conversion', function() {
+it('can create an attachment to a conversion', function () {
     $mailAttachment = $this->testModelWithConversion->getFirstMedia()->mailAttachment('thumb');
 
     expect($mailAttachment)->toBeInstanceOf(Attachment::class);
 });
 
-it('can send a mail with conversion attached', function() {
+it('can send a mail with conversion attached', function () {
     $mailable = new MediaConversionAttachmentMail(Media::first());
 
     Mail::send($mailable);
@@ -44,7 +44,7 @@ it('can send a mail with conversion attached', function() {
     expect(true)->toBeTrue();
 });
 
-it('will throw an exception when attaching a media specifying a non-existing conversion', function() {
+it('will throw an exception when attaching a media specifying a non-existing conversion', function () {
     $mailable = new InvalidMediaConversionAttachmentMail(Media::first());
 
     Mail::send($mailable);
