@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.4.0 - 2022-06-22
+
+### What's Changed
+
+- Update introduction.md by @trippo in https://github.com/spatie/laravel-medialibrary/pull/2951
+- Fix a typo by @bvtterfly in https://github.com/spatie/laravel-medialibrary/pull/2952
+- Update preparing-your-model.md by @timgavin in https://github.com/spatie/laravel-medialibrary/pull/2955
+- Add support for Laravel's `Attachable` objects by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/2963
+
+### New Contributors
+
+- @bvtterfly made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2952
+- @timgavin made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2955
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.3.6...10.4.0
+
 ## 10.3.6 - 2022-05-23
 
 ## What's Changed
