@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.4.1 - 2022-06-24
+
+### What's Changed
+
+- Add @template annotation to FileAdder by @sforward in https://github.com/spatie/laravel-medialibrary/pull/2964
+
+### New Contributors
+
+- @sforward made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2964
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.4.0...10.4.1
+
 ## 10.4.0 - 2022-06-22
 
 ### What's Changed
