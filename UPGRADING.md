@@ -41,7 +41,7 @@ class AddGeneratedConversionsToMediaTable extends Migration {
             })
             ->whereRaw("JSON_LENGTH(custom_properties) > 0")
             ->update([
-                'generated_conversions' => DB::raw('custom_properties->"$.generated_conversions"'),
+                'generated_conversions' => DB::raw("JSON_EXTRACT(custom_properties, '$.generated_conversions')"),
                 // OPTIONAL: Remove the generated conversions from the custom_properties field as well:
                 // 'custom_properties'     => DB::raw("JSON_REMOVE(custom_properties, '$.generated_conversions')")
             ]);
