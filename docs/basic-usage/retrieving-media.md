@@ -110,7 +110,7 @@ $yourModel->deletePreservingMedia(); // all associated files will be preserved
 If you want to remove all associated media in a specific collection you can use the `clearMediaCollection` method. It also accepts the collection name as an optional parameter:
 
 ```php
-$yourModel->clearMediaCollection(); // all media will be deleted
+$yourModel->clearMediaCollection(); // all media in the "default" collection will be deleted
 
 $yourModel->clearMediaCollection('images'); // all media in the images collection will be deleted
 ```
