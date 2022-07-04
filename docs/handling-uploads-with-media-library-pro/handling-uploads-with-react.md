@@ -138,7 +138,7 @@ You can retrieve your initial values in Laravel using `$yourModel->getMedia($col
 </form>
 ```
 
-Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to the [Asynchronously submit data](#asynchronously-submit-data) section.
+Under the hood, these components create hidden `<input />` fields to keep track of the form values on submit. If you would like to submit your values asynchronously, refer to the [Asynchronously submit data](#content-asynchronously-submit-data) section.
 
 ### Setting validation rules
 
