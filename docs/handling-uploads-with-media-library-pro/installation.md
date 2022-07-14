@@ -51,6 +51,19 @@ This is the content you should put in `auth.json`:
 }
 ```
 
+
+To be sure you can reach satis.spatie.be clean your autoloaders before using this command:
+
+```bash
+composer dump-autoload
+```
+
+To validate if Composer can read your auth.json you can run this command:
+
+```bash
+composer config --list --global | grep satis.spatie.be
+```
+
 If you are using [Laravel Forge](https://forge.laravel.com), you don't need to create the `auth.json` file manually. Instead, you can set the credentials on the Composer Package Authentication screen of your server. Fill out the fields with these values:
 
 - Repository URL: `satis.spatie.be`
