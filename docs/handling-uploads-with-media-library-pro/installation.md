@@ -52,7 +52,7 @@ This is the content you should put in `auth.json`:
 ```
 
 
-To be sure you can reach satis.spatie.be clean your autoloaders before using this command:
+To be sure you can reach `satis.spatie.be`,  clean your autoloaders before using this command:
 
 ```bash
 composer dump-autoload
