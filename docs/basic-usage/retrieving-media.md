@@ -6,7 +6,7 @@ weight: 3
 To retrieve files you can use the `getMedia`-method:
 
 ```php
-$mediaItems = $yourModel->getMedia();
+$mediaItems = $yourModel->getMedia($collectionName = 'default', $filters = []);
 ```
 
 The method returns a collection of `Media`-objects.
