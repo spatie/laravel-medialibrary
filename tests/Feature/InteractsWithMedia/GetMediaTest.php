@@ -11,6 +11,20 @@ it('can handle an empty collection', function () {
     expect($emptyCollection)->toHaveCount(0);
 });
 
+it('will return ordered media when accessing the relation', function () {
+    $media1 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->setOrder(2)->toMediaCollection();
+    $media2 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->setOrder(1)->toMediaCollection();
+    $media3 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->setOrder(4)->toMediaCollection();
+    $media4 = $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->setOrder(3)->toMediaCollection();
+
+    expect($this->testModel->media->modelKeys())->toBe([
+        $media2->getKey(),
+        $media1->getKey(),
+        $media4->getKey(),
+        $media3->getKey(),
+    ]);
+});
+
 it('will only get media from the specified collection', function () {
     expect($this->testModel->getMedia('images'))->toHaveCount(0);
     expect($this->testModel->getMedia('downloads'))->toHaveCount(0);

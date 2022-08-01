@@ -61,8 +61,8 @@ it('reorders media items', function () {
     $this->testModel->updateMedia($differentOrder);
     $this->testModel->load('media');
 
-    $orderedMedia = $this->testModel->media->sortBy('order_column');
+    $orderedMedia = $this->testModel->media;
 
-    expect($orderedMedia[1]->order_column)->toEqual($mediaArray[0]['order_column']);
-    expect($orderedMedia[0]->order_column)->toEqual($mediaArray[1]['order_column']);
+    expect($orderedMedia[1]['id'])->toEqual($mediaArray[0]['id']);
+    expect($orderedMedia[0]['id'])->toEqual($mediaArray[1]['id']);
 });
