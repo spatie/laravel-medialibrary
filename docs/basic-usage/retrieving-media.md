@@ -95,10 +95,10 @@ $mediaItems[0]->delete();
 
 When a `Media` instance gets deleted all related files will be removed from the filesystem.
 
-Deleting a model with associated media will also delete all associated files, if the model does not youse `SoftDelete`
+Deleting a model with associated media will also delete all associated files. If you use soft deletes, the associated files won't be deleted.
 
 ```php
-$yourModel->delete(); // all associated files will be deleted as well if the model does not use Soft Deletes
+$yourModel->delete(); // all associated files will be deleted as well
 ```
 
 You may delete a model without removing associated media by calling the `deletePreservingMedia` method instead of `delete`.
