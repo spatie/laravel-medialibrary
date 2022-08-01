@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.4.2 - 2022-08-01
+
+### What's Changed
+
+- Upgrade example using JSON_EXTRACT by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/2970
+- clearMediaCollection() documentation clarification by @chimit in https://github.com/spatie/laravel-medialibrary/pull/2972
+- Added information that media wont be deleted if the deleted model use… by @titonova in https://github.com/spatie/laravel-medialibrary/pull/2993
+- Order media relationship by @Propaganistas in https://github.com/spatie/laravel-medialibrary/pull/2992
+
+### New Contributors
+
+- @chimit made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2972
+- @titonova made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2993
+- @Propaganistas made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/2992
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.4.1...10.4.2
+
 ## 10.4.1 - 2022-06-24
 
 ### What's Changed
