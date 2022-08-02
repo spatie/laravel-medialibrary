@@ -57,7 +57,7 @@ trait InteractsWithMedia
 
     public function media(): MorphMany
     {
-        return $this->morphMany(config('media-library.media_model'), 'model')->orderBy('order_column');
+        return $this->morphMany(config('media-library.media_model'), 'model');
     }
 
     /**
