@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.4.3 - 2022-08-02
+
+- Revert order media relationship
+
 ## 10.4.2 - 2022-08-01
 
 ### What's Changed
