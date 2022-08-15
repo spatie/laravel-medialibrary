@@ -220,6 +220,21 @@ export default defineConfig({
 ...
 ```
 
+**CSS Import for SPA use**
+
+If you are using a SPA you can import the CSS into `app.js` like this:
+
+```diff
+// resources/js/app.js
+import './bootstrap';
+import '../css/app.css';
++import 'spatie-media-lib-pro/media-library-pro-styles/src/styles.css';
+...
+```
+
+If you want to import the CSS into `app.css` you can still use the import mentioned in [Customizing CSS](./customizing-css).
+
+
 ## Your first components
 
 The most basic components have a `name` prop. This name will be used to identify the media when it's uploaded to the server.
