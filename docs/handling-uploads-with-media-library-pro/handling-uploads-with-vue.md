@@ -177,6 +177,49 @@ You may also choose to import the components on the fly in a `.vue` file.
 </script>
 ```
 
+## Vite
+If you are using vite, you need to import an alias to the `vite.config.js`  and some little changes to your Vue component.
+
+```diff
+// vite.config.js
+
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
+
+export default defineConfig({
+    ...
+    resolve: {
+        alias: {
+            '@': '/resources/js',
++           'spatie-media-lib-pro': '/vendor/spatie/laravel-medialibrary-pro/resources/js',
+        },
+    },
+});
+```
+
+**Component changes Vue2**
+
+```diff
+...
+-    import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
++    import { MediaLibraryAttachment } from "spatie-media-lib-pro/media-library-pro-vue2-attachment";
+-    import { MediaLibraryCollection } from "media-library-pro-vue2-collection";
++    import { MediaLibraryCollection } from "spatie-media-lib-pro/media-library-pro-vue2-collection";
+...
+```
+
+**Component changes Vue3**
+
+```diff
+...
+-    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
++    import { MediaLibraryAttachment } from "spatie-media-lib-pro/media-library-pro-vue3-attachment";
+-    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
++    import { MediaLibraryCollection } from "spatie-media-lib-pro/media-library-pro-vue3-collection";
+...
+```
+
 ## Your first components
 
 The most basic components have a `name` prop. This name will be used to identify the media when it's uploaded to the server.
