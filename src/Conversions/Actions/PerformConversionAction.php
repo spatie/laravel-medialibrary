@@ -40,9 +40,18 @@ class PerformConversionAction
             );
         }
 
-        app(Filesystem::class)->copyToMediaLibrary($renamedFile, $media, 'conversions');
+        $fs = app(Filesystem::class);
+        if ($conversion->shouldReplaceOriginal()) {
+            $fs->removeFile($media, $fs->getMediaDirectory($media) . $media->file_name);
+            $fs->copyToMediaLibrary($renamedFile, $media);
 
-        $media->markAsConversionGenerated($conversion->getName());
+            $media->file_name = pathinfo($renamedFile, PATHINFO_BASENAME);
+            $media->save();
+        } else {
+            $fs->copyToMediaLibrary($renamedFile, $media, $conversion->shouldReplaceOriginal() ? null : 'conversions');
+
+            $media->markAsConversionGenerated($conversion->getName());
+        }
 
         event(new ConversionHasBeenCompleted($media, $conversion));
     }

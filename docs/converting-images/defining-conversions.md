@@ -165,3 +165,24 @@ public function registerMediaConversions(Media $media = null): void
 ```
 
 Be aware that this can lead to a hit in performance. When processing media the media library has to perform queries to fetch each separate model.
+
+
+## Converting the original image
+
+If one of your collection will always have the same size or format, it is a good idea to run some conversions directly on the original image to preserve space on your server
+
+Luckily it is possible using `replaceOriginal()` on the conversion, just keep in mind you will lose the original image and only the optimized image will be stored
+
+```php
+// in your model
+public function registerMediaConversions(Media $media = null): void
+{
+    $this->addMediaConversion('original')
+          ->width(500)
+          ->height(500)
+          ->format('jpg')
+          ->quality(80)
+          ->replaceOriginal()
+          ->performOnCollections('images');
+}
+```

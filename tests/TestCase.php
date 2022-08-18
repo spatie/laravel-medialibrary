@@ -13,6 +13,7 @@ use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionReplacingOriginal;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnOtherDisk;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMultipleConversions;
@@ -29,7 +30,7 @@ abstract class TestCase extends Orchestra
 
     protected TestModelWithConversion $testModelWithConversion;
 
-    protected TestModelWithMultipleConversion $testModelWithMultipleConversion;
+    protected TestModelWithMultipleConversions $testModelWithMultipleConversions;
 
     protected TestModelWithPreviewConversion $testModelWithPreviewConversion;
 
@@ -42,6 +43,8 @@ abstract class TestCase extends Orchestra
     protected TestModelWithResponsiveImages $testModelWithResponsiveImages;
 
     protected TestModelWithConversionsOnOtherDisk $testModelWithConversionsOnOtherDisk;
+
+    protected TestModelWithConversionReplacingOriginal $testModelWithConversionReplacingOriginal;
 
     protected function setUp(): void
     {
@@ -63,6 +66,7 @@ abstract class TestCase extends Orchestra
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
         $this->testModelWithResponsiveImages = TestModelWithResponsiveImages::first();
         $this->testModelWithConversionsOnOtherDisk = TestModelWithConversionsOnOtherDisk::first();
+        $this->testModelWithConversionReplacingOriginal = TestModelWithConversionReplacingOriginal::first();
     }
 
     protected function loadEnvironmentVariables()

@@ -28,6 +28,8 @@ class Conversion
 
     protected int $pdfPageNumber = 1;
 
+    protected bool $replaceOriginal = false;
+
     public function __construct(
         protected string $name
     ) {
@@ -215,7 +217,8 @@ class Conversion
 
     public function getConversionFile(Media $media): string
     {
-        $fileName = $this->fileNamer->conversionFileName($media->file_name, $this);
+        $fileName = $this->shouldReplaceOriginal() ? pathinfo($media->file_name, PATHINFO_FILENAME) :
+            $this->fileNamer->conversionFileName($media->file_name, $this);
 
         $fileExtension = $this->fileNamer->extensionFromBaseImage($media->file_name);
         $extension = $this->getResultExtension($fileExtension) ?: $fileExtension;
@@ -245,5 +248,17 @@ class Conversion
     public function getPdfPageNumber(): int
     {
         return $this->pdfPageNumber;
+    }
+
+    public function replaceOriginal(bool $replace = true): self
+    {
+        $this->replaceOriginal = $replace;
+
+        return $this;
+    }
+
+    public function shouldReplaceOriginal(): bool
+    {
+        return $this->replaceOriginal;
     }
 }
