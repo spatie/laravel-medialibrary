@@ -59,7 +59,7 @@ If you've found a bug regarding security please mail [security@spatie.be](mailto
 You can run the tests with:
 
 ```bash
-vendor/bin/phpunit
+./vendor/bin/pest
 ```
 
 ## Upgrading
