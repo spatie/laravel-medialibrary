@@ -172,7 +172,7 @@ it('can clean responsive images for active conversions without responsive images
             ->addMedia($this->getTestJpg())
             ->preservingOriginal()
             ->toMediaCollection();
-    
+
     $thumbResponsiveImageFileName = "{$media->file_name}___thumb_340_280.jpg";
     $thumbReponsiveImagesPath = $this->getMediaDirectory("{$media->id}/responsive-images/{$thumbResponsiveImageFileName}");
     mkdir($this->getMediaDirectory("{$media->id}/responsive-images"));
