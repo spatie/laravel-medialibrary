@@ -93,7 +93,7 @@ class CleanCommand extends Command
             $this->deleteConversionFilesForDeprecatedConversions($media);
 
             if ($media->responsive_images) {
-                $this->deleteResponsiveImagesForDeprecatedConversions($media);
+                $this->deleteDeprecatedResponsiveImages($media);
             }
 
             if ($this->rateLimit) {
@@ -123,9 +123,10 @@ class CleanCommand extends Command
             });
     }
 
-    protected function deleteResponsiveImagesForDeprecatedConversions(Media $media): void
+    protected function deleteDeprecatedResponsiveImages(Media $media): void
     {
-        $conversionNames = ConversionCollection::createForMedia($media)
+        $conversionNamesWithResponsiveImages = ConversionCollection::createForMedia($media)
+            ->filter(fn (Conversion $conversion) => $conversion->shouldGenerateResponsiveImages())
             ->map(fn (Conversion $conversion) => $conversion->getName())
             ->push('media_library_original');
 
@@ -134,7 +135,7 @@ class CleanCommand extends Command
 
         collect($responsiveImagesGeneratedFor)
             ->map(fn (string $generatedFor) => $media->responsiveImages($generatedFor))
-            ->reject(fn (RegisteredResponsiveImages $responsiveImages) => $conversionNames->contains($responsiveImages->generatedFor))
+            ->reject(fn (RegisteredResponsiveImages $responsiveImages) => $conversionNamesWithResponsiveImages->contains($responsiveImages->generatedFor))
             ->each(function (RegisteredResponsiveImages $responsiveImages) {
                 if (! $this->isDryRun) {
                     $responsiveImages->delete();
