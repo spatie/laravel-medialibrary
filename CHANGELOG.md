@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.4.4 - 2022-08-22
+
+### What's Changed
+
+- Adding a short vite description by @schonhoff in https://github.com/spatie/laravel-medialibrary/pull/3001
+- Add a note about limitation of generators by @Orrison in https://github.com/spatie/laravel-medialibrary/pull/3000
+- Update README.md to reference pest by @michaellindahl in https://github.com/spatie/laravel-medialibrary/pull/3004
+- Update CleanCommand to delete depreciated responsive images by @michaellindahl in https://github.com/spatie/laravel-medialibrary/pull/3003
+
+### New Contributors
+
+- @schonhoff made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3001
+- @Orrison made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3000
+- @michaellindahl made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3004
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.4.3...10.4.4
+
 ## 10.4.3 - 2022-08-02
 
 - Revert order media relationship
