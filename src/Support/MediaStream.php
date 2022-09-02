@@ -17,7 +17,7 @@ class MediaStream implements Responsable
 
     public static function create(string $zipName): self
     {
-        return new self($zipName);
+        return new static($zipName);
     }
 
     public function __construct(protected string $zipName)
