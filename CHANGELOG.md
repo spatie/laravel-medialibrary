@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.4.5 - 2022-09-02
+
+### What's Changed
+
+- Change the create method to use 'static' by @FabienLucini in https://github.com/spatie/laravel-medialibrary/pull/3021
+
+### New Contributors
+
+- @FabienLucini made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3021
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.4.4...10.4.5
+
 ## 10.4.4 - 2022-08-22
 
 ### What's Changed
