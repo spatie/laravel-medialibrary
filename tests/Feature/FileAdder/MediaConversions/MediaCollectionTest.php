@@ -225,6 +225,30 @@ test('if the single file method is specified it will delete all other media and 
     expect($model->getMedia('images'))->toHaveCount(1);
 });
 
+test('can copy the media to already populated single file collection', function () {
+    $testModel = new class () extends TestModelWithConversion {
+        public function registerMediaCollections(): void
+        {
+            $this
+                ->addMediaCollection('images')
+                ->singleFile();
+        }
+    };
+
+    $model = $testModel::create(['name' => 'testmodel']);
+
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+    expect($model->getMedia('images'))->toHaveCount(1);
+
+    $media = $this->testModel->addMedia($this->getTestMp4())->preservingOriginal()->toMediaCollection();
+    $media->copy($testModel, 'single_collection');
+
+    expect($model->getMedia('images'))->toHaveCount(1);
+    expect($model->getFirstMedia('images')->file_name)->toEqual($media->file_name);
+});
+
 test('if the only keeps latest method is specified it will delete all other media and will only keep the latest n ones', function () {
     $testModel = new class () extends TestModelWithConversion {
         public function registerMediaCollections(): void
