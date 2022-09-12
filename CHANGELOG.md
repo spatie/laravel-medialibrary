@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.5.0 - 2022-09-12
+
+### What's Changed
+
+- Use "request" where "response" is intended in docs by @euoia in https://github.com/spatie/laravel-medialibrary/pull/3027
+- Add getPathRelativeToRoot as a public method in the Media model by @emielmolenaar in https://github.com/spatie/laravel-medialibrary/pull/3026
+
+### New Contributors
+
+- @euoia made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3027
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.4.5...10.5.0
+
 ## 10.4.5 - 2022-09-02
 
 ### What's Changed
