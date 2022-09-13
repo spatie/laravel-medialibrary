@@ -43,7 +43,7 @@ class FileSizeOptimizedWidthCalculator implements WidthCalculator
         }
     }
 
-    protected function finishedCalculating(int $predictedFileSize, int $newWidth): bool
+    protected function finishedCalculating(float $predictedFileSize, int $newWidth): bool
     {
         if ($newWidth < 20) {
             return true;
