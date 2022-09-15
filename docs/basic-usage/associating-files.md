@@ -14,6 +14,8 @@ $yourModel
 
 The file will now be associated with the `YourModel` instance and will be moved to the disk you've configured.
 
+Keep in mind you can only add media after the model was saved. The media library needs an existing database row to associate media with.
+
 If you want to not move, but copy, the original file you can call `preservingOriginal`:
 
 ```php
