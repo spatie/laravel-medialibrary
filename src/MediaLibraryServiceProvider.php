@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\CleanCommand;
+use Spatie\MediaLibrary\MediaCollections\Commands\TransformPathCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\ClearCommand;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
@@ -64,11 +65,13 @@ class MediaLibraryServiceProvider extends ServiceProvider
         $this->app->bind('command.media-library:regenerate', RegenerateCommand::class);
         $this->app->bind('command.media-library:clear', ClearCommand::class);
         $this->app->bind('command.media-library:clean', CleanCommand::class);
+        $this->app->bind('command.media-library:transform-path', TransformPathCommand::class);
 
         $this->commands([
             'command.media-library:regenerate',
             'command.media-library:clear',
             'command.media-library:clean',
+            'command.media-library:transform-path',
         ]);
     }
 }
