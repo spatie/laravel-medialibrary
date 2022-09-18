@@ -245,6 +245,11 @@ class TransformPathCommand extends Command
                 $disk = $conversionsDisk;
             }
 
+            // If source and target path are the same, we do not need to move
+            // and we can skip this
+            if ($sourcePathAndFilename === $targetPathAndFilename)
+                continue;
+
             $results[] = [
                 'name' => $conversionName,
                 'source' => $sourcePathAndFilename,
