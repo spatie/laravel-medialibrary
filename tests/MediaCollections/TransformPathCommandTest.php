@@ -5,7 +5,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestUuidPathGenerator;
 
-function getSourceExpectedPath(Media $media, ?string $conversionName = NULL): string
+function getSourceExpectedPath(Media $media, ?string $conversionName = null): string
 {
     return $media->model->id
         . '/' . md5($media->id)
@@ -14,7 +14,7 @@ function getSourceExpectedPath(Media $media, ?string $conversionName = NULL): st
             : '/test.jpg');
 }
 
-function getTargetExpectedPath(Media $media, ?string $conversionName = NULL): string
+function getTargetExpectedPath(Media $media, ?string $conversionName = null): string
 {
     return $media->uuid
         . ($conversionName
@@ -57,8 +57,11 @@ beforeEach(function () {
 
         expect($this->getMediaDirectory(getSourceExpectedPath($mediaItem)))->toBeFile();
 
-        foreach($mediaItem->getGeneratedConversions() as $conversionName => $conversionPresent) {
-            $oldExpectedConversionPath = $mediaItem->model->id . '/' . md5($mediaItem->id) . '/custom_conversions/test-' . $conversionName . '.jpg';
+        foreach ($mediaItem->getGeneratedConversions() as $conversionName => $conversionPresent) {
+            $oldExpectedConversionPath =
+                $mediaItem->model->id
+                . '/' . md5($mediaItem->id)
+                . '/custom_conversions/test-' . $conversionName . '.jpg';
             expect($this->getMediaDirectory($oldExpectedConversionPath))->toBeFile();
         }
     }
@@ -98,7 +101,7 @@ it('can transform file paths including conversions', function () {
         ->not()
         ->toBeFile();
 
-    foreach($media->getMediaConversionNames() as $conversionName) {
+    foreach ($media->getMediaConversionNames() as $conversionName) {
         expect($this->getMediaDirectory(getSourceExpectedPath($media, $conversionName)))
             ->not()
             ->toBeFile();
@@ -108,7 +111,7 @@ it('can transform file paths including conversions', function () {
     expect($this->getMediaDirectory(getTargetExpectedPath($media)))
         ->toBeFile();
 
-    foreach($media->getMediaConversionNames() as $conversionName) {
+    foreach ($media->getMediaConversionNames() as $conversionName) {
         expect($this->getMediaDirectory(getTargetExpectedPath($media, $conversionName)))
             ->toBeFile();
     }
@@ -122,7 +125,7 @@ it('can transform file paths from a specific model type', function () {
     ]);
 
     // Ensure files are gone from 'old' location for model1
-    foreach(Arr::flatten($this->media['model1']) as $media) {
+    foreach (Arr::flatten($this->media['model1']) as $media) {
         expect($this->getMediaDirectory(getSourceExpectedPath($media)))
             ->not()
             ->toBeFile();
@@ -130,18 +133,18 @@ it('can transform file paths from a specific model type', function () {
 
     // Ensure files are still in place from 'old' location for model2, including
     // the conversions
-    foreach(Arr::flatten($this->media['model2']) as $media) {
+    foreach (Arr::flatten($this->media['model2']) as $media) {
         expect($this->getMediaDirectory(getSourceExpectedPath($media)))
             ->toBeFile();
 
-        foreach($media->getMediaConversionNames() as $conversionName) {
+        foreach ($media->getMediaConversionNames() as $conversionName) {
             expect($this->getMediaDirectory(getSourceExpectedPath($media, $conversionName)))
                 ->toBeFile();
         }
     }
 
     // Ensure files have arrived in new location for model1
-    foreach(Arr::flatten($this->media['model1']) as $media) {
+    foreach (Arr::flatten($this->media['model1']) as $media) {
         expect($this->getMediaDirectory(getTargetExpectedPath($media)))
             ->toBeFile();
     }
@@ -156,12 +159,12 @@ it('can transform file paths from a specific collection', function () {
 
     // Ensure files are gone from 'old' location for collection2, including
     // any conversions
-    foreach(Arr::pluck($this->media, 'collection2') as $media) {
+    foreach (Arr::pluck($this->media, 'collection2') as $media) {
         expect($this->getMediaDirectory(getSourceExpectedPath($media)))
             ->not()
             ->toBeFile();
 
-        foreach($media->getMediaConversionNames() as $conversionName) {
+        foreach ($media->getMediaConversionNames() as $conversionName) {
             expect($this->getMediaDirectory(getSourceExpectedPath($media, $conversionName)))
                 ->not()
                 ->toBeFile();
@@ -170,11 +173,11 @@ it('can transform file paths from a specific collection', function () {
 
     // Ensure files are still in place from 'old' location for collection1, including
     // the conversions
-    foreach(Arr::pluck($this->media, 'collection1') as $media) {
+    foreach (Arr::pluck($this->media, 'collection1') as $media) {
         expect($this->getMediaDirectory(getSourceExpectedPath($media)))
             ->toBeFile();
 
-        foreach($media->getMediaConversionNames() as $conversionName) {
+        foreach ($media->getMediaConversionNames() as $conversionName) {
             expect($this->getMediaDirectory(getSourceExpectedPath($media, $conversionName)))
                 ->toBeFile();
         }
@@ -182,11 +185,11 @@ it('can transform file paths from a specific collection', function () {
 
     // Ensure files have arrived in new location for collection2, including any
     // conversions
-    foreach(Arr::pluck($this->media, 'collection2') as $media) {
+    foreach (Arr::pluck($this->media, 'collection2') as $media) {
         expect($this->getMediaDirectory(getTargetExpectedPath($media)))
             ->toBeFile();
 
-        foreach($media->getMediaConversionNames() as $conversionName) {
+        foreach ($media->getMediaConversionNames() as $conversionName) {
             expect($this->getMediaDirectory(getTargetExpectedPath($media, $conversionName)))
                 ->toBeFile();
         }
@@ -206,11 +209,11 @@ it('can transform file paths from a specific model type and collection', functio
 
     // Ensure files are still in place for all the models that ought not to have
     // moved, including any conversions.  (Everything except model2/collection2)
-    foreach($notMoving as $media) {
+    foreach ($notMoving as $media) {
         expect($this->getMediaDirectory(getSourceExpectedPath($media)))
             ->toBeFile();
 
-        foreach($media->getMediaConversionNames() as $conversionName) {
+        foreach ($media->getMediaConversionNames() as $conversionName) {
             expect($this->getMediaDirectory(getSourceExpectedPath($media, $conversionName)))
                 ->toBeFile();
         }
@@ -220,13 +223,13 @@ it('can transform file paths from a specific model type and collection', functio
     expect($this->getMediaDirectory(getTargetExpectedPath($moved)))
         ->toBeFile();
 
-    foreach($moved->getMediaConversionNames() as $conversionName) {
+    foreach ($moved->getMediaConversionNames() as $conversionName) {
         expect($this->getMediaDirectory(getTargetExpectedPath($moved, $conversionName)))
             ->toBeFile();
     }
 });
 
-it('can transform paths where conversions are on another disk', function() {
+it('can transform paths where conversions are on another disk', function () {
     $media = $this->testModelWithConversionsOnOtherDisk
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
@@ -236,7 +239,7 @@ it('can transform paths where conversions are on another disk', function() {
     expect($this->getMediaDirectory(getSourceExpectedPath($media)))
         ->toBeFile();
 
-    foreach($media->getMediaConversionNames() as $conversionName) {
+    foreach ($media->getMediaConversionNames() as $conversionName) {
         expect($this->getTempDirectory() . '/media2/' . getSourceExpectedPath($media, $conversionName))
             ->toBeFile();
     }
@@ -252,7 +255,7 @@ it('can transform paths where conversions are on another disk', function() {
         ->not()
         ->toBeFile();
 
-    foreach($media->getMediaConversionNames() as $conversionName) {
+    foreach ($media->getMediaConversionNames() as $conversionName) {
         expect($this->getTempDirectory() . '/media2/' . getSourceExpectedPath($media, $conversionName))
             ->not()
             ->toBeFile();
@@ -262,13 +265,13 @@ it('can transform paths where conversions are on another disk', function() {
     expect($this->getMediaDirectory(getTargetExpectedPath($media)))
         ->toBeFile();
 
-    foreach($media->getMediaConversionNames() as $conversionName) {
+    foreach ($media->getMediaConversionNames() as $conversionName) {
         expect($this->getTempDirectory() . '/media2/' . getTargetExpectedPath($media, $conversionName))
             ->toBeFile();
     }
 });
 
-it('will error if source files are missing', function() {
+it('will error if source files are missing', function () {
     $media = $this->media['model1']['collection1'];
     Media::where('id', '<>', $media->id)->delete();
 
@@ -279,11 +282,12 @@ it('will error if source files are missing', function() {
             'targetGeneratorClass' => TestUuidPathGenerator::class,
         ])
         ->assertExitCode(1)
-        ->expectsOutput('#1 (test #1 public/public): Source media is missing (1/c4ca4238a0b923820dcc509a6f75849b/test.jpg)');
-
+        ->expectsOutput(
+            '#1 (test #1 public/public): Source media is missing (1/c4ca4238a0b923820dcc509a6f75849b/test.jpg)'
+        );
 });
 
-it('will not error if source files are missing but check is disabled', function() {
+it('will not error if source files are missing but check is disabled', function () {
     $media = $this->media['model1']['collection1'];
     Media::where('id', '<>', $media->id)->delete();
 
@@ -296,7 +300,7 @@ it('will not error if source files are missing but check is disabled', function(
     ])->assertExitCode(0);
 });
 
-it('will error if target files already exist', function() {
+it('will error if target files already exist', function () {
     $media = $this->media['model1']['collection1'];
     Media::where('id', '<>', $media->id)->delete();
 
@@ -311,7 +315,7 @@ it('will error if target files already exist', function() {
         ->expectsOutput('#1 (test #1 public/public): Target media already exists (' . $media->uuid . '/test.jpg)');
 });
 
-it('will not error if target files already exist but check has been disabled', function() {
+it('will not error if target files already exist but check has been disabled', function () {
     $media = $this->media['model1']['collection1'];
     Media::where('id', '<>', $media->id)->delete();
 

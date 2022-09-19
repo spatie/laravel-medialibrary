@@ -32,7 +32,8 @@ class TransformPathCommand extends Command
     {--ignore-missing-source-files : Do not consider missing source files to be an error},
     {--ignore-existing-target-files : Allow moving/overwriting existing target files}';
 
-    protected $description = 'Moves media stored based on the "sourceGeneratorClass" path generator to comply with the path scheme provided by "targetGeneratorClass" .';
+    protected $description = 'Moves media stored based on the "sourceGeneratorClass"
+    path generator to comply with the path scheme provided by "targetGeneratorClass" .';
 
     /*
      * Options
@@ -58,8 +59,7 @@ class TransformPathCommand extends Command
     public function handle(
         MediaRepository $mediaRepository,
         Factory $fileSystem,
-    ): int
-    {
+    ): int {
         $this->mediaRepository = $mediaRepository;
         $this->fileSystem = $fileSystem;
 
@@ -74,9 +74,10 @@ class TransformPathCommand extends Command
         }
 
         $hadErrors = false;
-        foreach($itemsToProcess as $file) {
-            if (!$this->processMediaFile($file))
+        foreach ($itemsToProcess as $file) {
+            if (! $this->processMediaFile($file)) {
                 $hadErrors = true;
+            }
         }
 
         if ($hadErrors) {
@@ -108,10 +109,12 @@ class TransformPathCommand extends Command
      */
     protected function handleArguments(): bool
     {
-        if (! $this->guardAgainstInvalidGeneratorClasses(
-            $this->argument('sourceGeneratorClass'),
-            $this->argument('targetGeneratorClass')
-        )) {
+        if (
+            ! $this->guardAgainstInvalidGeneratorClasses(
+                $this->argument('sourceGeneratorClass'),
+                $this->argument('targetGeneratorClass')
+            )
+        ) {
             return false;
         }
         $this->sourceGenerator = app($this->argument('sourceGeneratorClass'));
@@ -134,13 +137,14 @@ class TransformPathCommand extends Command
 
     protected function guardAgainstInvalidGeneratorClasses(
         string $sourceGeneratorClass,
-        string $targetGeneratorClass):
-    bool
-    {
-        foreach([
-            'Source' => $sourceGeneratorClass,
-            'Target' => $targetGeneratorClass,
-        ] as $type => $className) {
+        string $targetGeneratorClass
+    ): bool {
+        foreach (
+            [
+                'Source' => $sourceGeneratorClass,
+                'Target' => $targetGeneratorClass,
+            ] as $type => $className
+        ) {
             if (! class_exists($className)) {
                 $this->error("$type generator class '$className' not found");
                 return false;
@@ -207,7 +211,7 @@ class TransformPathCommand extends Command
      */
     protected function scan(DbCollection $items): Collection
     {
-        return $items->map(function(Media $media) {
+        return $items->map(function (Media $media) {
             return [
                 'id' => $this->generateMediaIdentifier($media),
                 'media' => $media,
@@ -219,7 +223,7 @@ class TransformPathCommand extends Command
     protected function checkFileStatus(Media $media): array
     {
         $conversionCollection = ConversionCollection::createForMedia($media);
-        $conversions = array_merge([NULL], $media->getMediaConversionNames());
+        $conversions = array_merge([null], $media->getMediaConversionNames());
 
         $mediaDisk = $this->fileSystem->disk($media->disk);
         $sourcePath = $this->sourceGenerator->getPath($media);
@@ -231,7 +235,7 @@ class TransformPathCommand extends Command
 
         $results = [];
 
-        foreach($conversions as $conversionName) {
+        foreach ($conversions as $conversionName) {
             if (!$conversionName) {
                 $sourcePathAndFilename = $sourcePath . basename($media->getPath());
                 $targetPathAndFilename = $targetPath . basename($media->getPath());
@@ -247,8 +251,9 @@ class TransformPathCommand extends Command
 
             // If source and target path are the same, we do not need to move
             // and we can skip this
-            if ($sourcePathAndFilename === $targetPathAndFilename)
+            if ($sourcePathAndFilename === $targetPathAndFilename) {
                 continue;
+            }
 
             $results[] = [
                 'name' => $conversionName,
@@ -283,53 +288,79 @@ class TransformPathCommand extends Command
                 $this->showStatusReport($item);
             }
 
-            foreach($item['status'] as $status) {
-                // Check if the source file is missing, and the matching destination file does not
-                // already exist (in case we are resuming an interrupted move operation).  For
-                // conversions, a missing source file is not considered an error but it will
-                // be flagged as a warning.
-                if (! $this->ignoreMissingSourceFiles && (! $status['source_exists'] && ! $status['target_exists'])) {
-                    if (!$status['name']) {
-                        $this->error("$identifier: Source media is missing (${status['source']})");
-                        $foundProblems = true;
-                    } else {
-                        $this->warn("$identifier: Source media for conversion '${status['name']}' is missing (${status['source']})");
-                    }
-                }
-
-                // Warn if the destination file already exists, unless the source file is missing
-                // (in case we are resuming an interrupted move operation).
-                if (! $this->ignoreExistingTargetFiles && ($status['target_exists'] && $status['source_exists'])) {
-                    if (!$status['name']) {
-                        $this->error("$identifier: Target media already exists (${status['target']})");
-                    } else {
-                        $this->error("$identifier: Target conversion '${status['name']}' already exists (${status['target']})");
-                    }
-
-                    $foundProblems = true;
-                }
+            foreach ($item['status'] as $fileInfo) {
+                $foundProblems = $this->validateFile($identifier, $fileInfo) || $foundProblems;
             }
         }
 
         return ! $foundProblems;
     }
 
+    protected function validateFile(string $identifier, array $fileInfo): bool
+    {
+        $foundProblems = false;
+
+        // Check if the source file is missing, and the matching destination file does not
+        // already exist (in case we are resuming an interrupted move operation).  For
+        // conversions, a missing source file is not considered an error but it will
+        // be flagged as a warning.
+        if (
+            ! $this->ignoreMissingSourceFiles
+            && (! $fileInfo['source_exists'] && ! $fileInfo['target_exists'])
+        ) {
+            if (!$fileInfo['name']) {
+                $this->error(
+                    "$identifier: Source media is missing (${fileInfo['source']})"
+                );
+                $foundProblems = true;
+            } else {
+                $this->warn(
+                    "$identifier: Source media for conversion '${fileInfo['name']}'"
+                    . "is missing (${fileInfo['source']})"
+                );
+            }
+        }
+
+        // Warn if the destination file already exists, unless the source file is missing
+        // (in case we are resuming an interrupted move operation).
+        if (
+            ! $this->ignoreExistingTargetFiles
+            && ($fileInfo['target_exists'] && $fileInfo['source_exists'])
+        ) {
+            if (!$fileInfo['name']) {
+                $this->error(
+                    "$identifier: Target media already exists (${fileInfo['target']})"
+                );
+            } else {
+                $this->error(
+                    "$identifier: Target conversion '${fileInfo['name']}'"
+                    . "already exists (${fileInfo['target']})"
+                );
+            }
+
+            $foundProblems = true;
+        }
+
+        return $foundProblems;
+    }
+
+
     protected function showStatusReport(array $item): void
     {
         $this->newLine(1);
         $this->info($item['id']);
 
-        foreach($item['status'] as $status) {
+        foreach ($item['status'] as $status) {
             $this->info("  " . ($status['name'] ?? 'Primary Media') . ":");
             $this->info("    Source: ${status['source']} (exists: " . ($status['source_exists'] ? "yes" : "no") . ")");
             $this->info("    Target: ${status['target']} (exists: " . ($status['target_exists'] ? "yes" : "no") . ")");
             if (!$status['source_exists'] && $status['target_exists']) {
                 $this->info("    Status: Already moved");
-            } else if ($status['source_exists'] && !$status['target_exists']) {
+            } elseif ($status['source_exists'] && !$status['target_exists']) {
                 $this->info("    Status: To be moved");
-            } else if (!$status['source_exists'] && !$status['target_exists']) {
+            } elseif (!$status['source_exists'] && !$status['target_exists']) {
                 $this->info("    Status: Source missing");
-            } else if ($status['source_exists'] && $status['target_exists']) {
+            } elseif ($status['source_exists'] && $status['target_exists']) {
                 $this->info("    Status: Target to be replaced");
             }
         }
@@ -344,7 +375,7 @@ class TransformPathCommand extends Command
         $identifier = $itemData['id'];
         $media = $itemData['media'];
 
-        foreach($itemData['status'] as $item) {
+        foreach ($itemData['status'] as $item) {
             $this->rateLimiter();
 
             $isConversion = !!$item['name'];
