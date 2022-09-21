@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.5.1 - 2022-09-21
+
+### What's Changed
+
+- Allow the Github actions to run locally via act by @emielmolenaar in https://github.com/spatie/laravel-medialibrary/pull/3028
+- Never explicitly create directories on GCS, just as with S3 by @boboldehampsink in https://github.com/spatie/laravel-medialibrary/pull/3037
+
+### New Contributors
+
+- @boboldehampsink made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3037
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.5.0...10.5.1
+
 ## 10.5.0 - 2022-09-12
 
 ### What's Changed
