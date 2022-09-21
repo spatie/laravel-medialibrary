@@ -313,7 +313,7 @@ class Filesystem
             ? $media->conversions_disk
             : $media->disk;
 
-        if (! in_array($diskDriverName, ['s3'], true)) {
+        if (! in_array($diskDriverName, ['s3', 'gcs'], true)) {
             $this->filesystem->disk($diskName)->makeDirectory($directory);
         }
 
