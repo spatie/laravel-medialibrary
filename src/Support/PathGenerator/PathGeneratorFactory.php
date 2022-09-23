@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Support\PathGenerator;
 
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidPathGenerator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class PathGeneratorFactory
 {
@@ -21,7 +22,11 @@ class PathGeneratorFactory
         $defaultPathGeneratorClass = config('media-library.path_generator');
 
         foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
-            if (is_a($media->model_type, $modelClass, true)) {
+            $modelType = array_key_exists($media->model_type, Relation::$morphMap)
+                ? Relation::getMorphedModel($media->model_type)
+                : $media->model_type;
+
+            if (is_a($modelType, $modelClass, true)) {
                 return $customPathGeneratorClass;
             }
         }
