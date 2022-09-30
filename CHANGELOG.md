@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.5.2 - 2022-09-30
+
+### What's Changed
+
+- Fix for audio only "video" files by @rcerljenko in https://github.com/spatie/laravel-medialibrary/pull/3046
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.5.1...10.5.2
+
 ## 10.5.1 - 2022-09-21
 
 ### What's Changed
