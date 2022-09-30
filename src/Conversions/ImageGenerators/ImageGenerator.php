@@ -11,7 +11,7 @@ abstract class ImageGenerator
     /*
      * This function should return a path to an image representation of the given file.
      */
-    abstract public function convert(string $file, Conversion $conversion = null): string;
+    abstract public function convert(string $file, Conversion $conversion = null): ?string;
 
     public function canConvert(Media $media): bool
     {
