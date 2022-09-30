@@ -21,7 +21,7 @@ class PerformConversionAction
 
         $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
 
-        if (!$copiedOriginalFile) {
+        if (! $copiedOriginalFile) {
             return;
         }
 
