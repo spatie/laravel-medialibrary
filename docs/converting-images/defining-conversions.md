@@ -15,7 +15,7 @@ Here's a video that shows how to working with conversion.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1i-HTyyEmvM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
 
 ## A single conversion
 
@@ -79,7 +79,7 @@ use Spatie\Image\Manipulations;
               ->border(10, 'black', Manipulations::BORDER_OVERLAY);
               
         $this->addMediaConversion('thumb-cropped')
-            ->crop('crop-center', 400, 400); // Trim or crop the image to the center for sepecified width and height.
+            ->crop('crop-center', 400, 400); // Trim or crop the image to the center for specified width and height.
     }
 ```
 

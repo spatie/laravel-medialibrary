@@ -3,7 +3,7 @@ title: Base installation
 weight: 4
 ---
 
-Media library can be installed via Composer:
+Media Library can be installed via Composer:
 
 If you only use the base package issue this command:
 
@@ -11,11 +11,7 @@ If you only use the base package issue this command:
 composer require "spatie/laravel-medialibrary:^10.0.0"
 ```
 
-If you have a license for media library pro, you should use `laravel-media-library-pro`
-
-```bash
-composer require spatie/laravel-medialibrary-pro
-```
+If you have a license for Media Library Pro, you should install `spatie/laravel-media-library-pro` instead. Please refer to our [Media Library Pro installation instructions](https://spatie.be/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/installation) to continue.
 
 ## Preparing the database
 
@@ -288,7 +284,7 @@ return [
 ];
 ```
 
-Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/filesystem#configuration).
+Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/filesystem#configuration). If possible, we recommend [using a remote filesystem like S3](https://twitter.com/taylorotwell/status/1153326292412129280) instead of your local filesystem to prevent security issues.
 
 ## Setting up a queue
 

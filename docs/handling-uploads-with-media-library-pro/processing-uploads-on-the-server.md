@@ -11,7 +11,7 @@ This video shows you how Media Library Pro uses temporary uploads under the hood
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/mtQFZu72CCo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
 
 ## Enabling temporary uploads
 
@@ -155,9 +155,9 @@ The content of that request key will be an array. For each file uploaded that ar
 - `uuid`: the UUID of a `Media` model. For newly uploaded files that have not been associated to a model yet, the `Media` model will be associated with a `TemporaryUpload` model
 - `order`: the order in which this item should be stored in a media collection.
 
-## Validating responses
+## Validating requests
 
-Even though the upload components do some validation of their own, we highly recommend always validating responses on the server as well.
+Even though the upload components do some client-side validation, we highly recommend always validating requests on the server as well.
 
 You should handle validation in a form request. On the form request you should use the `Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia` trait. This will give you access to the `validateSingleMedia` and `validateMultipleMedia` methods.
 
@@ -257,13 +257,13 @@ class StoreLivewireCollectionCustomPropertyRequest extends FormRequest
 }
 ```
 
-## Processing responses
+## Processing requests
 
-After you've validated the response, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model).
+After you've validated the request, you should persist the changes to the media library. The media library provides two methods for that: `syncFromMediaLibraryRequest` and `addFromMediaLibraryRequest`. Both these methods are available on all [models that handle media](/docs/laravel-medialibrary/v10/basic-usage/preparing-your-model). Either way call the method `toMediaCollection` to update your media-model in the database. This will also ensure that temporary uploads are converted to the appropriate model.
 
 ### `addFromMediaLibraryRequest`
 
-This method will add all media whose `uuid` is in the response to a media collection of a model. Existing media associated on the model will remain untouched.
+This method will add all media whose `uuid` is in the request to a media collection of a model. Existing media associated on the model will remain untouched.
 
 You should probably use this method when only accepting new uploads.
 
@@ -339,6 +339,14 @@ $yourModel
 ```
 
 Alternatively, you can pass a callable to `usingName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
+
+For this we have to add the `editableName` attribute to the component:
+
+```html
+<x-media-library-attachment name="images" editableName />
+```
+
+The component now will render an editable input field for the name.
 
 In this example we're going to lowercase the name of the uploaded file before adding it the media library.
 

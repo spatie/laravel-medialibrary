@@ -1,7 +1,5 @@
 <?php
 
-
-
 it('can save conversions on a separate disk', function () {
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestJpg())

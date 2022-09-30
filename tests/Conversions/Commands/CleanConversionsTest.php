@@ -3,8 +3,11 @@
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerators\TestPathGeneratorConversionsInOriginalImageDirectory;
 
 beforeEach(function () {
     $this->media['model1']['collection1'] = $this->testModel
@@ -139,14 +142,14 @@ it('can clean orphan files in the media disk', function () {
     expect($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"))->toBeFile();
 });
 
-it('can clean responsive images', function () {
+it('can clean responsive images for deprecated conversions', function () {
     $media = $this->testModelWithResponsiveImages
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
         ->toMediaCollection();
 
-    $deprecatedResponsiveImageFileName = 'test___deprecatedConversion_50_41.jpg';
-    $deprecatedReponsiveImagesPath = $this->getMediaDirectory("5/responsive-images/{$deprecatedResponsiveImageFileName}");
+    $deprecatedResponsiveImageFileName = "{$media->file_name}___deprecatedConversion_50_41.jpg";
+    $deprecatedReponsiveImagesPath = $this->getMediaDirectory("{$media->id}/responsive-images/{$deprecatedResponsiveImageFileName}");
     touch($deprecatedReponsiveImagesPath);
 
     $originalResponsiveImagesContent = $media->responsive_images;
@@ -164,6 +167,32 @@ it('can clean responsive images', function () {
     $this->assertFileDoesNotExist($deprecatedReponsiveImagesPath);
 });
 
+it('can clean responsive images for active conversions without responsive images', function () {
+    $media = $this->testModelWithConversion
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->toMediaCollection();
+
+    $thumbResponsiveImageFileName = "{$media->file_name}___thumb_340_280.jpg";
+    $thumbReponsiveImagesPath = $this->getMediaDirectory("{$media->id}/responsive-images/{$thumbResponsiveImageFileName}");
+    mkdir($this->getMediaDirectory("{$media->id}/responsive-images"));
+    touch($thumbReponsiveImagesPath);
+
+    $originalResponsiveImagesContent = $media->responsive_images;
+    $newResponsiveImages = $originalResponsiveImagesContent;
+    $newResponsiveImages['thumb']['base64svg'] = "data:image/svg+xml;base64,PCPg==";
+    $newResponsiveImages['thumb']['urls'][0] = $thumbResponsiveImageFileName;
+    $media->responsive_images = $newResponsiveImages;
+    $media->save();
+
+    $this->artisan('media-library:clean');
+
+    $media->refresh();
+
+    expect($media->responsive_images)->toEqual($originalResponsiveImagesContent);
+    $this->assertFileDoesNotExist($thumbReponsiveImagesPath);
+});
+
 it('will throw an exception when using a non existing disk', function () {
     $this->expectException(DiskDoesNotExist::class);
 
@@ -171,4 +200,63 @@ it('will throw an exception when using a non existing disk', function () {
 
     $this->artisan('media-library:clean')
         ->assertExitCode(1);
+});
+
+it('can clean deprecated conversion files in custom path', function () {
+    $this->config = app('config');
+
+    $this->urlGenerator = new DefaultUrlGenerator($this->config);
+
+    $this->pathGenerator = new CustomPathGenerator();
+
+    $this->urlGenerator->setPathGenerator($this->pathGenerator);
+
+    config()->set('media-library.custom_path_generators', [
+        TestModelWithConversion::class => CustomPathGenerator::class,
+    ]);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    $deprecatedImage = $this->getMediaDirectory(md5($media->id) . "/c/test-deprecated.jpg");
+
+    touch($deprecatedImage);
+    expect($deprecatedImage)->toBeFile();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($this->getMediaDirectory(md5($media->id) . "/c/test-thumb.jpg"))->toBeFile();
+});
+
+it('can clean deprecated conversion files in same path as original image', function () {
+    $this->config = app('config');
+
+    $this->urlGenerator = new DefaultUrlGenerator($this->config);
+
+    $this->pathGenerator = new TestPathGeneratorConversionsInOriginalImageDirectory();
+
+    $this->urlGenerator->setPathGenerator($this->pathGenerator);
+
+    config()->set('media-library.custom_path_generators', [
+        TestModelWithConversion::class => TestPathGeneratorConversionsInOriginalImageDirectory::class,
+    ]);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    $deprecatedImage = $this->getMediaDirectory("{$media->id}/test-deprecated.jpg");
+
+    touch($deprecatedImage);
+    expect($deprecatedImage)->toBeFile();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($this->getMediaDirectory("{$media->id}/test-thumb.jpg"))->toBeFile();
+    expect($this->getMediaDirectory("{$media->id}/test.jpg"))->toBeFile();
 });

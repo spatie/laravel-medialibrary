@@ -26,7 +26,7 @@ class Video extends ImageGenerator
         $duration = $ffmpeg->getFFProbe()->format($file)->get('duration');
 
         $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
-        $seconds = $duration < $seconds ? 0 : $seconds;
+        $seconds = $duration <= $seconds ? 0 : $seconds;
 
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 

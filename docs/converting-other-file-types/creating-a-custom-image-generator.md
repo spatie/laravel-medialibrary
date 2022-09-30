@@ -5,6 +5,8 @@ weight: 2
 
 If you want to generate a conversion for a file type that is not covered out of the box you can easily create your own  media generator.
 
+Generators can only be used to generate images, intended to be used as a thumbnail representation of files. Converting to any other file format other than images is unsupported.
+
 In the following example we'll create a custom generator that can convert a Powerpoint to an image.
 
 ## Creating a custom image generator

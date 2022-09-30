@@ -48,10 +48,21 @@ test('a media instance is htmlable', function () {
 
 test('converting a non image to an image tag will not blow up', function () {
     $media = $this->testModelWithConversion
-        ->addMedia($this->getTestPdf())
+        ->addMedia($this->getTestTiff())
         ->toMediaCollection();
 
     expect($media->img())->toEqual('');
+});
+
+it('can render pdf thumbnail as an image', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestPdf())
+        ->toMediaCollection();
+
+    $this->assertEquals(
+        "<img src=\"/media/{$media->id}/conversions/test-thumb.jpg\" alt=\"test\">",
+        $media->img('thumb'),
+    );
 });
 
 it('can render itself with responsive images and a placeholder', function () {
@@ -77,7 +88,7 @@ it('can render itself with responsive images of a conversion and a placeholder',
     expect((string)$image)->toContain('data:image/svg+xml;base64,');
 });
 
-it('will not rendering extra javascript or including base64 svg when tiny placeholders are turned off', function () {
+it('will not render extra javascript or include base64 svg when tiny placeholders are turned off', function () {
     config()->set('media-library.responsive_images.use_tiny_placeholders', false);
 
     $media = $this->testModelWithConversion
@@ -87,7 +98,7 @@ it('will not rendering extra javascript or including base64 svg when tiny placeh
 
     $imgTag = $media->refresh()->img();
 
-    expect($imgTag)->toEqual('<img srcset="http://localhost/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, http://localhost/media/2/responsive-images/test___media_library_original_284_234.jpg 284w, http://localhost/media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">');
+    expect($imgTag)->toEqual('<img srcset="/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, /media/2/responsive-images/test___media_library_original_284_234.jpg 284w, /media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">');
 });
 
 test('the loading attribute can be specified on the conversion', function () {

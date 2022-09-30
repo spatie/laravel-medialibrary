@@ -173,9 +173,9 @@ it('can generate responsive images', function () {
     $media = $model->getMedia('images')->first();
 
     $this->assertEquals([
-        'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-        'http://localhost/media/1/responsive-images/test___media_library_original_284_234.jpg',
-        'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
+        '/media/1/responsive-images/test___media_library_original_340_280.jpg',
+        '/media/1/responsive-images/test___media_library_original_284_234.jpg',
+        '/media/1/responsive-images/test___media_library_original_237_195.jpg',
     ], $media->getResponsiveImageUrls());
 
     expect($media->getResponsiveImageUrls('non-existing-conversion'))->toEqual([]);
@@ -198,9 +198,9 @@ it('can generate responsive images on condition', function () {
     $media = $model->getMedia('images')->first();
 
     $this->assertEquals([
-        'http://localhost/media/1/responsive-images/test___media_library_original_340_280.jpg',
-        'http://localhost/media/1/responsive-images/test___media_library_original_284_234.jpg',
-        'http://localhost/media/1/responsive-images/test___media_library_original_237_195.jpg',
+        '/media/1/responsive-images/test___media_library_original_340_280.jpg',
+        '/media/1/responsive-images/test___media_library_original_284_234.jpg',
+        '/media/1/responsive-images/test___media_library_original_237_195.jpg',
     ], $media->getResponsiveImageUrls());
 
     expect($media->getResponsiveImageUrls('non-existing-conversion'))->toEqual([]);

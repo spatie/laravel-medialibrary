@@ -3,6 +3,7 @@
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 beforeEach(function () {
     $this->config = app('config');
@@ -35,4 +36,16 @@ it('can get the custom path for media with conversions', function () {
     $pathRelativeToRoot = md5($media->id).'/c/test-'.$conversion->getName().'.'.$conversion->getResultExtension($media->extension);
 
     expect($this->urlGenerator->getPathRelativeToRoot())->toEqual($pathRelativeToRoot);
+});
+
+it('can use a custom path generator on the model', function () {
+    config()->set('media-library.custom_path_generators', [
+        TestModelWithConversion::class => CustomPathGenerator::class,
+    ]);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection();
+
+    expect($media->getUrl())->toEqual('/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
 });

@@ -1,10 +1,6 @@
 name: run-tests
 
-on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
+on: [push, pull_request]
 
 jobs:
     run-tests:
@@ -26,10 +22,10 @@ jobs:
               run: sudo apt-get update --fix-missing
 
             - name: Install ffmpeg
-              run: sudo apt-get install ffmpeg
+              run: sudo apt-get -y install ffmpeg
 
             - name: Install ghostscript
-              run: sudo apt-get install ghostscript
+              run: sudo apt-get -y install ghostscript
 
             - name: Checkout code
               uses: actions/checkout@v2

@@ -5,7 +5,7 @@ weight: 1
 
 By default, all files are stored on the disk specified as the `disk_name` in the config file.
 
-Files can also be stored [on any filesystem that is configured in your Laravel app](http://laravel.com/docs/7.x/filesystem#configuration). When adding a file to the media library you can choose on which disk the file should be stored. This is useful when you have a combination of small files that should be stored locally and big files that you want to save on S3.
+Files can also be stored [on any filesystem that is configured in your Laravel app](http://laravel.com/docs/9.x/filesystem#configuration). When adding a file to the media library you can choose on which disk the file should be stored. This is useful when you have a combination of small files that should be stored locally and big files that you want to save on S3.
 
 `toMediaCollection` accepts a disk name as a second parameter:
 
@@ -33,5 +33,5 @@ Here's a video that shows how to work with multiple filesystems.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/kUXKhjKvmsY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
 

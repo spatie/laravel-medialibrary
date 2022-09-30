@@ -1,3 +1,6 @@
+
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
+
 <p align="center"><img src="/art/socialcard.png" alt="Social Card of Laravel Media Library"></p>
 
 # Associate files with Eloquent models
@@ -49,14 +52,26 @@ You'll find the documentation on [https://spatie.be/docs/laravel-medialibrary](h
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
 
-If you've found a bug regarding security please mail [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
+If you've found a bug regarding security please mail [security@spatie.be](mailto:security@spatie.be) instead of using the issue tracker.
 
 ## Testing
 
 You can run the tests with:
 
 ```bash
-vendor/bin/phpunit
+./vendor/bin/pest
+```
+
+You can run the Github actions locally with [act](https://github.com/nektos/act). You have to use a [custom image](https://github.com/shivammathur/setup-php#local-testing-setup) for the ubuntu-latest platform to get PHP up and running properly. To run the tests locally, run:
+
+```bash
+act -P ubuntu-latest=shivammathur/node:latest
+```
+
+To run a specific workflow, for example `run-tests.yml` run:
+
+```bash
+act -P ubuntu-latest=shivammathur/node:latest -j run-tests
 ```
 
 ## Upgrading
@@ -69,11 +84,11 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover any security related issues, please email [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
+If you discover any security related issues, please email [security@spatie.be](mailto:security@spatie.be) instead of using the issue tracker.
 
 ## Credits
 

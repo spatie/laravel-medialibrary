@@ -64,7 +64,7 @@ In this video you'll see a demo of the attachment component.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/9TwzBSTEKjo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
 
 ## Handling multiple uploads
 
@@ -165,7 +165,7 @@ In this video you'll see the collection component in action
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/s9ZOljcq05w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
 
 ### Using custom properties
 

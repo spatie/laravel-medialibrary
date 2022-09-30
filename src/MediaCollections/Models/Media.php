@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\MediaCollections\Models;
 
 use DateTimeInterface;
+use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Mail\Attachment;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
@@ -26,6 +28,7 @@ use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
@@ -36,7 +39,7 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
  * @property-read string $previewUrl
  * @property-read string $originalUrl
  */
-class Media extends Model implements Responsable, Htmlable
+class Media extends Model implements Responsable, Htmlable, Attachable
 {
     use IsSorted;
     use CustomMediaProperties;
@@ -81,16 +84,65 @@ class Media extends Model implements Responsable, Htmlable
 
     public function getTemporaryUrl(DateTimeInterface $expiration, string $conversionName = '', array $options = []): string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getTemporaryUrl($expiration, $options);
     }
 
     public function getPath(string $conversionName = ''): string
     {
-        $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
+        $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getPath();
+    }
+
+    public function getPathRelativeToRoot(string $conversionName = ''): string
+    {
+        return $this->getUrlGenerator($conversionName)->getPathRelativeToRoot();
+    }
+
+    public function getUrlGenerator(string $conversionName): UrlGenerator
+    {
+        return UrlGeneratorFactory::createForMedia($this, $conversionName);
+    }
+
+    public function getAvailableUrl(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getUrl($conversionName);
+        }
+
+        return $this->getUrl();
+    }
+
+    public function getAvailableFullUrl(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getFullUrl($conversionName);
+        }
+
+        return $this->getFullUrl();
+    }
+
+    public function getAvailablePath(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getPath($conversionName);
+        }
+
+        return $this->getPath();
     }
 
     protected function type(): Attribute
@@ -168,6 +220,7 @@ class Media extends Model implements Responsable, Htmlable
 
     /**
      * @param mixed $value
+     *
      * @return $this
      */
     public function setCustomProperty(string $name, $value): self
@@ -381,5 +434,21 @@ class Media extends Model implements Responsable, Htmlable
                 fn (Builder $builder) => $builder->where('session_id', session()->getId())
             )
             ->get();
+    }
+
+    public function mailAttachment(string $conversion = ''): Attachment
+    {
+        $attachment = Attachment::fromStorageDisk($this->disk, $this->getPathRelativeToRoot($conversion))->as($this->file_name);
+
+        if ($this->mime_type) {
+            $attachment->withMime($this->mime);
+        }
+
+        return $attachment;
+    }
+
+    public function toMailAttachment(): Attachment
+    {
+        return $this->mailAttachment();
     }
 }

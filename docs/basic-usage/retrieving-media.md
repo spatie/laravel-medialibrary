@@ -95,7 +95,7 @@ $mediaItems[0]->delete();
 
 When a `Media` instance gets deleted all related files will be removed from the filesystem.
 
-Deleting a model with associated media will also delete all associated files.
+Deleting a model with associated media will also delete all associated files. If you use soft deletes, the associated files won't be deleted.
 
 ```php
 $yourModel->delete(); // all associated files will be deleted as well
@@ -110,7 +110,7 @@ $yourModel->deletePreservingMedia(); // all associated files will be preserved
 If you want to remove all associated media in a specific collection you can use the `clearMediaCollection` method. It also accepts the collection name as an optional parameter:
 
 ```php
-$yourModel->clearMediaCollection(); // all media will be deleted
+$yourModel->clearMediaCollection(); // all media in the "default" collection will be deleted
 
 $yourModel->clearMediaCollection('images'); // all media in the images collection will be deleted
 ```
@@ -131,4 +131,4 @@ Here's are a couple of videos on adding and retrieving media.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/0liOx4T8RmY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Want to see more videos like these? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/videos/discovering-laravel-media-library).
+Want to see more videos like these? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
