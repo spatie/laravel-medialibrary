@@ -9,6 +9,8 @@ Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `webp`, `pdf
 
 Internally, [spatie/image](https://docs.spatie.be/image/v1/) is used to manipulate the images. You can use [any manipulation function](https://docs.spatie.be/image) from that package.
 
+Please check [the image generator docs](/laravel-medialibrary/v10/converting-other-file-types/using-image-generators) for additional installation requirements when working with PDF, SVG or video formats.
+
 ## Are you a visual learner?
 
 Here's a video that shows how to working with conversion.
@@ -120,7 +122,7 @@ $media->getUrl('thumb') // returns ''
 
 ## Queuing conversions
 
-By default, a conversion will be added to the queue that you've [specified in the configuration](https://docs.spatie.be/laravel-medialibrary/v10/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
+By default, a conversion will be added to the queue that you've [specified in the configuration](/laravel-medialibrary/v10/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
 
 ```php
 // in your model
