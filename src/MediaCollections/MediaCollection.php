@@ -29,10 +29,10 @@ class MediaCollection
     public bool $singleFile = false;
 
     /** @var array<string, string> */
-    public array $fallbackUrl = [];
+    public array $fallbackUrls = [];
 
     /** @var array<string, string> */
-    public array $fallbackPath = [];
+    public array $fallbackPaths = [];
 
     public function __construct(
         public string $name
@@ -105,7 +105,7 @@ class MediaCollection
             $conversionName = 'default';
         }
 
-        $this->fallbackUrl[$conversionName] = $url;
+        $this->fallbackUrls[$conversionName] = $url;
 
         return $this;
     }
@@ -116,7 +116,7 @@ class MediaCollection
             $conversionName = 'default';
         }
 
-        $this->fallbackPath[$conversionName] = $path;
+        $this->fallbackPaths[$conversionName] = $path;
 
         return $this;
     }
