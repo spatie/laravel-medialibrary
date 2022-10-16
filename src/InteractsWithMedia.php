@@ -344,24 +344,24 @@ trait InteractsWithMedia
 
     public function getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        $collection = optional($this->getMediaCollection($collectionName));
+        $fallbackUrl = optional($this->getMediaCollection($collectionName))->fallbackUrl;
 
         if (in_array($conversionName, ['', 'default'], true)) {
-            return $collection->fallbackUrl['default'] ?? '';
+            return $fallbackUrl['default'] ?? '';
         }
 
-        return $collection->fallbackUrl[$conversionName] ?? $collection->fallbackUrl['default'] ?? '';
+        return $fallbackUrl[$conversionName] ?? $fallbackUrl['default'] ?? '';
     }
 
     public function getFallbackMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        $collection = optional($this->getMediaCollection($collectionName));
+        $fallbackPath = optional($this->getMediaCollection($collectionName))->fallbackPath;
 
         if (in_array($conversionName, ['', 'default'], true)) {
-            return $collection->fallbackPath['default'] ?? '';
+            return $fallbackPath['default'] ?? '';
         }
 
-        return $collection->fallbackPath[$conversionName] ?? $collection->fallbackPath['default'] ?? '';
+        return $fallbackPath[$conversionName] ?? $fallbackPath['default'] ?? '';
     }
 
     /*
