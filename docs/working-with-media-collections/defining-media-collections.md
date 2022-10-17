@@ -90,15 +90,15 @@ public function registerMediaCollections(): void
 In this way, the image sizes are always as expected:
 
 ```php
-$model->getFirstMediaUrl('avatar'); // default_avatar.jpg
-$model->getFirstMediaUrl('avatar', 'thumb'); // default_avatar_thumb.jpg
-$model->getFirstMediaUrl('avatar', 'thumb_2'); // default_avatar.jpg
+$yourModel->getFirstMediaUrl('avatar'); // default_avatar.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb'); // default_avatar_thumb.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb_2'); // default_avatar.jpg
 
 // ...
 
-$model->getFirstMediaPath('avatar'); // .../default_avatar.jpg
-$model->getFirstMediaPath('avatar', 'thumb'); // .../default_avatar_thumb.jpg
-$model->getFirstMediaPath('avatar', 'thumb_2'); // .../default_avatar.jpg
+$yourModel->getFirstMediaPath('avatar'); // .../default_avatar.jpg
+$yourModel->getFirstMediaPath('avatar', 'thumb'); // .../default_avatar_thumb.jpg
+$yourModel->getFirstMediaPath('avatar', 'thumb_2'); // .../default_avatar.jpg
 ```
 
 ## Only allow certain files in a collection
