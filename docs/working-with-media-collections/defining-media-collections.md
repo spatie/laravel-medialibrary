@@ -87,7 +87,7 @@ public function registerMediaCollections(): void
 }
 ```
 
-This way, the image sizes are always as expected:
+In this way, the image sizes are always as expected:
 
 ```php
 $model->getFirstMediaUrl('avatar'); // default_avatar.jpg
