@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.6.0 - 2022-10-21
+
+### What's Changed
+
+- Hint to additional installation instructions by @driesvints in https://github.com/spatie/laravel-medialibrary/pull/3047
+- PHP 8.2 Build by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3061
+- Add fallback path/url support for conversions by @mertasan in https://github.com/spatie/laravel-medialibrary/pull/3062
+
+### New Contributors
+
+- @mertasan made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3062
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.5.2...10.6.0
+
 ## 10.5.2 - 2022-09-30
 
 ### What's Changed
