@@ -3,12 +3,14 @@
 namespace Spatie\MediaLibrary\MediaCollections;
 
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
@@ -129,25 +131,37 @@ class Filesystem
             : $media->getDiskDriverName();
 
         if ($diskDriverName === 'local') {
-            $this->filesystem
+            $success = $this->filesystem
                 ->disk($diskName)
                 ->put($destination, $file);
 
             fclose($file);
 
+            if (!$success) {
+                Throw DiskCannotBeAccessed::create($diskName);
+
+                DB::rollback();
+            }
+
             return;
         }
 
-        $this->filesystem
-            ->disk($diskName)
-            ->put(
-                $destination,
-                $file,
-                $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()),
-            );
+        $success = $this->filesystem
+                ->disk($diskName)
+                ->put(
+                    $destination,
+                    $file,
+                    $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()),
+                );
 
         if (is_resource($file)) {
             fclose($file);
+        }
+
+        if (!$success) {
+            Throw DiskCannotBeAccessed::create($diskName);
+
+            DB::rollback();
         }
     }
 

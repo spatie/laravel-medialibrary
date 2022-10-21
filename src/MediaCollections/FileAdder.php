@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\MediaCollections;
 
 use Closure;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
@@ -431,6 +432,8 @@ class FileAdder
 
         $this->checkGenerateResponsiveImages($media);
 
+        DB::beginTransaction();
+
         if (! $media->getConnectionName()) {
             $media->setConnection($model->getConnectionName());
         }
@@ -470,6 +473,8 @@ class FileAdder
                 $model->clearMediaCollectionExcept($media->collection_name, $collectionMedia->reverse()->take($collectionSizeLimit));
             }
         }
+
+        DB::commit();
     }
 
     protected function getMediaCollection(string $collectionName): ?MediaCollection
