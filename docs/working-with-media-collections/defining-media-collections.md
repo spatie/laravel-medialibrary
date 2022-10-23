@@ -58,6 +58,49 @@ public function registerMediaCollections(): void
 }
 ```
 
+When you use a fallback URL/path, [conversions](https://spatie.be/docs/laravel-medialibrary/v10/converting-images/defining-conversions) will use the default fallback URL/path if the media do not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
+
+```php
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+// ...
+
+public function registerMediaCollections(): void
+{
+    $this
+        ->addMediaCollection('avatar')
+        ->useFallbackUrl('/default_avatar.jpg')
+        ->useFallbackUrl('/default_avatar_thumb.jpg', 'thumb')
+        ->useFallbackPath(public_path('/default_avatar.jpg'))
+        ->useFallbackPath(public_path('/default_avatar_thumb.jpg'), 'thumb')
+        ->registerMediaConversions(function (Media $media) {
+            $this
+                ->addMediaConversion('thumb')
+                ->width(50)
+                ->height(50);
+                
+            $this
+                ->addMediaConversion('thumb_2')
+                ->width(100)
+                ->height(100);
+        });
+}
+```
+
+In this way, the image sizes are always as expected:
+
+```php
+$yourModel->getFirstMediaUrl('avatar'); // default_avatar.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb'); // default_avatar_thumb.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb_2'); // default_avatar.jpg
+
+// ...
+
+$yourModel->getFirstMediaPath('avatar'); // .../default_avatar.jpg
+$yourModel->getFirstMediaPath('avatar', 'thumb'); // .../default_avatar_thumb.jpg
+$yourModel->getFirstMediaPath('avatar', 'thumb_2'); // .../default_avatar.jpg
+```
+
 ## Only allow certain files in a collection
 
 You can pass a callback to `acceptsFile` that will check if a file is allowed into the collection. In this example we only accept `jpeg` files.

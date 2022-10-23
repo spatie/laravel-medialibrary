@@ -293,7 +293,7 @@ trait InteractsWithMedia
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return $this->getFallbackMediaUrl($collectionName) ?: '';
+            return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
         }
 
         if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
@@ -317,7 +317,7 @@ trait InteractsWithMedia
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return $this->getFallbackMediaUrl($collectionName) ?: '';
+            return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
         }
 
         if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
@@ -342,14 +342,26 @@ trait InteractsWithMedia
             ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
     }
 
-    public function getFallbackMediaUrl(string $collectionName = 'default'): string
+    public function getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return optional($this->getMediaCollection($collectionName))->fallbackUrl ?? '';
+        $fallbackUrls = optional($this->getMediaCollection($collectionName))->fallbackUrls;
+
+        if (in_array($conversionName, ['', 'default'], true)) {
+            return $fallbackUrls['default'] ?? '';
+        }
+
+        return $fallbackUrls[$conversionName] ?? $fallbackUrls['default'] ?? '';
     }
 
-    public function getFallbackMediaPath(string $collectionName = 'default'): string
+    public function getFallbackMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return optional($this->getMediaCollection($collectionName))->fallbackPath ?? '';
+        $fallbackPaths = optional($this->getMediaCollection($collectionName))->fallbackPaths;
+
+        if (in_array($conversionName, ['', 'default'], true)) {
+            return $fallbackPaths['default'] ?? '';
+        }
+
+        return $fallbackPaths[$conversionName] ?? $fallbackPaths['default'] ?? '';
     }
 
     /*
@@ -362,7 +374,7 @@ trait InteractsWithMedia
         $media = $this->getFirstMedia($collectionName);
 
         if (! $media) {
-            return $this->getFallbackMediaPath($collectionName) ?: '';
+            return $this->getFallbackMediaPath($collectionName, $conversionName) ?: '';
         }
 
         if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
