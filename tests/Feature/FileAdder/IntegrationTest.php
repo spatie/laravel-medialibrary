@@ -603,6 +603,8 @@ it('will throw and exception and not create a record in database if file cannot 
 
     config()->set('filesystems.disks.minio_disk', [
         'driver' => 's3',
+        'secret' => 'test',
+        'key' => 'test',
         'region' => 'test',
         'bucket' => 'test',
     ]);
