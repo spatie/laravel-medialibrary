@@ -5,7 +5,7 @@ weight: 1
 
 Websites are viewed on various devices with widely differing screen sizes and connection speeds. When serving images it's best not to use the same image for all devices. A large image might be fine on a desktop computer with a fast internet connection, but on a small mobile device with limited bandwidth, the download might take a long time.
 
-The media library has support for generating the necessary files and html markup for responsive images. In addition the medialibrary also has support for progressive image loading.
+The media library has support for generating the necessary files and HTML markup for responsive images. In addition the medialibrary also has support for progressive image loading.
 
 Try a [demo of the concept](/laravel-medialibrary/v10/responsive-images/demo) here.
 
@@ -59,13 +59,13 @@ At the same time we can use this technique to use this smallest picture as the p
 
 ### Progressive image loading
 
-When visiting a [Medium](https://medium.com/) blog you might have noticed (on a slower connection) that before a full image is displayed a blurred version of the image is shown. The blurred image is replace by a high res one as soon as that big version has been downloaded. The blurred image is actually a very tiny image that's being sized up.
+When visiting a [Medium](https://medium.com/) blog you might have noticed (on a slower connection) that before a full image is displayed, a blurred version of the image is shown. The blurred image is replaced by a high res one as soon as that big version has been downloaded. The blurred image is actually a very tiny image that's being sized up.
 
 The advantage of displaying a blurred version is that a visitor has a hint of what is going to be displayed very early on and that your page layout is ready right away.
 
 The media library comes with support for progressive image loading out of the box. The tiny blurred image will automatically be generated whenever you leverage responsive images. By replacing the `sizes` attribute on load with JavaScript, the tiny placeholder will be swapped with a bigger version as soon as it is downloaded.
 
-This placeholder is base64-encoded as SVG inside the `srcset` attribute, so it is available in the initial response right away without extra network request.
+This placeholder is base64-encoded as SVG inside the `srcset` attribute, so it is available in the initial response right away without an extra network request.
 The SVG has the exact same ratio as the original image, so the layout should not flicker during the swap.
 
 If you want to leverage responsive images but don't want the progressive image loading, you can set the `responsive_images.use_tiny_placeholders` key in the `media-library` config file to `false`.
