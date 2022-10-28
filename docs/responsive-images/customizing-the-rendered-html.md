@@ -1,5 +1,5 @@
 ---
-title: Customizing the rendered html
+title: Customizing the rendered HTML
 weight: 3
 ---
 

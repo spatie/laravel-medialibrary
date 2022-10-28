@@ -44,7 +44,7 @@ This returns a collection of `MediaCollection` objects.
 
 ## Defining a fallback URL or path
 
-If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
+If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback URL and/or path using `useFallbackUrl` and `useFallbackPath`.
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\File;
@@ -58,7 +58,7 @@ public function registerMediaCollections(): void
 }
 ```
 
-When you use a fallback URL/path, [conversions](https://spatie.be/docs/laravel-medialibrary/v10/converting-images/defining-conversions) will use the default fallback URL/path if the media do not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
+When you use a fallback URL/path, [conversions](https://spatie.be/docs/laravel-medialibrary/v10/converting-images/defining-conversions) will use the default fallback URL/path if the media does not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -206,7 +206,7 @@ The first time you add a file to the collection it will be stored as usual.
 ```php
 $yourModel->addMedia($pathToImage)->toMediaCollection('avatar');
 $yourModel->getMedia('avatar')->count(); // returns 1
-$yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$pathToImage` file
+$yourModel->getFirstMediaUrl('avatar'); // will return an URL to the `$pathToImage` file
 ```
 
 When adding another file to a single file collection the first one will be deleted.
@@ -215,7 +215,7 @@ When adding another file to a single file collection the first one will be delet
 // this will remove other files in the collection
 $yourModel->addMedia($anotherPathToImage)->toMediaCollection('avatar');
 $yourModel->getMedia('avatar')->count(); // returns 1
-$yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$anotherPathToImage` file
+$yourModel->getFirstMediaUrl('avatar'); // will return an URL to the `$anotherPathToImage` file
 ```
 
 This video shows you a demo of a single file collection.
