@@ -57,7 +57,7 @@ There aren't any restrictions on how the directories can be named. When a `Media
 
 ## Are you a visual learner?
 
-Here's a video that shows customize paths
+Here's a video that shows custom paths:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/hCXtDyGcPSo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

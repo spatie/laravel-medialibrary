@@ -94,7 +94,7 @@ $media->getUrl('old-picture') // the url to the sepia, bordered version
 
 ## Performing conversions on specific collections
 
-By default a conversion will be performed on all files regardless of which [collection](/laravel-medialibrary/v10/working-with-media-collections/simple-media-collections) is used.  Conversions can also be performed on all specific collections by adding a call to  `performOnCollections`.
+By default a conversion will be performed on all files regardless of which [collection](/laravel-medialibrary/v10/working-with-media-collections/simple-media-collections) is used. Conversions can also be performed on specific collections by adding a call to `performOnCollections`.
 
 This is how that looks like in the model:
 
@@ -103,9 +103,9 @@ This is how that looks like in the model:
 public function registerMediaConversions(Media $media = null): void
 {
     $this->addMediaConversion('thumb')
+          ->performOnCollections('images', 'downloads')
           ->width(368)
-          ->height(232)
-          ->performOnCollections('images', 'downloads');
+          ->height(232);
 }
 ```
 
@@ -160,9 +160,9 @@ public $registerMediaConversionsUsingModelInstance = true;
 public function registerMediaConversions(Media $media = null): void
 {
     $this->addMediaConversion('thumb')
+          ->performOnCollections('images', 'downloads')
           ->width($this->width)
-          ->height($this->height)
-          ->performOnCollections('images', 'downloads');
+          ->height($this->height);
 }
 ```
 
