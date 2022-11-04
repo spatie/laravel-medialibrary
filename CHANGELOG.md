@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.6.1 - 2022-11-04
+
+### What's Changed
+
+- docs: fix some typos by @ArnaudLier in https://github.com/spatie/laravel-medialibrary/pull/3075
+- Fix typo in property name in Media model by @pdziewa in https://github.com/spatie/laravel-medialibrary/pull/3082
+
+### New Contributors
+
+- @ArnaudLier made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3075
+- @pdziewa made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3082
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.6.0...10.6.1
+
 ## 10.6.0 - 2022-10-21
 
 ### What's Changed
