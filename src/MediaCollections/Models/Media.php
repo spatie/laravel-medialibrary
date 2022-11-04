@@ -441,7 +441,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
         $attachment = Attachment::fromStorageDisk($this->disk, $this->getPathRelativeToRoot($conversion))->as($this->file_name);
 
         if ($this->mime_type) {
-            $attachment->withMime($this->mime);
+            $attachment->withMime($this->mime_type);
         }
 
         return $attachment;
