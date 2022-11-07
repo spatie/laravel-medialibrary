@@ -122,7 +122,7 @@ $media->getUrl('thumb') // returns ''
 
 ## Queuing conversions
 
-By default, a conversion will be added to the queue that you've [specified in the configuration](/laravel-medialibrary/v10/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
+By default, a conversion will be added to the connection and queue that you've [specified in the configuration](/laravel-medialibrary/v10/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
 
 ```php
 // in your model

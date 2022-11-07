@@ -456,6 +456,10 @@ class FileAdder
 
             $job = new $generateResponsiveImagesJobClass($media);
 
+            if ($customConnection = config('media-library.queue_connection_name')) {
+                $job->onConnection($customConnection);
+            }
+
             if ($customQueue = config('media-library.queue_name')) {
                 $job->onQueue($customQueue);
             }
