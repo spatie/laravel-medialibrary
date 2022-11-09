@@ -245,7 +245,7 @@ class Filesystem
 
         $oldMedia = (clone $media)->fill($media->getOriginal());
 
-        if ($oldMedia->getPath() === $media->getPath()) {
+        if ($factory->getPath($oldMedia) === $factory->getPath($media)) {
             return;
         }
 
