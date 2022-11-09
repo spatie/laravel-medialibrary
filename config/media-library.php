@@ -15,6 +15,12 @@ return [
     'max_file_size' => 1024 * 1024 * 10, // 10MB
 
     /*
+     * This queue connection will be used to generate derived and responsive images.
+     * Leave empty to use the default queue connection.
+     */
+    'queue_connection_name' => env('QUEUE_CONNECTION', 'sync'),
+
+    /*
      * This queue will be used to generate derived and responsive images.
      * Leave empty to use the default queue.
      */
