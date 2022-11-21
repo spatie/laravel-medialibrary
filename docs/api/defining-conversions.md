@@ -50,7 +50,7 @@ public function nonQueued(): self
 
 ### useLoadingAttributeValue
 
-This is the value that, when this conversation is converted to html, will be used in the `loading` attribute. The loading attribute is a standardised attribute that controls lazy loading behaviour of the browser. Possible values are `lazy`, `eager`, `auto` or null if you don't want to set any loading instruction.
+This is the value that, when this conversation is converted to HTML, will be used in the `loading` attribute. The loading attribute is a standardised attribute that controls lazy loading behaviour of the browser. Possible values are `lazy`, `eager`, `auto` or null if you don't want to set any loading instruction.
 
 You can learn more on native lazy loading [in this post on css-tricks](https://css-tricks.com/native-lazy-loading/).
 

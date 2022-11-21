@@ -203,13 +203,23 @@ it('can get the path to first media in a collection', function () {
     expect($this->testModel->getFirstMediaPath('images'))->toEqual($firstMedia->getPath());
 });
 
-it('can get the default path to the first media in a collection', function () {
-    expect($this->testModel->getFirstMediaPath('avatar'))->toEqual('/default-path.jpg');
-});
+it('can get the default path to the first media in a collection', function ($conversionName, $expectedPath) {
+    expect($this->testModel->getFirstMediaPath('avatar', $conversionName))->toEqual($expectedPath);
+})->with([
+    ['', '/default-path.jpg'],
+    ['default', '/default-path.jpg'],
+    ['foo', '/default-path.jpg'],
+    ['avatar_thumb', '/default-avatar-thumb-path.jpg'],
+]);
 
-it('can get the default url to the first media in a collection', function () {
-    expect($this->testModel->getFirstMediaUrl('avatar'))->toEqual('/default-url.jpg');
-});
+it('can get the default url to the first media in a collection', function ($conversionName, $expectedUrl) {
+    expect($this->testModel->getFirstMediaUrl('avatar', $conversionName))->toEqual($expectedUrl);
+})->with([
+    ['', '/default-url.jpg'],
+    ['default', '/default-url.jpg'],
+    ['foo', '/default-url.jpg'],
+    ['avatar_thumb', '/default-avatar-thumb-url.jpg'],
+]);
 
 it('can get the default path to the first media in a collection if conversion not marked as generated yet', function () {
     $media = $this

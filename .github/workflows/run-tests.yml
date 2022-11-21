@@ -8,7 +8,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [8.1, 8.0]
+                php: [8.2, 8.1, 8.0]
                 laravel: [9.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 include:
@@ -22,10 +22,10 @@ jobs:
               run: sudo apt-get update --fix-missing
 
             - name: Install ffmpeg
-              run: sudo apt-get install ffmpeg
+              run: sudo apt-get -y install ffmpeg
 
             - name: Install ghostscript
-              run: sudo apt-get install ghostscript
+              run: sudo apt-get -y install ghostscript
 
             - name: Checkout code
               uses: actions/checkout@v2
@@ -47,7 +47,7 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:>=2.62.1" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
             - name: Execute tests

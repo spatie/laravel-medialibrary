@@ -2,6 +2,96 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.1 - 2022-11-09
+
+### What's Changed
+
+- fix #3090 syncMediaPath incorrectly comparing paths by @SlyDave in https://github.com/spatie/laravel-medialibrary/pull/3092
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.0...10.7.1
+
+## 9.12.4 - 2022-11-09
+
+### What's Changed
+
+- fix #3090 - branch v9 PHP 7.4 version of the fix by @SlyDave in https://github.com/spatie/laravel-medialibrary/pull/3091
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/9.12.3...9.12.4
+
+## 10.7.0 - 2022-11-09
+
+### What's Changed
+
+- Added option to set custom queue connection by @rahulhaque in https://github.com/spatie/laravel-medialibrary/pull/3085
+
+### New Contributors
+
+- @rahulhaque made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3085
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.6.1...10.7.0
+
+## 10.6.1 - 2022-11-04
+
+### What's Changed
+
+- docs: fix some typos by @ArnaudLier in https://github.com/spatie/laravel-medialibrary/pull/3075
+- Fix typo in property name in Media model by @pdziewa in https://github.com/spatie/laravel-medialibrary/pull/3082
+
+### New Contributors
+
+- @ArnaudLier made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3075
+- @pdziewa made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3082
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.6.0...10.6.1
+
+## 10.6.0 - 2022-10-21
+
+### What's Changed
+
+- Hint to additional installation instructions by @driesvints in https://github.com/spatie/laravel-medialibrary/pull/3047
+- PHP 8.2 Build by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3061
+- Add fallback path/url support for conversions by @mertasan in https://github.com/spatie/laravel-medialibrary/pull/3062
+
+### New Contributors
+
+- @mertasan made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3062
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.5.2...10.6.0
+
+## 10.5.2 - 2022-09-30
+
+### What's Changed
+
+- Fix for audio only "video" files by @rcerljenko in https://github.com/spatie/laravel-medialibrary/pull/3046
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.5.1...10.5.2
+
+## 10.5.1 - 2022-09-21
+
+### What's Changed
+
+- Allow the Github actions to run locally via act by @emielmolenaar in https://github.com/spatie/laravel-medialibrary/pull/3028
+- Never explicitly create directories on GCS, just as with S3 by @boboldehampsink in https://github.com/spatie/laravel-medialibrary/pull/3037
+
+### New Contributors
+
+- @boboldehampsink made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3037
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.5.0...10.5.1
+
+## 10.5.0 - 2022-09-12
+
+### What's Changed
+
+- Use "request" where "response" is intended in docs by @euoia in https://github.com/spatie/laravel-medialibrary/pull/3027
+- Add getPathRelativeToRoot as a public method in the Media model by @emielmolenaar in https://github.com/spatie/laravel-medialibrary/pull/3026
+
+### New Contributors
+
+- @euoia made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3027
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.4.5...10.5.0
+
 ## 10.4.5 - 2022-09-02
 
 ### What's Changed

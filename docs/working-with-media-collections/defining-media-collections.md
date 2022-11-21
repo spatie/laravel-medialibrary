@@ -44,7 +44,7 @@ This returns a collection of `MediaCollection` objects.
 
 ## Defining a fallback URL or path
 
-If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback url and/or path using `useFallbackUrl` and `useFallbackPath`.
+If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback URL and/or path using `useFallbackUrl` and `useFallbackPath`.
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\File;
@@ -56,6 +56,49 @@ public function registerMediaCollections(): void
         ->useFallbackUrl('/images/anonymous-user.jpg')
         ->useFallbackPath(public_path('/images/anonymous-user.jpg'));
 }
+```
+
+When you use a fallback URL/path, [conversions](https://spatie.be/docs/laravel-medialibrary/v10/converting-images/defining-conversions) will use the default fallback URL/path if the media does not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
+
+```php
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
+// ...
+
+public function registerMediaCollections(): void
+{
+    $this
+        ->addMediaCollection('avatar')
+        ->useFallbackUrl('/default_avatar.jpg')
+        ->useFallbackUrl('/default_avatar_thumb.jpg', 'thumb')
+        ->useFallbackPath(public_path('/default_avatar.jpg'))
+        ->useFallbackPath(public_path('/default_avatar_thumb.jpg'), 'thumb')
+        ->registerMediaConversions(function (Media $media) {
+            $this
+                ->addMediaConversion('thumb')
+                ->width(50)
+                ->height(50);
+                
+            $this
+                ->addMediaConversion('thumb_2')
+                ->width(100)
+                ->height(100);
+        });
+}
+```
+
+In this way, the image sizes are always as expected:
+
+```php
+$yourModel->getFirstMediaUrl('avatar'); // default_avatar.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb'); // default_avatar_thumb.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb_2'); // default_avatar.jpg
+
+// ...
+
+$yourModel->getFirstMediaPath('avatar'); // .../default_avatar.jpg
+$yourModel->getFirstMediaPath('avatar', 'thumb'); // .../default_avatar_thumb.jpg
+$yourModel->getFirstMediaPath('avatar', 'thumb_2'); // .../default_avatar.jpg
 ```
 
 ## Only allow certain files in a collection
@@ -163,7 +206,7 @@ The first time you add a file to the collection it will be stored as usual.
 ```php
 $yourModel->addMedia($pathToImage)->toMediaCollection('avatar');
 $yourModel->getMedia('avatar')->count(); // returns 1
-$yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$pathToImage` file
+$yourModel->getFirstMediaUrl('avatar'); // will return an URL to the `$pathToImage` file
 ```
 
 When adding another file to a single file collection the first one will be deleted.
@@ -172,7 +215,7 @@ When adding another file to a single file collection the first one will be delet
 // this will remove other files in the collection
 $yourModel->addMedia($anotherPathToImage)->toMediaCollection('avatar');
 $yourModel->getMedia('avatar')->count(); // returns 1
-$yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$anotherPathToImage` file
+$yourModel->getFirstMediaUrl('avatar'); // will return an URL to the `$anotherPathToImage` file
 ```
 
 This video shows you a demo of a single file collection.
