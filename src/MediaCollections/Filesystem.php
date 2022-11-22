@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\MediaCollections;
 
 use Exception;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -25,22 +24,34 @@ class Filesystem
     ) {
     }
 
-    public function add(string $file, Media $media, ?string $targetFileName = null): void
+    public function add(string $file, Media $media, ?string $targetFileName = null): bool
     {
-        $this->copyToMediaLibrary($file, $media, null, $targetFileName);
+        try {
+            $this->copyToMediaLibrary($file, $media, null, $targetFileName);
+        } catch(DiskCannotBeAccessed $exception) {
+            return false;
+        }
 
         event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
+
+        return true;
     }
 
-    public function addRemote(RemoteFile $file, Media $media, ?string $targetFileName = null): void
+    public function addRemote(RemoteFile $file, Media $media, ?string $targetFileName = null): bool
     {
-        $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
+        try {
+            $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
+        } catch(DiskCannotBeAccessed $exception) {
+            return false;
+        }
 
         event(new MediaHasBeenAdded($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
+
+        return true;
     }
 
     public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
@@ -137,31 +148,27 @@ class Filesystem
 
             fclose($file);
 
-            if (!$success) {
-                Throw DiskCannotBeAccessed::create($diskName);
-
-                DB::rollback();
+            if (! $success) {
+                throw DiskCannotBeAccessed::create($diskName);
             }
 
             return;
         }
 
         $success = $this->filesystem
-                ->disk($diskName)
-                ->put(
-                    $destination,
-                    $file,
-                    $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()),
-                );
+            ->disk($diskName)
+            ->put(
+                $destination,
+                $file,
+                $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()),
+            );
 
         if (is_resource($file)) {
             fclose($file);
         }
 
-        if (!$success) {
-            Throw DiskCannotBeAccessed::create($diskName);
-
-            DB::rollback();
+        if (! $success) {
+            throw DiskCannotBeAccessed::create($diskName);
         }
     }
 
