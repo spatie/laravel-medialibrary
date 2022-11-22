@@ -3,12 +3,12 @@
 namespace Spatie\MediaLibrary\MediaCollections;
 
 use Closure;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
@@ -432,8 +432,6 @@ class FileAdder
 
         $this->checkGenerateResponsiveImages($media);
 
-        DB::beginTransaction();
-
         if (! $media->getConnectionName()) {
             $media->setConnection($model->getConnectionName());
         }
@@ -441,9 +439,15 @@ class FileAdder
         $model->media()->save($media);
 
         if ($fileAdder->file instanceof RemoteFile) {
-            $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);
+            $addedMediaSuccessfully = $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);
         } else {
-            $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
+            $addedMediaSuccessfully = $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
+        }
+
+        if (! $addedMediaSuccessfully) {
+            $model->media()->delete($media->id);
+
+            throw DiskCannotBeAccessed::create($media->disk);
         }
 
         if (! $fileAdder->preserveOriginal) {
@@ -473,8 +477,6 @@ class FileAdder
                 $model->clearMediaCollectionExcept($media->collection_name, $collectionMedia->reverse()->take($collectionSizeLimit));
             }
         }
-
-        DB::commit();
     }
 
     protected function getMediaCollection(string $collectionName): ?MediaCollection
