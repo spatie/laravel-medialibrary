@@ -6,6 +6,6 @@ class DiskCannotBeAccessed extends FileCannotBeAdded
 {
     public static function create(string $diskName): self
     {
-        return new static("filesystem disk named `{$diskName}` cannot be accessed");
+        return new static("Disk named `{$diskName}` cannot be accessed");
     }
 }
