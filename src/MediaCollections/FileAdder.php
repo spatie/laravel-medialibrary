@@ -396,6 +396,8 @@ class FileAdder
 
     public function defaultSanitizer(string $fileName): string
     {
+        $fileName = preg_replace('#\p{C}+#u', '', $fileName);
+
         return str_replace(['#', '/', '\\', ' '], '-', $fileName);
     }
 
