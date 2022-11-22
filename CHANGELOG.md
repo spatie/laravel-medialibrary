@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.2 - 2022-11-22
+
+### What's Changed
+
+- [Micro Optimization] Use slice instead of reverse->take by @Tofandel in https://github.com/spatie/laravel-medialibrary/pull/3098
+- Add Additional Filename Sanitization by @patinthehat in https://github.com/spatie/laravel-medialibrary/pull/3105
+
+### New Contributors
+
+- @patinthehat made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3105
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.1...10.7.2
+
 ## 10.7.1 - 2022-11-09
 
 ### What's Changed
