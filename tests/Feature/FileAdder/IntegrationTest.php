@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
@@ -598,7 +598,6 @@ it('can add an upload to the media library using dot notation', function () {
 });
 
 it('will throw and exception and not create a record in database if file cannot be added', function () {
-
     $this->expectException(DiskCannotBeAccessed::class);
 
     config()->set('filesystems.disks.minio_disk', [
