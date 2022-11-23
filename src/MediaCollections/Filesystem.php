@@ -200,6 +200,7 @@ class Filesystem
         $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
 
         collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
+            ->unique()
             ->each(function (string $directory) use ($media) {
                 try {
                     $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
