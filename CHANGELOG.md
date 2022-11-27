@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.3 - 2022-11-27
+
+### What's Changed
+
+- Issue delete command once per unique directory by @alisaleem27 in https://github.com/spatie/laravel-medialibrary/pull/3109
+- Add Dependabot Automation by @patinthehat in https://github.com/spatie/laravel-medialibrary/pull/3111
+- Bump actions/checkout from 2 to 3 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3112
+- Throw error if disk cannot be accessed by @Silver343 in https://github.com/spatie/laravel-medialibrary/pull/3067
+
+### New Contributors
+
+- @alisaleem27 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3109
+- @dependabot made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3112
+- @Silver343 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3067
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.2...10.7.3
+
 ## 10.7.2 - 2022-11-22
 
 ### What's Changed
