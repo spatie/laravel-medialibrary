@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
@@ -10,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -594,3 +596,19 @@ it('can add an upload to the media library using dot notation', function () {
 
     expect($result->getStatusCode())->toEqual(200);
 });
+
+it('will throw and exception and not create a record in database if file cannot be added', function () {
+    config()->set('filesystems.disks.invalid_disk', [
+        'driver' => 's3',
+        'secret' => 'test',
+        'key' => 'test',
+        'region' => 'test',
+        'bucket' => 'test',
+    ]);
+
+    $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('default', 'invalid_disk');
+
+    expect(Media::count())->toBe(0);
+})->throws(DiskCannotBeAccessed::class);
