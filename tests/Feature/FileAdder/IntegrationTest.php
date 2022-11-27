@@ -598,10 +598,7 @@ it('can add an upload to the media library using dot notation', function () {
 });
 
 it('will throw and exception and not create a record in database if file cannot be added', function () {
-
-    $this->expectException(DiskCannotBeAccessed::class);
-
-    config()->set('filesystems.disks.minio_disk', [
+    config()->set('filesystems.disks.invalid_disk', [
         'driver' => 's3',
         'secret' => 'test',
         'key' => 'test',
@@ -611,7 +608,7 @@ it('will throw and exception and not create a record in database if file cannot 
 
     $this->testModel
         ->addMedia($this->getTestJpg())
-        ->toMediaCollection('default', 'minio_disk');
+        ->toMediaCollection('default', 'invalid_disk');
 
     expect(Media::count())->toBe(0);
-});
+})->throws(DiskCannotBeAccessed::class);
