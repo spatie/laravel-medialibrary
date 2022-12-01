@@ -1,6 +1,7 @@
 {
     "name": "spatie/laravel-medialibrary",
     "description": "Associate files with Eloquent models",
+    "license": "MIT",
     "keywords": [
         "spatie",
         "laravel-medialibrary",
@@ -11,8 +12,6 @@
         "cms",
         "laravel"
     ],
-    "homepage": "https://github.com/spatie/laravel-medialibrary",
-    "license": "MIT",
     "authors": [
         {
             "name": "Freek Van der Herten",
@@ -21,6 +20,7 @@
             "role": "Developer"
         }
     ],
+    "homepage": "https://github.com/spatie/laravel-medialibrary",
     "require": {
         "php": "^8.0",
         "ext-exif": "*",
@@ -38,9 +38,9 @@
         "symfony/console": "^6.0"
     },
     "require-dev": {
+        "ext-imagick": "*",
         "ext-pdo_sqlite": "*",
         "ext-zip": "*",
-        "ext-imagick": "*",
         "aws/aws-sdk-php": "^3.133.11",
         "doctrine/dbal": "^2.13",
         "guzzlehttp/guzzle": "^7.4",
@@ -48,11 +48,11 @@
         "mockery/mockery": "^1.4",
         "nunomaduro/larastan": "^2.0",
         "orchestra/testbench": "7.*",
+        "pestphp/pest": "^1.21",
         "phpstan/extension-installer": "^1.1",
         "spatie/laravel-ray": "^1.28",
         "spatie/pdf-to-image": "^2.1",
-        "spatie/phpunit-snapshot-assertions": "^4.2",
-        "pestphp/pest": "^1.21"
+        "spatie/phpunit-snapshot-assertions": "^4.2"
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
@@ -62,22 +62,24 @@
         "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails",
         "spatie/pdf-to-image": "Required for generating thumbsnails of PDFs and SVGs"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Spatie\\MediaLibrary\\": "src"
         }
     },
-    "scripts": {
-        "analyse": "vendor/bin/phpstan analyse",
-        "baseline": "vendor/bin/phpstan analyse --generate-baseline",
-
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "test": "vendor/bin/pest"
-    },
     "autoload-dev": {
         "psr-4": {
             "Spatie\\MediaLibrary\\Tests\\": "tests"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -86,13 +88,10 @@
             ]
         }
     },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse",
+        "baseline": "vendor/bin/phpstan analyse --generate-baseline",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "test": "vendor/bin/pest"
+    }
 }
