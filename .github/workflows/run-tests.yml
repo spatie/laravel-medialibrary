@@ -3,57 +3,57 @@ name: run-tests
 on: [push, pull_request]
 
 jobs:
-    run-tests:
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                php: [8.2, 8.1, 8.0]
-                laravel: [9.*]
-                dependency-version: [prefer-lowest, prefer-stable]
-                include:
-                    - laravel: 9.*
-                      testbench: ^7.0
+  run-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.2, 8.1, 8.0]
+        laravel: [9.*]
+        dependency-version: [prefer-lowest, prefer-stable]
+        include:
+          - laravel: 9.*
+            testbench: ^7.0
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
-        steps:
-            - name: Update apt
-              run: sudo apt-get update --fix-missing
+    steps:
+      - name: Update apt
+        run: sudo apt-get update --fix-missing
 
-            - name: Install ffmpeg
-              run: sudo apt-get -y install ffmpeg
+      - name: Install ffmpeg
+        run: sudo apt-get -y install ffmpeg
 
-            - name: Install ghostscript
-              run: sudo apt-get -y install ghostscript
+      - name: Install ghostscript
+        run: sudo apt-get -y install ghostscript
 
-            - name: Checkout code
-              uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
-                  coverage: none
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+          coverage: none
 
-            - name: Setup Problem Matches
-              run: |
-                  echo "::add-matcher::${{ runner.tool_cache }}/php.json"
-                  echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Setup Problem Matches
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-            - name: Fix Imagick Policy
-              run: sudo sed -i 's/none/read|write/g' /etc/ImageMagick-6/policy.xml
+      - name: Fix Imagick Policy
+        run: sudo sed -i 's/none/read|write/g' /etc/ImageMagick-6/policy.xml
 
-            - name: Install dependencies
-              run: |
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:>=2.62.1" --no-interaction --no-update
-                  composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:>=2.62.1" --no-interaction --no-update
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
-            - name: Execute tests
-              run: vendor/bin/pest
-              env:
-                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-                AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
+      - name: Execute tests
+        run: vendor/bin/pest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
