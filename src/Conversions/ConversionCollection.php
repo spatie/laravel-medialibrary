@@ -60,7 +60,7 @@ class ConversionCollection extends Collection
          * instance so conversion parameters can depend on model
          * properties. This will causes extra queries.
          */
-        if ($model->registerMediaConversionsUsingModelInstance) {
+        if ($model->registerMediaConversionsUsingModelInstance && $media->model) {
             $model = $media->model;
 
             $model->mediaConversions = [];
