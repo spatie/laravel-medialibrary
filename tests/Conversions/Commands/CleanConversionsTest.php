@@ -30,6 +30,11 @@ beforeEach(function () {
         ->preservingOriginal()
         ->toMediaCollection('collection2');
 
+    $this->media['model3']['collection1'] = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
+
     mkdir($this->getMediaDirectory("{$this->media['model1']['collection1']->id}/conversions"));
     mkdir($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/conversions"));
 
@@ -140,6 +145,15 @@ it('can clean orphan files in the media disk', function () {
 
     $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model1']['collection1']->id));
     expect($this->getMediaDirectory("{$this->media['model1']['collection2']->id}/test.jpg"))->toBeFile();
+});
+
+it('can clean orphan files using `registerMediaConversionsUsingModelInstance` in the media disk', function () {
+    // Dirty delete
+    DB::table('media')->delete($this->media['model3']['collection1']->id);
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model3']['collection1']->id));
 });
 
 it('can clean responsive images for deprecated conversions', function () {
