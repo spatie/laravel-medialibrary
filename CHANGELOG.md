@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.4 - 2022-12-06
+
+### What's Changed
+
+- Format workflow files by @patinthehat in https://github.com/spatie/laravel-medialibrary/pull/3115
+- Normalize composer.json by @patinthehat in https://github.com/spatie/laravel-medialibrary/pull/3114
+- Allow to clean orphaned media when the `registerMediaConversionsUsingModelInstance` property is set to `true` on the model by @tomcoonen in https://github.com/spatie/laravel-medialibrary/pull/3120
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.3...10.7.4
+
 ## 10.7.3 - 2022-11-27
 
 ### What's Changed
