@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File as FacadesFile;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
@@ -175,10 +176,15 @@ trait InteractsWithMedia
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
         file_put_contents($tmpFile, $text);
-
+        
+        $fileName = "text.txt";
+        if($extension = FacadesFile::guessExtension($tmpFile)){
+            $fileName = "text.{$extension}";
+        }
+        
         $file = app(FileAdderFactory::class)
             ->create($this, $tmpFile)
-            ->usingFileName('text.txt');
+            ->usingFileName($fileName);
 
         return $file;
     }
@@ -232,10 +238,15 @@ trait InteractsWithMedia
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
         file_put_contents($tmpFile, $stream);
-
+        
+        $fileName = "text.txt";
+        if($extension = FacadesFile::guessExtension($tmpFile)){
+            $fileName = "text.{$extension}";
+        }
+        
         $file = app(FileAdderFactory::class)
             ->create($this, $tmpFile)
-            ->usingFileName('text.txt');
+            ->usingFileName($fileName);
 
         return $file;
     }
