@@ -598,7 +598,6 @@ it('can add an upload to the media library using dot notation', function () {
 });
 
 it('will throw and exception and not create a record in database if file cannot be added', function () {
-
     $this->testModel
             ->addMedia($this->getTestPng())
             ->toMediaCollection();
