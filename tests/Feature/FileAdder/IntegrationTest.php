@@ -606,9 +606,11 @@ it('will throw and exception and not create a record in database if file cannot 
         'bucket' => 'test',
     ]);
 
-    $this->testModel
-        ->addMedia($this->getTestJpg())
-        ->toMediaCollection('default', 'invalid_disk');
+    expect(
+        fn () => $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection('default', 'invalid_disk')
+    )->toThrow(DiskCannotBeAccessed::class);
 
     expect(Media::count())->toBe(0);
-})->throws(DiskCannotBeAccessed::class);
+});
