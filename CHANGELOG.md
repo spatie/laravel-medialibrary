@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.5 - 2022-12-30
+
+### What's Changed
+
+- Fix data corruption bug when storage disk becomes invalid by @Pilskalns in https://github.com/spatie/laravel-medialibrary/pull/3139
+
+### New Contributors
+
+- @Pilskalns made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3139
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.4...10.7.5
+
 ## 10.7.4 - 2022-12-06
 
 ### What's Changed
