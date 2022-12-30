@@ -598,6 +598,13 @@ it('can add an upload to the media library using dot notation', function () {
 });
 
 it('will throw and exception and not create a record in database if file cannot be added', function () {
+
+    $this->testModel
+            ->addMedia($this->getTestPng())
+            ->toMediaCollection();
+
+    expect(Media::count())->toBe(1);
+
     config()->set('filesystems.disks.invalid_disk', [
         'driver' => 's3',
         'secret' => 'test',
@@ -612,5 +619,5 @@ it('will throw and exception and not create a record in database if file cannot 
             ->toMediaCollection('default', 'invalid_disk')
     )->toThrow(DiskCannotBeAccessed::class);
 
-    expect(Media::count())->toBe(0);
+    expect(Media::count())->toBe(1);
 });
