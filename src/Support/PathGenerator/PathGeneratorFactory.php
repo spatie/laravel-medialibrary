@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Support\PathGenerator;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidPathGenerator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
