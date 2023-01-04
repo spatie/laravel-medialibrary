@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.6 - 2023-01-04
+
+### What's Changed
+
+- Ability to use morphed map model with custom path generator by @petyots in https://github.com/spatie/laravel-medialibrary/pull/3143
+
+### New Contributors
+
+- @petyots made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3143
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.5...10.7.6
+
 ## 10.7.5 - 2022-12-30
 
 ### What's Changed
