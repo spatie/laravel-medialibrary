@@ -49,3 +49,15 @@ it('can use a custom path generator on the model', function () {
 
     expect($media->getUrl())->toEqual('/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
 });
+
+it('can use a custom path generator on a morph map model', function () {
+    config()->set('media-library.custom_path_generators', [
+        'test-model-with-morph-map' => CustomPathGenerator::class,
+    ]);
+
+    $media = $this->testModelWithMorphMap
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection();
+
+    expect($media->getUrl())->toEqual('/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
+});

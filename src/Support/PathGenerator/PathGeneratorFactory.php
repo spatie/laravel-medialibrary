@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Support\PathGenerator;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidPathGenerator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -21,7 +22,7 @@ class PathGeneratorFactory
         $defaultPathGeneratorClass = config('media-library.path_generator');
 
         foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
-            if (is_a($media->model_type, $modelClass, true)) {
+            if (is_a($media->model_type, $modelClass, true) || $media->model_type === $modelClass) {
                 return $customPathGeneratorClass;
             }
         }
