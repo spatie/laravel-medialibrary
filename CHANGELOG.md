@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.7 - 2023-01-05
+
+### What's Changed
+
+- Fix GitHub workflow status "test" badge by @stevebauman in https://github.com/spatie/laravel-medialibrary/pull/3144
+- Remove failed DB record even when using SoftDeletes by @Pilskalns in https://github.com/spatie/laravel-medialibrary/pull/3142
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.6...10.7.7
+
 ## 10.7.6 - 2023-01-04
 
 ### What's Changed
