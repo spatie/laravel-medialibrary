@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.8 - 2023-01-05
+
+### What's Changed
+
+- Prevent implicit conversion from float to int in FileSizeOptimizedWidthCalculator by @QuentinGab in https://github.com/spatie/laravel-medialibrary/pull/3145
+
+### New Contributors
+
+- @QuentinGab made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3145
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.7...10.7.8
+
 ## 10.7.7 - 2023-01-05
 
 ### What's Changed
