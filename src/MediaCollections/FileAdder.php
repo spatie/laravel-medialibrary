@@ -447,7 +447,7 @@ class FileAdder
         }
 
         if (! $addedMediaSuccessfully) {
-            $media->delete();
+            $media->forceDelete();
 
             throw DiskCannotBeAccessed::create($media->disk);
         }

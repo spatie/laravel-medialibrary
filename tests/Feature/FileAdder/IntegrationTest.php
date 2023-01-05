@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
@@ -13,6 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 it('can add an file to the default collection', function () {
@@ -597,7 +599,7 @@ it('can add an upload to the media library using dot notation', function () {
     expect($result->getStatusCode())->toEqual(200);
 });
 
-it('will throw and exception and not create a record in database if file cannot be added', function () {
+it('will throw an exception and revert database when file cannot be added', function () {
     $this->testModel
             ->addMedia($this->getTestPng())
             ->toMediaCollection();
@@ -614,6 +616,37 @@ it('will throw and exception and not create a record in database if file cannot 
 
     expect(
         fn () => $this->testModel
+            ->addMedia($this->getTestJpg())
+            ->toMediaCollection('default', 'invalid_disk')
+    )->toThrow(DiskCannotBeAccessed::class);
+
+    expect(Media::count())->toBe(1);
+});
+
+it('will throw an exception and revert database when file cannot be added and model uses softdeletes', function () {
+    $testModelClass = new class () extends TestModel {
+        use SoftDeletes;
+    };
+
+    /** @var TestModel $testModel */
+    $testModel = $testModelClass::find($this->testModel->id);
+
+    $testModel
+            ->addMedia($this->getTestPng())
+            ->toMediaCollection();
+
+    expect(Media::count())->toBe(1);
+
+    config()->set('filesystems.disks.invalid_disk', [
+        'driver' => 's3',
+        'secret' => 'test',
+        'key' => 'test',
+        'region' => 'test',
+        'bucket' => 'test',
+    ]);
+
+    expect(
+        fn () => $testModel
             ->addMedia($this->getTestJpg())
             ->toMediaCollection('default', 'invalid_disk')
     )->toThrow(DiskCannotBeAccessed::class);
