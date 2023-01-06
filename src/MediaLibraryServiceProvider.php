@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\CleanCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\ClearCommand;
@@ -44,7 +45,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/media-library.php' => config_path('media-library.php'),
         ], 'config');
 
-        if (! class_exists('CreateMediaTable')) {
+        if ($this->migrationDoesntExist()) {
             $this->publishes([
                 __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
             ], 'migrations');
@@ -70,5 +71,22 @@ class MediaLibraryServiceProvider extends ServiceProvider
             'command.media-library:clear',
             'command.media-library:clean',
         ]);
+    }
+
+    protected function migrationExist(): bool
+    {
+        if (class_exists('CreateMediaTable')) {
+            return true;
+        }
+
+        return ! blank(
+            collect(scandir(database_path('migrations/')))
+                ->first(fn ($fileName) => Str::of($fileName)->contains('_create_media_table'))
+            );
+    }
+
+    protected function migrationDoesntExist(): bool
+    {
+        return ! $this->migrationExist();
     }
 }
