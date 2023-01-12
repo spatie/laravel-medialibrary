@@ -33,6 +33,7 @@ use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
 /**
+ * @property-read string $uuid
  * @property-read string $type
  * @property-read string $extension
  * @property-read string $humanReadableSize
