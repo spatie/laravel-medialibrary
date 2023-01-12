@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.9 - 2023-01-12
+
+### What's Changed
+
+- Laravel 10.x Support by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3157
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.8...10.7.9
+
 ## 10.7.8 - 2023-01-05
 
 ### What's Changed
