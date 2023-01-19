@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.10 - 2023-01-19
+
+- improve output of command
+
 ## 10.7.9 - 2023-01-12
 
 ### What's Changed
