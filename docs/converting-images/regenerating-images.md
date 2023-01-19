@@ -15,6 +15,12 @@ If you only want to regenerate the images for a single model, you can specify it
 php artisan media-library:regenerate "App\Models\Post"
 ```
 
+When using a morph map, you should use the name of the morph.
+
+```bash
+php artisan media-library:regenerate "post"
+```
+
 If you only want to regenerate images for a few specific media items, you can pass their IDs using the `--ids` option:
 
 ```bash
