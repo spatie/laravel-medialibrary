@@ -71,6 +71,8 @@ class RegenerateCommand extends Command
             }
         }
 
+        $this->newLine(2);
+
         $this->info('All done!');
     }
 
