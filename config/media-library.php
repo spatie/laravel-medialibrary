@@ -70,6 +70,8 @@ return [
      */
     'custom_path_generators' => [
         // Model::class => PathGenerator::class
+        // or
+        // 'model_morph_alias' => PathGenerator::class
     ],
 
     /*
