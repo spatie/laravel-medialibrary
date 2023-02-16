@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Support;
 
 use Finfo;
+use Symfony\Component\Mime\MimeTypes;
 
 class File
 {
@@ -23,8 +24,6 @@ class File
 
     public static function getMimeType(string $path): string
     {
-        $finfo = new Finfo(FILEINFO_MIME_TYPE);
-
-        return $finfo->file($path);
+        return MimeTypes::getDefault()->guessMimeType($path);
     }
 }
