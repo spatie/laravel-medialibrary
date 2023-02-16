@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Support;
 
-use Finfo;
 use Symfony\Component\Mime\MimeTypes;
 
 class File
