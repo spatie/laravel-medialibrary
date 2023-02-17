@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.11 - 2023-02-17
+
+### What's Changed
+
+- Replace migration id with alias by @eimantaaas in https://github.com/spatie/laravel-medialibrary/pull/3165
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3174
+- update config instructions for custom_path_generators by @lukas-pierce in https://github.com/spatie/laravel-medialibrary/pull/3187
+- Use MimeTypes guessMimeType for better and more extensible MimeType detection by @Orrison in https://github.com/spatie/laravel-medialibrary/pull/3188
+
+### New Contributors
+
+- @eimantaaas made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3165
+- @lukas-pierce made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3187
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.10...10.7.11
+
 ## 10.7.10 - 2023-01-19
 
 - improve output of command
