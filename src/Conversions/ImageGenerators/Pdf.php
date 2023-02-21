@@ -4,12 +4,13 @@ namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Pdf extends ImageGenerator
 {
-    public function convert(string $file, Conversion $conversion = null): string
+    public function convert(string $file, Conversion $conversion = null, Media $media = null): string
     {
-        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+        $imageFile = pathinfo($file, PATHINFO_DIRNAME) . '/' . pathinfo($file, PATHINFO_FILENAME) . '.jpg';
 
         $pageNumber = $conversion ? $conversion->getPdfPageNumber() : 1;
 
@@ -20,11 +21,11 @@ class Pdf extends ImageGenerator
 
     public function requirementsAreInstalled(): bool
     {
-        if (! class_exists(\Imagick::class)) {
+        if (!class_exists(\Imagick::class)) {
             return false;
         }
 
-        if (! class_exists(\Spatie\PdfToImage\Pdf::class)) {
+        if (!class_exists(\Spatie\PdfToImage\Pdf::class)) {
             return false;
         }
 

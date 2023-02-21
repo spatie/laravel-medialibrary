@@ -19,9 +19,9 @@ class PerformConversionAction
     ) {
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
-        $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
+        $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion, $media);
 
-        if (! $copiedOriginalFile) {
+        if (!$copiedOriginalFile) {
             return;
         }
 
@@ -55,7 +55,7 @@ class PerformConversionAction
         string $fileNameWithDirectory,
         string $newFileNameWithoutDirectory
     ): string {
-        $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME).'/'.$newFileNameWithoutDirectory;
+        $targetFile = pathinfo($fileNameWithDirectory, PATHINFO_DIRNAME) . '/' . $newFileNameWithoutDirectory;
 
         rename($fileNameWithDirectory, $targetFile);
 

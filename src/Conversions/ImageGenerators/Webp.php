@@ -4,12 +4,13 @@ namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Webp extends ImageGenerator
 {
-    public function convert(string $file, Conversion $conversion = null): string
+    public function convert(string $file, Conversion $conversion = null, Media $media = null): string
     {
-        $pathToImageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.png';
+        $pathToImageFile = pathinfo($file, PATHINFO_DIRNAME) . '/' . pathinfo($file, PATHINFO_FILENAME) . '.png';
 
         $image = imagecreatefromwebp($file);
 
@@ -22,15 +23,15 @@ class Webp extends ImageGenerator
 
     public function requirementsAreInstalled(): bool
     {
-        if (! function_exists('imagecreatefromwebp')) {
+        if (!function_exists('imagecreatefromwebp')) {
             return false;
         }
 
-        if (! function_exists('imagepng')) {
+        if (!function_exists('imagepng')) {
             return false;
         }
 
-        if (! function_exists('imagedestroy')) {
+        if (!function_exists('imagedestroy')) {
             return false;
         }
 

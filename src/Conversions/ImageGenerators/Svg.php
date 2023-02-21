@@ -2,16 +2,17 @@
 
 namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
-use Illuminate\Support\Collection;
 use Imagick;
 use ImagickPixel;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Svg extends ImageGenerator
 {
-    public function convert(string $file, Conversion $conversion = null): string
+    public function convert(string $file, Conversion $conversion = null, Media $media = null): string
     {
-        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+        $imageFile = pathinfo($file, PATHINFO_DIRNAME) . '/' . pathinfo($file, PATHINFO_FILENAME) . '.jpg';
 
         $image = new Imagick();
         $image->readImage($file);

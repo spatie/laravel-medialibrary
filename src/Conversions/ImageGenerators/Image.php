@@ -4,10 +4,11 @@ namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Image extends ImageGenerator
 {
-    public function convert(string $path, Conversion $conversion = null): string
+    public function convert(string $path, Conversion $conversion = null, Media $media = null): string
     {
         return $path;
     }
