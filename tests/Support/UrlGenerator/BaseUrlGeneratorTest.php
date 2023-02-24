@@ -85,8 +85,8 @@ class BaseUrlGeneratorTest extends TestCase
     /** @test */
     public function it_can_get_the_responsive_images_directory_url()
     {
-        $this->config->set('filesystems.disks.public.url', 'http://localhost/media/');
+        $this->config->set('filesystems.disks.public.url', '/media/');
 
-        $this->assertEquals('http://localhost/media/1/responsive-images/', $this->urlGenerator->getResponsiveImagesDirectoryUrl());
+        $this->assertEquals('/media/1/responsive-images/', $this->urlGenerator->getResponsiveImagesDirectoryUrl());
     }
 }
