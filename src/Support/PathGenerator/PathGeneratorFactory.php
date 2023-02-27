@@ -22,7 +22,12 @@ class PathGeneratorFactory
         $defaultPathGeneratorClass = config('media-library.path_generator');
 
         foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
-            if (is_a($media->model_type, $modelClass, true)
+            if (
+                // model doesn't have morphMap
+                is_a($media->model_type, $modelClass, true)
+                // config is set via morphMap alias
+                || $media->model_type === $modelClass
+                // config is set via morphMap class name
                 || is_a((string)Relation::getMorphedModel($media->model_type), $modelClass, true)
             ) {
                 return $customPathGeneratorClass;
