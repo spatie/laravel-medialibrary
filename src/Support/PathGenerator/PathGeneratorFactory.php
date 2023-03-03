@@ -10,7 +10,7 @@ class PathGeneratorFactory
 {
     public static function create(Media $media): PathGenerator
     {
-        $pathGeneratorClass = self::getPathGeneratorClass($media);
+        $pathGeneratorClass = static::getPathGeneratorClass($media);
 
         static::guardAgainstInvalidPathGenerator($pathGeneratorClass);
 
@@ -22,19 +22,30 @@ class PathGeneratorFactory
         $defaultPathGeneratorClass = config('media-library.path_generator');
 
         foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
-            if (
-                // model doesn't have morphMap
-                is_a($media->model_type, $modelClass, true)
-                // config is set via morphMap alias
-                || $media->model_type === $modelClass
-                // config is set via morphMap class name
-                || is_a((string)Relation::getMorphedModel($media->model_type), $modelClass, true)
-            ) {
+            if (static::assertMediaModelTypeEqualsTo($media, $modelClass)) {
                 return $customPathGeneratorClass;
             }
         }
 
         return $defaultPathGeneratorClass;
+    }
+
+    protected static function assertMediaModelTypeEqualsTo(Media $media, string $modelClass): bool
+    {
+        // model doesn't have morphMap, so morph type and class are equal
+        if (is_a($media->model_type, $modelClass, true)) {
+            return true;
+        }
+        // config is set via morphMap alias
+        if ($media->model_type === $modelClass) {
+            return true;
+        }
+        // config is set via morphMap class name
+        if (is_a((string)Relation::getMorphedModel($media->model_type), $modelClass, true)) {
+            return true;
+        }
+
+        return false;
     }
 
     protected static function guardAgainstInvalidPathGenerator(string $pathGeneratorClass): void
