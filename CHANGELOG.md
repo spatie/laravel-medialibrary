@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.13 - 2023-03-06
+
+### What's Changed
+
+- Add Conditionable to Conversion by @tomwelch in https://github.com/spatie/laravel-medialibrary/pull/3162
+
+### New Contributors
+
+- @tomwelch made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3162
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.12...10.7.13
+
 ## 10.7.12 - 2023-03-06
 
 ### What's Changed
