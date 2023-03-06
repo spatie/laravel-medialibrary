@@ -4,6 +4,7 @@ use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMorphMap;
 
 beforeEach(function () {
     $this->config = app('config');
@@ -53,6 +54,18 @@ it('can use a custom path generator on the model', function () {
 it('can use a custom path generator on a morph map model', function () {
     config()->set('media-library.custom_path_generators', [
         'test-model-with-morph-map' => CustomPathGenerator::class,
+    ]);
+
+    $media = $this->testModelWithMorphMap
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection();
+
+    expect($media->getUrl())->toEqual('/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
+});
+
+it('can use a custom path generator on a morph map model via class', function () {
+    config()->set('media-library.custom_path_generators', [
+        TestModelWithMorphMap::class => CustomPathGenerator::class,
     ]);
 
     $media = $this->testModelWithMorphMap
