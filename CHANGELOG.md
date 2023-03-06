@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.12 - 2023-03-06
+
+### What's Changed
+
+- Fixed custom path generators for Media with morphed map relations by @aprokopenko in https://github.com/spatie/laravel-medialibrary/pull/3191
+
+### New Contributors
+
+- @aprokopenko made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3191
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.11...10.7.12
+
 ## 10.7.11 - 2023-02-17
 
 ### What's Changed
