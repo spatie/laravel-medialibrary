@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 class Conversion
 {
     use Conditionable;
-    
+
     protected FileNamer $fileNamer;
 
     protected float $extractVideoFrameAtSecond = 0;
