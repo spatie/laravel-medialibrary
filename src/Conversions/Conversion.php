@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Conversions;
 
 use BadMethodCallException;
+use Illuminate\Support\Traits\Conditionable;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
@@ -10,6 +11,8 @@ use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 /** @mixin \Spatie\Image\Manipulations */
 class Conversion
 {
+    use Conditionable;
+    
     protected FileNamer $fileNamer;
 
     protected float $extractVideoFrameAtSecond = 0;
