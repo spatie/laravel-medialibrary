@@ -22,7 +22,7 @@ class PathGeneratorFactory
         $defaultPathGeneratorClass = config('media-library.path_generator');
 
         foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
-            if (static::assertMediaModelTypeEqualsTo($media, $modelClass)) {
+            if (static::mediaBelongToModelClass($media, $modelClass)) {
                 return $customPathGeneratorClass;
             }
         }
@@ -30,7 +30,7 @@ class PathGeneratorFactory
         return $defaultPathGeneratorClass;
     }
 
-    protected static function assertMediaModelTypeEqualsTo(Media $media, string $modelClass): bool
+    protected static function mediaBelongToModelClass(Media $media, string $modelClass): bool
     {
         // model doesn't have morphMap, so morph type and class are equal
         if (is_a($media->model_type, $modelClass, true)) {
