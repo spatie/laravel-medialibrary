@@ -12,10 +12,10 @@ class ClearCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'media-library:clear {modelType?} {collectionName?}
+    protected string $signature = 'media-library:clear {modelType?} {collectionName?}
     {-- force : Force the operation to run when in production}';
 
-    protected $description = 'Delete all items in a media collection.';
+    protected string $description = 'Delete all items in a media collection.';
 
     protected MediaRepository $mediaRepository;
 

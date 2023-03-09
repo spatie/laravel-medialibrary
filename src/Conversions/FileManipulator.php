@@ -129,6 +129,6 @@ class FileManipulator
     {
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
-        return $imageGenerator ? true : false;
+        return (bool)$imageGenerator;
     }
 }

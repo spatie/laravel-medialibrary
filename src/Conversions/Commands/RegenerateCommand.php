@@ -16,7 +16,7 @@ class RegenerateCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'media-library:regenerate {modelType?} {--ids=*}
+    protected string $signature = 'media-library:regenerate {modelType?} {--ids=*}
     {--only=* : Regenerate specific conversions}
     {--starting-from-id= : Regenerate media with an id equal to or higher than the provided value}
     {--X|exclude-starting-id : Exclude the provided id when regenerating from a specific id}
@@ -24,7 +24,7 @@ class RegenerateCommand extends Command
     {--with-responsive-images : Regenerate responsive images}
     {--force : Force the operation to run when in production}';
 
-    protected $description = 'Regenerate the derived images of media';
+    protected string $description = 'Regenerate the derived images of media';
 
     protected MediaRepository $mediaRepository;
 
@@ -83,7 +83,7 @@ class RegenerateCommand extends Command
 
         $startingFromId = (int)$this->option('starting-from-id');
         if ($startingFromId !== 0) {
-            $excludeStartingId = (bool) $this->option('exclude-starting-id') ?: false;
+            $excludeStartingId = (bool)$this->option('exclude-starting-id') || false;
 
             return $this->mediaRepository->getByIdGreaterThan($startingFromId, $excludeStartingId, is_string($modelType) ? $modelType : '');
         }

@@ -6,5 +6,5 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestCustomMediaModel extends Media
 {
-    protected $table = 'media';
+    protected string $table = 'media';
 }

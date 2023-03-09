@@ -20,8 +20,10 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
+     * @param HasMedia $model
+     * @param string $collectionName
      * @param array|callable $filter
-     *
+     * @return Collection
      */
     public function getCollection(
         HasMedia $model,
@@ -34,10 +36,10 @@ class MediaRepository
     /**
      * Apply given filters on media.
      *
-     * @param \Illuminate\Support\Collection $media
+     * @param Collection $media
      * @param array|callable $filter
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     protected function applyFilterToMediaCollection(
         Collection $media,

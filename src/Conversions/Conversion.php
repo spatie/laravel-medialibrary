@@ -8,7 +8,7 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
-/** @mixin \Spatie\Image\Manipulations */
+/** @mixin Manipulations */
 class Conversion
 {
     use Conditionable;

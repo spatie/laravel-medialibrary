@@ -8,11 +8,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @template TKey of array-key
- * @template TModel of \Spatie\MediaLibrary\MediaCollections\Models\Media
+ * @template TModel of Media
  *
  * @extends \Illuminate\Database\Eloquent\Collection<TKey, TModel>
  */
-class MediaCollection extends Collection implements Htmlable
+class MediaCollection extends Collection implements Htmlable, \Countable
 {
     public ?string $collectionName = null;
 

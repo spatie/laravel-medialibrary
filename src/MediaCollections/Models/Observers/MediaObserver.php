@@ -9,7 +9,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaObserver
 {
-    public function creating(Media $media)
+    public function creating(Media $media): void
     {
         if ($media->shouldSortWhenCreating()) {
             if (is_null($media->order_column)) {
@@ -18,9 +18,9 @@ class MediaObserver
         }
     }
 
-    public function updating(Media $media)
+    public function updating(Media $media): void
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         if (config('media-library.moves_media_on_update')) {
@@ -44,7 +44,7 @@ class MediaObserver
             $eventDispatcher = Media::getEventDispatcher();
             Media::unsetEventDispatcher();
 
-            /** @var \Spatie\MediaLibrary\Conversions\FileManipulator $fileManipulator */
+            /** @var FileManipulator $fileManipulator */
             $fileManipulator = app(FileManipulator::class);
 
             $fileManipulator->createDerivedFiles($media);
@@ -53,7 +53,7 @@ class MediaObserver
         }
     }
 
-    public function deleted(Media $media)
+    public function deleted(Media $media): void
     {
         if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
             if (! $media->isForceDeleting()) {
@@ -61,7 +61,7 @@ class MediaObserver
             }
         }
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         $filesystem->removeAllFiles($media);

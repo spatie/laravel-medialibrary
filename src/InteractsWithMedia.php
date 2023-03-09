@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
@@ -28,10 +29,10 @@ use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 
 trait InteractsWithMedia
 {
-    /** @var \Spatie\MediaLibrary\Conversions\Conversion[] */
+    /** @var Conversion[] */
     public array $mediaConversions = [];
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\MediaCollection[] */
+    /** @var MediaCollection[] */
     public array $mediaCollections = [];
 
     protected bool $deletePreservingMedia = false;
@@ -112,7 +113,7 @@ trait InteractsWithMedia
      *
      * @param string[] $keys
      *
-     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
+     * @return FileAdder[]
      */
     public function addMultipleMediaFromRequest(array $keys): Collection
     {
@@ -122,7 +123,7 @@ trait InteractsWithMedia
     /**
      * Add all files from a request.
      *
-     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
+     * @return FileAdder[]
      */
     public function addAllMediaFromRequest(): Collection
     {
@@ -134,7 +135,7 @@ trait InteractsWithMedia
      *
      *
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws FileCannotBeAdded|InvalidUrl
      */
     public function addMediaFromUrl(string $url, array|string ...$allowedMimeTypes): FileAdder
     {
@@ -168,7 +169,7 @@ trait InteractsWithMedia
     /**
      * Add a file to the media library that contains the given string.
      *
-     * @param string string
+     * @param string $text string
      */
     public function addMediaFromString(string $text): FileAdder
     {
@@ -176,18 +177,16 @@ trait InteractsWithMedia
 
         file_put_contents($tmpFile, $text);
 
-        $file = app(FileAdderFactory::class)
+        return app(FileAdderFactory::class)
             ->create($this, $tmpFile)
             ->usingFileName('text.txt');
-
-        return $file;
     }
 
     /**
      * Add a base64 encoded file to the media library.
      *
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws FileCannotBeAdded
      *
      * @throws InvalidBase64Data
      */
@@ -206,7 +205,7 @@ trait InteractsWithMedia
             throw InvalidBase64Data::create();
         }
 
-        // decoding and then reencoding should not change the data
+        // decoding and then re-encoding should not change the data
         if (base64_encode($binaryData) !== $base64data) {
             throw InvalidBase64Data::create();
         }
@@ -217,9 +216,7 @@ trait InteractsWithMedia
 
         $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
-        $file = app(FileAdderFactory::class)->create($this, $tmpFile);
-
-        return $file;
+        return app(FileAdderFactory::class)->create($this, $tmpFile);
     }
 
     /**
@@ -233,11 +230,9 @@ trait InteractsWithMedia
 
         file_put_contents($tmpFile, $stream);
 
-        $file = app(FileAdderFactory::class)
+        return app(FileAdderFactory::class)
             ->create($this, $tmpFile)
             ->usingFileName('text.txt');
-
-        return $file;
     }
 
     /**
@@ -255,14 +250,15 @@ trait InteractsWithMedia
      */
     public function hasMedia(string $collectionName = 'default', array $filters = []): bool
     {
-        return count($this->getMedia($collectionName, $filters)) ? true : false;
+        return (bool)count($this->getMedia($collectionName, $filters));
     }
 
     /**
      * Get media collection by its collectionName.
      *
+     * @param string $collectionName
      * @param array|callable $filters
-     *
+     * @return MediaCollections\Models\Collections\MediaCollection
      */
     public function getMedia(string $collectionName = 'default', array|callable $filters = []): MediaCollections\Models\Collections\MediaCollection
     {
@@ -486,7 +482,7 @@ trait InteractsWithMedia
      * You may also pass a media object.
      *
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
+     * @throws MediaCannotBeDeleted
      */
     public function deleteMedia(int|string|Media $mediaId): void
     {
@@ -566,6 +562,9 @@ trait InteractsWithMedia
         $this->unAttachedMediaLibraryItems = [];
     }
 
+    /**
+     * @throws MimeTypeNotAllowed
+     */
     protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes)
     {
         $allowedMimeTypes = Arr::flatten($allowedMimeTypes);

@@ -46,22 +46,22 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     use CustomMediaProperties;
     use HasUuid;
 
-    protected $table = 'media';
+    protected string $table = 'media';
 
     public const TYPE_OTHER = 'other';
 
-    protected $guarded = [];
+    protected array $guarded = [];
 
-    protected $appends = ['original_url', 'preview_url'];
+    protected array $appends = ['original_url', 'preview_url'];
 
-    protected $casts = [
+    protected array $casts = [
         'manipulations' => 'array',
         'custom_properties' => 'array',
         'generated_conversions' => 'array',
         'responsive_images' => 'array',
     ];
 
-    public function newCollection(array $models = [])
+    public function newCollection(array $models = []): MediaCollection
     {
         return new MediaCollection($models);
     }
@@ -365,7 +365,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
 
         $temporaryFile = $temporaryDirectory->path('/') . DIRECTORY_SEPARATOR . $this->file_name;
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         $filesystem->copyFromMediaLibrary($this, $temporaryFile);
@@ -393,7 +393,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
 
     public function stream()
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         return $filesystem->getStream($this);

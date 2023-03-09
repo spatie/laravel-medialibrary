@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @template TModel of \Spatie\MediaLibrary\MediaCollections\Models\Media
+ * @template TModel of Media
  */
 class FileAdder
 {
@@ -34,7 +34,7 @@ class FileAdder
 
     protected bool $preserveOriginal = false;
 
-    /** @var \Symfony\Component\HttpFoundation\File\UploadedFile|string */
+    /** @var UploadedFile|string */
     protected $file;
 
     protected array $properties = [];
@@ -228,6 +228,8 @@ class FileAdder
 
     /**
      * @return TModel
+     * @throws FileIsTooBig
+     * @throws FileDoesNotExist|DiskDoesNotExist
      */
     public function toMediaCollectionFromRemote(string $collectionName = 'default', string $diskName = ''): Media
     {
@@ -242,7 +244,7 @@ class FileAdder
         }
 
         $mediaClass = config('media-library.media_model');
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -282,6 +284,8 @@ class FileAdder
 
     /**
      * @return TModel
+     * @throws FileDoesNotExist
+     * @throws FileIsTooBig|DiskDoesNotExist
      */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
@@ -306,7 +310,7 @@ class FileAdder
         }
 
         $mediaClass = config('media-library.media_model');
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -388,6 +392,9 @@ class FileAdder
         return $originalsDiskName;
     }
 
+    /**
+     * @throws DiskDoesNotExist
+     */
     protected function ensureDiskExists(string $diskName)
     {
         if (is_null(config("filesystems.disks.{$diskName}"))) {
@@ -409,7 +416,7 @@ class FileAdder
         return $this;
     }
 
-    protected function attachMedia(Media $media)
+    protected function attachMedia(Media $media): void
     {
         if (! $this->subject->exists) {
             $this->subject->prepareToAttachMedia($media, $this);
@@ -493,7 +500,10 @@ class FileAdder
             ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
     }
 
-    protected function guardAgainstDisallowedFileAdditions(Media $media)
+    /**
+     * @throws FileUnacceptableForCollection
+     */
+    protected function guardAgainstDisallowedFileAdditions(Media $media): void
     {
         $file = PendingFile::createFromMedia($media);
 
@@ -510,7 +520,7 @@ class FileAdder
         }
     }
 
-    protected function checkGenerateResponsiveImages(Media $media)
+    protected function checkGenerateResponsiveImages(Media $media): void
     {
         $collection = optional($this->getMediaCollection($media->collection_name))->generateResponsiveImages;
 

@@ -16,7 +16,7 @@ class PerformConversionsJob implements ShouldQueue
     use SerializesModels;
     use Queueable;
 
-    public $deleteWhenMissingModels = true;
+    public bool $deleteWhenMissingModels = true;
 
     public function __construct(protected ConversionCollection $conversions, protected Media $media, protected bool $onlyMissing = false)
     {

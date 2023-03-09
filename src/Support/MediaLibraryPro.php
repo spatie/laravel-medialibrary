@@ -7,6 +7,9 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 
 class MediaLibraryPro
 {
+    /**
+     * @throws FunctionalityNotAvailable
+     */
     public static function ensureInstalled(): void
     {
         if (! self::isInstalled()) {

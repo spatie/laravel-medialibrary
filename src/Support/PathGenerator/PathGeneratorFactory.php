@@ -48,6 +48,9 @@ class PathGeneratorFactory
         return false;
     }
 
+    /**
+     * @throws InvalidPathGenerator
+     */
     protected static function guardAgainstInvalidPathGenerator(string $pathGeneratorClass): void
     {
         if (! class_exists($pathGeneratorClass)) {

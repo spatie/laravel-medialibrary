@@ -20,13 +20,13 @@ class CleanCommand extends Command
 {
     use ConfirmableTrait;
 
-    protected $signature = 'media-library:clean {modelType?} {collectionName?} {disk?}
+    protected string $signature = 'media-library:clean {modelType?} {collectionName?} {disk?}
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production},
     {--rate-limit= : Limit the number of requests per second },
     {--skip-conversions : Do not remove deprecated conversions}';
 
-    protected $description = 'Clean deprecated conversions and files without related model.';
+    protected string $description = 'Clean deprecated conversions and files without related model.';
 
     protected MediaRepository $mediaRepository;
 
@@ -143,6 +143,9 @@ class CleanCommand extends Command
             });
     }
 
+    /**
+     * @throws DiskDoesNotExist
+     */
     protected function deleteOrphanedDirectories(): void
     {
         $diskName = $this->argument('disk') ?: config('media-library.disk_name');
@@ -156,7 +159,7 @@ class CleanCommand extends Command
 
         $mediaIds = collect($this->mediaRepository->all()->pluck($keyName)->toArray());
 
-        /** @var array<int, string> */
+        /** @var array<int, string> $directories */
         $directories = $this->fileSystem->disk($diskName)->directories();
 
         collect($directories)
