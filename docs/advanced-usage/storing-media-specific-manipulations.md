@@ -3,7 +3,7 @@ title: Storing media specific manipulations
 weight: 3
 ---
 
-Imagine you need to apply a 90 degree rotation to a single image. So the rotation should be applied to one specific `Media` and not to all media linked to the given `$yourModel`.
+Imagine you need to apply a 90-degree rotation to a single image. So the rotation should be applied to one specific `Media` and not to all media linked to the given `$yourModel`.
 
 When adding an image to the media library, you can use `withManipulations` to set any media specific manipulations.
 

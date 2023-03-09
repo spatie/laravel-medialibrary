@@ -117,7 +117,7 @@ return [
 
     /*
      * The media library will try to optimize all converted images by removing
-     * metadata and applying a little bit of compression. These are
+     * metadata and applying a bit of compression. These are
      * the optimizers that will be used by default.
      */
     'image_optimizers' => [
@@ -213,7 +213,7 @@ return [
     'responsive_images' => [
         /*
          * This class is responsible for calculating the target widths of the responsive
-         * images. By default we optimize for filesize and create variations that each are 20%
+         * images. By default, we optimize for filesize and create variations that each are 20%
          * smaller than the previous one. More info in the documentation.
          *
          * https://docs.spatie.be/laravel-medialibrary/v10/advanced-usage/generating-responsive-images
@@ -227,8 +227,8 @@ return [
         'use_tiny_placeholders' => true,
 
         /*
-         * This class will generate the tiny placeholder used for progressive image loading. By default
-         * the media library will use a tiny blurred jpg image.
+         * This class will generate the tiny placeholder used for progressive image loading. 
+         * By default, the media library will use a tiny blurred jpg image.
          */
         'tiny_placeholder_generator' => Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\Blurred::class,
     ],
@@ -313,7 +313,7 @@ sudo apt install jpegoptim optipng pngquant gifsicle
 npm install -g svgo
 ```
 
-Here's how to install the binaries on MacOS (using [Homebrew](https://brew.sh/)):
+Here's how to install the binaries on macOS (using [Homebrew](https://brew.sh/)):
 
 ```bash
 brew install jpegoptim

@@ -94,7 +94,7 @@ return [
 
     /*
      * The media library will try to optimize all converted images by removing
-     * metadata and applying a little bit of compression. These are
+     * metadata and applying a bit of compression. These are
      * the optimizers that will be used by default.
      */
     'image_optimizers' => [

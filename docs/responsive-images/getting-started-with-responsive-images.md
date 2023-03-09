@@ -3,9 +3,9 @@ title: Getting started with responsive images
 weight: 1
 ---
 
-Websites are viewed on various devices with widely differing screen sizes and connection speeds. When serving images it's best not to use the same image for all devices. A large image might be fine on a desktop computer with a fast internet connection, but on a small mobile device with limited bandwidth, the download might take a long time.
+Websites are viewed on various devices with widely differing screen sizes and connection speeds. When serving images its best not to use the same image for all devices. A large image might be fine on a desktop computer with a fast internet connection, but on a small mobile device with limited bandwidth, the download might take a long time.
 
-The media library has support for generating the necessary files and HTML markup for responsive images. In addition the medialibrary also has support for progressive image loading.
+The media library has support for generating the necessary files and HTML markup for responsive images. In addition, the medialibrary also has support for progressive image loading.
 
 [Try a demo of the concept here.](/laravel-medialibrary/v10/responsive-images/demo)
 

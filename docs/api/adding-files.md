@@ -3,7 +3,7 @@ title: Adding files
 weight: 1
 ---
 
-Adding a file to the media library is easy. Just pick one of the starting methods, optionally add some of the middle methods
+Adding a file to the media library is easy. Just pick one of the starting methods, optionally add some middle methods
 and finish with a finishing method. All start and middle methods are chainable.
 
 For example:

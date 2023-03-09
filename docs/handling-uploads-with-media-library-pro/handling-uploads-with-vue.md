@@ -89,7 +89,7 @@ import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
 import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
 ```
 
-If you're using TypeScript, you will also have have to add this to your tsconfig:
+If you're using TypeScript, you will also have to add this to your tsconfig:
 
 ```json
 // tsconfig.json
