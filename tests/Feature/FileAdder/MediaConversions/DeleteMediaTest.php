@@ -60,8 +60,8 @@ it('can clear a collection excluding some media', function () {
     $this->testModelWithoutMediaConversions = $this->testModelWithoutMediaConversions->fresh();
 
     expect($this->testModelWithoutMediaConversions->getMedia('default'))->toHaveCount(3);
-    expect($excludedMedia[0])->toEqual($this->testModelWithoutMediaConversions->getMedia('images')[0]);
-    expect($excludedMedia[1])->toEqual($this->testModelWithoutMediaConversions->getMedia('images')[1]);
+    expect($excludedMedia[0]->withoutRelations())->toEqual($this->testModelWithoutMediaConversions->getMedia('images')[0]->withoutRelations());
+    expect($excludedMedia[1]->withoutRelations())->toEqual($this->testModelWithoutMediaConversions->getMedia('images')[1]->withoutRelations());
 });
 
 it('provides a chainable method for clearing a collection', function () {
