@@ -3,7 +3,9 @@
 namespace Spatie\MediaLibrary;
 
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Illuminate\Support\Arr;
@@ -58,6 +60,11 @@ trait InteractsWithMedia
     public function media(): MorphMany
     {
         return $this->morphMany(config('media-library.media_model'), 'model');
+    }
+
+    public function firstMedia(): MorphOne {
+        return $this->morphOne(config('media-library.media_model'), 'model')
+            ->ofMany('order_column', 'MIN');
     }
 
     /**
@@ -255,19 +262,25 @@ trait InteractsWithMedia
      */
     public function hasMedia(string $collectionName = 'default', array $filters = []): bool
     {
-        return count($this->getMedia($collectionName, $filters)) ? true : false;
+        return count($this->getMedia($collectionName, $filters, 1)) ? true : false;
     }
 
     /**
      * Get media collection by its collectionName.
      *
-     * @param array|callable $filters
-     *
+     * @param  string  $collectionName
+     * @param  array|callable  $filters
+     * @param  int|null  $limit
+     * @return MediaCollections\Models\Collections\MediaCollection
      */
-    public function getMedia(string $collectionName = 'default', array|callable $filters = []): MediaCollections\Models\Collections\MediaCollection
+    public function getMedia(
+        string $collectionName = 'default',
+        array|callable $filters = [],
+        ?int $limit = null
+    ): MediaCollections\Models\Collections\MediaCollection
     {
         return $this->getMediaRepository()
-            ->getCollection($this, $collectionName, $filters)
+            ->getCollection($this, $collectionName, $filters, $limit)
             ->collectionName($collectionName);
     }
 
@@ -278,7 +291,7 @@ trait InteractsWithMedia
 
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        $media = $this->getMedia($collectionName, $filters);
+        $media = $this->loadFirstMedia($collectionName);
 
         return $media->first();
     }
@@ -536,6 +549,18 @@ trait InteractsWithMedia
     protected function mediaIsPreloaded(): bool
     {
         return $this->relationLoaded('media');
+    }
+
+    protected function firstMediaIsPreloaded(string $collectionName): bool {
+        return $this->relationLoaded('firstMediaFor'.$collectionName);
+    }
+
+    public function loadFirstMedia(string $collectionName) {
+        $firstMediaCollection = $this->firstMedia()->whereCollectionName($collectionName)->get();
+
+        $this->setRelation('firstMediaFor'.$collectionName, $firstMediaCollection->first());
+
+        return $firstMediaCollection;
     }
 
     public function loadMedia(string $collectionName): Collection

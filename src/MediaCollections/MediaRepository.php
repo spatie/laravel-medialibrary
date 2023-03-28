@@ -20,15 +20,19 @@ class MediaRepository
     /**
      * Get all media in the collection.
      *
-     * @param array|callable $filter
-     *
+     * @param  HasMedia  $model
+     * @param  string  $collectionName
+     * @param  array|callable  $filter
+     * @param  int|null  $limit
+     * @return Collection
      */
     public function getCollection(
         HasMedia $model,
         string $collectionName,
-        array|callable $filter = []
+        array|callable $filter = [],
+        ?int $limit = null
     ): Collection {
-        return $this->applyFilterToMediaCollection($model->loadMedia($collectionName), $filter);
+        return $this->applyFilterToMediaCollection($model->loadMedia($collectionName, $limit), $filter);
     }
 
     /**
