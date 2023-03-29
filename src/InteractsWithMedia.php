@@ -549,7 +549,9 @@ trait InteractsWithMedia
         return $collection
             ->filter(fn (Media $mediaItem) => $mediaItem->collection_name === $collectionName)
             ->sortBy('order_column')
-            ->values();
+            ->values()
+            ->each
+            ->setRelation('model', $this);
     }
 
     public function prepareToAttachMedia(Media $media, FileAdder $fileAdder): void
