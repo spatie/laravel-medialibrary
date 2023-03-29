@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\MediaCollections\Models\Collections;
 
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
@@ -73,5 +74,10 @@ class MediaCollection extends Collection implements Htmlable
                 'size' => $media->size,
             ];
         })->keyBy('uuid')->toArray();
+    }
+
+    public function setRelation(?Model $model): static
+    {
+        return $this->each->setRelation('model', $model);
     }
 }

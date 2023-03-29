@@ -546,12 +546,14 @@ trait InteractsWithMedia
 
         $collection = new MediaCollections\Models\Collections\MediaCollection($collection);
 
+        $modelWithoutRelations = (clone $this)->unsetRelation('media');
+
         return $collection
             ->filter(fn (Media $mediaItem) => $mediaItem->collection_name === $collectionName)
             ->sortBy('order_column')
             ->values()
             ->each
-            ->setRelation('model', $this);
+            ->setRelation('model', $modelWithoutRelations);
     }
 
     public function prepareToAttachMedia(Media $media, FileAdder $fileAdder): void
@@ -614,5 +616,20 @@ trait InteractsWithMedia
         });
 
         $this->registerMediaConversions($media);
+    }
+
+    public function __sleep(): array
+    {
+        // do not serialize properties from the trait
+        return collect(parent::__sleep())
+            ->reject(fn($key) => in_array(
+                $key,
+                [
+                    'mediaConversions',
+                    'mediaCollections',
+                    'unAttachedMediaLibraryItems',
+                    'deletePreservingMedia'
+                ])
+            )->toArray();
     }
 }

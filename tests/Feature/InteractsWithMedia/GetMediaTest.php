@@ -294,7 +294,20 @@ it('will return preloaded media sorting on order column', function () {
         ->toArray());
 });
 
+it('can serialize model', function() {
+    expect(unserializeAndSerializeModel($this->testModel))->toEqual($this->testModel);
+    $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+    expect(unserializeAndSerializeModel($this->testModel))->toEqual($this->testModel->fresh());
+});
+
+
 it('will set model relation', function() {
+    $this->testModel
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+
     DB::enableQueryLog();
 
     $this->testModel->loadMedia('images');
@@ -303,9 +316,9 @@ it('will set model relation', function() {
         expect($media->model)->toBeInstanceOf($this->testModel::class);
     });
 
-    expect(DB::getQueryLog())->toHaveCount(1);
+    expect(unserializeAndSerializeModel($this->testModel->getFirstMedia('images')->model))->toEqual($this->testModel->fresh());
 
-    DB::DisableQueryLog();
+    DB::disableQueryLog();
 });
 
 it('will cache loaded media', function () {

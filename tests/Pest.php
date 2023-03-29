@@ -50,3 +50,8 @@ function cleanUpS3(): void
             Storage::disk('s3_disk')->deleteDirectory($directory);
         });
 }
+
+function unserializeAndSerializeModel($model)
+{
+    return unserialize(serialize($model));
+}
