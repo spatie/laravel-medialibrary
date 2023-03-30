@@ -2,6 +2,8 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Filesystem\Filesystem as IlluminateFilesystem;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\CleanCommand;
@@ -44,11 +46,9 @@ class MediaLibraryServiceProvider extends ServiceProvider
             __DIR__.'/../config/media-library.php' => config_path('media-library.php'),
         ], 'config');
 
-        if (! class_exists('CreateMediaTable')) {
-            $this->publishes([
-                __DIR__.'/../database/migrations/create_media_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_media_table.php'),
-            ], 'migrations');
-        }
+        $this->publishes([
+            __DIR__.'/../database/migrations/create_media_table.php.stub' => $this->getMigrationFileName('create_media_table.php'),
+        ], 'migrations');
 
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/media-library'),
@@ -70,5 +70,20 @@ class MediaLibraryServiceProvider extends ServiceProvider
             'command.media-library:clear',
             'command.media-library:clean',
         ]);
+    }
+
+    /**
+     * Returns existing migration file if found, else uses the current timestamp.
+     */
+    protected function getMigrationFileName(string $migrationFileName): string
+    {
+        $timestamp = date('Y_m_d_His');
+
+        $filesystem = $this->app->make(IlluminateFilesystem::class);
+
+        return Collection::make([$this->app->databasePath() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR])
+            ->flatMap(fn ($path) => $filesystem->glob($path . '*_' . $migrationFileName))
+            ->push($this->app->databasePath() . "/migrations/{$timestamp}_{$migrationFileName}")
+            ->first();
     }
 }
