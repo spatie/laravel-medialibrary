@@ -40,6 +40,10 @@ class MediaLibraryServiceProvider extends ServiceProvider
 
     protected function registerPublishables(): void
     {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
         $this->publishes([
             __DIR__.'/../config/media-library.php' => config_path('media-library.php'),
         ], 'config');
