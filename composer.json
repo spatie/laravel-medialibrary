@@ -27,7 +27,7 @@
         "ext-fileinfo": "*",
         "ext-json": "*",
         "illuminate/bus": "^9.18|^10.0",
-        "illuminate/conditionable": "9.18|^10.0",
+        "illuminate/conditionable": "^9.18|^10.0",
         "illuminate/console": "^9.18|^10.0",
         "illuminate/database": "^9.18|^10.0",
         "illuminate/pipeline": "^9.18|^10.0",
