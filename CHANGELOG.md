@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.7.16 - 2023-03-30
+
+Allow any Laravel version up from 9.15
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.15...10.7.16
+
 ## 10.7.15 - 2023-03-29
 
 - revert changes of previous release because of issues report in #3224
