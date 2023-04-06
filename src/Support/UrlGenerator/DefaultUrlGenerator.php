@@ -29,11 +29,11 @@ class DefaultUrlGenerator extends BaseUrlGenerator
         return $this->getRootOfDisk().$this->getPathRelativeToRoot();
     }
 
-    public function getResponsiveImagesDirectoryUrl(): string
+    public function getResponsiveImagesDirectoryUrl(string $fileName): string
     {
         $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
 
-        return Str::finish($this->getDisk()->url($path), '/');
+        return Str::finish($this->getDisk()->url($path), '/').rawurlencode($fileName);
     }
 
     protected function getRootOfDisk(): string
