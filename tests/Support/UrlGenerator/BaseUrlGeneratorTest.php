@@ -53,8 +53,8 @@ it('appends a version string when versioning is enabled', function () {
     expect($this->urlGenerator->getUrl())->toEqual($url);
 });
 
-it('can get the responsive images directory url', function () {
-    $this->config->set('filesystems.disks.public.url', 'http://localhost/media/');
+it('can get the responsive image url', function () {
+    $url = '/media/'.$this->media->id.'/responsive-images/test-'.$this->conversion->getName().'.jpg';
 
-    expect($this->urlGenerator->getResponsiveImagesDirectoryUrl())->toEqual('/media/1/responsive-images/');
+    expect($this->urlGenerator->getResponsiveImageUrl())->toEqual($url);
 });
