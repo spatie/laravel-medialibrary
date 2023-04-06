@@ -29,7 +29,7 @@ class DefaultUrlGenerator extends BaseUrlGenerator
         return $this->getRootOfDisk().$this->getPathRelativeToRoot();
     }
 
-    public function getResponsiveImagesDirectoryUrl(string $fileName): string
+    public function getResponsiveImageUrl(string $fileName): string
     {
         $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
 
