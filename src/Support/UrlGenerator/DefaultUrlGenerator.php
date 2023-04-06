@@ -18,6 +18,13 @@ class DefaultUrlGenerator extends BaseUrlGenerator
     {
         return $this->getDisk()->temporaryUrl($this->getPathRelativeToRoot(), $expiration, $options);
     }
+    
+    public function getResponsiveImageUrl(string $fileName): string
+    {
+        $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
+
+        return Str::finish($this->getDisk()->url($path), '/').rawurlencode($fileName);
+    }
 
     public function getBaseMediaDirectoryUrl(): string
     {
@@ -27,13 +34,6 @@ class DefaultUrlGenerator extends BaseUrlGenerator
     public function getPath(): string
     {
         return $this->getRootOfDisk().$this->getPathRelativeToRoot();
-    }
-
-    public function getResponsiveImageUrl(string $fileName): string
-    {
-        $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
-
-        return Str::finish($this->getDisk()->url($path), '/').rawurlencode($fileName);
     }
 
     protected function getRootOfDisk(): string
