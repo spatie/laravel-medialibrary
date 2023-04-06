@@ -45,7 +45,7 @@ class ResponsiveImage
 
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media, $conversionName);
 
-        return $urlGenerator->getResponsiveImagesDirectoryUrl().rawurlencode($this->fileName);
+        return $urlGenerator->getResponsiveImageUrl($this->fileName);
     }
 
     public function generatedFor(): string
