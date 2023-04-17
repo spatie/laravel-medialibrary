@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.8.0 - 2023-04-17
+
+### What's Changed
+
+- Only offer publishing when running in console by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3227
+- Add webp extension. Fix: files with webp doesn't process responsive images by @websitevirtuoso in https://github.com/spatie/laravel-medialibrary/pull/3242
+
+### New Contributors
+
+- @websitevirtuoso made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3242
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.7.16...10.8.0
+
 ## 10.7.16 - 2023-03-30
 
 Allow any Laravel version up from 9.15
