@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\MediaCollections\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 trait IsSorted
 {
@@ -33,15 +34,19 @@ trait IsSorted
      */
     public static function setNewOrder(array $ids, int $startOrder = 1): void
     {
-        foreach ($ids as $id) {
-            $model = static::find($id);
+        $model = new static();
+        $primaryKeyColumn  = $model->getKeyName();
 
-            $orderColumnName = $model->determineOrderColumnName();
-
-            $model->$orderColumnName = $startOrder++;
-
-            $model->save();
-        }
+        $model
+            ->newModelQuery()
+            ->whereIn($primaryKeyColumn, $ids)
+            ->update([
+                $model->determineOrderColumnName() => DB::raw('case '. collect($ids)
+                    ->map(function ($id) use ($primaryKeyColumn, &$startOrder): string {
+                        return 'when ' . $primaryKeyColumn . ' = ' . DB::getPdo()->quote($id) . ' then ' . ($startOrder++);
+                    })
+                    ->implode(' ') . ' end')
+            ]);
     }
 
     protected function determineOrderColumnName(): string
