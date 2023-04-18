@@ -20,6 +20,7 @@ class Image extends ImageGenerator
     public function supportedExtensions(): Collection
     {
         $extensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+
         if (config('media-library.image_driver') === 'imagick') {
             $extensions[] = 'tiff';
         }
@@ -29,11 +30,8 @@ class Image extends ImageGenerator
 
     public function supportedMimeTypes(): Collection
     {
-        $mimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/webp'];
-        if (config('media-library.image_driver') === 'imagick') {
-            $mimeTypes[] = 'image/tiff';
-        }
-
-        return collect($mimeTypes);
+        return $this->supportedExtensions()
+                    ->reject(fn(string $extension) => $extension === 'jpg')
+                    ->map(fn(string $extension) => "image/{$extension}");
     }
 }
