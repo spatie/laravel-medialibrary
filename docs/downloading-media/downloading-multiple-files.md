@@ -30,13 +30,12 @@ class DownloadMediaController
 
 You can also pass any custom options to the `ZipStream` instance using the `useZipOptions` method.
 
-All the available options are listed on the [ZipStream-PHP wiki](https://github.com/maennchen/ZipStream-PHP/wiki/Available-options).
+All the available options are listed on the [ZipStream-PHP guide](https://maennchen.dev/ZipStream-PHP/guide/Options.html).
 
 Here's an example on how it can be used:
 
 ```php
 use Spatie\MediaLibrary\Support\MediaStream;
-use ZipStream\Option\Archive as ArchiveOptions;
 
 class DownloadMediaController
 {
@@ -48,8 +47,15 @@ class DownloadMediaController
         // Download the files associated with the media in a streamed way.
         // No prob if your files are very large.
         return MediaStream::create('my-files.zip')
-            ->useZipOptions(function(ArchiveOptions $zipOptions) {
-                $zipOptions->setZeroHeader(true);
+            ->useZipOptions(function(&$zipOptions) {
+                if (is_array($zipOptions)) {
+                    // ZipStream ^3.0 uses array                    
+                    $zipOptions['defaultEnableZeroHeader'] = true;
+                } else {
+                    // ZipStream ^2.0 uses \ZipStream\Option\Archive
+                    /** @var \ZipStream\Option\Archive $zipOptions */
+                    $zipOptions->setZeroHeader(true);
+                }
             })
             ->addMedia($downloads);
    }

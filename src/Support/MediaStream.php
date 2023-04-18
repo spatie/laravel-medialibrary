@@ -13,7 +13,7 @@ class MediaStream implements Responsable
 {
     protected Collection $mediaItems;
 
-    protected ArchiveOptions $zipOptions;
+    protected array|ArchiveOptions $zipOptions;
 
     public static function create(string $zipName): self
     {
@@ -24,7 +24,7 @@ class MediaStream implements Responsable
     {
         $this->mediaItems = collect();
 
-        $this->zipOptions = new ArchiveOptions();
+        $this->zipOptions = class_exists(ArchiveOptions::class) ? new ArchiveOptions() : [];
     }
 
     public function useZipOptions(callable $zipOptionsCallable): self
@@ -74,7 +74,12 @@ class MediaStream implements Responsable
 
     public function getZipStream(): ZipStream
     {
-        $zip = new ZipStream($this->zipName, $this->zipOptions);
+        if (class_exists(ArchiveOptions::class)) {
+            $zip = new ZipStream($this->zipName, $this->zipOptions);
+        } else {
+            $this->zipOptions['outputName'] = $this->zipName;
+            $zip = new ZipStream(...$this->zipOptions);
+        }
 
         $this->getZipStreamContents()->each(function (array $mediaInZip) use ($zip) {
             $stream = $mediaInZip['media']->stream();
