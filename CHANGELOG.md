@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.9.0 - 2023-04-20
+
+### What's Changed
+
+- Support maennchen/zipstream-php v3 by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3246
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.8.0...10.9.0
+
 ## 10.8.0 - 2023-04-17
 
 ### What's Changed
