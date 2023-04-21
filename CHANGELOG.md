@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.9.1 - 2023-04-21
+
+### What's Changed
+
+- feat: add user agent to stream context in DefaultDownloader by @rolfvandekrol in https://github.com/spatie/laravel-medialibrary/pull/3248
+
+### New Contributors
+
+- @rolfvandekrol made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3248
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.9.0...10.9.1
+
 ## 10.9.0 - 2023-04-20
 
 ### What's Changed
