@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\Support\FileRemover\FileRemoverFactory;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -210,44 +211,23 @@ class Filesystem
 
     public function removeAllFiles(Media $media): void
     {
-        $mediaDirectory = $this->getMediaDirectory($media);
+        $fileRemover = FileRemoverFactory::create($media);
 
-        if ($media->disk !== $media->conversions_disk) {
-            $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
-        }
-
-        $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
-
-        $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
-
-        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
-            ->unique()
-            ->each(function (string $directory) use ($media) {
-                try {
-                    $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
-                } catch (Exception $exception) {
-                    report($exception);
-                }
-            });
+        $fileRemover->removeAllFiles($media);
     }
 
     public function removeFile(Media $media, string $path): void
     {
-        $this->filesystem->disk($media->disk)->delete($path);
+        $fileRemover = FileRemoverFactory::create($media);
+
+        $fileRemover->removeFile($path, $media->disk);
     }
 
     public function removeResponsiveImages(Media $media, string $conversionName = 'media_library_original'): void
     {
-        $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
+        $fileRemover = FileRemoverFactory::create($media);
 
-        $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
-
-        $responsiveImagePaths = array_filter(
-            $allFilePaths,
-            fn (string $path) => Str::contains($path, $conversionName)
-        );
-
-        $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
+        $fileRemover->removeResponsiveImages($media, $conversionName);
     }
 
     public function syncFileNames(Media $media): void
