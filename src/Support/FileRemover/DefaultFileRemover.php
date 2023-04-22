@@ -36,11 +36,6 @@ class DefaultFileRemover implements FileRemover
             });
     }
 
-    public function removeConvertedImages(Media $media): void
-    {
-        //
-    }
-
     public function removeResponsiveImages(Media $media, string $conversionName): void
     {
         $responsiveImagesDirectory = $this->mediaFileSystem->getResponsiveImagesDirectory($media);

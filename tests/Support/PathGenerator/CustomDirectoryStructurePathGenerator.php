@@ -19,6 +19,6 @@ class CustomDirectoryStructurePathGenerator implements PathGenerator
 
     public function getPathForResponsiveImages(Media $media): string
     {
-        return $this->getPath($media) . '/cri/';
+        return $this->getPath($media) . 'cri/';
     }
 }

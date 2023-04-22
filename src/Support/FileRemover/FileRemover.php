@@ -21,11 +21,6 @@ interface FileRemover
     /*
      * Remove all converted files relating to the media model.
      */
-    public function removeConvertedImages(Media $media): void;
-
-    /*
-     * Remove all converted files relating to the media model.
-     */
     public function removeResponsiveImages(Media $media, string $conversionName): void;
 
     /*

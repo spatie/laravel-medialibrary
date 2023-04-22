@@ -225,9 +225,16 @@ class Filesystem
 
     public function removeResponsiveImages(Media $media, string $conversionName = 'media_library_original'): void
     {
-        $fileRemover = FileRemoverFactory::create($media);
+        $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
-        $fileRemover->removeResponsiveImages($media, $conversionName);
+        $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
+
+        $responsiveImagePaths = array_filter(
+            $allFilePaths,
+            fn (string $path) => Str::contains($path, $conversionName)
+        );
+
+        $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
     }
 
     public function syncFileNames(Media $media): void
