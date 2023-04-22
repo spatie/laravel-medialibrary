@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
+use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomDirectoryStructurePathGenerator;
 
 it('will remove the files when deleting an object that has media', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
@@ -38,6 +40,41 @@ it('will remove files when deleting a media object with a custom path generator'
     $this->testModel->delete();
 
     expect(File::isDirectory($this->getTempDirectory($path)))->toBeFalse();
+});
+
+
+it('will remove files when deleting a media object with a custom path and directory generator', function () {
+    config(['media-library.path_generator' => CustomDirectoryStructurePathGenerator::class]);
+
+    $pathGenerator = new CustomDirectoryStructurePathGenerator();
+
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $path = $pathGenerator->getPath($media);
+
+    expect(File::exists($media->getPath()))->toBeTrue();
+
+    $this->testModel->delete();
+
+    expect(File::exists($media->getPath()))->toBeFalse();
+});
+
+it('will NOT remove other files within the same folder when deleting a media object with a custom path and directory generator', function () {
+    config(['media-library.path_generator' => CustomDirectoryStructurePathGenerator::class]);
+    config(['media-library.delete_media_directory' => false]);
+
+    $pathGenerator = new CustomDirectoryStructurePathGenerator();
+    // TODO: this is wrong - both files are deleted as they are attached to the same model
+    // either use two models or try to detach a file for deletion
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $media2 = $this->testModelWithConversion->addMedia($this->getTestPng())->toMediaCollection('images');
+
+    expect(File::exists($media->getPath()))->toBeTrue();
+    expect(File::exists($media2->getPath()))->toBeTrue();
+
+    $media->delete();
+
+    expect(File::exists($media->getPath()))->toBeFalse();
+    expect(File::exists($media2->getPath()))->toBeTrue();
 });
 
 it('will not remove the files when should delete preserving media returns true', function () {
