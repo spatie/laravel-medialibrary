@@ -8,9 +8,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 interface FileRemover
 {
-    /*
-     * Create a new file remover instance, using the media library file system and illuminate filesystem.
-     */
     public function __construct(Filesystem $mediaFileSystem, Factory $filesystem);
 
     /*
