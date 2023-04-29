@@ -16,12 +16,12 @@ interface FileRemover
     public function removeAllFiles(Media $media): void;
 
     /*
-     * Remove all converted files relating to the media model.
+     * Remove responsive files relating to the media model.
      */
     public function removeResponsiveImages(Media $media, string $conversionName): void;
 
     /*
-     * Remove all responsive image files relating to the media model.
+     * Remove a file relating to the media model.
      */
     public function removeFile(string $path, string $disk): void;
 
