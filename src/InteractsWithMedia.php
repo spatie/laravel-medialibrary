@@ -613,4 +613,19 @@ trait InteractsWithMedia
 
         $this->registerMediaConversions($media);
     }
+
+    public function __sleep(): array
+    {
+        // do not serialize properties from the trait
+        return collect(parent::__sleep())
+            ->reject(fn($key) => in_array(
+                $key,
+                [
+                    'mediaConversions',
+                    'mediaCollections',
+                    'unAttachedMediaLibraryItems',
+                    'deletePreservingMedia'
+                ])
+            )->toArray();
+    }
 }

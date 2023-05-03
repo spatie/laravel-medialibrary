@@ -315,3 +315,10 @@ it('will cache loaded media', function () {
 it('returns null when getting first media for an empty collection', function () {
     expect($this->testModel->getFirstMedia())->toBeNull();
 });
+
+it('can serialize model', function() {
+    expect(unserializeAndSerializeModel($this->testModel))->toEqual($this->testModel);
+    $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+    expect(unserializeAndSerializeModel($this->testModel))->toEqual($this->testModel->fresh());
+});
