@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.9.2 - 2023-05-03
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3253
+- Fix InteractsWithMedia serialization by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3258
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.9.1...10.9.2
+
 ## 10.9.1 - 2023-04-21
 
 ### What's Changed
