@@ -100,7 +100,7 @@ class FileManipulator
         return $this;
     }
 
-    protected function generateResponsiveImages(Media $media, bool $withResponsiveImages)
+    protected function generateResponsiveImages(Media $media, bool $withResponsiveImages): self
     {
         if (! $withResponsiveImages) {
             return $this;
