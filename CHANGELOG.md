@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.9.3 - 2023-05-22
+
+### What's Changed
+
+- set return type for FileManipulator@generateResponsiveImages() by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3266
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.9.2...10.9.3
+
 ## 10.9.2 - 2023-05-03
 
 ### What's Changed
