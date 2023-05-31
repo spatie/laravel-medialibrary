@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
+namespace Programic\MediaLibrary\Tests\TestSupport\TestModels;
 
-use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\Image\Manipulations;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithPreviewConversion extends TestModel
 {

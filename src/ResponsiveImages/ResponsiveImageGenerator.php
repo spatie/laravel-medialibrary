@@ -1,20 +1,20 @@
 <?php
 
-namespace Spatie\MediaLibrary\ResponsiveImages;
+namespace Programic\MediaLibrary\ResponsiveImages;
 
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
-use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
-use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
-use Spatie\MediaLibrary\Support\File;
-use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
-use Spatie\MediaLibrary\Support\ImageFactory;
-use Spatie\MediaLibrary\Support\TemporaryDirectory;
-use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
+use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\MediaCollections\Filesystem;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
+use Programic\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
+use Programic\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Programic\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Programic\MediaLibrary\Support\File;
+use Programic\MediaLibrary\Support\FileNamer\FileNamer;
+use Programic\MediaLibrary\Support\ImageFactory;
+use Programic\MediaLibrary\Support\TemporaryDirectory;
+use Programic\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 
 class ResponsiveImageGenerator
 {

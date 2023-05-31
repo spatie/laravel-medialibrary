@@ -42,7 +42,7 @@ First you must create a listener class. Here's one that will log the paths of ad
 namespace App\Listeners;
 
 use Log;
-use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Programic\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 
 class MediaLogger
 {

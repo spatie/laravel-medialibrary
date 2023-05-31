@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support;
+namespace Programic\MediaLibrary\Support;
 
 use Symfony\Component\Mime\MimeTypes;
 

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Tests\TestCase;
+use Programic\MediaLibrary\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
 

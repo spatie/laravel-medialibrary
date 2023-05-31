@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections\Models;
+namespace Programic\MediaLibrary\MediaCollections\Models;
 
 use DateTimeInterface;
 use Illuminate\Contracts\Mail\Attachable;
@@ -14,23 +14,24 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Mail\Attachment;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
-use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
-use Spatie\MediaLibrary\Support\File;
-use Spatie\MediaLibrary\Support\MediaLibraryPro;
-use Spatie\MediaLibrary\Support\TemporaryDirectory;
-use Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator;
-use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
-use Spatie\MediaLibraryPro\Models\TemporaryUpload;
+use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\Conversions\ConversionCollection;
+use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Programic\MediaLibrary\HasManyMedia;
+use Programic\MediaLibrary\HasMedia;
+use Programic\MediaLibrary\MediaCollections\Filesystem;
+use Programic\MediaLibrary\MediaCollections\HtmlableMedia;
+use Programic\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
+use Programic\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
+use Programic\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
+use Programic\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
+use Programic\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
+use Programic\MediaLibrary\Support\File;
+use Programic\MediaLibrary\Support\MediaLibraryPro;
+use Programic\MediaLibrary\Support\TemporaryDirectory;
+use Programic\MediaLibrary\Support\UrlGenerator\UrlGenerator;
+use Programic\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
+use Programic\MediaLibraryPro\Models\TemporaryUpload;
 
 /**
  * @property-read string $uuid
@@ -359,7 +360,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
         return $newMedia;
     }
 
-    public function copy(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
+    public function copy(HasMedia|HasManyMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
     {
         $temporaryDirectory = TemporaryDirectory::create();
 

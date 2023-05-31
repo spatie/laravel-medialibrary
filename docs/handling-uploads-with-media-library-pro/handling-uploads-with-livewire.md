@@ -54,7 +54,7 @@ namespace App\Http\Livewire;
 
 use App\Models\YourModel;
 use Livewire\Component;
-use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
+use Programic\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
 class MyForm extends Component
 {
@@ -153,7 +153,7 @@ namespace App\Http\Livewire;
 
 use App\Models\YourModel;
 use Livewire\Component;
-use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
+use Programic\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
 class MyForm extends Component
 {
@@ -249,7 +249,7 @@ namespace App\Http\Livewire;
 
 use App\Models\BlogPost;
 use Livewire\Component;
-use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
+use Programic\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
 class MyForm extends Component
 {

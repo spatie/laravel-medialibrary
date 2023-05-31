@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
+namespace Programic\MediaLibrary\MediaCollections\Exceptions;
 
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\File;
-use Spatie\MediaLibrary\MediaCollections\MediaCollection;
+use Programic\MediaLibrary\HasMedia;
+use Programic\MediaLibrary\MediaCollections\File;
+use Programic\MediaLibrary\MediaCollections\MediaCollection;
 
 class FileUnacceptableForCollection extends FileCannotBeAdded
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Downloaders;
+namespace Programic\MediaLibrary\Downloaders;
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Programic\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 
 class DefaultDownloader implements Downloader
 {

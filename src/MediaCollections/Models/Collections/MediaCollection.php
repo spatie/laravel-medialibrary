@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections\Models\Collections;
+namespace Programic\MediaLibrary\MediaCollections\Models\Collections;
 
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @template TKey of array-key

@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections;
+namespace Programic\MediaLibrary\MediaCollections;
 
 use Illuminate\Contracts\Support\Htmlable;
-use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Conversions\ConversionCollection;
+use Programic\MediaLibrary\Conversions\ImageGenerators\Image;
+use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class HtmlableMedia implements Htmlable, \Stringable
 {

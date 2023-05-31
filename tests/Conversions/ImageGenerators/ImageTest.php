@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
+use Programic\MediaLibrary\Conversions\ImageGenerators\Image;
 
 it('can convert an image', function () {
     $imageGenerator = new Image();

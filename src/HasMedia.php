@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Programic\MediaLibrary;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\MediaCollections\FileAdder;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\MediaCollections\FileAdder;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface HasMedia

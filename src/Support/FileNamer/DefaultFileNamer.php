@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support\FileNamer;
+namespace Programic\MediaLibrary\Support\FileNamer;
 
-use Spatie\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\Conversions\Conversion;
 
 class DefaultFileNamer extends FileNamer
 {

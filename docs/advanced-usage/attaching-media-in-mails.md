@@ -10,7 +10,7 @@ Laravel allows [to attach all sorts of classes](https://laravel.com/docs/9.x/mai
 namespace App\Mails;
 
 use Illuminate\Mail\Mailable;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Order;
 
 class OrderConfirmationMail extends Mailable
@@ -40,7 +40,7 @@ You can call  `mailAttachment()` on a `Media` model to get back an `Attachment` 
 namespace App\Mails;
 
 use Illuminate\Mail\Mailable;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\BlogPost;
 
 class BlogPostThumbnailMail extends Mailable

@@ -1,10 +1,10 @@
 <?php
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
-use Spatie\MediaLibrary\MediaCollections\File;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Programic\MediaLibrary\MediaCollections\File;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 
 it('will use the disk from a media collection', function () {
     $testModel = new class () extends TestModelWithConversion {

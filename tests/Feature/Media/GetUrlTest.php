@@ -1,7 +1,7 @@
 <?php
 
 use Carbon\Carbon;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 
 it('can get an url of an original item', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();

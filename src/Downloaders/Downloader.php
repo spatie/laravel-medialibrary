@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Downloaders;
+namespace Programic\MediaLibrary\Downloaders;
 
 interface Downloader
 {

@@ -14,7 +14,7 @@ If you need to change this database connection, you can create a custom model an
 
 namespace App\Models;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
+use Programic\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class Media extends BaseMedia {
 
@@ -32,9 +32,9 @@ The `Spatie\MediaLibrary\InteractsWithMedia` trait defines a `MorphMany` relatio
 
 namespace App\Models;
 
-use Spatie\MediaLibrary\HasMedia;
+use Programic\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Programic\MediaLibrary\InteractsWithMedia;
 
 class User extends Model implements HasMedia {
 

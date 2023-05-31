@@ -47,7 +47,7 @@ This returns a collection of `MediaCollection` objects.
 If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback URL and/or path using `useFallbackUrl` and `useFallbackPath`.
 
 ```php
-use Spatie\MediaLibrary\MediaCollections\File;
+use Programic\MediaLibrary\MediaCollections\File;
 ...
 public function registerMediaCollections(): void
 {
@@ -61,7 +61,7 @@ public function registerMediaCollections(): void
 When you use a fallback URL/path, [conversions](https://spatie.be/docs/laravel-medialibrary/v10/converting-images/defining-conversions) will use the default fallback URL/path if the media does not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
 
 ```php
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 // ...
 
@@ -106,7 +106,7 @@ $yourModel->getFirstMediaPath('avatar', 'thumb_2'); // .../default_avatar.jpg
 You can pass a callback to `acceptsFile` that will check if a file is allowed into the collection. In this example we only accept `jpeg` files.
 
 ```php
-use Spatie\MediaLibrary\MediaCollections\File;
+use Programic\MediaLibrary\MediaCollections\File;
 ...
 public function registerMediaCollections(): void
 {
@@ -135,7 +135,7 @@ $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
 You can defined an array of accepted Mime types using `acceptsMimeTypes` that will check if a file with a certain Mime type is allowed into the collection. In this example we only accept `image/jpeg` files.
 
 ```php
-use Spatie\MediaLibrary\MediaCollections\File;
+use Programic\MediaLibrary\MediaCollections\File;
 
 // ...
 
@@ -258,7 +258,7 @@ It's recommended that your first read the section on [converting images](/larave
 Normally image conversions are registered inside the `registerMediaConversions` function on your model. However, images conversions can also be registered inside media collections.
 
 ```php
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 // ...
 

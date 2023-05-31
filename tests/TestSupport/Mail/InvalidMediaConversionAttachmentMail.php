@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\TestSupport\Mail;
+namespace Programic\MediaLibrary\Tests\TestSupport\Mail;
 
 use Illuminate\Mail\Mailable;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class InvalidMediaConversionAttachmentMail extends Mailable
 {

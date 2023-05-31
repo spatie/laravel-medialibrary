@@ -67,12 +67,12 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Spatie\\MediaLibrary\\": "src"
+            "Programic\\MediaLibrary\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\MediaLibrary\\Tests\\": "tests"
+            "Programic\\MediaLibrary\\Tests\\": "tests"
         }
     },
     "config": {
@@ -85,7 +85,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\MediaLibrary\\MediaLibraryServiceProvider"
+                "Programic\\MediaLibrary\\MediaLibraryServiceProvider"
             ]
         }
     },

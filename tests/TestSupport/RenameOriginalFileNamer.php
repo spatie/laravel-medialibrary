@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\TestSupport;
+namespace Programic\MediaLibrary\Tests\TestSupport;
 
-use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
+use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\Support\FileNamer\FileNamer;
 
 class RenameOriginalFileNamer extends FileNamer
 {

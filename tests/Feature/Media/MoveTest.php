@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
 it('can move media from one model to another', function () {
     $model = TestModel::create(['name' => 'test']);

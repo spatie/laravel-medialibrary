@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
+use Programic\MediaLibrary\Conversions\ImageGenerators\Webp;
 
 it('can convert a webp', function () {
     $imageGenerator = new Webp();

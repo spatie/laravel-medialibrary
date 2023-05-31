@@ -1,7 +1,7 @@
 <?php
 
-use Spatie\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
-use Spatie\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
+use Programic\MediaLibrary\Conversions\Conversion;
 
 beforeEach(function () {
     $this->conversionName = 'test';

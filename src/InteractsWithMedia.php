@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary;
+namespace Programic\MediaLibrary;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -11,21 +11,21 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
-use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\MediaCollections\FileAdder;
-use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
-use Spatie\MediaLibrary\MediaCollections\MediaCollection;
-use Spatie\MediaLibrary\MediaCollections\MediaRepository;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\MediaLibraryPro;
-use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
+use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\Downloaders\DefaultDownloader;
+use Programic\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
+use Programic\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
+use Programic\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
+use Programic\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
+use Programic\MediaLibrary\MediaCollections\FileAdder;
+use Programic\MediaLibrary\MediaCollections\FileAdderFactory;
+use Programic\MediaLibrary\MediaCollections\MediaCollection;
+use Programic\MediaLibrary\MediaCollections\MediaRepository;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Support\MediaLibraryPro;
+use Programic\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 
 trait InteractsWithMedia
 {

@@ -7,7 +7,7 @@ If you want to output your `$media` instance to the browser, you may use the `to
 
 ```php
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 public function download(Request $request, Media $media)
 {
@@ -21,7 +21,7 @@ If you want to output your `$media` instance to your browser, but want to inline
 
 ```php
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 public function download(Request $request, Media $media)
 {

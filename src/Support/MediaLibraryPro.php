@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support;
+namespace Programic\MediaLibrary\Support;
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FunctionalityNotAvailable;
-use Spatie\MediaLibraryPro\Models\TemporaryUpload;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FunctionalityNotAvailable;
+use Programic\MediaLibraryPro\Models\TemporaryUpload;
 
 class MediaLibraryPro
 {

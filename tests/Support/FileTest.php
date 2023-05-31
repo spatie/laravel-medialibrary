@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\Support\File;
+use Programic\MediaLibrary\Support\File;
 
 it('can determine a human readable filesize', function () {
     expect(File::getHumanReadableSize(10))->toEqual('10 B');

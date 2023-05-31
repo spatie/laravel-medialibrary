@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections;
+namespace Programic\MediaLibrary\MediaCollections;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
-use Spatie\MediaLibrary\Support\RemoteFile;
-use Spatie\MediaLibraryPro\Dto\PendingMediaItem;
+use Programic\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
+use Programic\MediaLibrary\Support\RemoteFile;
+use Programic\MediaLibraryPro\Dto\PendingMediaItem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileAdderFactory

@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\TemporaryDirectory\TemporaryDirectory;
+use Programic\TemporaryDirectory\TemporaryDirectory;
 
 test('to response sends the content', function () {
     $media = $this->testModel->addMedia($testPdf = $this->getTestPdf())->preservingOriginal()->toMediaCollection();

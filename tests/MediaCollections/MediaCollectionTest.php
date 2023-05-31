@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\MediaCollections\MediaCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestSupport\TestUuidPathGenerator;
+use Programic\MediaLibrary\MediaCollections\MediaCollection;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Tests\TestSupport\TestUuidPathGenerator;
 
 it('can get the sum of all media item sizes', function () {
     $mediaItem = $this

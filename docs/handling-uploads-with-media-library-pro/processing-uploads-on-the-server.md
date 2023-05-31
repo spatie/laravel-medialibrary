@@ -118,7 +118,7 @@ To validate uploaded media, we'll use create a custom form request.
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
+use Programic\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
 class ProfileRequest extends FormRequest
 {
@@ -167,7 +167,7 @@ In this example we assume that a component was configured to use the `images` ke
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
+use Programic\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
 class MyRequest extends FormRequest
 {
@@ -194,7 +194,7 @@ If you are only allowing one uploaded file, you can use the `validateSingleMedia
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
+use Programic\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
 class MyRequest extends FormRequest
 {
@@ -239,7 +239,7 @@ Here's an example where we validate `extra_property` and `another_extra_property
 
 ```php
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
+use Programic\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
 class StoreLivewireCollectionCustomPropertyRequest extends FormRequest
 {
@@ -388,9 +388,9 @@ You can customize this by registering a preview manipulation. Typically, this wo
 Here's an example where we will create 300x300 previews
 
 ```php
-use Spatie\MediaLibraryPro\Models\TemporaryUpload;
-use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\Image\Manipulations;
+use Programic\MediaLibraryPro\Models\TemporaryUpload;
+use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\Image\Manipulations;
 
 // in a service provider
 TemporaryUpload::previewManipulation(function(Conversion $conversion) {

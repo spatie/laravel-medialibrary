@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 
 it('can get a path of an original item relative to the filesystem\'s root', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();

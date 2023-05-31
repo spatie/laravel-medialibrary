@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
-use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
-use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerators\TestPathGeneratorConversionsInOriginalImageDirectory;
+use Programic\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
+use Programic\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Programic\MediaLibrary\Tests\TestSupport\TestPathGenerators\TestPathGeneratorConversionsInOriginalImageDirectory;
 
 beforeEach(function () {
     $this->media['model1']['collection1'] = $this->testModel

@@ -25,9 +25,9 @@ In your class you should implement 3 methods:
 Here is the implementation of `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer`
 
 ```php
-namespace Spatie\MediaLibrary\Support\FileNamer;
+namespace Programic\MediaLibrary\Support\FileNamer;
 
-use Spatie\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\Conversions\Conversion;
 
 class DefaultFileNamer extends FileNamer
 {

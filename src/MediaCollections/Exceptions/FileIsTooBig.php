@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
+namespace Programic\MediaLibrary\MediaCollections\Exceptions;
 
-use Spatie\MediaLibrary\Support\File;
+use Programic\MediaLibrary\Support\File;
 
 class FileIsTooBig extends FileCannotBeAdded
 {

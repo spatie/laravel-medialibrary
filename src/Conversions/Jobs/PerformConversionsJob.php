@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\MediaLibrary\Conversions\Jobs;
+namespace Programic\MediaLibrary\Conversions\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\Conversions\FileManipulator;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Conversions\ConversionCollection;
+use Programic\MediaLibrary\Conversions\FileManipulator;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class PerformConversionsJob implements ShouldQueue
 {

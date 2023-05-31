@@ -9,8 +9,8 @@ To associate media with a model, the model must implement the following interfac
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Programic\MediaLibrary\HasMedia;
+use Programic\MediaLibrary\InteractsWithMedia;
 
 class YourModel extends Model implements HasMedia
 {
@@ -23,8 +23,8 @@ The `Collection` component will show a preview thumbnail for items in the collec
 To generate that thumbnail, you must add a conversion like this one to your model.
 
 ```php
-use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\Image\Manipulations;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 public function registerMediaConversions(Media $media = null): void
 {

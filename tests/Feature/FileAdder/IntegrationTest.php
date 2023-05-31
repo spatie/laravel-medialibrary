@@ -2,19 +2,19 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Programic\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
+use Programic\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
+use Programic\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
+use Programic\MediaLibrary\MediaCollections\Exceptions\RequestDoesNotHaveFile;
+use Programic\MediaLibrary\MediaCollections\Exceptions\UnknownType;
+use Programic\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 it('can add an file to the default collection', function () {

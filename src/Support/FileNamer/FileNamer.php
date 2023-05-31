@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support\FileNamer;
+namespace Programic\MediaLibrary\Support\FileNamer;
 
-use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 abstract class FileNamer
 {

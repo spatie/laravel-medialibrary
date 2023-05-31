@@ -11,7 +11,7 @@ default `Spatie\MediaLibrary\MediaCollections\Models\Media`-class. Here's an exa
 ```php
 namespace App\Models;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
+use Programic\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
 class Media extends BaseMedia
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MediaLibrary\ResponsiveImages\Jobs;
+namespace Programic\MediaLibrary\ResponsiveImages\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 
 class GenerateResponsiveImagesJob implements ShouldQueue
 {

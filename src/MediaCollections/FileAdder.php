@@ -1,25 +1,26 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections;
+namespace Programic\MediaLibrary\MediaCollections;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
-use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
-use Spatie\MediaLibrary\Support\File;
-use Spatie\MediaLibrary\Support\RemoteFile;
-use Spatie\MediaLibraryPro\Models\TemporaryUpload;
+use Programic\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
+use Programic\MediaLibrary\HasManyMedia;
+use Programic\MediaLibrary\HasMedia;
+use Programic\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
+use Programic\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Programic\MediaLibrary\MediaCollections\Exceptions\UnknownType;
+use Programic\MediaLibrary\MediaCollections\File as PendingFile;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
+use Programic\MediaLibrary\Support\File;
+use Programic\MediaLibrary\Support\RemoteFile;
+use Programic\MediaLibraryPro\Models\TemporaryUpload;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -428,7 +429,7 @@ class FileAdder
         $this->processMediaItem($this->subject, $media, $this);
     }
 
-    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
+    protected function processMediaItem(HasMedia|HasManyMedia $model, Media $media, self $fileAdder)
     {
         $this->guardAgainstDisallowedFileAdditions($media);
 

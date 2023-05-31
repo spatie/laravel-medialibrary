@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MediaLibrary\Conversions;
+namespace Programic\MediaLibrary\Conversions;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\Image\Manipulations;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @template TKey of array-key

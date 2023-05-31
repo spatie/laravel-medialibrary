@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support;
+namespace Programic\MediaLibrary\Support;
 
-use Spatie\Image\Image;
+use Programic\Image\Image;
 
 class ImageFactory
 {

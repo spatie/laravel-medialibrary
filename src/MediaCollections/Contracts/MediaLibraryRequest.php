@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections\Contracts;
+namespace Programic\MediaLibrary\MediaCollections\Contracts;
 
 use Illuminate\Support\Collection;
 

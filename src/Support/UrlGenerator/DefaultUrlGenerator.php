@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support\UrlGenerator;
+namespace Programic\MediaLibrary\Support\UrlGenerator;
 
 use DateTimeInterface;
 use Illuminate\Support\Str;

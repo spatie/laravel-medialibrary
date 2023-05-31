@@ -1,16 +1,16 @@
 <?php
 
-namespace Spatie\MediaLibrary\Conversions;
+namespace Programic\MediaLibrary\Conversions;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\Conversions\Actions\PerformConversionAction;
-use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
-use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Programic\MediaLibrary\Conversions\Actions\PerformConversionAction;
+use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Programic\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
+use Programic\MediaLibrary\MediaCollections\Filesystem;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
+use Programic\MediaLibrary\Support\TemporaryDirectory;
 
 class FileManipulator
 {

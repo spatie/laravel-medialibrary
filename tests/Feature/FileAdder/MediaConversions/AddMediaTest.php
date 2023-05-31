@@ -1,11 +1,11 @@
 <?php
 
 use Carbon\Carbon;
-use Spatie\Image\Manipulations;
-use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Programic\Image\Manipulations;
+use Programic\MediaLibrary\Conversions\ConversionCollection;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 it('can add an file to the default collection', function () {
     $media = $this->testModelWithoutMediaConversions

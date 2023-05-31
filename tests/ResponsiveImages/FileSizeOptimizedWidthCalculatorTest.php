@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
+use Programic\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
 
 it('can calculate the optimized widths from a file', function () {
     $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidthsFromFile($this->getTestJpg());
