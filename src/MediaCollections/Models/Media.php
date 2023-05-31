@@ -18,6 +18,8 @@ use Programic\MediaLibrary\Conversions\Conversion;
 use Programic\MediaLibrary\Conversions\ConversionCollection;
 use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Programic\MediaLibrary\HasMedia;
+use Programic\MediaLibrary\MediaCollections\FileAdder;
+use Programic\MediaLibrary\MediaCollections\FileAdderFactory;
 use Programic\MediaLibrary\MediaCollections\Filesystem;
 use Programic\MediaLibrary\MediaCollections\HtmlableMedia;
 use Programic\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -31,6 +33,7 @@ use Programic\MediaLibrary\Support\TemporaryDirectory;
 use Programic\MediaLibrary\Support\UrlGenerator\UrlGenerator;
 use Programic\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Programic\MediaLibraryPro\Models\TemporaryUpload;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @property-read string $uuid
@@ -451,5 +454,10 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     public function toMailAttachment(): Attachment
     {
         return $this->mailAttachment();
+    }
+
+    public static function newAttachableMedia(string|UploadedFile $file): FileAdder
+    {
+        return app(FileAdderFactory::class)->createAttachable($file);
     }
 }

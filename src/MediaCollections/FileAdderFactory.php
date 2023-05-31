@@ -13,7 +13,7 @@ class FileAdderFactory
 {
     public static function create(Model $subject, string|UploadedFile $file): FileAdder
     {
-        /** @var \Programic\MediaLibrary\MediaCollections\FileAdder $fileAdder */
+        /** @var FileAdder $fileAdder */
         $fileAdder = app(FileAdder::class);
 
         return $fileAdder
@@ -21,9 +21,19 @@ class FileAdderFactory
             ->setFile($file);
     }
 
+    public static function createAttachable(string|UploadedFile $file): FileAdder
+    {
+        /** @var FileAdder $fileAdder */
+        $fileAdder = app(FileAdder::class);
+
+        return $fileAdder
+            ->setFile($file)
+            ->setAttachable(true);
+    }
+
     public static function createFromDisk(Model $subject, string $key, string $disk): FileAdder
     {
-        /** @var \Programic\MediaLibrary\MediaCollections\FileAdder $fileAdder */
+        /** @var FileAdder $fileAdder */
         $fileAdder = app(FileAdder::class);
 
         return $fileAdder
@@ -68,7 +78,7 @@ class FileAdderFactory
 
     public static function createForPendingMedia(Model $subject, PendingMediaItem $pendingMedia): FileAdder
     {
-        /** @var \Programic\MediaLibrary\MediaCollections\FileAdder $fileAdder */
+        /** @var FileAdder $fileAdder */
         $fileAdder = app(FileAdder::class);
 
         return $fileAdder

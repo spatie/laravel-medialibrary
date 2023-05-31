@@ -32,6 +32,8 @@ class FileAdder
 
     protected ?Model $subject = null;
 
+    protected bool $attachable = false;
+
     protected bool $preserveOriginal = false;
 
     /** @var \Symfony\Component\HttpFoundation\File\UploadedFile|string */
@@ -122,6 +124,13 @@ class FileAdder
         }
 
         throw UnknownType::create();
+    }
+
+    public function setAttachable(bool $attachable): self
+    {
+        $this->attachable = $attachable;
+
+        return $this;
     }
 
     public function preservingOriginal(bool $preserveOriginal = true): self
@@ -275,7 +284,7 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        $this->attachMedia($media);
+        if ($this->subject) $this->attachMedia($media);
 
         return $media;
     }
@@ -341,7 +350,7 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        $this->attachMedia($media);
+        if ($this->subject) $this->attachMedia($media);
 
         return $media;
     }
