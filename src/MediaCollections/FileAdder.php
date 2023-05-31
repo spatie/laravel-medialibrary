@@ -254,6 +254,7 @@ class FileAdder
         /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
         $media = new $mediaClass();
 
+        $media->attachable = $this->attachable;
         $media->name = $this->mediaName;
 
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
@@ -284,7 +285,7 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        if ($this->subject) $this->attachMedia($media);
+        $this->attachMedia($media);
 
         return $media;
     }
@@ -350,7 +351,7 @@ class FileAdder
 
         $media->fill($this->properties);
 
-        if ($this->subject) $this->attachMedia($media);
+        $this->attachMedia($media);
 
         return $media;
     }
@@ -420,7 +421,7 @@ class FileAdder
 
     protected function attachMedia(Media $media)
     {
-        if (! $this->subject->exists) {
+        if ($this->subject && !$this->subject->exists) {
             $this->subject->prepareToAttachMedia($media, $this);
 
             $class = $this->subject::class;
@@ -437,17 +438,21 @@ class FileAdder
         $this->processMediaItem($this->subject, $media, $this);
     }
 
-    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
+    protected function processMediaItem(?HasMedia $model, Media $media, self $fileAdder)
     {
         $this->guardAgainstDisallowedFileAdditions($media);
 
         $this->checkGenerateResponsiveImages($media);
 
-        if (! $media->getConnectionName()) {
-            $media->setConnection($model->getConnectionName());
-        }
+        if ($model) {
+            if (! $media->getConnectionName()) {
+                $media->setConnection($model->getConnectionName());
+            }
 
-        $model->media()->save($media);
+            $model->media()->save($media);
+        } else {
+            $media->save();
+        }
 
         if ($fileAdder->file instanceof RemoteFile) {
             $addedMediaSuccessfully = $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);
@@ -485,7 +490,7 @@ class FileAdder
             dispatch($job);
         }
 
-        if ($collectionSizeLimit = optional($this->getMediaCollection($media->collection_name))->collectionSizeLimit) {
+        if ($model && $collectionSizeLimit = optional($this->getMediaCollection($media->collection_name))->collectionSizeLimit) {
             $collectionMedia = $this->subject->fresh()->getMedia($media->collection_name);
 
             if ($collectionMedia->count() > $collectionSizeLimit) {
@@ -496,6 +501,8 @@ class FileAdder
 
     protected function getMediaCollection(string $collectionName): ?MediaCollection
     {
+        if (! $this->subject) return null;
+
         $this->subject->registerMediaCollections();
 
         return collect($this->subject->mediaCollections)

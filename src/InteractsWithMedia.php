@@ -620,7 +620,7 @@ trait InteractsWithMedia
         $this->registerMediaConversions($media);
     }
 
-    public function attachMedia(array|Media|Collection $ids, bool $detaching = true): array
+    public function attachMedia(array|Media|Collection $ids, bool $detaching = false): array
     {
         return $this->attachableMedia()->sync($ids, $detaching);
     }
