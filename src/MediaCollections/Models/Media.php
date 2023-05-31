@@ -461,4 +461,9 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     {
         return app(FileAdderFactory::class)->createAttachable($file);
     }
+
+    public function scopeAttachable(Builder $query): void
+    {
+        $query->where('attachable', true);
+    }
 }

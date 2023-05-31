@@ -319,6 +319,7 @@ class FileAdder
         /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
         $media = new $mediaClass();
 
+        $media->attachable = $this->attachable;
         $media->name = $this->mediaName;
 
         $media->file_name = $this->fileName;

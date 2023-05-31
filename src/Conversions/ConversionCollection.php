@@ -50,6 +50,11 @@ class ConversionCollection extends Collection
 
     protected function addConversionsFromRelatedModel(Media $media): void
     {
+        if ($media->attachable) {
+            $this->items = [];
+            return;
+        }
+
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
         /** @var \Programic\MediaLibrary\HasMedia $model */

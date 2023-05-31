@@ -17,6 +17,12 @@ interface HasAttachableMedia
      */
     public function attachMedia(array|Media|Collection $ids, bool $detaching): array;
 
+    /**
+     * @param array|Collection|Media $ids
+     * @return int
+     */
+    public function detachMedia(array|Media|Collection $ids): int;
+
 //    public function hasAttachableMedia(string $collectionName = ''): bool;
 //
 //    public function getAttachableMedia(string $collectionName = 'default', array|callable $filters = []): Collection;

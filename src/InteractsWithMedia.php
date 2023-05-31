@@ -625,6 +625,11 @@ trait InteractsWithMedia
         return $this->attachableMedia()->sync($ids, $detaching);
     }
 
+    public function detachMedia(array|Media|Collection $ids): int
+    {
+        return $this->attachableMedia()->detach($ids);
+    }
+
     public function __sleep(): array
     {
         // do not serialize properties from the trait
