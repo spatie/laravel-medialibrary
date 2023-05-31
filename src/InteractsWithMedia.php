@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Illuminate\Support\Arr;
@@ -55,9 +56,16 @@ trait InteractsWithMedia
         });
     }
 
-    public function media(): MorphMany
+    /**
+     * @return MorphMany|MorphToMany
+     */
+    public function media()
     {
-        return $this->morphMany(config('media-library.media_model'), 'model');
+        if ($this instanceof HasManyMedia) {
+            return $this->morphToMany(config('media-library.media_model'), 'mediable');
+        } else {
+            return $this->morphMany(config('media-library.media_model'), 'model');
+        }
     }
 
     /**
