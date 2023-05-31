@@ -159,7 +159,7 @@ The content of that request key will be an array. For each file uploaded that ar
 
 Even though the upload components do some client-side validation, we highly recommend always validating requests on the server as well.
 
-You should handle validation in a form request. On the form request you should use the `Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia` trait. This will give you access to the `validateSingleMedia` and `validateMultipleMedia` methods.
+You should handle validation in a form request. On the form request you should use the `Programic\MediaLibraryPro\Rules\Concerns\ValidatesMedia` trait. This will give you access to the `validateSingleMedia` and `validateMultipleMedia` methods.
 
 In this example we assume that a component was configured to use the `images` key of the request. We validate that there was at least one item uploaded, but no more than 5. Only `png`s that are up to 1MB in size are allowed. All images should have a name.
 
@@ -338,7 +338,7 @@ $yourModel
     ->toMediaCollection('images');
 ```
 
-Alternatively, you can pass a callable to `usingName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
+Alternatively, you can pass a callable to `usingName`. This callable accepts an instance of `Programic\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
 
 For this we have to add the `editableName` attribute to the component:
 
@@ -368,7 +368,7 @@ $yourModel
     ->toMediaCollection('images');
 ```
 
-Alternatively, you can pass a callable to `usingFileName`. This callable accepts an instance of `Spatie\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
+Alternatively, you can pass a callable to `usingFileName`. This callable accepts an instance of `Programic\MediaLibraryPro\MediaLibraryRequestItem` which can be used to get properties of the uploaded file.
 
 In this example we're going to lowercase the name of the uploaded file before adding it the media library.
 

@@ -13,7 +13,7 @@ it('will create derived files when manipulations have changed', function () {
 
     $testModel = $testModelClass::find($this->testModel->id);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
     $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
     touch($media->getPath('update_test'), time() - 1);
@@ -44,7 +44,7 @@ it('will not create derived files when manipulations have not changed', function
 
     $testModel = $testModelClass::find($this->testModel->id);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
     $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
 
     $media->manipulations = [

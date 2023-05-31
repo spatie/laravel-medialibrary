@@ -6,7 +6,7 @@ weight: 4
 A custom model allows you to add your own methods, add relationships and so on.
 
 The easiest way to use your own custom model would be to extend the
-default `Spatie\MediaLibrary\MediaCollections\Models\Media`-class. Here's an example:
+default `Programic\MediaLibrary\MediaCollections\Models\Media`-class. Here's an example:
 
 ```php
 namespace App\Models;

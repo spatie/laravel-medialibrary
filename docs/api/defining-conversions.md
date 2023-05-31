@@ -16,7 +16,7 @@ for more details.
 /*
  * Add a conversion.
  */
-public function addMediaConversion(string $name): \Spatie\MediaLibrary\Conversions\Conversion
+public function addMediaConversion(string $name): \Programic\MediaLibrary\Conversions\Conversion
 ```
 
 ### performOnCollections

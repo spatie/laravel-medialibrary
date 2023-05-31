@@ -22,7 +22,7 @@ class OrderConfirmationMail extends Mailable
 
     public function build()
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $invoice */
+        /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $invoice */
         $invoice = $this->order->getFirstMedia('invoice')
     
         return $this
@@ -52,7 +52,7 @@ class BlogPostThumbnailMail extends Mailable
 
     public function build()
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $mediaItem */
+        /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $mediaItem */
         $mediaItem = $this->blogPost->getFirstMedia();
         
         // pass the conversion name

@@ -16,13 +16,13 @@ If you want to use a different formatting to name your original or converted fil
 you can specify the class name of your own `FileNamer` under the `file_namer` key
 within the `media-library.php` config file.
 
-The only requirement is that your class extends `Spatie\MediaLibrary\Support\FileNamer\FileNamer`.
+The only requirement is that your class extends `Programic\MediaLibrary\Support\FileNamer\FileNamer`.
 In your class you should implement 3 methods:
 1. `originalFileName` should return the name you'd like for the original file. Return the name without the extension.
 2. `conversionFileName` should return the media file name combined with the conversion name
 3. `responsiveFileName` should return the media file name
 
-Here is the implementation of `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer`
+Here is the implementation of `Programic\MediaLibrary\Support\FileNamer\DefaultFileNamer`
 
 ```php
 namespace Programic\MediaLibrary\Support\FileNamer;

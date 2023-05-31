@@ -17,7 +17,6 @@ use Illuminate\Support\Collection;
 use Programic\MediaLibrary\Conversions\Conversion;
 use Programic\MediaLibrary\Conversions\ConversionCollection;
 use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
-use Programic\MediaLibrary\HasManyMedia;
 use Programic\MediaLibrary\HasMedia;
 use Programic\MediaLibrary\MediaCollections\Filesystem;
 use Programic\MediaLibrary\MediaCollections\HtmlableMedia;
@@ -360,13 +359,13 @@ class Media extends Model implements Responsable, Htmlable, Attachable
         return $newMedia;
     }
 
-    public function copy(HasMedia|HasManyMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
+    public function copy(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
         $temporaryFile = $temporaryDirectory->path('/') . DIRECTORY_SEPARATOR . $this->file_name;
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         $filesystem->copyFromMediaLibrary($this, $temporaryFile);
@@ -394,7 +393,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
 
     public function stream()
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         return $filesystem->getStream($this);

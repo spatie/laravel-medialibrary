@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
 use Programic\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
-use Programic\MediaLibrary\HasManyMedia;
 use Programic\MediaLibrary\HasMedia;
 use Programic\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Programic\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
@@ -25,7 +24,7 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @template TModel of \Spatie\MediaLibrary\MediaCollections\Models\Media
+ * @template TModel of \Programic\MediaLibrary\MediaCollections\Models\Media
  */
 class FileAdder
 {
@@ -243,7 +242,7 @@ class FileAdder
         }
 
         $mediaClass = config('media-library.media_model');
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -307,7 +306,7 @@ class FileAdder
         }
 
         $mediaClass = config('media-library.media_model');
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -429,7 +428,7 @@ class FileAdder
         $this->processMediaItem($this->subject, $media, $this);
     }
 
-    protected function processMediaItem(HasMedia|HasManyMedia $model, Media $media, self $fileAdder)
+    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
     {
         $this->guardAgainstDisallowedFileAdditions($media);
 

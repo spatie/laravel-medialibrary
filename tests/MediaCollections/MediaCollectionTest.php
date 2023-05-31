@@ -29,7 +29,7 @@ it('can get the sum of all media item sizes', function () {
 
 it('can get registered media collections', function () {
     // the 'avatar' media collection is registered in
-    // \Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel->registerMediaCollections()
+    // \Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModel->registerMediaCollections()
     $collections = $this->testModel->getRegisteredMediaCollections();
 
     expect($collections)->toHaveCount(1);

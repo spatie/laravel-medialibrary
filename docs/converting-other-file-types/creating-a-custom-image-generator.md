@@ -11,7 +11,7 @@ In the following example we'll create a custom generator that can convert a Powe
 
 ## Creating a custom image generator
 
-The first step for creating a custom generator is to create a class that extends `Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator`:
+The first step for creating a custom generator is to create a class that extends `Programic\MediaLibrary\Conversions\ImageGenerators\ImageGenerator`:
 
 ```php
 use Illuminate\Support\Collection;

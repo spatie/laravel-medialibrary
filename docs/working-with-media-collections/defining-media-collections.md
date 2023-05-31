@@ -124,7 +124,7 @@ This will succeed:
 $yourModel->addMedia('beautiful.jpg')->toMediaCollection('only-jpegs-please');
 ```
 
-This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
+This will throw a `Programic\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
 
 ```php
 $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
@@ -153,7 +153,7 @@ This will succeed:
 $yourModel->addMedia('beautiful.jpg')->toMediaCollection('only-jpegs-please');
 ```
 
-This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
+This will throw a `Programic\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
 
 ```php
 $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');

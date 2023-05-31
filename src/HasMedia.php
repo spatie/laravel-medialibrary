@@ -13,6 +13,8 @@ interface HasMedia
 {
     public function media(): MorphMany;
 
+    public function attachableMedia(): MorphToMany;
+
     public function addMedia(string|UploadedFile $file): FileAdder;
 
     public function copyMedia(string|UploadedFile $file): FileAdder;

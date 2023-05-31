@@ -26,7 +26,8 @@ class MediaRepository
     public function getCollection(
         HasMedia $model,
         string $collectionName,
-        array|callable $filter = []
+        array|callable $filter = [],
+
     ): Collection {
         return $this->applyFilterToMediaCollection($model->loadMedia($collectionName), $filter);
     }

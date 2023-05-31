@@ -11,7 +11,7 @@ use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @template TKey of array-key
- * @template TValue of \Spatie\MediaLibrary\Conversions\Conversion
+ * @template TValue of \Programic\MediaLibrary\Conversions\Conversion
  *
  * @extends \Illuminate\Support\Collection<TKey, TValue>
  */
@@ -52,7 +52,7 @@ class ConversionCollection extends Collection
     {
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
-        /** @var \Spatie\MediaLibrary\HasMedia $model */
+        /** @var \Programic\MediaLibrary\HasMedia $model */
         $model = new $modelName();
 
         /*
@@ -91,7 +91,7 @@ class ConversionCollection extends Collection
 
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        /** @var \Spatie\MediaLibrary\Conversions\Conversion|null $conversion */
+        /** @var \Programic\MediaLibrary\Conversions\Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
             if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
                 return false;

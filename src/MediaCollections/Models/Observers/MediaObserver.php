@@ -20,7 +20,7 @@ class MediaObserver
 
     public function updating(Media $media)
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         if (config('media-library.moves_media_on_update')) {
@@ -44,7 +44,7 @@ class MediaObserver
             $eventDispatcher = Media::getEventDispatcher();
             Media::unsetEventDispatcher();
 
-            /** @var \Spatie\MediaLibrary\Conversions\FileManipulator $fileManipulator */
+            /** @var \Programic\MediaLibrary\Conversions\FileManipulator $fileManipulator */
             $fileManipulator = app(FileManipulator::class);
 
             $fileManipulator->createDerivedFiles($media);
@@ -61,7 +61,7 @@ class MediaObserver
             }
         }
 
-        /** @var \Spatie\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         $filesystem->removeAllFiles($media);

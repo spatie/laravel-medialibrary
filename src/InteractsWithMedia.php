@@ -29,10 +29,10 @@ use Programic\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 
 trait InteractsWithMedia
 {
-    /** @var \Spatie\MediaLibrary\Conversions\Conversion[] */
+    /** @var \Programic\MediaLibrary\Conversions\Conversion[] */
     public array $mediaConversions = [];
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\MediaCollection[] */
+    /** @var \Programic\MediaLibrary\MediaCollections\MediaCollection[] */
     public array $mediaCollections = [];
 
     protected bool $deletePreservingMedia = false;
@@ -56,16 +56,14 @@ trait InteractsWithMedia
         });
     }
 
-    /**
-     * @return MorphMany|MorphToMany
-     */
-    public function media()
+    public function media(): MorphMany
     {
-        if ($this instanceof HasManyMedia) {
-            return $this->morphToMany(config('media-library.media_model'), 'mediable');
-        } else {
-            return $this->morphMany(config('media-library.media_model'), 'model');
-        }
+        return $this->morphMany(config('media-library.media_model'), 'model');
+    }
+
+    public function attachableMedia(): MorphToMany
+    {
+        return $this->morphToMany(config('media-library.media_model'),'model');
     }
 
     /**
@@ -120,7 +118,7 @@ trait InteractsWithMedia
      *
      * @param string[] $keys
      *
-     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
+     * @return \Programic\MediaLibrary\MediaCollections\FileAdder[]
      */
     public function addMultipleMediaFromRequest(array $keys): Collection
     {
@@ -130,7 +128,7 @@ trait InteractsWithMedia
     /**
      * Add all files from a request.
      *
-     * @return \Spatie\MediaLibrary\MediaCollections\FileAdder[]
+     * @return \Programic\MediaLibrary\MediaCollections\FileAdder[]
      */
     public function addAllMediaFromRequest(): Collection
     {
@@ -142,7 +140,7 @@ trait InteractsWithMedia
      *
      *
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Programic\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      */
     public function addMediaFromUrl(string $url, array|string ...$allowedMimeTypes): FileAdder
     {
@@ -195,7 +193,7 @@ trait InteractsWithMedia
      * Add a base64 encoded file to the media library.
      *
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws \Programic\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      *
      * @throws InvalidBase64Data
      */
@@ -494,7 +492,7 @@ trait InteractsWithMedia
      * You may also pass a media object.
      *
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
+     * @throws \Programic\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
      */
     public function deleteMedia(int|string|Media $mediaId): void
     {
@@ -620,6 +618,11 @@ trait InteractsWithMedia
         });
 
         $this->registerMediaConversions($media);
+    }
+
+    public function attachMedia(array|Media|Collection $ids, bool $detaching = true): array
+    {
+        return $this->attachableMedia()->sync($ids, $detaching);
     }
 
     public function __sleep(): array

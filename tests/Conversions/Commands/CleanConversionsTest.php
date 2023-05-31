@@ -58,7 +58,7 @@ it('can clean deprecated conversion files with none arguments given', function (
 });
 
 test('generated conversion are cleared after cleanup', function () {
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
     $media = $this->media['model2']['collection1'];
 
     Media::where('id', '<>', $media->id)->delete();
