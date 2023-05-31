@@ -15,7 +15,7 @@ interface HasAttachableMedia
      * @param bool $detaching Detach media missing in $ids?
      * @return array
      */
-    public function attachMedia(array|Media|Collection $ids, $detaching): array;
+    public function attachMedia(array|Media|Collection $ids, bool $detaching): array;
 
 //    public function hasAttachableMedia(string $collectionName = ''): bool;
 //
