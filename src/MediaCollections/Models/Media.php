@@ -58,6 +58,7 @@ class Media extends Model implements Responsable, Htmlable, Attachable
     protected $appends = ['original_url', 'preview_url'];
 
     protected $casts = [
+        'attachable' => 'bool',
         'manipulations' => 'array',
         'custom_properties' => 'array',
         'generated_conversions' => 'array',
