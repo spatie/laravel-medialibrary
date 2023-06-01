@@ -63,7 +63,7 @@ trait InteractsWithMedia
 
     public function attachableMedia(): MorphToMany
     {
-        return $this->morphToMany(config('media-library.media_model'),'model');
+        return $this->morphToMany(config('media-library.media_model'),'mediable');
     }
 
     /**
@@ -628,6 +628,14 @@ trait InteractsWithMedia
     public function detachMedia(array|Media|Collection $ids): int
     {
         return $this->attachableMedia()->detach($ids);
+    }
+
+    public function allMediaAttribute(): Collection
+    {
+        return new Collection([
+            ...$this->media()->get(),
+            ...$this->attachableMedia()->get(),
+        ]);
     }
 
     public function __sleep(): array

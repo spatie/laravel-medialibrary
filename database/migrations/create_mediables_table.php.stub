@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('mediable', function (Blueprint $table) {
+        Schema::create('mediables', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Media::class);
             $table->morphs('mediable');
