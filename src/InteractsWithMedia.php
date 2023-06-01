@@ -630,7 +630,7 @@ trait InteractsWithMedia
         return $this->attachableMedia()->detach($ids);
     }
 
-    public function allMediaAttribute(): Collection
+    public function getAllMediaAttribute(): Collection
     {
         return new Collection([
             ...$this->media()->get(),

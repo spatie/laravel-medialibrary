@@ -35,6 +35,7 @@ return [
      * The fully qualified class name of the media model.
      */
     'media_model' => Programic\MediaLibrary\MediaCollections\Models\Media::class,
+    'mediable_model' => Programic\MediaLibrary\MediaCollections\Models\Mediable::class,
 
     /*
      * The fully qualified class name of the model used for temporary uploads.

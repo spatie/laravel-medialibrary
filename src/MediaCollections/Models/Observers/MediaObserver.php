@@ -66,4 +66,12 @@ class MediaObserver
 
         $filesystem->removeAllFiles($media);
     }
+
+    public function forceDeleted(Media $media)
+    {
+        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        $filesystem = app(Filesystem::class);
+
+        $filesystem->removeAllFiles($media);
+    }
 }

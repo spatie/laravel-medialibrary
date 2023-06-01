@@ -4,15 +4,38 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Mediable;
 
 return new class extends Migration
 {
-    public function up(): void
-    {
-        Schema::create('mediables', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Media::class);
-            $table->morphs('mediable');
-        });
-    }
+    /**
+         * Run the migrations.
+         */
+        public function up(): void
+        {
+            /** @var Media $mediaModel */
+            $mediaModel = app(config('media-library.media_model'));
+            /** @var Mediable $mediableModel */
+            $mediableModel = app(config('media-library.mediable_model'));
+
+            Schema::create($mediableModel->getTable(), function (Blueprint $table) use ($mediaModel) {
+
+                $table->id();
+                $table->foreignIdFor($mediaModel::class)
+                    ->constrained($mediaModel->getTable())
+                    ->cascadeOnDelete();
+                $table->morphs('mediable');
+            });
+        }
+
+        /**
+         * Reverse the migrations.
+         */
+        public function down(): void
+        {
+            /** @var Mediable $mediableModel */
+            $mediableModel = app(config('media-library.mediable_model'));
+
+            Schema::dropIfExists($mediableModel->getTable());
+        }
 };
