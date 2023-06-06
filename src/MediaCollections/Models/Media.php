@@ -42,6 +42,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @property-read string $humanReadableSize
  * @property-read string $previewUrl
  * @property-read string $originalUrl
+ * @property string $description
+ * @property-read bool $attachable
  */
 class Media extends Model implements Responsable, Htmlable, Attachable
 {
