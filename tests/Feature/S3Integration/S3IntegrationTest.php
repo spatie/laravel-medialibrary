@@ -4,7 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Programic\MediaLibrary\Support\MediaStream;
 use Programic\MediaLibrary\Tests\Feature\S3Integration\S3TestPathGenerator;
-use Programic\TemporaryDirectory\TemporaryDirectory;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 beforeEach(function () {
     if (! canTestS3()) {

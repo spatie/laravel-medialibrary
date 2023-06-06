@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 use Programic\MediaLibrary\Support\MediaStream;
-use Programic\TemporaryDirectory\TemporaryDirectory;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 beforeEach(function () {

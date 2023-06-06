@@ -1,6 +1,6 @@
 <?php
 
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\Conversions\Conversion;
 
 beforeEach(function () {

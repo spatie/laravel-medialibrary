@@ -4,7 +4,7 @@ namespace Programic\MediaLibrary\Conversions;
 
 use BadMethodCallException;
 use Illuminate\Support\Traits\Conditionable;
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 use Programic\MediaLibrary\Support\FileNamer\FileNamer;
 

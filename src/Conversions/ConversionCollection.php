@@ -5,7 +5,7 @@ namespace Programic\MediaLibrary\Conversions;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 

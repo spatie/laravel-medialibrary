@@ -18,7 +18,7 @@ Here's an example implementation that generates a blurred version:
 ```php
 namespace App;
 
-use Programic\Image\Image;
+use Spatie\Image\Image;
 
 class Blurred implements TinyPlaceholderGenerator
 {

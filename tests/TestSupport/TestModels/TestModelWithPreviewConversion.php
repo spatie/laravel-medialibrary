@@ -2,7 +2,7 @@
 
 namespace Programic\MediaLibrary\Tests\TestSupport\TestModels;
 
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithPreviewConversion extends TestModel

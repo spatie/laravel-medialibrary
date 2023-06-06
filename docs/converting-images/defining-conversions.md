@@ -65,7 +65,7 @@ You can register as many media conversions as you want
 
 ```php
 // in your model
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 
 // ...
 

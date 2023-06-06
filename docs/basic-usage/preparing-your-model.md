@@ -23,7 +23,7 @@ The `Collection` component will show a preview thumbnail for items in the collec
 To generate that thumbnail, you must add a conversion like this one to your model.
 
 ```php
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 public function registerMediaConversions(Media $media = null): void

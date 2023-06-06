@@ -3,7 +3,7 @@
 namespace Programic\MediaLibrary\Support;
 
 use Illuminate\Support\Str;
-use Programic\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
+use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 
 class TemporaryDirectory
 {

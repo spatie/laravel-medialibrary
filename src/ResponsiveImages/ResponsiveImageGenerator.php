@@ -14,7 +14,7 @@ use Programic\MediaLibrary\Support\File;
 use Programic\MediaLibrary\Support\FileNamer\FileNamer;
 use Programic\MediaLibrary\Support\ImageFactory;
 use Programic\MediaLibrary\Support\TemporaryDirectory;
-use Programic\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
+use Spatie\TemporaryDirectory\TemporaryDirectory as BaseTemporaryDirectory;
 
 class ResponsiveImageGenerator
 {

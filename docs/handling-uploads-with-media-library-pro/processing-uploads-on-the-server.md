@@ -390,7 +390,7 @@ Here's an example where we will create 300x300 previews
 ```php
 use Programic\MediaLibraryPro\Models\TemporaryUpload;
 use Programic\MediaLibrary\Conversions\Conversion;
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 
 // in a service provider
 TemporaryUpload::previewManipulation(function(Conversion $conversion) {

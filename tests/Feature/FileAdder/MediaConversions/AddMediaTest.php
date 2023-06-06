@@ -1,7 +1,7 @@
 <?php
 
 use Carbon\Carbon;
-use Programic\Image\Manipulations;
+use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\Conversions\ConversionCollection;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModel;

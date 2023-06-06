@@ -2,7 +2,7 @@
 
 namespace Programic\MediaLibrary\Support;
 
-use Programic\Image\Image;
+use Spatie\Image\Image;
 
 class ImageFactory
 {
