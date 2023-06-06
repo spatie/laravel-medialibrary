@@ -53,7 +53,9 @@ class ConversionCollection extends Collection
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
         /** @var \Spatie\MediaLibrary\HasMedia $model */
-        $model = new $modelName();
+        if (class_exists($modelName)) {
+            $model = new $modelName();
+        }
 
         /*
          * In some cases the user might want to get the actual model

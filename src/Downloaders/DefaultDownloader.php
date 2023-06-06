@@ -22,6 +22,8 @@ class DefaultDownloader implements Downloader
 
         file_put_contents($temporaryFile, $stream);
 
+        fclose($stream);
+
         return $temporaryFile;
     }
 }
