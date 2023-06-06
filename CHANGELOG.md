@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.9.4 - 2023-06-06
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3270
+- Bug/3279 class not found by @Nielsvanpach in https://github.com/spatie/laravel-medialibrary/pull/3281
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.9.3...10.9.4
+
 ## 10.9.3 - 2023-05-22
 
 ### What's Changed
