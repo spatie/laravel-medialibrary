@@ -61,7 +61,7 @@
     "suggest": {
         "league/flysystem-aws-s3-v3": "Required to use AWS S3 file storage",
         "php-ffmpeg/php-ffmpeg": "Required for generating video thumbnails",
-        "spatie/pdf-to-image": "Required for generating thumbsnails of PDFs and SVGs"
+        "spatie/pdf-to-image": "Required for generating thumbnails of PDFs and SVGs"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
