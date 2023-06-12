@@ -547,7 +547,7 @@ trait InteractsWithMedia
         $collection = new MediaCollections\Models\Collections\MediaCollection($collection);
 
         return $collection
-            ->filter(fn (Media $mediaItem) => $mediaItem->collection_name === $collectionName)
+            ->filter(fn (Media $mediaItem) => $collectionName !== '*' ? $mediaItem->collection_name === $collectionName : true)
             ->sortBy('order_column')
             ->values();
     }
