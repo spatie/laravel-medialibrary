@@ -170,7 +170,7 @@ trait InteractsWithMedia
      *
      * @param string string
      */
-    public function addMediaFromString(string $text): FileAdder
+    public function addMediaFromString(string $text, string $fileName = 'text.txt'): FileAdder
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
@@ -178,7 +178,7 @@ trait InteractsWithMedia
 
         $file = app(FileAdderFactory::class)
             ->create($this, $tmpFile)
-            ->usingFileName('text.txt');
+            ->usingFileName($fileName);
 
         return $file;
     }

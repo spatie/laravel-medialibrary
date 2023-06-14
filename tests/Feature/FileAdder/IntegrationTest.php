@@ -517,6 +517,18 @@ test('a string can be accepted to be added to the media library', function () {
     expect(file_get_contents($media->getPath()))->toEqual($string);
 });
 
+test('a string can added to the media library with a specific file name', function () {
+    $string = 'test123';
+    $fileName = 'test.jpg';
+
+    $media = $this->testModel
+        ->addMediaFromString($string, $fileName)
+        ->toMediaCollection();
+
+    expect(file_get_contents($media->getPath()))->toEqual($string);
+    expect($media->file_name)->toBe($fileName);
+});
+
 test('a stream can be accepted to be added to the media library', function () {
     $string = 'test123';
     $stream = fopen('php://temp', 'w+');
