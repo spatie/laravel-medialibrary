@@ -25,6 +25,8 @@ return new class extends Migration
                     ->constrained($mediaModel->getTable())
                     ->cascadeOnDelete();
                 $table->morphs('mediable');
+
+                $table->nullableTimestamps();
             });
         }
 

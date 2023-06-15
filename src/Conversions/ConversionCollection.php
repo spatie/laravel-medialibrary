@@ -30,7 +30,7 @@ class ConversionCollection extends Collection
 
         $this->items = [];
 
-        $this->addConversionsFromRelatedModel($media);
+        if (!$media->attachable) $this->addConversionsFromRelatedModel($media);
 
         $this->addManipulationsFromDb($media);
 
