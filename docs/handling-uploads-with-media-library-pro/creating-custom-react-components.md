@@ -57,7 +57,7 @@ You can find a full list of available parameters and exposed variables for the h
 
 For extensive examples you can have a look at the source of the pre-built UI components:
 
--   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-react-attachment)
+-   [React attachment component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-react-attachment)
 -   [React collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-react-collection)
 
 ## Helper components
