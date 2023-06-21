@@ -322,3 +322,17 @@ it('can serialize model', function () {
 
     expect(unserializeAndSerializeModel($this->testModel))->toEqual($this->testModel->fresh());
 });
+
+it('will get media from the all collections', function () {
+    expect($this->testModel->getMedia('images'))->toHaveCount(0);
+    expect($this->testModel->getMedia('downloads'))->toHaveCount(0);
+    expect($this->testModel->getMedia())->toHaveCount(0);
+
+    $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('images');
+    $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('downloads');
+    $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection();
+
+    $this->testModel = $this->testModel->fresh();
+
+    expect($this->testModel->getMedia('*'))->toHaveCount(3);
+});
