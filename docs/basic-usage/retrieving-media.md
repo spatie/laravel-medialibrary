@@ -9,6 +9,12 @@ To retrieve files you can use the `getMedia`-method:
 $mediaItems = $yourModel->getMedia();
 ```
 
+To retrieve files from all collections you can use the `getMedia`-method with `*`:
+
+```php
+$mediaItems = $yourModel->getMedia("*");
+```
+
 The method returns a collection of `Media`-objects.
 
 You can retrieve the URL and path to the file associated with the `Media`-object using  `getUrl`, `getTemporaryUrl` (for S3 only) and `getPath`:
