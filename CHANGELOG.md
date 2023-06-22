@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.10.0 - 2023-06-22
+
+### What's Changed
+
+- Fix typo in composer.json by @jeffreyvanhees in https://github.com/spatie/laravel-medialibrary/pull/3283
+- Fixed a typo in the docs for creating custom react components by @DylanDebo in https://github.com/spatie/laravel-medialibrary/pull/3290
+- feat: add support for * ( ANY ) media collection by @huzaifaarain in https://github.com/spatie/laravel-medialibrary/pull/3286
+
+### New Contributors
+
+- @jeffreyvanhees made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3283
+- @DylanDebo made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3290
+- @huzaifaarain made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3286
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.9.4...10.10.0
+
 ## 10.9.4 - 2023-06-06
 
 ### What's Changed
