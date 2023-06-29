@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.10.1 - 2023-06-29
+
+### What's Changed
+
+- [Docs] Fix typos in Pro docs by @drbyte in https://github.com/spatie/laravel-medialibrary/pull/3298
+- FIX create migration by @wamesro in https://github.com/spatie/laravel-medialibrary/pull/3299
+
+### New Contributors
+
+- @wamesro made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3299
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.10.0...10.10.1
+
 ## 10.10.0 - 2023-06-22
 
 ### What's Changed
