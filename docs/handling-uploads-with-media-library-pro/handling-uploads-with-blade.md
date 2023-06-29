@@ -22,7 +22,7 @@ In some cases, you'll have to clear your Laravel caches by running `php artisan 
 
 ## Use inside other Livewire components
 
-Our Blade components are meant to be used in a regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/handling-uploads-with-livewire).
+Our Blade components are meant to be used in regular HTML forms. If you want to use Media Library Pro within your own Livewire components, read this page on [handling uploads with Livewire](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/handling-uploads-with-livewire).
 
 ## Demo application
 
@@ -219,9 +219,9 @@ In this video, you'll see an example of how extra fields can be added.
 
 Under the hood, the `attachment` and `collection` components use Livewire to perform uploads. Currently, Livewire does not support uploading multiple files to S3. That's why only the `attachment` component can be used to upload files to S3.
 
-To get started with upload files to `s3`, make sure to follow Livewire's instructions on [how to upload directly to S3](https://laravel-livewire.com/docs/2.x/file-uploads#upload-to-s3). 
+To get started with uploading files to `s3`, make sure to follow Livewire's instructions on [how to upload directly to S3](https://laravel-livewire.com/docs/2.x/file-uploads#upload-to-s3). 
 
-Next, make sure you configured the media disk that uses the S3 driver. 
+Next, make sure you have configured the media disk that uses the S3 driver. 
 
 With that configuration in place, the `attachment` component will now upload directly to S3.
 

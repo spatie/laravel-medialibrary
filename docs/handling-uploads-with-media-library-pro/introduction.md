@@ -11,11 +11,11 @@ The attachment component can upload one or more files with little or no extra in
 
 ![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/attachment.png)
 
-The collection component can upload multiple files with custom properties. Use the collection component shines when you need to manage media, for example in admin panels.
+The collection component can upload multiple files with custom properties. The collection component shines when you need to manage media, for example in admin panels.
 
 ![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/collection.png)
 
-If none of those fit the bill, Media Library Pro supplies you with a number helpers to build your own components.
+If none of those fit the bill, Media Library Pro supplies you with a number of helpers to build your own components.
 
 ## Are you a visual learner?
 
@@ -39,7 +39,7 @@ You can use the attachment and collection components in regular forms. Behind th
 
 ### Livewire
 
-If you are creating Livewire components to display and handle forms, this is your path. The attachment and collection components can be used from with your Livewire components
+If you are creating Livewire components to display and handle forms, this is your path. The attachment and collection components can be used from within your Livewire components
 
 - [Handling uploads with Livewire](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/handling-uploads-with-livewire)
 

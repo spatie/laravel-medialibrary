@@ -3,7 +3,7 @@ title: Processing uploads on the server
 weight: 3
 ---
 
-All Blade, Vue and React components communicate with the server in the same way. After a user selects one or more files, they're immediate sent to the server and stored as temporary uploads. When the parent form is submitted, the media items can be attached to a model.
+All Blade, Vue and React components communicate with the server in the same way. After a user selects one or more files, they're immediately sent to the server and stored as temporary uploads. When the parent form is submitted, the media items can be attached to a model.
 
 ## Are you a visual learner?
 
@@ -108,7 +108,7 @@ The `ProfileController` we built assumes users will only upload the exact file t
 
 The Media Library components provide instant client-side validation. You'll read more about that in the component docs. First, we'll set up server-side validation.
 
-To validate uploaded media, we'll use create a custom form request.
+To validate uploaded media, we'll use a custom form request.
 
 ```diff
 - public function store(Request $request)
@@ -214,12 +214,12 @@ class MyRequest extends FormRequest
 
 These are the available validation methods on `validateSingleMedia() ` and `validateMultipleMedia`
 
-- `minSizeInKb($minSizeInKb)`: validates that a single upload is not smaller than the `$minSizeInKb` given
-- `maxSizeInKb($maxSizeInKb)`: validates that a single upload is not greater than the `$minSizeInKb` given
+- `minSizeInKb($minSizeInKb)`: validates that a single upload is not smaller than the `$minSizeInKb` given.
+- `maxSizeInKb($maxSizeInKb)`: validates that a single upload is not greater than the `$minSizeInKb` given.
 - `extension($extension)`: this rule expects a single extension as a string or multiple extensions as an array. Under the hood, the rule will validate if the value has the mime type that corresponds with the given extension.
 - `mime($mime)`: this rule expects a single mime type as a string or multiple mime types as an array.
-- `itemName($rules)`: This rule accepts rules that should be used to validate the name of a media item.
-- `customProperty($name, $rules)`: this rule accepts a custom property name and rules that should be used to validate the attribute
+- `itemName($rules)`: this rule accepts rules that should be used to validate the name of a media item.
+- `customProperty($name, $rules)`: this rule accepts a custom property name and rules that should be used to validate the attribute.
 - `dimensions($width, $height)`: validates that the image has a specific width and height (in pixels).
 - `width($width)`: validates that the image has a specific width (in pixels). The height is not validated.
 - `height($height)`: validates that the image has a specific height (in pixels). The width is not validated.
@@ -228,8 +228,8 @@ These are the available validation methods on `validateSingleMedia() ` and `vali
 
 These rules can be used on `validateMultipleMedia`;
 
-- `minTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not smaller than the `$minTotalSizeInKb` given
-- `maxTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not greater than the `$maxTotalSizeInKb` given
+- `minTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not smaller than the `$minTotalSizeInKb` given.
+- `maxTotalSizeInKb($maxTotalSizeInKb)`: validates that the combined size of uploads is not greater than the `$maxTotalSizeInKb` given.
 
 ### Validating attributes and custom properties
 
@@ -265,7 +265,7 @@ After you've validated the request, you should persist the changes to the media 
 
 This method will add all media whose `uuid` is in the request to a media collection of a model. Existing media associated on the model will remain untouched.
 
-You should probably use this method when only accepting new uploads.
+You should probably use this method only when accepting new uploads.
 
 ```php
 // in a controller
@@ -288,7 +288,7 @@ public function yourMethod(YourFormRequest $request)
 
 You should use this method when you are using the `x-media-library-collection` Blade component (or equivalent Vue or React component).
 
-Here is an example where we are going to sync that the contents of the `images` key in the request to the media library. 
+Here is an example where we are going to sync the contents of the `images` key in the request to the media library. 
 In this example we use the `images` key, but of course you should use the name that you used.
 
 All media associated with `$yourModel` whose `uuid` is not present in the `images` array of the request will be deleted.
@@ -329,7 +329,7 @@ $yourModel
 
 ### Setting a name
 
-If you want use a specific media name before adding it to disk you can use the `usingName` method.
+If you want to use a specific media name before adding it to disk you can use the `usingName` method.
 
 ```php
 $yourModel
@@ -348,7 +348,7 @@ For this we have to add the `editableName` attribute to the component:
 
 The component now will render an editable input field for the name.
 
-In this example we're going to lowercase the name of the uploaded file before adding it the media library.
+In this example we're going to set the media name to the lowercase version of the uploaded filename before adding it the media library.
 
 ```php
 $yourModel
@@ -398,9 +398,9 @@ TemporaryUpload::previewManipulation(function(Conversion $conversion) {
 });
 ```
 
-The components will use the `preview` conversion of models that have made associated to them. For example, if you have
+The components will use the `preview` conversion of models that have media associated to them. For example, if you have
 a `$blogPost` model, and you use the components to display the media associated to that model, the components will
 use `preview` conversion on the `BlogPost` model.
 
-Make sure such an `preview` conversion exists for each model that handles media. We highly recommend to use `nonQueued`
+Make sure such a `preview` conversion exists for each model that handles media. We highly recommend to use `nonQueued`
 so the image is immediately available.
