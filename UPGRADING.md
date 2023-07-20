@@ -71,6 +71,7 @@ class AddGeneratedConversionsToMediaTable extends Migration {
 - rename `conversion_file_namer` key in the `media-library` config to `file_namer`. This will support both the conversions and responsive images from now on. More info [in our docs](https://spatie.be/docs/laravel-medialibrary/v9/advanced-usage/naming-generated-files).
 - You will also need to change the value of this configuration key as the previous class was removed, the new default value is `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class`
 - in several releases of v8 config options were added. We recommend going over your config file in `config/media-library.php` and add any options that are present in the default config file that ships with this package.
+- Media collection serialization has changed to support the newly introduced Media Library Pro components. If you are returning media collections directly from your controllers or serializing them to json manually then you can retain existing behaviour by setting `use_default_collection_serialization` to `true` inside `config/media-library.php`
 
 ## From v7 to v8
 
