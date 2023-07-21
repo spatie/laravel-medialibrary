@@ -546,8 +546,11 @@ trait InteractsWithMedia
 
         $collection = new MediaCollections\Models\Collections\MediaCollection($collection);
 
+        $modelWithoutMedia = (clone $this)->unsetRelation('media');
+
         return $collection
             ->filter(fn (Media $mediaItem) => $collectionName !== '*' ? $mediaItem->collection_name === $collectionName : true)
+            ->each(fn (Media $mediaItem) => $mediaItem->setRelation('model', $modelWithoutMedia))
             ->sortBy('order_column')
             ->values();
     }
