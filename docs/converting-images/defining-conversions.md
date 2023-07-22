@@ -5,7 +5,7 @@ weight: 1
 
 When adding files to the media library it can automatically create derived versions such as thumbnails and banners.
 
-Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `webp`, `pdf`, `mp4 `, `mov` or `webm` file is added to the media library. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
+Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `webp`, `avif`, `pdf`, `mp4 `, `mov` or `webm` file is added to the media library. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
 
 Internally, [spatie/image](https://docs.spatie.be/image/v1/) is used to manipulate the images. You can use [any manipulation function](https://docs.spatie.be/image) from that package.
 
