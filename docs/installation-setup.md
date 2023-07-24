@@ -316,7 +316,7 @@ Media library will use these tools to [optimize converted images](https://docs.s
 - [Pngquant 2](https://pngquant.org/)
 - [SVGO](https://github.com/svg/svgo)
 - [Gifsicle](http://www.lcdf.org/gifsicle/)
-- [avifenc]([http://www.lcdf.org/gifsicle/](https://github.com/AOMediaCodec/libavif/blob/main/doc/avifenc.1.md))
+- [Avifenc](https://github.com/AOMediaCodec/libavif/blob/main/doc/avifenc.1.md)
 
 Here's how to install all the optimizers on Ubuntu:
 
