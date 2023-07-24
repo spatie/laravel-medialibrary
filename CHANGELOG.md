@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.10.2 - 2023-07-24
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3308
+- Always set the updated_at column when marking conversions are finalized by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3316
+- New config option to restore default laravel model serialization behaviour by @BARNZ in https://github.com/spatie/laravel-medialibrary/pull/3210
+- Automatically set model relationship on media by @michaelbaril in https://github.com/spatie/laravel-medialibrary/pull/3319
+
+### New Contributors
+
+- @BARNZ made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3210
+- @michaelbaril made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3319
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.10.1...10.10.2
+
 ## 10.10.1 - 2023-06-29
 
 ### What's Changed
