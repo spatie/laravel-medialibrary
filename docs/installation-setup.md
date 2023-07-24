@@ -316,11 +316,12 @@ Media library will use these tools to [optimize converted images](https://docs.s
 - [Pngquant 2](https://pngquant.org/)
 - [SVGO](https://github.com/svg/svgo)
 - [Gifsicle](http://www.lcdf.org/gifsicle/)
+- [Avifenc](https://github.com/AOMediaCodec/libavif/blob/main/doc/avifenc.1.md)
 
 Here's how to install all the optimizers on Ubuntu:
 
 ```bash
-sudo apt install jpegoptim optipng pngquant gifsicle
+sudo apt install jpegoptim optipng pngquant gifsicle libavif-bin
 npm install -g svgo
 ```
 
@@ -332,6 +333,7 @@ brew install optipng
 brew install pngquant
 brew install svgo
 brew install gifsicle
+brew install libavif
 ```
 
 ## Installing Media Library Pro
