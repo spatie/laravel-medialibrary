@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.11.0 - 2023-07-24
+
+### What's Changed
+
+- added AVIF support by @0xb4lint in https://github.com/spatie/laravel-medialibrary/pull/3320
+
+### New Contributors
+
+- @0xb4lint made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3320
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.10.2...10.11.0
+
 ## 10.10.2 - 2023-07-24
 
 ### What's Changed
