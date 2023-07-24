@@ -238,6 +238,11 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('test.webp');
     }
 
+    public function getTestAvif(): string
+    {
+        return $this->getTestFilesDirectory('test.avif');
+    }
+
     public function getTestMp4(): string
     {
         return $this->getTestFilesDirectory('test.mp4');

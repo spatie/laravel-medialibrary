@@ -356,6 +356,26 @@ parameters:
 			path: src/Conversions/ImageGenerators/Webp.php
 
 		-
+			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\ImageGenerators\\\\Avif\\:\\:supportedExtensions\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Avif.php
+
+		-
+			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\ImageGenerators\\\\Avif\\:\\:supportedMimeTypes\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Avif.php
+
+		-
+			message: "#^Parameter \\#1 \\$image of function imagedestroy expects GdImage, GdImage\\|false given\\.$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Avif.php
+
+		-
+			message: "#^Parameter \\#1 \\$image of function imagepng expects GdImage, GdImage\\|false given\\.$#"
+			count: 1
+			path: src/Conversions/ImageGenerators/Avif.php
+
+		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\Conversions\\\\Jobs\\\\PerformConversionsJob\\:\\:__construct\\(\\) has parameter \\$conversions with generic class Spatie\\\\MediaLibrary\\\\Conversions\\\\ConversionCollection but does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: src/Conversions/Jobs/PerformConversionsJob.php
