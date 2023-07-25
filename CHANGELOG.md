@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.11.1 - 2023-07-25
+
+- revert loading media introduced in #3319 (v10.10.2)
+
 ## 10.11.0 - 2023-07-24
 
 ### What's Changed
