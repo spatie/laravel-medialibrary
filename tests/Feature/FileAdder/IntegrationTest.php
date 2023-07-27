@@ -655,10 +655,10 @@ it('will throw an exception and revert database when file cannot be added and mo
     expect(Media::count())->toBe(1);
 });
 
-it('will return null instead of an ImageGeneratorFactory when mimetype is null', function(){
+it('will return null instead of an ImageGeneratorFactory when mimetype is null', function () {
     expect(ImageGeneratorFactory::forMimeType(null))->toBeNull();
 });
 
-it('will return null instead of an ImageGeneratorFactory when extension is null', function(){
+it('will return null instead of an ImageGeneratorFactory when extension is null', function () {
     expect(ImageGeneratorFactory::forExtension(null))->toBeNull();
 });
