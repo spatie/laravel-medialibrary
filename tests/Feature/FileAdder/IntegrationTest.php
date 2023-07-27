@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
@@ -652,4 +653,12 @@ it('will throw an exception and revert database when file cannot be added and mo
     )->toThrow(DiskCannotBeAccessed::class);
 
     expect(Media::count())->toBe(1);
+});
+
+it('will return null instead of an ImageGeneratorFactory when mimetype is null', function(){
+    expect(ImageGeneratorFactory::forMimeType(null))->toBeNull();
+});
+
+it('will return null instead of an ImageGeneratorFactory when extension is null', function(){
+    expect(ImageGeneratorFactory::forExtension(null))->toBeNull();
 });
