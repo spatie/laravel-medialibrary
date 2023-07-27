@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.11.2 - 2023-07-27
+
+### What's Changed
+
+- Handle null extensions and mimetypes with ImageGeneratorFactory by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3326
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.11.1...10.11.2
+
 ## 10.11.1 - 2023-07-25
 
 - revert loading media introduced in #3319 (v10.10.2)
