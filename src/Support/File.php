@@ -23,6 +23,6 @@ class File
 
     public static function getMimeType(string $path): string
     {
-        return MimeTypes::getDefault()->guessMimeType($path);
+        return (string) MimeTypes::getDefault()->guessMimeType($path);
     }
 }

@@ -33,7 +33,7 @@ class Pdf extends ImageGenerator
 
     public function supportedExtensions(): Collection
     {
-        return collect('pdf');
+        return collect(['pdf']);
     }
 
     public function supportedMimeTypes(): Collection
