@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\MediaCollections\Commands\CleanCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\ClearCommand;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
@@ -18,7 +19,7 @@ class MediaLibraryServiceProvider extends ServiceProvider
     {
         $this->registerPublishables();
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = config('media-library.media_model', Media::class);
 
         $mediaClass::observe(new MediaObserver());
 
