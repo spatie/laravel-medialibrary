@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.11.4 - 2023-08-25
+
+### What's Changed
+
+- PhpStan Workflow by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3341
+- Fixed error when config is cached by @Roboroads in https://github.com/spatie/laravel-medialibrary/pull/3347
+
+### New Contributors
+
+- @Roboroads made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3347
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.11.3...10.11.4
+
 ## 10.11.2 - 2023-07-27
 
 ### What's Changed
