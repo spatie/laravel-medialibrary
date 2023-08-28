@@ -132,7 +132,7 @@ it('will have access the model instance when register media conversions using mo
     expect($conversionManipulations['width'])->toEqual(123);
 });
 
-it('can set filesize', function() {
+it('can set filesize', function () {
     $media = $this->testModelWithoutMediaConversions
         ->copyMedia($this->getTestFilesDirectory('test.jpg'))
         ->setFileSize(99999)
