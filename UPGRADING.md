@@ -195,7 +195,7 @@ This won't break any existing code, but in order to use the new feature, you wil
 
 - The `Filesystem` interface is removed, and the `DefaultFilesystem` implementation is renamed to `Filesystem`.
 If you want your own filesystem implementation, you should extend the `Filesystem` class.
-- The method `Filesytem::renameFile(Media $media, string $oldFileName)` was renamed to `Filesystem::syncFileNames(Media $media)`. If you're using your own implementation of `Filesystem`, please update the method signature.
+- The method `Filesystem::renameFile(Media $media, string $oldFileName)` was renamed to `Filesystem::syncFileNames(Media $media)`. If you're using your own implementation of `Filesystem`, please update the method signature.
 - The `default_filesystem` config key has been changed to `disk_name`.
 - The `custom_url_generator_class` and `custom_path_generator_class` config keys have been changed to `url_generator` and `path_generator`. (commit ba46d8008d26542c9a5ef0e39f779de801cd4f8f)
 
@@ -205,7 +205,7 @@ If you want your own filesystem implementation, you should extend the `Filesyste
 - rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;`
 - rename the `use Spatie\MediaLibrary\HasMedia\Interfaces\HasMediaConversions;` interface to `use Spatie\MediaLibrary\HasMedia\HasMedia;` as well (the distinction was [removed](https://github.com/spatie/laravel-medialibrary/commit/48f371a7b10cc82bbee5b781ab8784acc5ad0fc3#diff-f12df6f7f30b5ee54d9ccc6e56e8f93e)).
 - all converted files should now start with the name of the original file. One way to achieve this is to navigate to your storage/media folder and run `find -type d -name "conversions" -exec rm -rf {} \;` (bash) to remove all existing converted files and then run `php artisan medialibrary:regenerate` to automatically recreate them with the proper file names. 
-- `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` accross your app
+- `Spatie\MediaLibrary\Media` has been moved to `Spatie\MediaLibrary\Models\Media`. Update the namespace import of `Media` across your app
 - The method definitions of `Spatie\MediaLibrary\Filesystem\Filesystem::add` and `Spatie\MediaLibrary\Filesystem\Filesystem::copyToMediaLibrary` are changed, they now use nullable string typehints for `$targetFileName` and `$type`.
 
 ## From v5 to v6
@@ -231,7 +231,7 @@ to
 
 
 ## From v4 to v5
-- rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file againt the one provided by this package
+- rename `config/laravel-medialibrary` to `config/medialibrary.php`. Some keys have been added or renamed. Please compare your config file against the one provided by this package
 - all calls to `toCollection` and `toCollectionOnDisk` and `toMediaLibraryOnDisk` should be renamed to `toMediaLibrary`
 - media conversions are now handled by `spatie/image`. Convert all manipulations on your conversion to manipulations supported by `spatie/image`.
 - add a `mime_type` column to the `media` table, manually populate the column with the right values.

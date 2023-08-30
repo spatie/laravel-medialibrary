@@ -2,7 +2,7 @@
 
 
 
-it('wil rename the file if it is changed on the media object', function () {
+it('will rename the file if it is changed on the media object', function () {
     $testFile = $this->getTestFilesDirectory('test.jpg');
 
     $media = $this->testModel->addMedia($testFile)->toMediaCollection();
