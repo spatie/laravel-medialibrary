@@ -159,7 +159,7 @@ public function index()
 }
 ```
 
-To generate the `img` tag with the filled in `srcset` simply use `$media` as an invocable. Use the name of your conversion as the first parameter.
+To generate the `img` tag with the filled in `srcset` simply use `$media` as an invokable. Use the name of your conversion as the first parameter.
 
 ```html
 <h1>My greyscale responsive image</h1>
