@@ -22,8 +22,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "php-ffmpeg/php-ffmpeg" --no-interaction --no-update
-                  composer update --prefer-dist --no-interaction
+                  composer require --no-interaction --no-update php-ffmpeg/php-ffmpeg
+                  composer update --no-interaction --prefer-dist
 
             - name: Run PHPStan
-              run: ./vendor/bin/phpstan --error-format=github
+              run: ./vendor/bin/phpstan
