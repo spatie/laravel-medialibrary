@@ -1312,7 +1312,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 7.8.1 - 2019-07-31
 
-- fix for custom manipulations not getting appllied to all relevant conversions with the same name
+- fix for custom manipulations not getting applied to all relevant conversions with the same name
 
 ## 7.8.0 - 2019-07-31
 
@@ -1490,7 +1490,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 ## 7.1.0 - 2018-03-22
 
 - `Filesystem` interface removed.
-- rename `Filesytem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
+- rename `Filesystem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
 - The `default_filesystem` config key has been changed to `disk_name`.
 
 ## 7.0.6 - 2018-03-22
@@ -1638,7 +1638,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 6.0.0 - 2017-08-30
 
-- add compatiblity for Laravel 5.5
+- add compatibility for Laravel 5.5
 - dropped support for older Laravel versions
 - the signature of `registerMediaConversions` has been changed
 - the default disk has changed from `media` to `public`
@@ -1832,7 +1832,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 4.9.3 - 2016-10-13
 
-- the image generators wil now do their supported extensions check in a case insensitive manner
+- the image generators will now do their supported extensions check in a case insensitive manner
 
 ## 4.9.2 - 2016-10-06
 
@@ -1924,7 +1924,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 3.17.3 - 2016-04-04
 
-- Fixed an issue that occured when deleting models with media in some php versions
+- Fixed an issue that occurred when deleting models with media in some php versions
 
 ## 3.17.2 - 2016-03-25
 
@@ -1940,7 +1940,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 3.16.1 - 2016-03-20
 
-- Improved the compatiblity with packages that hook into the `delete` method of an Eloquent model
+- Improved the compatibility with packages that hook into the `delete` method of an Eloquent model
 
 ## 3.16.0
 
@@ -2141,7 +2141,7 @@ $media = $this->testModel->addMediaFromUrl($url)
 
 ## 2.2.3
 
-- Fixed: when renaming file_name on a media object the orginal file gets renamed as well
+- Fixed: when renaming file_name on a media object the original file gets renamed as well
 
 ## 2.2.2
 
