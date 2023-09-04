@@ -54,6 +54,11 @@ class Filesystem
         return true;
     }
 
+    public function prepareCopyFileOnDisk(RemoteFile $file, Media $media, string $destination): void
+    {
+        $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
+    }
+
     public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $destinationFileName = $targetFileName ?: $file->getFilename();
@@ -65,7 +70,7 @@ class Filesystem
             : $media->getDiskDriverName();
 
         if ($this->shouldCopyFileOnDisk($file, $media, $diskDriverName)) {
-            $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
+            $this->prepareCopyFileOnDisk($file, $media, $destination);
 
             return;
         }
