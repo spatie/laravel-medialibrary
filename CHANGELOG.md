@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.12.1 - 2023-09-04
+
+### What's Changed
+
+- Adds `FileAdder@setFileSize()` by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3357
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.12.0...10.12.1
+
 ## 10.12.0 - 2023-09-04
 
 ### What's Changed
