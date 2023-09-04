@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.12.0 - 2023-09-04
+
+### What's Changed
+
+- Impove PHPStan workflow by @szepeviktor in https://github.com/spatie/laravel-medialibrary/pull/3356
+- Make `Filesystem@copyToMediaLibraryFromRemote()` more extensible by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3361
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.11.4...10.12.0
+
 ## 10.11.4 - 2023-08-25
 
 ### What's Changed
