@@ -48,6 +48,8 @@ class FileAdder
 
     protected string $diskName = '';
 
+    protected ?int $fileSize = null;
+
     protected string $conversionsDiskName = '';
 
     protected ?Closure $fileNameSanitizer;
@@ -160,6 +162,13 @@ class FileAdder
         return $this;
     }
 
+    public function setFileSize(int $fileSize): self
+    {
+        $this->fileSize = $fileSize;
+
+        return $this;
+    }
+
     public function withCustomProperties(array $customProperties): self
     {
         $this->customProperties = $customProperties;
@@ -229,7 +238,9 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if ($storage->size($this->pathToFile) > config('media-library.max_file_size')) {
+        $this->fileSize ??= $storage->size($this->pathToFile);
+
+        if ($this->fileSize > config('media-library.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile, $storage->size($this->pathToFile));
         }
 
@@ -253,7 +264,7 @@ class FileAdder
         $media->collection_name = $collectionName;
 
         $media->mime_type = $storage->mimeType($this->pathToFile);
-        $media->size = $storage->size($this->pathToFile);
+        $media->size = $this->fileSize;
         $media->custom_properties = $this->customProperties;
 
         $media->generated_conversions = [];
@@ -290,7 +301,9 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('media-library.max_file_size')) {
+        $this->fileSize ??= filesize($this->pathToFile);
+
+        if ($this->fileSize > config('media-library.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile);
         }
 
@@ -311,7 +324,7 @@ class FileAdder
         $media->collection_name = $collectionName;
 
         $media->mime_type = File::getMimeType($this->pathToFile);
-        $media->size = filesize($this->pathToFile);
+        $media->size = $this->fileSize;
 
         if (! is_null($this->order)) {
             $media->order_column = $this->order;
