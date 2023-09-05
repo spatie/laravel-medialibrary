@@ -35,7 +35,7 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 /**
  * @property string $uuid
  * @property string $model_type
- * @property string $model_id
+ * @property string|int $model_id
  * @property string $collection_name
  * @property string $name
  * @property string $file_name
