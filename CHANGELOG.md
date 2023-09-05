@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.12.2 - 2023-09-05
+
+### What's Changed
+
+- Fix typos by @szepeviktor in https://github.com/spatie/laravel-medialibrary/pull/3360
+- Updated doc block for $media->model_id by @viirre in https://github.com/spatie/laravel-medialibrary/pull/3369
+- Use temporary folder of spatie/laravel-medialibrary for spatie/image as well by @korridor in https://github.com/spatie/laravel-medialibrary/pull/3368
+
+### New Contributors
+
+- @viirre made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3369
+- @korridor made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3368
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.12.1...10.12.2
+
 ## 10.12.1 - 2023-09-04
 
 ### What's Changed
