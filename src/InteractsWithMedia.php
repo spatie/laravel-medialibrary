@@ -272,6 +272,20 @@ trait InteractsWithMedia
             ->collectionName($collectionName);
     }
 
+    /**
+     * @throws \Throwable
+     */
+    protected function getSingleOfMedia(string $collectionName = 'default', array|callable $filters = [], string $direction = 'asc' | 'desc'): ?Media
+    {
+        $direction = strtolower($direction);
+
+        throw_unless(in_array($direction,['asc','desc']),new \LogicException('direction should equal asc or desc'));
+
+        $media = $this->getMedia($collectionName,$filters);
+
+        return $direction == 'asc' ? $media->first() : $media->last();
+    }
+
     public function getMediaRepository(): MediaRepository
     {
         return app(MediaRepository::class);
@@ -279,19 +293,17 @@ trait InteractsWithMedia
 
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        $media = $this->getMedia($collectionName, $filters);
-
-        return $media->first();
+        return $this->getSingleOfMedia($collectionName,$filters,'asc');
     }
 
-    /*
-     * Get the url of the image for the given conversionName
-     * for first media for the given collectionName.
-     * If no profile is given, return the source's url.
-     */
-    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    public function getLastMedia(string $collectionName = 'default',$filters = []): ?Media
     {
-        $media = $this->getFirstMedia($collectionName);
+        return $this->getSingleOfMedia($collectionName,$filters,'desc');
+    }
+
+    protected function getSingleOfMediaUrl(string $collectionName = 'default', string $conversionName = '',string $direction = 'asc' | 'desc'): string
+    {
+        $media = $this->getSingleOfMedia($collectionName,[],$direction);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -307,15 +319,31 @@ trait InteractsWithMedia
     /*
      * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
-     *
      * If no profile is given, return the source's url.
      */
-    public function getFirstTemporaryUrl(
+    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getSingleOfMediaUrl($collectionName,$conversionName,'asc');
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getSingleOfMediaUrl($collectionName,$conversionName,'desc');
+    }
+
+    protected function getSingleOfMediaTemporaryUrl(
         DateTimeInterface $expiration,
         string $collectionName = 'default',
-        string $conversionName = ''
-    ): string {
-        $media = $this->getFirstMedia($collectionName);
+        string $conversionName = '',
+        string $direction = 'asc'
+    )
+    {
+        $media = $this->getSingleOfMedia($collectionName,[],$direction);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -326,6 +354,33 @@ trait InteractsWithMedia
         }
 
         return $media->getTemporaryUrl($expiration, $conversionName);
+    }
+    /*
+     * Get the url of the image for the given conversionName
+     * for first media for the given collectionName.
+     *
+     * If no profile is given, return the source's url.
+     */
+    public function getFirstTemporaryUrl(
+        DateTimeInterface $expiration,
+        string $collectionName = 'default',
+        string $conversionName = ''
+    ): string {
+        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName,'asc');
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     *
+     * If no profile is given, return the source's url.
+     */
+    public function getLastMediaTemporaryUrl(
+        DateTimeInterface $expiration,
+        string $collectionName = 'default',
+        string $conversionName = ''
+    ): string {
+        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName,'desc');
     }
 
     public function getRegisteredMediaCollections(): Collection
@@ -365,14 +420,9 @@ trait InteractsWithMedia
         return $fallbackPaths[$conversionName] ?? $fallbackPaths['default'] ?? '';
     }
 
-    /*
-     * Get the url of the image for the given conversionName
-     * for first media for the given collectionName.
-     * If no profile is given, return the source's url.
-     */
-    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    protected function getSingleOfMediaPath(string $collectionName = 'default', string $conversionName = '',string $direction = 'asc' | 'desc'): string
     {
-        $media = $this->getFirstMedia($collectionName);
+        $media = $this->getSingleOfMedia($collectionName,[],$direction);
 
         if (! $media) {
             return $this->getFallbackMediaPath($collectionName, $conversionName) ?: '';
@@ -383,6 +433,27 @@ trait InteractsWithMedia
         }
 
         return $media->getPath($conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for first media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getSingleOfMediaPath($collectionName,$conversionName,'asc');
+    }
+
+    /*
+     *
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getSingleOfMediaPath($collectionName,$conversionName,'desc');
     }
 
     /*
