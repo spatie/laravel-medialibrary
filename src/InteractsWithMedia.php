@@ -26,6 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use InvalidArgumentException;
 
 trait InteractsWithMedia
 {
@@ -275,15 +276,17 @@ trait InteractsWithMedia
     /**
      * @throws \Throwable
      */
-    protected function getSingleOfMedia(string $collectionName = 'default', array|callable $filters = [], string $direction = 'asc' | 'desc'): ?Media
+    protected function getSingleOfMedia(string $collectionName = 'default', array|callable $filters = [], string $position = 'first'): ?Media
     {
-        $direction = strtolower($direction);
+        $position = strtolower($position);
 
-        throw_unless(in_array($direction,['asc','desc']),new \LogicException('direction should equal asc or desc'));
+        if (! in_array($position, ['first', 'last'], true)) {
+            throw new InvalidArgumentException('position must be "first" or "last".');
+        }
 
         $media = $this->getMedia($collectionName,$filters);
 
-        return $direction == 'asc' ? $media->first() : $media->last();
+        return $position === 'first' ? $media->first() : $media->last();
     }
 
     public function getMediaRepository(): MediaRepository
@@ -293,17 +296,17 @@ trait InteractsWithMedia
 
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getSingleOfMedia($collectionName,$filters,'asc');
+        return $this->getSingleOfMedia($collectionName,$filters);
     }
 
     public function getLastMedia(string $collectionName = 'default',$filters = []): ?Media
     {
-        return $this->getSingleOfMedia($collectionName,$filters,'desc');
+        return $this->getSingleOfMedia($collectionName,$filters,'last');
     }
 
-    protected function getSingleOfMediaUrl(string $collectionName = 'default', string $conversionName = '',string $direction = 'asc' | 'desc'): string
+    protected function getSingleOfMediaUrl(string $collectionName = 'default', string $conversionName = '',string $position = 'first'): string
     {
-        $media = $this->getSingleOfMedia($collectionName,[],$direction);
+        $media = $this->getSingleOfMedia($collectionName,[],$position);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -323,7 +326,7 @@ trait InteractsWithMedia
      */
     public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaUrl($collectionName,$conversionName,'asc');
+        return $this->getSingleOfMediaUrl($collectionName,$conversionName);
     }
 
     /*
@@ -333,17 +336,17 @@ trait InteractsWithMedia
      */
     public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaUrl($collectionName,$conversionName,'desc');
+        return $this->getSingleOfMediaUrl($collectionName,$conversionName,'last');
     }
 
     protected function getSingleOfMediaTemporaryUrl(
         DateTimeInterface $expiration,
         string $collectionName = 'default',
         string $conversionName = '',
-        string $direction = 'asc'
+        string $position = 'first'
     )
     {
-        $media = $this->getSingleOfMedia($collectionName,[],$direction);
+        $media = $this->getSingleOfMedia($collectionName,[],$position);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -355,6 +358,7 @@ trait InteractsWithMedia
 
         return $media->getTemporaryUrl($expiration, $conversionName);
     }
+
     /*
      * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
@@ -366,7 +370,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName,'asc');
+        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName);
     }
 
     /*
@@ -380,7 +384,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName,'desc');
+        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName,'last');
     }
 
     public function getRegisteredMediaCollections(): Collection
@@ -420,9 +424,9 @@ trait InteractsWithMedia
         return $fallbackPaths[$conversionName] ?? $fallbackPaths['default'] ?? '';
     }
 
-    protected function getSingleOfMediaPath(string $collectionName = 'default', string $conversionName = '',string $direction = 'asc' | 'desc'): string
+    protected function getSingleOfMediaPath(string $collectionName = 'default', string $conversionName = '',string $position = 'first'): string
     {
-        $media = $this->getSingleOfMedia($collectionName,[],$direction);
+        $media = $this->getSingleOfMedia($collectionName,[],$position);
 
         if (! $media) {
             return $this->getFallbackMediaPath($collectionName, $conversionName) ?: '';
@@ -442,7 +446,7 @@ trait InteractsWithMedia
      */
     public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaPath($collectionName,$conversionName,'asc');
+        return $this->getSingleOfMediaPath($collectionName,$conversionName);
     }
 
     /*
@@ -453,7 +457,7 @@ trait InteractsWithMedia
      */
     public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaPath($collectionName,$conversionName,'desc');
+        return $this->getSingleOfMediaPath($collectionName,$conversionName,'last');
     }
 
     /*
