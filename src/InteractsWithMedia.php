@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
@@ -26,7 +27,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use InvalidArgumentException;
 
 trait InteractsWithMedia
 {
@@ -284,7 +284,7 @@ trait InteractsWithMedia
             throw new InvalidArgumentException('position must be "first" or "last".');
         }
 
-        $media = $this->getMedia($collectionName,$filters);
+        $media = $this->getMedia($collectionName, $filters);
 
         return $position === 'first' ? $media->first() : $media->last();
     }
@@ -296,17 +296,17 @@ trait InteractsWithMedia
 
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getSingleOfMedia($collectionName,$filters);
+        return $this->getSingleOfMedia($collectionName, $filters);
     }
 
-    public function getLastMedia(string $collectionName = 'default',$filters = []): ?Media
+    public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getSingleOfMedia($collectionName,$filters,'last');
+        return $this->getSingleOfMedia($collectionName, $filters, 'last');
     }
 
-    protected function getSingleOfMediaUrl(string $collectionName = 'default', string $conversionName = '',string $position = 'first'): string
+    protected function getSingleOfMediaUrl(string $collectionName = 'default', string $conversionName = '', string $position = 'first'): string
     {
-        $media = $this->getSingleOfMedia($collectionName,[],$position);
+        $media = $this->getSingleOfMedia($collectionName, [], $position);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -326,7 +326,7 @@ trait InteractsWithMedia
      */
     public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaUrl($collectionName,$conversionName);
+        return $this->getSingleOfMediaUrl($collectionName, $conversionName);
     }
 
     /*
@@ -336,7 +336,7 @@ trait InteractsWithMedia
      */
     public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaUrl($collectionName,$conversionName,'last');
+        return $this->getSingleOfMediaUrl($collectionName, $conversionName, 'last');
     }
 
     protected function getSingleOfMediaTemporaryUrl(
@@ -344,9 +344,8 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = '',
         string $position = 'first'
-    )
-    {
-        $media = $this->getSingleOfMedia($collectionName,[],$position);
+    ) {
+        $media = $this->getSingleOfMedia($collectionName, [], $position);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -370,7 +369,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName);
+        return $this->getSingleOfMediaTemporaryUrl($expiration, $collectionName, $conversionName);
     }
 
     /*
@@ -384,7 +383,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getSingleOfMediaTemporaryUrl($expiration,$collectionName,$conversionName,'last');
+        return $this->getSingleOfMediaTemporaryUrl($expiration, $collectionName, $conversionName, 'last');
     }
 
     public function getRegisteredMediaCollections(): Collection
@@ -424,9 +423,9 @@ trait InteractsWithMedia
         return $fallbackPaths[$conversionName] ?? $fallbackPaths['default'] ?? '';
     }
 
-    protected function getSingleOfMediaPath(string $collectionName = 'default', string $conversionName = '',string $position = 'first'): string
+    protected function getSingleOfMediaPath(string $collectionName = 'default', string $conversionName = '', string $position = 'first'): string
     {
-        $media = $this->getSingleOfMedia($collectionName,[],$position);
+        $media = $this->getSingleOfMedia($collectionName, [], $position);
 
         if (! $media) {
             return $this->getFallbackMediaPath($collectionName, $conversionName) ?: '';
@@ -446,7 +445,7 @@ trait InteractsWithMedia
      */
     public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaPath($collectionName,$conversionName);
+        return $this->getSingleOfMediaPath($collectionName, $conversionName);
     }
 
     /*
@@ -457,7 +456,7 @@ trait InteractsWithMedia
      */
     public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getSingleOfMediaPath($collectionName,$conversionName,'last');
+        return $this->getSingleOfMediaPath($collectionName, $conversionName, 'last');
     }
 
     /*
