@@ -3,14 +3,12 @@
 namespace Spatie\MediaLibrary\Conversions;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Actions\PerformConversionAction;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
-use Spatie\MediaLibrary\Support\TemporaryDirectory;
+use Spatie\MediaLibrary\Support\TemporaryFile;
 
 class FileManipulator
 {
@@ -50,12 +48,7 @@ class FileManipulator
             return $this;
         }
 
-        $temporaryDirectory = TemporaryDirectory::create();
-
-        $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
-            $media,
-            $temporaryDirectory->path(Str::random(32) . '.' . $media->extension)
-        );
+        $temporaryFile = app(TemporaryFile::class, ['media' => $media]);
 
         $conversions
             ->reject(function (Conversion $conversion) use ($onlyMissing, $media) {
@@ -67,11 +60,9 @@ class FileManipulator
 
                 return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
             })
-            ->each(function (Conversion $conversion) use ($media, $copiedOriginalFile) {
-                (new PerformConversionAction())->execute($conversion, $media, $copiedOriginalFile);
+            ->each(function (Conversion $conversion) use ($media, $temporaryFile) {
+                (new PerformConversionAction())->execute($conversion, $media, $temporaryFile->getFile());
             });
-
-        $temporaryDirectory->delete();
 
         return $this;
     }
