@@ -23,18 +23,15 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * @template TModel of \Spatie\MediaLibrary\MediaCollections\Models\Media
- */
 class FileAdder
 {
     use Macroable;
 
-    protected ?Model $subject = null;
+    protected ?HasMedia $subject = null;
 
     protected bool $preserveOriginal = false;
 
-    /** @var \Symfony\Component\HttpFoundation\File\UploadedFile|string */
+    /** @var UploadedFile|RemoteFile|SymfonyFile|string */
     protected $file;
 
     protected array $properties = [];
@@ -50,6 +47,8 @@ class FileAdder
     protected string $mediaName = '';
 
     protected string $diskName = '';
+
+    protected ?int $fileSize = null;
 
     protected string $conversionsDiskName = '';
 
@@ -69,6 +68,7 @@ class FileAdder
 
     public function setSubject(Model $subject): self
     {
+        /** @var HasMedia $subject */
         $this->subject = $subject;
 
         return $this;
@@ -77,7 +77,7 @@ class FileAdder
     /*
      * Set the file that needs to be imported.
      *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param string|UploadedFile $file
      *
      * @return $this
      */
@@ -162,6 +162,13 @@ class FileAdder
         return $this;
     }
 
+    public function setFileSize(int $fileSize): self
+    {
+        $this->fileSize = $fileSize;
+
+        return $this;
+    }
+
     public function withCustomProperties(array $customProperties): self
     {
         $this->customProperties = $customProperties;
@@ -218,17 +225,11 @@ class FileAdder
         return $this;
     }
 
-    /**
-     * @return TModel
-     */
     public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
     {
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
-    /**
-     * @return TModel
-     */
     public function toMediaCollectionFromRemote(string $collectionName = 'default', string $diskName = ''): Media
     {
         $storage = Storage::disk($this->file->getDisk());
@@ -237,12 +238,14 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if ($storage->size($this->pathToFile) > config('media-library.max_file_size')) {
+        $this->fileSize ??= $storage->size($this->pathToFile);
+
+        if ($this->fileSize > config('media-library.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile, $storage->size($this->pathToFile));
         }
 
         $mediaClass = config('media-library.media_model');
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -261,7 +264,7 @@ class FileAdder
         $media->collection_name = $collectionName;
 
         $media->mime_type = $storage->mimeType($this->pathToFile);
-        $media->size = $storage->size($this->pathToFile);
+        $media->size = $this->fileSize;
         $media->custom_properties = $this->customProperties;
 
         $media->generated_conversions = [];
@@ -280,9 +283,6 @@ class FileAdder
         return $media;
     }
 
-    /**
-     * @return TModel
-     */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
@@ -301,12 +301,14 @@ class FileAdder
             throw FileDoesNotExist::create($this->pathToFile);
         }
 
-        if (filesize($this->pathToFile) > config('media-library.max_file_size')) {
+        $this->fileSize ??= filesize($this->pathToFile);
+
+        if ($this->fileSize > config('media-library.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile);
         }
 
         $mediaClass = config('media-library.media_model');
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+        /** @var Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
@@ -322,7 +324,7 @@ class FileAdder
         $media->collection_name = $collectionName;
 
         $media->mime_type = File::getMimeType($this->pathToFile);
-        $media->size = filesize($this->pathToFile);
+        $media->size = $this->fileSize;
 
         if (! is_null($this->order)) {
             $media->order_column = $this->order;
@@ -346,9 +348,6 @@ class FileAdder
         return $media;
     }
 
-    /**
-     * @return TModel
-     */
     public function toMediaLibrary(string $collectionName = 'default', string $diskName = ''): Media
     {
         return $this->toMediaCollection($collectionName, $diskName);
@@ -477,7 +476,9 @@ class FileAdder
         }
 
         if ($collectionSizeLimit = optional($this->getMediaCollection($media->collection_name))->collectionSizeLimit) {
-            $collectionMedia = $this->subject->fresh()->getMedia($media->collection_name);
+            /** @var HasMedia */
+            $subject = $this->subject->fresh();
+            $collectionMedia = $subject->getMedia($media->collection_name);
 
             if ($collectionMedia->count() > $collectionSizeLimit) {
                 $model->clearMediaCollectionExcept($media->collection_name, $collectionMedia->slice(-$collectionSizeLimit, $collectionSizeLimit));
@@ -524,6 +525,7 @@ class FileAdder
         /** @var TemporaryUpload $temporaryUpload */
         $temporaryUpload = $this->file;
 
+        /** @var Media */
         $media = $temporaryUpload->getFirstMedia();
 
         $media->name = $this->mediaName;

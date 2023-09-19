@@ -30,11 +30,11 @@ class Svg extends ImageGenerator
 
     public function supportedExtensions(): Collection
     {
-        return collect('svg');
+        return collect(['svg']);
     }
 
     public function supportedMimeTypes(): Collection
     {
-        return collect('image/svg+xml');
+        return collect(['image/svg+xml']);
     }
 }

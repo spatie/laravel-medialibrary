@@ -15,7 +15,7 @@ Single application licenses maybe installed in a single Laravel app. In case you
 
 ## Current version
 
-The current version of Media Library Pro is v3. 
+The current version of Media Library Pro is v3.
 
 You will find upgrade instructions [here](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/upgrading).
 
@@ -117,7 +117,7 @@ This macro will add the routes to controllers that accept file uploads for all c
 
 #### Only allow authenticated users to upload files
 
-If in your project, you only want authenticated users to upload files, you can put the macro in a group that applies autentication middleware.
+If in your project, you only want authenticated users to upload files, you can put the macro in a group that applies authentication middleware.
 
 ```php
 Route::middleware('auth')->group(function() {

@@ -2,6 +2,51 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.12.2 - 2023-09-05
+
+### What's Changed
+
+- Fix typos by @szepeviktor in https://github.com/spatie/laravel-medialibrary/pull/3360
+- Updated doc block for $media->model_id by @viirre in https://github.com/spatie/laravel-medialibrary/pull/3369
+- Use temporary folder of spatie/laravel-medialibrary for spatie/image as well by @korridor in https://github.com/spatie/laravel-medialibrary/pull/3368
+
+### New Contributors
+
+- @viirre made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3369
+- @korridor made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3368
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.12.1...10.12.2
+
+## 10.12.1 - 2023-09-04
+
+### What's Changed
+
+- Adds `FileAdder@setFileSize()` by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3357
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.12.0...10.12.1
+
+## 10.12.0 - 2023-09-04
+
+### What's Changed
+
+- Impove PHPStan workflow by @szepeviktor in https://github.com/spatie/laravel-medialibrary/pull/3356
+- Make `Filesystem@copyToMediaLibraryFromRemote()` more extensible by @cosmastech in https://github.com/spatie/laravel-medialibrary/pull/3361
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.11.4...10.12.0
+
+## 10.11.4 - 2023-08-25
+
+### What's Changed
+
+- PhpStan Workflow by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3341
+- Fixed error when config is cached by @Roboroads in https://github.com/spatie/laravel-medialibrary/pull/3347
+
+### New Contributors
+
+- @Roboroads made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3347
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.11.3...10.11.4
+
 ## 10.11.2 - 2023-07-27
 
 ### What's Changed
@@ -1282,7 +1327,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 7.8.1 - 2019-07-31
 
-- fix for custom manipulations not getting appllied to all relevant conversions with the same name
+- fix for custom manipulations not getting applied to all relevant conversions with the same name
 
 ## 7.8.0 - 2019-07-31
 
@@ -1460,7 +1505,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 ## 7.1.0 - 2018-03-22
 
 - `Filesystem` interface removed.
-- rename `Filesytem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
+- rename `Filesystem::renameFile(Media $media, string $oldFileName)` to `Filesystem::syncFileNames(Media $media)`
 - The `default_filesystem` config key has been changed to `disk_name`.
 
 ## 7.0.6 - 2018-03-22
@@ -1608,7 +1653,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 6.0.0 - 2017-08-30
 
-- add compatiblity for Laravel 5.5
+- add compatibility for Laravel 5.5
 - dropped support for older Laravel versions
 - the signature of `registerMediaConversions` has been changed
 - the default disk has changed from `media` to `public`
@@ -1802,7 +1847,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 4.9.3 - 2016-10-13
 
-- the image generators wil now do their supported extensions check in a case insensitive manner
+- the image generators will now do their supported extensions check in a case insensitive manner
 
 ## 4.9.2 - 2016-10-06
 
@@ -1894,7 +1939,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 3.17.3 - 2016-04-04
 
-- Fixed an issue that occured when deleting models with media in some php versions
+- Fixed an issue that occurred when deleting models with media in some php versions
 
 ## 3.17.2 - 2016-03-25
 
@@ -1910,7 +1955,7 @@ To learn how to upgrade, take a look in UPGRADING.md
 
 ## 3.16.1 - 2016-03-20
 
-- Improved the compatiblity with packages that hook into the `delete` method of an Eloquent model
+- Improved the compatibility with packages that hook into the `delete` method of an Eloquent model
 
 ## 3.16.0
 
@@ -2111,7 +2156,7 @@ $media = $this->testModel->addMediaFromUrl($url)
 
 ## 2.2.3
 
-- Fixed: when renaming file_name on a media object the orginal file gets renamed as well
+- Fixed: when renaming file_name on a media object the original file gets renamed as well
 
 ## 2.2.2
 

@@ -11,9 +11,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @template TKey of array-key
- * @template TValue of \Spatie\MediaLibrary\Conversions\Conversion
+ * @template TValue of Conversion
  *
- * @extends \Illuminate\Support\Collection<TKey, TValue>
+ * @extends Collection<TKey, TValue>
  */
 class ConversionCollection extends Collection
 {
@@ -52,10 +52,12 @@ class ConversionCollection extends Collection
     {
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
-        /** @var \Spatie\MediaLibrary\HasMedia $model */
-        if (class_exists($modelName)) {
-            $model = new $modelName();
+        if (! class_exists($modelName)) {
+            return;
         }
+
+        /** @var \Spatie\MediaLibrary\HasMedia $model */
+        $model = new $modelName();
 
         /*
          * In some cases the user might want to get the actual model
@@ -93,7 +95,7 @@ class ConversionCollection extends Collection
 
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
     {
-        /** @var \Spatie\MediaLibrary\Conversions\Conversion|null $conversion */
+        /** @var Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
             if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
                 return false;
