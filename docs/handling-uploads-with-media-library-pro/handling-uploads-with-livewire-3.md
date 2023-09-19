@@ -5,7 +5,7 @@ weight: 5
 
 Media Library Pro v3 is compatible with Livewire v3.
 
-You can make use of the `livewire:media-library` and `livewire:media-library` inside of the views of your own Livewire components.
+You can make use of the `livewire:media-library` Livewire component inside of the views of your own Livewire components.
 
 ## Getting started
 
@@ -17,7 +17,7 @@ You must add `@mediaLibraryStyles` before the closing `</head>` tag of your layo
 
 In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro inside your Livewire components.
 
-If you are having troubles using the components, take a look in that app to see how we've done it.
+If you are having trouble using the components, take a look in that app to see how we've done it.
 
 ## Handling a single upload
 
@@ -40,7 +40,7 @@ Here's how that might look like in the view of your Livewire component:
 
 In your Livewire component you must:
 - use the `Spatie\MediaLibraryPro\Livewire\Concerns\WithMedia` trait
-- add a public property for binding the media library component to (in the example above: `myUpload`, of course you can use any name you want)
+- add a public property that defaults to an empty array for binding the media library component to (in the example above: `myUpload`, of course you can use any name you want)
 - for each component that you are going to use you should add a public property with the name you use in the view for that component (in the example above: `myUpload`)
 
 Here is an example component:
@@ -60,7 +60,7 @@ class MyForm extends Component
 
     public $message = '';
 
-    public $myUpload;
+    public $myUpload = [];
 
     public function submit()
     {
@@ -114,14 +114,14 @@ public function submit()
 
 ## Handling multiple uploads
 
-Uploading multiple files is very similar to uploading a single file. The only thing you need to add is a `collection` property
+Uploading multiple files is very similar to uploading a single file. The only thing you need to add is a `multiple` property
 
 ```html
 <form method="POST" wire:submit.prevent="submit">
    
     <input id="name" wire:model.debounce.500ms="name">
 
-    <livewire:media-library collection="images" />
+    <livewire:media-library wire:model="images" multiple />
 
     <button type="submit">Submit</button>
 </form>
@@ -131,7 +131,7 @@ Uploading multiple files is very similar to uploading a single file. The only th
 
 In your Livewire component you must:
 - use the `Spatie\MediaLibraryPro\Livewire\Concerns\WithMedia` trait
-- add a public property `$images` that we can bind to upload to
+- add a public property `$images` that we can bind the uploads to
 
 
 Here is an example component:
@@ -151,7 +151,7 @@ class MyForm extends Component
 
     public $message = '';
 
-    public $images;
+    public $images = [];
 
     public function submit()
     {
@@ -182,7 +182,7 @@ class MyForm extends Component
 You can pass any Laravel validation rule to the rules prop of the `livewire:media-library` component. Here's an example where only `jpeg` and `png` will be accepted.
 
 ```html
-<livewire:media-library name="images" rules="mimes:jpeg,png"/>
+<livewire:media-library wire:model="images" rules="mimes:jpeg,png"/>
 ```
 
 You can make the upload required by validating it in your Livewire component. Here's an example where at least one upload is required, but more than three uploads are not allowed.
@@ -214,9 +214,9 @@ already [prepared the model](/docs/laravel-medialibrary/v10/basic-usage/preparin
     <input id="name" wire:model.debounce.500ms="name">
 
     <livewire:media-library
-        name="images"
-        wire:model="$blogPost"
         collection="images"
+        :model="$blogPost"
+        wire:model="images"
     />
 
     <button type="submit">Submit</button>
@@ -226,7 +226,7 @@ already [prepared the model](/docs/laravel-medialibrary/v10/basic-usage/preparin
 In your Livewire component you must:
 - use the `Spatie\MediaLibraryPro\Livewire\Concerns\WithMedia` trait
 - add a public property `$images` that we can bind to upload to (you can use any name you want)
-
+- pass the Eloquent model that the collection is saved on to the component, in this case `$blogPost`
 
 Here is an example component:
 
@@ -247,15 +247,18 @@ class MyForm extends Component
 
     public $images;
 
-    public $images;
+    public $blogPost;
+
+    public function mount()
+    {
+        $this->blogPost = BlogPost::first();
+    }
 
     public function submit()
     {
-        $formSubmission = BlogPost::create([
-            'name' => $this->name,
-        ]);
+        $this->blogPost->update(['name' => $this->name]);
 
-        $formSubmission
+        $this->blogPost
             ->addFromMediaLibraryRequest($this->images)
             ->toMediaCollection('images');
 
@@ -274,7 +277,7 @@ class MyForm extends Component
 You can pass any Laravel validation rule to the rules prop of the `livewire:media-library` component. Here's an example where only `jpeg` and `png` will be accepted.
 
 ```html
-<livewire:media-library wire:model="images" rules="mimes:jpeg,png"/>
+<livewire:media-library wire:model="images" collection="images" :model="$blogPost" rules="mimes:jpeg,png"/>
 ```
 
 You can make the upload required by validating it in your Livewire component. Here's an example where at least one upload is required, but more than three uploads are not allowed.
@@ -323,7 +326,7 @@ You should then pass the path to that view to the `fields-view` prop of the `liv
 
 ```html
 <livewire:media-library
-    name="images"
+    wire:model="images"
     :model="$formSubmission"
     collection="images"
     fields-view="app.your-custom-properties-blade-view-path"
