@@ -11,8 +11,6 @@ You can make use of the `livewire:media-library` and `livewire:media-library` in
 
 Make sure to have followed [Livewire's installation instructions](https://livewire.laravel.com).
 
-### Livewire 3
-
 You must add `@mediaLibraryStyles` before the closing `</head>` tag of your layout file.
 
 ## Demo application
