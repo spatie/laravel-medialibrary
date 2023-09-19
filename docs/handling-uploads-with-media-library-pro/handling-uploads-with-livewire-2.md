@@ -21,7 +21,7 @@ Visit [the Alpine repo](https://github.com/alpinejs/alpine) for more installatio
 
 ## Demo application
 
-In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro inside your Livewire components.
+In [the v2 btranch of this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app/tree/v2), you'll find a demo Laravel application in which you'll find examples of how to use Media Library Pro inside your Livewire components.
 
 If you are having troubles using the components, take a look in that app to see how we've done it.
 
