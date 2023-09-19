@@ -1,6 +1,6 @@
 ---
 title: Handling uploads with React
-weight: 6
+weight: 7
 ---
 
 Media Library Pro provides beautiful UI components for React. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, and robust error handling.

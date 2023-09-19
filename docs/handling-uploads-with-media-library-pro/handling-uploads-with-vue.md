@@ -1,6 +1,6 @@
 ---
 title: Handling uploads with Vue
-weight: 5
+weight: 6
 ---
 
 Media Library Pro provides beautiful UI components for Vue 2 and Vue 3. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, and robust error handling.

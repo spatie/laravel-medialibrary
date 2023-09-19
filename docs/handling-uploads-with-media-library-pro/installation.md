@@ -15,7 +15,7 @@ Single application licenses maybe installed in a single Laravel app. In case you
 
 ## Current version
 
-The current version of Media Library Pro is v2. We highly recommand to use at least v2.1.7 as previous versions contain a security issue.
+The current version of Media Library Pro is v3. 
 
 You will find upgrade instructions [here](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/upgrading).
 
@@ -75,7 +75,7 @@ If you are using [Laravel Forge](https://forge.laravel.com), you don't need to c
 With the configuration above in place, you'll be able to install the Media Library Pro into your project using this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary-pro:^2.0.0"
+composer require "spatie/laravel-medialibrary-pro:^3.0.0"
 ```
 
 ## Prepare the database
