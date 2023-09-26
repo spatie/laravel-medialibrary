@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.13.0 - 2023-09-26
+
+### What's Changed
+
+- V3 docs by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3382
+- Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3374
+- Support drivers containing gcs or s3 in driver name by @LukeAbell in https://github.com/spatie/laravel-medialibrary/pull/3389
+
+### New Contributors
+
+- @LukeAbell made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3389
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.12.2...10.13.0
+
 ## 10.12.2 - 2023-09-05
 
 ### What's Changed
