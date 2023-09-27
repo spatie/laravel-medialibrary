@@ -687,6 +687,14 @@ window.mediaLibraryTranslations = {
 };
 ```
 
+If you use the [vue-i18n](https://vue-i18n.intlify.dev/) package from intlify, you can also pass the keys from a translation file like `lang/media-library.php` by using the [`$tm`-function](https://vue-i18n.intlify.dev/api/composition.html#tm-key).
+
+```js
+<MediaLibraryCollection
+    :translations="$tm('media-library')"
+/>
+```
+
 ## Props
 
 These props are available on both the `attachment` and the `collection` component.
