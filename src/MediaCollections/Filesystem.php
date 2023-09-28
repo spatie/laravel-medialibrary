@@ -332,18 +332,6 @@ class Filesystem
             $directory = $pathGenerator->getPathForResponsiveImages($media);
         }
 
-        $diskDriverName = in_array($type, ['conversions', 'responsiveImages'])
-            ? $media->getConversionsDiskDriverName()
-            : $media->getDiskDriverName();
-
-        $diskName = in_array($type, ['conversions', 'responsiveImages'])
-            ? $media->conversions_disk
-            : $media->disk;
-
-        if (! Str::contains($diskDriverName, ['s3', 'gcs'], true)) {
-            $this->filesystem->disk($diskName)->makeDirectory($directory);
-        }
-
         return $directory;
     }
 
