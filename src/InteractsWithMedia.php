@@ -284,6 +284,13 @@ trait InteractsWithMedia
         return $media->first();
     }
 
+    public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
+    {
+        $media = $this->getMedia($collectionName, $filters);
+
+        return $media->last();
+    }
+
     /*
      * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
@@ -293,6 +300,23 @@ trait InteractsWithMedia
     {
         $media = $this->getFirstMedia($collectionName);
 
+        return $this->handleMediaUrl($media, $collectionName, $conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        $media = $this->getLastMedia($collectionName);
+
+        return $this->handleMediaUrl($media, $collectionName, $conversionName);
+    }
+
+    private function handleMediaUrl(?Media $media, string $collectionName = 'default', string $conversionName = ''): string
+    {
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
         }
