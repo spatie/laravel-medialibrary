@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.13.2 - 2023-10-09
+
+### What's Changed
+
+- Test against php 8.3 by @sergiy-petrov in https://github.com/spatie/laravel-medialibrary/pull/3402
+- Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3405
+
+### New Contributors
+
+- @sergiy-petrov made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3402
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.13.1...10.13.2
+
 ## 10.13.1 - 2023-10-09
 
 ### What's Changed
