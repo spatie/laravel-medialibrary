@@ -33,3 +33,22 @@ it(
         expect($media->getPath())->toEqual($imageFile);
     }
 )->skip(! extension_loaded('imagick'), 'The imagick extension is not available.');
+
+it(
+    'can convert a heic image',
+    function () {
+        //heic format requires imagick
+        config(['media-library.image_driver' => 'imagick']);
+
+        $imageGenerator = new Image();
+
+        $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestHeic())->toMediaCollection();
+
+        expect($imageGenerator->canConvert($media))->toBeTrue();
+
+        $imageFile = $imageGenerator->convert($media->getPath());
+
+        expect(mime_content_type($imageFile))->toEqual('image/heic');
+        expect($media->getPath())->toEqual($imageFile);
+    }
+)->skip(! extension_loaded('imagick'), 'The imagick extension is not available.');

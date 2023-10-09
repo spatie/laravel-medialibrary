@@ -243,6 +243,11 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('test.avif');
     }
 
+    public function getTestHeic(): string
+    {
+        return $this->getTestFilesDirectory('test.heic');
+    }
+
     public function getTestMp4(): string
     {
         return $this->getTestFilesDirectory('test.mp4');
