@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.13.1 - 2023-10-09
+
+### What's Changed
+
+- Adding example to docs to pass translation keys from Vue I18n in (pro) components by @jeffreyvanhees in https://github.com/spatie/laravel-medialibrary/pull/3395
+- added HEIC support by @boryn in https://github.com/spatie/laravel-medialibrary/pull/3399
+
+### New Contributors
+
+- @boryn made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3399
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.13.0...10.13.1
+
 ## 10.13.0 - 2023-09-26
 
 ### What's Changed
