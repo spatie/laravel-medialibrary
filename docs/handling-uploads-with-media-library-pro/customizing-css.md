@@ -20,11 +20,9 @@ Instead of importing/linking the pre-built `dist/styles.css` from the package, y
 ```css
 /* app.css */
 
-@tailwind base;
-
-@tailwind components;
-
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @import "../../vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles/src/styles.css";
 …
