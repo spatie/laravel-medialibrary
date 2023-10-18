@@ -22,9 +22,6 @@ class FileBaseFileRemover extends DefaultFileRemover implements FileRemover
 
     public function removeConvertedImages(Media $media): void
     {
-        $conversionsDirectory = $this->mediaFileSystem->getConversionDirectory($media);
-        $mediaDirectory = $this->mediaFileSystem->getMediaDirectory($media);
-
         collect($media->getMediaConversionNames())->each(function ($conversionName) use ($media) {
             $this->removeFile(
                 path: $media->getPathRelativeToRoot($conversionName),
