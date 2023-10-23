@@ -88,6 +88,13 @@ class MediaRepository
             ->get();
     }
 
+    public function getOrphans(): DbCollection
+    {
+        return $this->query()
+            ->whereDoesntHave('model')
+            ->get();
+    }
+
     protected function query(): Builder
     {
         return $this->model->newQuery();
