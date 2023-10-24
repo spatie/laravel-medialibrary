@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
-use Exception;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -12,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\FileRemover\FileRemoverFactory;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 use Spatie\MediaLibrary\Support\RemoteFile;
 
@@ -215,30 +215,16 @@ class Filesystem
 
     public function removeAllFiles(Media $media): void
     {
-        $mediaDirectory = $this->getMediaDirectory($media);
+        $fileRemover = FileRemoverFactory::create($media);
 
-        if ($media->disk !== $media->conversions_disk) {
-            $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
-        }
-
-        $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
-
-        $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
-
-        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
-            ->unique()
-            ->each(function (string $directory) use ($media) {
-                try {
-                    $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
-                } catch (Exception $exception) {
-                    report($exception);
-                }
-            });
+        $fileRemover->removeAllFiles($media);
     }
 
     public function removeFile(Media $media, string $path): void
     {
-        $this->filesystem->disk($media->disk)->delete($path);
+        $fileRemover = FileRemoverFactory::create($media);
+
+        $fileRemover->removeFile($path, $media->disk);
     }
 
     public function removeResponsiveImages(Media $media, string $conversionName = 'media_library_original'): void
@@ -330,18 +316,6 @@ class Filesystem
 
         if ($type === 'responsiveImages') {
             $directory = $pathGenerator->getPathForResponsiveImages($media);
-        }
-
-        $diskDriverName = in_array($type, ['conversions', 'responsiveImages'])
-            ? $media->getConversionsDiskDriverName()
-            : $media->getDiskDriverName();
-
-        $diskName = in_array($type, ['conversions', 'responsiveImages'])
-            ? $media->conversions_disk
-            : $media->disk;
-
-        if (! Str::contains($diskDriverName, ['s3', 'gcs'], true)) {
-            $this->filesystem->disk($diskName)->makeDirectory($directory);
         }
 
         return $directory;

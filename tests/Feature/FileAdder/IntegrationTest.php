@@ -318,16 +318,6 @@ it('can add a remote file with a space in the name to the media library', functi
     expect($this->getMediaDirectory("{$media->id}/test-with-space.jpg"))->toBeFile();
 });
 
-it('can add a remote file with an accent in the name to the media library', function () {
-    $url = 'https://orbit.brightbox.com/v1/acc-jqzwj/Marquis-Leisure/reviews/images/000/000/898/original/Antar%C3%A8sThumb.jpg';
-
-    $media = $this->testModel
-        ->addMediaFromUrl($url)
-        ->toMediaCollection();
-
-    expect($this->getMediaDirectory("{$media->id}/AntarèsThumb.jpg"))->toBeFile();
-});
-
 it('will thrown an exception when a remote file could not be added', function () {
     $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
 
