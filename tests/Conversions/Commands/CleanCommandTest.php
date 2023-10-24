@@ -335,7 +335,7 @@ it('can clean orphaned media items when enabled for specific collections', funct
     ]);
 });
 
-it('can won\'t clean orphaned media items when disabled', function () {
+it('will not clean orphaned media items when disabled', function () {
     $media = TestModel::create(['name' => 'test.jpg'])
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
