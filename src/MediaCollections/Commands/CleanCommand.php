@@ -103,6 +103,10 @@ class CleanCommand extends Command
 
             $media->delete();
 
+            if ($this->rateLimit) {
+                usleep((1 / $this->rateLimit) * 1_000_000);
+            }
+
             $this->info("Orphaned Media[id={$media->id}] has been removed");
         });
     }
