@@ -287,7 +287,7 @@ it('can clean orphaned media items when enabled', function () {
         ->toMediaCollection('collection1');
 
     // Delete quietly to avoid deleting the related media file.
-    $mediaToDelete->model->deleteQuietly();
+    $mediaToDelete->model->deletePreservingMedia();
 
     $this->artisan('media-library:clean', [
         '--delete-orphaned' => 'true',
