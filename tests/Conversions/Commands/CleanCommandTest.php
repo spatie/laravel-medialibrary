@@ -304,6 +304,37 @@ it('can clean orphaned media items when enabled', function () {
     ]);
 });
 
+it('can clean orphaned media items when enabled for specific collections', function () {
+    $mediaToClean = TestModel::create(['name' => 'test.jpg'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection-to-clean');
+
+    $mediaToKeep = TestModel::create(['name' => 'test.jpg'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection-to-keep');
+
+    // Delete quietly to avoid deleting the related media file.
+    $mediaToClean->model->deleteQuietly();
+    $mediaToKeep->model->deleteQuietly();
+
+    $this->artisan('media-library:clean', [
+        '--delete-orphaned' => 'true',
+        'collectionName' => 'collection-to-clean',
+    ]);
+
+    // Media should be deleted from the database.
+    $this->assertDatabaseMissing('media', [
+        'id' => $mediaToClean->id,
+    ]);
+
+    // This media should still exist.
+    $this->assertDatabaseHas('media', [
+        'id' => $mediaToKeep->id,
+    ]);
+});
+
 it('can won\'t clean orphaned media items when disabled', function () {
     $media = TestModel::create(['name' => 'test.jpg'])
         ->addMedia($this->getTestJpg())

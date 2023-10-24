@@ -94,7 +94,7 @@ class CleanCommand extends Command
 
     protected function deleteOrphanedMediaItems(): void
     {
-        $this->mediaRepository->getOrphans()->each(function (Media $media) {
+        $this->getOrphanedMediaItems()->each(function (Media $media): void {
             if ($this->isDryRun) {
                 $this->info("Orphaned Media[id={$media->id}] found");
 
@@ -105,6 +105,18 @@ class CleanCommand extends Command
 
             $this->info("Orphaned Media[id={$media->id}] has been removed");
         });
+    }
+
+    /** @return Collection<int, Media> */
+    protected function getOrphanedMediaItems(): Collection
+    {
+        $collectionName = $this->argument('collectionName');
+
+        if (is_string($collectionName)) {
+            return $this->mediaRepository->getOrphansByCollectionName($collectionName);
+        }
+
+        return $this->mediaRepository->getOrphans();
     }
 
     protected function deleteFilesGeneratedForDeprecatedConversions(): void

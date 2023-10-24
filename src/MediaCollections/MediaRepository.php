@@ -95,6 +95,14 @@ class MediaRepository
             ->get();
     }
 
+    public function getOrphansByCollectionName(string $collectionName): DbCollection
+    {
+        return $this->query()
+            ->whereDoesntHave('model')
+            ->where('collection_name', $collectionName)
+            ->get();
+    }
+
     protected function query(): Builder
     {
         return $this->model->newQuery();
