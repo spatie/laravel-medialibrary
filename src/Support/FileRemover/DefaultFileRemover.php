@@ -3,15 +3,16 @@
 namespace Spatie\MediaLibrary\Support\FileRemover;
 
 use Exception;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DefaultFileRemover implements FileRemover
 {
     public function __construct(protected Filesystem $mediaFileSystem, protected Factory $filesystem)
-    {}
+    {
+    }
 
     public function removeAllFiles(Media $media): void
     {

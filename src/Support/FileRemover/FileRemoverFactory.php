@@ -2,8 +2,8 @@
 
 namespace Spatie\MediaLibrary\Support\FileRemover;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidFileRemover;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class FileRemoverFactory
 {
@@ -18,11 +18,11 @@ class FileRemoverFactory
 
     protected static function guardAgainstInvalidFileRemover(string $fileRemoverClass): void
     {
-        if (!class_exists($fileRemoverClass)) {
+        if (! class_exists($fileRemoverClass)) {
             throw InvalidFileRemover::doesntExist($fileRemoverClass);
         }
 
-        if (!is_subclass_of($fileRemoverClass, FileRemover::class)) {
+        if (! is_subclass_of($fileRemoverClass, FileRemover::class)) {
             throw InvalidFileRemover::doesNotImplementFileRemover($fileRemoverClass);
         }
     }
