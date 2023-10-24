@@ -274,3 +274,50 @@ it('can clean deprecated conversion files in same path as original image', funct
     expect($this->getMediaDirectory("{$media->id}/test-thumb.jpg"))->toBeFile();
     expect($this->getMediaDirectory("{$media->id}/test.jpg"))->toBeFile();
 });
+
+it('can clean orphaned media items when enabled', function () {
+    $mediaToDelete = TestModel::create(['name' => 'test.jpg'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
+
+    $mediaToKeep = TestModel::create(['name' => 'test.jpg'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
+
+    // Delete quietly to avoid deleting the related media file.
+    $mediaToDelete->model->deleteQuietly();
+
+    $this->artisan('media-library:clean', [
+        '--delete-orphaned' => 'true',
+    ]);
+
+    // Media should be deleted from the database.
+    $this->assertDatabaseMissing('media', [
+        'id' => $mediaToDelete->id,
+    ]);
+
+    // This media should still exist.
+    $this->assertDatabaseHas('media', [
+        'id' => $mediaToKeep->id,
+    ]);
+});
+
+it('can won\'t clean orphaned media items when disabled', function () {
+    $media = TestModel::create(['name' => 'test.jpg'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
+
+    // Delete quietly to avoid deleting the related media file.
+    $media->model->deleteQuietly();
+
+    // Without the `--delete-orphaned` flag, the orphaned media should remain.
+    $this->artisan('media-library:clean');
+
+    // This media should still exist.
+    $this->assertDatabaseHas('media', [
+        'id' => $media->id,
+    ]);
+});
