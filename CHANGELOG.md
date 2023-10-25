@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.14.0 - 2023-10-25
+
+### What's Changed
+
+- Remove unnecessary directory creation by @grEvenX in https://github.com/spatie/laravel-medialibrary/pull/3397
+- Feature/new custom delete fix #3190  by @benjam-es in https://github.com/spatie/laravel-medialibrary/pull/3252
+- Delete orphaned media in clean command by @mbardelmeijer in https://github.com/spatie/laravel-medialibrary/pull/3419
+
+### New Contributors
+
+- @grEvenX made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3397
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.13.2...10.14.0
+
 ## 10.13.2 - 2023-10-09
 
 ### What's Changed
