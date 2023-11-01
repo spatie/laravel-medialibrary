@@ -91,14 +91,14 @@ class MediaRepository
     public function getOrphans(): DbCollection
     {
         return $this->query()
-            ->whereDoesntHave('model')
+            ->whereDoesntHave('model', fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q)
             ->get();
     }
 
     public function getOrphansByCollectionName(string $collectionName): DbCollection
     {
         return $this->query()
-            ->whereDoesntHave('model')
+            ->whereDoesntHave('model', fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q)
             ->where('collection_name', $collectionName)
             ->get();
     }

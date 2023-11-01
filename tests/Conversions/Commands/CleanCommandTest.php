@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -346,6 +347,28 @@ it('will not clean orphaned media items when disabled', function () {
 
     // Without the `--delete-orphaned` flag, the orphaned media should remain.
     $this->artisan('media-library:clean');
+
+    // This media should still exist.
+    $this->assertDatabaseHas('media', [
+        'id' => $media->id,
+    ]);
+});
+
+it('will not clean media items on soft deleted models', function () {
+    $testModelClass = new class () extends TestModel {
+        use SoftDeletes;
+    };
+
+    /** @var TestModel $testModel */
+    $testModel = $testModelClass::find($this->testModel->id);
+
+    $media = $testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+    $testModel->deletePreservingMedia();
+
+    $this->artisan('media-library:clean', [
+        '--delete-orphaned' => 'true',
+    ]);
 
     // This media should still exist.
     $this->assertDatabaseHas('media', [
