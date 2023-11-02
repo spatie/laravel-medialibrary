@@ -43,6 +43,7 @@
         "ext-zip": "*",
         "aws/aws-sdk-php": "^3.133.11",
         "doctrine/dbal": "^2.13",
+        "friendsofphp/php-cs-fixer": "^3.25",
         "guzzlehttp/guzzle": "^7.4",
         "league/flysystem-aws-s3-v3": "^3.0",
         "mockery/mockery": "^1.4",
@@ -91,7 +92,7 @@
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "baseline": "vendor/bin/phpstan analyse --generate-baseline",
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes",
         "test": "vendor/bin/pest"
     }
 }
