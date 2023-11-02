@@ -168,8 +168,6 @@ trait InteractsWithMedia
 
     /**
      * Add a file to the media library that contains the given string.
-     *
-     * @param string string
      */
     public function addMediaFromString(string $text): FileAdder
     {
