@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 10.15.0 - 2023-11-03
+
+### What's Changed
+
+- Don't include soft deleted models as orphaned media by @patrickomeara in https://github.com/spatie/laravel-medialibrary/pull/3428
+
+### New Contributors
+
+- @patrickomeara made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3428
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.14.0...10.15.0
+
 ## 10.14.0 - 2023-10-25
 
 ### What's Changed
