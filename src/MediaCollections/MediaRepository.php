@@ -90,15 +90,13 @@ class MediaRepository
 
     public function getOrphans(): DbCollection
     {
-        return $this->query()
-            ->whereDoesntHave('model')
+        return $this->orphansQuery()
             ->get();
     }
 
     public function getOrphansByCollectionName(string $collectionName): DbCollection
     {
-        return $this->query()
-            ->whereDoesntHave('model')
+        return $this->orphansQuery()
             ->where('collection_name', $collectionName)
             ->get();
     }
@@ -106,6 +104,15 @@ class MediaRepository
     protected function query(): Builder
     {
         return $this->model->newQuery();
+    }
+
+    protected function orphansQuery(): Builder
+    {
+        return $this->query()
+            ->whereDoesntHave(
+                'model',
+                fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q,
+            );
     }
 
     protected function getDefaultFilterFunction(array $filters): Closure
