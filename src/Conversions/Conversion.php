@@ -4,7 +4,6 @@ namespace Spatie\MediaLibrary\Conversions;
 
 use BadMethodCallException;
 use Illuminate\Support\Traits\Conditionable;
-use Spatie\MediaLibrary\Conversions\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
