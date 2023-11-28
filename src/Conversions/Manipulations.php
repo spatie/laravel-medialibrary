@@ -2,6 +2,9 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
+use Spatie\Image\Drivers\ImageDriver;
+use Spatie\Image\Image;
+
 /** @mixin \Spatie\Image\Drivers\ImageDriver */
 class Manipulations
 {
@@ -24,5 +27,17 @@ class Manipulations
     public function getManipulationArgument(string $manipulationName): null|string|array
     {
         return $this->manipulations[$manipulationName] ?? null;
+    }
+
+    public function isEmpty(): bool
+    {
+        return count($this->manipulations) === 0;
+    }
+
+    public function apply(ImageDriver $image): void
+    {
+        foreach($this->manipulations as $manipulationName => $parameters) {
+            $image->$manipulationName(...$parameters);
+        }
     }
 }

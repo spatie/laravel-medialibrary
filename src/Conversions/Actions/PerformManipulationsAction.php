@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Conversions\Actions;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Spatie\Image\Image;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\ImageFactory;
@@ -15,6 +16,7 @@ class PerformManipulationsAction
         Conversion $conversion,
         string $imageFile
     ): string {
+
         if ($conversion->getManipulations()->isEmpty()) {
             return $imageFile;
         }
@@ -28,9 +30,12 @@ class PerformManipulationsAction
             $conversion->format($media->extension);
         }
 
-        ImageFactory::load($conversionTempFile)
-            ->manipulate($conversion->getManipulations())
-            ->save();
+        $image = Image::useImageDriver(config('media-library.image_driver'))
+            ->load($conversionTempFile);
+
+        $conversion->getManipulations()->apply($image);
+
+        $image->save();
 
         return $conversionTempFile;
     }

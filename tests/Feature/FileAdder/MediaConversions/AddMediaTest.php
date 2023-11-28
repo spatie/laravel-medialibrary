@@ -17,7 +17,7 @@ it('can add an file to the default collection', function () {
 
 it('can create a derived version of an image', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
-dd($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+
     $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
 });
 
