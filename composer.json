@@ -33,7 +33,7 @@
         "illuminate/pipeline": "^9.18|^10.0",
         "illuminate/support": "^9.18|^10.0",
         "maennchen/zipstream-php": "^2.0|^3.0",
-        "spatie/image": "^2.2.7",
+        "spatie/image": "v3.x-dev",
         "spatie/temporary-directory": "^2.0",
         "symfony/console": "^6.0"
     },

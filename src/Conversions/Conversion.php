@@ -4,11 +4,11 @@ namespace Spatie\MediaLibrary\Conversions;
 
 use BadMethodCallException;
 use Illuminate\Support\Traits\Conditionable;
-use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\Conversions\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
-/** @mixin \Spatie\Image\Manipulations */
+/** @mixin \Spatie\Image\Drivers\ImageDriver */
 class Conversion
 {
     use Conditionable;
@@ -34,9 +34,17 @@ class Conversion
     public function __construct(
         protected string $name
     ) {
+        // TODO: convert to jpg by default, implement optimizers
+
+        $this->manipulations = new Manipulations();
+
+        /*
         $this->manipulations = (new Manipulations())
             ->optimize(config('media-library.image_optimizers'))
-            ->format(Manipulations::FORMAT_JPG);
+            ->format(Manipulations::FORMAT_JPG)
+        ;
+        */
+
 
         $this->fileNamer = app(config('media-library.file_namer'));
 
@@ -109,9 +117,11 @@ class Conversion
 
     public function __call($name, $arguments)
     {
+        /*
         if (! method_exists($this->manipulations, $name)) {
             throw new BadMethodCallException("Manipulation `{$name}` does not exist");
         }
+        */
 
         $this->manipulations->$name(...$arguments);
 
