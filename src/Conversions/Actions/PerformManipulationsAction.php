@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\ImageFactory;
 
 class PerformManipulationsAction
 {
