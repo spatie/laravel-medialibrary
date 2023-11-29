@@ -14,7 +14,7 @@ class PerformManipulationsAction
     public function execute(
         Media $media,
         Conversion $conversion,
-        string $imageFile
+        string $imageFile,
     ): string {
 
         if ($conversion->getManipulations()->isEmpty()) {
@@ -43,7 +43,7 @@ class PerformManipulationsAction
     protected function getConversionTempFileName(
         Media $media,
         Conversion $conversion,
-        string $imageFile
+        string $imageFile,
     ): string {
         $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
 

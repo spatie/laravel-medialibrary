@@ -3,7 +3,9 @@
 namespace Spatie\MediaLibrary\Conversions;
 
 use BadMethodCallException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
@@ -31,11 +33,13 @@ class Conversion
     protected int $pdfPageNumber = 1;
 
     public function __construct(
-        protected string $name
+        protected string $name,
     ) {
-        // TODO: convert to jpg by default, implement optimizers
+        $optimizerChain = OptimizerChainFactory::create(config('media-library.image_optimizers'));
 
-        $this->manipulations = new Manipulations();
+        $this->manipulations = (new Manipulations())
+            ->optimize($optimizerChain)
+            ->format('jpg');
 
         /*
         $this->manipulations = (new Manipulations())
@@ -218,7 +222,7 @@ class Conversion
             }
         }
 
-        if ($manipulationArgument = $this->manipulations->getManipulationArgument('format')) {
+        if ($manipulationArgument = Arr::get($this->manipulations->getManipulationArgument('format'), 0)) {
             return $manipulationArgument;
         }
 

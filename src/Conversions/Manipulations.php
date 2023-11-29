@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Conversions;
 
 use Spatie\Image\Drivers\ImageDriver;
-use Spatie\Image\Image;
 
 /** @mixin \Spatie\Image\Drivers\ImageDriver */
 class Manipulations
