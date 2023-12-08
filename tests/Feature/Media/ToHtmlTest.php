@@ -55,6 +55,8 @@ test('converting a non image to an image tag will not blow up', function () {
 });
 
 it('can render pdf thumbnail as an image', function () {
+    config()->set('media-library.image_driver', 'imagick');
+
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestPdf())
         ->toMediaCollection();

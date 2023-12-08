@@ -66,6 +66,8 @@ it('will use the name of the conversion for naming the converted file', function
 });
 
 it('can create a derived version of a pdf if imagick exists', function () {
+    config()->set('media-library.image_driver', 'imagick');
+
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestFilesDirectory('test.pdf'))
         ->toMediaCollection('images');
