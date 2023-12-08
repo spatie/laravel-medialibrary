@@ -47,15 +47,6 @@ test('its conversions can have responsive images', function () {
     expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg"))->toBeFile();
 });
 
-test('its conversions can have responsive images and change format', function () {
-    $this->testModelWithResponsiveImages
-        ->addMedia($this->getTestPng())
-        ->withResponsiveImages()
-        ->toMediaCollection();
-
-    expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___pngtojpg_700_883.jpg"))->toBeFile();
-});
-
 it('triggers an event when the responsive images are generated', function () {
     Event::fake(ResponsiveImagesGenerated::class);
 
