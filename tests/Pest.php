@@ -55,3 +55,13 @@ function unserializeAndSerializeModel($model)
 {
     return unserialize(serialize($model));
 }
+
+function skipWhenRunningOnGitHub(): bool
+{
+    return getenv('GITHUB_ACTIONS') !== false;
+}
+
+function skipWhenRunningLocally(): bool
+{
+    return getenv('GITHUB_ACTIONS') === false;
+}

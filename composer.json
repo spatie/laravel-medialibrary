@@ -48,11 +48,11 @@
         "mockery/mockery": "^1.4",
         "nunomaduro/larastan": "^2.0",
         "orchestra/testbench": "^7.0|^8.0",
-        "pestphp/pest": "^1.21",
+        "pestphp/pest": "^2.0",
         "phpstan/extension-installer": "^1.1",
         "spatie/laravel-ray": "^1.28",
         "spatie/pdf-to-image": "^2.1",
-        "spatie/phpunit-snapshot-assertions": "^4.2"
+        "spatie/pest-plugin-snapshots": "^2.1"
     },
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
@@ -91,7 +91,6 @@
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "baseline": "vendor/bin/phpstan analyse --generate-baseline",
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/pest"
     }
 }

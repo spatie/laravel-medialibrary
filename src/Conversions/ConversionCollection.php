@@ -77,7 +77,6 @@ class ConversionCollection extends Collection
     protected function addManipulationsFromDb(Media $media): void
     {
         collect($media->manipulations)->each(function ($manipulation, $conversionName) {
-            ray($manipulation, $conversionName)->red();
             $manipulations = new Manipulations($manipulation);
 
             $this->addManipulationToConversion($manipulations, $conversionName);
