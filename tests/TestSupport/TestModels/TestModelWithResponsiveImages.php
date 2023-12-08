@@ -20,8 +20,8 @@ class TestModelWithResponsiveImages extends TestModel
         $this->addMediaConversion('pngtojpg')
             ->width(700)
             ->quality(1)
-            ->background('blue')
-            ->format(Manipulations::FORMAT_JPG)
+            ->background('#ff00ff')
+            ->format('jpg')
             ->withResponsiveImages();
 
         $this->addMediaConversion('lowerQuality')

@@ -41,14 +41,6 @@ class Conversion
             ->optimize($optimizerChain)
             ->format('jpg');
 
-        /*
-        $this->manipulations = (new Manipulations())
-            ->optimize(config('media-library.image_optimizers'))
-            ->format(Manipulations::FORMAT_JPG)
-        ;
-        */
-
-
         $this->fileNamer = app(config('media-library.file_namer'));
 
         $this->loadingAttributeValue = config('media-library.default_loading_attribute_value');
@@ -146,11 +138,13 @@ class Conversion
 
     public function addAsFirstManipulations(Manipulations $manipulations): self
     {
-        $manipulationSequence = $manipulations->getManipulationSequence()->toArray();
+        $newManipulations = $manipulations->toArray();
 
-        $this->manipulations
-            ->getManipulationSequence()
-            ->mergeArray($manipulationSequence);
+        $currentManipulations = $this->manipulations->toArray();
+
+        $allManipulations = array_merge($newManipulations, $currentManipulations);
+
+        $this->manipulations = new Manipulations($allManipulations);
 
         return $this;
     }

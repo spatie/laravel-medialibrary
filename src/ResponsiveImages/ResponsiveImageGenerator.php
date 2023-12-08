@@ -69,7 +69,7 @@ class ResponsiveImageGenerator
 
     private function getConversionQuality(Conversion $conversion): int
     {
-        return $conversion->getManipulations()->getManipulationArgument('quality') ?: self::DEFAULT_CONVERSION_QUALITY;
+        return $conversion->getManipulations()->getFirstManipulationArgument('quality') ?: self::DEFAULT_CONVERSION_QUALITY;
     }
 
     public function generateResponsiveImage(

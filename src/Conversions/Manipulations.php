@@ -9,6 +9,11 @@ class Manipulations
 {
     protected array $manipulations = [];
 
+    public function __construct(array $manipulations = [])
+    {
+        $this->manipulations = $manipulations;
+    }
+
     public function __call(string $method, array $parameters): self
     {
         $this->addManipulation($method, $parameters);
@@ -28,6 +33,17 @@ class Manipulations
         return $this->manipulations[$manipulationName] ?? null;
     }
 
+    public function getFirstManipulationArgument(string $manipulationName): null|string|int
+    {
+        $manipulationArgument = $this->getManipulationArgument($manipulationName);
+
+        if (! is_array($manipulationArgument)) {
+            return null;
+        }
+
+        return $manipulationArgument[0];
+    }
+
     public function isEmpty(): bool
     {
         return count($this->manipulations) === 0;
@@ -38,5 +54,17 @@ class Manipulations
         foreach($this->manipulations as $manipulationName => $parameters) {
             $image->$manipulationName(...$parameters);
         }
+    }
+
+    public function removeManipulation(string $name): self
+    {
+        unset($this->manipulations[$name]);
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return $this->manipulations;
     }
 }
