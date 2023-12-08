@@ -122,14 +122,14 @@ it('will have access the model instance when register media conversions using mo
 
     $conversionCollection = ConversionCollection::createForMedia($media);
 
-    $conversion = $conversionCollection->getConversions()[0];
+    $conversion = $conversionCollection->getConversions()->first();
 
     $conversionManipulations = $conversion
         ->getManipulations()
         ->getManipulationSequence()
-        ->toArray()[0];
+        ->toArray();
 
-    expect($conversionManipulations['width'])->toEqual(123);
+    expect($conversionManipulations['width'])->toEqual([123]);
 });
 
 it('can set filesize', function () {
