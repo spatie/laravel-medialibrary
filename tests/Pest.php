@@ -24,7 +24,7 @@ function assertS3FileNotExists(string $filePath): void
 
 function canTestS3(): bool
 {
-    return ! empty(getenv('AWS_ACCESS_KEY_ID'));
+    return !empty(getenv('AWS_ACCESS_KEY_ID'));
 }
 
 function getS3BaseTestDirectory(): string
@@ -56,12 +56,16 @@ function unserializeAndSerializeModel($model)
     return unserialize(serialize($model));
 }
 
-function skipWhenRunningOnGitHub(): bool
+function skipWhenRunningOnGitHub(): void
 {
-    return getenv('GITHUB_ACTIONS') !== false;
+    if (getenv('GITHUB_ACTIONS') !== false) {
+        test()->markTestSkipped('This test cannot run on GitHub actions');
+    }
 }
 
-function skipWhenRunningLocally(): bool
+function skipWhenRunningLocally(): void
 {
-    return getenv('GITHUB_ACTIONS') === false;
+    if (getenv('GITHUB_ACTIONS') === false) {
+        test()->markTestSkipped('This test cannot run locally');
+    }
 }

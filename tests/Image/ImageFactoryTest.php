@@ -8,5 +8,5 @@ test('loading an image uses the correct driver', function () {
 
     $image = ImageFactory::load($this->getTestJpg());
 
-    expect($image)->toBeInstanceOf(ImagickDriver::class);
+    expect($image->driverName())->toBe('imagick');
 });

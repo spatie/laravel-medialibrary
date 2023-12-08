@@ -46,7 +46,7 @@
         "guzzlehttp/guzzle": "^7.4",
         "league/flysystem-aws-s3-v3": "^3.0",
         "mockery/mockery": "^1.4",
-        "nunomaduro/larastan": "^2.0",
+        "larastan/larastan": "^2.0",
         "orchestra/testbench": "^7.0|^8.0",
         "pestphp/pest": "^2.0",
         "phpstan/extension-installer": "^1.1",
