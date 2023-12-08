@@ -9,58 +9,95 @@ use Spatie\Image\Exceptions\InvalidManipulation;
 class OldManipulations
 {
     public const CROP_TOP_LEFT = 'crop-top-left';
+
     public const CROP_TOP = 'crop-top';
+
     public const CROP_TOP_RIGHT = 'crop-top-right';
+
     public const CROP_LEFT = 'crop-left';
+
     public const CROP_CENTER = 'crop-center';
+
     public const CROP_RIGHT = 'crop-right';
+
     public const CROP_BOTTOM_LEFT = 'crop-bottom-left';
+
     public const CROP_BOTTOM = 'crop-bottom';
+
     public const CROP_BOTTOM_RIGHT = 'crop-bottom-right';
 
     public const ORIENTATION_AUTO = 'auto';
+
     public const ORIENTATION_0 = 0;
+
     public const ORIENTATION_90 = 90;
+
     public const ORIENTATION_180 = 180;
+
     public const ORIENTATION_270 = 270;
 
     public const FLIP_HORIZONTALLY = 'h';
+
     public const FLIP_VERTICALLY = 'v';
+
     public const FLIP_BOTH = 'both';
 
     public const FIT_CONTAIN = 'contain';
+
     public const FIT_MAX = 'max';
+
     public const FIT_FILL = 'fill';
+
     public const FIT_FILL_MAX = 'fill-max';
+
     public const FIT_STRETCH = 'stretch';
+
     public const FIT_CROP = 'crop';
 
     public const BORDER_OVERLAY = 'overlay';
+
     public const BORDER_SHRINK = 'shrink';
+
     public const BORDER_EXPAND = 'expand';
 
     public const FORMAT_JPG = 'jpg';
+
     public const FORMAT_PJPG = 'pjpg';
+
     public const FORMAT_PNG = 'png';
+
     public const FORMAT_GIF = 'gif';
+
     public const FORMAT_WEBP = 'webp';
+
     public const FORMAT_AVIF = 'avif';
+
     public const FORMAT_TIFF = 'tiff';
 
     public const FILTER_GREYSCALE = 'greyscale';
+
     public const FILTER_SEPIA = 'sepia';
 
     public const UNIT_PIXELS = 'px';
+
     public const UNIT_PERCENT = '%';
 
     public const POSITION_TOP_LEFT = 'top-left';
+
     public const POSITION_TOP = 'top';
+
     public const POSITION_TOP_RIGHT = 'top-right';
+
     public const POSITION_LEFT = 'left';
+
     public const POSITION_CENTER = 'center';
+
     public const POSITION_RIGHT = 'right';
+
     public const POSITION_BOTTOM_LEFT = 'bottom-left';
+
     public const POSITION_BOTTOM = 'bottom';
+
     public const POSITION_BOTTOM_RIGHT = 'bottom-right';
 
     protected ManipulationSequence $manipulationSequence;
@@ -133,8 +170,8 @@ class OldManipulations
     }
 
     /**
-     * @param int $focalX Crop center X in percent
-     * @param int $focalY Crop center Y in percent
+     * @param  int  $focalX Crop center X in percent
+     * @param  int  $focalY Crop center Y in percent
      *
      * @throws InvalidManipulation
      */
@@ -175,7 +212,7 @@ class OldManipulations
             throw InvalidManipulation::invalidWidth($width);
         }
 
-        return $this->addManipulation('width', (string)$width);
+        return $this->addManipulation('width', (string) $width);
     }
 
     /**
@@ -187,7 +224,7 @@ class OldManipulations
             throw InvalidManipulation::invalidHeight($height);
         }
 
-        return $this->addManipulation('height', (string)$height);
+        return $this->addManipulation('height', (string) $height);
     }
 
     /**
@@ -219,7 +256,7 @@ class OldManipulations
     }
 
     /**
-     * @param int $ratio A value between 1 and 8
+     * @param  int  $ratio A value between 1 and 8
      *
      * @throws InvalidManipulation
      */
@@ -229,11 +266,11 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('ratio', $ratio, 1, 8);
         }
 
-        return $this->addManipulation('devicePixelRatio', (string)$ratio);
+        return $this->addManipulation('devicePixelRatio', (string) $ratio);
     }
 
     /**
-     * @param int $brightness A value between -100 and 100
+     * @param  int  $brightness A value between -100 and 100
      *
      * @throws InvalidManipulation
      */
@@ -243,11 +280,11 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('brightness', $brightness, -100, 100);
         }
 
-        return $this->addManipulation('brightness', (string)$brightness);
+        return $this->addManipulation('brightness', (string) $brightness);
     }
 
     /**
-     * @param float $gamma A value between 0.01 and 9.99
+     * @param  float  $gamma A value between 0.01 and 9.99
      *
      * @throws InvalidManipulation
      */
@@ -257,11 +294,11 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('gamma', $gamma, 0.01, 9.00);
         }
 
-        return $this->addManipulation('gamma', (string)$gamma);
+        return $this->addManipulation('gamma', (string) $gamma);
     }
 
     /**
-     * @param int $contrast A value between -100 and 100
+     * @param  int  $contrast A value between -100 and 100
      *
      * @throws InvalidManipulation
      */
@@ -271,11 +308,11 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('contrast', $contrast, -100, 100);
         }
 
-        return $this->addManipulation('contrast', (string)$contrast);
+        return $this->addManipulation('contrast', (string) $contrast);
     }
 
     /**
-     * @param int $sharpen A value between 0 and 100
+     * @param  int  $sharpen A value between 0 and 100
      *
      * @throws InvalidManipulation
      */
@@ -285,11 +322,11 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('sharpen', $sharpen, 0, 100);
         }
 
-        return $this->addManipulation('sharpen', (string)$sharpen);
+        return $this->addManipulation('sharpen', (string) $sharpen);
     }
 
     /**
-     * @param int $blur A value between 0 and 100
+     * @param  int  $blur A value between 0 and 100
      *
      * @throws InvalidManipulation
      */
@@ -299,11 +336,11 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('blur', $blur, 0, 100);
         }
 
-        return $this->addManipulation('blur', (string)$blur);
+        return $this->addManipulation('blur', (string) $blur);
     }
 
     /**
-     * @param int $pixelate A value between 0 and 1000
+     * @param  int  $pixelate A value between 0 and 1000
      *
      * @throws InvalidManipulation
      */
@@ -313,7 +350,7 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('pixelate', $pixelate, 0, 1000);
         }
 
-        return $this->addManipulation('pixelate', (string)$pixelate);
+        return $this->addManipulation('pixelate', (string) $pixelate);
     }
 
     /**
@@ -366,7 +403,7 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('quality', $quality, 0, 100);
         }
 
-        return $this->addManipulation('quality', (string)$quality);
+        return $this->addManipulation('quality', (string) $quality);
     }
 
     /**
@@ -416,29 +453,29 @@ class OldManipulations
     }
 
     /**
-     * @param int    $width The width of the watermark in pixels (default) or percent.
-     * @param string $unit  The unit of the `$width` parameter. Use `Manipulations::UNIT_PERCENT` or `Manipulations::UNIT_PIXELS`.
+     * @param  int  $width The width of the watermark in pixels (default) or percent.
+     * @param  string  $unit  The unit of the `$width` parameter. Use `Manipulations::UNIT_PERCENT` or `Manipulations::UNIT_PIXELS`.
      */
     public function watermarkWidth(int $width, string $unit = 'px'): static
     {
         $width = ($unit === static::UNIT_PERCENT ? $width.'w' : $width);
 
-        return $this->addManipulation('watermarkWidth', (string)$width);
+        return $this->addManipulation('watermarkWidth', (string) $width);
     }
 
     /**
-     * @param int    $height The height of the watermark in pixels (default) or percent.
-     * @param string $unit   The unit of the `$height` parameter. Use `Manipulations::UNIT_PERCENT` or `Manipulations::UNIT_PIXELS`.
+     * @param  int  $height The height of the watermark in pixels (default) or percent.
+     * @param  string  $unit   The unit of the `$height` parameter. Use `Manipulations::UNIT_PERCENT` or `Manipulations::UNIT_PIXELS`.
      */
     public function watermarkHeight(int $height, string $unit = 'px'): static
     {
         $height = ($unit === static::UNIT_PERCENT ? $height.'h' : $height);
 
-        return $this->addManipulation('watermarkHeight', (string)$height);
+        return $this->addManipulation('watermarkHeight', (string) $height);
     }
 
     /**
-     * @param string $fitMethod How is the watermark fitted into the watermarkWidth and watermarkHeight properties.
+     * @param  string  $fitMethod How is the watermark fitted into the watermarkWidth and watermarkHeight properties.
      *
      * @throws InvalidManipulation
      */
@@ -456,19 +493,19 @@ class OldManipulations
     }
 
     /**
-     * @param int $xPadding         How far is the watermark placed from the left and right edges of the image.
-     * @param int|null $yPadding    How far is the watermark placed from the top and bottom edges of the image.
-     * @param string $unit          Unit of the padding values. Use `Manipulations::UNIT_PERCENT` or `Manipulations::UNIT_PIXELS`.
+     * @param  int  $xPadding         How far is the watermark placed from the left and right edges of the image.
+     * @param  int|null  $yPadding    How far is the watermark placed from the top and bottom edges of the image.
+     * @param  string  $unit          Unit of the padding values. Use `Manipulations::UNIT_PERCENT` or `Manipulations::UNIT_PIXELS`.
      */
-    public function watermarkPadding(int $xPadding, int $yPadding = null, string $unit = 'px'): static
+    public function watermarkPadding(int $xPadding, ?int $yPadding = null, string $unit = 'px'): static
     {
         $yPadding = $yPadding ?? $xPadding;
 
         $xPadding = ($unit === static::UNIT_PERCENT ? $xPadding.'w' : $xPadding);
         $yPadding = ($unit === static::UNIT_PERCENT ? $yPadding.'h' : $yPadding);
 
-        $this->addManipulation('watermarkPaddingX', (string)$xPadding);
-        $this->addManipulation('watermarkPaddingY', (string)$yPadding);
+        $this->addManipulation('watermarkPaddingX', (string) $xPadding);
+        $this->addManipulation('watermarkPaddingY', (string) $yPadding);
 
         return $this;
     }
@@ -492,7 +529,7 @@ class OldManipulations
     /**
      * Sets the opacity of the watermark. Only works with the `imagick` driver.
      *
-     * @param int $opacity A value between 0 and 100.
+     * @param  int  $opacity A value between 0 and 100.
      *
      * @throws InvalidManipulation
      */
@@ -502,7 +539,7 @@ class OldManipulations
             throw InvalidManipulation::valueNotInRange('opacity', $opacity, 0, 100);
         }
 
-        return $this->addManipulation('watermarkOpacity', (string)$opacity);
+        return $this->addManipulation('watermarkOpacity', (string) $opacity);
     }
 
     /**

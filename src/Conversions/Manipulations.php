@@ -51,7 +51,7 @@ class Manipulations
 
     public function apply(ImageDriver $image): void
     {
-        foreach($this->manipulations as $manipulationName => $parameters) {
+        foreach ($this->manipulations as $manipulationName => $parameters) {
             $image->$manipulationName(...$parameters);
         }
     }

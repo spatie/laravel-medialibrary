@@ -144,7 +144,7 @@ class ResponsiveImageGenerator
         ResponsiveImage::registerTinySvg($media, $base64Svg, $conversionName);
     }
 
-    protected function appendToFileName(string $filePath, string $suffix, string $extensionFilePath = null): string
+    protected function appendToFileName(string $filePath, string $suffix, ?string $extensionFilePath = null): string
     {
         $baseName = pathinfo($filePath, PATHINFO_FILENAME);
 

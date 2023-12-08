@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithMultipleConversions extends TestModel
 {
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('small')
             ->width(50)

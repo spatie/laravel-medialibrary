@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 
 class Pdf extends ImageGenerator
 {
-    public function convert(string $file, Conversion $conversion = null): string
+    public function convert(string $file, ?Conversion $conversion = null): string
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 

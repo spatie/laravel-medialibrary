@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithResponsiveImages extends TestModel
 {
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->withResponsiveImages()
@@ -24,12 +24,12 @@ class TestModelWithResponsiveImages extends TestModel
             ->withResponsiveImages();
 
         $this->addMediaConversion('lowerQuality')
-             ->withResponsiveImages()
-             ->quality(60)
-             ->nonQueued();
+            ->withResponsiveImages()
+            ->quality(60)
+            ->nonQueued();
 
         $this->addMediaConversion('standardQuality')
-             ->withResponsiveImages()
-             ->nonQueued();
+            ->withResponsiveImages()
+            ->nonQueued();
     }
 }

@@ -7,7 +7,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 
 class Image extends ImageGenerator
 {
-    public function convert(string $path, Conversion $conversion = null): string
+    public function convert(string $path, ?Conversion $conversion = null): string
     {
         return $path;
     }

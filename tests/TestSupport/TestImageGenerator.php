@@ -36,7 +36,7 @@ class TestImageGenerator extends ImageGenerator
         return $this->shouldMatchBothExtensionsAndMimeTypes;
     }
 
-    public function convert(string $path, Conversion $conversion = null): string
+    public function convert(string $path, ?Conversion $conversion = null): string
     {
         return $path;
     }

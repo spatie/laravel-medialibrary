@@ -1,7 +1,5 @@
 <?php
 
-
-
 it('will rename the file if it is changed on the media object', function () {
     $testFile = $this->getTestFilesDirectory('test.jpg');
 

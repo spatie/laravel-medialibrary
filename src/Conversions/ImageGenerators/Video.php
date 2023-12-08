@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 
 class Video extends ImageGenerator
 {
-    public function convert(string $file, Conversion $conversion = null): ?string
+    public function convert(string $file, ?Conversion $conversion = null): ?string
     {
         $ffmpeg = FFMpeg::create([
             'ffmpeg.binaries' => config('media-library.ffmpeg_path'),

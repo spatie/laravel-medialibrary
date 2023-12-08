@@ -11,6 +11,8 @@ class TestModelWithoutMediaConversions extends Model implements HasMedia
     use InteractsWithMedia;
 
     protected $table = 'test_models';
+
     protected $guarded = [];
+
     public $timestamps = false;
 }

@@ -28,7 +28,7 @@ class Filesystem
     {
         try {
             $this->copyToMediaLibrary($file, $media, null, $targetFileName);
-        } catch(DiskCannotBeAccessed $exception) {
+        } catch (DiskCannotBeAccessed $exception) {
             return false;
         }
 
@@ -43,7 +43,7 @@ class Filesystem
     {
         try {
             $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
-        } catch(DiskCannotBeAccessed $exception) {
+        } catch (DiskCannotBeAccessed $exception) {
             return false;
         }
 
@@ -185,7 +185,7 @@ class Filesystem
     public function getRemoteHeadersForFile(
         string $file,
         array $mediaCustomHeaders = [],
-        string $mimeType = null
+        ?string $mimeType = null
     ): array {
         $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 

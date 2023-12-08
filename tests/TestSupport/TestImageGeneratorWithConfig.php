@@ -14,7 +14,7 @@ class TestImageGeneratorWithConfig extends ImageGenerator
     ) {
     }
 
-    public function convert(string $file, Conversion $conversion = null): string
+    public function convert(string $file, ?Conversion $conversion = null): string
     {
         // TODO: Implement convert() method.
     }

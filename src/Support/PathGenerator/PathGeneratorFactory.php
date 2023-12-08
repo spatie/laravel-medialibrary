@@ -41,7 +41,7 @@ class PathGeneratorFactory
             return true;
         }
         // config is set via morphMap class name
-        if (is_a((string)Relation::getMorphedModel($media->model_type), $modelClass, true)) {
+        if (is_a((string) Relation::getMorphedModel($media->model_type), $modelClass, true)) {
             return true;
         }
 

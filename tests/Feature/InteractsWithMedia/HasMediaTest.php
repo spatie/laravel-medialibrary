@@ -1,7 +1,5 @@
 <?php
 
-
-
 it('returns false for an empty collection', function () {
     expect($this->testModel->hasMedia())->toBeFalse();
 });

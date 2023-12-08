@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithConversionsOnOtherDisk extends TestModel
 {
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
             ->withResponsiveImages()

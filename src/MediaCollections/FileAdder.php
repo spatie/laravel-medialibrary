@@ -545,7 +545,7 @@ class FileAdder
     protected function appendExtension(string $file, ?string $extension): string
     {
         return $extension
-            ? $file . '.' . $extension
+            ? $file.'.'.$extension
             : $file;
     }
 }

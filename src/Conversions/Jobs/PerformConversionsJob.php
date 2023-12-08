@@ -13,8 +13,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class PerformConversionsJob implements ShouldQueue
 {
     use InteractsWithQueue;
-    use SerializesModels;
     use Queueable;
+    use SerializesModels;
 
     public $deleteWhenMissingModels = true;
 
