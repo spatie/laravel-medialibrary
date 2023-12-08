@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
 
 use Spatie\Image\Enums\Fit;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TestModelWithPreviewConversion extends TestModel
