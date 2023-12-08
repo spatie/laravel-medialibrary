@@ -1,6 +1,5 @@
 <?php
 
-use Spatie\Image\Drivers\Imagick\ImagickDriver;
 use Spatie\MediaLibrary\Support\ImageFactory;
 
 test('loading an image uses the correct driver', function () {
