@@ -30,7 +30,8 @@ class PerformManipulationsAction
         }
 
         $image = Image::useImageDriver(config('media-library.image_driver'))
-            ->load($conversionTempFile);
+            ->load($conversionTempFile)
+            ->format('jpg');
 
         $conversion->getManipulations()->apply($image);
 
@@ -46,7 +47,13 @@ class PerformManipulationsAction
     ): string {
         $directory = pathinfo($imageFile, PATHINFO_DIRNAME);
 
-        $fileName = Str::random(32)."{$conversion->getName()}.{$media->extension}";
+        $extension = $media->extension;
+
+        if ($extension === '') {
+            $extension = 'jpg';
+        }
+
+        $fileName = Str::random(32)."{$conversion->getName()}.{$extension}";
 
         return "{$directory}/{$fileName}";
     }

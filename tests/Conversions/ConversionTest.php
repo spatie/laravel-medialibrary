@@ -134,7 +134,7 @@ it('can remove the optimization', function () {
         ->nonOptimized()
         ->getManipulations()
         ->toArray();
-    ray($manipulations);
+
     $this->assertArrayNotHasKey('optimize', $manipulations);
 });
 
