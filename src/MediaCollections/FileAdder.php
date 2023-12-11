@@ -400,7 +400,7 @@ class FileAdder
         
         $fileName = str($fileName)
             ->basename(".{$extension}")
-            ->matchAll('/[\p{L}\p{N}\.]+/u')
+            ->matchAll('/[\p{L}\p{N}\._]+/u')
             ->implode('-');
 
         return str($fileName)
