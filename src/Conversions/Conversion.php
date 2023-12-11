@@ -35,17 +35,17 @@ class Conversion
     public function __construct(
         protected string $name,
     ) {
-        $optimizerChain = OptimizerChainFactory::create(config('media-library.image_optimizers'));
+        $optimizerChain = OptimizerChainFactory::create(config('medialibrary.image_optimizers'));
 
         $this->manipulations = (new Manipulations())
             ->optimize($optimizerChain)
             ->format('jpg');
 
-        $this->fileNamer = app(config('media-library.file_namer'));
+        $this->fileNamer = app(config('medialibrary.file_namer'));
 
-        $this->loadingAttributeValue = config('media-library.default_loading_attribute_value');
+        $this->loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
 
-        $this->performOnQueue = config('media-library.queue_conversions_by_default', true);
+        $this->performOnQueue = config('medialibrary.queue_conversions_by_default', true);
     }
 
     public static function create(string $name)

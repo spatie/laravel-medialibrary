@@ -10,7 +10,7 @@ class FileIsTooBig extends FileCannotBeAdded
     {
         $fileSize = File::getHumanReadableSize($size ?: filesize($path));
 
-        $maxFileSize = File::getHumanReadableSize(config('media-library.max_file_size'));
+        $maxFileSize = File::getHumanReadableSize(config('medialibrary.max_file_size'));
 
         return new static("File `{$path}` has a size of {$fileSize} which is greater than the maximum allowed {$maxFileSize}");
     }

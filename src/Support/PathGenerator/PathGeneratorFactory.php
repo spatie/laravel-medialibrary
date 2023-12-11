@@ -19,9 +19,9 @@ class PathGeneratorFactory
 
     protected static function getPathGeneratorClass(Media $media)
     {
-        $defaultPathGeneratorClass = config('media-library.path_generator');
+        $defaultPathGeneratorClass = config('medialibrary.path_generator');
 
-        foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
+        foreach (config('medialibrary.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
             if (static::mediaBelongToModelClass($media, $modelClass)) {
                 return $customPathGeneratorClass;
             }

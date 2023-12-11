@@ -107,7 +107,7 @@ class Filesystem
             return false;
         }
 
-        if ((is_countable(config('media-library.remote.extra_headers')) ? count(config('media-library.remote.extra_headers')) : 0) > 0) {
+        if ((is_countable(config('medialibrary.remote.extra_headers')) ? count(config('medialibrary.remote.extra_headers')) : 0) > 0) {
             return false;
         }
 
@@ -189,7 +189,7 @@ class Filesystem
     ): array {
         $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 
-        $extraHeaders = config('media-library.remote.extra_headers');
+        $extraHeaders = config('medialibrary.remote.extra_headers');
 
         return array_merge(
             $mimeTypeHeader,
@@ -277,7 +277,7 @@ class Filesystem
 
     protected function renameConversionFiles(Media $media): void
     {
-        $mediaWithOldFileName = config('media-library.media_model')::find($media->id);
+        $mediaWithOldFileName = config('medialibrary.media_model')::find($media->id);
         $mediaWithOldFileName->file_name = $mediaWithOldFileName->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);

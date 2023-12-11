@@ -9,7 +9,7 @@ class FileRemoverFactory
 {
     public static function create(Media $media): FileRemover
     {
-        $fileRemoverClass = config('media-library.file_remover_class');
+        $fileRemoverClass = config('medialibrary.file_remover_class');
 
         static::guardAgainstInvalidFileRemover($fileRemoverClass);
 

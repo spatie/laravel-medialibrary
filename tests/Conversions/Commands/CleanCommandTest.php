@@ -211,7 +211,7 @@ it('can clean responsive images for active conversions without responsive images
 it('will throw an exception when using a non existing disk', function () {
     $this->expectException(DiskDoesNotExist::class);
 
-    config(['media-library.disk_name' => 'diskdoesnotexist']);
+    config(['medialibrary.disk_name' => 'diskdoesnotexist']);
 
     $this->artisan('media-library:clean')
         ->assertExitCode(1);
@@ -226,7 +226,7 @@ it('can clean deprecated conversion files in custom path', function () {
 
     $this->urlGenerator->setPathGenerator($this->pathGenerator);
 
-    config()->set('media-library.custom_path_generators', [
+    config()->set('medialibrary.custom_path_generators', [
         TestModelWithConversion::class => CustomPathGenerator::class,
     ]);
 
@@ -255,7 +255,7 @@ it('can clean deprecated conversion files in same path as original image', funct
 
     $this->urlGenerator->setPathGenerator($this->pathGenerator);
 
-    config()->set('media-library.custom_path_generators', [
+    config()->set('medialibrary.custom_path_generators', [
         TestModelWithConversion::class => TestPathGeneratorConversionsInOriginalImageDirectory::class,
     ]);
 

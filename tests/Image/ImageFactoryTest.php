@@ -4,7 +4,7 @@ use Spatie\Image\Drivers\Imagick\ImagickDriver;
 use Spatie\MediaLibrary\Support\ImageFactory;
 
 test('loading an image uses the correct driver', function () {
-    config(['media-library.image_driver' => 'imagick']);
+    config(['medialibrary.image_driver' => 'imagick']);
 
     $image = ImageFactory::load($this->getTestJpg());
 

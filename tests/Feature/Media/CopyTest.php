@@ -36,7 +36,7 @@ it('can copy file without extension', function () {
         mkdir(storage_path('media-library/temp'), 0777, true);
     }
 
-    config(['media-library.temporary_directory_path' => realpath(storage_path('media-library/temp'))]);
+    config(['medialibrary.temporary_directory_path' => realpath(storage_path('media-library/temp'))]);
 
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);
@@ -104,7 +104,7 @@ it('can copy file with accent', function () {
         mkdir(storage_path('media-library/temp'), 0777, true);
     }
 
-    config(['media-library.temporary_directory_path' => realpath(storage_path('media-library/temp'))]);
+    config(['medialibrary.temporary_directory_path' => realpath(storage_path('media-library/temp'))]);
 
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);

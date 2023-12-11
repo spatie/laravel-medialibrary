@@ -47,9 +47,9 @@ it('will remove the files when deleting a subject', function () {
 });
 
 it('will remove the files when using a custom model and deleting it', function () {
-    config()->set('media-library.media_model', TestCustomMediaModel::class);
+    config()->set('medialibrary.media_model', TestCustomMediaModel::class);
 
-    (new MediaLibraryServiceProvider(app()))->boot();
+    (new MediaLibraryServiceProvider(app()))->register()->boot();
 
     $testModel = TestModel::create(['name' => 'test']);
 

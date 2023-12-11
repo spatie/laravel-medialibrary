@@ -57,7 +57,7 @@ class HtmlableMedia implements \Stringable, Htmlable
             $attributeString = ' '.$attributeString;
         }
 
-        $loadingAttributeValue = config('media-library.default_loading_attribute_value');
+        $loadingAttributeValue = config('medialibrary.default_loading_attribute_value');
 
         if ($this->conversionName !== '') {
             $conversionObject = ConversionCollection::createForMedia($this->media)->getByName($this->conversionName);
@@ -74,7 +74,7 @@ class HtmlableMedia implements \Stringable, Htmlable
         $height = '';
 
         if ($this->media->hasResponsiveImages($this->conversionName)) {
-            $viewName = config('media-library.responsive_images.use_tiny_placeholders')
+            $viewName = config('medialibrary.responsive_images.use_tiny_placeholders')
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
 
@@ -87,7 +87,7 @@ class HtmlableMedia implements \Stringable, Htmlable
         $media = $this->media;
         $conversion = $this->conversionName;
 
-        return view("media-library::{$viewName}", compact(
+        return view("medialibrary::{$viewName}", compact(
             'media',
             'conversion',
             'attributeString',

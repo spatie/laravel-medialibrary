@@ -9,7 +9,7 @@ class ImageFactory
 {
     public static function load(string $path): ImageDriver
     {
-        return Image::useImageDriver(config('media-library.image_driver'))
+        return Image::useImageDriver(config('medialibrary.image_driver'))
             ->loadFile($path);
     }
 }

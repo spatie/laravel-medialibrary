@@ -35,7 +35,7 @@ class DefaultPathGenerator implements PathGenerator
      */
     protected function getBasePath(Media $media): string
     {
-        $prefix = config('media-library.prefix', '');
+        $prefix = config('medialibrary.prefix', '');
 
         if ($prefix !== '') {
             return $prefix.'/'.$media->getKey();

@@ -92,8 +92,8 @@ class FileManipulator
 
         /** @var PerformConversionsJob $job */
         $job = (new $performConversionsJobClass($conversions, $media, $onlyMissing))
-            ->onConnection(config('media-library.queue_connection_name'))
-            ->onQueue(config('media-library.queue_name'));
+            ->onConnection(config('medialibrary.queue_connection_name'))
+            ->onQueue(config('medialibrary.queue_name'));
 
         dispatch($job);
 
@@ -117,8 +117,8 @@ class FileManipulator
 
         /** @var GenerateResponsiveImagesJob $job */
         $job = (new $generateResponsiveImagesJobClass($media))
-            ->onConnection(config('media-library.queue_connection_name'))
-            ->onQueue(config('media-library.queue_name'));
+            ->onConnection(config('medialibrary.queue_connection_name'))
+            ->onQueue(config('medialibrary.queue_name'));
 
         dispatch($job);
 

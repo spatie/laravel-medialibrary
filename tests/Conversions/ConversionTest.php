@@ -45,27 +45,27 @@ it('will be performed on all collections if not collection name is a star', func
 });
 
 it('will be queued without config', function () {
-    config()->set('media-library.queue_conversions_by_default', null);
+    config()->set('medialibrary.queue_conversions_by_default', null);
     expect($this->conversion->shouldBeQueued())->toBeTrue();
 });
 
 it('will be queued by default', function () {
-    config()->set('media-library.queue_conversions_by_default', true);
+    config()->set('medialibrary.queue_conversions_by_default', true);
     expect($this->conversion->shouldBeQueued())->toBeTrue();
 });
 
 it('will be non queued by default', function () {
-    config()->set('media-library.queue_conversions_by_default', false);
+    config()->set('medialibrary.queue_conversions_by_default', false);
     expect($this->conversion->shouldBeQueued())->toBeTrue();
 });
 
 it('can be set to queued', function () {
-    config()->set('media-library.queue_conversions_by_default', false);
+    config()->set('medialibrary.queue_conversions_by_default', false);
     expect($this->conversion->queued()->shouldBeQueued())->toBeTrue();
 });
 
 it('can be set to non queued', function () {
-    config()->set('media-library.queue_conversions_by_default', true);
+    config()->set('medialibrary.queue_conversions_by_default', true);
     expect($this->conversion->nonQueued()->shouldBeQueued())->toBeFalse();
 });
 

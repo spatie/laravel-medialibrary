@@ -240,18 +240,18 @@ class FileAdder
 
         $this->fileSize ??= $storage->size($this->pathToFile);
 
-        if ($this->fileSize > config('media-library.max_file_size')) {
+        if ($this->fileSize > config('medialibrary.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile, $storage->size($this->pathToFile));
         }
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = config('medialibrary.media_model');
         /** @var Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
 
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
-        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $fileName = app(config('medialibrary.file_namer'))->originalFileName($sanitizedFileName);
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         $media->file_name = $this->fileName;
@@ -286,7 +286,7 @@ class FileAdder
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
-        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $fileName = app(config('medialibrary.file_namer'))->originalFileName($sanitizedFileName);
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         if ($this->file instanceof RemoteFile) {
@@ -303,11 +303,11 @@ class FileAdder
 
         $this->fileSize ??= filesize($this->pathToFile);
 
-        if ($this->fileSize > config('media-library.max_file_size')) {
+        if ($this->fileSize > config('medialibrary.max_file_size')) {
             throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = config('medialibrary.media_model');
         /** @var Media $media */
         $media = new $mediaClass();
 
@@ -367,7 +367,7 @@ class FileAdder
             }
         }
 
-        return config('media-library.disk_name');
+        return config('medialibrary.disk_name');
     }
 
     protected function determineConversionsDiskName(string $originalsDiskName, string $collectionName): string
@@ -460,15 +460,15 @@ class FileAdder
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
-            $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
+            $generateResponsiveImagesJobClass = config('medialibrary.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
 
-            if ($customConnection = config('media-library.queue_connection_name')) {
+            if ($customConnection = config('medialibrary.queue_connection_name')) {
                 $job->onConnection($customConnection);
             }
 
-            if ($customQueue = config('media-library.queue_name')) {
+            if ($customQueue = config('medialibrary.queue_name')) {
                 $job->onQueue($customQueue);
             }
 

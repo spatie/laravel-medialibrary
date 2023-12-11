@@ -9,7 +9,7 @@ class ImageGeneratorFactory
 {
     public static function getImageGenerators(): Collection
     {
-        return collect(config('media-library.image_generators'))
+        return collect(config('medialibrary.image_generators'))
             ->map(function ($imageGeneratorClassName, $key) {
                 $imageGeneratorConfig = [];
 

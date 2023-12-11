@@ -30,7 +30,7 @@ it('will remove the files when deleting a media instance', function () {
 });
 
 it('will remove files when deleting a media object with a custom path generator', function () {
-    config(['media-library.path_generator' => TestPathGenerator::class]);
+    config(['medialibrary.path_generator' => TestPathGenerator::class]);
 
     $pathGenerator = new TestPathGenerator();
 
@@ -45,8 +45,8 @@ it('will remove files when deleting a media object with a custom path generator'
 });
 
 it('will remove files when deleting a media object with a custom path and directory generator', function () {
-    config(['media-library.path_generator' => CustomDirectoryStructurePathGenerator::class]);
-    config(['media-library.file_remover_class' => FileBaseFileRemover::class]);
+    config(['medialibrary.path_generator' => CustomDirectoryStructurePathGenerator::class]);
+    config(['medialibrary.file_remover_class' => FileBaseFileRemover::class]);
 
     $pathGenerator = new CustomDirectoryStructurePathGenerator();
 
@@ -61,8 +61,8 @@ it('will remove files when deleting a media object with a custom path and direct
 });
 
 it('will remove converted files when deleting a media object with a custom path and directory generator and custom removal class', function () {
-    config(['media-library.path_generator' => CustomDirectoryStructurePathGenerator::class]);
-    config(['media-library.file_remover_class' => FileBaseFileRemover::class]);
+    config(['medialibrary.path_generator' => CustomDirectoryStructurePathGenerator::class]);
+    config(['medialibrary.file_remover_class' => FileBaseFileRemover::class]);
 
     $pathGenerator = new CustomDirectoryStructurePathGenerator();
 
@@ -80,8 +80,8 @@ it('will remove converted files when deleting a media object with a custom path 
 });
 
 it('will remove converted files and responsive images when deleting a media object with a custom path and directory generator and custom removal class', function () {
-    config(['media-library.path_generator' => CustomDirectoryStructurePathGenerator::class]);
-    config(['media-library.file_remover_class' => FileBaseFileRemover::class]);
+    config(['medialibrary.path_generator' => CustomDirectoryStructurePathGenerator::class]);
+    config(['medialibrary.file_remover_class' => FileBaseFileRemover::class]);
 
     $media = $this->testModelWithConversionsOnOtherDisk->addMedia($this->getTestPng())->toMediaCollection('images');
     $pathGenerator = new CustomDirectoryStructurePathGenerator();
@@ -97,8 +97,8 @@ it('will remove converted files and responsive images when deleting a media obje
 });
 
 it('will NOT remove other files within the same folder when deleting a media object with a custom path and directory generator', function () {
-    config(['media-library.path_generator' => CustomDirectoryStructurePathGenerator::class]);
-    config(['media-library.file_remover_class' => FileBaseFileRemover::class]);
+    config(['medialibrary.path_generator' => CustomDirectoryStructurePathGenerator::class]);
+    config(['medialibrary.file_remover_class' => FileBaseFileRemover::class]);
 
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
     $media2 = $this->testModel->addMedia($this->getTestPng())->toMediaCollection('images');

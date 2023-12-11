@@ -5,7 +5,7 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestFileNamer;
 it('can use a custom file namer', function () {
     $fileName = 'prefix_test_suffix';
 
-    config()->set('media-library.file_namer', TestFileNamer::class);
+    config()->set('medialibrary.file_namer', TestFileNamer::class);
 
     $this
         ->testModelWithConversion

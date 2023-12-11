@@ -29,7 +29,7 @@ class PerformManipulationsAction
             $conversion->format($media->extension);
         }
 
-        $image = Image::useImageDriver(config('media-library.image_driver'))
+        $image = Image::useImageDriver(config('medialibrary.image_driver'))
             ->loadFile($conversionTempFile)
             ->format('jpg');
 

@@ -58,7 +58,7 @@ trait InteractsWithMedia
 
     public function media(): MorphMany
     {
-        return $this->morphMany(config('media-library.media_model'), 'model');
+        return $this->morphMany(config('medialibrary.media_model'), 'model');
     }
 
     /**
@@ -138,7 +138,7 @@ trait InteractsWithMedia
             throw InvalidUrl::doesNotStartWithProtocol($url);
         }
 
-        $downloader = config('media-library.media_downloader', DefaultDownloader::class);
+        $downloader = config('medialibrary.media_downloader', DefaultDownloader::class);
         $temporaryFile = (new $downloader())->getTempFile($url);
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
@@ -378,7 +378,7 @@ trait InteractsWithMedia
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = config('medialibrary.media_model');
         $mediaInstance = new $mediaClass();
         $keyName = $mediaInstance->getKeyName();
 

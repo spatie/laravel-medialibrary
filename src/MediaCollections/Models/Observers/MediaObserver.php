@@ -22,7 +22,7 @@ class MediaObserver
         /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
-        if (config('media-library.moves_media_on_update')) {
+        if (config('medialibrary.moves_media_on_update')) {
             $filesystem->syncMediaPath($media);
         }
 

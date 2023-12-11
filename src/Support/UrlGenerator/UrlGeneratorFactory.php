@@ -11,7 +11,7 @@ class UrlGeneratorFactory
 {
     public static function createForMedia(Media $media, string $conversionName = ''): UrlGenerator
     {
-        $urlGeneratorClass = config('media-library.url_generator');
+        $urlGeneratorClass = config('medialibrary.url_generator');
 
         static::guardAgainstInvalidUrlGenerator($urlGeneratorClass);
 

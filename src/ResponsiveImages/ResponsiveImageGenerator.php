@@ -27,7 +27,7 @@ class ResponsiveImageGenerator
         protected WidthCalculator $widthCalculator,
         protected TinyPlaceholderGenerator $tinyPlaceholderGenerator
     ) {
-        $this->fileNamer = app(config('media-library.file_namer'));
+        $this->fileNamer = app(config('medialibrary.file_namer'));
     }
 
     public function generateResponsiveImages(Media $media): void
@@ -133,7 +133,7 @@ class ResponsiveImageGenerator
 
         $originalImageHeight = $originalImage->getHeight();
 
-        $svg = view('media-library::placeholderSvg', compact(
+        $svg = view('medialibrary::placeholderSvg', compact(
             'originalImageWidth',
             'originalImageHeight',
             'tinyImageBase64'
