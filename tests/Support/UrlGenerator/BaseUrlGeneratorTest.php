@@ -40,13 +40,13 @@ it('can get the path relative to the root of media folder when keeping the origi
 });
 
 it('appends a version string when versioning is enabled', function () {
-    config()->set('medialibrary.version_urls', true);
+    config()->set('media-library.version_urls', true);
 
     $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg?v='.$this->media->updated_at->timestamp;
 
     expect($this->urlGenerator->getUrl())->toEqual($url);
 
-    config()->set('medialibrary.version_urls', false);
+    config()->set('media-library.version_urls', false);
 
     $url = '/media/'.$this->media->id.'/conversions/test-'.$this->conversion->getName().'.jpg';
 

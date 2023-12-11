@@ -36,7 +36,7 @@ class RegisteredResponsiveImages
             ->map(fn (ResponsiveImage $responsiveImage) => "{$responsiveImage->url()} {$responsiveImage->width()}w")
             ->implode(', ');
 
-        $shouldAddPlaceholderSvg = config('medialibrary.responsive_images.use_tiny_placeholders')
+        $shouldAddPlaceholderSvg = config('media-library.responsive_images.use_tiny_placeholders')
             && $this->getPlaceholderSvg();
 
         if ($shouldAddPlaceholderSvg) {

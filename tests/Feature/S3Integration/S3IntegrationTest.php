@@ -13,13 +13,13 @@ beforeEach(function () {
 
     $this->s3BaseDirectory = getS3BaseTestDirectory();
 
-    config()->set('medialibrary.path_generator', S3TestPathGenerator::class);
+    config()->set('media-library.path_generator', S3TestPathGenerator::class);
 });
 
 afterEach(function () {
     cleanUpS3();
 
-    config()->set('medialibrary.path_generator', null);
+    config()->set('media-library.path_generator', null);
 });
 
 it('can add media from a disk to s3', function () {

@@ -19,7 +19,7 @@ it(
     'can convert a tiff image',
     function () {
         //TIFF format requires imagick
-        config(['medialibrary.image_driver' => 'imagick']);
+        config(['media-library.image_driver' => 'imagick']);
 
         $imageGenerator = new Image();
 
@@ -38,7 +38,7 @@ it(
     'can convert a heic image',
     function () {
         //heic format requires imagick
-        config(['medialibrary.image_driver' => 'imagick']);
+        config(['media-library.image_driver' => 'imagick']);
 
         $imageGenerator = new Image();
 

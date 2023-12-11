@@ -13,8 +13,8 @@ class Video extends ImageGenerator
     public function convert(string $file, ?Conversion $conversion = null): ?string
     {
         $ffmpeg = FFMpeg::create([
-            'ffmpeg.binaries' => config('medialibrary.ffmpeg_path'),
-            'ffprobe.binaries' => config('medialibrary.ffprobe_path'),
+            'ffmpeg.binaries' => config('media-library.ffmpeg_path'),
+            'ffprobe.binaries' => config('media-library.ffprobe_path'),
         ]);
 
         $video = $ffmpeg->open($file);

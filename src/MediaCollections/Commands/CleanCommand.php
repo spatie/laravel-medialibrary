@@ -181,12 +181,12 @@ class CleanCommand extends Command
 
     protected function deleteOrphanedDirectories(): void
     {
-        $diskName = $this->argument('disk') ?: config('medialibrary.disk_name');
+        $diskName = $this->argument('disk') ?: config('media-library.disk_name');
 
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw DiskDoesNotExist::create($diskName);
         }
-        $mediaClass = config('medialibrary.media_model');
+        $mediaClass = config('media-library.media_model');
         $mediaInstance = new $mediaClass();
         $keyName = $mediaInstance->getKeyName();
 

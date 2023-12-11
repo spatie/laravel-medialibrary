@@ -33,7 +33,7 @@ it('returns an exception when getting a relative path for an unknown conversion'
 });
 
 it('can get a path of an original item with prefix relative to the filesystem\'s root', function () {
-    config(['medialibrary.prefix' => 'prefix']);
+    config(['media-library.prefix' => 'prefix']);
 
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
@@ -45,7 +45,7 @@ it('can get a path of an original item with prefix relative to the filesystem\'s
 });
 
 it('can get a path of a derived image with prefix relative to the filesystem\'s root', function () {
-    config(['medialibrary.prefix' => 'prefix']);
+    config(['media-library.prefix' => 'prefix']);
 
     $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
 

@@ -40,7 +40,7 @@ it('can get the custom path for media with conversions', function () {
 });
 
 it('can use a custom path generator on the model', function () {
-    config()->set('medialibrary.custom_path_generators', [
+    config()->set('media-library.custom_path_generators', [
         TestModelWithConversion::class => CustomPathGenerator::class,
     ]);
 
@@ -52,7 +52,7 @@ it('can use a custom path generator on the model', function () {
 });
 
 it('can use a custom path generator on a morph map model', function () {
-    config()->set('medialibrary.custom_path_generators', [
+    config()->set('media-library.custom_path_generators', [
         'test-model-with-morph-map' => CustomPathGenerator::class,
     ]);
 
@@ -64,7 +64,7 @@ it('can use a custom path generator on a morph map model', function () {
 });
 
 it('can use a custom path generator on a morph map model via class', function () {
-    config()->set('medialibrary.custom_path_generators', [
+    config()->set('media-library.custom_path_generators', [
         TestModelWithMorphMap::class => CustomPathGenerator::class,
     ]);
 

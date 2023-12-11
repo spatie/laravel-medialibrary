@@ -39,8 +39,8 @@ it('can get registered media collections', function () {
 
 it('doesnt move media on change', function () {
     config([
-        'medialibrary.path_generator' => TestUuidPathGenerator::class,
-        'medialibrary.moves_media_on_update' => false,
+        'media-library.path_generator' => TestUuidPathGenerator::class,
+        'media-library.moves_media_on_update' => false,
     ]);
 
     $mediaItem = $this
@@ -62,8 +62,8 @@ it('doesnt move media on change', function () {
 
 it('moves media on change', function () {
     config([
-        'medialibrary.path_generator' => TestUuidPathGenerator::class,
-        'medialibrary.moves_media_on_update' => true,
+        'media-library.path_generator' => TestUuidPathGenerator::class,
+        'media-library.moves_media_on_update' => true,
     ]);
 
     $mediaItem = $this

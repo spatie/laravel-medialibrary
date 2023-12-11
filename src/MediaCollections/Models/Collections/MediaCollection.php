@@ -56,7 +56,7 @@ class MediaCollection extends Collection implements Htmlable
 
     public function jsonSerialize(): array
     {
-        if (config('medialibrary.use_default_collection_serialization')) {
+        if (config('media-library.use_default_collection_serialization')) {
             return parent::jsonSerialize();
         }
 

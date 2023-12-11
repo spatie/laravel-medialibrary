@@ -3,7 +3,7 @@
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
 
 it('can convert a svg', function () {
-    config()->set('medialibrary.image_driver', 'imagick');
+    config()->set('media-library.image_driver', 'imagick');
 
     $imageGenerator = new Svg();
 

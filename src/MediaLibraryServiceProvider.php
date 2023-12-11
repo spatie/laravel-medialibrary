@@ -19,9 +19,9 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('laravel-medialibrary')
-            ->hasConfigFile()
+            ->hasConfigFile('media-library')
             ->hasMigration('create_media_table')
-            ->hasViews()
+            ->hasViews('media-library')
             ->hasCommands([
                 RegenerateCommand::class,
                 ClearCommand::class,
@@ -31,18 +31,18 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
-        $mediaClass = config('medialibrary.media_model', Media::class);
+        $mediaClass = config('media-library.media_model', Media::class);
 
         $mediaClass::observe(new MediaObserver());
     }
 
     public function packageRegistered()
     {
-        $this->app->bind(WidthCalculator::class, config('medialibrary.responsive_images.width_calculator'));
-        $this->app->bind(TinyPlaceholderGenerator::class, config('medialibrary.responsive_images.tiny_placeholder_generator'));
+        $this->app->bind(WidthCalculator::class, config('media-library.responsive_images.width_calculator'));
+        $this->app->bind(TinyPlaceholderGenerator::class, config('media-library.responsive_images.tiny_placeholder_generator'));
 
         $this->app->scoped(MediaRepository::class, function () {
-            $mediaClass = config('medialibrary.media_model');
+            $mediaClass = config('media-library.media_model');
 
             return new MediaRepository(new $mediaClass());
         });
