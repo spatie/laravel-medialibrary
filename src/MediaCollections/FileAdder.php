@@ -396,9 +396,16 @@ class FileAdder
 
     public function defaultSanitizer(string $fileName): string
     {
-        $fileName = preg_replace('#\p{C}+#u', '', $fileName);
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        
+        $fileName = str($fileName)
+            ->basename(".{$extension}")
+            ->matchAll('/[\p{L}\p{N}]+/u')
+            ->implode('-');
 
-        return str_replace(['#', '/', '\\', ' '], '-', $fileName);
+        return str($fileName)
+            ->append(".{$extension}")
+            ->value();
     }
 
     public function sanitizingFileName(callable $fileNameSanitizer): self
