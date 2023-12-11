@@ -2,13 +2,11 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\CleanCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\ClearCommand;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver;
