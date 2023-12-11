@@ -407,7 +407,6 @@ class FileAdder
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);
         
         $fileName = str($fileName)
-            ->when($extension, fn (Stringable $str) => $str->basename(".{$extension}"))
             ->matchAll('/[\p{L}\p{N}\._]+/u')
             ->implode('-');
 
