@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
+use Imagick;
 use Spatie\MediaLibrary\Conversions\Conversion;
 
 class Pdf extends ImageGenerator
@@ -20,7 +21,7 @@ class Pdf extends ImageGenerator
 
     public function requirementsAreInstalled(): bool
     {
-        if (! class_exists(\Imagick::class)) {
+        if (! class_exists(Imagick::class)) {
             return false;
         }
 

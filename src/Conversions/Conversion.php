@@ -48,7 +48,7 @@ class Conversion
         $this->performOnQueue = config('medialibrary.queue_conversions_by_default', true);
     }
 
-    public static function create(string $name)
+    public static function create(string $name): self
     {
         return new static($name);
     }
@@ -110,14 +110,8 @@ class Conversion
         return $this;
     }
 
-    public function __call($name, $arguments)
+    public function __call($name, $arguments): self
     {
-        /*
-        if (! method_exists($this->manipulations, $name)) {
-            throw new BadMethodCallException("Manipulation `{$name}` does not exist");
-        }
-        */
-
         $this->manipulations->$name(...$arguments);
 
         return $this;
