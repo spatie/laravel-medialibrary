@@ -11,6 +11,9 @@ it('sanitizes filenames correctly', function () {
     expect($adder->defaultSanitizer('valid-filename.jpg'))
         ->toEqual('valid-filename.jpg');
 
+    expect($adder->defaultSanitizer('.hidden-filename.jpg'))
+        ->toEqual('hidden-filename.jpg');
+
     expect($adder->defaultSanitizer('test one.pdf'))
         ->toEqual('test-one.pdf');
 
