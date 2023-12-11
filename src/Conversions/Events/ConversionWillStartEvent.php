@@ -14,5 +14,6 @@ class ConversionWillStartEvent
         public Media $media,
         public Conversion $conversion,
         public string $copiedOriginalFile,
-    ) {}
+    ) {
+    }
 }
