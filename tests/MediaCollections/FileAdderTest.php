@@ -14,6 +14,18 @@ it('sanitizes filenames correctly', function () {
     expect($adder->defaultSanitizer('test one.pdf'))
         ->toEqual('test-one.pdf');
 
+    expect($adder->defaultSanitizer('test    one.pdf'))
+        ->toEqual('test-one.pdf');
+
+    expect($adder->defaultSanitizer('test one 😀.pdf'))
+        ->toEqual('test-one.pdf');
+
+    expect($adder->defaultSanitizer('test/\/\one.pdf'))
+        ->toEqual('test-one.pdf');
+
+    expect($adder->defaultSanitizer('test|one.pdf'))
+        ->toEqual('test-one.pdf');
+
     expect($adder->defaultSanitizer('test#one.pdf'))
         ->toEqual('test-one.pdf');
 
