@@ -245,19 +245,23 @@ class FileAdder
         }
 
         $mediaClass = config('media-library.media_model');
+        
         /** @var Media $media */
         $media = new $mediaClass();
 
         $media->name = $this->mediaName;
 
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
+        
         $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         $media->file_name = $this->fileName;
 
         $media->disk = $this->determineDiskName($diskName, $collectionName);
         $this->ensureDiskExists($media->disk);
+        
         $media->conversions_disk = $this->determineConversionsDiskName($media->disk, $collectionName);
         $this->ensureDiskExists($media->conversions_disk);
 
@@ -286,7 +290,9 @@ class FileAdder
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
+        
         $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         if ($this->file instanceof RemoteFile) {
@@ -308,6 +314,7 @@ class FileAdder
         }
 
         $mediaClass = config('media-library.media_model');
+        
         /** @var Media $media */
         $media = new $mediaClass();
 
