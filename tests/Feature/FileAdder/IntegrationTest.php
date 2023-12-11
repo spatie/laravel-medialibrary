@@ -445,10 +445,10 @@ it('can add manipulations to the saved media', function () {
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
-        ->withManipulations(['thumb' => ['width' => '10']])
+        ->withManipulations(['thumb' => ['width' => ['10']]])
         ->toMediaCollection();
 
-    expect($media->manipulations['thumb']['width'])->toEqual('10');
+    expect($media->manipulations['thumb']['width'])->toEqual(['10']);
 });
 
 it('can add file to model with morph map', function () {

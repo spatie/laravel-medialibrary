@@ -135,7 +135,7 @@ class Conversion
 
         $currentManipulations = $this->manipulations->toArray();
 
-        $allManipulations = array_merge($newManipulations, $currentManipulations);
+        $allManipulations = array_merge($currentManipulations, $newManipulations);
 
         $this->manipulations = new Manipulations($allManipulations);
 
