@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
-use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\File;
@@ -32,7 +32,7 @@ class Filesystem
             return false;
         }
 
-        event(new MediaHasBeenAdded($media));
+        event(new MediaHasBeenAddedEvent($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
 
@@ -47,7 +47,7 @@ class Filesystem
             return false;
         }
 
-        event(new MediaHasBeenAdded($media));
+        event(new MediaHasBeenAddedEvent($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
 

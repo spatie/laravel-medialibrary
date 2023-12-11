@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
-use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenCleared;
+use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenClearedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
@@ -429,7 +429,7 @@ trait InteractsWithMedia
             ->getMedia($collectionName)
             ->each(fn (Media $media) => $media->delete());
 
-        event(new CollectionHasBeenCleared($this, $collectionName));
+        event(new CollectionHasBeenClearedEvent($this, $collectionName));
 
         if ($this->mediaIsPreloaded()) {
             unset($this->media);
@@ -462,7 +462,7 @@ trait InteractsWithMedia
         }
 
         if ($this->getMedia($collectionName)->isEmpty()) {
-            event(new CollectionHasBeenCleared($this, $collectionName));
+            event(new CollectionHasBeenClearedEvent($this, $collectionName));
         }
 
         return $this;

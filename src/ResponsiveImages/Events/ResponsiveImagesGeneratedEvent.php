@@ -5,7 +5,7 @@ namespace Spatie\MediaLibrary\ResponsiveImages\Events;
 use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ResponsiveImagesGenerated
+class ResponsiveImagesGeneratedEvent
 {
     use SerializesModels;
 

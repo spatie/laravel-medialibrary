@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
-use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
+use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
 
 beforeEach(function () {
     $this->fileName = 'test';
@@ -48,14 +48,14 @@ test('its conversions can have responsive images', function () {
 });
 
 it('triggers an event when the responsive images are generated', function () {
-    Event::fake(ResponsiveImagesGenerated::class);
+    Event::fake(ResponsiveImagesGeneratedEvent::class);
 
     $this->testModelWithResponsiveImages
         ->addMedia($this->getTestJpg())
         ->withResponsiveImages()
         ->toMediaCollection();
 
-    Event::assertDispatched(ResponsiveImagesGenerated::class);
+    Event::assertDispatched(ResponsiveImagesGeneratedEvent::class);
 });
 
 it('cleans the responsive images urls from the db before regeneration', function () {

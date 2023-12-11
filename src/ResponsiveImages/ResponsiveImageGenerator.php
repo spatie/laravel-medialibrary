@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGenerated;
+use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
 use Spatie\MediaLibrary\ResponsiveImages\Exceptions\InvalidTinyJpg;
 use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
@@ -45,7 +45,7 @@ class ResponsiveImageGenerator
             $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $width, $temporaryDirectory);
         }
 
-        event(new ResponsiveImagesGenerated($media));
+        event(new ResponsiveImagesGeneratedEvent($media));
 
         $this->generateTinyJpg($media, $baseImage, 'media_library_original', $temporaryDirectory);
 
