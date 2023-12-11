@@ -8,7 +8,8 @@ class TestModelWithConversionsOnOtherDisk extends TestModel
 {
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this->addMediaConversion('thumb')
+        $this
+            ->addMediaConversion('thumb')
             ->withResponsiveImages()
             ->width(50)
             ->nonQueued();

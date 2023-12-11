@@ -8,15 +8,18 @@ class TestModelWithMultipleConversions extends TestModel
 {
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this->addMediaConversion('small')
+        $this
+            ->addMediaConversion('small')
             ->width(50)
             ->nonQueued();
 
-        $this->addMediaConversion('medium')
+        $this
+            ->addMediaConversion('medium')
             ->width(100)
             ->nonQueued();
 
-        $this->addMediaConversion('large')
+        $this
+            ->addMediaConversion('large')
             ->width(200)
             ->nonQueued();
     }
