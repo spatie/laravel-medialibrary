@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
-use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
