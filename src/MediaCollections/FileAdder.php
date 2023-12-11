@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\MediaCollections;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Stringable;
 use Illuminate\Support\Traits\Macroable;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
@@ -406,13 +407,13 @@ class FileAdder
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);
         
         $fileName = str($fileName)
-            ->basename(".{$extension}")
+            ->when($extension, fn (Stringable $str) => $str->basename(".{$extension}"))
             ->matchAll('/[\p{L}\p{N}\._]+/u')
             ->implode('-');
 
         return str($fileName)
             ->trim('.')
-            ->append(".{$extension}")
+            ->when($extension, fn (Stringable $str) => $str->append(".{$extension}"))
             ->value();
     }
 
