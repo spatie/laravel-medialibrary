@@ -9,8 +9,8 @@ class DefaultDownloader implements Downloader
     public function getTempFile(string $url): string
     {
         $context = stream_context_create([
-            "http" => [
-                "header" => "User-Agent: Spatie MediaLibrary",
+            'http' => [
+                'header' => 'User-Agent: Spatie MediaLibrary',
             ],
         ]);
 

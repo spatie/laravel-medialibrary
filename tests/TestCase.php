@@ -81,8 +81,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -95,7 +94,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     public function getEnvironmentSetUp($app)
     {
@@ -131,7 +130,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function setUpDatabase($app)
     {
@@ -144,13 +143,12 @@ abstract class TestCase extends Orchestra
 
         TestModel::create(['name' => 'test']);
 
-
         if (MediaLibraryPro::isInstalled()) {
             include_once __DIR__.'/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
             (new CreateTemporaryUploadsTable())->up();
         }
 
-        $mediaTableMigration = require(__DIR__.'/../database/migrations/create_media_table.php.stub');
+        $mediaTableMigration = require __DIR__.'/../database/migrations/create_media_table.php.stub';
 
         $mediaTableMigration->up();
     }

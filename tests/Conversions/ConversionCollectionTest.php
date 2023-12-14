@@ -8,7 +8,7 @@ beforeEach(function () {
         ->preservingOriginal()
         ->toMediaCollection();
 
-    $media->manipulations = ['thumb' => ['filter' => 'greyscale', 'height' => 10]];
+    $media->manipulations = ['thumb' => ['greyscale' => [], 'height' => [10]]];
     $media->save();
 
     $secondMedia = $this->testModelWithConversion
@@ -16,7 +16,7 @@ beforeEach(function () {
         ->preservingOriginal()
         ->toMediaCollection();
 
-    $secondMedia->manipulations = ['thumb' => ['filter' => 'greyscale', 'height' => 20]];
+    $secondMedia->manipulations = ['thumb' => ['greyscale' => [], 'height' => [20]]];
     $secondMedia->save();
 
     $this->media = $media->fresh();
@@ -25,8 +25,8 @@ beforeEach(function () {
 
 it('will prepend the manipulation saved on the model and the wildmark manipulations', function () {
     $this->media->manipulations = [
-        '*' => ['brightness' => '-80'],
-        'thumb' => ['filter' => 'greyscale', 'height' => 10],
+        '*' => ['brightness' => ['-80']],
+        'thumb' => ['greyscale' => [], 'height' => [10]],
     ];
 
     $conversionCollection = ConversionCollection::createForMedia($this->media);
@@ -35,46 +35,44 @@ it('will prepend the manipulation saved on the model and the wildmark manipulati
 
     expect($conversion->getName())->toEqual('thumb');
 
-    $manipulationSequence = $conversion
+    $manipulations = $conversion
         ->getManipulations()
-        ->getManipulationSequence()
         ->toArray();
 
-    $this->assertArrayHasKey('optimize', $manipulationSequence[0]);
+    $this->assertArrayHasKey('optimize', $manipulations);
 
-    unset($manipulationSequence[0]['optimize']);
+    unset($manipulations['optimize']);
 
-    $this->assertEquals([[
-        'brightness' => '-80',
-        'filter' => 'greyscale',
-        'height' => 10,
-        'width' => 50,
-        'format' => 'jpg',
-    ]], $manipulationSequence);
+    $this->assertEquals([
+        'greyscale' => [],
+        'height' => [10],
+        'brightness' => ['-80'],
+        'format' => ['jpg'],
+        'width' => [50],
+    ], $manipulations);
 });
 
 it('will prepend the manipulation saved on the model', function () {
     $conversionCollection = ConversionCollection::createForMedia($this->media);
 
-    $conversion = $conversionCollection->getConversions()[0];
+    $conversion = $conversionCollection->getConversions()->first();
 
     expect($conversion->getName())->toEqual('thumb');
 
-    $manipulationSequence = $conversion
+    $manipulations = $conversion
         ->getManipulations()
-        ->getManipulationSequence()
         ->toArray();
 
-    $this->assertArrayHasKey('optimize', $manipulationSequence[0]);
+    $this->assertArrayHasKey('optimize', $manipulations);
 
-    unset($manipulationSequence[0]['optimize']);
+    unset($manipulations['optimize']);
 
-    $this->assertEquals([[
-        'filter' => 'greyscale',
-        'height' => 10,
-        'width' => 50,
-        'format' => 'jpg',
-    ]], $manipulationSequence);
+    $this->assertEquals([
+        'greyscale' => [],
+        'height' => [10],
+        'format' => ['jpg'],
+        'width' => [50],
+    ], $manipulations);
 });
 
 it('will apply the manipulation on the equally named conversion of every model', function () {

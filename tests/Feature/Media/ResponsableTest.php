@@ -1,7 +1,5 @@
 <?php
 
-
-
 it('can return an image as a response', function () {
     app()['router']->get('/upload', fn () => $this->testModel
         ->addMedia($this->getTestJpg())

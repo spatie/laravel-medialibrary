@@ -445,10 +445,10 @@ it('can add manipulations to the saved media', function () {
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
-        ->withManipulations(['thumb' => ['width' => '10']])
+        ->withManipulations(['thumb' => ['width' => ['10']]])
         ->toMediaCollection();
 
-    expect($media->manipulations['thumb']['width'])->toEqual('10');
+    expect($media->manipulations['thumb']['width'])->toEqual(['10']);
 });
 
 it('can add file to model with morph map', function () {
@@ -592,8 +592,8 @@ it('can add an upload to the media library using dot notation', function () {
 
 it('will throw an exception and revert database when file cannot be added', function () {
     $this->testModel
-            ->addMedia($this->getTestPng())
-            ->toMediaCollection();
+        ->addMedia($this->getTestPng())
+        ->toMediaCollection();
 
     expect(Media::count())->toBe(1);
 
@@ -615,7 +615,8 @@ it('will throw an exception and revert database when file cannot be added', func
 });
 
 it('will throw an exception and revert database when file cannot be added and model uses softdeletes', function () {
-    $testModelClass = new class () extends TestModel {
+    $testModelClass = new class() extends TestModel
+    {
         use SoftDeletes;
     };
 
@@ -623,8 +624,8 @@ it('will throw an exception and revert database when file cannot be added and mo
     $testModel = $testModelClass::find($this->testModel->id);
 
     $testModel
-            ->addMedia($this->getTestPng())
-            ->toMediaCollection();
+        ->addMedia($this->getTestPng())
+        ->toMediaCollection();
 
     expect(Media::count())->toBe(1);
 

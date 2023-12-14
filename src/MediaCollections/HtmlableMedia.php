@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class HtmlableMedia implements Htmlable, \Stringable
+class HtmlableMedia implements \Stringable, Htmlable
 {
     protected string $conversionName = '';
 

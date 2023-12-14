@@ -6,11 +6,14 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class ConversionHasBeenCompleted
+class ConversionWillStartEvent
 {
     use SerializesModels;
 
-    public function __construct(public Media $media, public Conversion $conversion)
-    {
+    public function __construct(
+        public Media $media,
+        public Conversion $conversion,
+        public string $copiedOriginalFile,
+    ) {
     }
 }

@@ -2,6 +2,12 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v10 to v11
+
+- Image v3 is now used. Make sure to update your image conversions to the new syntax. See [the image docs](https://spatie.be/docs/image/v3) for more info.
+- All event names have gained the `Event` suffix. For example `Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded` is now `Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent`.
+
+
 ## From v9 to v10
 
 Upgrading from v9 to v10 is straightforward. The biggest change is that we dropped support for PHP 7, and are using PHP 8 features.

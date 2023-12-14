@@ -74,13 +74,6 @@ class FileAdder
         return $this;
     }
 
-    /*
-     * Set the file that needs to be imported.
-     *
-     * @param string|UploadedFile $file
-     *
-     * @return $this
-     */
     public function setFile($file): self
     {
         $this->file = $file;
@@ -545,7 +538,7 @@ class FileAdder
     protected function appendExtension(string $file, ?string $extension): string
     {
         return $extension
-            ? $file . '.' . $extension
+            ? $file.'.'.$extension
             : $file;
     }
 }

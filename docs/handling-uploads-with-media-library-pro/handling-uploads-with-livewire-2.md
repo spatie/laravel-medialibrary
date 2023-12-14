@@ -317,7 +317,7 @@ blade view that will be used to display all form elements on a row in the compon
 In this example we're going to add a custom property form field called `extra_field`.
 
 ```html
-@include('media-library::livewire.partials.collection.fields')
+@include('medialibrary::livewire.partials.collection.fields')
 
 <div class="media-library-field">
     <label class="media-library-label">Extra field</label>

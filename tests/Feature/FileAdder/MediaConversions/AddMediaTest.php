@@ -1,8 +1,8 @@
 <?php
 
 use Carbon\Carbon;
-use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\Conversions\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
@@ -44,8 +44,9 @@ it('can create a derived version for an image keeping the original format', func
 });
 
 it('will use the name of the conversion for naming the converted file', function () {
-    $modelClass = new class () extends TestModelWithConversion {
-        public function registerMediaConversions(Media $media = null): void
+    $modelClass = new class() extends TestModelWithConversion
+    {
+        public function registerMediaConversions(?Media $media = null): void
         {
             $this->addMediaConversion('my-conversion')
                 ->setManipulations(function (Manipulations $manipulations) {
@@ -66,6 +67,8 @@ it('will use the name of the conversion for naming the converted file', function
 });
 
 it('can create a derived version of a pdf if imagick exists', function () {
+    config()->set('media-library.image_driver', 'imagick');
+
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestFilesDirectory('test.pdf'))
         ->toMediaCollection('images');
@@ -95,7 +98,8 @@ it('will not create a derived version if manipulations did not change', function
 });
 
 it('will have access the model instance when register media conversions using model instance has been set', function () {
-    $modelClass = new class () extends TestModel {
+    $modelClass = new class() extends TestModel
+    {
         public bool $registerMediaConversionsUsingModelInstance = true;
 
         /**
@@ -103,7 +107,7 @@ it('will have access the model instance when register media conversions using mo
          *
          * @return array
          */
-        public function registerMediaConversions(Media $media = null): void
+        public function registerMediaConversions(?Media $media = null): void
         {
             $this->addMediaConversion('thumb')
                 ->width($this->width)
@@ -122,14 +126,14 @@ it('will have access the model instance when register media conversions using mo
 
     $conversionCollection = ConversionCollection::createForMedia($media);
 
-    $conversion = $conversionCollection->getConversions()[0];
+    $conversion = $conversionCollection->getConversions()->first();
 
     $conversionManipulations = $conversion
         ->getManipulations()
         ->getManipulationSequence()
-        ->toArray()[0];
+        ->toArray();
 
-    expect($conversionManipulations['width'])->toEqual(123);
+    expect($conversionManipulations['width'])->toEqual([123]);
 });
 
 it('can set filesize', function () {

@@ -12,12 +12,10 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Run PHP CS Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --config=.php_cs.dist.php --allow-risky=yes
+      - name: Fix styling issues
+        uses: aglipanci/laravel-pint-action@0.1.0
 
       - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Fix styling

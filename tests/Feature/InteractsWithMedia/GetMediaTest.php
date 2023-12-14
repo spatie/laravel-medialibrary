@@ -274,7 +274,7 @@ it('will return preloaded media sorting on order column', function () {
     ], $preloadedTestModel
         ->getMedia('images')
         ->pluck('order_column', 'id')
-        ->map(fn ($value) => (int)$value)
+        ->map(fn ($value) => (int) $value)
         ->toArray());
 
     $firstMedia->order_column = 3;
@@ -290,7 +290,7 @@ it('will return preloaded media sorting on order column', function () {
     ], $preloadedTestModel
         ->getMedia('images')
         ->pluck('order_column', 'id')
-        ->map(fn ($value) => (int)$value)
+        ->map(fn ($value) => (int) $value)
         ->toArray());
 });
 

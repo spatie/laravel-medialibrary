@@ -55,6 +55,8 @@ test('converting a non image to an image tag will not blow up', function () {
 });
 
 it('can render pdf thumbnail as an image', function () {
+    config()->set('media-library.image_driver', 'imagick');
+
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestPdf())
         ->toMediaCollection();
@@ -84,8 +86,8 @@ it('can render itself with responsive images of a conversion and a placeholder',
 
     $image = $media->refresh()->img('thumb');
 
-    expect((string)$image)->toContain('/media/2/responsive-images/');
-    expect((string)$image)->toContain('data:image/svg+xml;base64,');
+    expect((string) $image)->toContain('/media/2/responsive-images/');
+    expect((string) $image)->toContain('data:image/svg+xml;base64,');
 });
 
 it('will not render extra javascript or include base64 svg when tiny placeholders are turned off', function () {

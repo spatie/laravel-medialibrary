@@ -54,7 +54,7 @@ class FileManipulator
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(Str::random(32) . '.' . $media->extension)
+            $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
         );
 
         $conversions

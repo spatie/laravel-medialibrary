@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\Support\File;
 
 class FileIsTooBig extends FileCannotBeAdded
 {
-    public static function create(string $path, int $size = null): self
+    public static function create(string $path, ?int $size = null): self
     {
         $fileSize = File::getHumanReadableSize($size ?: filesize($path));
 

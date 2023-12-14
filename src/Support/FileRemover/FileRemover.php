@@ -24,5 +24,4 @@ interface FileRemover
      * Remove a file relating to the media model.
      */
     public function removeFile(string $path, string $disk): void;
-
 }

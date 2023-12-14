@@ -2,13 +2,13 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
-use BadMethodCallException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
-use Spatie\Image\Manipulations;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
-/** @mixin \Spatie\Image\Manipulations */
+/** @mixin \Spatie\Image\Drivers\ImageDriver */
 class Conversion
 {
     use Conditionable;
@@ -32,11 +32,13 @@ class Conversion
     protected int $pdfPageNumber = 1;
 
     public function __construct(
-        protected string $name
+        protected string $name,
     ) {
+        $optimizerChain = OptimizerChainFactory::create(config('media-library.image_optimizers'));
+
         $this->manipulations = (new Manipulations())
-            ->optimize(config('media-library.image_optimizers'))
-            ->format(Manipulations::FORMAT_JPG);
+            ->optimize($optimizerChain)
+            ->format('jpg');
 
         $this->fileNamer = app(config('media-library.file_namer'));
 
@@ -45,7 +47,7 @@ class Conversion
         $this->performOnQueue = config('media-library.queue_conversions_by_default', true);
     }
 
-    public static function create(string $name)
+    public static function create(string $name): self
     {
         return new static($name);
     }
@@ -107,12 +109,8 @@ class Conversion
         return $this;
     }
 
-    public function __call($name, $arguments)
+    public function __call($name, $arguments): self
     {
-        if (! method_exists($this->manipulations, $name)) {
-            throw new BadMethodCallException("Manipulation `{$name}` does not exist");
-        }
-
         $this->manipulations->$name(...$arguments);
 
         return $this;
@@ -133,11 +131,13 @@ class Conversion
 
     public function addAsFirstManipulations(Manipulations $manipulations): self
     {
-        $manipulationSequence = $manipulations->getManipulationSequence()->toArray();
+        $newManipulations = $manipulations->toArray();
 
-        $this->manipulations
-            ->getManipulationSequence()
-            ->mergeArray($manipulationSequence);
+        $currentManipulations = $this->manipulations->toArray();
+
+        $allManipulations = array_merge($currentManipulations, $newManipulations);
+
+        $this->manipulations = new Manipulations($allManipulations);
 
         return $this;
     }
@@ -209,7 +209,7 @@ class Conversion
             }
         }
 
-        if ($manipulationArgument = $this->manipulations->getManipulationArgument('format')) {
+        if ($manipulationArgument = Arr::get($this->manipulations->getManipulationArgument('format'), 0)) {
             return $manipulationArgument;
         }
 

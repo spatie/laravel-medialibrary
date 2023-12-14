@@ -8,7 +8,7 @@ class TestModelWithConversionUsingModelInstance extends TestModelWithConversion
 {
     public $registerMediaConversionsUsingModelInstance = true;
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this
             ->addMediaConversion('lazy-conversion')

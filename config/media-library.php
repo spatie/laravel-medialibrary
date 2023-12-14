@@ -39,7 +39,7 @@ return [
     /*
      * When enabled, media collections will be serialised using the default
      * laravel model serialization behaviour.
-     * 
+     *
      * Keep this option disabled if using Media Library Pro components (https://medialibrary.pro)
      */
     'use_default_collection_serialization' => false,

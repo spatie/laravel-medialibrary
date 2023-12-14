@@ -1,7 +1,5 @@
 <?php
 
-
-
 test('the original url attribute exists', function () {
     $media = $this->testModelWithPreviewConversion->addMedia($this->getTestJpg())->toMediaCollection();
 

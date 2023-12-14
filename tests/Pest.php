@@ -55,3 +55,17 @@ function unserializeAndSerializeModel($model)
 {
     return unserialize(serialize($model));
 }
+
+function skipWhenRunningOnGitHub(): void
+{
+    if (getenv('GITHUB_ACTIONS') !== false) {
+        test()->markTestSkipped('This test cannot run on GitHub actions');
+    }
+}
+
+function skipWhenRunningLocally(): void
+{
+    if (getenv('GITHUB_ACTIONS') === false) {
+        test()->markTestSkipped('This test cannot run locally');
+    }
+}

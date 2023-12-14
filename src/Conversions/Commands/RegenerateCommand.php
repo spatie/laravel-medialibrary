@@ -81,7 +81,7 @@ class RegenerateCommand extends Command
         // Get this arg first as it can also be passed to the greater-than-id branch
         $modelType = $this->argument('modelType');
 
-        $startingFromId = (int)$this->option('starting-from-id');
+        $startingFromId = (int) $this->option('starting-from-id');
         if ($startingFromId !== 0) {
             $excludeStartingId = (bool) $this->option('exclude-starting-id') ?: false;
 
