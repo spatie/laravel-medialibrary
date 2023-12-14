@@ -30,7 +30,7 @@ $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
 The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/filesystem),
-so you can use any filesystem you like. Additionally the package can create image manipulations
+so you can use any filesystem you like. Additionally, the package can create image manipulations
 on images and pdfs that have been added in the media library.
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
