@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.0.0 - 2023-12-14
+
+### What's Changed
+
+* Suggest the installation of svgo through snap on Ubuntu by @3ub41r in https://github.com/spatie/laravel-medialibrary/pull/3434
+* Update handling-uploads-with-vue.md by @AzadGh95 in https://github.com/spatie/laravel-medialibrary/pull/3449
+* Use image v3 by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3451
+
+### New Contributors
+
+* @AzadGh95 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3449
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/10.15.0...11.0.0
+
 ## 10.15.0 - 2023-11-03
 
 ### What's Changed
