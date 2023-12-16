@@ -25,9 +25,9 @@ $yourModel->addMedia($smallFile)->toMediaCollection('downloads', 'local');
 $yourModel->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
-The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/9.x/filesystem), so you can plug in any compatible filesystem.
+The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/10.x/filesystem), so you can plug in any compatible filesystem.
 
-The package can also generate derived images such as thumbnails for images, videos and PDFs. Once you've [set up your model](/laravel-medialibrary/v10/basic-usage/preparing-your-model), they're easily accessible:
+The package can also generate derived images such as thumbnails for images, videos and PDFs. Once you've [set up your model](/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model), they're easily accessible:
 
 ```php
 $yourModel->getMedia('images')->first()->getUrl('thumb');
@@ -37,7 +37,7 @@ $yourModel->getMedia('images')->first()->getUrl('thumb');
 
 We've recorded [a video course](https://spatie.be/courses/discovering-laravel-media-library) on how to use this package. It's the best way to get started using media library
 
-[![video course](/docs/laravel-medialibrary/v10/images/video-course.jpg)](https://spatie.be/courses/discovering-laravel-media-library/introducing-laravel-media-library)
+[![video course](/docs/laravel-medialibrary/v11/images/video-course.jpg)](https://spatie.be/courses/discovering-laravel-media-library/introducing-laravel-media-library)
 
 ## We have badges!
 

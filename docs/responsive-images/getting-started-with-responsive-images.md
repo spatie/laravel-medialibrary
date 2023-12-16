@@ -7,7 +7,7 @@ Websites are viewed on various devices with widely differing screen sizes and co
 
 The media library has support for generating the necessary files and HTML markup for responsive images. In addition the medialibrary also has support for progressive image loading.
 
-[Try a demo of the concept here.](/laravel-medialibrary/v10/responsive-images/demo)
+[Try a demo of the concept here.](/docs/laravel-medialibrary/v11/responsive-images/demo)
 
 ## Are you a visual learner?
 
@@ -85,7 +85,7 @@ $yourModel
    ->toMediaCollection();
 ```
 
-Behind the scenes, the media library will generate multiple size variations of your image. To learn which variations are generated and how to customize head over [here](/laravel-medialibrary/v10/responsive-images/using-your-own-width-calculator).
+Behind the scenes, the media library will generate multiple size variations of your image. To learn which variations are generated and how to customize head over [here](/docs/laravel-medialibrary/v11/responsive-images/using-your-own-width-calculator).
 
 
 ### Displaying responsive images
@@ -105,7 +105,7 @@ Per image attached to your model the resulting HTML will look more or less like 
 
 ### Generating responsive images for conversions
 
-You can also generate responsive images for any [image conversions](https://docs.spatie.be/laravel-medialibrary/v10/converting-images/defining-conversions) you define. Simply use `withResponsiveImages` when defining a conversion.
+You can also generate responsive images for any [image conversions](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) you define. Simply use `withResponsiveImages` when defining a conversion.
 
 Here's an example where we define a conversion to make a greyscale version and generate responsive, greyscaled images.
 

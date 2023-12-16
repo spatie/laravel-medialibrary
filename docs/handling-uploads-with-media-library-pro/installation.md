@@ -3,7 +3,7 @@ title: Installation
 weight: 2
 ---
 
-[Media Library Pro](medialibrary.pro) is a paid add-on package for Laravel Media Library. In order to use it, you must have the base version of media library installed in your project. Here are [the installation instructions for the base version](/docs/laravel-medialibrary/v10/installation-setup).
+[Media Library Pro](medialibrary.pro) is a paid add-on package for Laravel Media Library. In order to use it, you must have the base version of media library installed in your project. Here are [the installation instructions for the base version](/docs/laravel-medialibrary/v11/installation-setup).
 
 ## Installing the base package
 
@@ -17,7 +17,7 @@ Single application licenses maybe installed in a single Laravel app. In case you
 
 The current version of Media Library Pro is v3.
 
-You will find upgrade instructions [here](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/upgrading).
+You will find upgrade instructions [here](/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/upgrading).
 
 ## Requiring Media Library Pro
 
@@ -70,7 +70,7 @@ If you are using [Laravel Forge](https://forge.laravel.com), you don't need to c
 - Username: Fill this field with your spatie.be account email address
 - Password: Fill this field with your Media Library Pro license key
 
-![screenshot](/docs/laravel-medialibrary/v10/images/forge.png)
+![screenshot](/docs/laravel-medialibrary/v11/images/forge.png)
 
 With the configuration above in place, you'll be able to install the Media Library Pro into your project using this command:
 
@@ -217,7 +217,7 @@ mix.purgeCss({ whitelistPatterns: [/^media-library/] });
 
 You should copy the built CSS from `vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
 
-If you would like to customize the CSS we provide, head over to [the section on Customizing CSS](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/customizing-css).
+If you would like to customize the CSS we provide, head over to [the section on Customizing CSS](/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/customizing-css).
 
 ## Usage in a frontend repository
 

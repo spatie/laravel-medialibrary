@@ -9,11 +9,11 @@ Media Library Pro ships with two components for every environment: an attachment
 
 The attachment component can upload one or more files with little or no extra information. It's a lightweight solution for small bits of UI like avatar fields or message attachments.
 
-![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/attachment.png)
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v11/images/pro/attachment.png)
 
 The collection component can upload multiple files with custom properties. The collection component shines when you need to manage media, for example in admin panels.
 
-![Screenshot of the attachment component](/docs/laravel-medialibrary/v10/images/pro/collection.png)
+![Screenshot of the attachment component](/docs/laravel-medialibrary/v11/images/pro/collection.png)
 
 If none of those fit the bill, Media Library Pro supplies you with a number of helpers to build your own components.
 
@@ -29,19 +29,19 @@ Want to see more videos like this? Check out our [free video course on how to us
 
 All components upload media to the server with the same API. Before you dive into the frontend, read [our server guide](processing-uploads-on-the-server).
 
-Next, choose your own journey. We have written extensive guides for all four flavours. Be sure to first follow [the base installation instructions](/docs/laravel-medialibrary/v10/installation-setup) and [pro installation instructions](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/installation).
+Next, choose your own journey. We have written extensive guides for all four flavours. Be sure to first follow [the base installation instructions](/docs/laravel-medialibrary/v11/installation-setup) and [pro installation instructions](/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/installation).
 
 ### Blade
 
 You can use the attachment and collection components in regular forms. Behind the scenes these components use Livewire, but no Livewire knowledge is needed to use them.
-
-- [Handling uploads with Blade](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/handling-uploads-with-blade)
+See the links below for handling uploads with Livewire.
 
 ### Livewire
 
 If you are creating Livewire components to display and handle forms, this is your path. The attachment and collection components can be used from within your Livewire components
 
-- [Handling uploads with Livewire](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/handling-uploads-with-livewire)
+- [Handling uploads with Livewire 2](/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/handling-uploads-with-livewire-2)
+- [Handling uploads with Livewire 3](/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/handling-uploads-with-livewire-3)
 
 ### Vue
 
@@ -57,4 +57,4 @@ If you are creating Livewire components to display and handle forms, this is you
 
 We've created a demo application in which all components are installed. This way you'll have a full example on how to use components in your project. 
 
-You'll find the code of the demo application in [this repository on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app). In order to `composer install` on that project, you'll need to have [a license](/docs/laravel-medialibrary/v10/handling-uploads-with-media-library-pro/installation#getting-a-license).
+You'll find the code of the demo application in [this repository on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app). In order to `composer install` on that project, you'll need to have [a license]([/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/installation#content-getting-a-license).
