@@ -7,7 +7,7 @@ weight: 13
 
 The built-in model (`Spatie\MediaLibrary\MediaCollections\Models\Media`) will use the default database connection set for your application.
 
-If you need to change this database connection, you can create a custom model and set the `$connection` property (https://laravel.com/docs/10.x/eloquent#database-connections). See <a href="https://spatie.be/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model">Using your own model</a> for more information.
+If you need to change this database connection, you can create a custom model and set the `$connection` property (https://laravel.com/docs/10.x/eloquent#database-connections). See <a href="/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model">Using your own model</a> for more information.
 
 ```php
 <?php
