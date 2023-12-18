@@ -13,7 +13,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Fix styling issues
-        uses: aglipanci/laravel-pint-action@0.1.0
+        uses: aglipanci/laravel-pint-action@2.3.0
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
