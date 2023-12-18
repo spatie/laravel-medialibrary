@@ -7,6 +7,12 @@ weight: 10
 
 This file contains instructions on how to upgrade to another major version of the package.
 
+## From v3 to v4
+
+The main change in v4 is that we upgraded the required version of Media Library from v10 to v11. Under the hood spatie/image v3 is used instead of v2. 
+
+In the latest version of spatie/image some of the manipulations methods have been renamed. If you're using any of these methods in your code, you'll need to update them. Take a look at the [defining conversions page](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) to learn more.
+
 ## From v2 to v3
 
 The main change in v3 is that we now use Livewire 3.0 instead of Livewire 2.0. If you're using the JavaScript component, then there are no breaking changes.

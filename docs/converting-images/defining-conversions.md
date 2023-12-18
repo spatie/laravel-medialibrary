@@ -7,7 +7,7 @@ When adding files to the media library it can automatically create derived versi
 
 Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `webp`, `avif`, `pdf`, `mp4 `, `mov` or `webm` file is added to the media library. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
 
-Internally, [spatie/image](https://spatie.be/docs/image/v1) is used to manipulate the images. You can use [any manipulation function](https://spatie.be/docs/image) from that package.
+Internally, [spatie/image](https://spatie.be/docs/image/v3) is used to manipulate the images. You can use [any manipulation function](https://spatie.be/docs/image) from that package.
 
 Please check [the image generator docs](/docs/laravel-medialibrary/v11/converting-other-file-types/using-image-generators) for additional installation requirements when working with PDF, SVG or video formats.
 
