@@ -21,26 +21,25 @@ class PerformManipulationsAction
             return $imageFile;
         }
 
-        $conversionTempFile = $this->getConversionTempFileName($media, $conversion, $imageFile);
-
-        File::copy($imageFile, $conversionTempFile);
-
         $supportedFormats = ['jpg', 'pjpg', 'png', 'gif'];
         if ($conversion->shouldKeepOriginalImageFormat() && in_array($media->extension, $supportedFormats)) {
             $conversion->format($media->extension);
         }
 
+        $conversionTempFile = $this->getConversionTempFileName($media, $conversion, $imageFile);
+
         $image = Image::useImageDriver(config('media-library.image_driver'))
-            ->loadFile($conversionTempFile)
+            ->loadFile($imageFile)
             ->format('jpg');
 
         try {
             $conversion->getManipulations()->apply($image);
-
-            $image->save();
+            
+            $image->save($conversionTempFile);
         } catch (UnsupportedImageFormat) {
 
         }
+
 
         return $conversionTempFile;
     }
