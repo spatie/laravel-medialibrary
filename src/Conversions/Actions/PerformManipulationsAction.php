@@ -53,6 +53,11 @@ class PerformManipulationsAction
             $extension = 'jpg';
         }
 
+        $format = $conversion->getManipulations()->getFirstManipulationArgument('format');
+        if($format !== null) {
+            $extension = $format;
+        }
+
         $fileName = Str::random(32)."{$conversion->getName()}.{$extension}";
 
         return "{$directory}/{$fileName}";
