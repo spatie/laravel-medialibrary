@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.0.1 - 2023-12-21
+
+### What's Changed
+
+- do not throw exceptions when trying to convert PDFs and SVGs using GD
+
+### New Contributors
+
+* @dardanmulaj made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3460
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.0.0...11.0.1
+
 ## 11.0.0 - 2023-12-14
 
 ### What's Changed
