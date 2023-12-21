@@ -42,7 +42,6 @@ class PerformManipulationsAction
 
         }
 
-
         return $conversionTempFile;
     }
 
