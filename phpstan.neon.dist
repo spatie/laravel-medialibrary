@@ -18,6 +18,3 @@ parameters:
 
         # For MediaLibraryPro dependencies
         - "#MediaLibraryPro\\\\#"
-
-        # This must be removed after drop ZipStream V2
-        - "#ZipStream\\\\#"
