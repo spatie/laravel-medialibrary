@@ -56,6 +56,15 @@ class Manipulations
         }
     }
 
+    public function mergeManipulations(self $manipulations): self
+    {
+        foreach ($manipulations->toArray() as $name => $parameters) {
+            $this->manipulations[$name] = array_merge($this->manipulations[$name] ?? [], $parameters ?: []);
+        }
+
+        return $this;
+    }
+
     public function removeManipulation(string $name): self
     {
         unset($this->manipulations[$name]);

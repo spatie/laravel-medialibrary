@@ -36,9 +36,8 @@ class Conversion
     ) {
         $optimizerChain = OptimizerChainFactory::create(config('media-library.image_optimizers'));
 
-        $this->manipulations = (new Manipulations())
-            ->optimize($optimizerChain)
-            ->format('jpg');
+        $this->manipulations = new Manipulations();
+        $this->manipulations->optimize($optimizerChain)->format('jpg');
 
         $this->fileNamer = app(config('media-library.file_namer'));
 

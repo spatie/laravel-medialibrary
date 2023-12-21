@@ -12,7 +12,7 @@ class InvalidFileRemover extends Exception
         return new static("File remover class `{$class}` doesn't exist");
     }
 
-    public static function doesNotImplementPathGenerator(string $class): self
+    public static function doesNotImplementFileRemover(string $class): self
     {
         $fileRemoverClass = FileRemover::class;
 
