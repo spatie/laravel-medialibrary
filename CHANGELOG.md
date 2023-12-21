@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.0.2 - 2023-12-21
+
+### What's Changed
+
+* Bump aglipanci/laravel-pint-action from 0.1.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3461
+* [v11] Remove ZipStream V2 support by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3473
+* [v11] Fix phpstan errors by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3472
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.0.1...11.0.2
+
 ## 11.0.1 - 2023-12-21
 
 ### What's Changed
