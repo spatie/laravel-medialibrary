@@ -31,8 +31,7 @@ class PerformManipulationsAction
         }
 
         $image = Image::useImageDriver(config('media-library.image_driver'))
-            ->loadFile($conversionTempFile)
-            ->format('jpg');
+            ->loadFile($conversionTempFile);
 
         try {
             $conversion->getManipulations()->apply($image);
