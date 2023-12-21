@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Conversions\Actions;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Spatie\Image\Exceptions\UnsupportedImageFormat;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -33,9 +34,14 @@ class PerformManipulationsAction
             ->loadFile($conversionTempFile)
             ->format('jpg');
 
-        $conversion->getManipulations()->apply($image);
+        try {
+            $conversion->getManipulations()->apply($image);
 
-        $image->save();
+            $image->save();
+        } catch (UnsupportedImageFormat) {
+
+        }
+
 
         return $conversionTempFile;
     }

@@ -80,6 +80,22 @@ it('can create a derived version of a pdf if imagick exists', function () {
         : $this->assertFileDoesNotExist($thumbPath);
 });
 
+it('will not throw an exception when converting a pdf using gd', function () {
+    config()->set('media-library.image_driver', 'gd');
+
+    $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('test.pdf'))
+        ->toMediaCollection('images');
+})->throwsNoExceptions();
+
+it('can handle svgs correctly', function (string $driver) {
+    config()->set('media-library.image_driver', $driver);
+
+    $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('test.svg'))
+        ->toMediaCollection('images');
+})->with(['gd', 'imagick'])->throwsNoExceptions();
+
 it('will not create a derived version if manipulations did not change', function () {
     Carbon::setTestNow();
 
