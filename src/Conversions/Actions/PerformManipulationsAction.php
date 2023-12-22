@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Conversions\Actions;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Spatie\Image\Exceptions\UnsupportedImageFormat;
 use Spatie\Image\Image;
@@ -34,12 +33,11 @@ class PerformManipulationsAction
 
         try {
             $conversion->getManipulations()->apply($image);
-            
+
             $image->save($conversionTempFile);
         } catch (UnsupportedImageFormat) {
 
         }
-
 
         return $conversionTempFile;
     }
@@ -58,7 +56,7 @@ class PerformManipulationsAction
         }
 
         $format = $conversion->getManipulations()->getFirstManipulationArgument('format');
-        if($format !== null) {
+        if ($format !== null) {
             $extension = $format;
         }
 
