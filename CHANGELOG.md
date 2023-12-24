@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.0.3 - 2023-12-24
+
+### What's Changed
+
+* [11.x] Add test to check that pdf conversions are correct by @kduma in https://github.com/spatie/laravel-medialibrary/pull/3477
+* update dependencies
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.0.2...11.0.3
+
 ## 11.0.2 - 2023-12-21
 
 ### What's Changed
