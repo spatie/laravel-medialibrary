@@ -88,6 +88,20 @@ it('will not throw an exception when converting a pdf using gd', function () {
         ->toMediaCollection('images');
 })->throwsNoExceptions();
 
+it('can create a correct derived version of a pdf', function (string $driver) {
+    config()->set('media-library.image_driver', $driver);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('test.pdf'))
+        ->toMediaCollection('images');
+
+    $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
+
+    [$width, $height] = getimagesize($thumbPath);
+    $this->assertLessThanOrEqual(50, $width, 'The width of the conversion is not 50px or less.');
+    $this->assertLessThanOrEqual(50, $height, 'The height of the conversion is not 50px or less.');
+})->with(['gd', 'imagick']);
+
 it('can handle svgs correctly', function (string $driver) {
     config()->set('media-library.image_driver', $driver);
 
