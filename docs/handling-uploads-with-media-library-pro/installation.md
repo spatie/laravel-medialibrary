@@ -15,7 +15,7 @@ Single application licenses maybe installed in a single Laravel app. In case you
 
 ## Current version
 
-The current version of Media Library Pro is v3.
+The current version of Media Library Pro is v4.
 
 You will find upgrade instructions [here](/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/upgrading).
 
