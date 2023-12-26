@@ -18,7 +18,7 @@ If you have a license for Media Library Pro, you should install `spatie/laravel-
 You need to publish the migration to create the `media` table:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-migrations"
 ```
 
 After that, you need to run migrations.
@@ -32,7 +32,7 @@ php artisan migrate
 Publishing the config file is optional:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-config"
 ```
 
 This is the default content of the config file:
