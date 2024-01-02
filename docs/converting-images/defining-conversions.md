@@ -65,7 +65,8 @@ You can register as many media conversions as you want
 
 ```php
 // in your model
-use Spatie\Image\Manipulations;
+use Spatie\Image\Enums\BorderType;
+use Spatie\Image\Enums\CropPosition;
 
 // ...
 
@@ -78,10 +79,10 @@ use Spatie\Image\Manipulations;
 
         $this->addMediaConversion('old-picture')
               ->sepia()
-              ->border(10, 'black', Manipulations::BORDER_OVERLAY);
+              ->border(10, BorderType::Overlay, 'black');
               
         $this->addMediaConversion('thumb-cropped')
-            ->crop('crop-center', 400, 400); // Trim or crop the image to the center for specified width and height.
+            ->crop(400, 400, CropPosition::Center); // Trim or crop the image to the center for specified width and height.
     }
 ```
 
