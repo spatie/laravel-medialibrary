@@ -77,6 +77,8 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         'responsive_images' => 'array',
     ];
 
+    protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
+
     public function newCollection(array $models = [])
     {
         return new MediaCollection($models);
@@ -303,6 +305,13 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $generatedConversions[$conversionName] ?? false;
     }
 
+    public function setStreamChunkSize(int $chunkSize)
+    {
+        $this->streamChunkSize = $chunkSize;
+
+        return $this;
+    }
+
     public function toResponse($request)
     {
         return $this->buildResponse($request, 'attachment');
@@ -326,7 +335,10 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return response()->stream(function () {
             $stream = $this->stream();
 
-            fpassthru($stream);
+            while(!feof($stream)) {
+                echo fread($stream, $this->streamChunkSize);
+                flush();
+            }
 
             if (is_resource($stream)) {
                 fclose($stream);
