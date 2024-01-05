@@ -335,7 +335,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return response()->stream(function () {
             $stream = $this->stream();
 
-            while(!feof($stream)) {
+            while (! feof($stream)) {
                 echo fread($stream, $this->streamChunkSize);
                 flush();
             }
