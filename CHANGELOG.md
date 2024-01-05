@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.0.4 - 2024-01-05
+
+### What's Changed
+
+* Adjust installation documentation for publishing migrations and config files by @LuisLeguizamon in https://github.com/spatie/laravel-medialibrary/pull/3483
+* laravel-pint-action to major version by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3484
+* Update defining-conversions.md by @emargareten in https://github.com/spatie/laravel-medialibrary/pull/3496
+* When streaming media, replace with feof/fread instead of fpassthru by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3501
+
+### New Contributors
+
+* @LuisLeguizamon made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3483
+* @emargareten made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3496
+* @chrispage1 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3501
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.0.3...11.0.4
+
 ## 11.0.3 - 2023-12-24
 
 ### What's Changed
