@@ -31,6 +31,7 @@ use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 
 /**
  * @property string $uuid
@@ -134,6 +135,11 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         }
 
         return $this->getUrl();
+    }
+
+    public function getDownloadFilename(): string
+    {
+        return $this->file_name;
     }
 
     public function getAvailableFullUrl(array $conversionNames): string
@@ -319,7 +325,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => $contentDispositionType.'; filename="'.$this->file_name.'"',
+            'Content-Disposition' => HeaderUtils::makeDisposition($contentDispositionType, $this->getDownloadFilename()),
             'Pragma' => 'public',
         ];
 
