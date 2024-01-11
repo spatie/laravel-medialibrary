@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Mail\Attachment;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
@@ -136,6 +137,11 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         }
 
         return $this->getUrl();
+    }
+
+    public function getDownloadFilename(): string
+    {
+        return $this->file_name;
     }
 
     public function getAvailableFullUrl(array $conversionNames): string
@@ -324,11 +330,13 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     private function buildResponse($request, string $contentDispositionType)
     {
+        $filename = str_replace('"', '\'', Str::ascii($this->getDownloadFilename()));
+
         $downloadHeaders = [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => $contentDispositionType.'; filename="'.$this->file_name.'"',
+            'Content-Disposition' => $contentDispositionType . '; filename="' . $filename . '"',
             'Pragma' => 'public',
         ];
 
