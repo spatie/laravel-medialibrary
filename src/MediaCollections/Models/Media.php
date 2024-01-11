@@ -336,7 +336,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => $contentDispositionType . '; filename="' . $filename . '"',
+            'Content-Disposition' => $contentDispositionType.'; filename="'.$filename.'"',
             'Pragma' => 'public',
         ];
 
