@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.0.5 - 2024-01-11
+
+### What's Changed
+
+* New 'getDownloadFilename' method for extensibility by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3504
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.0.4...11.0.5
+
 ## 11.0.4 - 2024-01-05
 
 ### What's Changed
