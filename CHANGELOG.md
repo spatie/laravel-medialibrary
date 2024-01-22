@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.1.0 - 2024-01-22
+
+### What's Changed
+
+* Update preparing-your-model.md - manipulations class has been replaced with `Fit` enum by @bomshteyn in https://github.com/spatie/laravel-medialibrary/pull/3509
+* Adds the HttpFacadeDownloader by @peterfox in https://github.com/spatie/laravel-medialibrary/pull/3505
+
+### New Contributors
+
+* @bomshteyn made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3509
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.0.5...11.1.0
+
 ## 11.0.5 - 2024-01-11
 
 ### What's Changed
