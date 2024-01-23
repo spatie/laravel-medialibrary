@@ -225,6 +225,7 @@ return [
         /*
          * By default rendering media to a responsive image will add some javascript and a tiny placeholder.
          * This ensures that the browser can already determine the correct layout.
+         * When disabled, no tiny placeholder is generated.
          */
         'use_tiny_placeholders' => true,
 
