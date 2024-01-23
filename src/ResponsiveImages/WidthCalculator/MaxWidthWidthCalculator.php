@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\Support\ImageFactory;
 class MaxWidthWidthCalculator implements WidthCalculator
 {
 
-    public function __construct(public array $maxWidth)
+    public function __construct(public int $maxWidth)
     {
     }
 
