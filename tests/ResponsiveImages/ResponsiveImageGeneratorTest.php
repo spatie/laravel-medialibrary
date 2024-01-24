@@ -86,3 +86,29 @@ it('will add responsive image entries when there were none when regenerating', f
     $this->artisan('media-library:regenerate');
     expect($media->fresh()->responsive_images['thumb']['urls'])->toHaveCount(1);
 });
+
+it('will generate tiny placeholders when tiny placeholders are turned on', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->withResponsiveImages()
+        ->toMediaCollection();
+
+    $responsiveImage = $media->refresh()->responsive_images;
+
+    expect($responsiveImage['media_library_original'])->toHaveKey('base64svg');
+
+    expect((string) $responsiveImage['media_library_original']['base64svg'])->toContain('data:image/svg+xml;base64,');
+});
+
+it('will not generate tiny placeholders when tiny placeholders are turned off', function () {
+    config()->set('media-library.responsive_images.use_tiny_placeholders', false);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->withResponsiveImages()
+        ->toMediaCollection();
+
+    $responsiveImage = $media->refresh()->responsive_images;
+
+    expect($responsiveImage['media_library_original'])->not()->toHaveKey('base64svg');
+});

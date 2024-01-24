@@ -117,6 +117,10 @@ class ResponsiveImageGenerator
         string $conversionName,
         BaseTemporaryDirectory $temporaryDirectory
     ): void {
+        if (! config('media-library.responsive_images.use_tiny_placeholders')) {
+            return;
+        }
+
         $tempDestination = $temporaryDirectory->path('tiny.jpg');
 
         $this->tinyPlaceholderGenerator->generateTinyPlaceholder($originalImagePath, $tempDestination);
