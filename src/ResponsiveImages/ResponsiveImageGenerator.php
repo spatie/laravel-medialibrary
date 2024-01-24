@@ -58,9 +58,7 @@ class ResponsiveImageGenerator
 
         $media = $this->cleanResponsiveImages($media, $conversion->getName());
 
-        $widthCalculator = $conversion->getWidthCalculator() ?? $this->widthCalculator;
-
-        foreach ($widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
+        foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory, $this->getConversionQuality($conversion));
         }
 
