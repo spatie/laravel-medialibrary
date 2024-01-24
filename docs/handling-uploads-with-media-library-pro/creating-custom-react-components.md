@@ -211,12 +211,6 @@ Renders a button with an icon. Requires [icons](#icons) to be rendered on the pa
 }
 ```
 
-### useDragula
-
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-react/src/useDragula.ts)
-
-Custom hook to use [Dragula](https://github.com/bevacqua/react-dragula), to allow sorting of files.
-
 **Parameters**
 
 ```ts

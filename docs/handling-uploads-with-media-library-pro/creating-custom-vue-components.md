@@ -67,8 +67,6 @@ You can find a full list of available props for the renderless component [at the
 
 For extensive examples you can have a look at the source of the pre-built UI components:
 
--   [Vue 2 attachment component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-vue2-attachment)
--   [Vue 2 collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-vue2-collection)
 -   [Vue 3 attachment component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-vue3-attachment)
 -   [Vue 3 collection component](https://github.com/spatie/laravel-medialibrary-pro/tree/master/resources/js/media-library-pro-vue3-collection)
 
@@ -78,7 +76,7 @@ When building your own UI component using the Media Library Pro, you can also ma
 
 ### DropZone
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/DropZone.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/DropZone.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/DropZone.vue)
 
 Renderless component that exposes some props needed to render a file dropzone. Has a scoped slot that exposes `hasDragObject`, `isDropTarget` and `isValid`.
 
@@ -94,7 +92,7 @@ props: {
 
 ### HiddenFields
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/HiddenFields.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/HiddenFields.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/HiddenFields.vue)
 
 Component that renders hidden input fields with the values of the entire MediaLibrary instance's media state. Only needed if you're planning on submitting forms traditionally (not with AJAX).
 
@@ -109,7 +107,7 @@ props: {
 
 ### ItemErrors
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/ItemErrors.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/ItemErrors.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/ItemErrors.vue)
 
 Component that renders the errors for one media object.
 
@@ -125,7 +123,7 @@ props: {
 
 ### ListErrors
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/listErrors/ListErrors.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/listErrors/ListErrors.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/listErrors/ListErrors.vue)
 
 Component that can render the MediaLibrary instance's invalid media (`mediaLibrary.state.invalidMedia`).
 
@@ -142,7 +140,7 @@ props: {
 
 ### Thumb
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/Thumb.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/Thumb.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/Thumb.vue)
 
 Component to display a file's thumbnail. If no preview for the file exists, it will attempt to display its extension. Also implements the [Uploader](#uploader) component to replace files.
 
@@ -160,7 +158,7 @@ props: {
 
 ### Uploader
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/Uploader.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/Uploader.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/Uploader.vue)
 
 Component used to upload new media objects, or to replace an existing object's file. Is used by the [Thumb](#thumb) component.
 
@@ -181,13 +179,13 @@ props: {
 
 ### Icons
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/components/Icons.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/components/Icons.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/components/Icons.vue)
 
 Component that sets svg values for the packaged icons, required if you're planning on using the [icon](#icon) component.
 
 ### Icon
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/components/Icon.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/components/Icon.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/components/Icon.vue)
 
 Renders an icon. Requires [icons](#icons) to be rendered on the page.
 
@@ -201,7 +199,7 @@ props: {
 
 ### IconButton
 
-See code on GitHub: [Vue 2](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue2/src/components/IconButton.vue) / [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/components/IconButton.vue)
+See code on GitHub: [Vue 3](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-vue3/src/components/IconButton.vue)
 
 Renders a button with an icon. Requires [icons](#icons) to be rendered on the page.
 

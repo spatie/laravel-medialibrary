@@ -3,7 +3,7 @@ title: Handling uploads with Vue
 weight: 6
 ---
 
-Media Library Pro provides beautiful UI components for Vue 2 and Vue 3. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, and robust error handling.
+Media Library Pro provides beautiful UI components for Vue 3. They pack a lot of features: temporary uploads, custom property inputs, frontend validation, and robust error handling.
 
 The `MediaLibraryAttachment` component can upload one or more files with little or no extra information. The attachment component is a lightweight solution for small bits of UI like avatar fields.
 
@@ -81,11 +81,9 @@ mix.webpackConfig({
 });
 ```
 
-This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import. Notice that the Vue 2 and Vue 3 components are separate components.
+This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import.
 
 ```js
-import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
-// or
 import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
 ```
 
@@ -104,23 +102,6 @@ If you're using TypeScript, you will also have to add this to your tsconfig:
 ```
 
 To use a component in your Blade templates, import the components you plan to use in your `app.js` file, and add them to your main Vue app's `components` object.
-
-**Vue 2**
-
-```js
-import Vue from "vue";
-import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
-import { MediaLibraryCollection } from "media-library-pro-vue2-collection";
-
-new Vue({
-    el: "#app",
-
-    components: {
-        MediaLibraryAttachment,
-        MediaLibraryCollection,
-    },
-});
-```
 
 **Vue 3**
 
@@ -362,13 +343,12 @@ The Media Library supports [custom properties](/docs/laravel-medialibrary/v11/ad
 
 Use the `fields` scoped slot to add some fields:
 
-**Vue 2**
+**Vue 3**
 
 ```html
 <media-library-collection name="images" :initial-value="{{ $images }}">
     <template
-        slot="fields"
-        slot-scope="{
+        #fields="{
             getCustomPropertyInputProps,
             getCustomPropertyInputListeners,
             getCustomPropertyInputErrors,
@@ -414,25 +394,6 @@ Use the `fields` scoped slot to add some fields:
 </media-library-collection>
 ```
 
-**Vue 3**
-
-```html
-<media-library-collection name="images" :initial-value="{{ $images }}">
-    <template
-        #fields="{
-            getCustomPropertyInputProps,
-            getCustomPropertyInputListeners,
-            getCustomPropertyInputErrors,
-            getNameInputProps,
-            getNameInputListeners,
-            getNameInputErrors,
-        }"
-    >
-        … (see Vue 2 example above)
-    </template>
-</media-library-collection>
-```
-
 When you add an image to your collection, it will look like this.
 
 ![Screenshot of custom property](/docs/laravel-medialibrary/v11/images/pro/extra.png)
@@ -442,21 +403,6 @@ When you add an image to your collection, it will look like this.
 When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or collection component).
 
 You can customize what is displayed here by using the `properties` scoped slot:
-
-**Vue 2**
-
-```html
-<media-library-attachment
-    name="images"
-    :initial-value="{{ $images }}"
->
-    <template slot="properties" slot-scope="{ object }">
-        <div class="media-library-property">
-            {{ object.attributes.name }}
-        </div>
-    </template>
-</media-library-collection>
-```
 
 **Vue 3**
 
