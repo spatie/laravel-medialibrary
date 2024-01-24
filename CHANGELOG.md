@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.1.2 - 2024-01-24
+
+Updated docs.
+
 ## 11.1.1 - 2024-01-24
 
 ### What's Changed
