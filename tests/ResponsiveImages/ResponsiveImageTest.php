@@ -112,3 +112,24 @@ it('can handle file names with underscore', function () {
 
     expect($media->getResponsiveImageUrls('non-existing-conversion'))->toBe([]);
 });
+
+it('can use some other width calculator for a conversion', function () {
+    $this
+        ->testModelWithResponsiveImages
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection("customWidthCalculator");
+
+    $media = $this->testModelWithResponsiveImages->getFirstMedia("customWidthCalculator");
+
+    $this->assertSame([
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}__customWidthCalculator_200_165.jpg",
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}__customWidthCalculator_80_66.jpg",
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}__customWidthCalculator_32_26.jpg",
+    ], $media->getResponsiveImageUrls("customWidthCalculator"));
+
+    $this->assertSame([
+        "/media/1/responsive-images/{$this->fileNameWithUnderscore}__thumb_50_41.jpg",
+    ], $media->getResponsiveImageUrls('thumb'));
+
+    expect($media->getResponsiveImageUrls('non-existing-conversion'))->toBe([]);
+});
