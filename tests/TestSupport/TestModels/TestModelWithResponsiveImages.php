@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\MaxWidthWidthCalculator;
 
 class TestModelWithResponsiveImages extends TestModel
 {
@@ -36,13 +35,6 @@ class TestModelWithResponsiveImages extends TestModel
         $this
             ->addMediaConversion('standardQuality')
             ->withResponsiveImages()
-            ->nonQueued();
-
-
-        $this
-            ->addMediaConversion('customWidthCalculator')
-            ->withResponsiveImages()
-            ->withWidthCalculator(new MaxWidthWidthCalculator(200))
             ->nonQueued();
     }
 }
