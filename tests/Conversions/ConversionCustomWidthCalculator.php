@@ -5,7 +5,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\WidthCalculators\FixedWidthCalculator;
 
-it('can use some other width calculator for a conversion', function () {
+it('can utilize various width calculators for conversions across different models', function () {
     $testModel3Sizes = (new class() extends TestModel {
         public function registerMediaConversions(?Media $media = null): void
         {
