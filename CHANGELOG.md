@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.1.2 - 2024-01-24
+
+Updated docs.
+
+## 11.1.1 - 2024-01-24
+
+### What's Changed
+
+* Disabled tiny placeholder generation when use_tiny_placeholder config is disabled by @jhorie in https://github.com/spatie/laravel-medialibrary/pull/3513
+
+### New Contributors
+
+* @jhorie made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3513
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.1.0...11.1.1
+
 ## 11.1.0 - 2024-01-22
 
 ### What's Changed
