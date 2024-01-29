@@ -1,11 +1,12 @@
 <?php
 
 namespace Spatie\MediaLibrary\Tests\TestSupport\WidthCalculators;
+
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
-class FixedWidthCalculator implements WidthCalculator {
-
+class FixedWidthCalculator implements WidthCalculator
+{
     public function __construct(public array $widths)
     {
     }
