@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.2.0 - 2024-01-29
+
+### What's Changed
+
+* Ability to use different width calculator per conversion using Responsive Images by @jhorie in https://github.com/spatie/laravel-medialibrary/pull/3520
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.1.2...11.2.0
+
 ## 11.1.2 - 2024-01-24
 
 Updated docs.
