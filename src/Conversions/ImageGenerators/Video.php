@@ -12,7 +12,7 @@ class Video extends ImageGenerator
 {
     public function convert(string $file, ?Conversion $conversion = null): ?string
     {
-        if ($conversion->getManipulations()->getManipulationArgument('format') == "webm") {
+        if ($conversion->getManipulations()->getManipulationArgument('format') == ["webm"]) {
             return $file;
         }
 

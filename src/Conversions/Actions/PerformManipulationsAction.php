@@ -30,7 +30,7 @@ class PerformManipulationsAction
             $conversion->format($media->extension);
         }
 
-        if (Str::startsWith(File::mimeType($conversionTempFile), "video/") && $conversion->getManipulations()->getManipulationArgument('format') == "webm") {
+        if (Str::startsWith(File::mimeType($conversionTempFile), "video/") && $conversion->getManipulations()->getManipulationArgument('format') == ["webm"]) {
             exec("ffmpeg -i " . $conversionTempFile . " -f webm -an " . $conversionTempFile . ".webm");
             if (File::exists($conversionTempFile . '.webm')) {
                 unlink($conversionTempFile);
