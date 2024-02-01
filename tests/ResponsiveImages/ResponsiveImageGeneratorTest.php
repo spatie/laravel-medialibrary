@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
+use Spatie\Image\Image;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 
 beforeEach(function () {
     $this->fileName = 'test';
@@ -112,3 +115,36 @@ it('will not generate tiny placeholders when tiny placeholders are turned off', 
 
     expect($responsiveImage['media_library_original'])->not()->toHaveKey('base64svg');
 });
+
+it('can generate responsive animated images', function (string $driver) {
+    config()->set('media-library.image_driver', $driver);
+    config()->set('media-library.responsive_images.use_tiny_placeholders', false);
+    config()->set('media-library.convert_gif_to_webp_using_gif2webp', true);
+
+    $testModel = new class() extends TestModelWithoutMediaConversions
+    {
+        public function registerMediaCollections(): void
+        {
+            $this->addMediaCollection('images')
+                ->registerMediaConversions(function (Media $media) {
+                    $this
+                        ->addMediaConversion('webp')
+                        ->withResponsiveImages()
+                        ->greyscale()
+                        ->format('webp');
+                });
+        }
+    };
+
+    $model = $testModel::create(['name' => 'testmodel']);
+    $model->addMedia($this->getTestGif())
+        ->toMediaCollection('images');
+
+    $imagick = Image::useImageDriver(config('media-library.image_driver'))->loadFile($this->getTempDirectory("media/1/{$this->fileName}.gif"))->image();
+
+    expect(count($imagick))->toBe(10);
+
+    $imagick = Image::useImageDriver(config('media-library.image_driver'))->loadFile($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___webp_267_267.webp"))->image();
+
+    expect(count($imagick))->toBe(10);
+})->with(['imagick']);

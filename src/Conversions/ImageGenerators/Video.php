@@ -12,6 +12,10 @@ class Video extends ImageGenerator
 {
     public function convert(string $file, ?Conversion $conversion = null): ?string
     {
+        if ($conversion->getManipulations()->getManipulationArgument('format') == "webm") {
+            return $file;
+        }
+
         $ffmpeg = FFMpeg::create([
             'ffmpeg.binaries' => config('media-library.ffmpeg_path'),
             'ffprobe.binaries' => config('media-library.ffprobe_path'),

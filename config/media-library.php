@@ -259,4 +259,6 @@ return [
      * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
     'prefix' => env('MEDIA_PREFIX', ''),
+
+    'convert_gif_to_webp_using_gif2webp' => false,
 ];
