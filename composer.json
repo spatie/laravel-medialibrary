@@ -33,7 +33,7 @@
         "illuminate/pipeline": "^10.0",
         "illuminate/support": "^10.0",
         "maennchen/zipstream-php": "^3.1",
-        "spatie/image": "^3.3.2",
+        "spatie/image": "dev-manipulating_animated_gifs",
         "spatie/laravel-package-tools": "^1.16.1",
         "spatie/temporary-directory": "^2.2",
         "symfony/console": "^6.4.1|^7.0"
@@ -55,6 +55,13 @@
         "spatie/pdf-to-image": "^2.2",
         "spatie/pest-plugin-snapshots": "^2.1"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "name": "spatie/image",
+            "url": "git@github.com:jhorie/image.git"
+        }
+    ],
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
     },

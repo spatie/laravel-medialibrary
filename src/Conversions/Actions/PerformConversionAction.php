@@ -46,7 +46,7 @@ class PerformConversionAction
         if ($shouldUseGif2WebpConverter) {
             $manipulatedFile = pathinfo($renamedFile, PATHINFO_DIRNAME) . '/' . (Str::random(32) . '.' . $media->extension);
             copy($renamedFile, $manipulatedFile);
-            exec("gif2webp " . $renamedFile . " -o " . $renamedFile);
+            exec("gif2webp -lossy " . $renamedFile . " -o " . $renamedFile);
         }
 
         if ($conversion->shouldGenerateResponsiveImages()) {

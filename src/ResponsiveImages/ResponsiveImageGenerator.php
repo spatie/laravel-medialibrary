@@ -110,7 +110,7 @@ class ResponsiveImageGenerator
         rename($tempDestination, $responsiveImagePath);
 
         if ($shouldUseGif2WebpConverter) {
-            exec("gif2webp " . $responsiveImagePath . " -o " . $responsiveImagePath);
+            exec("gif2webp -lossy " . $responsiveImagePath . " -o " . $responsiveImagePath);
         }
 
         $this->filesystem->copyToMediaLibrary($responsiveImagePath, $media, 'responsiveImages');
