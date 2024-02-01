@@ -241,11 +241,19 @@ trait InteractsWithMedia
     }
 
     /*
+     * Count media in the given collection.
+     */
+    public function countMedia(string $collectionName = 'default', array $filters = []): int
+    {
+        return count($this->getMedia($collectionName, $filters));
+    }
+
+    /*
      * Determine if there is media in the given collection.
      */
     public function hasMedia(string $collectionName = 'default', array $filters = []): bool
     {
-        return count($this->getMedia($collectionName, $filters)) ? true : false;
+        return $this->countMedia($collectionName, $filters) ? true : false;
     }
 
     /**
