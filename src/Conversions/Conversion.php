@@ -39,7 +39,7 @@ class Conversion
     public function __construct(
         protected string $name,
     ) {
-        $optimizerChain = OptimizerChainFactory::create(config('media-library.image_optimizers'));
+        $optimizerChain = OptimizerChainFactory::create(config('media-library.image_optimizers'))->setTimeout(config('media-library.image_optimizer_timeout') ?? 60);
 
         $this->manipulations = new Manipulations();
         $this->manipulations->optimize($optimizerChain)->format('jpg');
