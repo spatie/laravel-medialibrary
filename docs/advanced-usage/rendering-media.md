@@ -29,6 +29,16 @@ You can add extra attributes by calling `attributes`.
 Here is the image with some attributes: {{ $media->img()->attributes(['class' => 'my-class']) }}
 ```
 
+You may also pass an array of classes to the `class` attribute. This way, you can conditionally add classes where the key is the class name and the value is a boolean indicating whether the class should be added. Elements with a numeric key will always be added. Under the hood, this uses Laravel `Arr::toCssClasses()` [helper method](https://laravel.com/docs/10.x/helpers#method-array-to-css-classes).
+
+```blade
+Here is the image with some classes: {{ $media->img()->attributes(['class' => [
+    'my-class',
+    'my-other-class' => true,
+    'my-third-class' => false,
+]]) }}
+```
+
 If you want [defer loading offscreen images](https://css-tricks.com/native-lazy-loading/) you can use the `lazy` function.
 
  ```blade
