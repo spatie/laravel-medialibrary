@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\MediaCollections;
 
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Arr;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
@@ -23,6 +24,10 @@ class HtmlableMedia implements \Stringable, Htmlable
 
     public function attributes(array $attributes): self
     {
+        if (is_array($attributes['class'] ?? null)) {
+            $attributes['class'] = Arr::toCssClasses($attributes['class']);
+        }
+
         $this->extraAttributes = $attributes;
 
         return $this;
