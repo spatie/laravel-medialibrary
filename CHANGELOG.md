@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.3.0 - 2024-02-14
+
+### What's Changed
+
+* update docs to align with the latest changes in medialibrary-pro by @lukasleitsch in https://github.com/spatie/laravel-medialibrary/pull/3522
+* Support for passing an array of classes as extra attributes by @pascalbaljet in https://github.com/spatie/laravel-medialibrary/pull/3537
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.2.0...11.3.0
+
 ## 11.2.0 - 2024-01-29
 
 ### What's Changed
