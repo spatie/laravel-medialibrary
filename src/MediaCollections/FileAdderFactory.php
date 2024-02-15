@@ -40,7 +40,7 @@ class FileAdderFactory
     {
         return collect($keys)
             ->map(function (string $key) use ($subject) {
-                $key = preg_replace('/[^A-Za-z0-9_]/', '', $key);
+                $key =  trim(basename($key), './');
 
                 if (! request()->hasFile($key)) {
                     throw RequestDoesNotHaveFile::create($key);
