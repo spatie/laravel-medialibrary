@@ -28,6 +28,10 @@ class HtmlableMedia implements \Stringable, Htmlable
             $attributes['class'] = Arr::toCssClasses($attributes['class']);
         }
 
+        if (is_array($attributes['style'] ?? null)) {
+            $attributes['style'] = Arr::toCssStyles($attributes['style']);
+        }
+
         $this->extraAttributes = $attributes;
 
         return $this;
