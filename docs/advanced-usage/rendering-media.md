@@ -43,9 +43,9 @@ You may also pass an array of styles to the `style` attribute. This way, you can
 
 ```blade
 Here is the image with some styles: {{ $media->img()->attributes(['style' => [
-    'background-color: blue',
-    'color: blue',
-    'my-other-style: value' => true,
+    'my-style: value',
+    'my-other-style: value',
+    'my-third-style: value' => true,
 ]]) }}
 ```
 
