@@ -51,7 +51,7 @@ it('can render an array of styles as extra attributes', function () {
         '<img class="rounded border" src="/media/1/conversions/test-thumb.jpg" alt="test" style="background-color: blue; color: blue">',
         Media::first()->img('thumb', ['styles' => [
             'background-color: blue',
-            'color: blue',
+            'color: blue' => true,
             'width: 10px' => false,
         ]]),
     );
