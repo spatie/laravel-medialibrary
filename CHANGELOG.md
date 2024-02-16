@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.3.1 - 2024-02-16
+
+### What's Changed
+
+* Add Laravel 11 Support by @Jubeki in https://github.com/spatie/laravel-medialibrary/pull/3539
+* Refactored how download file name is determined within MediaStream by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3541
+* Refinement & Fix bugs by @TheXerr0r in https://github.com/spatie/laravel-medialibrary/pull/3540
+
+### New Contributors
+
+* @Jubeki made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3539
+* @TheXerr0r made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3540
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.3.0...11.3.1
+
 ## 11.3.0 - 2024-02-14
 
 ### What's Changed
