@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\MediaStream;
+use Spatie\MediaLibrary\Tests\TestSupport\TestMediaModel;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -42,6 +43,25 @@ it('can return a stream of multiple files with the same filename', function () {
     $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'test.jpg');
     $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'test (1).jpg');
     $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'test (2).jpg');
+});
+
+it('will respect the filename set by getDownloadFilename method', function () {
+    $zipStreamResponse = MediaStream::create('my-media.zip')
+        ->addMedia(Media::find(1))
+        ->addMedia(TestMediaModel::find(2))
+        ->addMedia(TestMediaModel::find(2));
+
+    ob_start();
+    @$zipStreamResponse->toResponse(request())->sendContent();
+    $content = ob_get_contents();
+    ob_end_clean();
+
+    $temporaryDirectory = (new TemporaryDirectory())->create();
+    file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+    $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'test.jpg');
+    $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'overriden_testing.jpg');
+    $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'overriden_testing (1).jpg');
 });
 
 test('media can be added to it one by one', function () {
