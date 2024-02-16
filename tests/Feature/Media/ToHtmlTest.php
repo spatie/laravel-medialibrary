@@ -52,6 +52,7 @@ it('can render an array of styles as extra attributes', function () {
         Media::first()->img('thumb', ['styles' => [
             'background-color: blue',
             'color: blue',
+            'width: 10px' => false,
         ]]),
     );
 });
