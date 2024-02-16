@@ -40,7 +40,7 @@ class FileAdderFactory
     {
         return collect($keys)
             ->map(function (string $key) use ($subject) {
-                $key =  trim(basename($key), './');
+                $key = trim(basename($key), './');
 
                 if (! request()->hasFile($key)) {
                     throw RequestDoesNotHaveFile::create($key);

@@ -12,7 +12,7 @@ class File
 
         $index = min(count($units) - 1, floor(log(abs($sizeInBytes), 1024)));
 
-        return sprintf("%s %s", round(num: abs($sizeInBytes) / (1024 ** $index), precision: 2), $units[$index]);
+        return sprintf('%s %s', round(num: abs($sizeInBytes) / (1024 ** $index), precision: 2), $units[$index]);
     }
 
     public static function getMimeType(string $path): string
