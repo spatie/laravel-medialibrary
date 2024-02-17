@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.0 - 2024-02-17
+
+### What's Changed
+
+* Leave the ability to override media model in InteractsWithMedia trait by @illambo in https://github.com/spatie/laravel-medialibrary/pull/3543
+
+### New Contributors
+
+* @illambo made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3543
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.3.1...11.4.0
+
 ## 11.3.1 - 2024-02-16
 
 ### What's Changed
