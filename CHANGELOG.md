@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.1 - 2024-02-17
+
+### What's Changed
+
+* Update defining-conversions.md by @misaf in https://github.com/spatie/laravel-medialibrary/pull/3544
+* Support for passing an array of styles as extra attributes by @misaf in https://github.com/spatie/laravel-medialibrary/pull/3542
+
+### New Contributors
+
+* @misaf made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3544
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.0...11.4.1
+
 ## 11.4.0 - 2024-02-17
 
 ### What's Changed
