@@ -48,7 +48,7 @@ it('can render an array of classes as extra attributes', function () {
 
 it('can render an array of styles as extra attributes', function () {
     $this->assertEquals(
-        '<img class="rounded border" src="/media/1/conversions/test-thumb.jpg" alt="test" style="background-color: blue; color: blue">',
+        '<img class="rounded border" src="/media/1/conversions/test-thumb.jpg" alt="test" style="background-color: blue; color: blue;">',
         Media::first()->img('thumb', ['style' => [
             'background-color: blue',
             'color: blue' => true,
