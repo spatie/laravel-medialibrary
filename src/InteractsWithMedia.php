@@ -58,7 +58,7 @@ trait InteractsWithMedia
 
     public function media(): MorphMany
     {
-        return $this->morphMany(config('media-library.media_model'), 'model');
+        return $this->morphMany($this->getMediaModel(), 'model');
     }
 
     /**
@@ -263,6 +263,11 @@ trait InteractsWithMedia
         return app(MediaRepository::class);
     }
 
+    public function getMediaModel(): string
+    {
+        return config('media-library.media_model');
+    }
+
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
         $media = $this->getMedia($collectionName, $filters);
@@ -378,7 +383,7 @@ trait InteractsWithMedia
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = $this->getMediaModel();
         $mediaInstance = new $mediaClass();
         $keyName = $mediaInstance->getKeyName();
 
