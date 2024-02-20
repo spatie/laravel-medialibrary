@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.3 - 2024-02-20
+
+### What's Changed
+
+* FileAdder - Resolve media model from subject and reinforce HasMedia contract by @illambo in https://github.com/spatie/laravel-medialibrary/pull/3547
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.2...11.4.3
+
 ## 11.4.2 - 2024-02-20
 
 ### What's Changed
