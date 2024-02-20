@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.2 - 2024-02-20
+
+### What's Changed
+
+* Clarify that class is resolved using service container by @bram-pkg in https://github.com/spatie/laravel-medialibrary/pull/3548
+* Fix DivisionByZeroError in File::getHumanReadable() by @ziming in https://github.com/spatie/laravel-medialibrary/pull/3549
+
+### New Contributors
+
+* @bram-pkg made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3548
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.1...11.4.2
+
 ## 11.4.1 - 2024-02-17
 
 ### What's Changed
