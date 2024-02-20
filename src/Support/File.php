@@ -10,7 +10,8 @@ class File
     {
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-        if ($sizeInBytes === 0) {
+        // 0 === 0.00 return false so use double equals
+        if ($sizeInBytes == 0) {
             return '0 '.$units[0];
         }
 
