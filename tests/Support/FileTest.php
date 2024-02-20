@@ -3,6 +3,7 @@
 use Spatie\MediaLibrary\Support\File;
 
 it('can determine a human readable filesize', function () {
+    expect(File::getHumanReadableSize(0))->toEqual('0 B');
     expect(File::getHumanReadableSize(10))->toEqual('10 B');
     expect(File::getHumanReadableSize(100))->toEqual('100 B');
     expect(File::getHumanReadableSize(1000))->toEqual('1000 B');
