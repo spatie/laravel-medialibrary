@@ -65,20 +65,25 @@ test('generated conversion are cleared after cleanup', function () {
     Media::where('id', '<>', $media->id)->delete();
 
     $media->markAsConversionGenerated('test-deprecated');
+    $media->markAsConversionGenerated('test.deprecated');
 
     $media->save();
 
     expect($media->refresh()->hasGeneratedConversion('test-deprecated'))->toBeTrue();
+    expect($media->refresh()->hasGeneratedConversion('test.deprecated'))->toBeTrue();
 
-    $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
+    $deprecatedImage1 = $this->getMediaDirectory("{$media->id}/conversions/test-deprecated.jpg");
+    $deprecatedImage2 = $this->getMediaDirectory("{$media->id}/conversions/test.deprecated.jpg");
 
-    touch($deprecatedImage);
+    touch($deprecatedImage1);
+    touch($deprecatedImage2);
 
     $this->artisan('media-library:clean');
 
     $media->refresh();
 
     expect($media->hasGeneratedConversion('test-deprecated'))->toBeFalse();
+    expect($media->hasGeneratedConversion('test.deprecated'))->toBeFalse();
 });
 
 it('can clean deprecated conversion files from a specific model type', function () {

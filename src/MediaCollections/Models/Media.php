@@ -306,9 +306,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function hasGeneratedConversion(string $conversionName): bool
     {
-        $generatedConversions = $this->getGeneratedConversions();
+        $generatedConversions = $this->generated_conversions;
 
-        return $generatedConversions[$conversionName] ?? false;
+        return Arr::get($generatedConversions, $conversionName, false);
     }
 
     public function setStreamChunkSize(int $chunkSize)
