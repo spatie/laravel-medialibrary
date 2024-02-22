@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.4 - 2024-02-22
+
+### What's Changed
+
+* Fix handling of dots in conversion names for clean command by @sebastianpopp in https://github.com/spatie/laravel-medialibrary/pull/3551
+
+### New Contributors
+
+* @sebastianpopp made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3551
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.3...11.4.4
+
 ## 11.4.3 - 2024-02-20
 
 ### What's Changed
