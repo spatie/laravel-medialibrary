@@ -71,11 +71,11 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables()
     {
-        if (! file_exists(__DIR__.'/../.getenv')) {
+        if (!file_exists(__DIR__ . '/../.getenv')) {
             return;
         }
 
-        $dotEnv = Dotgetenv::createImmutable(__DIR__.'/..');
+        $dotEnv = Dotgetenv::createImmutable(__DIR__ . '/..');
 
         $dotEnv->load();
     }
@@ -126,7 +126,7 @@ abstract class TestCase extends Orchestra
         $this->setupS3($app);
         $this->setUpMorphMap();
 
-        config()->set('view.paths', [__DIR__.'/TestSupport/resources/views']);
+        config()->set('view.paths', [__DIR__ . '/TestSupport/resources/views']);
     }
 
     /**
@@ -144,11 +144,11 @@ abstract class TestCase extends Orchestra
         TestModel::create(['name' => 'test']);
 
         if (MediaLibraryPro::isInstalled()) {
-            include_once __DIR__.'/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
+            include_once __DIR__ . '/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
             (new CreateTemporaryUploadsTable())->up();
         }
 
-        $mediaTableMigration = require __DIR__.'/../database/migrations/create_media_table.php.stub';
+        $mediaTableMigration = require __DIR__ . '/../database/migrations/create_media_table.php.stub';
 
         $mediaTableMigration->up();
     }
@@ -156,7 +156,7 @@ abstract class TestCase extends Orchestra
     protected function setUpTempTestFiles()
     {
         $this->initializeDirectory($this->getTestFilesDirectory());
-        File::copyDirectory(__DIR__.'/TestSupport/testfiles', $this->getTestFilesDirectory());
+        File::copyDirectory(__DIR__ . '/TestSupport/testfiles', $this->getTestFilesDirectory());
     }
 
     protected function initializeDirectory($directory)
@@ -173,22 +173,22 @@ abstract class TestCase extends Orchestra
             $suffix = "/{$suffix}";
         }
 
-        return __DIR__.$suffix;
+        return __DIR__ . $suffix;
     }
 
     public function getTempDirectory(string $suffix = ''): string
     {
-        return __DIR__.'/TestSupport/temp'.($suffix == '' ? '' : '/'.$suffix);
+        return __DIR__ . '/TestSupport/temp' . ($suffix == '' ? '' : '/' . $suffix);
     }
 
     public function getMediaDirectory(string $suffix = ''): string
     {
-        return $this->getTempDirectory().'/media'.($suffix == '' ? '' : '/'.$suffix);
+        return $this->getTempDirectory() . '/media' . ($suffix == '' ? '' : '/' . $suffix);
     }
 
     public function getTestFilesDirectory(string $suffix = ''): string
     {
-        return $this->getTempDirectory().'/testfiles'.($suffix == '' ? '' : '/'.$suffix);
+        return $this->getTempDirectory() . '/testfiles' . ($suffix == '' ? '' : '/' . $suffix);
     }
 
     public function getTestJpg(): string
@@ -264,6 +264,11 @@ abstract class TestCase extends Orchestra
     public function getAntaresThumbJpgWithAccent(): string
     {
         return $this->getTestFilesDirectory('antarèsthumb.jpg');
+    }
+
+    public function getTestImageWithOrientation(): string
+    {
+        return $this->getTestFilesDirectory('testOrientation.jpg');
     }
 
     private function setUpMorphMap(): void
