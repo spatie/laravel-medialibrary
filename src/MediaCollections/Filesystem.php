@@ -242,7 +242,7 @@ class Filesystem
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            fn (string $path) => Str::contains($path, $conversionName)
+            fn (string $path) => Str::contains($path, $media->name) && Str::contains($path, $conversionName)
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
