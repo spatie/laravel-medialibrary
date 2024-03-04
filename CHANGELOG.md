@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.5 - 2024-03-04
+
+### What's Changed
+
+* fixes responsive images wiped on some circumstances by @inalto in https://github.com/spatie/laravel-medialibrary/pull/3558
+
+### New Contributors
+
+* @inalto made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3558
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.4...11.4.5
+
 ## 11.4.4 - 2024-02-22
 
 ### What's Changed
