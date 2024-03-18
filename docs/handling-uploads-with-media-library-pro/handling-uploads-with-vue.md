@@ -282,8 +282,6 @@ The Media Library supports [custom properties](/docs/laravel-medialibrary/v11/ad
 
 Use the `fields` scoped slot to add some fields:
 
-**Vue 3**
-
 ```html
 <media-library-collection name="images" :initial-value="{{ $images }}">
     <template
@@ -342,8 +340,6 @@ When you add an image to your collection, it will look like this.
 When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or collection component).
 
 You can customize what is displayed here by using the `properties` scoped slot:
-
-**Vue 3**
 
 ```html
 <media-library-attachment
