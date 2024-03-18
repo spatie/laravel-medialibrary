@@ -60,7 +60,7 @@ Lazy loading this one: {{ $media()->lazy() }}
 You can customize the rendered output even further by publishing the `views` with:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="views"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="media-library-views"
 ```
 
 The following files will be published in the `resources/views/vendor/media-library` directory:
