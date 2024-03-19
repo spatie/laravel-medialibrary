@@ -64,7 +64,8 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
     resolve: {
         alias: {
-            'media-library-pro': '/vendor/spatie/laravel-medialibrary-pro/resources/js',
+            'media-library-pro-react-attachment': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-react-attachment',
+            'media-library-pro-react-collection': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-react-collection',
         }
     },
     plugins: [
@@ -105,8 +106,8 @@ The most basic components have a `name` prop. This name will be used to identify
 ```jsx
 // MyImageUploader.jsx
 
-import { MediaLibraryAttachment } from "media-library-pro/media-library-pro-react-attachment";
-import { MediaLibraryCollection } from "media-library-pro/media-library-pro-react-collection";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
+import { MediaLibraryCollection } from "media-library-pro-react-collection";
 
 export default function MyImageUploader() {
     return (
@@ -185,7 +186,7 @@ See the [Validation rules section](#validation-rules) for a complete list of all
 The components keep track of whether they're ready to be submitted, you can use this to disable a submit button while a file is still uploading or when there are frontend validation errors. This value can be tracked by passing a listener method to the `onIsReadyToSubmitChange` prop. If you submit a form while a file is uploading, Laravel will return a HTTP 500 error with an `invalid uuid` message.
 
 ```jsx
-import { MediaLibraryAttachment } from "media-library-pro/media-library-pro-react-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 
 function AvatarComponent() {
     const [isReadyToSubmit, setIsReadyToSubmit] = useState(true);
@@ -329,7 +330,7 @@ When using the components in repository that uses Inertia, the setup is very sim
 
 ```jsx
 import React, { useState } from "react";
-import { MediaLibraryAttachment } from "media-library-pro/media-library-pro-react-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 import { usePage } from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
 

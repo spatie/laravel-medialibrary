@@ -32,7 +32,8 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
     resolve: {
         alias: {
-            'media-library-pro': '/vendor/spatie/laravel-medialibrary-pro/resources/js',
+            'media-library-pro-vue3-attachment': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-vue3-attachment',
+            'media-library-pro-vue3-collection': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-vue3-collection',
             'vue': 'vue/dist/vue.esm-bundler.js',
         }
     },
@@ -89,8 +90,8 @@ To use a component in your Blade templates, import the components you plan to us
 
 ```js
 import { createApp } from "vue";
-import { MediaLibraryAttachment } from "media-library-pro/media-library-pro-vue3-attachment";
-import { MediaLibraryCollection } from "media-library-pro/media-library-pro-vue3-collection";
+import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
 createApp({
     components: {
@@ -128,8 +129,8 @@ You may also choose to import the components on the fly in a `.vue` file.
 </template>
 
 <script>
-    import { MediaLibraryAttachment } from "media-library-pro/media-library-pro-vue3-attachment";
-    import { MediaLibraryCollection } from "media-library-pro/media-library-pro-vue3-collection";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
     export default {
         components: {
@@ -171,8 +172,8 @@ The most basic components have a `name` prop. This name will be used to identify
 </template>
 
 <script>
-    import { MediaLibraryAttachment } from "media-library-pro/media-library-pro-vue3-attachment";
-    import { MediaLibraryCollection } from "media-library-pro/media-library-pro-vue3-collection";
+    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
+    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
 
     export default {
         components: {
