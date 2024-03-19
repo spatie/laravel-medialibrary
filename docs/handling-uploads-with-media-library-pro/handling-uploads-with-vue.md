@@ -21,6 +21,39 @@ In [this repo on GitHub](https://github.com/spatie/laravel-medialibrary-pro-app)
 
 If you are having troubles using the components, take a look in that app to see how we've done it.
 
+## Setup Vite
+If you are using Vite, your `vite.config.js` look something like this:
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
+
+export default defineConfig({
+    resolve: {
+        alias: {
+            'media-library-pro-vue3-attachment': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-vue3-attachment',
+            'media-library-pro-vue3-collection': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-vue3-collection',
+            'vue': 'vue/dist/vue.esm-bundler.js',
+        }
+    },
+    plugins: [
+        laravel([
+            'resources/js/app.js',
+        ]),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
+    ],
+});
+
+```
+
 ## Basic setup
 
 First, the server needs to be able to catch your incoming uploads. Use the `mediaLibrary` macro in your routes file.
@@ -51,59 +84,9 @@ The Vue components post data to `/media-library-pro/uploads` by default. If you 
 
 The components aren't available through npm, but are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
 
-_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./installation#usage-in-a-frontend-repository)_
-
-**laravel-mix >6**
-
-```js
-// webpack.mix.js
-
-mix.override((webpackConfig) => {
-    webpackConfig.resolve.modules = [
-        "node_modules",
-        __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
-    ];
-});
-```
-
-**laravel-mix <6**
-
-```js
-// webpack.mix.js
-
-mix.webpackConfig({
-    resolve: {
-        modules: [
-            "node_modules",
-            __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
-        ],
-    },
-});
-```
-
-This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import.
-
-```js
-import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
-```
-
-If you're using TypeScript, you will also have to add this to your tsconfig:
-
-```json
-// tsconfig.json
-
-{
-    "compilerOptions": {
-        "paths": {
-            "*": ["*", "vendor/spatie/laravel-medialibrary-pro/resources/js/*"]
-        }
-    }
-}
-```
+_If you're developing a project where you don't have access to composer, you can download the package through GitHub Packages: [installation steps](./usage-in-a-frontend-repository)_
 
 To use a component in your Blade templates, import the components you plan to use in your `app.js` file, and add them to your main Vue app's `components` object.
-
-**Vue 3**
 
 ```js
 import { createApp } from "vue";
@@ -158,49 +141,6 @@ You may also choose to import the components on the fly in a `.vue` file.
 </script>
 ```
 
-## Vite
-If you are using vite, you need to import an alias to the `vite.config.js`  and some little changes to your Vue component.
-
-```diff
-// vite.config.js
-
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import vue from '@vitejs/plugin-vue';
-
-export default defineConfig({
-    ...
-    resolve: {
-        alias: {
-            '@': '/resources/js',
-+           'spatie-media-lib-pro': '/vendor/spatie/laravel-medialibrary-pro/resources/js',
-        },
-    },
-});
-```
-
-**Component changes Vue2**
-
-```diff
-...
--    import { MediaLibraryAttachment } from "media-library-pro-vue2-attachment";
-+    import { MediaLibraryAttachment } from "spatie-media-lib-pro/media-library-pro-vue2-attachment";
--    import { MediaLibraryCollection } from "media-library-pro-vue2-collection";
-+    import { MediaLibraryCollection } from "spatie-media-lib-pro/media-library-pro-vue2-collection";
-...
-```
-
-**Component changes Vue3**
-
-```diff
-...
--    import { MediaLibraryAttachment } from "media-library-pro-vue3-attachment";
-+    import { MediaLibraryAttachment } from "spatie-media-lib-pro/media-library-pro-vue3-attachment";
--    import { MediaLibraryCollection } from "media-library-pro-vue3-collection";
-+    import { MediaLibraryCollection } from "spatie-media-lib-pro/media-library-pro-vue3-collection";
-...
-```
-
 **CSS Import for SPA use**
 
 If you are using a SPA you can import the CSS into `app.js` like this:
@@ -209,7 +149,7 @@ If you are using a SPA you can import the CSS into `app.js` like this:
 // resources/js/app.js
 import './bootstrap';
 import '../css/app.css';
-+import 'spatie-media-lib-pro/media-library-pro-styles/src/styles.css';
++import 'media-library-pro/media-library-pro-styles/src/styles.css';
 ...
 ```
 
@@ -343,8 +283,6 @@ The Media Library supports [custom properties](/docs/laravel-medialibrary/v11/ad
 
 Use the `fields` scoped slot to add some fields:
 
-**Vue 3**
-
 ```html
 <media-library-collection name="images" :initial-value="{{ $images }}">
     <template
@@ -403,8 +341,6 @@ When you add an image to your collection, it will look like this.
 When uploading a file, some properties appear by default: its extension, filesize and a remove or download button (respectively for the attachment or collection component).
 
 You can customize what is displayed here by using the `properties` scoped slot:
-
-**Vue 3**
 
 ```html
 <media-library-attachment

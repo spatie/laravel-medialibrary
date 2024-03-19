@@ -13,7 +13,7 @@ For more extensive examples, [see the pre-built UI components on GitHub](https:/
 
 ```jsx
 import * as React from "react";
-import { useMediaLibrary } from "media-library-pro-react";
+import { useMediaLibrary } from "media-library-pro/media-library-pro-react";
 
 export default function MediaLibraryAttachment() {
     const {

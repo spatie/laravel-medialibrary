@@ -47,7 +47,7 @@ For more extensive examples, [see the pre-built UI components on GitHub](https:/
 </template>
 
 <script>
-    import { MediaLibraryRenderless } from 'media-library-pro-vue2';
+    import { MediaLibraryRenderless } from "media-library-pro/media-library-pro-vue3";
 
     export default{
         components: { MediaLibraryRenderless },
