@@ -394,7 +394,7 @@ use Spatie\Image\Enums\Fit;
 
 // in a service provider
 TemporaryUpload::previewManipulation(function(Conversion $conversion) {
-    $conversion->fit(FIT::CROP, 300, 300);
+    $conversion->fit(Fit::CROP, 300, 300);
 });
 ```
 
