@@ -60,34 +60,17 @@ class Manipulations
     public function apply(ImageDriver $image): void
     {
         foreach ($this->manipulations as $manipulationName => $parameters) {
-            switch($manipulationName){
-                case 'border':
-                    (isset($parameters['type'])) && $parameters['type'] = BorderType::from($parameters['type']) ;
-                    break;
-                case 'watermark':
-                    (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']);
-                case 'resizeCanvas':
-                case 'insert':
-                    (isset($parameters['position'])) && $parameters['position'] = AlignPosition::from($parameters['position']);
-                    break;
-                case 'pickColor':
-                    (isset($parameters['colorFormat'])) && $parameters['colorFormat'] = ColorFormat::from($parameters['colorFormat']);
-                    break;
-                case 'resize':
-                case 'width':
-                case 'height':
-                    (isset($parameters['constraints'])) && $parameters['constraints'] = Constraint::from($parameters['constraints']);
-                    break;
-                case 'crop':
-                    (isset($parameters['position'])) && $parameters['position'] = CropPosition::from($parameters['position']);
-                    break;
-                case 'fit':
-                    (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']);
-                    break;
-                case 'flip':
-                    (isset($parameters['flip'])) && $parameters['flip'] = FlipDirection::from($parameters['flip']);
-                    break;
-            }
+            match($manipulationName){
+                'border' => (isset($parameters['type'])) && $parameters['type'] = BorderType::from($parameters['type']),
+                'watermark' => (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']),
+                'watermark','resizeCanvas','insert' => (isset($parameters['position'])) && $parameters['position'] = AlignPosition::from($parameters['position']),
+                'pickColor' => (isset($parameters['colorFormat'])) && $parameters['colorFormat'] = ColorFormat::from($parameters['colorFormat']),
+                'resize','width','height' => (isset($parameters['constraints'])) && $parameters['constraints'] = Constraint::from($parameters['constraints']),
+                'crop' => (isset($parameters['position'])) && $parameters['position'] = CropPosition::from($parameters['position']),
+                'fit' => (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']),
+                'flip' => (isset($parameters['flip'])) && $parameters['flip'] = FlipDirection::from($parameters['flip']),
+                default => ''
+            };
             $image->$manipulationName(...$parameters);
         }
     }
