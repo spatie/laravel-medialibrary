@@ -60,13 +60,34 @@ class Manipulations
     public function apply(ImageDriver $image): void
     {
         foreach ($this->manipulations as $manipulationName => $parameters) {
-            (isset($parameters['type'])) && $parameters['type'] = BorderType::from($parameters['type']);
-            (isset($parameters['position'])) && $parameters['position'] = AlignPosition::from($parameters['position']);
-            (isset($parameters['colorFormat'])) && $parameters['colorFormat'] = ColorFormat::from($parameters['colorFormat']);
-            (isset($parameters['constraints'])) && $parameters['constraints'] = Constraint::from($parameters['constraints']);
-            (isset($parameters['position'])) && $parameters['position'] = CropPosition::from($parameters['position']);
-            (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']);
-            (isset($parameters['flip'])) && $parameters['flip'] = FlipDirection::from($parameters['flip']);
+            switch($manipulationName){
+                case 'border':
+                    (isset($parameters['type'])) && $parameters['type'] = BorderType::from($parameters['type']) ;
+                    break;
+                case 'watermark':
+                    (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']);
+                case 'resizeCanvas':
+                case 'insert':
+                    (isset($parameters['position'])) && $parameters['position'] = AlignPosition::from($parameters['position']);
+                    break;
+                case 'pickColor':
+                    (isset($parameters['colorFormat'])) && $parameters['colorFormat'] = ColorFormat::from($parameters['colorFormat']);
+                    break;
+                case 'resize':
+                case 'width':
+                case 'height':
+                    (isset($parameters['constraints'])) && $parameters['constraints'] = Constraint::from($parameters['constraints']);
+                    break;
+                case 'crop':
+                    (isset($parameters['position'])) && $parameters['position'] = CropPosition::from($parameters['position']);
+                    break;
+                case 'fit':
+                    (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']);
+                    break;
+                case 'flip':
+                    (isset($parameters['flip'])) && $parameters['flip'] = FlipDirection::from($parameters['flip']);
+                    break;
+            }
             $image->$manipulationName(...$parameters);
         }
     }
