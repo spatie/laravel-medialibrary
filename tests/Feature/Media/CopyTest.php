@@ -148,3 +148,18 @@ it('preserves original file on copy media item to model', function () {
     expect($media->getPath())->toBeFile();
     expect($anotherMedia->getPath())->toBeFile();
 });
+
+it('can copy media with manipulations', function () {
+    $model = TestModel::create(['name' => 'original']);
+
+    $media = $model
+        ->addMedia($this->getTestJpg())
+        ->withManipulations(['thumb' => ['greyscale' => [], 'height' => [10]]])
+        ->toMediaCollection();
+
+    $anotherModel = TestModel::create(['name' => 'target']);
+
+    $anotherMedia = $media->copy($anotherModel);
+
+    expect($media->manipulations)->toEqual($anotherMedia->manipulations);
+});
