@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.7 - 2024-04-24
+
+### What's Changed
+
+* Update installation-setup.md by @jozeflambrecht in https://github.com/spatie/laravel-medialibrary/pull/3571
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.0.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3573
+* Update create_media_table.php.stub by @farishrf in https://github.com/spatie/laravel-medialibrary/pull/3578
+* docs: update to use Fit enum by @dfreerzf in https://github.com/spatie/laravel-medialibrary/pull/3585
+* Copy media with manipulations by @MrMeshok in https://github.com/spatie/laravel-medialibrary/pull/3590
+
+### New Contributors
+
+* @jozeflambrecht made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3571
+* @farishrf made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3578
+* @dfreerzf made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3585
+* @MrMeshok made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3590
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.6...11.4.7
+
 ## 11.4.6 - 2024-03-19
 
 ### What's Changed
