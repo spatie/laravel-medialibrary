@@ -34,6 +34,12 @@ Since retrieving the first media and the URL for the first media for an object i
 $media = $yourModel->getFirstMedia();
 $url = $yourModel->getFirstMediaUrl();
 ```
+We can use the `getLastMedia` and `getLastMediaUrl` method as well.
+
+```php
+$media = $yourModel->getLastMedia();
+$url = $yourModel->getLastMediaUrl();
+```
 
 An instance of `Media` also has a name, by default its filename:
 

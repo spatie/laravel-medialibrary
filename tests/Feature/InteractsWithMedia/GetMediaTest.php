@@ -143,6 +143,18 @@ it('can get the first media from a collection', function () {
     expect($this->testModel->getFirstMedia('images')->name)->toEqual('first');
 });
 
+it('can get the last media from a collection', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $media->name = 'first';
+    $media->save();
+
+    $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $media->name = 'second';
+    $media->save();
+
+    expect($this->testModel->getLastMedia('images')->name)->toEqual('second');
+});
+
 it('can get the first media from a collection using a filter', function () {
     $media = $this->testModel
         ->addMedia($this->getTestJpg())
@@ -160,6 +172,25 @@ it('can get the first media from a collection using a filter', function () {
     $media->save();
 
     expect($this->testModel->getFirstMedia('images', ['extra_property' => 'yes'])->name)->toEqual('first');
+});
+
+it('can get the last media from a collection using a filter', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'first';
+    $media->save();
+
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withCustomProperties(['extra_property' => 'yes'])
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'second';
+    $media->save();
+
+    expect($this->testModel->getLastMedia('images', ['extra_property' => 'yes'])->name)->toEqual('second');
 });
 
 it('can get the first media from a collection using a filter callback', function () {
@@ -183,6 +214,27 @@ it('can get the first media from a collection using a filter callback', function
     expect($firstMedia->name)->toEqual('first');
 });
 
+it('can get the last media from a collection using a filter callback', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'first';
+    $media->save();
+
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withCustomProperties(['extra_property' => 'yes'])
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'second';
+    $media->save();
+
+    $firstMedia = $this->testModel->getLastMedia('images', fn (Media $media) => isset($media->custom_properties['extra_property']));
+
+    expect($firstMedia->name)->toEqual('second');
+});
+
 it('can get the url to first media in a collection', function () {
     $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
     $firstMedia->save();
@@ -191,6 +243,16 @@ it('can get the url to first media in a collection', function () {
     $secondMedia->save();
 
     expect($this->testModel->getFirstMediaUrl('images'))->toEqual($firstMedia->getUrl());
+});
+
+it('can get the url to last media in a collection', function () {
+    $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $firstMedia->save();
+
+    $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $secondMedia->save();
+
+    expect($this->testModel->getLastMediaUrl('images'))->toEqual($secondMedia->getUrl());
 });
 
 it('can get the path to first media in a collection', function () {
@@ -203,6 +265,16 @@ it('can get the path to first media in a collection', function () {
     expect($this->testModel->getFirstMediaPath('images'))->toEqual($firstMedia->getPath());
 });
 
+it('can get the path to last media in a collection', function () {
+    $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $firstMedia->save();
+
+    $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $secondMedia->save();
+
+    expect($this->testModel->getLastMediaPath('images'))->toEqual($secondMedia->getPath());
+});
+
 it('can get the default path to the first media in a collection', function ($conversionName, $expectedPath) {
     expect($this->testModel->getFirstMediaPath('avatar', $conversionName))->toEqual($expectedPath);
 })->with([
@@ -212,7 +284,25 @@ it('can get the default path to the first media in a collection', function ($con
     ['avatar_thumb', '/default-avatar-thumb-path.jpg'],
 ]);
 
+it('can get the default path to the last media in a collection', function ($conversionName, $expectedPath) {
+    expect($this->testModel->getLastMediaPath('avatar', $conversionName))->toEqual($expectedPath);
+})->with([
+    ['', '/default-path.jpg'],
+    ['default', '/default-path.jpg'],
+    ['foo', '/default-path.jpg'],
+    ['avatar_thumb', '/default-avatar-thumb-path.jpg'],
+]);
+
 it('can get the default url to the first media in a collection', function ($conversionName, $expectedUrl) {
+    expect($this->testModel->getFirstMediaUrl('avatar', $conversionName))->toEqual($expectedUrl);
+})->with([
+    ['', '/default-url.jpg'],
+    ['default', '/default-url.jpg'],
+    ['foo', '/default-url.jpg'],
+    ['avatar_thumb', '/default-avatar-thumb-url.jpg'],
+]);
+
+it('can get the default url to the last media in a collection', function ($conversionName, $expectedUrl) {
     expect($this->testModel->getFirstMediaUrl('avatar', $conversionName))->toEqual($expectedUrl);
 })->with([
     ['', '/default-url.jpg'],
@@ -232,6 +322,19 @@ it('can get the default path to the first media in a collection if conversion no
     $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
     expect($this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'))->toEqual($this->getMediaDirectory("{$media->id}/test.jpg"));
+});
+
+it('can get the default path to the last media in a collection if conversion not marked as generated yet', function () {
+    $media = $this
+        ->testModelWithConversionQueued
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('avatar');
+
+    $avatarThumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-avatar_thumb.jpg");
+    unlink($avatarThumbConversion);
+    $this->testModelWithConversionQueued->getLastMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
+
+    expect($this->testModelWithConversionQueued->getLastMediaPath('avatar', 'avatar_thumb'))->toEqual($this->getMediaDirectory("{$media->id}/test.jpg"));
 });
 
 it('can get the correct path to the converted media in a collection if conversion is marked as generated', function () {
@@ -258,6 +361,19 @@ it('can get the default url to the first media in a collection if conversion not
     $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
     expect($this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'))->toEqual("/media/{$media->id}/test.jpg");
+});
+
+it('can get the default url to the last media in a collection if conversion not marked as generated yet', function () {
+    $media = $this
+        ->testModelWithConversionQueued
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('avatar');
+
+    $avatarThumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-avatar_thumb.jpg");
+    unlink($avatarThumbConversion);
+    $this->testModelWithConversionQueued->getLastMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
+
+    expect($this->testModelWithConversionQueued->getLastMediaUrl('avatar', 'avatar_thumb'))->toEqual("/media/{$media->id}/test.jpg");
 });
 
 it('will return preloaded media sorting on order column', function () {
@@ -314,6 +430,10 @@ it('will cache loaded media', function () {
 
 it('returns null when getting first media for an empty collection', function () {
     expect($this->testModel->getFirstMedia())->toBeNull();
+});
+
+it('returns null when getting last media for an empty collection', function () {
+    expect($this->testModel->getLastMedia())->toBeNull();
 });
 
 it('can serialize model', function () {

@@ -141,6 +141,16 @@ it('can get the temporary url to first media in a collection', function () {
     expect($this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
 });
 
+it('can get the temporary url to last media in a collection', function () {
+    $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
+    $firstMedia->save();
+
+    $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
+    $secondMedia->save();
+
+    expect($this->testModel->getLastTemporaryUrl(Carbon::now()->addMinutes(5), 'images'))->toEqual($secondMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+});
+
 it('retrieves a temporary media conversion url from s3', function () {
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestJpg())
