@@ -23,8 +23,8 @@ it('will create derived files when manipulations have changed', function () {
 
     $media->manipulations = [
         'update_test' => [
-            'width' => 1,
-            'height' => 1,
+            'width' => [1],
+            'height' => [1],
         ],
     ];
 
@@ -51,9 +51,10 @@ it('will not create derived files when manipulations have not changed', function
 
     $media->manipulations = [
         'update_test' => [
-            'width' => 1,
-            'height' => 1,
-        ], ];
+            'width' => [1],
+            'height' => [1],
+        ],
+    ];
 
     $media->save();
 
@@ -63,9 +64,10 @@ it('will not create derived files when manipulations have not changed', function
 
     $media->manipulations = [
         'update_test' => [
-            'width' => 1,
-            'height' => 1,
-        ], ];
+            'width' => [1],
+            'height' => [1],
+        ],
+    ];
 
     $media->updated_at = now()->addSecond();
 
