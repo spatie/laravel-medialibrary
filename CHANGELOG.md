@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.4.8 - 2024-05-06
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.0.0 to 2.1.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3596
+* Remove temp/cache files by @patinthehat in https://github.com/spatie/laravel-medialibrary/pull/3595
+* Fix - Supported format from original file by @lguichard in https://github.com/spatie/laravel-medialibrary/pull/3592
+* Fix manipulations not applying to non default collections by @MrMeshok in https://github.com/spatie/laravel-medialibrary/pull/3589
+
+### New Contributors
+
+* @lguichard made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3592
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.7...11.4.8
+
 ## 11.4.7 - 2024-04-24
 
 ### What's Changed
