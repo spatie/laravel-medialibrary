@@ -135,6 +135,25 @@ This macro will add the routes to controllers that accept file uploads for all c
 
 You have a couple of options for how you can use the UI components' CSS, depending on your and your project's needs:
 
+### Using Vite
+In your vite.config.js file you can add an alias to the Medialibrary Pro css file:
+
+```javascript
+export default defineConfig({
+    resolve: {
+        alias: {
+            'media-library-pro-styles': __dirname + '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles/src/styles.css',
+        }
+    }
+});
+```
+
+This will allow you to import the file in your own css file like this:
+```css
+@import "media-library-pro-styles";
+```
+
+
 ### Directly in Blade/HTML
 
 You should copy the built CSS from `vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-styles/dist/styles.css` into your `public` folder, and then use a `link` tag in your blade/html to get it: `<link rel="stylesheet" href="{{ asset('css/main.css') }}">`.
