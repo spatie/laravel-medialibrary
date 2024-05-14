@@ -99,6 +99,16 @@ php artisan migrate
 
 If you are using Media Library Pro, you must schedule this artisan command in `app/Console/Kernel` to automatically delete temporary uploads
 
+### Laravel >= 11
+```php
+// in bootstrap/app.php
+
+->withSchedule(function (Schedule $schedule) {
+    $schedule->command('media-library:delete-old-temporary-uploads')->daily();
+})
+```
+
+### Laravel < 11
 ```php
 // in app/Console/Kernel.php
 
