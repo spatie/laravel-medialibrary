@@ -9,9 +9,9 @@ class DefaultDownloader implements Downloader
     public function getTempFile(string $url): string
     {
         $context = stream_context_create([
-            "ssl" => [
-                "verify_peer" => config('media-library.ssl'),
-                "verify_peer_name" => config('media-library.ssl')
+            'ssl' => [
+                'verify_peer' => config('media-library.ssl'),
+                'verify_peer_name' => config('media-library.ssl'),
             ],
             'http' => [
                 'header' => 'User-Agent: Spatie MediaLibrary',
