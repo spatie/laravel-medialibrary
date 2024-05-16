@@ -200,7 +200,7 @@ return [
 
     /*
      * When using the addMediaFromUrl method the SSL is verified by default.
-     * This is option disables SSL verification when downloading remote media locally.
+     * This is option disables SSL verification when downloading remote media.
      * Please note that this is a security risk and should only be false in a local environment.
      */
     'media_downloader_ssl' => env('MEDIA_DOWNLOADER_SSL', true),
