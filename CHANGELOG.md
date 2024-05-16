@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.5.0 - 2024-05-16
+
+### What's Changed
+
+* Media Downloader Verify SSL Config Added by @webdevhayes in https://github.com/spatie/laravel-medialibrary/pull/3609
+
+### New Contributors
+
+* @webdevhayes made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3609
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.4.8...11.5.0
+
 ## 11.4.8 - 2024-05-06
 
 ### What's Changed
