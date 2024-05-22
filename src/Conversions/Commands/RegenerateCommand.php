@@ -38,7 +38,7 @@ class RegenerateCommand extends Command
 
         $this->fileManipulator = $fileManipulator;
 
-        if (!$this->confirmToProceed()) {
+        if (! $this->confirmToProceed()) {
             return;
         }
 
@@ -46,7 +46,7 @@ class RegenerateCommand extends Command
 
         $progressBar = $this->output->createProgressBar($mediaFiles->count());
 
-        if (config('media-library.queue_connection_name') == 'sync') {
+        if (config('media-library.queue_connection_name') === 'sync') {
             set_time_limit(0);
         }
 
@@ -108,7 +108,7 @@ class RegenerateCommand extends Command
     {
         $mediaIds = $this->option('ids');
 
-        if (!is_array($mediaIds)) {
+        if (! is_array($mediaIds)) {
             $mediaIds = explode(',', (string) $mediaIds);
         }
 
