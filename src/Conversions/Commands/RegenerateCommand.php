@@ -46,6 +46,10 @@ class RegenerateCommand extends Command
 
         $progressBar = $this->output->createProgressBar($mediaFiles->count());
 
+        if (config('media-library.queue_connection_name') === 'sync') {
+            set_time_limit(0);
+        }
+
         $mediaFiles->each(function (Media $media) use ($progressBar) {
             try {
                 $this->fileManipulator->createDerivedFiles(
