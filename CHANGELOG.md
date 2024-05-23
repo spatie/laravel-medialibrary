@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.5.1 - 2024-05-23
+
+### What's Changed
+
+* Do not limit the maximum execution time if the queue connection is "sync" by @VGirol in https://github.com/spatie/laravel-medialibrary/pull/3618
+
+### New Contributors
+
+* @VGirol made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3618
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.5.0...11.5.1
+
 ## 11.5.0 - 2024-05-16
 
 ### What's Changed
