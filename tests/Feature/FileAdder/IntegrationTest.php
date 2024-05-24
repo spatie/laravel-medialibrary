@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Image\Enums\BorderType;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
@@ -16,7 +17,6 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\RenameOriginalFileNamer;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-use Spatie\Image\Enums\BorderType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 it('can add an file to the default collection', function () {
@@ -457,9 +457,9 @@ it('can add manipulations with parameters of type Enum to the saved media', func
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
         ->withManipulations(['thumb' => [
-               'background' => ['color'=>'ffffff'],
-               'border' =>['width'=>15, 'type'=>BorderType::Shrink, 'color'=>'000000']
-            ]
+            'background' => ['color' => 'ffffff'],
+            'border' => ['width' => 15, 'type' => BorderType::Shrink, 'color' => '000000'],
+        ],
         ])
         ->toMediaCollection();
 })->throwsNoExceptions();
