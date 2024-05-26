@@ -1,4 +1,4 @@
 ---
-title: Handling uploads with Media Library Pro
+title: Media Library Pro
 weight: 4
 ---
