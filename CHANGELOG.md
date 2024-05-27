@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.5.2 - 2024-05-27
+
+### What's Changed
+
+* recreate BackedEnums when applying Manipulations by @tkempf in https://github.com/spatie/laravel-medialibrary/pull/3584
+* Unwanted deletion fixes by @inalto in https://github.com/spatie/laravel-medialibrary/pull/3619
+
+### New Contributors
+
+* @tkempf made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3584
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.5.1...11.5.2
+
 ## 11.5.1 - 2024-05-23
 
 ### What's Changed
