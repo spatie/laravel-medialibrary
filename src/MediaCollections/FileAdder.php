@@ -541,4 +541,15 @@ class FileAdder
             ? $file.'.'.$extension
             : $file;
     }
+
+    public function when(bool $value, callable $callback = null, callable $default = null): self
+    {
+        if ($value === true) {
+            return $callback($this, $value) ?? $this;
+        } elseif ($default !== null) {
+            return $default($this, $value) ?? $this;
+        }
+
+        return $this;
+    }
 }
