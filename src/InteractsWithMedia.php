@@ -39,7 +39,7 @@ trait InteractsWithMedia
 
     protected array $unAttachedMediaLibraryItems = [];
 
-    public static function bootInteractsWithMedia()
+    public static function bootInteractsWithMedia(): void
     {
         static::deleting(function (HasMedia $model) {
             if ($model->shouldDeletePreservingMedia()) {
@@ -181,7 +181,6 @@ trait InteractsWithMedia
     /**
      * Add a base64 encoded file to the media library.
      *
-     *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      * @throws InvalidBase64Data
      */
@@ -200,7 +199,7 @@ trait InteractsWithMedia
             throw InvalidBase64Data::create();
         }
 
-        // decoding and then reencoding should not change the data
+        // decoding and then re-encoding should not change the data
         if (base64_encode($binaryData) !== $base64data) {
             throw InvalidBase64Data::create();
         }
@@ -477,7 +476,6 @@ trait InteractsWithMedia
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
      */
     public function deleteMedia(int|string|Media $mediaId): void
@@ -558,7 +556,7 @@ trait InteractsWithMedia
         $this->unAttachedMediaLibraryItems = [];
     }
 
-    protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes)
+    protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes): void
     {
         $allowedMimeTypes = Arr::flatten($allowedMimeTypes);
 
