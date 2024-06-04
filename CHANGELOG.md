@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.5.4 - 2024-06-04
+
+### What's Changed
+
+* Add missing return types by @stevebauman in https://github.com/spatie/laravel-medialibrary/pull/3622
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.5.3...11.5.4
+
 ## 11.5.3 - 2024-06-04
 
 ### What's Changed
