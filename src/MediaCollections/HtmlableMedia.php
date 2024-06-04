@@ -51,7 +51,7 @@ class HtmlableMedia implements \Stringable, Htmlable
         return $this;
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         $imageGenerator = ImageGeneratorFactory::forMedia($this->media) ?? new Image();
 

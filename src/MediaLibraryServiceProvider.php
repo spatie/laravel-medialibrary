@@ -29,14 +29,14 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function packageBooted()
+    public function packageBooted(): void
     {
         $mediaClass = config('media-library.media_model', Media::class);
 
         $mediaClass::observe(new MediaObserver());
     }
 
-    public function packageRegistered()
+    public function packageRegistered(): void
     {
         $this->app->bind(WidthCalculator::class, config('media-library.responsive_images.width_calculator'));
         $this->app->bind(TinyPlaceholderGenerator::class, config('media-library.responsive_images.tiny_placeholder_generator'));
