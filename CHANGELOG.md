@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.5.3 - 2024-06-04
+
+### What's Changed
+
+* Update 'queue_name' configuration to use environment variable by @christeyerl in https://github.com/spatie/laravel-medialibrary/pull/3623
+
+### New Contributors
+
+* @christeyerl made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3623
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.5.2...11.5.3
+
 ## 11.5.2 - 2024-05-27
 
 ### What's Changed
