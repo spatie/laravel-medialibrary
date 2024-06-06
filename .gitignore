@@ -11,3 +11,4 @@ phpunit.xml
 .php-cs-fixer.cache
 phpstan.neon
 tests/Support/temp/
+.idea/
