@@ -37,7 +37,7 @@ class DefaultFileRemover implements FileRemover
                         $this->filesystem->disk($media->conversions_disk)->delete($imagePath);
                     }
 
-                    if ($this->filesystem->disk($media->conversions_disk)->allFiles($directory)->isEmpty()) {
+                    if (!$this->filesystem->disk($media->conversions_disk)->allFiles($directory)) {
                         $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
                     }
                 } catch (Exception $exception) {
