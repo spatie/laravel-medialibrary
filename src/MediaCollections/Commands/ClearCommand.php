@@ -19,7 +19,7 @@ class ClearCommand extends Command
 
     protected MediaRepository $mediaRepository;
 
-    public function handle(MediaRepository $mediaRepository)
+    public function handle(MediaRepository $mediaRepository): void
     {
         $this->mediaRepository = $mediaRepository;
 

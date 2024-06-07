@@ -130,7 +130,7 @@ class Filesystem
             );
     }
 
-    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
@@ -242,7 +242,8 @@ class Filesystem
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            fn (string $path) => Str::contains($path, $media->name."___". $conversionName)
+            fn (string $path) => Str::contains($path, $media->name.'___'.$conversionName)
+
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);

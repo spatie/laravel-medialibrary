@@ -37,7 +37,7 @@ class MediaCollection extends Collection implements Htmlable
         return $this->sum('size');
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         return e(json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
             return [

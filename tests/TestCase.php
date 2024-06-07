@@ -295,7 +295,7 @@ abstract class TestCase extends Orchestra
         return trim((string) ($view));
     }
 
-    protected function assertFileExistsInZip(string $zipPath, string $filename)
+    protected function assertFileExistsInZip(string $zipPath, string $filename): void
     {
         $this->assertTrue(
             $this->fileExistsInZip($zipPath, $filename),
@@ -303,7 +303,7 @@ abstract class TestCase extends Orchestra
         );
     }
 
-    protected function assertFileExistsInZipRecognizeFolder(string $zipPath, string $filename)
+    protected function assertFileExistsInZipRecognizeFolder(string $zipPath, string $filename): void
     {
         $this->assertTrue(
             $this->fileExistsInZipRecognizeFolder($zipPath, $filename),
@@ -311,7 +311,7 @@ abstract class TestCase extends Orchestra
         );
     }
 
-    protected function assertFileDoesntExistsInZip(string $zipPath, string $filename)
+    protected function assertFileDoesntExistsInZip(string $zipPath, string $filename): void
     {
         $this->assertFalse(
             $this->fileExistsInZip($zipPath, $filename),

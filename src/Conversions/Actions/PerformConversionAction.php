@@ -16,7 +16,7 @@ class PerformConversionAction
         Conversion $conversion,
         Media $media,
         string $copiedOriginalFile
-    ) {
+    ): void {
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
         $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);

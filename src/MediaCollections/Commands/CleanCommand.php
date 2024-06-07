@@ -43,7 +43,7 @@ class CleanCommand extends Command
         MediaRepository $mediaRepository,
         FileManipulator $fileManipulator,
         Factory $fileSystem,
-    ) {
+    ): void {
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
         $this->fileSystem = $fileSystem;

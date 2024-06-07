@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaObserver
 {
-    public function creating(Media $media)
+    public function creating(Media $media): void
     {
         if ($media->shouldSortWhenCreating()) {
             if (is_null($media->order_column)) {
@@ -17,7 +17,7 @@ class MediaObserver
         }
     }
 
-    public function updating(Media $media)
+    public function updating(Media $media): void
     {
         /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
@@ -31,7 +31,7 @@ class MediaObserver
         }
     }
 
-    public function updated(Media $media)
+    public function updated(Media $media): void
     {
         if (is_null($media->getOriginal('model_id'))) {
             return;
@@ -52,7 +52,7 @@ class MediaObserver
         }
     }
 
-    public function deleted(Media $media)
+    public function deleted(Media $media): void
     {
         if (method_exists($media, 'isForceDeleting') && ! $media->isForceDeleting()) {
             return;

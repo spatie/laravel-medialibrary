@@ -32,7 +32,7 @@ class RegenerateCommand extends Command
 
     protected array $errorMessages = [];
 
-    public function handle(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
+    public function handle(MediaRepository $mediaRepository, FileManipulator $fileManipulator): void
     {
         $this->mediaRepository = $mediaRepository;
 
