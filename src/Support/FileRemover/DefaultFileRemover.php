@@ -18,10 +18,6 @@ class DefaultFileRemover implements FileRemover
     {
         $mediaDirectory = $this->mediaFileSystem->getMediaDirectory($media);
 
-        if ($media->disk !== $media->conversions_disk) {
-            $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
-        }
-
         $conversionsDirectory = $this->mediaFileSystem->getMediaDirectory($media, 'conversions');
 
         $responsiveImagesDirectory = $this->mediaFileSystem->getMediaDirectory($media, 'responsiveImages');
@@ -30,7 +26,20 @@ class DefaultFileRemover implements FileRemover
             ->unique()
             ->each(function (string $directory) use ($media) {
                 try {
-                    $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                    $allFilePaths = $this->filesystem->disk($media->conversions_disk)->allFiles($directory);
+
+                    $imagePaths = array_filter(
+                      $allFilePaths,
+                      fn (string $path) => Str::contains($path, $imagePaths)
+                    );
+
+                    foreach ($imagePaths as $imagePath) {
+                        $this->filesystem->disk($media->conversions_disk)->delete($imagePath);
+                    }
+
+                    if ($this->filesystem->disk($media->conversions_disk)->allFiles($directory)->isEmpty()) {
+                        $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                    }
                 } catch (Exception $exception) {
                     report($exception);
                 }
