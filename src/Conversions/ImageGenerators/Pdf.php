@@ -14,7 +14,7 @@ class Pdf extends ImageGenerator
 
         $pageNumber = $conversion ? $conversion->getPdfPageNumber() : 1;
 
-        (new \Spatie\PdfToImage\Pdf($file))->setPage($pageNumber)->saveImage($imageFile);
+        (new \Spatie\PdfToImage\Pdf($file))->selectPage($pageNumber)->save($imageFile);
 
         return $imageFile;
     }
