@@ -10,6 +10,7 @@ jobs:
       matrix:
         php: [8.3, 8.2]
         laravel: [10.*, 11.*]
+        pdf: [^2.2, ^3.0]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*
@@ -49,7 +50,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:>=2.62.1" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:>=2.62.1" "spatie/pdf-to-image:${{ matrix.laravel }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Execute tests
