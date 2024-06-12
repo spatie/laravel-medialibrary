@@ -10,8 +10,8 @@ class DefaultDownloader implements Downloader
     {
         $context = stream_context_create([
             'ssl' => [
-                'verify_peer' => config('media-library.ssl'),
-                'verify_peer_name' => config('media-library.ssl'),
+                'verify_peer' => config('media-library.media_downloader_ssl'),
+                'verify_peer_name' => config('media-library.media_downloader_ssl'),
             ],
             'http' => [
                 'header' => 'User-Agent: Spatie MediaLibrary',
