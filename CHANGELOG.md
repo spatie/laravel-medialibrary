@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.6.0 - 2024-06-12
+
+### What's Changed
+
+* [11.x] Support spatie/pdf-to-image v3 by @Jubeki in https://github.com/spatie/laravel-medialibrary/pull/3633
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.5.4...11.6.0
+
 ## 11.5.4 - 2024-06-04
 
 ### What's Changed
