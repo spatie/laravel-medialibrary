@@ -530,7 +530,7 @@ trait InteractsWithMedia
 
     public function loadMedia(string $collectionName): Collection
     {
-        if (config('media-library.enable_lazy_loading') && $this->exists) {
+        if (config('media-library.force_lazy_loading') && $this->exists) {
             $this->loadMissing('media');
         }
 
