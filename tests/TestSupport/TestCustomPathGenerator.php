@@ -12,16 +12,16 @@ class TestCustomPathGenerator implements PathGenerator
     {
         $entry = TestModel::find($media->model_id);
 
-        return "some_user/{$media->model_id}";
+        return "some_user/{$media->model_id}/";
     }
 
     public function getPathForConversions(Media $media): string
     {
-        return $this->getPath($media).'/custom_conversions/';
+        return $this->getPath($media).'custom_conversions/';
     }
 
     public function getPathForResponsiveImages(Media $media): string
     {
-        return $this->getPath($media).'/custom_responsive_images/';
+        return $this->getPath($media).'custom_responsive_images/';
     }
 }

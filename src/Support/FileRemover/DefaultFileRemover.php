@@ -16,23 +16,28 @@ class DefaultFileRemover implements FileRemover
 
     public function removeAllFiles(Media $media): void
     {
+        $this->removeFromMediaDirectory($media);
+
+        $this->removeFromConversionsDirectory($media);
+
+        $this->removeFromResponsiveImagesDirectory($media);
+    }
+
+    public function removeFromMediaDirectory(Media $media): void
+    {
         $mediaDirectory = $this->mediaFileSystem->getMediaDirectory($media);
 
-        $conversionsDirectory = $this->mediaFileSystem->getMediaDirectory($media, 'conversions');
 
-        $responsiveImagesDirectory = $this->mediaFileSystem->getMediaDirectory($media, 'responsiveImages');
-
-        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
-            ->unique()
+        collect([$mediaDirectory])
             ->each(function (string $directory) use ($media) {
                 try {
                     $allFilePaths = $this->filesystem->disk($media->conversions_disk)->allFiles($directory);
-
                     $imagePaths = array_filter(
-                      $allFilePaths,
-                      fn (string $path) => Str::contains($path, $imagePaths)
+                        $allFilePaths,
+                        function (string $path) use ($media) {
+                            return Str::contains($path, $media->name.".");
+                        }
                     );
-
                     foreach ($imagePaths as $imagePath) {
                         $this->filesystem->disk($media->conversions_disk)->delete($imagePath);
                     }
@@ -45,6 +50,79 @@ class DefaultFileRemover implements FileRemover
                 }
             });
     }
+
+    public function removeFromConversionsDirectory(Media $media): void
+    {
+        $conversionsDirectory = $this->mediaFileSystem->getMediaDirectory($media, 'conversions');
+
+        collect([$conversionsDirectory])
+            ->each(function (string $directory) use ($media) {
+                try {
+                    $allFilePaths = $this->filesystem->disk($media->conversions_disk)->allFiles($directory);
+
+                    $conversions = array_keys($media->generated_conversions);
+
+                    $imagePaths = array_filter(
+                        $allFilePaths,
+                        function (string $path) use ($conversions, $media) {
+                            foreach ($conversions as $conversion) {
+                                if (Str::contains($path, $media->name . "-" . $conversion)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    );
+                    foreach ($imagePaths as $imagePath) {
+                        $this->filesystem->disk($media->conversions_disk)->delete($imagePath);
+                    }
+
+                    if (!$this->filesystem->disk($media->conversions_disk)->allFiles($directory)) {
+                        $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                    }
+                } catch (Exception $exception) {
+                    report($exception);
+                }
+            });
+    }
+
+    public function removeFromResponsiveImagesDirectory(Media $media): void
+    {
+        $responsiveImagesDirectory = $this->mediaFileSystem->getMediaDirectory($media, 'responsiveImages');
+
+        collect([ $responsiveImagesDirectory])
+            ->unique()
+            ->each(function (string $directory) use ($media) {
+                try {
+                    $allFilePaths = $this->filesystem->disk($media->conversions_disk)->allFiles($directory);
+
+                    $conversions = array_keys($media->generated_conversions);
+                    $conversions[] = "media_library_original";
+
+                    $imagePaths = array_filter(
+                        $allFilePaths,
+                        function (string $path) use ($conversions, $media) {
+                            foreach ($conversions as $conversion) {
+                                if (Str::contains($path, $media->name . "___" . $conversion)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }
+                    );
+                    foreach ($imagePaths as $imagePath) {
+                        $this->filesystem->disk($media->conversions_disk)->delete($imagePath);
+                    }
+
+                    if (!$this->filesystem->disk($media->conversions_disk)->allFiles($directory)) {
+                        $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
+                    }
+                } catch (Exception $exception) {
+                    report($exception);
+                }
+            });
+    }
+
 
     public function removeResponsiveImages(Media $media, string $conversionName): void
     {
