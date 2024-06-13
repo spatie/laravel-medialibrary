@@ -22,7 +22,7 @@
     ],
     "homepage": "https://github.com/spatie/laravel-medialibrary",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3|^8.2",
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
