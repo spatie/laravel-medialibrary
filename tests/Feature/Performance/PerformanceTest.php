@@ -53,5 +53,5 @@ it('throws an exception when lazy loading is disabled on both the config and glo
 
     $testModels = $this->testModelWithConversion->get();
 
-    expect(fn() => $testModels->first()->getFirstMediaUrl('images', 'thumb'))->toThrow(LazyLoadingViolationException::class);
+    expect(fn () => $testModels->first()->getFirstMediaUrl('images', 'thumb'))->toThrow(LazyLoadingViolationException::class);
 });
