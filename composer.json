@@ -26,6 +26,7 @@
         "ext-exif": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
+        "composer/semver": "^3.4",
         "illuminate/bus": "^10.0|^11.0",
         "illuminate/conditionable": "^10.0|^11.0",
         "illuminate/console": "^10.0|^11.0",
