@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.6.1 - 2024-06-17
+
+### What's Changed
+
+* Add composer/semver dependency by @flightsupport in https://github.com/spatie/laravel-medialibrary/pull/3638
+
+### New Contributors
+
+* @flightsupport made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3638
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.6.0...11.6.1
+
 ## 11.6.0 - 2024-06-12
 
 ### What's Changed
