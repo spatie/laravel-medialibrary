@@ -8,6 +8,8 @@ use Spatie\MediaLibrary\Support\FileRemover\FileBaseFileRemover;
 use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomDirectoryStructurePathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
+use Spatie\MediaLibrary\Tests\TestSupport\TestCustomPathGenerator;
+
 
 it('will remove the files when deleting an object that has media', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
@@ -102,6 +104,23 @@ it('will NOT remove other files within the same folder when deleting a media obj
 
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
     $media2 = $this->testModel->addMedia($this->getTestPng())->toMediaCollection('images');
+
+    expect(File::exists($media->getPath()))->toBeTrue();
+    expect(File::exists($media2->getPath()))->toBeTrue();
+
+    $media->delete();
+
+    expect(File::exists($media->getPath()))->toBeFalse();
+    expect(File::exists($media2->getPath()))->toBeTrue();
+});
+
+it('will NOT remove other files within the same folder when deleting a media object with similar image names saved on same custom path and directory generator', function () {
+
+    config(['media-library.path_generator' => TestCustomPathGenerator::class]);
+    config(['media-library.file_remover_class' => FileBaseFileRemover::class]);
+
+    $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $media2 = $this->testModel->addMedia($this->getTestImageEndingWithUnderscore())->toMediaCollection('images');
 
     expect(File::exists($media->getPath()))->toBeTrue();
     expect(File::exists($media2->getPath()))->toBeTrue();

@@ -2,9 +2,16 @@
 
 use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
+use Spatie\MediaLibrary\Tests\TestSupport\TestCustomPathGenerator;
+use Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\Conversions\Manipulations;
 
 beforeEach(function () {
     $this->fileName = 'test';
+    $this->fileNameWithUnderscore = 'test_';
+    $this->conversionName = 'test';
+    $this->conversion = new Conversion($this->conversionName);
 });
 
 it('can generate responsive images', function () {
@@ -111,4 +118,59 @@ it('will not generate tiny placeholders when tiny placeholders are turned off', 
     $responsiveImage = $media->refresh()->responsive_images;
 
     expect($responsiveImage['media_library_original'])->not()->toHaveKey('base64svg');
+});
+
+it('will not delete responsive images of images with similar names saved on the same directory', function () {
+
+    config(['media-library.path_generator' => TestCustomPathGenerator::class]);
+    config(['media-library.file_remover_class' => DefaultFileRemover::class]);
+
+    $media =$this->testModelWithMultipleConversions->addMedia($this->getTestJpg())->withResponsiveImages()->toMediaCollection();
+
+    $media2 = $this->testModelWithMultipleConversions->addMedia($this->getTestImageEndingWithUnderscore())->withResponsiveImages()->toMediaCollection();
+
+    expect($this->getTempDirectory("media/some_user/1/{$this->fileName}.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileName}___media_library_original_237_195.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileName}___media_library_original_284_234.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileName}___media_library_original_340_280.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-small.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-medium.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-large.jpg"))->toBeFile();
+
+    expect($this->getTempDirectory("media/some_user/1/{$this->fileNameWithUnderscore}.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-small.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-medium.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-large.jpg"))->toBeFile();
+
+    $media->delete();
+
+    expect(File::exists($this->getTempDirectory("media/some_user/1/{$this->fileName}.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileName}___media_library_original_237_195.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileName}___media_library_original_284_234.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileName}___media_library_original_340_280.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-small")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-medium")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-large")))->toBeFalse();
+
+    //checks if the other media files are still there
+    expect($this->getTempDirectory("media/some_user/1/{$this->fileNameWithUnderscore}.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-small.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-medium.jpg"))->toBeFile();
+    expect($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-large.jpg"))->toBeFile();
+
+    $media2->delete();
+
+    expect(File::exists($this->getTempDirectory("media/some_user/1/{$this->fileNameWithUnderscore}.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_340_280.jpg")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-small")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-medium")))->toBeFalse();
+    expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-large")))->toBeFalse();
 });
