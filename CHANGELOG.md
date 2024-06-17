@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.7.0 - 2024-06-17
+
+### What's Changed
+
+* Fix wrong deletions by @inalto in https://github.com/spatie/laravel-medialibrary/pull/3630
+* Update DefaultDownloader.php by @omarherri in https://github.com/spatie/laravel-medialibrary/pull/3634
+* Make media lazy loading configurable by @alidevweb in https://github.com/spatie/laravel-medialibrary/pull/3627
+
+### New Contributors
+
+* @omarherri made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3634
+* @alidevweb made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3627
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.6.1...11.7.0
+
 ## 11.6.1 - 2024-06-17
 
 ### What's Changed
