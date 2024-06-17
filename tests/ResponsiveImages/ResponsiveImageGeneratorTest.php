@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
-use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
-use Spatie\MediaLibrary\Tests\TestSupport\TestCustomPathGenerator;
-use Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\MediaLibrary\Conversions\Manipulations;
+use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
+use Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover;
+use Spatie\MediaLibrary\Tests\TestSupport\TestCustomPathGenerator;
 
 beforeEach(function () {
     $this->fileName = 'test';
@@ -125,7 +124,7 @@ it('will not delete responsive images of images with similar names saved on the 
     config(['media-library.path_generator' => TestCustomPathGenerator::class]);
     config(['media-library.file_remover_class' => DefaultFileRemover::class]);
 
-    $media =$this->testModelWithMultipleConversions->addMedia($this->getTestJpg())->withResponsiveImages()->toMediaCollection();
+    $media = $this->testModelWithMultipleConversions->addMedia($this->getTestJpg())->withResponsiveImages()->toMediaCollection();
 
     $media2 = $this->testModelWithMultipleConversions->addMedia($this->getTestImageEndingWithUnderscore())->withResponsiveImages()->toMediaCollection();
 
