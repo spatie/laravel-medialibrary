@@ -17,9 +17,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
 
     protected ?PathGenerator $pathGenerator = null;
 
-    public function __construct(protected Config $config)
-    {
-    }
+    public function __construct(protected Config $config) {}
 
     public function setMedia(Media $media): UrlGenerator
     {

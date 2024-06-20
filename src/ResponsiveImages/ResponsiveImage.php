@@ -31,9 +31,7 @@ class ResponsiveImage
         $media->save();
     }
 
-    public function __construct(public string $fileName, public Media $media)
-    {
-    }
+    public function __construct(public string $fileName, public Media $media) {}
 
     public function url(): string
     {

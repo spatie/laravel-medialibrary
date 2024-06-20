@@ -21,8 +21,7 @@ class Filesystem
 
     public function __construct(
         protected Factory $filesystem
-    ) {
-    }
+    ) {}
 
     public function add(string $file, Media $media, ?string $targetFileName = null): bool
     {

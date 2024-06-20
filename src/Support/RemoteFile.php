@@ -4,9 +4,7 @@ namespace Spatie\MediaLibrary\Support;
 
 class RemoteFile
 {
-    public function __construct(protected string $key, protected string $disk)
-    {
-    }
+    public function __construct(protected string $key, protected string $disk) {}
 
     public function getKey(): string
     {

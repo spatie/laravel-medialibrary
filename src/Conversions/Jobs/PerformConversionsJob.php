@@ -22,8 +22,7 @@ class PerformConversionsJob implements ShouldQueue
         protected ConversionCollection $conversions,
         protected Media $media,
         protected bool $onlyMissing = false,
-    ) {
-    }
+    ) {}
 
     public function handle(FileManipulator $fileManipulator): bool
     {

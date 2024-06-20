@@ -19,8 +19,7 @@ class HtmlableMedia implements \Stringable, Htmlable
 
     public function __construct(
         protected Media $media
-    ) {
-    }
+    ) {}
 
     public function attributes(array $attributes): self
     {

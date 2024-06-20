@@ -2,6 +2,4 @@
 
 namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
 
-class TestModelWithMorphMap extends TestModel
-{
-}
+class TestModelWithMorphMap extends TestModel {}

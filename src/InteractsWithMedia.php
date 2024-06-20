@@ -578,13 +578,9 @@ trait InteractsWithMedia
         }
     }
 
-    public function registerMediaConversions(?Media $media = null): void
-    {
-    }
+    public function registerMediaConversions(?Media $media = null): void {}
 
-    public function registerMediaCollections(): void
-    {
-    }
+    public function registerMediaCollections(): void {}
 
     public function registerAllMediaConversions(?Media $media = null): void
     {
