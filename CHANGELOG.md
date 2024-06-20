@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.7.1 - 2024-06-20
+
+### What's Changed
+
+* Update preparing-your-model.md by @KaanTanis in https://github.com/spatie/laravel-medialibrary/pull/3645
+* Fixed `moves_media_on_update` doesn't work on S3 by @cameronbatty in https://github.com/spatie/laravel-medialibrary/pull/3647
+
+### New Contributors
+
+* @KaanTanis made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3645
+* @cameronbatty made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3647
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.7.0...11.7.1
+
 ## 11.7.0 - 2024-06-17
 
 ### What's Changed
