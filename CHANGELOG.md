@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.7.2 - 2024-06-21
+
+### What's Changed
+
+* add nullcheck for conversions_disk by @DirtyRacer1337 in https://github.com/spatie/laravel-medialibrary/pull/3648
+
+### New Contributors
+
+* @DirtyRacer1337 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3648
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.7.1...11.7.2
+
 ## 11.7.1 - 2024-06-20
 
 ### What's Changed
