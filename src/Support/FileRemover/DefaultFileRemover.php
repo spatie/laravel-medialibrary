@@ -63,7 +63,7 @@ class DefaultFileRemover implements FileRemover
                 try {
                     $allFilePaths = $this->filesystem->disk($disk)->allFiles($directory);
 
-                    $conversions = array_keys($media->generated_conversions);
+                    $conversions = array_keys($media->generated_conversions ?? []);
 
                     $imagePaths = array_filter(
                         $allFilePaths,
