@@ -15,7 +15,7 @@ class DefaultFileRemover implements FileRemover
     public function removeAllFiles(Media $media): void
     {
 
-        if ($media->disk !== $media->conversions_disk) {
+        if ($media->conversions_disk && $media->disk !== $media->conversions_disk) {
             $this->removeFromMediaDirectory($media, $media->conversions_disk);
             $this->removeFromConversionsDirectory($media, $media->conversions_disk);
             $this->removeFromResponsiveImagesDirectory($media, $media->conversions_disk);
