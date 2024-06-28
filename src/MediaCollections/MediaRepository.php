@@ -46,6 +46,11 @@ class MediaRepository
         return $this->query()->get();
     }
 
+    public function allIds(): Collection
+    {
+        return $this->query()->pluck($this->model->getKeyName());
+    }
+
     public function getByModelType(string $modelType): DbCollection
     {
         return $this->query()->where('model_type', $modelType)->get();
