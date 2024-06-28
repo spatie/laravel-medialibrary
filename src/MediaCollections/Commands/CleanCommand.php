@@ -186,11 +186,8 @@ class CleanCommand extends Command
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw DiskDoesNotExist::create($diskName);
         }
-        $mediaClass = config('media-library.media_model');
-        $mediaInstance = new $mediaClass();
-        $keyName = $mediaInstance->getKeyName();
 
-        $mediaIds = collect($this->mediaRepository->all()->pluck($keyName)->toArray());
+        $mediaIds = $this->mediaRepository->allIds();
 
         /** @var array<int, string> */
         $directories = $this->fileSystem->disk($diskName)->directories();
