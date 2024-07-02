@@ -396,7 +396,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     }
 
     /**
-     * @param null|Closure(FileAdder): FileAdder $fileAdderCallback
+     * @param  null|Closure(FileAdder): FileAdder  $fileAdderCallback
      */
     public function copy(
         HasMedia $model,
@@ -404,8 +404,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         string $diskName = '',
         string $fileName = '',
         ?Closure $fileAdderCallback = null
-    ): self
-    {
+    ): self {
         $temporaryDirectory = TemporaryDirectory::create();
 
         $temporaryFile = $temporaryDirectory->path('/').DIRECTORY_SEPARATOR.$this->file_name;
