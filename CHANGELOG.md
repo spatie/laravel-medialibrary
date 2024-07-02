@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.7.3 - 2024-07-02
+
+### What's Changed
+
+* Added callback to manipulate FileAdder when performing a copy by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3658
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.7.2...11.7.3
+
 ## 11.7.2 - 2024-06-21
 
 ### What's Changed
