@@ -33,7 +33,7 @@ class YourModel extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -70,7 +70,7 @@ use Spatie\Image\Enums\CropPosition;
 
 // ...
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -101,7 +101,7 @@ This is how that looks like in the model:
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
           ->performOnCollections('images', 'downloads')
@@ -127,7 +127,7 @@ By default, a conversion will be added to the connection and queue that you've [
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
             ->width(368)
@@ -140,7 +140,7 @@ If you have set `queue_conversions_by_default` in the `media-library` config fil
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
             ->width(368)
@@ -158,7 +158,7 @@ true` on your model.
 // in your model
 public $registerMediaConversionsUsingModelInstance = true;
 
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
           ->performOnCollections('images', 'downloads')

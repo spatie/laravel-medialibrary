@@ -5,7 +5,10 @@ tests/temp
 composer.lock
 phpunit.xml
 .env
+.phpunit.cache/
 .phpunit.result.cache
+.phpunit.cache/test-results
 .php-cs-fixer.cache
 phpstan.neon
 tests/Support/temp/
+.idea/

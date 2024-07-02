@@ -13,7 +13,7 @@ For more extensive examples, [see the pre-built UI components on GitHub](https:/
 
 ```jsx
 import * as React from "react";
-import { useMediaLibrary } from "media-library-pro-react";
+import { useMediaLibrary } from "media-library-pro/media-library-pro-react";
 
 export default function MediaLibraryAttachment() {
     const {
@@ -210,12 +210,6 @@ Renders a button with an icon. Requires [icons](#icons) to be rendered on the pa
     className?: string;
 }
 ```
-
-### useDragula
-
-[See code on GitHub](https://github.com/spatie/laravel-medialibrary-pro/blob/master/resources/js/media-library-pro-react/src/useDragula.ts)
-
-Custom hook to use [Dragula](https://github.com/bevacqua/react-dragula), to allow sorting of files.
 
 **Parameters**
 

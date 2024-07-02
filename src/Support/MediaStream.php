@@ -93,6 +93,7 @@ class MediaStream implements Responsable
 
     protected function getZipStreamContents(): Collection
     {
+
         return $this->mediaItems->map(fn (Media $media, $mediaItemIndex) => [
             'fileNameInZip' => $this->getZipFileNamePrefix($this->mediaItems, $mediaItemIndex).$this->getFileNameWithSuffix($this->mediaItems, $mediaItemIndex),
             'media' => $media,
@@ -103,14 +104,14 @@ class MediaStream implements Responsable
     {
         $fileNameCount = 0;
 
-        $fileName = $mediaItems[$currentIndex]->file_name;
+        $fileName = $mediaItems[$currentIndex]->getDownloadFilename();
 
         foreach ($mediaItems as $index => $media) {
             if ($index >= $currentIndex) {
                 break;
             }
 
-            if ($this->getZipFileNamePrefix($mediaItems, $index).$media->file_name === $this->getZipFileNamePrefix($mediaItems, $currentIndex).$fileName) {
+            if ($this->getZipFileNamePrefix($mediaItems, $index).$media->getDownloadFilename() === $this->getZipFileNamePrefix($mediaItems, $currentIndex).$fileName) {
                 $fileNameCount++;
             }
         }

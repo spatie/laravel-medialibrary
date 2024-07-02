@@ -14,8 +14,7 @@ class MediaRepository
 {
     public function __construct(
         protected Media $model
-    ) {
-    }
+    ) {}
 
     /**
      * Get all media in the collection.

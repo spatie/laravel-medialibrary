@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
 /** @mixin \Spatie\Image\Drivers\ImageDriver */
@@ -26,6 +27,8 @@ class Conversion
     protected bool $keepOriginalImageFormat = false;
 
     protected bool $generateResponsiveImages = false;
+
+    protected ?WidthCalculator $widthCalculator = null;
 
     protected ?string $loadingAttributeValue;
 
@@ -188,6 +191,18 @@ class Conversion
         $this->generateResponsiveImages = true;
 
         return $this;
+    }
+
+    public function withWidthCalculator(WidthCalculator $widthCalculator): self
+    {
+        $this->widthCalculator = $widthCalculator;
+
+        return $this;
+    }
+
+    public function getWidthCalculator(): ?WidthCalculator
+    {
+        return $this->widthCalculator;
     }
 
     public function shouldGenerateResponsiveImages(): bool

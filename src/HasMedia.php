@@ -44,4 +44,6 @@ interface HasMedia
     public function registerMediaCollections(): void;
 
     public function registerAllMediaConversions(): void;
+
+    public function getMediaModel(): string;
 }

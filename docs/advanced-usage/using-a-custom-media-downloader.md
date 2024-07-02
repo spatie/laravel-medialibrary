@@ -46,3 +46,48 @@ class CustomDownloader implements Downloader {
 
 }
 ```
+
+## Using the Laravel Downloader
+
+You may configure the medialibrary config to use a downloader compatible more
+with Laravel that makes use of the built-in HTTP client. This is the quickest way
+to mock any requests made to external URLs.
+
+```php
+    // config/media-library.php
+
+    /*
+     * When using the addMediaFromUrl method you may want to replace the default downloader.
+     * This is particularly useful when the url of the image is behind a firewall and
+     * need to add additional flags, possibly using curl.
+     */
+    'media_downloader' => Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader::class,
+```
+
+This then makes it easier in tests to mock the download of files.
+
+```php
+$url = 'http://medialibrary.spatie.be/assets/images/mountain.jpg';
+$yourModel
+   ->addMediaFromUrl($url)
+   ->toMediaCollection();
+```
+
+with a test like this:
+
+```php
+Http::fake([
+    // Stub a response where the body will be the contents of the file
+    'http://medialibrary.spatie.be/assets/images/mountain.jpg' => Http::response('::file::'),
+]);
+
+// Execute code for the test
+
+// Then check that a request for the file was made
+Http::assertSent(function (Request $request) {
+    return $request->url() == 'http://medialibrary.spatie.be/assets/images/mountain.jpg';
+});
+
+// We may also assert that the contents of any files created
+// will contain `::file::`
+```

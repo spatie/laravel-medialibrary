@@ -58,7 +58,9 @@ class ResponsiveImageGenerator
 
         $media = $this->cleanResponsiveImages($media, $conversion->getName());
 
-        foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
+        $widthCalculator = $conversion->getWidthCalculator() ?? $this->widthCalculator;
+
+        foreach ($widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
             $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory, $this->getConversionQuality($conversion));
         }
 
@@ -117,6 +119,10 @@ class ResponsiveImageGenerator
         string $conversionName,
         BaseTemporaryDirectory $temporaryDirectory
     ): void {
+        if (! config('media-library.responsive_images.use_tiny_placeholders')) {
+            return;
+        }
+
         $tempDestination = $temporaryDirectory->path('tiny.jpg');
 
         $this->tinyPlaceholderGenerator->generateTinyPlaceholder($originalImagePath, $tempDestination);

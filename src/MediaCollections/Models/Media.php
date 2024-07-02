@@ -8,6 +8,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -32,6 +33,7 @@ use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @property string $uuid
@@ -78,7 +80,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         'responsive_images' => 'array',
     ];
 
-    public function newCollection(array $models = [])
+    protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
+
+    public function newCollection(array $models = []): MediaCollection
     {
         return new MediaCollection($models);
     }
@@ -304,22 +308,29 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function hasGeneratedConversion(string $conversionName): bool
     {
-        $generatedConversions = $this->getGeneratedConversions();
+        $generatedConversions = $this->generated_conversions;
 
-        return $generatedConversions[$conversionName] ?? false;
+        return Arr::get($generatedConversions, $conversionName, false);
     }
 
-    public function toResponse($request)
+    public function setStreamChunkSize(int $chunkSize): self
+    {
+        $this->streamChunkSize = $chunkSize;
+
+        return $this;
+    }
+
+    public function toResponse($request): StreamedResponse
     {
         return $this->buildResponse($request, 'attachment');
     }
 
-    public function toInlineResponse($request)
+    public function toInlineResponse($request): StreamedResponse
     {
         return $this->buildResponse($request, 'inline');
     }
 
-    private function buildResponse($request, string $contentDispositionType)
+    private function buildResponse($request, string $contentDispositionType): StreamedResponse
     {
         $filename = str_replace('"', '\'', Str::ascii($this->getDownloadFilename()));
 
@@ -327,14 +338,17 @@ class Media extends Model implements Attachable, Htmlable, Responsable
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $this->size,
-            'Content-Disposition' => $contentDispositionType . '; filename="' . $filename . '"',
+            'Content-Disposition' => $contentDispositionType.'; filename="'.$filename.'"',
             'Pragma' => 'public',
         ];
 
         return response()->stream(function () {
             $stream = $this->stream();
 
-            fpassthru($stream);
+            while (! feof($stream)) {
+                echo fread($stream, $this->streamChunkSize);
+                flush();
+            }
 
             if (is_resource($stream)) {
                 fclose($stream);
@@ -395,6 +409,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
             ->addMedia($temporaryFile)
             ->usingName($this->name)
             ->setOrder($this->order_column)
+            ->withManipulations($this->manipulations)
             ->withCustomProperties($this->custom_properties);
         if ($fileName !== '') {
             $fileAdder->usingFileName($fileName);
@@ -420,7 +435,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $filesystem->getStream($this);
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->img()->toHtml();
     }
@@ -444,7 +459,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this->belongsTo(TemporaryUpload::class);
     }
 
-    public static function findWithTemporaryUploadInCurrentSession(array $uuids)
+    public static function findWithTemporaryUploadInCurrentSession(array $uuids): EloquentCollection
     {
         MediaLibraryPro::ensureInstalled();
 

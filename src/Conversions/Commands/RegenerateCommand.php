@@ -32,7 +32,7 @@ class RegenerateCommand extends Command
 
     protected array $errorMessages = [];
 
-    public function handle(MediaRepository $mediaRepository, FileManipulator $fileManipulator)
+    public function handle(MediaRepository $mediaRepository, FileManipulator $fileManipulator): void
     {
         $this->mediaRepository = $mediaRepository;
 
@@ -45,6 +45,10 @@ class RegenerateCommand extends Command
         $mediaFiles = $this->getMediaToBeRegenerated();
 
         $progressBar = $this->output->createProgressBar($mediaFiles->count());
+
+        if (config('media-library.queue_connection_name') === 'sync') {
+            set_time_limit(0);
+        }
 
         $mediaFiles->each(function (Media $media) use ($progressBar) {
             try {

@@ -53,38 +53,36 @@ _If you're developing a project where you don't have access to composer, you can
 
 The components are located in `vendor/spatie/laravel-medialibrary-pro/resources/js` when you install the package through Composer. This makes for very long import statements, which you can clean up by adding some configuration to your Webpack/Laravel Mix configuration.
 
-**laravel-mix >6**
+## Setup Vite
+If you are using Vite, your `vite.config.js` look something like this:
 
 ```js
-// webpack.mix.js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
 
-mix.override((webpackConfig) => {
-    webpackConfig.resolve.modules = [
-        "node_modules",
-        __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
-    ];
-}
-```
-
-**laravel-mix <6**
-
-```js
-// webpack.mix.js
-
-mix.webpackConfig({
+export default defineConfig({
     resolve: {
-        modules: [
-            "node_modules",
-            __dirname + "/vendor/spatie/laravel-medialibrary-pro/resources/js",
-        ],
+        alias: {
+            'media-library-pro-react-attachment': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-react-attachment',
+            'media-library-pro-react-collection': '/vendor/spatie/laravel-medialibrary-pro/resources/js/media-library-pro-react-collection',
+        }
     },
+    plugins: [
+        laravel([
+            'resources/js/app.js',
+        ]),
+        vue({
+            template: {
+                transformAssetUrls: {
+                    base: null,
+                    includeAbsolute: false,
+                },
+            },
+        }),
+    ],
 });
-```
 
-This will force Webpack to look in `vendor/spatie/laravel-medialibrary-pro/resources/js` when resolving imports, and allows you to shorten your import to this:
-
-```js
-import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 ```
 
 If you're using TypeScript, you will also have have to add this to your tsconfig:
@@ -188,7 +186,7 @@ See the [Validation rules section](#validation-rules) for a complete list of all
 The components keep track of whether they're ready to be submitted, you can use this to disable a submit button while a file is still uploading or when there are frontend validation errors. This value can be tracked by passing a listener method to the `onIsReadyToSubmitChange` prop. If you submit a form while a file is uploading, Laravel will return a HTTP 500 error with an `invalid uuid` message.
 
 ```jsx
-import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
+import { MediaLibraryAttachment } from "media-library-pro-react-attachment";
 
 function AvatarComponent() {
     const [isReadyToSubmit, setIsReadyToSubmit] = useState(true);

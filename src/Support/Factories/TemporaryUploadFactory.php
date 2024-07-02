@@ -2,6 +2,4 @@
 
 namespace Spatie\MediaLibrary\Support\Factories;
 
-class TemporaryUploadFactory
-{
-}
+class TemporaryUploadFactory {}

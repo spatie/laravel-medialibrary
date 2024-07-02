@@ -21,8 +21,7 @@ class Filesystem
 
     public function __construct(
         protected Factory $filesystem
-    ) {
-    }
+    ) {}
 
     public function add(string $file, Media $media, ?string $targetFileName = null): bool
     {
@@ -130,7 +129,7 @@ class Filesystem
             );
     }
 
-    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
@@ -206,6 +205,13 @@ class Filesystem
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
 
+    public function getConversionStream(Media $media, string $conversion)
+    {
+        $sourceFile = $media->getPathRelativeToRoot($conversion);
+
+        return $this->filesystem->disk($media->conversions_disk)->readStream($sourceFile);
+    }
+
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         file_put_contents($targetFile, $this->getStream($media));
@@ -235,7 +241,8 @@ class Filesystem
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            fn (string $path) => Str::contains($path, $conversionName)
+            fn (string $path) => Str::contains($path, $media->name.'___'.$conversionName)
+
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
@@ -254,12 +261,26 @@ class Filesystem
 
         $oldMedia = (clone $media)->fill($media->getOriginal());
 
-        if ($factory->getPath($oldMedia) === $factory->getPath($media)) {
+        $oldPath = $factory->getPath($oldMedia);
+        $newPath = $factory->getPath($media);
+
+        if ($oldPath === $newPath) {
             return;
         }
 
-        $this->filesystem->disk($media->disk)
-            ->move($factory->getPath($oldMedia), $factory->getPath($media));
+        // If the media is stored on S3, we need to move all files in the directory
+        if ($media->getDiskDriverName() === 's3') {
+            $allFiles = $this->filesystem->disk($media->disk)->allFiles($oldPath);
+
+            foreach ($allFiles as $file) {
+                $newFilePath = str_replace($oldPath, $newPath, $file);
+                $this->filesystem->disk($media->disk)->move($file, $newFilePath);
+            }
+
+            return;
+        }
+
+        $this->filesystem->disk($media->disk)->move($oldPath, $newPath);
     }
 
     protected function renameMediaFile(Media $media): void

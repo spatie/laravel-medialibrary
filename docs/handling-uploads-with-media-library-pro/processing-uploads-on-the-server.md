@@ -390,11 +390,11 @@ Here's an example where we will create 300x300 previews
 ```php
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 use Spatie\MediaLibrary\Conversions\Conversion;
-use Spatie\Image\Manipulations;
+use Spatie\Image\Enums\Fit;
 
 // in a service provider
 TemporaryUpload::previewManipulation(function(Conversion $conversion) {
-    $conversion->fit(Manipulations::FIT_CROP, 300, 300);
+    $conversion->fit(Fit::CROP, 300, 300);
 });
 ```
 

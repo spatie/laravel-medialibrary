@@ -92,11 +92,11 @@ class ConversionCollection extends Collection
         return $this->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
     }
 
-    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
+    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName): void
     {
         /** @var Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
-            if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
+            if (! $conversion->shouldBePerformedOn($this->media->collection_name)) {
                 return false;
             }
 
