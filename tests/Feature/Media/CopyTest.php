@@ -1,5 +1,6 @@
 <?php
 
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
 it('can copy media from one model to another', function () {
@@ -97,6 +98,30 @@ it('can copy media from one model to another on a specific disk', function () {
     expect($anotherModel->id)->toEqual($movedMedia->model->id);
     expect('custom-name')->toEqual($movedMedia->name);
     expect('custom-property-value')->toEqual($movedMedia->getCustomProperty('custom-property-name'));
+});
+
+it('can handle file adder callback', function () {
+    /** @var TestModel $model */
+    $model = TestModel::create(['name' => 'test']);
+
+    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    $media = $model
+        ->addMedia($this->getTestJpg())
+        ->usingName('custom-name')
+        ->withCustomProperties(['custom-property-name' => 'custom-property-value'])
+        ->toMediaCollection();
+
+    $this->assertFileExists($this->getMediaDirectory($media->id.'/test.jpg'));
+
+    $anotherModel = TestModel::create(['name' => 'another-test']);
+
+    $movedMedia = $media->copy($anotherModel, 'images', fileAdderCallback: function (FileAdder $fileAdder): FileAdder {
+        return $fileAdder->usingFileName('new-filename.jpg');
+    });
+
+    $movedMedia->refresh();
+
+    expect($movedMedia->file_name)->toBe('new-filename.jpg');
 });
 
 it('can copy file with accent', function () {
