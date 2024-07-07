@@ -59,17 +59,53 @@ class Manipulations
     public function apply(ImageDriver $image): void
     {
         foreach ($this->manipulations as $manipulationName => $parameters) {
-            match ($manipulationName) {
-                'border' => (isset($parameters['type'])) && $parameters['type'] = BorderType::from($parameters['type']),
-                'watermark' => (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']),
-                'watermark','resizeCanvas','insert' => (isset($parameters['position'])) && $parameters['position'] = AlignPosition::from($parameters['position']),
-                'pickColor' => (isset($parameters['colorFormat'])) && $parameters['colorFormat'] = ColorFormat::from($parameters['colorFormat']),
-                'resize','width','height' => (isset($parameters['constraints'])) && $parameters['constraints'] = Constraint::from($parameters['constraints']),
-                'crop' => (isset($parameters['position'])) && $parameters['position'] = CropPosition::from($parameters['position']),
-                'fit' => (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']),
-                'flip' => (isset($parameters['flip'])) && $parameters['flip'] = FlipDirection::from($parameters['flip']),
-                default => ''
-            };
+            switch ($manipulationName) {
+                case 'border':
+                    if (isset($parameters['type']) && !$parameters['type'] instanceof BorderType) {
+                        $parameters['type'] = BorderType::from($parameters['type']);
+                    }
+                    break;
+                case 'watermark':
+                    if (isset($parameters['fit']) && !$parameters['fit'] instanceof Fit) {
+                        $parameters['fit'] = Fit::from($parameters['fit']);
+                    }
+                // Fallthrough intended for position
+                case 'resizeCanvas':
+                case 'insert':
+                    if (isset($parameters['position']) && !$parameters['position'] instanceof AlignPosition) {
+                        $parameters['position'] = AlignPosition::from($parameters['position']);
+                    }
+                    break;
+                case 'pickColor':
+                    if (isset($parameters['colorFormat']) && !$parameters['colorFormat'] instanceof ColorFormat) {
+                        $parameters['colorFormat'] = ColorFormat::from($parameters['colorFormat']);
+                    }
+                    break;
+                case 'resize':
+                case 'width':
+                case 'height':
+                    if (isset($parameters['constraints']) && !$parameters['constraints'] instanceof Constraint) {
+                        $parameters['constraints'] = Constraint::from($parameters['constraints']);
+                    }
+                    break;
+                case 'crop':
+                    if (isset($parameters['position']) && !$parameters['position'] instanceof CropPosition) {
+                        $parameters['position'] = CropPosition::from($parameters['position']);
+                    }
+                    break;
+                case 'fit':
+                    if (isset($parameters['fit']) && !$parameters['fit'] instanceof Fit) {
+                        $parameters['fit'] = Fit::from($parameters['fit']);
+                    }
+                    break;
+                case 'flip':
+                    if (isset($parameters['flip']) && !$parameters['flip'] instanceof FlipDirection) {
+                        $parameters['flip'] = FlipDirection::from($parameters['flip']);
+                    }
+                    break;
+                default:
+                    break;
+            }
             $image->$manipulationName(...$parameters);
         }
     }
