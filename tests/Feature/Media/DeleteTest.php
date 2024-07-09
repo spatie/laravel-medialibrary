@@ -30,6 +30,16 @@ it('will remove the files when deleting a media instance', function () {
     expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeFalse();
 });
 
+it('will remove the files without extension', function () {
+    $media = $this->testModel->addMedia($this->getTestImageWithoutExtension())->toMediaCollection('images');
+
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
+
+    $media->delete();
+
+    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeFalse();
+});
+
 it('will remove files when deleting a media object with a custom path generator', function () {
     config(['media-library.path_generator' => TestPathGenerator::class]);
 

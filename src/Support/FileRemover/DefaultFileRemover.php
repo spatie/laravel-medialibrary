@@ -37,7 +37,7 @@ class DefaultFileRemover implements FileRemover
                     $imagePaths = array_filter(
                         $allFilePaths,
                         function (string $path) use ($media) {
-                            return Str::contains($path, pathinfo($media->file_name, PATHINFO_FILENAME).'.');
+                            return Str::afterLast($path, '/') === $media->file_name;
                         }
                     );
                     foreach ($imagePaths as $imagePath) {
