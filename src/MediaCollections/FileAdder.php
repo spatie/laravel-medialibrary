@@ -448,7 +448,9 @@ class FileAdder
             if ($fileAdder->file instanceof RemoteFile) {
                 Storage::disk($fileAdder->file->getDisk())->delete($fileAdder->file->getKey());
             } else {
-                unlink($fileAdder->pathToFile);
+                if (file_exists($fileAdder->pathToFile)) {
+                    unlink($fileAdder->pathToFile);
+                }
             }
         }
 
