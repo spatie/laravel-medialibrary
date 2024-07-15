@@ -5,13 +5,16 @@ namespace Spatie\MediaLibrary\MediaCollections;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
+use Rector\PhpParser\Node\CustomNode\FileWithoutNamespace;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileNameNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
@@ -389,9 +392,19 @@ class FileAdder
 
     public function defaultSanitizer(string $fileName): string
     {
-        $fileName = preg_replace('#\p{C}+#u', '', $fileName);
+        $sanitizedFileName = preg_replace('#\p{C}+#u', '', $fileName);
 
-        return str_replace(['#', '/', '\\', ' '], '-', $fileName);
+        $sanitizedFileName =  str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
+
+        $phpExtensions = [
+            'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar',
+        ];
+
+        if (Str::endsWith(strtolower($sanitizedFileName), $phpExtensions)) {
+            throw FileNameNotAllowed::create($fileName, $sanitizedFileName);
+        }
+
+        return $sanitizedFileName;
     }
 
     public function sanitizingFileName(callable $fileNameSanitizer): self
