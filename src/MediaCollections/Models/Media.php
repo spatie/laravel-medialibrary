@@ -470,18 +470,24 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     {
         MediaLibraryPro::ensureInstalled();
 
-        return $this->belongsTo(TemporaryUpload::class);
+        /** @var class-string<TemporaryUpload> $temporaryUploadModelClass */
+        $temporaryUploadModelClass = config('media-library.temporary_upload_model');
+
+        return $this->belongsTo($temporaryUploadModelClass);
     }
 
     public static function findWithTemporaryUploadInCurrentSession(array $uuids): EloquentCollection
     {
         MediaLibraryPro::ensureInstalled();
 
+        /** @var class-string<TemporaryUpload> $temporaryUploadModelClass */
+        $temporaryUploadModelClass = config('media-library.temporary_upload_model');
+
         return static::query()
             ->whereIn('uuid', $uuids)
             ->whereHasMorph(
                 'model',
-                [TemporaryUpload::class],
+                [$temporaryUploadModelClass],
                 fn (Builder $builder) => $builder->where('session_id', session()->getId())
             )
             ->get();
