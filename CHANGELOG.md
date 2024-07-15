@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.7.4 - 2024-07-15
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3662
+* Do not allow php files
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.7.3...11.7.4
+
 ## 11.7.3 - 2024-07-02
 
 ### What's Changed
