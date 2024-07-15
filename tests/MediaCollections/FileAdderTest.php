@@ -25,7 +25,7 @@ it('sanitizes filenames correctly', function () {
         ->toEqual('Scan-9.14.2022-7.23.28.pdf');
 });
 
-it('will throw an exception if the sanitized file name is a php file name', function() {
+it('will throw an exception if the sanitized file name is a php file name', function () {
     $adder = app(FileAdder::class);
 
     $adder->defaultSanitizer('filename.php‎');

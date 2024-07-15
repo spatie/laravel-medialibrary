@@ -2,8 +2,6 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
 
-use Spatie\MediaLibrary\Support\File;
-
 class FileNameNotAllowed extends FileCannotBeAdded
 {
     public static function create(string $orignalName, string $sanitizedName): self

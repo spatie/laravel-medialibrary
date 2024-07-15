@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-use Rector\PhpParser\Node\CustomNode\FileWithoutNamespace;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
@@ -394,7 +393,7 @@ class FileAdder
     {
         $sanitizedFileName = preg_replace('#\p{C}+#u', '', $fileName);
 
-        $sanitizedFileName =  str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
+        $sanitizedFileName = str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
 
         $phpExtensions = [
             'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar',
