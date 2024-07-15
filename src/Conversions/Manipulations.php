@@ -5,7 +5,6 @@ namespace Spatie\MediaLibrary\Conversions;
 use Spatie\Image\Drivers\ImageDriver;
 use Spatie\Image\Enums\AlignPosition;
 use Spatie\Image\Enums\BorderType;
-use Spatie\Image\Enums\ColorFormat;
 use Spatie\Image\Enums\Constraint;
 use Spatie\Image\Enums\CropPosition;
 use Spatie\Image\Enums\Fit;
@@ -59,17 +58,7 @@ class Manipulations
     public function apply(ImageDriver $image): void
     {
         foreach ($this->manipulations as $manipulationName => $parameters) {
-            match ($manipulationName) {
-                'border' => (isset($parameters['type'])) && $parameters['type'] = BorderType::from($parameters['type']),
-                'watermark' => (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']),
-                'watermark','resizeCanvas','insert' => (isset($parameters['position'])) && $parameters['position'] = AlignPosition::from($parameters['position']),
-                'pickColor' => (isset($parameters['colorFormat'])) && $parameters['colorFormat'] = ColorFormat::from($parameters['colorFormat']),
-                'resize','width','height' => (isset($parameters['constraints'])) && $parameters['constraints'] = Constraint::from($parameters['constraints']),
-                'crop' => (isset($parameters['position'])) && $parameters['position'] = CropPosition::from($parameters['position']),
-                'fit' => (isset($parameters['fit'])) && $parameters['fit'] = Fit::from($parameters['fit']),
-                'flip' => (isset($parameters['flip'])) && $parameters['flip'] = FlipDirection::from($parameters['flip']),
-                default => ''
-            };
+            $parameters = $this->transformParameters($manipulationName, $parameters);
             $image->$manipulationName(...$parameters);
         }
     }
@@ -93,5 +82,61 @@ class Manipulations
     public function toArray(): array
     {
         return $this->manipulations;
+    }
+
+    /**
+     * @param  int|string  $manipulationName
+     * @param  mixed  $parameters
+     * @return mixed
+     */
+    public function transformParameters(int|string $manipulationName, mixed $parameters): mixed
+    {
+        switch ($manipulationName) {
+            case 'border':
+                if (isset($parameters['type']) && !$parameters['type'] instanceof BorderType) {
+                    $parameters['type'] = BorderType::from($parameters['type']);
+                }
+                break;
+            case 'watermark':
+                if (isset($parameters['fit']) && !$parameters['fit'] instanceof Fit) {
+                    $parameters['fit'] = Fit::from($parameters['fit']);
+                }
+            // Fallthrough intended for position
+            case 'resizeCanvas':
+            case 'insert':
+                if (isset($parameters['position']) && !$parameters['position'] instanceof AlignPosition) {
+                    $parameters['position'] = AlignPosition::from($parameters['position']);
+                }
+                break;
+            case 'resize':
+            case 'width':
+            case 'height':
+                if (isset($parameters['constraints']) && is_array($parameters['constraints'])) {
+                    foreach ($parameters['constraints'] as &$constraint) {
+                        if (!$constraint instanceof Constraint) {
+                            $constraint = Constraint::from($constraint);
+                        }
+                    }
+                }
+                break;
+            case 'crop':
+                if (isset($parameters['position']) && !$parameters['position'] instanceof CropPosition) {
+                    $parameters['position'] = CropPosition::from($parameters['position']);
+                }
+                break;
+            case 'fit':
+                if (isset($parameters['fit']) && !$parameters['fit'] instanceof Fit) {
+                    $parameters['fit'] = Fit::from($parameters['fit']);
+                }
+                break;
+            case 'flip':
+                if (isset($parameters['flip']) && !$parameters['flip'] instanceof FlipDirection) {
+                    $parameters['flip'] = FlipDirection::from($parameters['flip']);
+                }
+                break;
+            default:
+                break;
+        }
+        return $parameters;
     }
 }
