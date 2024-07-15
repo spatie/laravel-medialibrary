@@ -35,7 +35,7 @@ trait IsSorted
     {
         foreach ($ids as $id) {
             $model = static::find($id);
-            if (!$model) {
+            if (! $model) {
                 continue;
             }
 
