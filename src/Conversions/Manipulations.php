@@ -84,27 +84,22 @@ class Manipulations
         return $this->manipulations;
     }
 
-    /**
-     * @param  int|string  $manipulationName
-     * @param  mixed  $parameters
-     * @return mixed
-     */
     public function transformParameters(int|string $manipulationName, mixed $parameters): mixed
     {
         switch ($manipulationName) {
             case 'border':
-                if (isset($parameters['type']) && !$parameters['type'] instanceof BorderType) {
+                if (isset($parameters['type']) && ! $parameters['type'] instanceof BorderType) {
                     $parameters['type'] = BorderType::from($parameters['type']);
                 }
                 break;
             case 'watermark':
-                if (isset($parameters['fit']) && !$parameters['fit'] instanceof Fit) {
+                if (isset($parameters['fit']) && ! $parameters['fit'] instanceof Fit) {
                     $parameters['fit'] = Fit::from($parameters['fit']);
                 }
-            // Fallthrough intended for position
+                // Fallthrough intended for position
             case 'resizeCanvas':
             case 'insert':
-                if (isset($parameters['position']) && !$parameters['position'] instanceof AlignPosition) {
+                if (isset($parameters['position']) && ! $parameters['position'] instanceof AlignPosition) {
                     $parameters['position'] = AlignPosition::from($parameters['position']);
                 }
                 break;
@@ -113,30 +108,31 @@ class Manipulations
             case 'height':
                 if (isset($parameters['constraints']) && is_array($parameters['constraints'])) {
                     foreach ($parameters['constraints'] as &$constraint) {
-                        if (!$constraint instanceof Constraint) {
+                        if (! $constraint instanceof Constraint) {
                             $constraint = Constraint::from($constraint);
                         }
                     }
                 }
                 break;
             case 'crop':
-                if (isset($parameters['position']) && !$parameters['position'] instanceof CropPosition) {
+                if (isset($parameters['position']) && ! $parameters['position'] instanceof CropPosition) {
                     $parameters['position'] = CropPosition::from($parameters['position']);
                 }
                 break;
             case 'fit':
-                if (isset($parameters['fit']) && !$parameters['fit'] instanceof Fit) {
+                if (isset($parameters['fit']) && ! $parameters['fit'] instanceof Fit) {
                     $parameters['fit'] = Fit::from($parameters['fit']);
                 }
                 break;
             case 'flip':
-                if (isset($parameters['flip']) && !$parameters['flip'] instanceof FlipDirection) {
+                if (isset($parameters['flip']) && ! $parameters['flip'] instanceof FlipDirection) {
                     $parameters['flip'] = FlipDirection::from($parameters['flip']);
                 }
                 break;
             default:
                 break;
         }
+
         return $parameters;
     }
 }

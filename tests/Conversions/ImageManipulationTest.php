@@ -1,17 +1,17 @@
 <?php
 
-use Spatie\Image\Enums\BorderType;
-use Spatie\Image\Enums\Fit;
 use Spatie\Image\Enums\AlignPosition;
+use Spatie\Image\Enums\BorderType;
 use Spatie\Image\Enums\Constraint;
 use Spatie\Image\Enums\CropPosition;
+use Spatie\Image\Enums\Fit;
 use Spatie\Image\Enums\FlipDirection;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\Conversions\Manipulations;
 
 it('transforms parameters correctly', function () {
     // Mock the image object
-    $image =  Image::load(pathToImage: $this->getTestJpg());
+    $image = Image::load(pathToImage: $this->getTestJpg());
 
     // Define manipulations
     $manipulations = [
@@ -19,7 +19,7 @@ it('transforms parameters correctly', function () {
         'watermark' => ['fit' => 'contain', 'watermarkImage' => $this->getTestPng()],
         'resizeCanvas' => ['position' => 'center'],
         'resize' => ['constraints' => ['preserveAspectRatio'], 'width' => 100, 'height' => 100],
-        'crop' => ['width' => 50, 'height'=> 50, 'position' => 'topLeft'],
+        'crop' => ['width' => 50, 'height' => 50, 'position' => 'topLeft'],
         'fit' => ['fit' => 'contain'],
         'flip' => ['flip' => 'horizontal'],
     ];
@@ -51,7 +51,7 @@ it('transforms parameters correctly', function () {
 
 it('handles parameters that are already enum instances', function () {
     // Mock the image object
-    $image =  Image::load(pathToImage: $this->getTestJpg());
+    $image = Image::load(pathToImage: $this->getTestJpg());
 
     // Define manipulations with parameters already as enum instances
     $manipulations = [
@@ -59,7 +59,7 @@ it('handles parameters that are already enum instances', function () {
         'watermark' => ['fit' => Fit::Contain, 'watermarkImage' => $this->getTestPng()],
         'resizeCanvas' => ['position' => AlignPosition::Center],
         'resize' => ['constraints' => [Constraint::PreserveAspectRatio], 'width' => 100, 'height' => 100],
-        'crop' => ['width' => 50, 'height'=> 50, 'position' => CropPosition::TopLeft],
+        'crop' => ['width' => 50, 'height' => 50, 'position' => CropPosition::TopLeft],
         'fit' => ['fit' => Fit::Contain],
         'flip' => ['flip' => FlipDirection::Horizontal],
     ];
