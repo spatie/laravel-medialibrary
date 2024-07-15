@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.7.5 - 2024-07-15
+
+### What's Changed
+
+* Leverage configured TemporaryUpload model class by @tominon in https://github.com/spatie/laravel-medialibrary/pull/3663
+* Don't pull all media models from DB when performing cleanup by @ImJustToNy in https://github.com/spatie/laravel-medialibrary/pull/3657
+* Check for enum instances when applying manipulations by @dennisvandalen in https://github.com/spatie/laravel-medialibrary/pull/3661
+* add null check in setNewOrder by @DirtyRacer1337 in https://github.com/spatie/laravel-medialibrary/pull/3649
+* Fix deletion of files without extension by @cbaconnier in https://github.com/spatie/laravel-medialibrary/pull/3664
+
+### New Contributors
+
+* @tominon made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3663
+* @ImJustToNy made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3657
+* @dennisvandalen made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3661
+* @cbaconnier made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3664
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.7.4...11.7.5
+
 ## 11.7.4 - 2024-07-15
 
 ### What's Changed
