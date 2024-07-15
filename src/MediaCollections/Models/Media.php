@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Models;
 
+use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Contracts\Support\Htmlable;
@@ -20,6 +21,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -393,9 +395,16 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $newMedia;
     }
 
-    /** @param  string  $collectionName */
-    public function copy(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
-    {
+    /**
+     * @param  null|Closure(FileAdder): FileAdder  $fileAdderCallback
+     */
+    public function copy(
+        HasMedia $model,
+        string $collectionName = 'default',
+        string $diskName = '',
+        string $fileName = '',
+        ?Closure $fileAdderCallback = null
+    ): self {
         $temporaryDirectory = TemporaryDirectory::create();
 
         $temporaryFile = $temporaryDirectory->path('/').DIRECTORY_SEPARATOR.$this->file_name;
@@ -411,11 +420,16 @@ class Media extends Model implements Attachable, Htmlable, Responsable
             ->setOrder($this->order_column)
             ->withManipulations($this->manipulations)
             ->withCustomProperties($this->custom_properties);
+
         if ($fileName !== '') {
             $fileAdder->usingFileName($fileName);
         }
-        $newMedia = $fileAdder
-            ->toMediaCollection($collectionName, $diskName);
+
+        if ($fileAdderCallback instanceof Closure) {
+            $fileAdder = $fileAdderCallback($fileAdder);
+        }
+
+        $newMedia = $fileAdder->toMediaCollection($collectionName, $diskName);
 
         $temporaryDirectory->delete();
 
