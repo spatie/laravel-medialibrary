@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.7.6 - 2024-07-18
+
+### What's Changed
+
+* Use Lazy Collection for artisan commands by @patrickomeara in https://github.com/spatie/laravel-medialibrary/pull/3670
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.7.5...11.7.6
+
 ## 11.7.5 - 2024-07-15
 
 ### What's Changed
