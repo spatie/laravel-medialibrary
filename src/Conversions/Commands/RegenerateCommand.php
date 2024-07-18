@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
@@ -80,7 +80,7 @@ class RegenerateCommand extends Command
         $this->info('All done!');
     }
 
-    public function getMediaToBeRegenerated(): Collection
+    public function getMediaToBeRegenerated(): LazyCollection
     {
         // Get this arg first as it can also be passed to the greater-than-id branch
         $modelType = $this->argument('modelType');
