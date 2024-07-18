@@ -4,9 +4,9 @@ namespace Spatie\MediaLibrary\MediaCollections;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection as DbCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -41,9 +41,9 @@ class MediaRepository
         return $media->filter($filter);
     }
 
-    public function all(): DbCollection
+    public function all(): LazyCollection
     {
-        return $this->query()->get();
+        return $this->query()->cursor();
     }
 
     public function allIds(): Collection
@@ -51,50 +51,50 @@ class MediaRepository
         return $this->query()->pluck($this->model->getKeyName());
     }
 
-    public function getByModelType(string $modelType): DbCollection
+    public function getByModelType(string $modelType): LazyCollection
     {
-        return $this->query()->where('model_type', $modelType)->get();
+        return $this->query()->where('model_type', $modelType)->cursor();
     }
 
-    public function getByIds(array $ids): DbCollection
+    public function getByIds(array $ids): LazyCollection
     {
-        return $this->query()->whereIn($this->model->getKeyName(), $ids)->get();
+        return $this->query()->whereIn($this->model->getKeyName(), $ids)->cursor();
     }
 
-    public function getByIdGreaterThan(int $startingFromId, bool $excludeStartingId = false, string $modelType = ''): DbCollection
+    public function getByIdGreaterThan(int $startingFromId, bool $excludeStartingId = false, string $modelType = ''): LazyCollection
     {
         return $this->query()
             ->where($this->model->getKeyName(), $excludeStartingId ? '>' : '>=', $startingFromId)
             ->when($modelType !== '', fn (Builder $q) => $q->where('model_type', $modelType))
-            ->get();
+            ->cursor();
     }
 
-    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection
+    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): LazyCollection
     {
         return $this->query()
             ->where('model_type', $modelType)
             ->where('collection_name', $collectionName)
-            ->get();
+            ->cursor();
     }
 
-    public function getByCollectionName(string $collectionName): DbCollection
+    public function getByCollectionName(string $collectionName): LazyCollection
     {
         return $this->query()
             ->where('collection_name', $collectionName)
-            ->get();
+            ->cursor();
     }
 
-    public function getOrphans(): DbCollection
+    public function getOrphans(): LazyCollection
     {
         return $this->orphansQuery()
-            ->get();
+            ->cursor();
     }
 
-    public function getOrphansByCollectionName(string $collectionName): DbCollection
+    public function getOrphansByCollectionName(string $collectionName): LazyCollection
     {
         return $this->orphansQuery()
             ->where('collection_name', $collectionName)
-            ->get();
+            ->cursor();
     }
 
     protected function query(): Builder
