@@ -241,7 +241,7 @@ class FileAdder
 
         $mediaClass = $this->subject?->getMediaModel() ?? config('media-library.media_model');
         /** @var Media $media */
-        $media = new $mediaClass();
+        $media = new $mediaClass;
 
         $media->name = $this->mediaName;
 
@@ -304,7 +304,7 @@ class FileAdder
 
         $mediaClass = $this->subject?->getMediaModel() ?? config('media-library.media_model');
         /** @var Media $media */
-        $media = new $mediaClass();
+        $media = new $mediaClass;
 
         $media->name = $this->mediaName;
 
@@ -466,7 +466,7 @@ class FileAdder
             }
         }
 
-        if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
+        if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
             $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);

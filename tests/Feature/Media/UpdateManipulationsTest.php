@@ -4,7 +4,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
 it('will create derived files when manipulations have changed', function () {
-    $testModelClass = new class() extends TestModel
+    $testModelClass = new class extends TestModel
     {
         public function registerMediaConversions(?Media $media = null): void
         {
@@ -36,7 +36,7 @@ it('will create derived files when manipulations have changed', function () {
 });
 
 it('will not create derived files when manipulations have not changed', function () {
-    $testModelClass = new class() extends TestModel
+    $testModelClass = new class extends TestModel
     {
         public function registerMediaConversions(?Media $media = null): void
         {

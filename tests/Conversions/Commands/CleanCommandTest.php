@@ -227,7 +227,7 @@ it('can clean deprecated conversion files in custom path', function () {
 
     $this->urlGenerator = new DefaultUrlGenerator($this->config);
 
-    $this->pathGenerator = new CustomPathGenerator();
+    $this->pathGenerator = new CustomPathGenerator;
 
     $this->urlGenerator->setPathGenerator($this->pathGenerator);
 
@@ -256,7 +256,7 @@ it('can clean deprecated conversion files in same path as original image', funct
 
     $this->urlGenerator = new DefaultUrlGenerator($this->config);
 
-    $this->pathGenerator = new TestPathGeneratorConversionsInOriginalImageDirectory();
+    $this->pathGenerator = new TestPathGeneratorConversionsInOriginalImageDirectory;
 
     $this->urlGenerator->setPathGenerator($this->pathGenerator);
 
@@ -360,7 +360,7 @@ it('will not clean orphaned media items when disabled', function () {
 });
 
 it('will not clean media items on soft deleted models', function () {
-    $testModelClass = new class() extends TestModel
+    $testModelClass = new class extends TestModel
     {
         use SoftDeletes;
     };

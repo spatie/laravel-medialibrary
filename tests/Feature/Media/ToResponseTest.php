@@ -10,7 +10,7 @@ test('to response sends the content', function () {
     $content = ob_get_contents();
     ob_end_clean();
 
-    $temporaryDirectory = (new TemporaryDirectory())->create();
+    $temporaryDirectory = (new TemporaryDirectory)->create();
     file_put_contents($temporaryDirectory->path('response.pdf'), $content);
 
     $this->assertFileEquals($testPdf, $temporaryDirectory->path('response.pdf'));

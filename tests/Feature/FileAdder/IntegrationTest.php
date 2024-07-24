@@ -628,7 +628,7 @@ it('will throw an exception and revert database when file cannot be added', func
 });
 
 it('will throw an exception and revert database when file cannot be added and model uses softdeletes', function () {
-    $testModelClass = new class() extends TestModel
+    $testModelClass = new class extends TestModel
     {
         use SoftDeletes;
     };

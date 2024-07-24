@@ -139,7 +139,7 @@ trait InteractsWithMedia
         }
 
         $downloader = config('media-library.media_downloader', DefaultDownloader::class);
-        $temporaryFile = (new $downloader())->getTempFile($url);
+        $temporaryFile = (new $downloader)->getTempFile($url);
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
@@ -383,7 +383,7 @@ trait InteractsWithMedia
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
         $mediaClass = $this->getMediaModel();
-        $mediaInstance = new $mediaClass();
+        $mediaInstance = new $mediaClass;
         $keyName = $mediaInstance->getKeyName();
 
         return collect($newMediaArray)

@@ -5,7 +5,7 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\Svg;
 it('can convert a svg', function () {
     config()->set('media-library.image_driver', 'imagick');
 
-    $imageGenerator = new Svg();
+    $imageGenerator = new Svg;
 
     if (! $imageGenerator->requirementsAreInstalled()) {
         $this->markTestSkipped('Skipping svg test because requirements to run it are not met');
