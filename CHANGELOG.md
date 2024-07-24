@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.8.0 - 2024-07-24
+
+### What's Changed
+
+* Added ability to programatically specify custom queue on FileAdder by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3676
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.7.6...11.8.0
+
 ## 11.7.6 - 2024-07-18
 
 ### What's Changed
