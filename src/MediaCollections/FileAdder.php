@@ -50,6 +50,8 @@ class FileAdder
 
     protected string $diskName = '';
 
+    protected ?string $onQueue = null;
+
     protected ?int $fileSize = null;
 
     protected string $conversionsDiskName = '';
@@ -178,6 +180,13 @@ class FileAdder
         return $this;
     }
 
+    public function onQueue(?string $queue = null): self
+    {
+        $this->onQueue = $queue;
+
+        return $this;
+    }
+
     public function withManipulations(array $manipulations): self
     {
         $this->manipulations = $manipulations;
@@ -241,7 +250,7 @@ class FileAdder
 
         $mediaClass = $this->subject?->getMediaModel() ?? config('media-library.media_model');
         /** @var Media $media */
-        $media = new $mediaClass();
+        $media = new $mediaClass;
 
         $media->name = $this->mediaName;
 
@@ -304,7 +313,7 @@ class FileAdder
 
         $mediaClass = $this->subject?->getMediaModel() ?? config('media-library.media_model');
         /** @var Media $media */
-        $media = new $mediaClass();
+        $media = new $mediaClass;
 
         $media->name = $this->mediaName;
 
@@ -466,7 +475,7 @@ class FileAdder
             }
         }
 
-        if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
+        if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
             $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
@@ -475,7 +484,7 @@ class FileAdder
                 $job->onConnection($customConnection);
             }
 
-            if ($customQueue = config('media-library.queue_name')) {
+            if ($customQueue = ($this->onQueue ?? config('media-library.queue_name'))) {
                 $job->onQueue($customQueue);
             }
 

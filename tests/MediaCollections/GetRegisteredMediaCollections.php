@@ -3,7 +3,7 @@
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 it('calling getRegisteredMediaCollections multiple times should return the same result', function () {
-    $testModel = new class() extends TestModelWithConversion
+    $testModel = new class extends TestModelWithConversion
     {
         public function registerMediaCollections(): void
         {

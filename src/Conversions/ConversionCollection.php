@@ -20,7 +20,7 @@ class ConversionCollection extends Collection
 
     public static function createForMedia(Media $media): self
     {
-        return (new static())->setMedia($media);
+        return (new static)->setMedia($media);
     }
 
     public function setMedia(Media $media): self
@@ -56,7 +56,7 @@ class ConversionCollection extends Collection
         }
 
         /** @var \Spatie\MediaLibrary\HasMedia $model */
-        $model = new $modelName();
+        $model = new $modelName;
 
         /*
          * In some cases the user might want to get the actual model

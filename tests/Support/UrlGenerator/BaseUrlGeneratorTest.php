@@ -14,7 +14,7 @@ beforeEach(function () {
     $this->conversionKeepingOriginalImageFormat = ConversionCollection::createForMedia($this->media)->getByName('keep_original_format');
 
     $this->urlGenerator = new DefaultUrlGenerator($this->config);
-    $this->pathGenerator = new DefaultPathGenerator();
+    $this->pathGenerator = new DefaultPathGenerator;
 
     $this->urlGenerator
         ->setMedia($this->media)

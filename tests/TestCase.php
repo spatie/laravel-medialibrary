@@ -57,7 +57,7 @@ abstract class TestCase extends Orchestra
         $this->setUpTempTestFiles();
 
         $this->testModel = TestModel::first();
-        $this->testUnsavedModel = new TestModel();
+        $this->testUnsavedModel = new TestModel;
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithMultipleConversions = TestModelWithMultipleConversions::first();
         $this->testModelWithPreviewConversion = TestModelWithPreviewConversion::first();
@@ -145,7 +145,7 @@ abstract class TestCase extends Orchestra
 
         if (MediaLibraryPro::isInstalled()) {
             include_once __DIR__.'/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
-            (new CreateTemporaryUploadsTable())->up();
+            (new CreateTemporaryUploadsTable)->up();
         }
 
         $mediaTableMigration = require __DIR__.'/../database/migrations/create_media_table.php.stub';
@@ -321,7 +321,7 @@ abstract class TestCase extends Orchestra
 
     protected function fileExistsInZip($zipPath, $filename): bool
     {
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
@@ -332,7 +332,7 @@ abstract class TestCase extends Orchestra
 
     protected function fileExistsInZipRecognizeFolder($zipPath, $filename): bool
     {
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename) !== false;
