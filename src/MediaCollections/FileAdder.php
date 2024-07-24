@@ -50,6 +50,8 @@ class FileAdder
 
     protected string $diskName = '';
 
+    protected ?string $onQueue = null;
+
     protected ?int $fileSize = null;
 
     protected string $conversionsDiskName = '';
@@ -174,6 +176,13 @@ class FileAdder
     public function storingConversionsOnDisk(string $diskName): self
     {
         $this->conversionsDiskName = $diskName;
+
+        return $this;
+    }
+
+    public function onQueue(?string $queue = null): self
+    {
+        $this->onQueue = $queue;
 
         return $this;
     }
@@ -475,7 +484,7 @@ class FileAdder
                 $job->onConnection($customConnection);
             }
 
-            if ($customQueue = config('media-library.queue_name')) {
+            if ($customQueue = ($this->onQueue ?? config('media-library.queue_name'))) {
                 $job->onQueue($customQueue);
             }
 
