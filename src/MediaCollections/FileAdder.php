@@ -405,7 +405,7 @@ class FileAdder
         $sanitizedFileName = str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
 
         $phpExtensions = [
-            'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar',
+            '.php', '.php3', '.php4', '.php5', '.php7', '.php8', '.phtml', '.phar',
         ];
 
         if (Str::endsWith(strtolower($sanitizedFileName), $phpExtensions)) {
