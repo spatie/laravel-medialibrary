@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.8.1 - 2024-07-26
+
+### What's Changed
+
+* Adjust sanitization of PHP file extensions in `FileAdder.php` by @rmdavi in https://github.com/spatie/laravel-medialibrary/pull/3681
+
+### New Contributors
+
+* @rmdavi made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3681
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.8.0...11.8.1
+
 ## 11.8.0 - 2024-07-24
 
 ### What's Changed
