@@ -30,3 +30,9 @@ it('will throw an exception if the sanitized file name is a php file name', func
 
     $adder->defaultSanitizer('filename.php‎');
 })->throws(FileNameNotAllowed::class);
+
+it('will not throw an exception if the sanitized file name ends with php but is not a php file', function () {
+    $adder = app(FileAdder::class);
+
+    $adder->defaultSanitizer('media-libraryJQwPHp');
+})->throwsNoExceptions();
