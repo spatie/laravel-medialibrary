@@ -59,13 +59,17 @@ class FileManipulator
 
         $conversions
             ->reject(function (Conversion $conversion) use ($onlyMissing, $media) {
+                if (! $onlyMissing) {
+                    return false;
+                }
+
                 $relativePath = $media->getPath($conversion->getName());
 
                 if ($rootPath = config("filesystems.disks.{$media->disk}.root")) {
                     $relativePath = str_replace($rootPath, '', $relativePath);
                 }
 
-                return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
+                return Storage::disk($media->disk)->exists($relativePath);
             })
             ->each(function (Conversion $conversion) use ($media, $copiedOriginalFile) {
                 (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile);
