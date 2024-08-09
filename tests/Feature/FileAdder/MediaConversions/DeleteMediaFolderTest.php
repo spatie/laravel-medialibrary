@@ -104,4 +104,3 @@ it('will remove the media folder when deleting a subject with media conversions 
         expect(File::isDirectory($this->getMediaDirectory($id)))->toBeFalse();
     });
 });
-
