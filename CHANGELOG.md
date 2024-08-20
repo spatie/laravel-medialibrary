@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.8.3 - 2024-08-20
+
+### What's Changed
+
+* Dispatch conversion jobs after database transactions have been committed by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3687
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.8.2...11.8.3
+
 ## 11.8.2 - 2024-08-09
 
 ### What's Changed
