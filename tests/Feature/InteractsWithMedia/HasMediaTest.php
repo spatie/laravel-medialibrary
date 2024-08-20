@@ -1,5 +1,7 @@
 <?php
 
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 it('returns false for an empty collection', function () {
     expect($this->testModel->hasMedia())->toBeFalse();
 });
@@ -42,4 +44,33 @@ it('returns true for a filtered collection', function () {
     expect($this->testModel->hasMedia('default'))->toBeTrue();
     expect($this->testModel->hasMedia('default', ['test' => true]))->toBeTrue();
     expect($this->testModel->hasMedia('default', ['test' => false]))->toBeFalse();
+});
+
+it('returns true using a filter callback', function () {
+    $media1 = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withCustomProperties(['filter1' => 'value1'])
+        ->toMediaCollection();
+
+    $media2 = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withCustomProperties(['filter1' => 'value2'])
+        ->toMediaCollection('images');
+
+    $media3 = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withCustomProperties(['filter2' => 'value1'])
+        ->toMediaCollection('images');
+
+    $media4 = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withCustomProperties(['filter2' => 'value2'])
+        ->toMediaCollection('images');
+
+    expect($this->testModel->hasMedia('images', fn (Media $media) => isset($media->custom_properties['filter1'])))->toBeTrue();
+    expect($this->testModel->hasMedia('images', fn (Media $media) => isset($media->custom_properties['filter3'])))->toBeFalse();
 });
