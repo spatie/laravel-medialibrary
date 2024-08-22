@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.9.0 - 2024-08-22
+
+### What's Changed
+
+* Added config variable to disable dispatching jobs after commit by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3698
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.8.3...11.9.0
+
 ## 11.8.3 - 2024-08-20
 
 ### What's Changed
