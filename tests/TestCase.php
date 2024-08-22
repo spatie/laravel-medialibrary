@@ -30,7 +30,7 @@ abstract class TestCase extends Orchestra
 
     protected TestModelWithConversion $testModelWithConversion;
 
-    protected TestModelWithMultipleConversion $testModelWithMultipleConversion;
+    protected TestModelWithMultipleConversions $testModelWithMultipleConversions;
 
     protected TestModelWithPreviewConversion $testModelWithPreviewConversion;
 

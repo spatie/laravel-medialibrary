@@ -2,6 +2,26 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.8.3 - 2024-08-20
+
+### What's Changed
+
+* Dispatch conversion jobs after database transactions have been committed by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3687
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.8.2...11.8.3
+
+## 11.8.2 - 2024-08-09
+
+### What's Changed
+
+* Correctly remove media folders after removing all media files by @StyxUA in https://github.com/spatie/laravel-medialibrary/pull/3688
+
+### New Contributors
+
+* @StyxUA made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3688
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.8.1...11.8.2
+
 ## 11.8.1 - 2024-07-26
 
 ### What's Changed

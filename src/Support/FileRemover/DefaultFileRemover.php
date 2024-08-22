@@ -16,14 +16,14 @@ class DefaultFileRemover implements FileRemover
     {
 
         if ($media->conversions_disk && $media->disk !== $media->conversions_disk) {
-            $this->removeFromMediaDirectory($media, $media->conversions_disk);
             $this->removeFromConversionsDirectory($media, $media->conversions_disk);
             $this->removeFromResponsiveImagesDirectory($media, $media->conversions_disk);
+            $this->removeFromMediaDirectory($media, $media->conversions_disk);
         }
 
-        $this->removeFromMediaDirectory($media, $media->disk);
         $this->removeFromConversionsDirectory($media, $media->disk);
         $this->removeFromResponsiveImagesDirectory($media, $media->disk);
+        $this->removeFromMediaDirectory($media, $media->disk);
     }
 
     public function removeFromMediaDirectory(Media $media, string $disk): void
