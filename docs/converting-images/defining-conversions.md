@@ -149,6 +149,11 @@ public function registerMediaConversions(?Media $media = null): void
 }
 ```
 
+The default behaviour is that queued conversions will run **after all database transactions have been committed**. \
+This prevents unexpected behaviour where the model does not yet exist in the database and the conversion is disregarded.
+If you need the conversions to run within your transaction, you can set the `queue_conversions_after_database_commit`
+in the `media-library` config file to `false`.
+
 ## Using model properties in a conversion
 
 When registering conversions inside the `registerMediaConversions` function you won't have access to your model properties by default. If you want to use a property of your model as input for defining a conversion you must set `registerMediaConversionsUsingModelInstance` to `
