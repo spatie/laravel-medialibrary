@@ -95,7 +95,9 @@ class FileManipulator
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue(config('media-library.queue_name'));
 
-        dispatch($job)->afterCommit();
+        config('media-library.queue_conversions_after_database_commit')
+            ? dispatch($job)->afterCommit()
+            : dispatch($job);
 
         return $this;
     }
@@ -120,7 +122,9 @@ class FileManipulator
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue(config('media-library.queue_name'));
 
-        dispatch($job)->afterCommit();
+        config('media-library.queue_conversions_after_database_commit')
+            ? dispatch($job)->afterCommit()
+            : dispatch($job);
 
         return $this;
     }
