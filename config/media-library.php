@@ -15,6 +15,11 @@ return [
     'max_file_size' => 1024 * 1024 * 10, // 10MB
 
     /*
+     * Determiner if the media table should use ULID instead of UUID.
+     */
+    'ulid' => env('MEDIA_ULID', true),
+
+    /*
      * This queue connection will be used to generate derived and responsive images.
      * Leave empty to use the default queue connection.
      */

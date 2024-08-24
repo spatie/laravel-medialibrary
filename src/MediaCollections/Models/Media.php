@@ -26,6 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
+use Spatie\MediaLibrary\MediaCollections\Models\Concerns\DetermineUniqueColumn;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
@@ -39,6 +40,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @property string $uuid
+ * @property string $ulid
  * @property string $model_type
  * @property string|int $model_id
  * @property string $collection_name
@@ -66,6 +68,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     use CustomMediaProperties;
     use HasUuid;
     use IsSorted;
+    use DetermineUniqueColumn;
 
     protected $table = 'media';
 
