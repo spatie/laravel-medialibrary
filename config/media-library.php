@@ -17,7 +17,7 @@ return [
     /*
      * Determiner if the media table should use ULID instead of UUID.
      */
-    'ulid' => env('MEDIA_ULID', true),
+    'ulid' => env('MEDIA_ULID', false),
 
     /*
      * This queue connection will be used to generate derived and responsive images.
