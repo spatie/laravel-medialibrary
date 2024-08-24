@@ -2,7 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Models\Concerns;
 
-trait DetermineUniqueColumn
+trait DetermineUniqueIdentifierColumn
 {
     public static function determineUniqueIdentifierColumn(): string
     {

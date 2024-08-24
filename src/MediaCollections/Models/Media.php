@@ -26,7 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\CustomMediaProperties;
-use Spatie\MediaLibrary\MediaCollections\Models\Concerns\DetermineUniqueColumn;
+use Spatie\MediaLibrary\MediaCollections\Models\Concerns\DetermineUniqueIdentifierColumn;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\MediaCollections\Models\Concerns\IsSorted;
 use Spatie\MediaLibrary\ResponsiveImages\RegisteredResponsiveImages;
@@ -68,7 +68,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     use CustomMediaProperties;
     use HasUuid;
     use IsSorted;
-    use DetermineUniqueColumn;
+    use DetermineUniqueIdentifierColumn;
 
     protected $table = 'media';
 
