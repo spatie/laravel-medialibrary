@@ -5,9 +5,11 @@ namespace Spatie\MediaLibrary\Tests;
 use CreateTemporaryUploadsTable;
 use Dotgetenv\Dotgetenv;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Schema;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
@@ -151,6 +153,21 @@ abstract class TestCase extends Orchestra
         $mediaTableMigration = require __DIR__.'/../database/migrations/create_media_table.php.stub';
 
         $mediaTableMigration->up();
+    }
+
+    protected function setUpDatabaseCustomKeyName()
+    {
+        $customKeyNameMigration = new class extends Migration
+        {
+            public function up()
+            {
+                Schema::table('media', function (Blueprint $table) {
+                    $table->renameColumn('id', 'custom_key_id');
+                });
+            }
+        };
+
+        $customKeyNameMigration->up();
     }
 
     protected function setUpTempTestFiles()
