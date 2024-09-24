@@ -187,15 +187,24 @@ class CleanCommand extends Command
             throw DiskDoesNotExist::create($diskName);
         }
 
+        $prefix = config('media-library.prefix', '');
+
+        if ($prefix !== '') {
+            $prefix = trim($prefix, '/').'/';
+        }
+
         $mediaIds = $this->mediaRepository->allIds();
 
         /** @var array<int, string> */
-        $directories = $this->fileSystem->disk($diskName)->directories();
+        $directories = $this->fileSystem->disk($diskName)->directories($prefix);
 
         collect($directories)
+            ->map(fn (string $directory) => str_replace($prefix, '', $directory))
             ->filter(fn (string $directory) => is_numeric($directory))
             ->reject(fn (string $directory) => $mediaIds->contains((int) $directory))
-            ->each(function (string $directory) use ($diskName) {
+            ->each(function (string $directory) use ($diskName, $prefix) {
+                $directory = $prefix.$directory;
+
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }

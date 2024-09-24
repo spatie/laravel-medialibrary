@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.9.1 - 2024-09-02
+
+### What's Changed
+
+* fix: make media-library:clean use of media prefix by @ImJustToNy in https://github.com/spatie/laravel-medialibrary/pull/3704
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.9.0...11.9.1
+
 ## 11.9.0 - 2024-08-22
 
 ### What's Changed
