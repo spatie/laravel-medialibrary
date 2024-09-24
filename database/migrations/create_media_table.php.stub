@@ -13,7 +13,7 @@ return new class extends Migration
 
             $table->morphs('model');
 
-            if (config('media-library.ulid')) {
+            if (config('media-library.use_ulid_column') === true) {
                 $table->ulid()->nullable()->unique();
             } else {
                 $table->uuid()->nullable()->unique();

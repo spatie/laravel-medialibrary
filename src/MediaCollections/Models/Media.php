@@ -66,9 +66,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class Media extends Model implements Attachable, Htmlable, Responsable
 {
     use CustomMediaProperties;
+    use DetermineUniqueIdentifierColumn;
     use HasUuid;
     use IsSorted;
-    use DetermineUniqueIdentifierColumn;
 
     protected $table = 'media';
 
