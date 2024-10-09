@@ -10,7 +10,7 @@ You can easily reorder a list of media by calling  ̀Media::setNewOrder`:
 ```php
  /**
   * This function reorders the records: the record with the first id in the array
-  * will get order 1, the record with the second id will get order 2, ...
+  * will get order 11, the record with the second id will get order 2, ...
   *
   * A starting order number can be optionally supplied (defaults to 1).
   *
