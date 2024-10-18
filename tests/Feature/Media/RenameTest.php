@@ -1,5 +1,8 @@
 <?php
 
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaWithCustomKeyName;
+
 it('will rename the file if it is changed on the media object', function () {
     $testFile = $this->getTestFilesDirectory('test.jpg');
 
@@ -12,6 +15,26 @@ it('will rename the file if it is changed on the media object', function () {
 
     $this->assertFileDoesNotExist($this->getMediaDirectory($media->id.'/test.jpg'));
     $this->assertFileExists($this->getMediaDirectory($media->id.'/test-new-name.jpg'));
+});
+
+it('will rename the file with a custom model with custom key name', function () {
+    config()->set('media-library.media_model', TestCustomMediaWithCustomKeyName::class);
+
+    (new MediaLibraryServiceProvider(app()))->register()->boot();
+
+    $this->setUpDatabaseCustomKeyName();
+
+    $testFile = $this->getTestFilesDirectory('test.jpg');
+
+    $media = $this->testModel->addMedia($testFile)->toMediaCollection();
+
+    $this->assertFileExists($this->getMediaDirectory($media->getKey().'/test.jpg'));
+
+    $media->file_name = 'test-new-name.jpg';
+    $media->save();
+
+    $this->assertFileDoesNotExist($this->getMediaDirectory($media->getKey().'/test.jpg'));
+    $this->assertFileExists($this->getMediaDirectory($media->getKey().'/test-new-name.jpg'));
 });
 
 it('will rename conversions', function () {
