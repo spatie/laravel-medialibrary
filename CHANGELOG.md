@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.9.2 - 2024-10-18
+
+### What's Changed
+
+* fix wrong number by @zackAJ in https://github.com/spatie/laravel-medialibrary/pull/3713
+* Make hasMedia method signature compatible with getMedia in InteractsWithMedia by @sten in https://github.com/spatie/laravel-medialibrary/pull/3712
+* Add support for callables in hasMedia() filters by @crossiatlas in https://github.com/spatie/laravel-medialibrary/pull/3696
+
+### New Contributors
+
+* @zackAJ made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3713
+* @sten made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3712
+* @crossiatlas made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3696
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.9.1...11.9.2
+
 ## 11.9.1 - 2024-09-02
 
 ### What's Changed
