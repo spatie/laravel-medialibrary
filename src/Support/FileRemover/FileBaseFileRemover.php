@@ -2,14 +2,10 @@
 
 namespace Spatie\MediaLibrary\Support\FileRemover;
 
-use Illuminate\Contracts\Filesystem\Factory;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class FileBaseFileRemover extends DefaultFileRemover implements FileRemover
+class FileBaseFileRemover extends DefaultFileRemover
 {
-    public function __construct(protected Filesystem $mediaFileSystem, protected Factory $filesystem) {}
-
     public function removeAllFiles(Media $media): void
     {
         $this->removeFile($this->mediaFileSystem->getMediaDirectory($media).$media->file_name, $media->disk);
