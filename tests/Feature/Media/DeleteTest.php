@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\FileRemover\FileBaseFileRemover;
+use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomDirectoryStructurePathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestCustomPathGenerator;
+use Spatie\MediaLibrary\Tests\TestSupport\TestFileNamer;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerator;
 
@@ -138,6 +140,42 @@ it('will NOT remove other files within the same folder when deleting a media obj
 
     expect(File::exists($media->getPath()))->toBeFalse();
     expect(File::exists($media2->getPath()))->toBeTrue();
+});
+
+it('will remove conversion files when using custom file namer', function () {
+    config(['media-library.path_generator' => DefaultPathGenerator::class]);
+    config(['media-library.file_namer' => TestFileNamer::class]);
+
+    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+    expect(File::exists($media->getPath('thumb')))->toBeTrue();
+    expect(File::exists($media->getPath('keep_original_format')))->toBeTrue();
+
+    $media->delete();
+
+    expect(File::exists($media->getPath()))->toBeFalse();
+    expect(File::exists($media->getPath('thumb')))->toBeFalse();
+    expect(File::exists($media->getPath('keep_original_format')))->toBeFalse();
+    expect(File::exists($this->getMediaDirectory($media->getKey()).'/conversions'))->toBeFalse();
+});
+
+it('will remove responsive images when using custom file namer', function () {
+    config(['media-library.path_generator' => DefaultPathGenerator::class]);
+    config(['media-library.file_namer' => TestFileNamer::class]);
+
+    $media = $this->testModelWithResponsiveImages->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+    expect(File::exists($this->getMediaDirectory($media->getKey()).'/conversions'))->toBeTrue();
+    expect(File::exists($this->getMediaDirectory($media->getKey()).'/responsive-images'))->toBeTrue();
+    expect(File::exists($this->getMediaDirectory($media->getKey())))->toBeTrue();
+
+
+    $media->delete();
+
+    expect(File::exists($media->getPath()))->toBeFalse();
+    expect(File::exists($this->getMediaDirectory($media->getKey()).'/conversions'))->toBeFalse();
+    expect(File::exists($this->getMediaDirectory($media->getKey()).'/responsive-images'))->toBeFalse();
+    expect(File::exists($this->getMediaDirectory($media->getKey())))->toBeFalse();
 });
 
 it('will not remove the files when should delete preserving media returns true', function () {
