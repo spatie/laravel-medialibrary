@@ -15,7 +15,7 @@ return [
     'max_file_size' => 1024 * 1024 * 10, // 10MB
 
     /*
-     * Determiner if the media table should use ULID instead of UUID.
+     * Determine if the media table should use ULID instead of UUID.
      */
     'use_ulid_column' => env('MEDIA_USE_ULID_COLUMN', false),
 
