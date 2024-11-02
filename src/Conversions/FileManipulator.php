@@ -46,6 +46,20 @@ class FileManipulator
         Media $media,
         bool $onlyMissing = false
     ): self {
+        $conversions = $conversions
+            ->when(
+                $onlyMissing,
+                fn (ConversionCollection $conversions) => $conversions->reject(function (Conversion $conversion) use ($media) {
+                    $relativePath = $media->getPath($conversion->getName());
+
+                    if ($rootPath = config("filesystems.disks.{$media->disk}.root")) {
+                        $relativePath = str_replace($rootPath, '', $relativePath);
+                    }
+
+                    return Storage::disk($media->disk)->exists($relativePath);
+                })
+            );
+
         if ($conversions->isEmpty()) {
             return $this;
         }
@@ -57,19 +71,7 @@ class FileManipulator
             $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
         );
 
-        $conversions
-            ->reject(function (Conversion $conversion) use ($onlyMissing, $media) {
-                $relativePath = $media->getPath($conversion->getName());
-
-                if ($rootPath = config("filesystems.disks.{$media->disk}.root")) {
-                    $relativePath = str_replace($rootPath, '', $relativePath);
-                }
-
-                return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
-            })
-            ->each(function (Conversion $conversion) use ($media, $copiedOriginalFile) {
-                (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile);
-            });
+        $conversions->each(fn (Conversion $conversion) => (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile));
 
         $temporaryDirectory->delete();
 
