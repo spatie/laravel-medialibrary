@@ -169,7 +169,6 @@ it('will remove responsive images when using custom file namer', function () {
     expect(File::exists($this->getMediaDirectory($media->getKey()).'/responsive-images'))->toBeTrue();
     expect(File::exists($this->getMediaDirectory($media->getKey())))->toBeTrue();
 
-
     $media->delete();
 
     expect(File::exists($media->getPath()))->toBeFalse();
