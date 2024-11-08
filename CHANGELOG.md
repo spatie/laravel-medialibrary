@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.10.0 - 2024-11-08
+
+### What's Changed
+
+* Test against php 8.4 by @sergiy-petrov in https://github.com/spatie/laravel-medialibrary/pull/3719
+* Correctly search media conversion by name by @StyxUA in https://github.com/spatie/laravel-medialibrary/pull/3715
+* FileNamer should be used while removing conversions and/or responsive images by @StyxUA in https://github.com/spatie/laravel-medialibrary/pull/3717
+* Don't copy the file if no conversion is needed by @patrickomeara in https://github.com/spatie/laravel-medialibrary/pull/3721
+* Add undocumented `storeConversionsOnDisk()` function by @djl997 in https://github.com/spatie/laravel-medialibrary/pull/3722
+* Fix renaming files with custom model by @esadewater in https://github.com/spatie/laravel-medialibrary/pull/3707
+
+### New Contributors
+
+* @djl997 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3722
+* @esadewater made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3707
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.9.2...11.10.0
+
 ## 11.9.2 - 2024-10-18
 
 ### What's Changed
