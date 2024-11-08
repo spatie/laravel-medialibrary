@@ -302,7 +302,7 @@ class Filesystem
 
     protected function renameConversionFiles(Media $media): void
     {
-        $mediaWithOldFileName = config('media-library.media_model')::find($media->id);
+        $mediaWithOldFileName = config('media-library.media_model')::find($media->getKey());
         $mediaWithOldFileName->file_name = $mediaWithOldFileName->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);
