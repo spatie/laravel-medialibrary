@@ -121,6 +121,19 @@ $media = $yourModel->addMedia($pathToImage)->toMediaCollection('other collection
 $media->getUrl('thumb') // returns ''
 ```
 
+## Using a specific disk
+You can ensure that conversions added to a collection are automatically added to a certain disk.
+
+```php
+public function registerMediaCollections(): void
+{
+    $this
+        ->addMediaCollection('big-files')
+        ->useDisk('s3')
+        ->storeConversionsOnDisk('public');
+}
+```
+
 ## Queuing conversions
 
 By default, a conversion will be added to the connection and queue that you've [specified in the configuration](/docs/laravel-medialibrary/v11/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
