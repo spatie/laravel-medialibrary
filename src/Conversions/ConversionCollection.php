@@ -42,7 +42,7 @@ class ConversionCollection extends Collection
             ->getConversions($this->media->collection_name)
             ->first(fn (Conversion $conversion) => $conversion->getName() === $name);
 
-        if (!$conversion) {
+        if (! $conversion) {
             throw InvalidConversion::unknownName($name);
         }
 
@@ -53,7 +53,7 @@ class ConversionCollection extends Collection
     {
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
-        if (!class_exists($modelName)) {
+        if (! class_exists($modelName)) {
             return;
         }
 
@@ -100,7 +100,7 @@ class ConversionCollection extends Collection
     {
         /** @var Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
-            if (!$conversion->shouldBePerformedOn($this->media->collection_name)) {
+            if (! $conversion->shouldBePerformedOn($this->media->collection_name)) {
                 return false;
             }
 
@@ -128,5 +128,4 @@ class ConversionCollection extends Collection
             ->getConversions($collectionName)
             ->map(fn (Conversion $conversion) => $conversion->getConversionFile($this->media));
     }
-
 }

@@ -63,7 +63,7 @@ it('will apply correct conversions for media in different collections', function
         ->and($conversions->first()->getName())->toBe('preview')
         ->and($conversions->first()->getResultExtension())->toBe('png')
         ->and($conversions->first()->getManipulations()->toArray())->toMatchArray([
-            'fit'    => [Fit::Crop, 50, 50],
+            'fit' => [Fit::Crop, 50, 50],
             'format' => ['png'],
         ])
         ->and($conversions->last()->getName())->toBe('web')
@@ -80,7 +80,7 @@ it('will apply correct conversions for media in different collections', function
         ->and($conversions->first()->getName())->toBe('preview')
         ->and($conversions->first()->getResultExtension())->toBe('jpeg')
         ->and($conversions->first()->getManipulations()->toArray())->toMatchArray([
-            'fit'    => [Fit::Crop, 300, 100],
+            'fit' => [Fit::Crop, 300, 100],
             'format' => ['jpeg'],
         ])
         ->and($conversions->last()->getName())->toBe('web')
