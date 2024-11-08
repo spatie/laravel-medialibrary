@@ -30,6 +30,11 @@ class RegisteredResponsiveImages
             ->toArray();
     }
 
+    public function getFilenames(): array
+    {
+        return $this->files->pluck('fileName')->toArray();
+    }
+
     public function getSrcset(): string
     {
         $filesSrcset = $this->files

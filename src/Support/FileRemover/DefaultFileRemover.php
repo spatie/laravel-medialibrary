@@ -7,6 +7,9 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
+use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
 class DefaultFileRemover implements FileRemover
 {
@@ -36,9 +39,7 @@ class DefaultFileRemover implements FileRemover
                     $allFilePaths = $this->filesystem->disk($disk)->allFiles($directory);
                     $imagePaths = array_filter(
                         $allFilePaths,
-                        function (string $path) use ($media) {
-                            return Str::afterLast($path, '/') === $media->file_name;
-                        }
+                        static fn (string $path) => Str::afterLast($path, '/') === $media->file_name
                     );
                     foreach ($imagePaths as $imagePath) {
                         $this->filesystem->disk($disk)->delete($imagePath);
@@ -62,21 +63,12 @@ class DefaultFileRemover implements FileRemover
             ->each(function (string $directory) use ($media, $disk) {
                 try {
                     $allFilePaths = $this->filesystem->disk($disk)->allFiles($directory);
-
-                    $conversions = array_keys($media->generated_conversions ?? []);
-
-                    $imagePaths = array_filter(
-                        $allFilePaths,
-                        function (string $path) use ($conversions, $media) {
-                            foreach ($conversions as $conversion) {
-                                if (Str::contains($path, pathinfo($media->file_name, PATHINFO_FILENAME).'-'.$conversion)) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-                        }
+                    $conversions = $media->getMediaConversionNames() ?: [];
+                    $conversionsFilePaths = array_map(
+                        static fn (string $conversion) => $media->getPathRelativeToRoot($conversion),
+                        $conversions,
                     );
+                    $imagePaths = array_intersect($allFilePaths, $conversionsFilePaths);
                     foreach ($imagePaths as $imagePath) {
                         $this->filesystem->disk($disk)->delete($imagePath);
                     }
@@ -93,28 +85,31 @@ class DefaultFileRemover implements FileRemover
     public function removeFromResponsiveImagesDirectory(Media $media, string $disk): void
     {
         $responsiveImagesDirectory = $this->mediaFileSystem->getMediaDirectory($media, 'responsiveImages');
+        $mediaRoot = PathGeneratorFactory::create($media)->getPathForResponsiveImages($media);
+        /** @var FileNamer $fileNamer */
+        $fileNamer = app(config('media-library.file_namer'));
+        $mediaFilename = $fileNamer->responsiveFileName($media->file_name);
 
         collect([$responsiveImagesDirectory])
             ->unique()
-            ->each(function (string $directory) use ($media, $disk) {
+            ->each(function (string $directory) use ($media, $disk, $mediaRoot, $mediaFilename) {
                 try {
                     $allFilePaths = $this->filesystem->disk($disk)->allFiles($directory);
 
-                    $conversions = array_keys($media->generated_conversions ?? []);
-                    $conversions[] = 'media_library_original';
+                    $conversions = $media->getMediaConversionNames() ?: [];
+                    $responsiveImagesFilePaths = collect($conversions)
+                        ->flatMap(static fn (string $conversion) => $media->responsiveImages($conversion)->getFilenames())
+                        ->map(static fn (string $imagePath) => $mediaRoot.$imagePath)
+                        ->toArray();
 
-                    $imagePaths = array_filter(
-                        $allFilePaths,
-                        function (string $path) use ($conversions, $media) {
-                            foreach ($conversions as $conversion) {
-                                if (Str::contains($path, pathinfo($media->file_name, PATHINFO_FILENAME).'___'.$conversion)) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-                        }
+                    $imagePaths = array_merge(
+                        array_intersect($allFilePaths, $responsiveImagesFilePaths),
+                        array_filter(
+                            $allFilePaths,
+                            static fn (string $path) => Str::startsWith($path, $mediaRoot.$mediaFilename.'___media_library_original_'),
+                        ),
                     );
+
                     foreach ($imagePaths as $imagePath) {
                         $this->filesystem->disk($disk)->delete($imagePath);
                     }

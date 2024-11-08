@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 use Spatie\MediaLibrary\Support\FileRemover\FileRemoverFactory;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 use Spatie\MediaLibrary\Support\RemoteFile;
@@ -235,14 +236,17 @@ class Filesystem
 
     public function removeResponsiveImages(Media $media, string $conversionName = 'media_library_original'): void
     {
+        /** @var FileNamer $fileNamer */
+        $fileNamer = app(config('media-library.file_namer'));
+        $mediaFilename = $fileNamer->responsiveFileName($media->name);
+
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
         $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            fn (string $path) => Str::contains($path, $media->name.'___'.$conversionName)
-
+            static fn (string $path) => Str::contains($path, $mediaFilename.'___'.$conversionName)
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
