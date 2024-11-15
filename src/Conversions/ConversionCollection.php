@@ -38,9 +38,7 @@ class ConversionCollection extends Collection
 
     public function getByName(string $name): Conversion
     {
-        $conversion = $this
-            ->getConversions($this->media->collection_name)
-            ->first(fn (Conversion $conversion) => $conversion->getName() === $name);
+        $conversion = $this->first(fn (Conversion $conversion) => $conversion->getName() === $name);
 
         if (! $conversion) {
             throw InvalidConversion::unknownName($name);
@@ -91,9 +89,7 @@ class ConversionCollection extends Collection
             return $this;
         }
 
-        return $this
-            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName))
-            ->values();
+        return $this->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
     }
 
     protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName): void
@@ -117,7 +113,7 @@ class ConversionCollection extends Collection
 
         if ($conversionName === '*') {
             $this->each(
-                fn (Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations),
+                fn (Conversion $conversion) => $conversion->addAsFirstManipulations(clone $manipulations)
             );
         }
     }
