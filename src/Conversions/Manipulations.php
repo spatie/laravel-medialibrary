@@ -60,7 +60,6 @@ class Manipulations
     {
         foreach ($this->manipulations as $manipulationName => $parameters) {
             $parameters = $this->transformParameters($manipulationName, $parameters);
-            ray('apply', $manipulationName, gettype($parameters), $parameters)->orange();
             $image->$manipulationName(...$parameters);
         }
     }
