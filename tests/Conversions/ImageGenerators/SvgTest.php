@@ -20,4 +20,4 @@ it('can convert a svg', function () {
     expect(mime_content_type($imageFile))->toEqual('image/png');
 
     expect((new Imagick($imageFile))->getImageAlphaChannel())->toBeTrue();
-})->skipWhenRunningLocally();
+});
