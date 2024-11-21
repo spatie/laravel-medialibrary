@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.10.1 - 2024-11-21
+
+### What's Changed
+
+* Fix adding orientation as a manipulation. by @timvandijck
+* Revert PR  #3715 by @timvandijck in https://github.com/spatie/laravel-medialibrary/pull/3726
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.10.0...11.10.1
+
 ## 11.10.0 - 2024-11-08
 
 ### What's Changed
