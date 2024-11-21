@@ -9,6 +9,7 @@ use Spatie\Image\Enums\Constraint;
 use Spatie\Image\Enums\CropPosition;
 use Spatie\Image\Enums\Fit;
 use Spatie\Image\Enums\FlipDirection;
+use Spatie\Image\Enums\Orientation;
 
 /** @mixin \Spatie\Image\Drivers\ImageDriver */
 class Manipulations
@@ -59,6 +60,7 @@ class Manipulations
     {
         foreach ($this->manipulations as $manipulationName => $parameters) {
             $parameters = $this->transformParameters($manipulationName, $parameters);
+            ray('apply', $manipulationName, gettype($parameters), $parameters)->orange();
             $image->$manipulationName(...$parameters);
         }
     }
@@ -127,6 +129,11 @@ class Manipulations
             case 'flip':
                 if (isset($parameters['flip']) && ! $parameters['flip'] instanceof FlipDirection) {
                     $parameters['flip'] = FlipDirection::from($parameters['flip']);
+                }
+                break;
+            case 'orientation':
+                if (isset($parameters['orientation']) && ! $parameters['orientation'] instanceof Orientation) {
+                    $parameters['orientation'] = Orientation::from($parameters['orientation']);
                 }
                 break;
             default:
