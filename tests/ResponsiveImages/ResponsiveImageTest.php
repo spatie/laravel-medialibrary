@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 beforeEach(function () {
     $this->fileName = 'test';
     $this->fileNameWithUnderscore = 'test_';
@@ -46,6 +48,35 @@ test('a media instance can generate the contents of scrset', function () {
         $media->getSrcset('thumb')
     );
     expect($media->getSrcset('thumb'))->toContain('data:image/svg+xml;base64,');
+});
+
+test('a media instance can generate the contents of scrset with versioned urls', function () {
+    config()->set('media-library.version_urls', true);
+
+    $this->travelTo(Carbon::create(2023, 3, 24, 14));
+
+    $this->freezeTime(function (Carbon $time) {
+        $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $timestamp = $time->timestamp;
+
+        $this->assertStringContainsString(
+            "/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg?v={$timestamp} 340w, /media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg?v={$timestamp} 284w, /media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg?v={$timestamp} 237w",
+            $media->getSrcset()
+        );
+        expect($media->getSrcset())->toContain('data:image/svg+xml;base64');
+
+        $this->assertStringContainsString(
+            "/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg?v={$timestamp} 50w",
+            $media->getSrcset('thumb')
+        );
+        expect($media->getSrcset('thumb'))->toContain('data:image/svg+xml;base64,');
+    });
 });
 
 test('a responsive image can return some properties', function () {
