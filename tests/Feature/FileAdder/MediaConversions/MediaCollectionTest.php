@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\UploadedFile;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -161,6 +162,30 @@ it('can guard against invalid mimetypes', function () {
     $this->expectException(FileUnacceptableForCollection::class);
 
     $model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection('images');
+});
+
+it('can handle mime types coming from laravel fake upload', function () {
+    $testModel = new class extends TestModelWithConversion
+    {
+        public function registerMediaCollections(): void
+        {
+            $this
+                ->addMediaCollection('audio')
+                ->acceptsMimeTypes(['audio/mpeg']);
+        }
+    };
+
+    $model = $testModel::create(['name' => 'testmodel']);
+
+    $uploadFile = UploadedFile::fake()
+        ->create('song.mp3', 1000)
+        ->mimeType('audio/mpeg');
+
+    $media = $model->addMedia($uploadFile)->toMediaCollection('audio');
+
+    $this->assertSame('audio/mpeg', $media->mime_type); // It parses the fake upload mime as 'application/x-empty'
+
+    $this->assertFileExists($this->getTempDirectory('media').'/'.$media->id.'/song.mp3');
 });
 
 it('can generate responsive images', function () {
