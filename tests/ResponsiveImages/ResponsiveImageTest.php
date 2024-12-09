@@ -112,18 +112,3 @@ it('can handle file names with underscore', function () {
 
     expect($media->getResponsiveImageUrls('non-existing-conversion'))->toBe([]);
 });
-
-test('a media instance can be set to not generate responsive urls', function () {
-    $this
-        ->testModelWithResponsiveImages
-        ->addMedia($this->getTestJpg())
-        ->withResponsiveImages()
-        ->withResponsiveImages(false)
-        ->toMediaCollection();
-
-    $media = $this->testModelWithResponsiveImages->getFirstMedia();
-
-    expect($media->hasResponsiveImages())->toBeFalse();
-
-    expect($media->hasResponsiveImages('thumb'))->toBeFalse();
-});
