@@ -24,6 +24,18 @@ it('will use the format parameter if it was given', function () {
     expect($this->conversion->getManipulations()->getManipulationArgument('format'))->toEqual(['png']);
 });
 
+it('will set conversions to responsive', function () {
+    $this->conversion->withResponsiveImages();
+
+    expect($this->conversion->shouldGenerateResponsiveImages())->toBeTrue();
+});
+
+it('will set conversions to not be responsive', function () {
+    $this->conversion->withResponsiveImages()->withResponsiveImages(false);
+
+    expect($this->conversion->shouldGenerateResponsiveImages())->toBeFalse();
+});
+
 it('will be performed on the given collection names', function () {
     $this->conversion->performOnCollections('images', 'downloads');
     expect($this->conversion->shouldBePerformedOn('images'))->toBeTrue();
