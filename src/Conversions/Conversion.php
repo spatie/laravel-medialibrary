@@ -186,9 +186,9 @@ class Conversion
         return $this;
     }
 
-    public function withResponsiveImages(): self
+    public function withResponsiveImages(bool $withResponsiveImages = true): self
     {
-        $this->generateResponsiveImages = true;
+        $this->generateResponsiveImages = $withResponsiveImages;
 
         return $this;
     }
