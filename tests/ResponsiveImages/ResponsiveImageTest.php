@@ -124,6 +124,6 @@ test('a media instance can be set to not generate responsive urls', function () 
     $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
     expect($media->hasResponsiveImages())->toBeFalse();
-    
+
     expect($media->hasResponsiveImages('thumb'))->toBeFalse();
 });
