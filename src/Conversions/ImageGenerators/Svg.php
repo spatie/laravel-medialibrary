@@ -13,7 +13,7 @@ class Svg extends ImageGenerator
     {
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.png';
 
-        $image = new Imagick();
+        $image = new Imagick;
         $image->setBackgroundColor(new ImagickPixel('none'));
         $image->readImage($file);
 
