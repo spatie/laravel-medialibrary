@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.11.0 - 2024-12-09
+
+### What's Changed
+
+* Allow withResponsiveImages to be conditionally set by @aSeriousDeveloper in https://github.com/spatie/laravel-medialibrary/pull/3742
+* Fix SVG files loosing transparency during conversion by @nicolasbeauvais in https://github.com/spatie/laravel-medialibrary/pull/3728
+
+### New Contributors
+
+* @aSeriousDeveloper made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3742
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.10.1...11.11.0
+
 ## 11.10.1 - 2024-11-21
 
 ### What's Changed
