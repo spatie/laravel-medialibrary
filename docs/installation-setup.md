@@ -289,6 +289,8 @@ By default, the media library will store its files on Laravel's `public` disk. I
             'driver' => 'local',
             'root'   => public_path('media'),
             'url'    => env('APP_URL').'/media',
+            'visibility' => 'public',
+            'throw' => false,
         ],
     ...
 ```
