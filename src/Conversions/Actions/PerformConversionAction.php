@@ -38,7 +38,7 @@ class PerformConversionAction
 
         event(new ConversionWillStartEvent($media, $conversion, $copiedOriginalFile));
 
-        if (!$conversion->shouldTouchFiles()) {
+        if ($conversion->shouldTouchFiles()) {
             $manipulationResult = (new PerformManipulationsAction())->execute($media, $conversion, $copiedOriginalFile);
         } else {
             $manipulationResult = $copiedOriginalFile;
