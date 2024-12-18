@@ -30,6 +30,8 @@ class Conversion
 
     protected ?WidthCalculator $widthCalculator = null;
 
+    protected bool $withoutTouchingFiles = false;
+
     protected ?string $loadingAttributeValue;
 
     protected int $pdfPageNumber = 1;
@@ -216,6 +218,17 @@ class Conversion
     public function getWidthCalculator(): ?WidthCalculator
     {
         return $this->widthCalculator;
+    }
+
+    public function withoutTouchingFiles(): self
+    {
+        $this->withoutTouchingFiles = true;
+
+        return $this;
+    }
+
+    public function shouldTouchFiles(): bool {
+        return !$this->withoutTouchingFiles;
     }
 
     public function shouldGenerateResponsiveImages(): bool

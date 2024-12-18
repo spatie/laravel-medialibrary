@@ -20,7 +20,9 @@ class PerformConversionAction
     ) {
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
-        $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
+        if ($conversion->shouldTouchFiles()) {
+            $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
+        }
 
         if (! $copiedOriginalFile) {
             return;
@@ -36,7 +38,11 @@ class PerformConversionAction
 
         event(new ConversionWillStartEvent($media, $conversion, $copiedOriginalFile));
 
-        $manipulationResult = (new PerformManipulationsAction())->execute($media, $conversion, $copiedOriginalFile);
+        if (!$conversion->shouldTouchFiles()) {
+            $manipulationResult = (new PerformManipulationsAction())->execute($media, $conversion, $copiedOriginalFile);
+        } else {
+            $manipulationResult = $copiedOriginalFile;
+        }
 
         $newFileName = $conversion->getConversionFile($media);
 
