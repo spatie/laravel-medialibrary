@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.11.1 - 2024-12-30
+
+### What's Changed
+
+* Fix to broken tests for Responsive Media Conversions. by @aSeriousDeveloper in https://github.com/spatie/laravel-medialibrary/pull/3743
+* Update installation-setup.md by @nastoychev in https://github.com/spatie/laravel-medialibrary/pull/3750
+* Add version to responsive image url by @jorenvh in https://github.com/spatie/laravel-medialibrary/pull/3731
+
+### New Contributors
+
+* @nastoychev made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3750
+* @jorenvh made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3731
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.11.0...11.11.1
+
 ## 11.11.0 - 2024-12-09
 
 ### What's Changed
