@@ -27,7 +27,8 @@ trait IsSorted
 
     /*
      * This function reorders the records: the record with the first id in the array
-     * will get order 1, the record with the second it will get order 2, ...
+     * will get the starting order (defaults to 1), the record with the second id
+     * will get the starting order + 1, and so on.
      *
      * A starting order number can be optionally supplied.
      */
