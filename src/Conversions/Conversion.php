@@ -153,7 +153,7 @@ class Conversion
 
     public function shouldBePerformedOn(string $collectionName): bool
     {
-        //if no collections were specified, perform conversion on all collections
+        // if no collections were specified, perform conversion on all collections
         if (! count($this->performOnCollections)) {
             return true;
         }

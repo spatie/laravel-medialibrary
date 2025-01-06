@@ -57,8 +57,8 @@ trait InteractsWithMedia
     }
 
     /**
-      * @return MorphMany<Media, $this>
-    */
+     * @return MorphMany<Media, $this>
+     */
     public function media(): MorphMany
     {
         return $this->morphMany($this->getMediaModel(), 'model');

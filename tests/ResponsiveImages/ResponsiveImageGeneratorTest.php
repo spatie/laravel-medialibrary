@@ -154,7 +154,7 @@ it('will not delete responsive images of images with similar names saved on the 
     expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-medium")))->toBeFalse();
     expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileName}-large")))->toBeFalse();
 
-    //checks if the other media files are still there
+    // checks if the other media files are still there
     expect($this->getTempDirectory("media/some_user/1/{$this->fileNameWithUnderscore}.jpg"))->toBeFile();
     expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_237_195.jpg"))->toBeFile();
     expect($this->getTempDirectory("media/some_user/1/custom_responsive_images/{$this->fileNameWithUnderscore}___media_library_original_284_234.jpg"))->toBeFile();
