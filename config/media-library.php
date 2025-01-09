@@ -42,6 +42,11 @@ return [
     'media_model' => Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
     /*
+     * The fully qualified class name of the media observer.
+     */
+    'media_observer' => Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver::class,
+
+    /*
      * When enabled, media collections will be serialised using the default
      * laravel model serialization behaviour.
      *
