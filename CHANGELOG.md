@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.1 - 2025-01-13
+
+### What's Changed
+
+* Add `alt` attribute to responsive image components by @A909M in https://github.com/spatie/laravel-medialibrary/pull/3765
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.0...11.12.1
+
 ## 11.12.0 - 2025-01-13
 
 ### What's Changed
