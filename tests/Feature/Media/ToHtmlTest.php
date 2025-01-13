@@ -122,7 +122,7 @@ it('will not render extra javascript or include base64 svg when tiny placeholder
 
     $imgTag = $media->refresh()->img();
 
-    expect($imgTag)->toEqual('<img srcset="/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, /media/2/responsive-images/test___media_library_original_284_234.jpg 284w, /media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">');
+    expect($imgTag)->toEqual('<img srcset="/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, /media/2/responsive-images/test___media_library_original_284_234.jpg 284w, /media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280" alt="test">');
 });
 
 test('the loading attribute can be specified on the conversion', function () {
