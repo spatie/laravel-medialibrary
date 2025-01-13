@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.0 - 2025-01-13
+
+### What's Changed
+
+* chore: media relation add generic docblock by @JeRabix in https://github.com/spatie/laravel-medialibrary/pull/3760
+* Fix confusing documentation for Media::setNewOrder method by @rottifant in https://github.com/spatie/laravel-medialibrary/pull/3759
+* Update customizing-the-rendered-html.md by @A909M in https://github.com/spatie/laravel-medialibrary/pull/3764
+* Allow overriding the default media observer. by @hailwood in https://github.com/spatie/laravel-medialibrary/pull/3763
+
+### New Contributors
+
+* @JeRabix made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3760
+* @rottifant made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3759
+* @A909M made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3764
+* @hailwood made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3763
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.11.1...11.12.0
+
 ## 11.11.1 - 2024-12-30
 
 ### What's Changed
