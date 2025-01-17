@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Tests\MediaCollections;
 
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileNameNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 
 it('sanitizes filenames correctly', function () {
@@ -23,3 +24,15 @@ it('sanitizes filenames correctly', function () {
     expect($adder->defaultSanitizer('Scan-‎9‎.‎14‎.‎2022-‎7‎.‎23‎.‎28.pdf'))
         ->toEqual('Scan-9.14.2022-7.23.28.pdf');
 });
+
+it('will throw an exception if the sanitized file name is a php file name', function () {
+    $adder = app(FileAdder::class);
+
+    $adder->defaultSanitizer('filename.php‎');
+})->throws(FileNameNotAllowed::class);
+
+it('will not throw an exception if the sanitized file name ends with php but is not a php file', function () {
+    $adder = app(FileAdder::class);
+
+    $adder->defaultSanitizer('media-libraryJQwPHp');
+})->throwsNoExceptions();

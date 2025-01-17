@@ -16,7 +16,8 @@ class TestModelWithResponsiveImages extends TestModel
 
         $this
             ->addMediaConversion('otherImageConversion')
-            ->greyscale();
+            ->greyscale()
+            ->nonQueued();
 
         $this
             ->addMediaConversion('pngtojpg')
@@ -24,7 +25,8 @@ class TestModelWithResponsiveImages extends TestModel
             ->quality(1)
             ->background('#ff00ff')
             ->format('jpg')
-            ->withResponsiveImages();
+            ->withResponsiveImages()
+            ->nonQueued();
 
         $this
             ->addMediaConversion('lowerQuality')

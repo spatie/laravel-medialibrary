@@ -3,7 +3,7 @@
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Avif;
 
 it('can convert a avif', function () {
-    $imageGenerator = new Avif();
+    $imageGenerator = new Avif;
 
     if (! $imageGenerator->requirementsAreInstalled()) {
         $this->markTestSkipped('Skipping avif test because requirements to run it are not met');

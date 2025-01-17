@@ -3,6 +3,13 @@
 namespace Spatie\MediaLibrary\Conversions;
 
 use Spatie\Image\Drivers\ImageDriver;
+use Spatie\Image\Enums\AlignPosition;
+use Spatie\Image\Enums\BorderType;
+use Spatie\Image\Enums\Constraint;
+use Spatie\Image\Enums\CropPosition;
+use Spatie\Image\Enums\Fit;
+use Spatie\Image\Enums\FlipDirection;
+use Spatie\Image\Enums\Orientation;
 
 /** @mixin \Spatie\Image\Drivers\ImageDriver */
 class Manipulations
@@ -52,6 +59,7 @@ class Manipulations
     public function apply(ImageDriver $image): void
     {
         foreach ($this->manipulations as $manipulationName => $parameters) {
+            $parameters = $this->transformParameters($manipulationName, $parameters);
             $image->$manipulationName(...$parameters);
         }
     }
@@ -75,5 +83,62 @@ class Manipulations
     public function toArray(): array
     {
         return $this->manipulations;
+    }
+
+    public function transformParameters(int|string $manipulationName, mixed $parameters): mixed
+    {
+        switch ($manipulationName) {
+            case 'border':
+                if (isset($parameters['type']) && ! $parameters['type'] instanceof BorderType) {
+                    $parameters['type'] = BorderType::from($parameters['type']);
+                }
+                break;
+            case 'watermark':
+                if (isset($parameters['fit']) && ! $parameters['fit'] instanceof Fit) {
+                    $parameters['fit'] = Fit::from($parameters['fit']);
+                }
+                // Fallthrough intended for position
+            case 'resizeCanvas':
+            case 'insert':
+                if (isset($parameters['position']) && ! $parameters['position'] instanceof AlignPosition) {
+                    $parameters['position'] = AlignPosition::from($parameters['position']);
+                }
+                break;
+            case 'resize':
+            case 'width':
+            case 'height':
+                if (isset($parameters['constraints']) && is_array($parameters['constraints'])) {
+                    foreach ($parameters['constraints'] as &$constraint) {
+                        if (! $constraint instanceof Constraint) {
+                            $constraint = Constraint::from($constraint);
+                        }
+                    }
+                }
+                break;
+            case 'crop':
+                if (isset($parameters['position']) && ! $parameters['position'] instanceof CropPosition) {
+                    $parameters['position'] = CropPosition::from($parameters['position']);
+                }
+                break;
+            case 'fit':
+                if (isset($parameters['fit']) && ! $parameters['fit'] instanceof Fit) {
+                    $parameters['fit'] = Fit::from($parameters['fit']);
+                }
+                break;
+            case 'flip':
+                if (isset($parameters['flip']) && ! $parameters['flip'] instanceof FlipDirection) {
+                    $parameters['flip'] = FlipDirection::from($parameters['flip']);
+                }
+                break;
+            case 'orientation':
+                if (isset($parameters['orientation']) && ! $parameters['orientation'] instanceof Orientation) {
+                    $parameters['orientation'] = Orientation::from($parameters['orientation']);
+                }
+                break;
+            default:
+                break;
+        }
+
+        return $parameters;
     }
 }

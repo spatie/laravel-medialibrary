@@ -7,9 +7,7 @@ use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
 class FixedWidthCalculator implements WidthCalculator
 {
-    public function __construct(public array $widths)
-    {
-    }
+    public function __construct(public array $widths) {}
 
     public function calculateWidthsFromFile(string $imagePath): Collection
     {

@@ -2,12 +2,14 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Models;
 
+use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -19,6 +21,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
@@ -32,6 +35,7 @@ use Spatie\MediaLibrary\Support\TemporaryDirectory;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator;
 use Spatie\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @property string $uuid
@@ -80,7 +84,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
 
-    public function newCollection(array $models = [])
+    public function newCollection(array $models = []): MediaCollection
     {
         return new MediaCollection($models);
     }
@@ -306,29 +310,29 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function hasGeneratedConversion(string $conversionName): bool
     {
-        $generatedConversions = $this->getGeneratedConversions();
+        $generatedConversions = $this->generated_conversions;
 
-        return $generatedConversions[$conversionName] ?? false;
+        return Arr::get($generatedConversions, $conversionName, false);
     }
 
-    public function setStreamChunkSize(int $chunkSize)
+    public function setStreamChunkSize(int $chunkSize): self
     {
         $this->streamChunkSize = $chunkSize;
 
         return $this;
     }
 
-    public function toResponse($request)
+    public function toResponse($request): StreamedResponse
     {
         return $this->buildResponse($request, 'attachment');
     }
 
-    public function toInlineResponse($request)
+    public function toInlineResponse($request): StreamedResponse
     {
         return $this->buildResponse($request, 'inline');
     }
 
-    private function buildResponse($request, string $contentDispositionType)
+    private function buildResponse($request, string $contentDispositionType): StreamedResponse
     {
         $filename = str_replace('"', '\'', Str::ascii($this->getDownloadFilename()));
 
@@ -391,9 +395,16 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $newMedia;
     }
 
-    /** @param  string  $collectionName */
-    public function copy(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
-    {
+    /**
+     * @param  null|Closure(FileAdder): FileAdder  $fileAdderCallback
+     */
+    public function copy(
+        HasMedia $model,
+        string $collectionName = 'default',
+        string $diskName = '',
+        string $fileName = '',
+        ?Closure $fileAdderCallback = null
+    ): self {
         $temporaryDirectory = TemporaryDirectory::create();
 
         $temporaryFile = $temporaryDirectory->path('/').DIRECTORY_SEPARATOR.$this->file_name;
@@ -407,12 +418,18 @@ class Media extends Model implements Attachable, Htmlable, Responsable
             ->addMedia($temporaryFile)
             ->usingName($this->name)
             ->setOrder($this->order_column)
+            ->withManipulations($this->manipulations)
             ->withCustomProperties($this->custom_properties);
+
         if ($fileName !== '') {
             $fileAdder->usingFileName($fileName);
         }
-        $newMedia = $fileAdder
-            ->toMediaCollection($collectionName, $diskName);
+
+        if ($fileAdderCallback instanceof Closure) {
+            $fileAdder = $fileAdderCallback($fileAdder);
+        }
+
+        $newMedia = $fileAdder->toMediaCollection($collectionName, $diskName);
 
         $temporaryDirectory->delete();
 
@@ -432,7 +449,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $filesystem->getStream($this);
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         return $this->img()->toHtml();
     }
@@ -453,18 +470,24 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     {
         MediaLibraryPro::ensureInstalled();
 
-        return $this->belongsTo(TemporaryUpload::class);
+        /** @var class-string<TemporaryUpload> $temporaryUploadModelClass */
+        $temporaryUploadModelClass = config('media-library.temporary_upload_model');
+
+        return $this->belongsTo($temporaryUploadModelClass);
     }
 
-    public static function findWithTemporaryUploadInCurrentSession(array $uuids)
+    public static function findWithTemporaryUploadInCurrentSession(array $uuids): EloquentCollection
     {
         MediaLibraryPro::ensureInstalled();
+
+        /** @var class-string<TemporaryUpload> $temporaryUploadModelClass */
+        $temporaryUploadModelClass = config('media-library.temporary_upload_model');
 
         return static::query()
             ->whereIn('uuid', $uuids)
             ->whereHasMorph(
                 'model',
-                [TemporaryUpload::class],
+                [$temporaryUploadModelClass],
                 fn (Builder $builder) => $builder->where('session_id', session()->getId())
             )
             ->get();

@@ -26,7 +26,7 @@ To generate that thumbnail, you must add a conversion like this one to your mode
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this
         ->addMediaConversion('preview')

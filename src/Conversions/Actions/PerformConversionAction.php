@@ -17,7 +17,7 @@ class PerformConversionAction
         Conversion $conversion,
         Media $media,
         string $copiedOriginalFile
-    ) {
+    ): void {
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
         if ($conversion->shouldTouchFiles()) {

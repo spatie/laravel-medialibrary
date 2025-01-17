@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\MediaCollections;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
@@ -12,6 +13,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileNameNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
@@ -47,6 +49,8 @@ class FileAdder
     protected string $mediaName = '';
 
     protected string $diskName = '';
+
+    protected ?string $onQueue = null;
 
     protected ?int $fileSize = null;
 
@@ -176,6 +180,13 @@ class FileAdder
         return $this;
     }
 
+    public function onQueue(?string $queue = null): self
+    {
+        $this->onQueue = $queue;
+
+        return $this;
+    }
+
     public function withManipulations(array $manipulations): self
     {
         $this->manipulations = $manipulations;
@@ -237,9 +248,9 @@ class FileAdder
             throw FileIsTooBig::create($this->pathToFile, $storage->size($this->pathToFile));
         }
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = $this->subject?->getMediaModel() ?? config('media-library.media_model');
         /** @var Media $media */
-        $media = new $mediaClass();
+        $media = new $mediaClass;
 
         $media->name = $this->mediaName;
 
@@ -300,9 +311,9 @@ class FileAdder
             throw FileIsTooBig::create($this->pathToFile);
         }
 
-        $mediaClass = config('media-library.media_model');
+        $mediaClass = $this->subject?->getMediaModel() ?? config('media-library.media_model');
         /** @var Media $media */
-        $media = new $mediaClass();
+        $media = new $mediaClass;
 
         $media->name = $this->mediaName;
 
@@ -380,7 +391,7 @@ class FileAdder
         return $originalsDiskName;
     }
 
-    protected function ensureDiskExists(string $diskName)
+    protected function ensureDiskExists(string $diskName): void
     {
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw DiskDoesNotExist::create($diskName);
@@ -389,9 +400,19 @@ class FileAdder
 
     public function defaultSanitizer(string $fileName): string
     {
-        $fileName = preg_replace('#\p{C}+#u', '', $fileName);
+        $sanitizedFileName = preg_replace('#\p{C}+#u', '', $fileName);
 
-        return str_replace(['#', '/', '\\', ' '], '-', $fileName);
+        $sanitizedFileName = str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
+
+        $phpExtensions = [
+            '.php', '.php3', '.php4', '.php5', '.php7', '.php8', '.phtml', '.phar',
+        ];
+
+        if (Str::endsWith(strtolower($sanitizedFileName), $phpExtensions)) {
+            throw FileNameNotAllowed::create($fileName, $sanitizedFileName);
+        }
+
+        return $sanitizedFileName;
     }
 
     public function sanitizingFileName(callable $fileNameSanitizer): self
@@ -401,7 +422,7 @@ class FileAdder
         return $this;
     }
 
-    protected function attachMedia(Media $media)
+    protected function attachMedia(Media $media): void
     {
         if (! $this->subject->exists) {
             $this->subject->prepareToAttachMedia($media, $this);
@@ -420,7 +441,7 @@ class FileAdder
         $this->processMediaItem($this->subject, $media, $this);
     }
 
-    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder)
+    protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder): void
     {
         $this->guardAgainstDisallowedFileAdditions($media);
 
@@ -448,11 +469,13 @@ class FileAdder
             if ($fileAdder->file instanceof RemoteFile) {
                 Storage::disk($fileAdder->file->getDisk())->delete($fileAdder->file->getKey());
             } else {
-                unlink($fileAdder->pathToFile);
+                if (file_exists($fileAdder->pathToFile)) {
+                    unlink($fileAdder->pathToFile);
+                }
             }
         }
 
-        if ($this->generateResponsiveImages && (new ImageGenerator())->canConvert($media)) {
+        if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
             $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
@@ -461,7 +484,7 @@ class FileAdder
                 $job->onConnection($customConnection);
             }
 
-            if ($customQueue = config('media-library.queue_name')) {
+            if ($customQueue = ($this->onQueue ?? config('media-library.queue_name'))) {
                 $job->onQueue($customQueue);
             }
 
@@ -487,7 +510,7 @@ class FileAdder
             ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
     }
 
-    protected function guardAgainstDisallowedFileAdditions(Media $media)
+    protected function guardAgainstDisallowedFileAdditions(Media $media): void
     {
         $file = PendingFile::createFromMedia($media);
 
@@ -504,7 +527,7 @@ class FileAdder
         }
     }
 
-    protected function checkGenerateResponsiveImages(Media $media)
+    protected function checkGenerateResponsiveImages(Media $media): void
     {
         $collection = optional($this->getMediaCollection($media->collection_name))->generateResponsiveImages;
 

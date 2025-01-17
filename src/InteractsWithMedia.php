@@ -39,7 +39,7 @@ trait InteractsWithMedia
 
     protected array $unAttachedMediaLibraryItems = [];
 
-    public static function bootInteractsWithMedia()
+    public static function bootInteractsWithMedia(): void
     {
         static::deleting(function (HasMedia $model) {
             if ($model->shouldDeletePreservingMedia()) {
@@ -56,9 +56,12 @@ trait InteractsWithMedia
         });
     }
 
+    /**
+     * @return MorphMany<Media, $this>
+     */
     public function media(): MorphMany
     {
-        return $this->morphMany(config('media-library.media_model'), 'model');
+        return $this->morphMany($this->getMediaModel(), 'model');
     }
 
     /**
@@ -139,7 +142,7 @@ trait InteractsWithMedia
         }
 
         $downloader = config('media-library.media_downloader', DefaultDownloader::class);
-        $temporaryFile = (new $downloader())->getTempFile($url);
+        $temporaryFile = (new $downloader)->getTempFile($url);
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
         $filename = basename(parse_url($url, PHP_URL_PATH));
@@ -181,7 +184,6 @@ trait InteractsWithMedia
     /**
      * Add a base64 encoded file to the media library.
      *
-     *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      * @throws InvalidBase64Data
      */
@@ -200,7 +202,7 @@ trait InteractsWithMedia
             throw InvalidBase64Data::create();
         }
 
-        // decoding and then reencoding should not change the data
+        // decoding and then re-encoding should not change the data
         if (base64_encode($binaryData) !== $base64data) {
             throw InvalidBase64Data::create();
         }
@@ -243,7 +245,7 @@ trait InteractsWithMedia
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = 'default', array $filters = []): bool
+    public function hasMedia(string $collectionName = 'default', array|callable $filters = []): bool
     {
         return count($this->getMedia($collectionName, $filters)) ? true : false;
     }
@@ -261,6 +263,11 @@ trait InteractsWithMedia
     public function getMediaRepository(): MediaRepository
     {
         return app(MediaRepository::class);
+    }
+
+    public function getMediaModel(): string
+    {
+        return config('media-library.media_model');
     }
 
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
@@ -378,8 +385,8 @@ trait InteractsWithMedia
     {
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
-        $mediaClass = config('media-library.media_model');
-        $mediaInstance = new $mediaClass();
+        $mediaClass = $this->getMediaModel();
+        $mediaInstance = new $mediaClass;
         $keyName = $mediaInstance->getKeyName();
 
         return collect($newMediaArray)
@@ -472,7 +479,6 @@ trait InteractsWithMedia
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
      */
     public function deleteMedia(int|string|Media $mediaId): void
@@ -503,7 +509,7 @@ trait InteractsWithMedia
     {
         $mediaCollection = MediaCollection::create($name);
 
-        $this->mediaCollections[] = $mediaCollection;
+        $this->mediaCollections[$name] = $mediaCollection;
 
         return $mediaCollection;
     }
@@ -527,8 +533,12 @@ trait InteractsWithMedia
 
     public function loadMedia(string $collectionName): Collection
     {
+        if (config('media-library.force_lazy_loading') && $this->exists) {
+            $this->loadMissing('media');
+        }
+
         $collection = $this->exists
-            ? $this->loadMissing('media')->media
+            ? $this->media
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         $collection = new MediaCollections\Models\Collections\MediaCollection($collection);
@@ -553,7 +563,7 @@ trait InteractsWithMedia
         $this->unAttachedMediaLibraryItems = [];
     }
 
-    protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes)
+    protected function guardAgainstInvalidMimeType(string $file, ...$allowedMimeTypes): void
     {
         $allowedMimeTypes = Arr::flatten($allowedMimeTypes);
 
@@ -571,13 +581,9 @@ trait InteractsWithMedia
         }
     }
 
-    public function registerMediaConversions(?Media $media = null): void
-    {
-    }
+    public function registerMediaConversions(?Media $media = null): void {}
 
-    public function registerMediaCollections(): void
-    {
-    }
+    public function registerMediaCollections(): void {}
 
     public function registerAllMediaConversions(?Media $media = null): void
     {

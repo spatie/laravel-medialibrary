@@ -9,7 +9,5 @@ class CollectionHasBeenClearedEvent
 {
     use SerializesModels;
 
-    public function __construct(public HasMedia $model, public string $collectionName)
-    {
-    }
+    public function __construct(public HasMedia $model, public string $collectionName) {}
 }

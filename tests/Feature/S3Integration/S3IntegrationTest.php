@@ -234,7 +234,7 @@ it('can retrieve a zip with s3 disk', function () {
     $content = ob_get_contents();
     ob_end_clean();
 
-    $temporaryDirectory = (new TemporaryDirectory())->create();
+    $temporaryDirectory = (new TemporaryDirectory)->create();
     file_put_contents($temporaryDirectory->path('response.zip'), $content);
 
     $this->assertFileExistsInZip($temporaryDirectory->path('response.zip'), 'test.jpg');

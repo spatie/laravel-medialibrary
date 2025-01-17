@@ -9,7 +9,5 @@ class ResponsiveImagesGeneratedEvent
 {
     use SerializesModels;
 
-    public function __construct(public Media $media)
-    {
-    }
+    public function __construct(public Media $media) {}
 }

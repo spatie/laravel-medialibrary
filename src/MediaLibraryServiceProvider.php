@@ -29,14 +29,15 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function packageBooted()
+    public function packageBooted(): void
     {
         $mediaClass = config('media-library.media_model', Media::class);
+        $mediaObserverClass = config('media-library.media_observer', MediaObserver::class);
 
-        $mediaClass::observe(new MediaObserver());
+        $mediaClass::observe(new $mediaObserverClass);
     }
 
-    public function packageRegistered()
+    public function packageRegistered(): void
     {
         $this->app->bind(WidthCalculator::class, config('media-library.responsive_images.width_calculator'));
         $this->app->bind(TinyPlaceholderGenerator::class, config('media-library.responsive_images.tiny_placeholder_generator'));
@@ -44,7 +45,7 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
         $this->app->scoped(MediaRepository::class, function () {
             $mediaClass = config('media-library.media_model');
 
-            return new MediaRepository(new $mediaClass());
+            return new MediaRepository(new $mediaClass);
         });
     }
 }

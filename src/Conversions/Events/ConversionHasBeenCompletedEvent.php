@@ -10,7 +10,5 @@ class ConversionHasBeenCompletedEvent
 {
     use SerializesModels;
 
-    public function __construct(public Media $media, public Conversion $conversion)
-    {
-    }
+    public function __construct(public Media $media, public Conversion $conversion) {}
 }

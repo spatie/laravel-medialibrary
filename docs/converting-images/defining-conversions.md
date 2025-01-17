@@ -33,7 +33,7 @@ class YourModel extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -70,7 +70,7 @@ use Spatie\Image\Enums\CropPosition;
 
 // ...
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -101,7 +101,7 @@ This is how that looks like in the model:
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
           ->performOnCollections('images', 'downloads')
@@ -121,13 +121,26 @@ $media = $yourModel->addMedia($pathToImage)->toMediaCollection('other collection
 $media->getUrl('thumb') // returns ''
 ```
 
+## Using a specific disk
+You can ensure that conversions added to a collection are automatically added to a certain disk.
+
+```php
+public function registerMediaCollections(): void
+{
+    $this
+        ->addMediaCollection('big-files')
+        ->useDisk('s3')
+        ->storeConversionsOnDisk('public');
+}
+```
+
 ## Queuing conversions
 
 By default, a conversion will be added to the connection and queue that you've [specified in the configuration](/docs/laravel-medialibrary/v11/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
             ->width(368)
@@ -140,7 +153,7 @@ If you have set `queue_conversions_by_default` in the `media-library` config fil
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
             ->width(368)
@@ -148,6 +161,11 @@ public function registerMediaConversions(Media $media = null): void
             ->queued();
 }
 ```
+
+The default behaviour is that queued conversions will run **after all database transactions have been committed**. \
+This prevents unexpected behaviour where the model does not yet exist in the database and the conversion is disregarded.
+If you need the conversions to run within your transaction, you can set the `queue_conversions_after_database_commit`
+in the `media-library` config file to `false`.
 
 ## Using model properties in a conversion
 
@@ -158,7 +176,7 @@ true` on your model.
 // in your model
 public $registerMediaConversionsUsingModelInstance = true;
 
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
           ->performOnCollections('images', 'downloads')
