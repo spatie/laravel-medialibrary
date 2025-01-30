@@ -9,14 +9,15 @@ use Programic\MediaLibrary\Conversions\Conversion;
 
 class Svg extends ImageGenerator
 {
-    public function convert(string $file, Conversion $conversion = null): string
+    public function convert(string $file, ?Conversion $conversion = null): string
     {
-        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
+        $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.png';
 
-        $image = new Imagick();
-        $image->readImage($file);
+        $image = new Imagick;
         $image->setBackgroundColor(new ImagickPixel('none'));
-        $image->setImageFormat('jpg');
+        $image->readImage($file);
+
+        $image->setImageFormat('png32');
 
         file_put_contents($imageFile, $image);
 
@@ -25,16 +26,16 @@ class Svg extends ImageGenerator
 
     public function requirementsAreInstalled(): bool
     {
-        return class_exists(\Imagick::class);
+        return class_exists(Imagick::class);
     }
 
     public function supportedExtensions(): Collection
     {
-        return collect('svg');
+        return collect(['svg']);
     }
 
     public function supportedMimeTypes(): Collection
     {
-        return collect('image/svg+xml');
+        return collect(['image/svg+xml']);
     }
 }

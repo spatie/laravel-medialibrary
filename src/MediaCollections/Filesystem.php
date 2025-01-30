@@ -2,16 +2,17 @@
 
 namespace Programic\MediaLibrary\MediaCollections;
 
-use Exception;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Programic\MediaLibrary\Conversions\ConversionCollection;
 use Programic\MediaLibrary\Conversions\FileManipulator;
-use Programic\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Programic\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 use Programic\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 use Programic\MediaLibrary\Support\File;
+use Programic\MediaLibrary\Support\FileNamer\FileNamer;
+use Programic\MediaLibrary\Support\FileRemover\FileRemoverFactory;
 use Programic\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 use Programic\MediaLibrary\Support\RemoteFile;
 
@@ -21,18 +22,17 @@ class Filesystem
 
     public function __construct(
         protected Factory $filesystem
-    ) {
-    }
+    ) {}
 
     public function add(string $file, Media $media, ?string $targetFileName = null): bool
     {
         try {
             $this->copyToMediaLibrary($file, $media, null, $targetFileName);
-        } catch(DiskCannotBeAccessed $exception) {
+        } catch (DiskCannotBeAccessed $exception) {
             return false;
         }
 
-        event(new MediaHasBeenAdded($media));
+        event(new MediaHasBeenAddedEvent($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
 
@@ -43,15 +43,20 @@ class Filesystem
     {
         try {
             $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
-        } catch(DiskCannotBeAccessed $exception) {
+        } catch (DiskCannotBeAccessed $exception) {
             return false;
         }
 
-        event(new MediaHasBeenAdded($media));
+        event(new MediaHasBeenAddedEvent($media));
 
         app(FileManipulator::class)->createDerivedFiles($media);
 
         return true;
+    }
+
+    public function prepareCopyFileOnDisk(RemoteFile $file, Media $media, string $destination): void
+    {
+        $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
     }
 
     public function copyToMediaLibraryFromRemote(RemoteFile $file, Media $media, ?string $type = null, ?string $targetFileName = null): void
@@ -65,7 +70,7 @@ class Filesystem
             : $media->getDiskDriverName();
 
         if ($this->shouldCopyFileOnDisk($file, $media, $diskDriverName)) {
-            $this->copyFileOnDisk($file->getKey(), $destination, $media->disk);
+            $this->prepareCopyFileOnDisk($file, $media, $destination);
 
             return;
         }
@@ -125,7 +130,7 @@ class Filesystem
             );
     }
 
-    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
@@ -180,7 +185,7 @@ class Filesystem
     public function getRemoteHeadersForFile(
         string $file,
         array $mediaCustomHeaders = [],
-        string $mimeType = null
+        ?string $mimeType = null
     ): array {
         $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 
@@ -201,6 +206,13 @@ class Filesystem
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
 
+    public function getConversionStream(Media $media, string $conversion)
+    {
+        $sourceFile = $media->getPathRelativeToRoot($conversion);
+
+        return $this->filesystem->disk($media->conversions_disk)->readStream($sourceFile);
+    }
+
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         file_put_contents($targetFile, $this->getStream($media));
@@ -210,41 +222,31 @@ class Filesystem
 
     public function removeAllFiles(Media $media): void
     {
-        $mediaDirectory = $this->getMediaDirectory($media);
+        $fileRemover = FileRemoverFactory::create($media);
 
-        if ($media->disk !== $media->conversions_disk) {
-            $this->filesystem->disk($media->disk)->deleteDirectory($mediaDirectory);
-        }
-
-        $conversionsDirectory = $this->getMediaDirectory($media, 'conversions');
-
-        $responsiveImagesDirectory = $this->getMediaDirectory($media, 'responsiveImages');
-
-        collect([$mediaDirectory, $conversionsDirectory, $responsiveImagesDirectory])
-            ->unique()
-            ->each(function (string $directory) use ($media) {
-                try {
-                    $this->filesystem->disk($media->conversions_disk)->deleteDirectory($directory);
-                } catch (Exception $exception) {
-                    report($exception);
-                }
-            });
+        $fileRemover->removeAllFiles($media);
     }
 
     public function removeFile(Media $media, string $path): void
     {
-        $this->filesystem->disk($media->disk)->delete($path);
+        $fileRemover = FileRemoverFactory::create($media);
+
+        $fileRemover->removeFile($path, $media->disk);
     }
 
     public function removeResponsiveImages(Media $media, string $conversionName = 'media_library_original'): void
     {
+        /** @var FileNamer $fileNamer */
+        $fileNamer = app(config('media-library.file_namer'));
+        $mediaFilename = $fileNamer->responsiveFileName($media->name);
+
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
         $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            fn (string $path) => Str::contains($path, $conversionName)
+            static fn (string $path) => Str::contains($path, $mediaFilename.'___'.$conversionName)
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
@@ -263,12 +265,26 @@ class Filesystem
 
         $oldMedia = (clone $media)->fill($media->getOriginal());
 
-        if ($factory->getPath($oldMedia) === $factory->getPath($media)) {
+        $oldPath = $factory->getPath($oldMedia);
+        $newPath = $factory->getPath($media);
+
+        if ($oldPath === $newPath) {
             return;
         }
 
-        $this->filesystem->disk($media->disk)
-            ->move($factory->getPath($oldMedia), $factory->getPath($media));
+        // If the media is stored on S3, we need to move all files in the directory
+        if ($media->getDiskDriverName() === 's3') {
+            $allFiles = $this->filesystem->disk($media->disk)->allFiles($oldPath);
+
+            foreach ($allFiles as $file) {
+                $newFilePath = str_replace($oldPath, $newPath, $file);
+                $this->filesystem->disk($media->disk)->move($file, $newFilePath);
+            }
+
+            return;
+        }
+
+        $this->filesystem->disk($media->disk)->move($oldPath, $newPath);
     }
 
     protected function renameMediaFile(Media $media): void
@@ -286,7 +302,7 @@ class Filesystem
 
     protected function renameConversionFiles(Media $media): void
     {
-        $mediaWithOldFileName = config('media-library.media_model')::find($media->id);
+        $mediaWithOldFileName = config('media-library.media_model')::find($media->getKey());
         $mediaWithOldFileName->file_name = $mediaWithOldFileName->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);
@@ -325,18 +341,6 @@ class Filesystem
 
         if ($type === 'responsiveImages') {
             $directory = $pathGenerator->getPathForResponsiveImages($media);
-        }
-
-        $diskDriverName = in_array($type, ['conversions', 'responsiveImages'])
-            ? $media->getConversionsDiskDriverName()
-            : $media->getDiskDriverName();
-
-        $diskName = in_array($type, ['conversions', 'responsiveImages'])
-            ? $media->conversions_disk
-            : $media->disk;
-
-        if (! in_array($diskDriverName, ['s3', 'gcs'], true)) {
-            $this->filesystem->disk($diskName)->makeDirectory($directory);
         }
 
         return $directory;

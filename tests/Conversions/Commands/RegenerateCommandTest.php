@@ -349,3 +349,18 @@ it('can regenerate files starting from id with model type', function () {
     expect($derivedImage2)->toBeFile();
     expect($derivedImage3)->toBeFile();
 });
+
+it('can set updated_at column when regenerating', function () {
+    $this->travelTo('2020-01-01 00:00:00');
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection('images');
+
+    $this->travelBack();
+
+    $this->artisan('media-library:regenerate');
+
+    $media->refresh();
+
+    expect($media->updated_at)->toBeGreaterThanOrEqual(now()->subSeconds(5));
+});

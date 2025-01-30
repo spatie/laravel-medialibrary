@@ -7,7 +7,7 @@ weight: 13
 
 The built-in model (`Programic\MediaLibrary\MediaCollections\Models\Media`) will use the default database connection set for your application.
 
-If you need to change this database connection, you can create a custom model and set the `$connection` property (https://laravel.com/docs/9.x/eloquent#database-connections). See <a href="https://docs.spatie.be/laravel-medialibrary/v10/advanced-usage/using-your-own-model">Using your own model</a> for more information.
+If you need to change this database connection, you can create a custom model and set the `$connection` property (https://laravel.com/docs/10.x/eloquent#database-connections). See <a href="/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model">Using your own model</a> for more information.
 
 ```php
 <?php

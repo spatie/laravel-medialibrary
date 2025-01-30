@@ -10,7 +10,7 @@ use Programic\MediaLibrary\MediaCollections\Models\Media;
  * @template TKey of array-key
  * @template TModel of \Programic\MediaLibrary\MediaCollections\Models\Media
  *
- * @extends \Illuminate\Database\Eloquent\Collection<TKey, TModel>
+ * @extends Collection<TKey, TModel>
  */
 class MediaCollection extends Collection implements Htmlable
 {
@@ -37,7 +37,7 @@ class MediaCollection extends Collection implements Htmlable
         return $this->sum('size');
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
         return e(json_encode(old($this->formFieldName ?? $this->collectionName) ?? $this->map(function (Media $media) {
             return [
@@ -56,6 +56,10 @@ class MediaCollection extends Collection implements Htmlable
 
     public function jsonSerialize(): array
     {
+        if (config('media-library.use_default_collection_serialization')) {
+            return parent::jsonSerialize();
+        }
+
         if (! ($this->formFieldName ?? $this->collectionName)) {
             return [];
         }

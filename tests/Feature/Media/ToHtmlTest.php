@@ -35,6 +35,28 @@ it('can render extra attributes', function () {
     );
 });
 
+it('can render an array of classes as extra attributes', function () {
+    $this->assertEquals(
+        '<img class="rounded border" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+        Media::first()->img('thumb', ['class' => [
+            'rounded',
+            'border' => true,
+            'border-black' => false,
+        ]]),
+    );
+});
+
+it('can render an array of styles as extra attributes', function () {
+    $this->assertEquals(
+        '<img style="background-color: blue; color: blue;" src="/media/1/conversions/test-thumb.jpg" alt="test">',
+        Media::first()->img('thumb', ['style' => [
+            'background-color: blue',
+            'color: blue' => true,
+            'width: 10px' => false,
+        ]]),
+    );
+});
+
 test('a media instance is htmlable', function () {
     $media = Media::first();
 
@@ -55,6 +77,8 @@ test('converting a non image to an image tag will not blow up', function () {
 });
 
 it('can render pdf thumbnail as an image', function () {
+    config()->set('media-library.image_driver', 'imagick');
+
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestPdf())
         ->toMediaCollection();
@@ -84,8 +108,8 @@ it('can render itself with responsive images of a conversion and a placeholder',
 
     $image = $media->refresh()->img('thumb');
 
-    expect((string)$image)->toContain('/media/2/responsive-images/');
-    expect((string)$image)->toContain('data:image/svg+xml;base64,');
+    expect((string) $image)->toContain('/media/2/responsive-images/');
+    expect((string) $image)->toContain('data:image/svg+xml;base64,');
 });
 
 it('will not render extra javascript or include base64 svg when tiny placeholders are turned off', function () {
@@ -98,7 +122,7 @@ it('will not render extra javascript or include base64 svg when tiny placeholder
 
     $imgTag = $media->refresh()->img();
 
-    expect($imgTag)->toEqual('<img srcset="/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, /media/2/responsive-images/test___media_library_original_284_234.jpg 284w, /media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280">');
+    expect($imgTag)->toEqual('<img srcset="/media/2/responsive-images/test___media_library_original_340_280.jpg 340w, /media/2/responsive-images/test___media_library_original_284_234.jpg 284w, /media/2/responsive-images/test___media_library_original_237_195.jpg 237w" src="/media/2/test.jpg" width="340" height="280" alt="test">');
 });
 
 test('the loading attribute can be specified on the conversion', function () {

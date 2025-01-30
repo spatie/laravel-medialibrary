@@ -3,7 +3,7 @@
 use Programic\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator;
 
 it('can calculate the optimized widths from a file', function () {
-    $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidthsFromFile($this->getTestJpg());
+    $dimensions = (new FileSizeOptimizedWidthCalculator)->calculateWidthsFromFile($this->getTestJpg());
 
     $this->assertEquals([
         0 => 340,
@@ -11,7 +11,7 @@ it('can calculate the optimized widths from a file', function () {
         2 => 237,
     ], $dimensions->toArray());
 
-    $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidthsFromFile($this->getSmallTestJpg());
+    $dimensions = (new FileSizeOptimizedWidthCalculator)->calculateWidthsFromFile($this->getSmallTestJpg());
 
     $this->assertEquals([
         0 => 150,
@@ -19,7 +19,7 @@ it('can calculate the optimized widths from a file', function () {
 });
 
 it('can calculate the optimized widths for different dimensions', function () {
-    $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidths(300 * 1024, 300, 200);
+    $dimensions = (new FileSizeOptimizedWidthCalculator)->calculateWidths(300 * 1024, 300, 200);
 
     $this->assertEquals([
         0 => 300,
@@ -34,7 +34,7 @@ it('can calculate the optimized widths for different dimensions', function () {
         9 => 60,
     ], $dimensions->toArray());
 
-    $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidths(3000 * 1024, 2400, 1800);
+    $dimensions = (new FileSizeOptimizedWidthCalculator)->calculateWidths(3000 * 1024, 2400, 1800);
 
     $this->assertEquals([
         0 => 2400,
@@ -55,7 +55,7 @@ it('can calculate the optimized widths for different dimensions', function () {
         15 => 165,
     ], $dimensions->toArray());
 
-    $dimensions = (new FileSizeOptimizedWidthCalculator())->calculateWidths(12000 * 1024, 8200, 5500);
+    $dimensions = (new FileSizeOptimizedWidthCalculator)->calculateWidths(12000 * 1024, 8200, 5500);
 
     $this->assertEquals([
         0 => 8200,

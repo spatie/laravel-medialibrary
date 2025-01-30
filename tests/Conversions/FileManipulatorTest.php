@@ -12,7 +12,7 @@ it('does not perform manipulations if not necessary', function () {
     $imageFile = $this->getTestJpg();
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $conversionTempFile = (new PerformManipulationsAction())->execute(
+    $conversionTempFile = (new PerformManipulationsAction)->execute(
         $media,
         $this->conversion->withoutManipulations(),
         $imageFile

@@ -1,7 +1,5 @@
 <?php
 
-
-
 it('does not set empty custom headers when saved', function () {
     $media = $this->testModel
         ->addMedia($this->getTestJpg())

@@ -2,14 +2,13 @@
 
 namespace Programic\MediaLibrary\MediaCollections\Models\Observers;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Programic\MediaLibrary\Conversions\FileManipulator;
 use Programic\MediaLibrary\MediaCollections\Filesystem;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaObserver
 {
-    public function creating(Media $media)
+    public function creating(Media $media): void
     {
         if ($media->shouldSortWhenCreating()) {
             if (is_null($media->order_column)) {
@@ -18,9 +17,9 @@ class MediaObserver
         }
     }
 
-    public function updating(Media $media)
+    public function updating(Media $media): void
     {
-        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         if (config('media-library.moves_media_on_update')) {
@@ -32,7 +31,7 @@ class MediaObserver
         }
     }
 
-    public function updated(Media $media)
+    public function updated(Media $media): void
     {
         if (is_null($media->getOriginal('model_id'))) {
             return;
@@ -44,7 +43,7 @@ class MediaObserver
             $eventDispatcher = Media::getEventDispatcher();
             Media::unsetEventDispatcher();
 
-            /** @var \Programic\MediaLibrary\Conversions\FileManipulator $fileManipulator */
+            /** @var FileManipulator $fileManipulator */
             $fileManipulator = app(FileManipulator::class);
 
             $fileManipulator->createDerivedFiles($media);
@@ -53,23 +52,13 @@ class MediaObserver
         }
     }
 
-    public function deleted(Media $media)
+    public function deleted(Media $media): void
     {
-        if (in_array(SoftDeletes::class, class_uses_recursive($media))) {
-            if (! $media->isForceDeleting()) {
-                return;
-            }
+        if (method_exists($media, 'isForceDeleting') && ! $media->isForceDeleting()) {
+            return;
         }
 
-        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
-        $filesystem = app(Filesystem::class);
-
-        $filesystem->removeAllFiles($media);
-    }
-
-    public function forceDeleted(Media $media)
-    {
-        /** @var \Programic\MediaLibrary\MediaCollections\Filesystem $filesystem */
+        /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         $filesystem->removeAllFiles($media);

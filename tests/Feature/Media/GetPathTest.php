@@ -5,7 +5,7 @@ use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 it('can get a path of an original item', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/test.jpg");
+    $expected = $this->makePathOsSafe($this->getMediaDirectory()."/{$media->id}/test.jpg");
 
     $actual = $this->makePathOsSafe($media->getPath());
 
@@ -17,7 +17,7 @@ it('can get a path of a derived image', function () {
 
     $conversionName = 'thumb';
 
-    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/{$media->id}/conversions/test-{$conversionName}.jpg");
+    $expected = $this->makePathOsSafe($this->getMediaDirectory()."/{$media->id}/conversions/test-{$conversionName}.jpg");
 
     $actual = $this->makePathOsSafe($media->getPath($conversionName));
 
@@ -37,7 +37,7 @@ it('can get a path of an original item with prefix', function () {
 
     $media = $this->testModel->addMedia($this->getTestJpg())->toMediaCollection();
 
-    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/test.jpg");
+    $expected = $this->makePathOsSafe($this->getMediaDirectory()."/prefix/{$media->id}/test.jpg");
 
     $actual = $this->makePathOsSafe($media->getPath());
 
@@ -51,7 +51,7 @@ it('can get a path of a derived image with prefix', function () {
 
     $conversionName = 'thumb';
 
-    $expected = $this->makePathOsSafe($this->getMediaDirectory() . "/prefix/{$media->id}/conversions/test-{$conversionName}.jpg");
+    $expected = $this->makePathOsSafe($this->getMediaDirectory()."/prefix/{$media->id}/conversions/test-{$conversionName}.jpg");
 
     $actual = $this->makePathOsSafe($media->getPath($conversionName));
 

@@ -5,9 +5,11 @@ namespace Programic\MediaLibrary\Tests;
 use CreateTemporaryUploadsTable;
 use Dotgetenv\Dotgetenv;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Schema;
 use Programic\MediaLibrary\MediaLibraryServiceProvider;
 use Programic\MediaLibrary\Support\MediaLibraryPro;
 use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
@@ -30,7 +32,7 @@ abstract class TestCase extends Orchestra
 
     protected TestModelWithConversion $testModelWithConversion;
 
-    protected TestModelWithMultipleConversion $testModelWithMultipleConversion;
+    protected TestModelWithMultipleConversions $testModelWithMultipleConversions;
 
     protected TestModelWithPreviewConversion $testModelWithPreviewConversion;
 
@@ -57,7 +59,7 @@ abstract class TestCase extends Orchestra
         $this->setUpTempTestFiles();
 
         $this->testModel = TestModel::first();
-        $this->testUnsavedModel = new TestModel();
+        $this->testUnsavedModel = new TestModel;
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithMultipleConversions = TestModelWithMultipleConversions::first();
         $this->testModelWithPreviewConversion = TestModelWithPreviewConversion::first();
@@ -81,8 +83,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
+     * @param  \Illuminate\Foundation\Application  $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -95,7 +96,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     public function getEnvironmentSetUp($app)
     {
@@ -131,7 +132,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  \Illuminate\Foundation\Application  $app
      */
     protected function setUpDatabase($app)
     {
@@ -144,15 +145,29 @@ abstract class TestCase extends Orchestra
 
         TestModel::create(['name' => 'test']);
 
-
         if (MediaLibraryPro::isInstalled()) {
             include_once __DIR__.'/../vendor/spatie/laravel-medialibrary-pro/database/migrations/create_temporary_uploads_table.stub';
-            (new CreateTemporaryUploadsTable())->up();
+            (new CreateTemporaryUploadsTable)->up();
         }
 
-        $mediaTableMigration = require(__DIR__.'/../database/migrations/create_media_table.php.stub');
+        $mediaTableMigration = require __DIR__.'/../database/migrations/create_media_table.php.stub';
 
         $mediaTableMigration->up();
+    }
+
+    protected function setUpDatabaseCustomKeyName()
+    {
+        $customKeyNameMigration = new class extends Migration
+        {
+            public function up()
+            {
+                Schema::table('media', function (Blueprint $table) {
+                    $table->renameColumn('id', 'custom_key_id');
+                });
+            }
+        };
+
+        $customKeyNameMigration->up();
     }
 
     protected function setUpTempTestFiles()
@@ -238,6 +253,16 @@ abstract class TestCase extends Orchestra
         return $this->getTestFilesDirectory('test.webp');
     }
 
+    public function getTestAvif(): string
+    {
+        return $this->getTestFilesDirectory('test.avif');
+    }
+
+    public function getTestHeic(): string
+    {
+        return $this->getTestFilesDirectory('test.heic');
+    }
+
     public function getTestMp4(): string
     {
         return $this->getTestFilesDirectory('test.mp4');
@@ -287,7 +312,7 @@ abstract class TestCase extends Orchestra
         return trim((string) ($view));
     }
 
-    protected function assertFileExistsInZip(string $zipPath, string $filename)
+    protected function assertFileExistsInZip(string $zipPath, string $filename): void
     {
         $this->assertTrue(
             $this->fileExistsInZip($zipPath, $filename),
@@ -295,7 +320,7 @@ abstract class TestCase extends Orchestra
         );
     }
 
-    protected function assertFileExistsInZipRecognizeFolder(string $zipPath, string $filename)
+    protected function assertFileExistsInZipRecognizeFolder(string $zipPath, string $filename): void
     {
         $this->assertTrue(
             $this->fileExistsInZipRecognizeFolder($zipPath, $filename),
@@ -303,7 +328,7 @@ abstract class TestCase extends Orchestra
         );
     }
 
-    protected function assertFileDoesntExistsInZip(string $zipPath, string $filename)
+    protected function assertFileDoesntExistsInZip(string $zipPath, string $filename): void
     {
         $this->assertFalse(
             $this->fileExistsInZip($zipPath, $filename),
@@ -313,7 +338,7 @@ abstract class TestCase extends Orchestra
 
     protected function fileExistsInZip($zipPath, $filename): bool
     {
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename, ZipArchive::FL_NODIR) !== false;
@@ -324,7 +349,7 @@ abstract class TestCase extends Orchestra
 
     protected function fileExistsInZipRecognizeFolder($zipPath, $filename): bool
     {
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
 
         if ($zip->open($zipPath) === true) {
             return $zip->locateName($filename) !== false;

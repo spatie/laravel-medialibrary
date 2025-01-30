@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 beforeEach(function () {
     $this->fileName = 'test';
     $this->fileNameWithUnderscore = 'test_';
@@ -22,9 +24,9 @@ test('a media instance can get responsive image urls', function () {
 
     $this->assertEquals([
         "/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
-    ], $media->getResponsiveImageUrls("thumb"));
+    ], $media->getResponsiveImageUrls('thumb'));
 
-    expect($media->getResponsiveImageUrls("non-existing-conversion"))->toEqual([]);
+    expect($media->getResponsiveImageUrls('non-existing-conversion'))->toEqual([]);
 });
 
 test('a media instance can generate the contents of scrset', function () {
@@ -39,13 +41,42 @@ test('a media instance can generate the contents of scrset', function () {
         "/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg 340w, /media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg 284w, /media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg 237w",
         $media->getSrcset()
     );
-    expect($media->getSrcset())->toContain("data:image/svg+xml;base64");
+    expect($media->getSrcset())->toContain('data:image/svg+xml;base64');
 
     $this->assertStringContainsString(
         "/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg 50w",
-        $media->getSrcset("thumb")
+        $media->getSrcset('thumb')
     );
-    expect($media->getSrcset("thumb"))->toContain("data:image/svg+xml;base64,");
+    expect($media->getSrcset('thumb'))->toContain('data:image/svg+xml;base64,');
+});
+
+test('a media instance can generate the contents of scrset with versioned urls', function () {
+    config()->set('media-library.version_urls', true);
+
+    $this->travelTo(Carbon::create(2023, 3, 24, 14));
+
+    $this->freezeTime(function (Carbon $time) {
+        $this->testModelWithResponsiveImages
+            ->addMedia($this->getTestJpg())
+            ->withResponsiveImages()
+            ->toMediaCollection();
+
+        $media = $this->testModelWithResponsiveImages->getFirstMedia();
+
+        $timestamp = $time->timestamp;
+
+        $this->assertStringContainsString(
+            "/media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg?v={$timestamp} 340w, /media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg?v={$timestamp} 284w, /media/1/responsive-images/{$this->fileName}___media_library_original_237_195.jpg?v={$timestamp} 237w",
+            $media->getSrcset()
+        );
+        expect($media->getSrcset())->toContain('data:image/svg+xml;base64');
+
+        $this->assertStringContainsString(
+            "/media/1/responsive-images/{$this->fileName}___thumb_50_41.jpg?v={$timestamp} 50w",
+            $media->getSrcset('thumb')
+        );
+        expect($media->getSrcset('thumb'))->toContain('data:image/svg+xml;base64,');
+    });
 });
 
 test('a responsive image can return some properties', function () {
@@ -58,7 +89,7 @@ test('a responsive image can return some properties', function () {
 
     $responsiveImage = $media->responsiveImages()->files->first();
 
-    expect($responsiveImage->generatedFor())->toEqual("media_library_original");
+    expect($responsiveImage->generatedFor())->toEqual('media_library_original');
 
     expect($responsiveImage->width())->toEqual(340);
 
@@ -69,7 +100,7 @@ test('responsive image generation respects the conversion quality setting', func
     $this->testModelWithResponsiveImages
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
-        ->toMediaCollection("default");
+        ->toMediaCollection('default');
 
     $standardQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___standardQuality_340_280.jpg");
     $lowerQualityResponsiveConversion = $this->getTempDirectory("media/1/responsive-images/{$this->fileName}___lowerQuality_340_280.jpg");
@@ -81,14 +112,14 @@ test('a media instance can get responsive image urls with conversions stored on 
     $this->testModelWithResponsiveImages
         ->addMedia($this->getTestJpg())
         ->withResponsiveImages()
-        ->storingConversionsOnDisk("secondMediaDisk")
+        ->storingConversionsOnDisk('secondMediaDisk')
         ->toMediaCollection();
 
     $media = $this->testModelWithResponsiveImages->getFirstMedia();
 
     $this->assertEquals([
         "/media2/1/responsive-images/{$this->fileName}___thumb_50_41.jpg",
-    ], $media->getResponsiveImageUrls("thumb"));
+    ], $media->getResponsiveImageUrls('thumb'));
 });
 
 it('can handle file names with underscore', function () {
@@ -108,7 +139,7 @@ it('can handle file names with underscore', function () {
 
     $this->assertSame([
         "/media/1/responsive-images/{$this->fileNameWithUnderscore}___thumb_50_41.jpg",
-    ], $media->getResponsiveImageUrls("thumb"));
+    ], $media->getResponsiveImageUrls('thumb'));
 
-    expect($media->getResponsiveImageUrls("non-existing-conversion"))->toBe([]);
+    expect($media->getResponsiveImageUrls('non-existing-conversion'))->toBe([]);
 });

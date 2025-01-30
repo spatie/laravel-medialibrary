@@ -3,12 +3,13 @@
 namespace Programic\MediaLibrary\MediaCollections;
 
 use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Arr;
 use Programic\MediaLibrary\Conversions\ConversionCollection;
 use Programic\MediaLibrary\Conversions\ImageGenerators\Image;
 use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 
-class HtmlableMedia implements Htmlable, \Stringable
+class HtmlableMedia implements \Stringable, Htmlable
 {
     protected string $conversionName = '';
 
@@ -18,11 +19,18 @@ class HtmlableMedia implements Htmlable, \Stringable
 
     public function __construct(
         protected Media $media
-    ) {
-    }
+    ) {}
 
     public function attributes(array $attributes): self
     {
+        if (is_array($attributes['class'] ?? null)) {
+            $attributes['class'] = Arr::toCssClasses($attributes['class']);
+        }
+
+        if (is_array($attributes['style'] ?? null)) {
+            $attributes['style'] = Arr::toCssStyles($attributes['style']);
+        }
+
         $this->extraAttributes = $attributes;
 
         return $this;
@@ -42,9 +50,9 @@ class HtmlableMedia implements Htmlable, \Stringable
         return $this;
     }
 
-    public function toHtml()
+    public function toHtml(): string
     {
-        $imageGenerator = ImageGeneratorFactory::forMedia($this->media) ?? new Image();
+        $imageGenerator = ImageGeneratorFactory::forMedia($this->media) ?? new Image;
 
         if (! $imageGenerator->canHandleMime($this->media->mime_type)) {
             return '';

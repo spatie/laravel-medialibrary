@@ -3,7 +3,7 @@
 use Programic\MediaLibrary\Conversions\ImageGenerators\Webp;
 
 it('can convert a webp', function () {
-    $imageGenerator = new Webp();
+    $imageGenerator = new Webp;
 
     if (! $imageGenerator->requirementsAreInstalled()) {
         $this->markTestSkipped('Skipping webp test because requirements to run it are not met');

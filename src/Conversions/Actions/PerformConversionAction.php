@@ -3,8 +3,8 @@
 namespace Programic\MediaLibrary\Conversions\Actions;
 
 use Programic\MediaLibrary\Conversions\Conversion;
-use Programic\MediaLibrary\Conversions\Events\ConversionHasBeenCompleted;
-use Programic\MediaLibrary\Conversions\Events\ConversionWillStart;
+use Programic\MediaLibrary\Conversions\Events\ConversionHasBeenCompletedEvent;
+use Programic\MediaLibrary\Conversions\Events\ConversionWillStartEvent;
 use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Programic\MediaLibrary\MediaCollections\Filesystem;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
@@ -16,7 +16,7 @@ class PerformConversionAction
         Conversion $conversion,
         Media $media,
         string $copiedOriginalFile
-    ) {
+    ): void {
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
         $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
@@ -25,9 +25,9 @@ class PerformConversionAction
             return;
         }
 
-        event(new ConversionWillStart($media, $conversion, $copiedOriginalFile));
+        event(new ConversionWillStartEvent($media, $conversion, $copiedOriginalFile));
 
-        $manipulationResult = (new PerformManipulationsAction())->execute($media, $conversion, $copiedOriginalFile);
+        $manipulationResult = (new PerformManipulationsAction)->execute($media, $conversion, $copiedOriginalFile);
 
         $newFileName = $conversion->getConversionFile($media);
 
@@ -48,7 +48,7 @@ class PerformConversionAction
 
         $media->markAsConversionGenerated($conversion->getName());
 
-        event(new ConversionHasBeenCompleted($media, $conversion));
+        event(new ConversionHasBeenCompletedEvent($media, $conversion));
     }
 
     protected function renameInLocalDirectory(

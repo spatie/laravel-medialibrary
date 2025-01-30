@@ -46,6 +46,20 @@ class FileManipulator
         Media $media,
         bool $onlyMissing = false
     ): self {
+        $conversions = $conversions
+            ->when(
+                $onlyMissing,
+                fn (ConversionCollection $conversions) => $conversions->reject(function (Conversion $conversion) use ($media) {
+                    $relativePath = $media->getPath($conversion->getName());
+
+                    if ($rootPath = config("filesystems.disks.{$media->disk}.root")) {
+                        $relativePath = str_replace($rootPath, '', $relativePath);
+                    }
+
+                    return Storage::disk($media->disk)->exists($relativePath);
+                })
+            );
+
         if ($conversions->isEmpty()) {
             return $this;
         }
@@ -54,22 +68,10 @@ class FileManipulator
 
         $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
             $media,
-            $temporaryDirectory->path(Str::random(32) . '.' . $media->extension)
+            $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
         );
 
-        $conversions
-            ->reject(function (Conversion $conversion) use ($onlyMissing, $media) {
-                $relativePath = $media->getPath($conversion->getName());
-
-                if ($rootPath = config("filesystems.disks.{$media->disk}.root")) {
-                    $relativePath = str_replace($rootPath, '', $relativePath);
-                }
-
-                return $onlyMissing && Storage::disk($media->disk)->exists($relativePath);
-            })
-            ->each(function (Conversion $conversion) use ($media, $copiedOriginalFile) {
-                (new PerformConversionAction())->execute($conversion, $media, $copiedOriginalFile);
-            });
+        $conversions->each(fn (Conversion $conversion) => (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile));
 
         $temporaryDirectory->delete();
 
@@ -95,7 +97,9 @@ class FileManipulator
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue(config('media-library.queue_name'));
 
-        dispatch($job);
+        config('media-library.queue_conversions_after_database_commit')
+            ? dispatch($job)->afterCommit()
+            : dispatch($job);
 
         return $this;
     }
@@ -120,7 +124,9 @@ class FileManipulator
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue(config('media-library.queue_name'));
 
-        dispatch($job);
+        config('media-library.queue_conversions_after_database_commit')
+            ? dispatch($job)->afterCommit()
+            : dispatch($job);
 
         return $this;
     }

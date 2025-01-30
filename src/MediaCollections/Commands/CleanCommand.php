@@ -5,7 +5,7 @@ namespace Programic\MediaLibrary\MediaCollections\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Contracts\Filesystem\Factory;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Programic\MediaLibrary\Conversions\Conversion;
 use Programic\MediaLibrary\Conversions\ConversionCollection;
@@ -23,7 +23,8 @@ class CleanCommand extends Command
     protected $signature = 'media-library:clean {modelType?} {collectionName?} {disk?}
     {--dry-run : List files that will be removed without removing them},
     {--force : Force the operation to run when in production},
-    {--rate-limit= : Limit the number of requests per second },
+    {--rate-limit= : Limit the number of requests per second},
+    {--delete-orphaned : Delete orphaned media items},
     {--skip-conversions : Do not remove deprecated conversions}';
 
     protected $description = 'Clean deprecated conversions and files without related model.';
@@ -42,7 +43,7 @@ class CleanCommand extends Command
         MediaRepository $mediaRepository,
         FileManipulator $fileManipulator,
         Factory $fileSystem,
-    ) {
+    ): void {
         $this->mediaRepository = $mediaRepository;
         $this->fileManipulator = $fileManipulator;
         $this->fileSystem = $fileSystem;
@@ -54,6 +55,10 @@ class CleanCommand extends Command
         $this->isDryRun = $this->option('dry-run');
         $this->rateLimit = (int) $this->option('rate-limit');
 
+        if ($this->option('delete-orphaned')) {
+            $this->deleteOrphanedMediaItems();
+        }
+
         if (! $this->option('skip-conversions')) {
             $this->deleteFilesGeneratedForDeprecatedConversions();
         }
@@ -63,8 +68,8 @@ class CleanCommand extends Command
         $this->info('All done!');
     }
 
-    /** @return Collection<int, Media> */
-    public function getMediaItems(): Collection
+    /** @return LazyCollection<int, Media> */
+    public function getMediaItems(): LazyCollection
     {
         $modelType = $this->argument('modelType');
         $collectionName = $this->argument('collectionName');
@@ -85,6 +90,37 @@ class CleanCommand extends Command
         }
 
         return $this->mediaRepository->all();
+    }
+
+    protected function deleteOrphanedMediaItems(): void
+    {
+        $this->getOrphanedMediaItems()->each(function (Media $media): void {
+            if ($this->isDryRun) {
+                $this->info("Orphaned Media[id={$media->id}] found");
+
+                return;
+            }
+
+            $media->delete();
+
+            if ($this->rateLimit) {
+                usleep((1 / $this->rateLimit) * 1_000_000);
+            }
+
+            $this->info("Orphaned Media[id={$media->id}] has been removed");
+        });
+    }
+
+    /** @return LazyCollection<int, Media> */
+    protected function getOrphanedMediaItems(): LazyCollection
+    {
+        $collectionName = $this->argument('collectionName');
+
+        if (is_string($collectionName)) {
+            return $this->mediaRepository->getOrphansByCollectionName($collectionName);
+        }
+
+        return $this->mediaRepository->getOrphans();
     }
 
     protected function deleteFilesGeneratedForDeprecatedConversions(): void
@@ -150,19 +186,25 @@ class CleanCommand extends Command
         if (is_null(config("filesystems.disks.{$diskName}"))) {
             throw DiskDoesNotExist::create($diskName);
         }
-        $mediaClass = config('media-library.media_model');
-        $mediaInstance = new $mediaClass();
-        $keyName = $mediaInstance->getKeyName();
 
-        $mediaIds = collect($this->mediaRepository->all()->pluck($keyName)->toArray());
+        $prefix = config('media-library.prefix', '');
+
+        if ($prefix !== '') {
+            $prefix = trim($prefix, '/').'/';
+        }
+
+        $mediaIds = $this->mediaRepository->allIds();
 
         /** @var array<int, string> */
-        $directories = $this->fileSystem->disk($diskName)->directories();
+        $directories = $this->fileSystem->disk($diskName)->directories($prefix);
 
         collect($directories)
+            ->map(fn (string $directory) => str_replace($prefix, '', $directory))
             ->filter(fn (string $directory) => is_numeric($directory))
             ->reject(fn (string $directory) => $mediaIds->contains((int) $directory))
-            ->each(function (string $directory) use ($diskName) {
+            ->each(function (string $directory) use ($diskName, $prefix) {
+                $directory = $prefix.$directory;
+
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }
@@ -182,6 +224,7 @@ class CleanCommand extends Command
         $generatedConversionName = null;
 
         $media->getGeneratedConversions()
+            ->dot()
             ->filter(
                 fn (bool $isGenerated, string $generatedConversionName) => Str::contains($conversionFile, $generatedConversionName)
             )

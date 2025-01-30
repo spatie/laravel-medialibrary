@@ -7,9 +7,7 @@ use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaConversionAttachmentMail extends Mailable
 {
-    public function __construct(public Media $media)
-    {
-    }
+    public function __construct(public Media $media) {}
 
     public function build()
     {

@@ -6,8 +6,8 @@ use Exception;
 
 class FunctionalityNotAvailable extends Exception
 {
-    public static function mediaLibraryProRequired()
+    public static function mediaLibraryProRequired(): self
     {
-        return new static("You need to have media library pro installed to make this work.");
+        return new static('You need to have media library pro installed to make this work.');
     }
 }

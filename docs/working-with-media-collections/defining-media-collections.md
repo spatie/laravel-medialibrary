@@ -3,9 +3,9 @@ title: Defining media collections
 weight: 2
 ---
 
-A media collection can be more than [just a name to group files](/laravel-medialibrary/v10/working-with-media-collections/simple-media-collections). By defining a media collection in your model you can add certain behaviour collections.
+A media collection can be more than [just a name to group files](/docs/laravel-medialibrary/v11/working-with-media-collections/simple-media-collections). By defining a media collection in your model you can add certain behaviour collections.
 
-To get started with media collections add a function called `registerMediaCollections` to [your prepared model](/laravel-medialibrary/v10/basic-usage/preparing-your-model). Inside that function you can use `addMediaCollection` to start  a media collection.
+To get started with media collections add a function called `registerMediaCollections` to [your prepared model](/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model). Inside that function you can use `addMediaCollection` to start  a media collection.
 
 ```php
 // in your model
@@ -58,7 +58,7 @@ public function registerMediaCollections(): void
 }
 ```
 
-When you use a fallback URL/path, [conversions](https://spatie.be/docs/laravel-medialibrary/v10/converting-images/defining-conversions) will use the default fallback URL/path if the media does not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
+When you use a fallback URL/path, [conversions](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) will use the default fallback URL/path if the media does not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
 
 ```php
 use Programic\MediaLibrary\MediaCollections\Models\Media;
@@ -253,7 +253,7 @@ $yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$secondFil
 
 ## Registering media conversions
 
-It's recommended that your first read the section on [converting images](/laravel-medialibrary/v10/converting-images/defining-conversions) before reading the following paragraphs.
+It's recommended that your first read the section on [converting images](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) before reading the following paragraphs.
 
 Normally image conversions are registered inside the `registerMediaConversions` function on your model. However, images conversions can also be registered inside media collections.
 
@@ -283,7 +283,7 @@ $yourModel->addMedia($pathToImage)->toMediaCollection('my-collection');
 $yourModel->getFirstMediaUrl('my-collection', 'thumb') // returns an url to a 100x100 version of the added image.
 ```
 
-Take a look at the [defining conversions section](/laravel-medialibrary/v10/converting-images/defining-conversions) to learn all the functions you can tack on to `addMediaConversion`.
+Take a look at the [defining conversions section](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) to learn all the functions you can tack on to `addMediaConversion`.
 
 ## Generating responsive images
 

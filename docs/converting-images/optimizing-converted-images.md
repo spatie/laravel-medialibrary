@@ -25,8 +25,9 @@ The package will use these optimizers if they are present on your system:
 - [Pngquant 2](https://pngquant.org/)
 - [SVGO](https://github.com/svg/svgo)
 - [Gifsicle](http://www.lcdf.org/gifsicle/)
+- [Avifenc](https://github.com/AOMediaCodec/libavif/blob/main/doc/avifenc.1.md)
 
-Head over to [the installation page](https://docs.spatie.be/laravel-medialibrary/v10/installation-setup#optimization-tools) to learn how to install these.
+Head over to [the installation page](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup#content-setting-up-optimization-tools) to learn how to install these.
 
 ## Are you a visual learner?
 

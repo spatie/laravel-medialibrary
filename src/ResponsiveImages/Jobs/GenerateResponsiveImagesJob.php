@@ -12,16 +12,14 @@ use Programic\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
 class GenerateResponsiveImagesJob implements ShouldQueue
 {
     use InteractsWithQueue;
-    use SerializesModels;
     use Queueable;
+    use SerializesModels;
 
-    public function __construct(protected Media $media)
-    {
-    }
+    public function __construct(protected Media $media) {}
 
     public function handle(): bool
     {
-        /** @var \Programic\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator $responsiveImageGenerator */
+        /** @var ResponsiveImageGenerator $responsiveImageGenerator */
         $responsiveImageGenerator = app(ResponsiveImageGenerator::class);
 
         $responsiveImageGenerator->generateResponsiveImages($this->media);

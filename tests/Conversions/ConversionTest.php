@@ -1,7 +1,7 @@
 <?php
 
-use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\Conversions\Conversion;
+use Programic\MediaLibrary\Conversions\Manipulations;
 
 beforeEach(function () {
     $this->conversionName = 'test';
@@ -15,13 +15,25 @@ it('can get its name', function () {
 it('will add a format parameter if it was not given', function () {
     $this->conversion->width(10);
 
-    expect($this->conversion->getManipulations()->getManipulationArgument('format'))->toEqual('jpg');
+    expect($this->conversion->getManipulations()->getManipulationArgument('format'))->toEqual(['jpg']);
 });
 
 it('will use the format parameter if it was given', function () {
     $this->conversion->format('png');
 
-    expect($this->conversion->getManipulations()->getManipulationArgument('format'))->toEqual('png');
+    expect($this->conversion->getManipulations()->getManipulationArgument('format'))->toEqual(['png']);
+});
+
+it('will set conversions to responsive', function () {
+    $this->conversion->withResponsiveImages();
+
+    expect($this->conversion->shouldGenerateResponsiveImages())->toBeTrue();
+});
+
+it('will set conversions to not be responsive', function () {
+    $this->conversion->withResponsiveImages()->withResponsiveImages(false);
+
+    expect($this->conversion->shouldGenerateResponsiveImages())->toBeFalse();
 });
 
 it('will be performed on the given collection names', function () {
@@ -80,7 +92,7 @@ it('can determine the extension of the result', function () {
 });
 
 it('can remove a previously set manipulation', function () {
-    expect($this->conversion->getManipulations()->getManipulationArgument('format'))->toEqual('jpg');
+    expect($this->conversion->getManipulations()->getManipulationArgument('format'))->toEqual(['jpg']);
 
     $this->conversion->removeManipulation('format');
 
@@ -101,24 +113,6 @@ it('will use the extract duration parameter if it was given', function () {
     expect($this->conversion->getExtractVideoFrameAtSecond())->toEqual(10);
 });
 
-test('manipulations can be set using an instance of manipulations', function () {
-    $this->conversion->setManipulations((new Manipulations())->width(10));
-
-    $manipulations = $this->conversion
-        ->getManipulations()
-        ->getManipulationSequence()
-        ->toArray();
-
-    $this->assertArrayHasKey('optimize', $manipulations[0]);
-
-    unset($manipulations[0]['optimize']);
-
-    $this->assertEquals([[
-        'width' => 10,
-        'format' => 'jpg',
-    ]], $manipulations);
-});
-
 test('manipulations can be set using a closure', function () {
     $this->conversion->setManipulations(function (Manipulations $manipulations) {
         $manipulations->width(10);
@@ -126,17 +120,16 @@ test('manipulations can be set using a closure', function () {
 
     $manipulations = $this->conversion
         ->getManipulations()
-        ->getManipulationSequence()
         ->toArray();
 
-    $this->assertArrayHasKey('optimize', $manipulations[0]);
+    $this->assertArrayHasKey('optimize', $manipulations);
 
-    unset($manipulations[0]['optimize']);
+    unset($manipulations['optimize']);
 
-    $this->assertEquals([[
-        'width' => 10,
-        'format' => 'jpg',
-    ]], $manipulations);
+    $this->assertEquals([
+        'width' => [10],
+        'format' => ['jpg'],
+    ], $manipulations);
 });
 
 it('will optimize the converted image by default', function () {
@@ -145,17 +138,16 @@ it('will optimize the converted image by default', function () {
         ->getManipulationSequence()
         ->toArray();
 
-    $this->assertArrayHasKey('optimize', $manipulations[0]);
+    $this->assertArrayHasKey('optimize', $manipulations);
 });
 
 it('can remove the optimization', function () {
     $manipulations = (new Conversion('test'))
         ->nonOptimized()
         ->getManipulations()
-        ->getManipulationSequence()
         ->toArray();
 
-    $this->assertArrayNotHasKey('optimize', $manipulations[0]);
+    $this->assertArrayNotHasKey('optimize', $manipulations);
 });
 
 it('will use the pdf page number parameter if it was given', function () {

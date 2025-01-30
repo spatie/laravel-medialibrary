@@ -13,18 +13,24 @@ use Programic\MediaLibrary\MediaCollections\Models\Media;
 class PerformConversionsJob implements ShouldQueue
 {
     use InteractsWithQueue;
-    use SerializesModels;
     use Queueable;
+    use SerializesModels;
 
     public $deleteWhenMissingModels = true;
 
-    public function __construct(protected ConversionCollection $conversions, protected Media $media, protected bool $onlyMissing = false)
-    {
-    }
+    public function __construct(
+        protected ConversionCollection $conversions,
+        protected Media $media,
+        protected bool $onlyMissing = false,
+    ) {}
 
     public function handle(FileManipulator $fileManipulator): bool
     {
-        $fileManipulator->performConversions($this->conversions, $this->media, $this->onlyMissing);
+        $fileManipulator->performConversions(
+            $this->conversions,
+            $this->media,
+            $this->onlyMissing
+        );
 
         return true;
     }

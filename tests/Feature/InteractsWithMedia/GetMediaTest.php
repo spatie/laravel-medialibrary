@@ -274,7 +274,7 @@ it('will return preloaded media sorting on order column', function () {
     ], $preloadedTestModel
         ->getMedia('images')
         ->pluck('order_column', 'id')
-        ->map(fn ($value) => (int)$value)
+        ->map(fn ($value) => (int) $value)
         ->toArray());
 
     $firstMedia->order_column = 3;
@@ -290,7 +290,7 @@ it('will return preloaded media sorting on order column', function () {
     ], $preloadedTestModel
         ->getMedia('images')
         ->pluck('order_column', 'id')
-        ->map(fn ($value) => (int)$value)
+        ->map(fn ($value) => (int) $value)
         ->toArray());
 });
 
@@ -321,4 +321,18 @@ it('can serialize model', function () {
     $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
     expect(unserializeAndSerializeModel($this->testModel))->toEqual($this->testModel->fresh());
+});
+
+it('will get media from the all collections', function () {
+    expect($this->testModel->getMedia('images'))->toHaveCount(0);
+    expect($this->testModel->getMedia('downloads'))->toHaveCount(0);
+    expect($this->testModel->getMedia())->toHaveCount(0);
+
+    $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('images');
+    $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection('downloads');
+    $this->testModel->addMedia($this->getTestFilesDirectory('test.jpg'))->preservingOriginal()->toMediaCollection();
+
+    $this->testModel = $this->testModel->fresh();
+
+    expect($this->testModel->getMedia('*'))->toHaveCount(3);
 });

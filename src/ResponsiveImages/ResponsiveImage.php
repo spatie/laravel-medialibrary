@@ -9,7 +9,7 @@ use Programic\MediaLibrary\Support\UrlGenerator\UrlGeneratorFactory;
 
 class ResponsiveImage
 {
-    public static function register(Media $media, $fileName, $conversionName)
+    public static function register(Media $media, $fileName, $conversionName): void
     {
         $responsiveImages = $media->responsive_images;
 
@@ -20,7 +20,7 @@ class ResponsiveImage
         $media->save();
     }
 
-    public static function registerTinySvg(Media $media, string $base64Svg, string $conversionName)
+    public static function registerTinySvg(Media $media, string $base64Svg, string $conversionName): void
     {
         $responsiveImages = $media->responsive_images;
 
@@ -31,9 +31,7 @@ class ResponsiveImage
         $media->save();
     }
 
-    public function __construct(public string $fileName, public Media $media)
-    {
-    }
+    public function __construct(public string $fileName, public Media $media) {}
 
     public function url(): string
     {
@@ -45,7 +43,13 @@ class ResponsiveImage
 
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media, $conversionName);
 
-        return $urlGenerator->getResponsiveImagesDirectoryUrl().rawurlencode($this->fileName);
+        $url = $urlGenerator->getResponsiveImagesDirectoryUrl().rawurlencode($this->fileName);
+
+        if (config('media-library.version_urls') === true) {
+            $url = "{$url}?v={$this->media->updated_at->timestamp}";
+        }
+
+        return $url;
     }
 
     public function generatedFor(): string

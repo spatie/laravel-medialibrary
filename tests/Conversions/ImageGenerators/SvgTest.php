@@ -3,7 +3,9 @@
 use Programic\MediaLibrary\Conversions\ImageGenerators\Svg;
 
 it('can convert a svg', function () {
-    $imageGenerator = new Svg();
+    config()->set('media-library.image_driver', 'imagick');
+
+    $imageGenerator = new Svg;
 
     if (! $imageGenerator->requirementsAreInstalled()) {
         $this->markTestSkipped('Skipping svg test because requirements to run it are not met');
@@ -15,5 +17,7 @@ it('can convert a svg', function () {
 
     $imageFile = $imageGenerator->convert($media->getPath());
 
-    expect(mime_content_type($imageFile))->toEqual('image/jpeg');
+    expect(mime_content_type($imageFile))->toEqual('image/png');
+
+    expect((new Imagick($imageFile))->getImageAlphaChannel())->toBeTrue();
 });

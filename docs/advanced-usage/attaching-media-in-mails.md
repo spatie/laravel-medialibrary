@@ -3,7 +3,7 @@ title: Attaching media in mails
 weight: 9
 ---
 
-Laravel allows [to attach all sorts of classes](https://laravel.com/docs/9.x/mail#attachable-objects) in mails. The `Media` model implements Laravel's `Attachable` interface, so you can attach `Media` models directly in mails.
+Laravel allows [to attach all sorts of classes](https://laravel.com/docs/10.x/mail#attachable-objects) in mails. The `Media` model implements Laravel's `Attachable` interface, so you can attach `Media` models directly in mails.
 
 
 ```php
@@ -67,6 +67,6 @@ class BlogPostThumbnailMail extends Mailable
 
 ## Customizing the attachment
 
-By default, the attachment will use the `file_name` and `mime_type` properties to configure Laravel's `Attachment` class. To override how `Attachments` are made, [use a custom media model](https://spatie.be/docs/laravel-medialibrary/v10/advanced-usage/using-your-own-model), and override the `toMailAttachment` method.
+By default, the attachment will use the `file_name` and `mime_type` properties to configure Laravel's `Attachment` class. To override how `Attachments` are made, [use a custom media model](/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model), and override the `toMailAttachment` method.
 
 

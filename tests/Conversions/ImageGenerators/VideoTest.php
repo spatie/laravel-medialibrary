@@ -4,7 +4,7 @@ use Programic\MediaLibrary\Conversions\Conversion;
 use Programic\MediaLibrary\Conversions\ImageGenerators\Video;
 
 it('can convert a video', function () {
-    $imageGenerator = new Video();
+    $imageGenerator = new Video;
 
     if (! $imageGenerator->requirementsAreInstalled()) {
         $this->markTestSkipped('Skipping video test because requirements to run it are not met');

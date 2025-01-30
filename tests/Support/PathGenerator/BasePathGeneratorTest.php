@@ -11,7 +11,7 @@ beforeEach(function () {
 
     $this->urlGenerator = new DefaultUrlGenerator($this->config);
 
-    $this->pathGenerator = new CustomPathGenerator();
+    $this->pathGenerator = new CustomPathGenerator;
 
     $this->urlGenerator->setPathGenerator($this->pathGenerator);
 });

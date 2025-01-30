@@ -24,7 +24,7 @@ return [
      * This queue will be used to generate derived and responsive images.
      * Leave empty to use the default queue.
      */
-    'queue_name' => '',
+    'queue_name' => env('MEDIA_QUEUE', ''),
 
     /*
      * By default all conversions will be performed on a queue.
@@ -32,10 +32,28 @@ return [
     'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
 
     /*
+     * Should database transactions be run after database commits?
+     */
+    'queue_conversions_after_database_commit' => env('QUEUE_CONVERSIONS_AFTER_DB_COMMIT', true),
+
+    /*
      * The fully qualified class name of the media model.
      */
     'media_model' => Programic\MediaLibrary\MediaCollections\Models\Media::class,
     'mediable_model' => Programic\MediaLibrary\MediaCollections\Models\Mediable::class,
+
+    /*
+     * The fully qualified class name of the media observer.
+     */
+    'media_observer' => Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver::class,
+
+    /*
+     * When enabled, media collections will be serialised using the default
+     * laravel model serialization behaviour.
+     *
+     * Keep this option disabled if using Media Library Pro components (https://medialibrary.pro)
+     */
+    'use_default_collection_serialization' => false,
 
     /*
      * The fully qualified class name of the model used for temporary uploads.
@@ -65,6 +83,11 @@ return [
      * The class that contains the strategy for determining a media file's path.
      */
     'path_generator' => Programic\MediaLibrary\Support\PathGenerator\DefaultPathGenerator::class,
+
+    /*
+     * The class that contains the strategy for determining how to remove files.
+     */
+    'file_remover_class' => Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover::class,
 
     /*
      * Here you can specify which path generator should be used for the given class.
@@ -124,7 +147,17 @@ return [
             '-m 6', // for the slowest compression method in order to get the best compression.
             '-pass 10', // for maximizing the amount of analysis pass.
             '-mt', // multithreading for some speed improvements.
-            '-q 90', //quality factor that brings the least noticeable changes.
+            '-q 90', // quality factor that brings the least noticeable changes.
+        ],
+        Spatie\ImageOptimizer\Optimizers\Avifenc::class => [
+            '-a cq-level=23', // constant quality level, lower values mean better quality and greater file size (0-63).
+            '-j all', // number of jobs (worker threads, "all" uses all available cores).
+            '--min 0', // min quantizer for color (0-63).
+            '--max 63', // max quantizer for color (0-63).
+            '--minalpha 0', // min quantizer for alpha (0-63).
+            '--maxalpha 63', // max quantizer for alpha (0-63).
+            '-a end-usage=q', // rate control mode set to Constant Quality mode.
+            '-a tune=ssim', // SSIM as tune the encoder for distortion metric.
         ],
     ],
 
@@ -134,6 +167,7 @@ return [
     'image_generators' => [
         Programic\MediaLibrary\Conversions\ImageGenerators\Image::class,
         Programic\MediaLibrary\Conversions\ImageGenerators\Webp::class,
+        Programic\MediaLibrary\Conversions\ImageGenerators\Avif::class,
         Programic\MediaLibrary\Conversions\ImageGenerators\Pdf::class,
         Programic\MediaLibrary\Conversions\ImageGenerators\Svg::class,
         Programic\MediaLibrary\Conversions\ImageGenerators\Video::class,
@@ -175,6 +209,13 @@ return [
      */
     'media_downloader' => Programic\MediaLibrary\Downloaders\DefaultDownloader::class,
 
+    /*
+     * When using the addMediaFromUrl method the SSL is verified by default.
+     * This is option disables SSL verification when downloading remote media.
+     * Please note that this is a security risk and should only be false in a local environment.
+     */
+    'media_downloader_ssl' => env('MEDIA_DOWNLOADER_SSL', true),
+
     'remote' => [
         /*
          * Any extra headers that should be included when uploading media to
@@ -202,6 +243,7 @@ return [
         /*
          * By default rendering media to a responsive image will add some javascript and a tiny placeholder.
          * This ensures that the browser can already determine the correct layout.
+         * When disabled, no tiny placeholder is generated.
          */
         'use_tiny_placeholders' => true,
 
@@ -235,4 +277,10 @@ return [
      * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
     'prefix' => env('MEDIA_PREFIX', ''),
+
+    /*
+     * When forcing lazy loading, media will be loaded even if you don't eager load media and you have
+     * disabled lazy loading globally in the service provider.
+     */
+    'force_lazy_loading' => env('FORCE_MEDIA_LIBRARY_LAZY_LOADING', true),
 ];

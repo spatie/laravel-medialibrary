@@ -24,7 +24,7 @@ media
 
 Putting files inside their own folders guarantees that files with the same name can be added without any problems.
 
-To override this default folder structure, a class that conforms to the `PathGenerator`-interface can be specified as the `path_generator` in the config file.
+To override this default folder structure, a class that conforms to the `PathGenerator`-interface can be specified as the `path_generator` in the config file. The given class will be loaded through the Laravel [Service Container](https://laravel.com/docs/container), so feel free to type-hint any dependencies in the constructor.
 
 Let's take a look at the interface:
 

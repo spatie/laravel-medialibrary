@@ -5,11 +5,11 @@ weight: 1
 
 When adding files to the media library it can automatically create derived versions such as thumbnails and banners.
 
-Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `webp`, `pdf`, `mp4 `, `mov` or `webm` file is added to the media library. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
+Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `webp`, `avif`, `pdf`, `mp4 `, `mov` or `webm` file is added to the media library. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
 
-Internally, [spatie/image](https://docs.spatie.be/image/v1/) is used to manipulate the images. You can use [any manipulation function](https://docs.spatie.be/image) from that package.
+Internally, [spatie/image](https://spatie.be/docs/image/v3) is used to manipulate the images. You can use [any manipulation function](https://spatie.be/docs/image) from that package.
 
-Please check [the image generator docs](/laravel-medialibrary/v10/converting-other-file-types/using-image-generators) for additional installation requirements when working with PDF, SVG or video formats.
+Please check [the image generator docs](/docs/laravel-medialibrary/v11/converting-other-file-types/using-image-generators) for additional installation requirements when working with PDF, SVG or video formats.
 
 ## Are you a visual learner?
 
@@ -33,7 +33,7 @@ class YourModel extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -65,11 +65,12 @@ You can register as many media conversions as you want
 
 ```php
 // in your model
-use Spatie\Image\Manipulations;
+use Spatie\Image\Enums\BorderType;
+use Spatie\Image\Enums\CropPosition;
 
 // ...
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
               ->width(368)
@@ -78,10 +79,10 @@ use Spatie\Image\Manipulations;
 
         $this->addMediaConversion('old-picture')
               ->sepia()
-              ->border(10, 'black', Manipulations::BORDER_OVERLAY);
+              ->border(10, BorderType::Overlay, 'black');
               
         $this->addMediaConversion('thumb-cropped')
-            ->crop('crop-center', 400, 400); // Trim or crop the image to the center for specified width and height.
+            ->crop(400, 400, CropPosition::Center); // Trim or crop the image to the center for specified width and height.
     }
 ```
 
@@ -94,13 +95,13 @@ $media->getUrl('old-picture') // the url to the sepia, bordered version
 
 ## Performing conversions on specific collections
 
-By default a conversion will be performed on all files regardless of which [collection](/laravel-medialibrary/v10/working-with-media-collections/simple-media-collections) is used. Conversions can also be performed on specific collections by adding a call to `performOnCollections`.
+By default a conversion will be performed on all files regardless of which [collection](/docs/laravel-medialibrary/v11/working-with-media-collections/simple-media-collections) is used. Conversions can also be performed on specific collections by adding a call to `performOnCollections`.
 
 This is how that looks like in the model:
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
           ->performOnCollections('images', 'downloads')
@@ -120,13 +121,26 @@ $media = $yourModel->addMedia($pathToImage)->toMediaCollection('other collection
 $media->getUrl('thumb') // returns ''
 ```
 
+## Using a specific disk
+You can ensure that conversions added to a collection are automatically added to a certain disk.
+
+```php
+public function registerMediaCollections(): void
+{
+    $this
+        ->addMediaCollection('big-files')
+        ->useDisk('s3')
+        ->storeConversionsOnDisk('public');
+}
+```
+
 ## Queuing conversions
 
-By default, a conversion will be added to the connection and queue that you've [specified in the configuration](/laravel-medialibrary/v10/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
+By default, a conversion will be added to the connection and queue that you've [specified in the configuration](/docs/laravel-medialibrary/v11/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
             ->width(368)
@@ -139,7 +153,7 @@ If you have set `queue_conversions_by_default` in the `media-library` config fil
 
 ```php
 // in your model
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
             ->width(368)
@@ -147,6 +161,11 @@ public function registerMediaConversions(Media $media = null): void
             ->queued();
 }
 ```
+
+The default behaviour is that queued conversions will run **after all database transactions have been committed**. \
+This prevents unexpected behaviour where the model does not yet exist in the database and the conversion is disregarded.
+If you need the conversions to run within your transaction, you can set the `queue_conversions_after_database_commit`
+in the `media-library` config file to `false`.
 
 ## Using model properties in a conversion
 
@@ -157,7 +176,7 @@ true` on your model.
 // in your model
 public $registerMediaConversionsUsingModelInstance = true;
 
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
           ->performOnCollections('images', 'downloads')

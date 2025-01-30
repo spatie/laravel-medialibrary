@@ -2,6 +2,4 @@
 
 namespace Programic\MediaLibrary\Support\Factories;
 
-class TemporaryUploadFactory
-{
-}
+class TemporaryUploadFactory {}

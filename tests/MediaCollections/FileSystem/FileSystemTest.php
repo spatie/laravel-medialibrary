@@ -6,7 +6,7 @@ beforeEach(function () {
     $this->filesystem = app()->make(Filesystem::class);
 });
 
-it('can determine the header for file that will be copied to an external filesytem', function () {
+it('can determine the header for file that will be copied to an external filesystem', function () {
     $expectedHeaders = [
         'ContentType' => 'image/jpeg',
         'CacheControl' => 'max-age=604800',
@@ -18,7 +18,7 @@ it('can determine the header for file that will be copied to an external filesyt
     );
 });
 
-it('can add custom headers for file that will be copied to an external filesytem', function () {
+it('can add custom headers for file that will be copied to an external filesystem', function () {
     $this->filesystem->addCustomRemoteHeaders([
         'ACL' => 'public-read',
     ]);

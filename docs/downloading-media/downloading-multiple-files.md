@@ -47,15 +47,9 @@ class DownloadMediaController
         // Download the files associated with the media in a streamed way.
         // No prob if your files are very large.
         return MediaStream::create('my-files.zip')
-            ->useZipOptions(function(&$zipOptions) {
-                if (is_array($zipOptions)) {
-                    // ZipStream ^3.0 uses array                    
-                    $zipOptions['defaultEnableZeroHeader'] = true;
-                } else {
-                    // ZipStream ^2.0 uses \ZipStream\Option\Archive
-                    /** @var \ZipStream\Option\Archive $zipOptions */
-                    $zipOptions->setZeroHeader(true);
-                }
+            ->useZipOptions(function (&$zipOptions) {
+                // ZipStream ^3.0 uses array                    
+                $zipOptions['defaultEnableZeroHeader'] = true;
             })
             ->addMedia($downloads);
    }

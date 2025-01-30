@@ -7,7 +7,8 @@ use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithoutMediaConversions;
 
 it('will use the disk from a media collection', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this->addMediaCollection('images')
@@ -29,7 +30,8 @@ it('will use the disk from a media collection', function () {
 });
 
 it('will not use the disk name of the collection if a diskname is specified while adding', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this->addMediaCollection('images')
@@ -47,7 +49,8 @@ it('will not use the disk name of the collection if a diskname is specified whil
 });
 
 it('can register media conversions when defining media collections', function () {
-    $testModel = new class () extends TestModelWithoutMediaConversions {
+    $testModel = new class extends TestModelWithoutMediaConversions
+    {
         public function registerMediaCollections(): void
         {
             $this
@@ -68,7 +71,8 @@ it('can register media conversions when defining media collections', function ()
 });
 
 it('will not use media conversions from an unrelated collection', function () {
-    $testModel = new class () extends TestModelWithoutMediaConversions {
+    $testModel = new class extends TestModelWithoutMediaConversions
+    {
         public function registerMediaCollections(): void
         {
             $this
@@ -89,8 +93,9 @@ it('will not use media conversions from an unrelated collection', function () {
 });
 
 it('will use conversions defined in conversions and conversions defined in collections', function () {
-    $testModel = new class () extends TestModelWithoutMediaConversions {
-        public function registerMediaConversions(Media $media = null): void
+    $testModel = new class extends TestModelWithoutMediaConversions
+    {
+        public function registerMediaConversions(?Media $media = null): void
         {
             $this
                 ->addMediaConversion('another-thumb')
@@ -101,7 +106,7 @@ it('will use conversions defined in conversions and conversions defined in colle
         {
             $this
                 ->addMediaCollection('images')
-                ->registerMediaConversions(function (Media $media = null) {
+                ->registerMediaConversions(function (?Media $media = null) {
                     $this
                         ->addMediaConversion('thumb')
                         ->greyscale();
@@ -119,7 +124,8 @@ it('will use conversions defined in conversions and conversions defined in colle
 });
 
 it('can accept certain files', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this
@@ -138,7 +144,8 @@ it('can accept certain files', function () {
 });
 
 it('can guard against invalid mimetypes', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this
@@ -157,7 +164,8 @@ it('can guard against invalid mimetypes', function () {
 });
 
 it('can generate responsive images', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this
@@ -182,7 +190,8 @@ it('can generate responsive images', function () {
 });
 
 it('can generate responsive images on condition', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this
@@ -207,7 +216,8 @@ it('can generate responsive images on condition', function () {
 });
 
 test('if the single file method is specified it will delete all other media and will only keep the new one', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this
@@ -226,7 +236,8 @@ test('if the single file method is specified it will delete all other media and 
 });
 
 test('if the only keeps latest method is specified it will delete all other media and will only keep the latest n ones', function () {
-    $testModel = new class () extends TestModelWithConversion {
+    $testModel = new class extends TestModelWithConversion
+    {
         public function registerMediaCollections(): void
         {
             $this

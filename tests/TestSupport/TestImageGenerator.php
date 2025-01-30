@@ -16,9 +16,9 @@ class TestImageGenerator extends ImageGenerator
 
     public function __construct()
     {
-        $this->supportedExtensions = new Collection();
+        $this->supportedExtensions = new Collection;
 
-        $this->supportedMimetypes = new Collection();
+        $this->supportedMimetypes = new Collection;
     }
 
     public function supportedExtensions(): Collection
@@ -36,7 +36,7 @@ class TestImageGenerator extends ImageGenerator
         return $this->shouldMatchBothExtensionsAndMimeTypes;
     }
 
-    public function convert(string $path, Conversion $conversion = null): string
+    public function convert(string $path, ?Conversion $conversion = null): string
     {
         return $path;
     }

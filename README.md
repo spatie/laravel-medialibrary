@@ -3,7 +3,7 @@
 # Associate files with Eloquent models
 
 [![Latest Version](https://img.shields.io/github/release/spatie/laravel-medialibrary.svg?style=flat-square)](https://github.com/spatie/laravel-medialibrary/releases)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/spatie/laravel-medialibrary/run-tests.yml?branch=master&style=flat-square&label=tests)
+[![run-tests](https://github.com/spatie/laravel-medialibrary/actions/workflows/run-tests.yml/badge.svg)](https://github.com/spatie/laravel-medialibrary/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
 
 This package can associate all sorts of files with Eloquent models. It provides a
@@ -30,7 +30,7 @@ $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
 The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/filesystem),
-so you can use any filesystem you like. Additionally the package can create image manipulations
+so you can use any filesystem you like. Additionally, the package can create image manipulations
 on images and pdfs that have been added in the media library.
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
@@ -45,7 +45,7 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Documentation
 
-You'll find the documentation on [https://spatie.be/docs/laravel-medialibrary](https://spatie.be/docs/laravel-medialibrary/v10).
+You'll find the documentation on [https://spatie.be/docs/laravel-medialibrary](https://spatie.be/docs/laravel-medialibrary/v11).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
 

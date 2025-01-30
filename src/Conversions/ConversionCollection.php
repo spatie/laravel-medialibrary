@@ -5,15 +5,14 @@ namespace Programic\MediaLibrary\Conversions;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Spatie\Image\Manipulations;
 use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @template TKey of array-key
- * @template TValue of \Programic\MediaLibrary\Conversions\Conversion
+ * @template TValue of Conversion
  *
- * @extends \Illuminate\Support\Collection<TKey, TValue>
+ * @extends Collection<TKey, TValue>
  */
 class ConversionCollection extends Collection
 {
@@ -21,7 +20,7 @@ class ConversionCollection extends Collection
 
     public static function createForMedia(Media $media): self
     {
-        return (new static())->setMedia($media);
+        return (new static)->setMedia($media);
     }
 
     public function setMedia(Media $media): self
@@ -57,8 +56,12 @@ class ConversionCollection extends Collection
 
         $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
 
+        if (! class_exists($modelName)) {
+            return;
+        }
+
         /** @var \Programic\MediaLibrary\HasMedia $model */
-        $model = new $modelName();
+        $model = new $modelName;
 
         /*
          * In some cases the user might want to get the actual model
@@ -76,10 +79,10 @@ class ConversionCollection extends Collection
         $this->items = $model->mediaConversions;
     }
 
-    protected function addManipulationsFromDb(Media $media)
+    protected function addManipulationsFromDb(Media $media): void
     {
         collect($media->manipulations)->each(function ($manipulation, $conversionName) {
-            $manipulations = new Manipulations([$manipulation]);
+            $manipulations = new Manipulations($manipulation);
 
             $this->addManipulationToConversion($manipulations, $conversionName);
         });
@@ -94,11 +97,11 @@ class ConversionCollection extends Collection
         return $this->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
     }
 
-    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
+    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName): void
     {
-        /** @var \Programic\MediaLibrary\Conversions\Conversion|null $conversion */
+        /** @var Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
-            if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
+            if (! $conversion->shouldBePerformedOn($this->media->collection_name)) {
                 return false;
             }
 

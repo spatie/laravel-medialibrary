@@ -1,7 +1,5 @@
 <?php
 
-
-
 it('can get the names of registered conversions', function () {
     $media = $this->testModel
         ->addMedia($this->getTestJpg())

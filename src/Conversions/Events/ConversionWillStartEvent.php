@@ -6,11 +6,13 @@ use Illuminate\Queue\SerializesModels;
 use Programic\MediaLibrary\Conversions\Conversion;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 
-class ConversionWillStart
+class ConversionWillStartEvent
 {
     use SerializesModels;
 
-    public function __construct(public Media $media, public Conversion $conversion, public string $copiedOriginalFile)
-    {
-    }
+    public function __construct(
+        public Media $media,
+        public Conversion $conversion,
+        public string $copiedOriginalFile,
+    ) {}
 }

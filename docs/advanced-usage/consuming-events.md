@@ -5,12 +5,12 @@ weight: 8
 
 The media library will fire the following events that your handlers can listen for:
 
-### MediaHasBeenAdded
+### MediaHasBeenAddedEvent
 This event is fired after a file has been saved to disk.
 
 The event has a property `media` that holds the `\Programic\MediaLibrary\Models\Media`-object of which the file has been stored.
 
-### ConversionWillStart
+### ConversionWillStartEvent
 This event is fired right before a conversion will start.
 
 The event has two public properties:
@@ -18,7 +18,7 @@ The event has two public properties:
 - `media`: the `\Programic\MediaLibrary\Models\Media`-object of which a conversion will be started
 - `conversion`: the conversion (an instance of `\Programic\MediaLibrary\Conversion\Conversion`) that will start
 
-### ConversionHasBeenCompleted
+### ConversionHasBeenCompletedEvent
 This event is fired when a conversion has been completed.
 
 The event has two public properties:
@@ -26,7 +26,7 @@ The event has two public properties:
 - `media`: the `\Programic\MediaLibrary\Models\Media`-object of which a conversion has been completed
 - `conversion`: the conversion (an instance of `\Programic\MediaLibrary\Conversion\Conversion`) that has just been completed
 
-### CollectionHasBeenCleared
+### CollectionHasBeenClearedEvent
 This event will be fired after a collection has been cleared.
 
 The event has two public properties:
@@ -42,11 +42,11 @@ First you must create a listener class. Here's one that will log the paths of ad
 namespace App\Listeners;
 
 use Log;
-use Programic\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded;
+use Programic\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
 class MediaLogger
 {
-    public function handle(MediaHasBeenAdded $event)
+    public function handle(MediaHasBeenAddedEvent $event)
     {
         $media = $event->media;
         $path = $media->getPath();
@@ -59,8 +59,8 @@ Hook it up in `app/Providers/EventServiceProvider.php` to let Laravel know that 
 
 ```php
 protected $listen = [
-    'Programic\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded' => [
-        'App\Listeners\MediaLogger'
+    Programic\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent::class => [
+        App\Listeners\MediaLogger::class
     ],
 ];
 ```

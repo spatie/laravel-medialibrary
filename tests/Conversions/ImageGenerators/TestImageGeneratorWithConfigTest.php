@@ -20,7 +20,7 @@ test('image generators can get parameter from the config file', function () {
 
 test('image generators will receive config parameters by name', function () {
     config()->set('media-library.image_generators', [
-        TestImageGeneratorWithConfig::class => ['secondName' => 'secondValue', 'firstName' => 'firstValue', ],
+        TestImageGeneratorWithConfig::class => ['secondName' => 'secondValue', 'firstName' => 'firstValue'],
     ]);
 
     $imageGenerators = ImageGeneratorFactory::getImageGenerators();

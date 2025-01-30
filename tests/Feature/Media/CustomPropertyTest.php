@@ -1,7 +1,5 @@
 <?php
 
-
-
 beforeEach(function () {
     $this->media = $this->testModel
         ->addMedia($this->getTestJpg())

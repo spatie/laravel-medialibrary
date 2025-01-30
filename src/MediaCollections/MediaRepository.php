@@ -4,9 +4,9 @@ namespace Programic\MediaLibrary\MediaCollections;
 
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection as DbCollection;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use Programic\MediaLibrary\HasMedia;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 
@@ -14,14 +14,10 @@ class MediaRepository
 {
     public function __construct(
         protected Media $model
-    ) {
-    }
+    ) {}
 
     /**
      * Get all media in the collection.
-     *
-     * @param array|callable $filter
-     *
      */
     public function getCollection(
         HasMedia $model,
@@ -34,11 +30,6 @@ class MediaRepository
 
     /**
      * Apply given filters on media.
-     *
-     * @param \Illuminate\Support\Collection $media
-     * @param array|callable $filter
-     *
-     * @return \Illuminate\Support\Collection
      */
     protected function applyFilterToMediaCollection(
         Collection $media,
@@ -51,47 +42,74 @@ class MediaRepository
         return $media->filter($filter);
     }
 
-    public function all(): DbCollection
+    public function all(): LazyCollection
     {
-        return $this->query()->get();
+        return $this->query()->cursor();
     }
 
-    public function getByModelType(string $modelType): DbCollection
+    public function allIds(): Collection
     {
-        return $this->query()->where('model_type', $modelType)->get();
+        return $this->query()->pluck($this->model->getKeyName());
     }
 
-    public function getByIds(array $ids): DbCollection
+    public function getByModelType(string $modelType): LazyCollection
     {
-        return $this->query()->whereIn($this->model->getKeyName(), $ids)->get();
+        return $this->query()->where('model_type', $modelType)->cursor();
     }
 
-    public function getByIdGreaterThan(int $startingFromId, bool $excludeStartingId = false, string $modelType = ''): DbCollection
+    public function getByIds(array $ids): LazyCollection
+    {
+        return $this->query()->whereIn($this->model->getKeyName(), $ids)->cursor();
+    }
+
+    public function getByIdGreaterThan(int $startingFromId, bool $excludeStartingId = false, string $modelType = ''): LazyCollection
     {
         return $this->query()
             ->where($this->model->getKeyName(), $excludeStartingId ? '>' : '>=', $startingFromId)
             ->when($modelType !== '', fn (Builder $q) => $q->where('model_type', $modelType))
-            ->get();
+            ->cursor();
     }
 
-    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): DbCollection
+    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): LazyCollection
     {
         return $this->query()
             ->where('model_type', $modelType)
             ->where('collection_name', $collectionName)
-            ->get();
+            ->cursor();
     }
 
-    public function getByCollectionName(string $collectionName): DbCollection
+    public function getByCollectionName(string $collectionName): LazyCollection
     {
         return $this->query()
             ->where('collection_name', $collectionName)
-            ->get();
+            ->cursor();
+    }
+
+    public function getOrphans(): LazyCollection
+    {
+        return $this->orphansQuery()
+            ->cursor();
+    }
+
+    public function getOrphansByCollectionName(string $collectionName): LazyCollection
+    {
+        return $this->orphansQuery()
+            ->where('collection_name', $collectionName)
+            ->cursor();
     }
 
     protected function query(): Builder
     {
         return $this->model->newQuery();
+    }
+
+    protected function orphansQuery(): Builder
+    {
+        return $this->query()
+            ->whereDoesntHave(
+                'model',
+                fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q,
+            );
     }
 
     protected function getDefaultFilterFunction(array $filters): Closure

@@ -24,12 +24,20 @@ class ImageGeneratorFactory
 
     public static function forExtension(?string $extension): ?ImageGenerator
     {
+        if (is_null($extension)) {
+            return null;
+        }
+
         return static::getImageGenerators()
             ->first(fn (ImageGenerator $imageGenerator) => $imageGenerator->canHandleExtension(strtolower($extension)));
     }
 
     public static function forMimeType(?string $mimeType): ?ImageGenerator
     {
+        if (is_null($mimeType)) {
+            return null;
+        }
+
         return static::getImageGenerators()
             ->first(fn (ImageGenerator $imageGenerator) => $imageGenerator->canHandleMime($mimeType));
     }

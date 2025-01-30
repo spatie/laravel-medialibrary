@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Image\Enums\BorderType;
+use Programic\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Programic\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Programic\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Programic\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
@@ -317,17 +319,7 @@ it('can add a remote file with a space in the name to the media library', functi
     expect($this->getMediaDirectory("{$media->id}/test-with-space.jpg"))->toBeFile();
 });
 
-it('can add a remote file with an accent in the name to the media library', function () {
-    $url = 'https://orbit.brightbox.com/v1/acc-jqzwj/Marquis-Leisure/reviews/images/000/000/898/original/Antar%C3%A8sThumb.jpg';
-
-    $media = $this->testModel
-        ->addMediaFromUrl($url)
-        ->toMediaCollection();
-
-    expect($this->getMediaDirectory("{$media->id}/AntarèsThumb.jpg"))->toBeFile();
-});
-
-it('wil thrown an exception when a remote file could not be added', function () {
+it('will thrown an exception when a remote file could not be added', function () {
     $url = 'https://docs.spatie.be/images/medialibrary/thisonedoesnotexist.jpg';
 
     $this->expectException(UnreachableUrl::class);
@@ -337,7 +329,7 @@ it('wil thrown an exception when a remote file could not be added', function () 
         ->toMediaCollection();
 });
 
-it('wil throw an exception when a remote file has an invalid mime type', function () {
+it('will throw an exception when a remote file has an invalid mime type', function () {
     $url = 'https://spatie.be/docs/laravel-medialibrary/v9/images/header.jpg';
 
     $this->expectException(MimeTypeNotAllowed::class);
@@ -454,11 +446,23 @@ it('can add manipulations to the saved media', function () {
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
-        ->withManipulations(['thumb' => ['width' => '10']])
+        ->withManipulations(['thumb' => ['width' => ['10']]])
         ->toMediaCollection();
 
-    expect($media->manipulations['thumb']['width'])->toEqual('10');
+    expect($media->manipulations['thumb']['width'])->toEqual(['10']);
 });
+
+it('can add manipulations with parameters of type Enum to the saved media', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withManipulations(['thumb' => [
+            'background' => ['color' => 'ffffff'],
+            'border' => ['width' => 15, 'type' => BorderType::Shrink, 'color' => '000000'],
+        ],
+        ])
+        ->toMediaCollection();
+})->throwsNoExceptions();
 
 it('can add file to model with morph map', function () {
     $media = $this->testModelWithMorphMap
@@ -601,8 +605,8 @@ it('can add an upload to the media library using dot notation', function () {
 
 it('will throw an exception and revert database when file cannot be added', function () {
     $this->testModel
-            ->addMedia($this->getTestPng())
-            ->toMediaCollection();
+        ->addMedia($this->getTestPng())
+        ->toMediaCollection();
 
     expect(Media::count())->toBe(1);
 
@@ -624,7 +628,8 @@ it('will throw an exception and revert database when file cannot be added', func
 });
 
 it('will throw an exception and revert database when file cannot be added and model uses softdeletes', function () {
-    $testModelClass = new class () extends TestModel {
+    $testModelClass = new class extends TestModel
+    {
         use SoftDeletes;
     };
 
@@ -632,8 +637,8 @@ it('will throw an exception and revert database when file cannot be added and mo
     $testModel = $testModelClass::find($this->testModel->id);
 
     $testModel
-            ->addMedia($this->getTestPng())
-            ->toMediaCollection();
+        ->addMedia($this->getTestPng())
+        ->toMediaCollection();
 
     expect(Media::count())->toBe(1);
 
@@ -652,4 +657,12 @@ it('will throw an exception and revert database when file cannot be added and mo
     )->toThrow(DiskCannotBeAccessed::class);
 
     expect(Media::count())->toBe(1);
+});
+
+it('will return null instead of an ImageGeneratorFactory when mimetype is null', function () {
+    expect(ImageGeneratorFactory::forMimeType(null))->toBeNull();
+});
+
+it('will return null instead of an ImageGeneratorFactory when extension is null', function () {
+    expect(ImageGeneratorFactory::forExtension(null))->toBeNull();
 });

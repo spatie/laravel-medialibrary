@@ -7,9 +7,10 @@ use Illuminate\Support\Str;
 
 trait HasUuid
 {
-    public static function bootHasUuid()
+    public static function bootHasUuid(): void
     {
         static::creating(function (Model $model) {
+            /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $model */
             if (empty($model->uuid)) {
                 $model->uuid = (string) Str::uuid();
             }
