@@ -1,7 +1,7 @@
 <?php
 
-use Spatie\MediaLibrary\MediaLibraryServiceProvider;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaWithCustomKeyName;
+use Programic\MediaLibrary\MediaLibraryServiceProvider;
+use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestCustomMediaWithCustomKeyName;
 
 it('will rename the file if it is changed on the media object', function () {
     $testFile = $this->getTestFilesDirectory('test.jpg');

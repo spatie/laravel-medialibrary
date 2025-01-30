@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\TestSupport\WidthCalculators;
+namespace Programic\MediaLibrary\Tests\TestSupport\WidthCalculators;
 
 use Illuminate\Support\Collection;
-use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Programic\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 
 class FixedWidthCalculator implements WidthCalculator
 {

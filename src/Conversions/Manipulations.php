@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MediaLibrary\Conversions;
+namespace Programic\MediaLibrary\Conversions;
 
 use Spatie\Image\Drivers\ImageDriver;
 use Spatie\Image\Enums\AlignPosition;

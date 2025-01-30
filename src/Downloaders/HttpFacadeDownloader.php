@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Downloaders;
+namespace Programic\MediaLibrary\Downloaders;
 
 use Illuminate\Support\Facades\Http;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
+use Programic\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 
 class HttpFacadeDownloader implements Downloader
 {

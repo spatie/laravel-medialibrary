@@ -104,7 +104,7 @@ it('can handle file adder callback', function () {
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var \Programic\MediaLibrary\MediaCollections\Models\Media $media */
     $media = $model
         ->addMedia($this->getTestJpg())
         ->usingName('custom-name')

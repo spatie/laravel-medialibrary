@@ -7,7 +7,7 @@ use Spatie\Image\Enums\CropPosition;
 use Spatie\Image\Enums\Fit;
 use Spatie\Image\Enums\FlipDirection;
 use Spatie\Image\Image;
-use Spatie\MediaLibrary\Conversions\Manipulations;
+use Programic\MediaLibrary\Conversions\Manipulations;
 
 it('transforms parameters correctly', function () {
     // Mock the image object

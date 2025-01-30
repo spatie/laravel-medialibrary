@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Programic\MediaLibrary\MediaCollections\Models\Media;
 use Programic\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCustomLoadingAttribute;
-use Programic\Snapshots\MatchesSnapshots;
+use Spatie\Snapshots\MatchesSnapshots;
 
 uses(MatchesSnapshots::class);
 

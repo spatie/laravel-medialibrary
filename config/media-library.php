@@ -45,7 +45,7 @@ return [
     /*
      * The fully qualified class name of the media observer.
      */
-    'media_observer' => Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver::class,
+    'media_observer' => Programic\MediaLibrary\MediaCollections\Models\Observers\MediaObserver::class,
 
     /*
      * When enabled, media collections will be serialised using the default
@@ -87,7 +87,7 @@ return [
     /*
      * The class that contains the strategy for determining how to remove files.
      */
-    'file_remover_class' => Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover::class,
+    'file_remover_class' => Programic\MediaLibrary\Support\FileRemover\DefaultFileRemover::class,
 
     /*
      * Here you can specify which path generator should be used for the given class.

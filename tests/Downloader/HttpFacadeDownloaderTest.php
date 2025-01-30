@@ -23,7 +23,7 @@ it('can save a url to a temp location', function () {
         ->with($url)
         ->once();
 
-    $downloader = new \Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader;
+    $downloader = new \Programic\MediaLibrary\Downloaders\HttpFacadeDownloader;
 
     $result = $downloader->getTempFile($url);
 
@@ -38,7 +38,7 @@ it('can be mocked easily for tests', function () {
         'https://example.com' => Http::response('::file::'),
     ]);
 
-    $downloader = new \Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader;
+    $downloader = new \Programic\MediaLibrary\Downloaders\HttpFacadeDownloader;
 
     $result = $downloader->getTempFile($url);
 

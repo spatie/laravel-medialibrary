@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
+namespace Programic\MediaLibrary\MediaCollections\Exceptions;
 
 use Exception;
-use Spatie\MediaLibrary\Support\FileRemover\FileRemover;
+use Programic\MediaLibrary\Support\FileRemover\FileRemover;
 
 class InvalidFileRemover extends Exception
 {

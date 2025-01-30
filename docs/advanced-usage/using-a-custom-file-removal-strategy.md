@@ -34,11 +34,11 @@ Let's take a look at the interface:
 ```php
 <?php
 
-namespace Spatie\MediaLibrary\Support\FileRemover;
+namespace Programic\MediaLibrary\Support\FileRemover;
 
 use Illuminate\Contracts\Filesystem\Factory;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Filesystem;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 interface FileRemover
 {
@@ -74,7 +74,7 @@ There is also now a second option available within media library for file remove
     /*
      * The class that contains the strategy for determining how to remove files.
      */
-    'file_remover_class' => Spatie\MediaLibrary\Support\FileRemover\FileBaseFileRemover::class,
+    'file_remover_class' => Programic\MediaLibrary\Support\FileRemover\FileBaseFileRemover::class,
 ```
 
 This strategy works by locating the exact path of the image and conversions, and explicitly removing those files only, instead of purging a base directory.

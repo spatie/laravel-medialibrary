@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support\FileRemover;
+namespace Programic\MediaLibrary\Support\FileRemover;
 
 use Exception;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
-use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
+use Programic\MediaLibrary\MediaCollections\Filesystem;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\Support\FileNamer\FileNamer;
+use Programic\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 
 class DefaultFileRemover implements FileRemover
 {

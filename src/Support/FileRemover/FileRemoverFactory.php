@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support\FileRemover;
+namespace Programic\MediaLibrary\Support\FileRemover;
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidFileRemover;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Exceptions\InvalidFileRemover;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class FileRemoverFactory
 {

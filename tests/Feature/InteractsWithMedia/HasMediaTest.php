@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 it('returns false for an empty collection', function () {
     expect($this->testModel->hasMedia())->toBeFalse();

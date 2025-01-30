@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @method void prepareToAttachMedia(Media $media, FileAdder $fileAdder)
  *
  * @property bool $registerMediaConversionsUsingModelInstance
- * @property ?\Spatie\MediaLibrary\MediaCollections\MediaCollection $mediaCollections
+ * @property ?\Programic\MediaLibrary\MediaCollections\MediaCollection $mediaCollections
  */
 interface HasMedia
 {

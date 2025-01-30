@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\TestSupport;
+namespace Programic\MediaLibrary\Tests\TestSupport;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class TestMediaModel extends Media
 {

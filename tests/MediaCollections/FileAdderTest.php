@@ -2,7 +2,7 @@
 
 namespace Programic\MediaLibrary\Tests\MediaCollections;
 
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileNameNotAllowed;
+use Programic\MediaLibrary\MediaCollections\Exceptions\FileNameNotAllowed;
 use Programic\MediaLibrary\MediaCollections\FileAdder;
 
 it('sanitizes filenames correctly', function () {

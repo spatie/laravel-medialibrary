@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support\FileRemover;
+namespace Programic\MediaLibrary\Support\FileRemover;
 
 use Illuminate\Contracts\Filesystem\Factory;
-use Spatie\MediaLibrary\MediaCollections\Filesystem;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Filesystem;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 interface FileRemover
 {

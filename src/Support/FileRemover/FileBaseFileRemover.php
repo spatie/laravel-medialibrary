@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Support\FileRemover;
+namespace Programic\MediaLibrary\Support\FileRemover;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class FileBaseFileRemover extends DefaultFileRemover
 {

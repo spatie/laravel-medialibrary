@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\MediaLibrary\Tests\TestSupport\TestModels;
+namespace Programic\MediaLibrary\Tests\TestSupport\TestModels;
 
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Programic\MediaLibrary\MediaCollections\Models\Media;
 
 class TestCustomMediaWithCustomKeyName extends Media
 {
