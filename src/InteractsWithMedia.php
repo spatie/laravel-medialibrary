@@ -141,9 +141,9 @@ trait InteractsWithMedia
     /**
      * Add a remote file to the media library.
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-     *
      * @return FileAdder<TMedia>
+     *
+     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      */
     public function addMediaFromUrl(string $url, array|string ...$allowedMimeTypes): FileAdder
     {
@@ -177,7 +177,6 @@ trait InteractsWithMedia
      * Add a file to the media library that contains the given string.
      *
      * @param string string
-     *
      * @return FileAdder<TMedia>
      */
     public function addMediaFromString(string $text): FileAdder
@@ -196,10 +195,10 @@ trait InteractsWithMedia
     /**
      * Add a base64 encoded file to the media library.
      *
+     * @return FileAdder<TMedia>
+     *
      * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
      * @throws InvalidBase64Data
-     *
-     * @return FileAdder<TMedia>
      */
     public function addMediaFromBase64(string $base64data, array|string ...$allowedMimeTypes): FileAdder
     {
