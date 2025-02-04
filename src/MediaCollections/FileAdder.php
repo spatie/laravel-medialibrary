@@ -25,6 +25,9 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @template TMedia of \Spatie\MediaLibrary\MediaCollections\Models\Media
+ */
 class FileAdder
 {
     use Macroable;
@@ -229,11 +232,17 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
     {
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaCollectionFromRemote(string $collectionName = 'default', string $diskName = ''): Media
     {
         $storage = Storage::disk($this->file->getDisk());
@@ -287,6 +296,9 @@ class FileAdder
         return $media;
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
@@ -352,6 +364,9 @@ class FileAdder
         return $media;
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaLibrary(string $collectionName = 'default', string $diskName = ''): Media
     {
         return $this->toMediaCollection($collectionName, $diskName);
