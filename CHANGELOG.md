@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.2 - 2025-02-05
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3773
+* Improve return types when using a custom Media model by @sforward in https://github.com/spatie/laravel-medialibrary/pull/3777
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.1...11.12.2
+
 ## 11.12.1 - 2025-01-13
 
 ### What's Changed
