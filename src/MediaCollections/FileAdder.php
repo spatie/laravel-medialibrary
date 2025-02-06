@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @template TMedia of \Spatie\MediaLibrary\MediaCollections\Models\Media
+ * @template TMedia of \Spatie\MediaLibrary\MediaCollections\Models\Media = \Spatie\MediaLibrary\MediaCollections\Models\Media
  */
 class FileAdder
 {
