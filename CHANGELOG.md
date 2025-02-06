@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.3 - 2025-02-06
+
+### What's Changed
+
+* Add default types for template by @sforward in https://github.com/spatie/laravel-medialibrary/pull/3779
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.2...11.12.3
+
 ## 11.12.2 - 2025-02-05
 
 ### What's Changed
