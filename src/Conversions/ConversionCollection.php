@@ -23,6 +23,9 @@ class ConversionCollection extends Collection
         return (new static)->setMedia($media);
     }
 
+    /**
+     * @return $this
+     */
     public function setMedia(Media $media): self
     {
         $this->media = $media;

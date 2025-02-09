@@ -28,6 +28,9 @@ class Manipulations
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function addManipulation(string $name, array $parameters = []): self
     {
         $this->manipulations[$name] = $parameters;
@@ -64,6 +67,9 @@ class Manipulations
         }
     }
 
+    /**
+     * @return $this
+     */
     public function mergeManipulations(self $manipulations): self
     {
         foreach ($manipulations->toArray() as $name => $parameters) {
@@ -73,6 +79,9 @@ class Manipulations
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function removeManipulation(string $name): self
     {
         unset($this->manipulations[$name]);

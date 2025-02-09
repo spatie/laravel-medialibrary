@@ -21,6 +21,9 @@ class HtmlableMedia implements \Stringable, Htmlable
         protected Media $media
     ) {}
 
+    /**
+     * @return $this
+     */
     public function attributes(array $attributes): self
     {
         if (is_array($attributes['class'] ?? null)) {
@@ -36,6 +39,9 @@ class HtmlableMedia implements \Stringable, Htmlable
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function conversion(string $conversionName): self
     {
         $this->conversionName = $conversionName;
@@ -43,6 +49,9 @@ class HtmlableMedia implements \Stringable, Htmlable
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function lazy(): self
     {
         $this->loadingAttributeValue = ('lazy');
