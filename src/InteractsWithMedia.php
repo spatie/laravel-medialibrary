@@ -452,6 +452,9 @@ trait InteractsWithMedia
         }
     }
 
+    /**
+     * @return $this
+     */
     public function clearMediaCollection(string $collectionName = 'default'): HasMedia
     {
         $this
@@ -467,6 +470,9 @@ trait InteractsWithMedia
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function clearMediaCollectionExcept(
         string $collectionName = 'default',
         array|Collection|Media $excludedMedia = []

@@ -78,6 +78,9 @@ class FileManipulator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function dispatchQueuedConversions(
         Media $media,
         ConversionCollection $conversions,
@@ -104,6 +107,9 @@ class FileManipulator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function generateResponsiveImages(Media $media, bool $withResponsiveImages): self
     {
         if (! $withResponsiveImages) {

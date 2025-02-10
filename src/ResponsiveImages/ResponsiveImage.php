@@ -99,6 +99,9 @@ class ResponsiveImage
         return $between;
     }
 
+    /**
+     * @return $this
+     */
     public function delete(): self
     {
         $pathGenerator = PathGeneratorFactory::create($this->media);

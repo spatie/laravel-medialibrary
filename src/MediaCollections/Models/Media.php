@@ -259,6 +259,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function forgetCustomProperty(string $name): self
     {
         $customProperties = $this->custom_properties;
@@ -282,6 +285,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return collect($this->generated_conversions ?? []);
     }
 
+    /**
+     * @return $this
+     */
     public function markAsConversionGenerated(string $conversionName): self
     {
         $generatedConversions = $this->generated_conversions;
@@ -295,6 +301,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function markAsConversionNotGenerated(string $conversionName): self
     {
         $generatedConversions = $this->generated_conversions;
@@ -315,6 +324,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return Arr::get($generatedConversions, $conversionName, false);
     }
 
+    /**
+     * @return $this
+     */
     public function setStreamChunkSize(int $chunkSize): self
     {
         $this->streamChunkSize = $chunkSize;

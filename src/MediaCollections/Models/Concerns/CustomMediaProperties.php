@@ -4,6 +4,9 @@ namespace Spatie\MediaLibrary\MediaCollections\Models\Concerns;
 
 trait CustomMediaProperties
 {
+    /**
+     * @return $this
+     */
     public function setCustomHeaders(array $customHeaders): self
     {
         $this->setCustomProperty('custom_headers', $customHeaders);

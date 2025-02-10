@@ -18,6 +18,9 @@ class MediaCollection extends Collection implements Htmlable
 
     public ?string $formFieldName = null;
 
+    /**
+     * @return $this
+     */
     public function collectionName(string $collectionName): self
     {
         $this->collectionName = $collectionName;
@@ -25,6 +28,9 @@ class MediaCollection extends Collection implements Htmlable
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function formFieldName(string $formFieldName): self
     {
         $this->formFieldName = $formFieldName;
