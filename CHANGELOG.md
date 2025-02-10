@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.4 - 2025-02-10
+
+### What's Changed
+
+* Add @return $this annotation to methods by @lorenzolosa in https://github.com/spatie/laravel-medialibrary/pull/3780
+
+### New Contributors
+
+* @lorenzolosa made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3780
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.3...11.12.4
+
 ## 11.12.3 - 2025-02-06
 
 ### What's Changed
