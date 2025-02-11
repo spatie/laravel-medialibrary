@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Conversions;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Traits\Conditionable;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -137,7 +138,7 @@ class Conversion
 
         $currentManipulations = $this->manipulations->toArray();
 
-        $allManipulations = array_merge($currentManipulations, $newManipulations);
+        $allManipulations = array_merge($newManipulations, Arr::except($currentManipulations, array_keys($newManipulations)));
 
         $this->manipulations = new Manipulations($allManipulations);
 
