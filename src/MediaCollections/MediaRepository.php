@@ -104,11 +104,10 @@ class MediaRepository
 
     protected function orphansQuery(): Builder
     {
-        return $this->query()
-            ->whereDoesntHave(
-                'model',
-                fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q,
-            );
+        return $this->query()->where(fn (Builder $query) => $query->whereDoesntHave(
+            'model',
+            fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q,
+        ));
     }
 
     protected function getDefaultFilterFunction(array $filters): Closure

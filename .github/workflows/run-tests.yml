@@ -10,13 +10,15 @@ jobs:
       fail-fast: false
       matrix:
         php: [8.4, 8.3, 8.2]
-        laravel: [10.*, 11.*]
+        laravel: [10.*, 11.*, 12.*]
         dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*
             testbench: ^8.0
           - laravel: 11.*
             testbench: ^9.0
+          - laravel: 12.*
+            testbench: ^10.0
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
@@ -50,7 +52,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:>=2.62.1" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+          composer remove "larastan/larastan" --dev --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
       - name: Execute tests
