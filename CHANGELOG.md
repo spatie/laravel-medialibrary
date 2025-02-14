@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.5 - 2025-02-14
+
+### What's Changed
+
+* Laravel 12 Support by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3785
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.4...11.12.5
+
 ## 11.12.4 - 2025-02-10
 
 ### What's Changed
