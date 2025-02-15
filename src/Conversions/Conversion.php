@@ -3,7 +3,6 @@
 namespace Spatie\MediaLibrary\Conversions;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Traits\Conditionable;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;

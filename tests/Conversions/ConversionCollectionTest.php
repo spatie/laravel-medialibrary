@@ -69,7 +69,6 @@ it('will prepend the manipulation saved on the model with the wildmark manipulat
     ], $manipulations);
 });
 
-
 it('will prepend the manipulation saved on the model', function () {
     $conversionCollection = ConversionCollection::createForMedia($this->media);
 
