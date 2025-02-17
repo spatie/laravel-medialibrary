@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.6 - 2025-02-17
+
+### What's Changed
+
+* fix: media manipulations should be applied before media conversions by @JavoByte in https://github.com/spatie/laravel-medialibrary/pull/3783
+
+### New Contributors
+
+* @JavoByte made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3783
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.5...11.12.6
+
 ## 11.12.5 - 2025-02-14
 
 ### What's Changed
