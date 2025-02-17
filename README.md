@@ -59,17 +59,19 @@ You can run the tests with:
 ./vendor/bin/pest
 ```
 
-You can run the Github actions locally with [act](https://github.com/nektos/act). You have to use a [custom image](https://github.com/shivammathur/setup-php#local-testing-setup) for the ubuntu-latest platform to get PHP up and running properly. To run the tests locally, run:
+You can run the Github actions locally with [act](https://github.com/nektos/act). To run the tests locally, run:
 
-```bash
-act -P ubuntu-latest=shivammathur/node:latest
+```
+act -j run-tests
 ```
 
-To run a specific workflow, for example `run-tests.yml` run:
+To run tests for a specific PHP/Laravel version, run:
 
-```bash
-act -P ubuntu-latest=shivammathur/node:latest -j run-tests
 ```
+act -j run-tests --matrix php:8.3 --matrix laravel:"11.*" --matrix dependency-version:prefer-stable 
+```
+
+Available `matrix` options are available in the [workflow file](.github/workflows/run-tests.yml).
 
 ## Upgrading
 
