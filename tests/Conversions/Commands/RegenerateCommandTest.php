@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Queue;
+use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 it('can regenerate all files', function () {
@@ -363,4 +365,21 @@ it('can set updated_at column when regenerating', function () {
     $media->refresh();
 
     expect($media->updated_at)->toBeGreaterThanOrEqual(now()->subSeconds(5));
+});
+
+it('can force queue non-queued conversions', function () {
+    Queue::fake();
+    config()->set('media-library.queue_connection_name', 'array');
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection('images');
+
+    unlink($thumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
+
+    $this->artisan('media-library:regenerate', ['--queue' => true]);
+
+    $this->assertFileDoesNotExist($this->getMediaDirectory($thumbConversion));
+
+    Queue::assertPushed(PerformConversionsJob::class);
 });
