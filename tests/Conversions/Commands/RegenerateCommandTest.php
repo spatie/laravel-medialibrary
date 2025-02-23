@@ -369,7 +369,6 @@ it('can set updated_at column when regenerating', function () {
 
 it('can force queue non-queued conversions', function () {
     Queue::fake();
-    config()->set('media-library.queue_connection_name', 'array');
 
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestFilesDirectory('test.jpg'))
@@ -377,7 +376,7 @@ it('can force queue non-queued conversions', function () {
 
     unlink($thumbConversion = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg"));
 
-    $this->artisan('media-library:regenerate', ['--queue' => true]);
+    $this->artisan('media-library:regenerate', ['--queue-all' => true]);
 
     $this->assertFileDoesNotExist($this->getMediaDirectory($thumbConversion));
 
