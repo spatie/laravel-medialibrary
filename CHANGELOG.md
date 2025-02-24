@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.12.7 - 2025-02-24
+
+### What's Changed
+
+* chore: update README for test documentation by @JavoByte in https://github.com/spatie/laravel-medialibrary/pull/3790
+* Allow regenerate to queue all conversions by @patrickomeara in https://github.com/spatie/laravel-medialibrary/pull/3793
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.6...11.12.7
+
 ## 11.12.6 - 2025-02-17
 
 ### What's Changed
