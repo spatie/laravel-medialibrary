@@ -22,7 +22,8 @@ class RegenerateCommand extends Command
     {--X|exclude-starting-id : Exclude the provided id when regenerating from a specific id}
     {--only-missing : Regenerate only missing conversions}
     {--with-responsive-images : Regenerate responsive images}
-    {--force : Force the operation to run when in production}';
+    {--force : Force the operation to run when in production}
+    {--queue-all : Queue all conversions, even non-queued ones}';
 
     protected $description = 'Regenerate the derived images of media';
 
@@ -56,7 +57,8 @@ class RegenerateCommand extends Command
                     $media,
                     Arr::wrap($this->option('only')),
                     $this->option('only-missing'),
-                    $this->option('with-responsive-images')
+                    $this->option('with-responsive-images'),
+                    $this->option('queue-all'),
                 );
             } catch (Exception $exception) {
                 $this->errorMessages[$media->getKey()] = $exception->getMessage();

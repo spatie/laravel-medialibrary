@@ -18,7 +18,8 @@ class FileManipulator
         Media $media,
         array $onlyConversionNames = [],
         bool $onlyMissing = false,
-        bool $withResponsiveImages = false
+        bool $withResponsiveImages = false,
+        bool $queueAll = false,
     ): void {
         if (! $this->canConvertMedia($media)) {
             return;
@@ -33,7 +34,7 @@ class FileManipulator
                 return in_array($conversion->getName(), $onlyConversionNames);
             })
             ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
-            ->partition(fn (Conversion $conversion) => $conversion->shouldBeQueued());
+            ->partition(fn (Conversion $conversion) => $queueAll || $conversion->shouldBeQueued());
 
         $this
             ->performConversions($conversions, $media, $onlyMissing)
