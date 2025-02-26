@@ -25,4 +25,9 @@ interface UrlGenerator
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string;
 
     public function getResponsiveImagesDirectoryUrl(): string;
+
+    /**
+     * @param  array<string, mixed>  $options
+     */
+    public function getResponsiveImageTemporaryUrl(string $fileName, DateTimeInterface $expiration, array $options = []): string;
 }

@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -26,6 +27,16 @@ class RegisteredResponsiveImages
     {
         return $this->files
             ->map(fn (ResponsiveImage $responsiveImage) => $responsiveImage->url())
+            ->values()
+            ->toArray();
+    }
+
+    public function getTemporaryUrls(DateTimeInterface $expiration, array $options = []): array
+    {
+        return $this->files
+            ->map(fn (ResponsiveImage $responsiveImage) => (
+                $responsiveImage->temporaryUrl($expiration, $options)
+            ))
             ->values()
             ->toArray();
     }

@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
+use DateTimeInterface;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
@@ -50,6 +51,19 @@ class ResponsiveImage
         }
 
         return $url;
+    }
+
+    public function temporaryUrl(DateTimeInterface $expiration, array $options = []): string
+    {
+        $conversionName = '';
+
+        if ($this->generatedFor() !== 'media_library_original') {
+            $conversionName = $this->generatedFor();
+        }
+
+        $urlGenerator = UrlGeneratorFactory::createForMedia($this->media, $conversionName);
+
+        return $urlGenerator->getResponsiveImageTemporaryUrl($this->fileName, $expiration, $options);
     }
 
     public function generatedFor(): string
