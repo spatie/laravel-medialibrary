@@ -123,7 +123,7 @@ class FileAdder
             return $this;
         }
 
-        if ($file instanceof TemporaryUpload) {
+        if ($file instanceof (config('media-library.temporary_upload_model'))) {
             return $this;
         }
 
@@ -363,7 +363,7 @@ class FileAdder
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
         }
 
-        if ($this->file instanceof TemporaryUpload) {
+        if ($this->file instanceof (config('media-library.temporary_upload_model'))) {
             return $this->toMediaCollectionFromTemporaryUpload($collectionName, $diskName, $this->fileName);
         }
 
