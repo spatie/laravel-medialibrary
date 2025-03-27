@@ -213,12 +213,13 @@ class Filesystem
         return $this->filesystem->disk($media->conversions_disk)->readStream($sourceFile);
     }
 
-    public function getConversionSize(Media $media, string $conversion)
+    public function getConversionSize(Media $media, string $conversion): int
     {
         $sourceFile = $media->getPathRelativeToRoot($conversion);
 
         return $this->filesystem->disk($media->conversions_disk)->size($sourceFile);
     }
+    
     public function copyFromMediaLibrary(Media $media, string $targetFile): string
     {
         file_put_contents($targetFile, $this->getStream($media));
