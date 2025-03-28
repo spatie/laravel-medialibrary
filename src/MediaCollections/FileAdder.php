@@ -123,7 +123,7 @@ class FileAdder
             return $this;
         }
 
-        if ($file instanceof (config('media-library.temporary_upload_model'))) {
+        if ($this->isInstanceOfTemporaryUploadModel($file)) {
             return $this;
         }
 
@@ -363,7 +363,7 @@ class FileAdder
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
         }
 
-        if ($this->file instanceof (config('media-library.temporary_upload_model'))) {
+        if ($this->isInstanceOfTemporaryUploadModel($this->file)) {
             return $this->toMediaCollectionFromTemporaryUpload($collectionName, $diskName, $this->fileName);
         }
 
@@ -635,5 +635,16 @@ class FileAdder
         return $extension
             ? $file.'.'.$extension
             : $file;
+    }
+
+    protected function isInstanceOfTemporaryUploadModel(mixed $file): bool
+    {
+        $model = config('media-library.temporary_upload_model');
+
+        if ($model === null) {
+            return false;
+        }
+
+        return $file instanceof $model;
     }
 }
