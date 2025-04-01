@@ -25,6 +25,8 @@ class CleanCommand extends Command
     {--force : Force the operation to run when in production},
     {--rate-limit= : Limit the number of requests per second},
     {--delete-orphaned : Delete orphaned media items},
+    {--verify-file-exists : Verify that the media file exists on the disk.}
+    {--delete-model-without-file : Delete models where the media file is missing.}
     {--skip-conversions : Do not remove deprecated conversions}';
 
     protected $description = 'Clean deprecated conversions and files without related model.';
@@ -38,6 +40,8 @@ class CleanCommand extends Command
     protected bool $isDryRun = false;
 
     protected int $rateLimit = 0;
+    protected bool $verifyFileExist = false;
+    protected bool $deleteModelWithoutFile = false;
 
     public function handle(
         MediaRepository $mediaRepository,
@@ -54,6 +58,15 @@ class CleanCommand extends Command
 
         $this->isDryRun = $this->option('dry-run');
         $this->rateLimit = (int) $this->option('rate-limit');
+
+        $this->verifyFileExist = $this->option('verify-file-exists');
+        if ($this->option('delete-model-without-file')) {
+            $this->verifyFileExist = true;
+            $this->deleteModelWithoutFile = true;
+        }
+        if ($this->verifyFileExist) {
+            $this->handleVerifyFileExist();
+        }
 
         if ($this->option('delete-orphaned')) {
             $this->deleteOrphanedMediaItems();
@@ -90,6 +103,39 @@ class CleanCommand extends Command
         }
 
         return $this->mediaRepository->all();
+    }
+
+    protected function handleVerifyFileExist(): void
+    {
+        $widows = $this->getMediaItems()->filter(function (Media $media) {
+            $stream = $media->stream();
+            $missing = is_null($stream);
+            if (!$missing) {
+                fclose($stream);
+            }
+            return $missing;
+        });
+        if ($this->deleteModelWithoutFile && !$this->isDryRun) {
+            $widows->each(function (Media $media) {
+                $media->delete();
+                if ($this->rateLimit) {
+                    usleep((1 / $this->rateLimit) * 1_000_000);
+                }
+                $this->info(
+                    "Media[id={$media->id}] without file has been removed"
+                );
+                if ($this->output->isVerbose()) {
+                    $this->info("\tExpected filename $media->file_name");
+                }
+            });
+        } else {
+            $widows->each(function (Media $media) {
+                $this->info("Media[id={$media->id}] without file found");
+                if ($this->output->isVerbose()) {
+                    $this->info("\tExpected filename $media->file_name");
+                }
+            });
+        }
     }
 
     protected function deleteOrphanedMediaItems(): void
