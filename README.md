@@ -1,10 +1,18 @@
-<p align="center"><img src="/art/socialcard.png" alt="Social Card of Laravel Media Library"></p>
+<div align="left">
+    <a href="https://spatie.be/open-source?utm_source=github&utm_medium=banner&utm_campaign=laravel-medialibrary">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://spatie.be/packages/header/laravel-medialibrary/html/dark.webp">
+        <img alt="Logo for laravel-medialibrary" src=" https://spatie.be/packages/header/laravel-medialibrary/html/light.webp" height="190">
+      </picture>
+    </a>
 
-# Associate files with Eloquent models
+<h1>Associate files with Eloquent models</h1>
 
 [![Latest Version](https://img.shields.io/github/release/spatie/laravel-medialibrary.svg?style=flat-square)](https://github.com/spatie/laravel-medialibrary/releases)
 [![run-tests](https://github.com/spatie/laravel-medialibrary/actions/workflows/run-tests.yml/badge.svg)](https://github.com/spatie/laravel-medialibrary/actions/workflows/run-tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-medialibrary)
+    
+</div>
 
 This package can associate all sorts of files with Eloquent models. It provides a
 simple API to work with. To learn all about it, head over to [the extensive documentation](https://spatie.be/docs/laravel-medialibrary).
@@ -96,7 +104,7 @@ If you discover any security related issues, please email [security@spatie.be](m
 
 A big thank you to [Nicolas Beauvais](https://github.com/nicolasbeauvais) for helping out with the issues on this repo.
 
-And a special thanks to [Caneco](https://twitter.com/caneco) for the logo ✨
+Special thanks to [Caneco](https://twitter.com/caneco) for the original logo.
 
 ## Alternatives
 
