@@ -15,7 +15,7 @@ class HttpFacadeDownloader implements Downloader
             ->throw(fn() => throw new UnreachableUrl($url))
             ->sink($temporaryFile);
 
-        if (! config('media-library.media_downloader_ssl', true)) {
+        if (!config('media-library.media_downloader_ssl')) {
             $http->withoutVerifying();
         }
 

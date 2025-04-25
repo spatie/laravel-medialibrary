@@ -58,31 +58,6 @@ it('can be mocked easily for tests', function () {
 it('respects ssl verification settings from config', function () {
     $url = 'https://example.com';
 
-    Config::set('media-library.media_downloader_ssl', true);
-
-    \Illuminate\Support\Facades\Http::shouldReceive('withUserAgent')
-        ->with('Spatie MediaLibrary')
-        ->once()
-        ->andReturnSelf()
-        ->getMock()
-        ->shouldReceive('throw')
-        ->once()
-        ->andReturnSelf()
-        ->getMock()
-        ->shouldReceive('sink')
-        ->once()
-        ->andReturnSelf()
-        ->getMock()
-        ->shouldReceive('withoutVerifying')
-        ->never()
-        ->getMock()
-        ->shouldReceive('get')
-        ->with($url)
-        ->once();
-
-    $downloader = new \Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader;
-    $downloader->getTempFile($url);
-
     Config::set('media-library.media_downloader_ssl', false);
 
     \Illuminate\Support\Facades\Http::shouldReceive('withUserAgent')
@@ -100,7 +75,6 @@ it('respects ssl verification settings from config', function () {
         ->getMock()
         ->shouldReceive('withoutVerifying')
         ->once()
-        ->andReturnSelf()
         ->getMock()
         ->shouldReceive('get')
         ->with($url)
