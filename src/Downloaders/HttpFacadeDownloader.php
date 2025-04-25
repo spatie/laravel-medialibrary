@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Downloaders;
 
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnreachableUrl;
 
@@ -11,10 +12,15 @@ class HttpFacadeDownloader implements Downloader
     {
         $temporaryFile = tempnam(sys_get_temp_dir(), 'media-library');
 
-        Http::withUserAgent('Spatie MediaLibrary')
-            ->throw(fn () => throw new UnreachableUrl($url))
-            ->sink($temporaryFile)
-            ->get($url);
+        $http = Http::withUserAgent('Spatie MediaLibrary')
+            ->throw(fn() => throw new UnreachableUrl($url))
+            ->sink($temporaryFile);
+
+        if (! config('media-library.media_downloader_ssl', true)) {
+            $http->withoutVerifying();
+        }
+
+        $http->get($url);
 
         return $temporaryFile;
     }
