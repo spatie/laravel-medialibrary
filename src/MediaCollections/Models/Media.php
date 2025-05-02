@@ -334,30 +334,62 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this;
     }
 
-    public function toResponse($request): StreamedResponse
+    public function toResponse($request, $conversion = ''): StreamedResponse
     {
-        return $this->buildResponse($request, 'attachment');
+        return $this->buildResponse($request, 'attachment', $conversion);
     }
 
-    public function toInlineResponse($request): StreamedResponse
+    public function toInlineResponse($request, $conversion = ''): StreamedResponse
     {
-        return $this->buildResponse($request, 'inline');
+        return $this->buildResponse($request, 'inline', $conversion);
     }
 
-    private function buildResponse($request, string $contentDispositionType): StreamedResponse
+    public function toAvailableResponse($request, array $conversionNames): StreamedResponse
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (!$this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->toResponse($request, $conversionName);
+        }
+        return $this->toResponse($request);
+    }
+
+    public function toAvailableInlineResponse($request, array $conversionNames): StreamedResponse
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (!$this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->toInlineResponse($request, $conversionName);
+        }
+        return $this->toInlineResponse($request);
+    }
+
+    private function buildResponse($request, string $contentDispositionType, $conversion = ''): StreamedResponse
     {
         $filename = str_replace('"', '\'', Str::ascii($this->getDownloadFilename()));
+
+        if ($conversion === '') {
+            $size = $this->size;
+        } else {
+            /** @var Filesystem $filesystem */
+            $filesystem = app(Filesystem::class);
+            $size = $filesystem->getConversionSize($this, $conversion);
+        }
 
         $downloadHeaders = [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
-            'Content-Length' => $this->size,
+            'Content-Length' => $size,
             'Content-Disposition' => $contentDispositionType.'; filename="'.$filename.'"',
             'Pragma' => 'public',
         ];
 
-        return response()->stream(function () {
-            $stream = $this->stream();
+        return response()->stream(function () use ($conversion) {
+            $stream = $this->stream($conversion);
 
             while (! feof($stream)) {
                 echo fread($stream, $this->streamChunkSize);
@@ -453,12 +485,14 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return new RegisteredResponsiveImages($this, $conversionName);
     }
 
-    public function stream()
+    public function stream($conversion = '')
     {
         /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
-        return $filesystem->getStream($this);
+        return $conversion === ''
+            ? $filesystem->getStream($this)
+            : $filesystem->getConversionStream($this, $conversion);
     }
 
     public function toHtml(): string
