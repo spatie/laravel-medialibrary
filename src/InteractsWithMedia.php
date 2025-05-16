@@ -431,14 +431,9 @@ trait InteractsWithMedia
         return $fallbackPaths[$conversionName] ?? $fallbackPaths['default'] ?? '';
     }
 
-    /*
-     * Get the url of the image for the given conversionName
-     * for first media for the given collectionName.
-     * If no profile is given, return the source's url.
-     */
-    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    private function getMediaItemPath(string $collectionName, string $conversionName, string $firstOrLast): string
     {
-        $media = $this->getFirstMedia($collectionName);
+        $media = $firstOrLast === 'first' ? $this->getFirstMedia($collectionName) : $this->getLastMedia($collectionName);
 
         if (! $media) {
             return $this->getFallbackMediaPath($collectionName, $conversionName) ?: '';
@@ -449,6 +444,22 @@ trait InteractsWithMedia
         }
 
         return $media->getPath($conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for first media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getMediaItemPath($collectionName, $conversionName, 'first');
+    }
+    
+
+    public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getMediaItemPath($collectionName, $conversionName, 'last');
     }
 
     /*
