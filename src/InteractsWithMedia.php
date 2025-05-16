@@ -289,24 +289,32 @@ trait InteractsWithMedia
         return config('media-library.media_model');
     }
 
+    private function getMediaItem(string $collectionName, $filters, string $firstOrLast)
+    {
+        $media = $this->getMedia($collectionName, $filters);
+
+        return $firstOrLast === 'first' ? $media->first() : $media->last();
+    }
+
     /**
      * @return TMedia|null
      */
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        $media = $this->getMedia($collectionName, $filters);
-
-        return $media->first();
+        return $this->getMediaItem($collectionName, $filters, 'first');        
     }
 
-    /*
-     * Get the url of the image for the given conversionName
-     * for first media for the given collectionName.
-     * If no profile is given, return the source's url.
+    /**
+     * @return TMedia|null
      */
-    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        $media = $this->getFirstMedia($collectionName);
+        return $this->getMediaItem($collectionName, $filters, 'last');        
+    }
+
+    private function getMediaItemUrl(string $collectionName, string $conversionName, string $firstOrLast): string
+    {
+        $media = $firstOrLast === 'first' ? $this->getFirstMedia($collectionName) : $this->getLastMedia($collectionName);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -322,15 +330,30 @@ trait InteractsWithMedia
     /*
      * Get the url of the image for the given conversionName
      * for first media for the given collectionName.
-     *
      * If no profile is given, return the source's url.
      */
-    public function getFirstTemporaryUrl(
+    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getMediaItemUrl($collectionName, $conversionName, 'first');
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     * If no profile is given, return the source's url.
+     */
+    public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    {
+        return $this->getMediaItemUrl($collectionName, $conversionName, 'last');
+    }
+
+    private function getMediaItemTemporaryUrl(
         DateTimeInterface $expiration,
-        string $collectionName = 'default',
-        string $conversionName = ''
+        string $collectionName,
+        string $conversionName,
+        string $firstOrLast
     ): string {
-        $media = $this->getFirstMedia($collectionName);
+        $media = $firstOrLast === 'first' ? $this->getFirstMedia($collectionName) : $this->getLastMedia($collectionName);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -341,6 +364,34 @@ trait InteractsWithMedia
         }
 
         return $media->getTemporaryUrl($expiration, $conversionName);
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for first media for the given collectionName.
+     *
+     * If no profile is given, return the source's url.
+     */
+    public function getFirstTemporaryUrl(
+        DateTimeInterface $expiration,
+        string $collectionName = 'default',
+        string $conversionName = ''
+    ): string {
+        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, 'first');
+    }
+
+    /*
+     * Get the url of the image for the given conversionName
+     * for last media for the given collectionName.
+     *
+     * If no profile is given, return the source's url.
+     */
+    public function getLastTemporaryUrl(
+        DateTimeInterface $expiration,
+        string $collectionName = 'default',
+        string $conversionName = ''
+    ): string {
+        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, 'last');
     }
 
     public function getRegisteredMediaCollections(): Collection
