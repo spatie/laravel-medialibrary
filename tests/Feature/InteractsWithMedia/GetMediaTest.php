@@ -203,6 +203,94 @@ it('can get the path to first media in a collection', function () {
     expect($this->testModel->getFirstMediaPath('images'))->toEqual($firstMedia->getPath());
 });
 
+it('can get the last media from a collection', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $media->name = 'first';
+    $media->save();
+
+    $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $media->name = 'last';
+    $media->save();
+
+    expect($this->testModel->getLastMedia('images')->name)->toEqual('last');
+});
+
+it('can get the last media from a collection using a filter', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withCustomProperties(['extra_property' => 'yes'])
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'first_with_extra_property';
+    $media->save();
+
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withCustomProperties(['extra_property' => 'yes'])
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'last_with_extra_property';
+    $media->save();
+
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'last';
+    $media->save();
+
+    expect($this->testModel->getLastMedia('images', ['extra_property' => 'yes'])->name)->toEqual('last_with_extra_property');
+});
+
+it('can get the last media from a collection using a filter callback', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withCustomProperties(['extra_property' => 'yes'])
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'first_with_extra_property';
+    $media->save();
+
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withCustomProperties(['extra_property' => 'yes'])
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'last_with_extra_property';
+    $media->save();
+
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('images');
+    $media->name = 'last';
+    $media->save();
+
+    $media = $this->testModel->getLastMedia('images', fn (Media $media) => isset($media->custom_properties['extra_property']));
+
+    expect($media->name)->toEqual('last_with_extra_property');
+});
+
+it('can get the url to last media in a collection', function () {
+    $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $firstMedia->save();
+
+    $lastMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $lastMedia->save();
+
+    expect($this->testModel->getLastMediaUrl('images'))->toEqual($lastMedia->getUrl());
+});
+
+it('can get the path to last media in a collection', function () {
+    $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $firstMedia->save();
+
+    $lastMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $lastMedia->save();
+
+    expect($this->testModel->getLastMediaPath('images'))->toEqual($lastMedia->getPath());
+});
+
 it('can get the default path to the first media in a collection', function ($conversionName, $expectedPath) {
     expect($this->testModel->getFirstMediaPath('avatar', $conversionName))->toEqual($expectedPath);
 })->with([

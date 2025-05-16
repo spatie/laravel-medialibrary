@@ -35,6 +35,13 @@ $media = $yourModel->getFirstMedia();
 $url = $yourModel->getFirstMediaUrl();
 ```
 
+You can also retrieve the last media by using similar convenience-methods:
+
+```php
+$media = $yourModel->getLastMedia();
+$url = $yourModel->getLastMediaUrl();
+```
+
 An instance of `Media` also has a name, by default its filename:
 
 ```php
