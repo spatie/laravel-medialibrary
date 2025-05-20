@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
+use Spatie\MediaLibrary\Enums\CollectionPosition;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenClearedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
@@ -289,19 +290,12 @@ trait InteractsWithMedia
         return config('media-library.media_model');
     }
 
-    private function getMediaItem(string $collectionName, $filters, string $firstOrLast)
-    {
-        $media = $this->getMedia($collectionName, $filters);
-
-        return $firstOrLast === 'first' ? $media->first() : $media->last();
-    }
-
     /**
      * @return TMedia|null
      */
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getMediaItem($collectionName, $filters, 'first');        
+        return $this->getMediaItem($collectionName, $filters, CollectionPosition::FIRST);        
     }
 
     /**
@@ -309,12 +303,23 @@ trait InteractsWithMedia
      */
     public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getMediaItem($collectionName, $filters, 'last');        
+        return $this->getMediaItem($collectionName, $filters, CollectionPosition::LAST);        
     }
 
-    private function getMediaItemUrl(string $collectionName, string $conversionName, string $firstOrLast): string
+    protected function getMediaItem(string $collectionName, $filters, CollectionPosition $position)
     {
-        $media = $firstOrLast === 'first' ? $this->getFirstMedia($collectionName) : $this->getLastMedia($collectionName);
+        $media = $this->getMedia($collectionName, $filters);
+
+        return $position === CollectionPosition::FIRST 
+            ? $media->first() 
+            : $media->last();
+    }
+
+    private function getMediaItemUrl(string $collectionName, string $conversionName, CollectionPosition $position): string
+    {
+        $media = $position === CollectionPosition::FIRST
+            ? $this->getFirstMedia($collectionName) 
+            : $this->getLastMedia($collectionName);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -334,7 +339,7 @@ trait InteractsWithMedia
      */
     public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemUrl($collectionName, $conversionName, 'first');
+        return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::FIRST);
     }
 
     /*
@@ -344,16 +349,18 @@ trait InteractsWithMedia
      */
     public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemUrl($collectionName, $conversionName, 'last');
+        return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::LAST);
     }
 
     private function getMediaItemTemporaryUrl(
         DateTimeInterface $expiration,
         string $collectionName,
         string $conversionName,
-        string $firstOrLast
+        CollectionPosition $position
     ): string {
-        $media = $firstOrLast === 'first' ? $this->getFirstMedia($collectionName) : $this->getLastMedia($collectionName);
+        $media = $position === CollectionPosition::FIRST
+            ? $this->getFirstMedia($collectionName)
+            : $this->getLastMedia($collectionName);
 
         if (! $media) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
@@ -377,7 +384,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, 'first');
+        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::FIRST);
     }
 
     /*
@@ -391,7 +398,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, 'last');
+        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::LAST);
     }
 
     public function getRegisteredMediaCollections(): Collection
@@ -431,9 +438,11 @@ trait InteractsWithMedia
         return $fallbackPaths[$conversionName] ?? $fallbackPaths['default'] ?? '';
     }
 
-    private function getMediaItemPath(string $collectionName, string $conversionName, string $firstOrLast): string
+    private function getMediaItemPath(string $collectionName, string $conversionName, CollectionPosition $position): string
     {
-        $media = $firstOrLast === 'first' ? $this->getFirstMedia($collectionName) : $this->getLastMedia($collectionName);
+        $media = $position === CollectionPosition::FIRST
+            ? $this->getFirstMedia($collectionName)
+            : $this->getLastMedia($collectionName);
 
         if (! $media) {
             return $this->getFallbackMediaPath($collectionName, $conversionName) ?: '';
@@ -453,13 +462,13 @@ trait InteractsWithMedia
      */
     public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemPath($collectionName, $conversionName, 'first');
+        return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::FIRST);
     }
     
 
     public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemPath($collectionName, $conversionName, 'last');
+        return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::LAST);
     }
 
     /*
