@@ -295,11 +295,7 @@ trait InteractsWithMedia
      */
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-<<<<<<< HEAD
         return $this->getMediaItem($collectionName, $filters, CollectionPosition::First);
-=======
-        return $this->getMediaItem($collectionName, $filters, CollectionPosition::FIRST);
->>>>>>> c092717aabfb4c161b1b51a45e7bfdd17085e145
     }
 
     /**
@@ -307,33 +303,21 @@ trait InteractsWithMedia
      */
     public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-<<<<<<< HEAD
         return $this->getMediaItem($collectionName, $filters, CollectionPosition::Last);
-=======
-        return $this->getMediaItem($collectionName, $filters, CollectionPosition::LAST);
->>>>>>> c092717aabfb4c161b1b51a45e7bfdd17085e145
     }
 
     protected function getMediaItem(string $collectionName, $filters, CollectionPosition $position)
     {
         $media = $this->getMedia($collectionName, $filters);
 
-<<<<<<< HEAD
         return $position === CollectionPosition::First
-=======
-        return $position === CollectionPosition::FIRST
->>>>>>> c092717aabfb4c161b1b51a45e7bfdd17085e145
             ? $media->first()
             : $media->last();
     }
 
     private function getMediaItemUrl(string $collectionName, string $conversionName, CollectionPosition $position): string
     {
-<<<<<<< HEAD
         $media = $position === CollectionPosition::First
-=======
-        $media = $position === CollectionPosition::FIRST
->>>>>>> c092717aabfb4c161b1b51a45e7bfdd17085e145
             ? $this->getFirstMedia($collectionName)
             : $this->getLastMedia($collectionName);
 
@@ -480,10 +464,6 @@ trait InteractsWithMedia
     {
         return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::First);
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> c092717aabfb4c161b1b51a45e7bfdd17085e145
 
     public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
