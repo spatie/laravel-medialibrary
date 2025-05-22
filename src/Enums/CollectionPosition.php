@@ -2,7 +2,8 @@
 
 namespace Spatie\MediaLibrary\Enums;
 
-enum CollectionPosition {
+enum CollectionPosition
+{
     case FIRST;
     case LAST;
 }

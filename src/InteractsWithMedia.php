@@ -295,7 +295,7 @@ trait InteractsWithMedia
      */
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getMediaItem($collectionName, $filters, CollectionPosition::FIRST);        
+        return $this->getMediaItem($collectionName, $filters, CollectionPosition::FIRST);
     }
 
     /**
@@ -303,22 +303,22 @@ trait InteractsWithMedia
      */
     public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getMediaItem($collectionName, $filters, CollectionPosition::LAST);        
+        return $this->getMediaItem($collectionName, $filters, CollectionPosition::LAST);
     }
 
     protected function getMediaItem(string $collectionName, $filters, CollectionPosition $position)
     {
         $media = $this->getMedia($collectionName, $filters);
 
-        return $position === CollectionPosition::FIRST 
-            ? $media->first() 
+        return $position === CollectionPosition::FIRST
+            ? $media->first()
             : $media->last();
     }
 
     private function getMediaItemUrl(string $collectionName, string $conversionName, CollectionPosition $position): string
     {
         $media = $position === CollectionPosition::FIRST
-            ? $this->getFirstMedia($collectionName) 
+            ? $this->getFirstMedia($collectionName)
             : $this->getLastMedia($collectionName);
 
         if (! $media) {
@@ -464,7 +464,6 @@ trait InteractsWithMedia
     {
         return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::FIRST);
     }
-    
 
     public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
