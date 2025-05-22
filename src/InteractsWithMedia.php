@@ -295,7 +295,7 @@ trait InteractsWithMedia
      */
     public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getMediaItem($collectionName, $filters, CollectionPosition::FIRST);        
+        return $this->getMediaItem($collectionName, $filters, CollectionPosition::First);
     }
 
     /**
@@ -303,22 +303,22 @@ trait InteractsWithMedia
      */
     public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
     {
-        return $this->getMediaItem($collectionName, $filters, CollectionPosition::LAST);        
+        return $this->getMediaItem($collectionName, $filters, CollectionPosition::Last);
     }
 
     protected function getMediaItem(string $collectionName, $filters, CollectionPosition $position)
     {
         $media = $this->getMedia($collectionName, $filters);
 
-        return $position === CollectionPosition::FIRST 
-            ? $media->first() 
+        return $position === CollectionPosition::First
+            ? $media->first()
             : $media->last();
     }
 
     private function getMediaItemUrl(string $collectionName, string $conversionName, CollectionPosition $position): string
     {
-        $media = $position === CollectionPosition::FIRST
-            ? $this->getFirstMedia($collectionName) 
+        $media = $position === CollectionPosition::First
+            ? $this->getFirstMedia($collectionName)
             : $this->getLastMedia($collectionName);
 
         if (! $media) {
@@ -339,7 +339,7 @@ trait InteractsWithMedia
      */
     public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::FIRST);
+        return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::First);
     }
 
     /*
@@ -349,7 +349,7 @@ trait InteractsWithMedia
      */
     public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::LAST);
+        return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::Last);
     }
 
     private function getMediaItemTemporaryUrl(
@@ -358,7 +358,7 @@ trait InteractsWithMedia
         string $conversionName,
         CollectionPosition $position
     ): string {
-        $media = $position === CollectionPosition::FIRST
+        $media = $position === CollectionPosition::First
             ? $this->getFirstMedia($collectionName)
             : $this->getLastMedia($collectionName);
 
@@ -384,7 +384,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::FIRST);
+        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::First);
     }
 
     /*
@@ -398,7 +398,7 @@ trait InteractsWithMedia
         string $collectionName = 'default',
         string $conversionName = ''
     ): string {
-        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::LAST);
+        return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::Last);
     }
 
     public function getRegisteredMediaCollections(): Collection
@@ -440,7 +440,7 @@ trait InteractsWithMedia
 
     private function getMediaItemPath(string $collectionName, string $conversionName, CollectionPosition $position): string
     {
-        $media = $position === CollectionPosition::FIRST
+        $media = $position === CollectionPosition::First
             ? $this->getFirstMedia($collectionName)
             : $this->getLastMedia($collectionName);
 
@@ -462,13 +462,13 @@ trait InteractsWithMedia
      */
     public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::FIRST);
+        return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::First);
     }
-    
+
 
     public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
     {
-        return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::LAST);
+        return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::Last);
     }
 
     /*
