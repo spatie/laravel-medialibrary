@@ -40,4 +40,11 @@ class DefaultUrlGenerator extends BaseUrlGenerator
     {
         return $this->getDisk()->path('/');
     }
+
+    public function getResponsiveImageTemporaryUrl(string $fileName, DateTimeInterface $expiration, array $options = []): string
+    {
+        $path = $this->pathGenerator->getPathForResponsiveImages($this->media).rawurlencode($fileName);
+
+        return $this->getDisk()->temporaryUrl($path, $expiration, $options);
+    }
 }
