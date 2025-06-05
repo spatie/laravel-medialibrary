@@ -2,6 +2,26 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.13.0 - 2025-05-22
+
+### What's Changed
+
+* Add support for LastMedia functions by @bAngerman in https://github.com/spatie/laravel-medialibrary/pull/3818
+
+### New Contributors
+
+* @bAngerman made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3818
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.9...11.13.0
+
+## 11.12.9 - 2025-03-31
+
+### What's Changed
+
+* Add null check for temporary model instance by @sebastiaanluca in https://github.com/spatie/laravel-medialibrary/pull/3801
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.8...11.12.9
+
 ## 11.12.8 - 2025-03-21
 
 ### What's Changed
