@@ -11,8 +11,7 @@ class TestImageGeneratorWithConfig extends ImageGenerator
     public function __construct(
         public string $firstName,
         public string $secondName
-    ) {
-    }
+    ) {}
 
     public function convert(string $file, ?Conversion $conversion = null): string
     {

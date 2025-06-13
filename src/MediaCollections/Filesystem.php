@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\File;
+use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 use Spatie\MediaLibrary\Support\FileRemover\FileRemoverFactory;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 use Spatie\MediaLibrary\Support\RemoteFile;
@@ -21,8 +22,7 @@ class Filesystem
 
     public function __construct(
         protected Factory $filesystem
-    ) {
-    }
+    ) {}
 
     public function add(string $file, Media $media, ?string $targetFileName = null): bool
     {
@@ -130,7 +130,7 @@ class Filesystem
             );
     }
 
-    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null)
+    public function copyToMediaLibrary(string $pathToFile, Media $media, ?string $type = null, ?string $targetFileName = null): void
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
@@ -236,13 +236,17 @@ class Filesystem
 
     public function removeResponsiveImages(Media $media, string $conversionName = 'media_library_original'): void
     {
+        /** @var FileNamer $fileNamer */
+        $fileNamer = app(config('media-library.file_namer'));
+        $mediaFilename = $fileNamer->responsiveFileName($media->name);
+
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
         $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            fn (string $path) => Str::contains($path, $conversionName)
+            static fn (string $path) => Str::contains($path, $mediaFilename.'___'.$conversionName)
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
@@ -261,12 +265,26 @@ class Filesystem
 
         $oldMedia = (clone $media)->fill($media->getOriginal());
 
-        if ($factory->getPath($oldMedia) === $factory->getPath($media)) {
+        $oldPath = $factory->getPath($oldMedia);
+        $newPath = $factory->getPath($media);
+
+        if ($oldPath === $newPath) {
             return;
         }
 
-        $this->filesystem->disk($media->disk)
-            ->move($factory->getPath($oldMedia), $factory->getPath($media));
+        // If the media is stored on S3, we need to move all files in the directory
+        if ($media->getDiskDriverName() === 's3') {
+            $allFiles = $this->filesystem->disk($media->disk)->allFiles($oldPath);
+
+            foreach ($allFiles as $file) {
+                $newFilePath = str_replace($oldPath, $newPath, $file);
+                $this->filesystem->disk($media->disk)->move($file, $newFilePath);
+            }
+
+            return;
+        }
+
+        $this->filesystem->disk($media->disk)->move($oldPath, $newPath);
     }
 
     protected function renameMediaFile(Media $media): void
@@ -284,7 +302,7 @@ class Filesystem
 
     protected function renameConversionFiles(Media $media): void
     {
-        $mediaWithOldFileName = config('media-library.media_model')::find($media->id);
+        $mediaWithOldFileName = config('media-library.media_model')::find($media->getKey());
         $mediaWithOldFileName->file_name = $mediaWithOldFileName->getOriginal('file_name');
 
         $conversionDirectory = $this->getConversionDirectory($media);

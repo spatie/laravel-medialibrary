@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\MediaCollections;
 
 class File implements \Stringable
 {
-    public static function createFromMedia($media)
+    public static function createFromMedia($media): self
     {
         return new static($media->file_name, $media->size, $media->mime_type);
     }
@@ -13,8 +13,7 @@ class File implements \Stringable
         public string $name,
         public int $size,
         public string $mimeType
-    ) {
-    }
+    ) {}
 
     public function __toString(): string
     {

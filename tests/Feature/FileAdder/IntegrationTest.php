@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Image\Enums\BorderType;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
@@ -451,6 +452,18 @@ it('can add manipulations to the saved media', function () {
     expect($media->manipulations['thumb']['width'])->toEqual(['10']);
 });
 
+it('can add manipulations with parameters of type Enum to the saved media', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withManipulations(['thumb' => [
+            'background' => ['color' => 'ffffff'],
+            'border' => ['width' => 15, 'type' => BorderType::Shrink, 'color' => '000000'],
+        ],
+        ])
+        ->toMediaCollection();
+})->throwsNoExceptions();
+
 it('can add file to model with morph map', function () {
     $media = $this->testModelWithMorphMap
         ->addMedia($this->getTestJpg())
@@ -615,7 +628,7 @@ it('will throw an exception and revert database when file cannot be added', func
 });
 
 it('will throw an exception and revert database when file cannot be added and model uses softdeletes', function () {
-    $testModelClass = new class() extends TestModel
+    $testModelClass = new class extends TestModel
     {
         use SoftDeletes;
     };

@@ -8,7 +8,7 @@ Media Library can be installed via Composer:
 If you only use the base package issue this command:
 
 ```bash
-composer require "spatie/laravel-medialibrary:^11.0.0"
+composer require "spatie/laravel-medialibrary"
 ```
 
 If you have a license for Media Library Pro, you should install `spatie/laravel-media-library-pro` instead. Please refer to our [Media Library Pro installation instructions](https://spatie.be/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/installation) to continue.
@@ -266,7 +266,13 @@ return [
      * You can specify a prefix for that is used for storing all media.
      * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
-      'prefix' => env('MEDIA_PREFIX', ''),
+     'prefix' => env('MEDIA_PREFIX', ''),
+
+    /*
+     * When forcing lazy loading, media will be loaded even if you don't eager load media and you have
+     * disabled lazy loading globally in the service provider.
+     */
+    'force_lazy_loading' => env('FORCE_MEDIA_LIBRARY_LAZY_LOADING', true),
 ];
 ```
 
@@ -283,6 +289,8 @@ By default, the media library will store its files on Laravel's `public` disk. I
             'driver' => 'local',
             'root'   => public_path('media'),
             'url'    => env('APP_URL').'/media',
+            'visibility' => 'public',
+            'throw' => false,
         ],
     ...
 ```

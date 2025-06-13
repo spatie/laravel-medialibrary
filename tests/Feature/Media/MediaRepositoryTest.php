@@ -12,5 +12,5 @@ it('can use a custom media model', function () {
 
     $mediaRepository = app(MediaRepository::class);
 
-    expect($mediaRepository->all()->getQueueableClass())->toEqual(TestCustomMediaModel::class);
+    expect($mediaRepository->getCollection($this->testModel, 'default')->getQueueableClass())->toEqual(TestCustomMediaModel::class);
 });

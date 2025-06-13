@@ -16,9 +16,9 @@ class TestImageGenerator extends ImageGenerator
 
     public function __construct()
     {
-        $this->supportedExtensions = new Collection();
+        $this->supportedExtensions = new Collection;
 
-        $this->supportedMimetypes = new Collection();
+        $this->supportedMimetypes = new Collection;
     }
 
     public function supportedExtensions(): Collection

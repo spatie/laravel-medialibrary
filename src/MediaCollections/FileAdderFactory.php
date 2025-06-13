@@ -40,10 +40,7 @@ class FileAdderFactory
     {
         return collect($keys)
             ->map(function (string $key) use ($subject) {
-                $search = ['[', ']', '"', "'"];
-                $replace = ['.', '', '', ''];
-
-                $key = str_replace($search, $replace, $key);
+                $key = trim(basename($key), './');
 
                 if (! request()->hasFile($key)) {
                     throw RequestDoesNotHaveFile::create($key);

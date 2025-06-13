@@ -4,7 +4,7 @@ namespace Spatie\MediaLibrary\MediaCollections\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\LazyCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -19,7 +19,7 @@ class ClearCommand extends Command
 
     protected MediaRepository $mediaRepository;
 
-    public function handle(MediaRepository $mediaRepository)
+    public function handle(MediaRepository $mediaRepository): void
     {
         $this->mediaRepository = $mediaRepository;
 
@@ -41,8 +41,8 @@ class ClearCommand extends Command
         $this->info('All done!');
     }
 
-    /** @return Collection<int, Media> */
-    public function getMediaItems(): Collection
+    /** @return LazyCollection<int, Media> */
+    public function getMediaItems(): LazyCollection
     {
         $modelType = $this->argument('modelType');
         $collectionName = $this->argument('collectionName');

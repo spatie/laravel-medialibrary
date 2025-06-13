@@ -3,7 +3,7 @@
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image;
 
 it('can convert an image', function () {
-    $imageGenerator = new Image();
+    $imageGenerator = new Image;
 
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
@@ -18,10 +18,10 @@ it('can convert an image', function () {
 it(
     'can convert a tiff image',
     function () {
-        //TIFF format requires imagick
+        // TIFF format requires imagick
         config(['media-library.image_driver' => 'imagick']);
 
-        $imageGenerator = new Image();
+        $imageGenerator = new Image;
 
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestTiff())->toMediaCollection();
 
@@ -37,10 +37,10 @@ it(
 it(
     'can convert a heic image',
     function () {
-        //heic format requires imagick
+        // heic format requires imagick
         config(['media-library.image_driver' => 'imagick']);
 
-        $imageGenerator = new Image();
+        $imageGenerator = new Image;
 
         $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestHeic())->toMediaCollection();
 

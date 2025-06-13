@@ -20,7 +20,7 @@ class ConversionCollection extends Collection
 
     public static function createForMedia(Media $media): self
     {
-        return (new static())->setMedia($media);
+        return (new static)->setMedia($media);
     }
 
     public function setMedia(Media $media): self
@@ -56,7 +56,7 @@ class ConversionCollection extends Collection
         }
 
         /** @var \Spatie\MediaLibrary\HasMedia $model */
-        $model = new $modelName();
+        $model = new $modelName;
 
         /*
          * In some cases the user might want to get the actual model
@@ -92,11 +92,11 @@ class ConversionCollection extends Collection
         return $this->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($collectionName));
     }
 
-    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName)
+    protected function addManipulationToConversion(Manipulations $manipulations, string $conversionName): void
     {
         /** @var Conversion|null $conversion */
         $conversion = $this->first(function (Conversion $conversion) use ($conversionName) {
-            if (! in_array($this->media->collection_name, $conversion->getPerformOnCollections())) {
+            if (! $conversion->shouldBePerformedOn($this->media->collection_name)) {
                 return false;
             }
 
