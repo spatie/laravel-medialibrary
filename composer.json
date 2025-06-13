@@ -55,13 +55,6 @@
         "spatie/pdf-to-image": "^2.2",
         "spatie/pest-plugin-snapshots": "^2.1"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "name": "spatie/image",
-            "url": "git@github.com:jhorie/image.git"
-        }
-    ],
     "conflict": {
         "php-ffmpeg/php-ffmpeg": "<0.6.1"
     },
