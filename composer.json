@@ -34,7 +34,7 @@
         "illuminate/pipeline": "^10.0|^11.0",
         "illuminate/support": "^10.0|^11.0",
         "maennchen/zipstream-php": "^3.1",
-        "spatie/image": "dev-manipulating_animated_gifs",
+        "spatie/image": "^3.3.2",
         "spatie/laravel-package-tools": "^1.16.1",
         "spatie/temporary-directory": "^2.2",
         "symfony/console": "^6.4.1|^7.0"
