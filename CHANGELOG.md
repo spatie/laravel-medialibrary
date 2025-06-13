@@ -2,6 +2,96 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.13.0 - 2025-05-22
+
+### What's Changed
+
+* Add support for LastMedia functions by @bAngerman in https://github.com/spatie/laravel-medialibrary/pull/3818
+
+### New Contributors
+
+* @bAngerman made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3818
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.9...11.13.0
+
+## 11.12.9 - 2025-03-31
+
+### What's Changed
+
+* Add null check for temporary model instance by @sebastiaanluca in https://github.com/spatie/laravel-medialibrary/pull/3801
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.8...11.12.9
+
+## 11.12.8 - 2025-03-21
+
+### What's Changed
+
+* Dynamically check instance of temporary upload model by @sebastiaanluca in https://github.com/spatie/laravel-medialibrary/pull/3795
+
+### New Contributors
+
+* @sebastiaanluca made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3795
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.7...11.12.8
+
+## 11.12.7 - 2025-02-24
+
+### What's Changed
+
+* chore: update README for test documentation by @JavoByte in https://github.com/spatie/laravel-medialibrary/pull/3790
+* Allow regenerate to queue all conversions by @patrickomeara in https://github.com/spatie/laravel-medialibrary/pull/3793
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.6...11.12.7
+
+## 11.12.6 - 2025-02-17
+
+### What's Changed
+
+* fix: media manipulations should be applied before media conversions by @JavoByte in https://github.com/spatie/laravel-medialibrary/pull/3783
+
+### New Contributors
+
+* @JavoByte made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3783
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.5...11.12.6
+
+## 11.12.5 - 2025-02-14
+
+### What's Changed
+
+* Laravel 12 Support by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3785
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.4...11.12.5
+
+## 11.12.4 - 2025-02-10
+
+### What's Changed
+
+* Add @return $this annotation to methods by @lorenzolosa in https://github.com/spatie/laravel-medialibrary/pull/3780
+
+### New Contributors
+
+* @lorenzolosa made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3780
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.3...11.12.4
+
+## 11.12.3 - 2025-02-06
+
+### What's Changed
+
+* Add default types for template by @sforward in https://github.com/spatie/laravel-medialibrary/pull/3779
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.2...11.12.3
+
+## 11.12.2 - 2025-02-05
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-medialibrary/pull/3773
+* Improve return types when using a custom Media model by @sforward in https://github.com/spatie/laravel-medialibrary/pull/3777
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.12.1...11.12.2
+
 ## 11.12.1 - 2025-01-13
 
 ### What's Changed

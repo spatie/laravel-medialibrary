@@ -19,6 +19,9 @@ abstract class BaseUrlGenerator implements UrlGenerator
 
     public function __construct(protected Config $config) {}
 
+    /**
+     * @return $this
+     */
     public function setMedia(Media $media): UrlGenerator
     {
         $this->media = $media;
@@ -26,6 +29,9 @@ abstract class BaseUrlGenerator implements UrlGenerator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function setConversion(Conversion $conversion): UrlGenerator
     {
         $this->conversion = $conversion;
@@ -33,6 +39,9 @@ abstract class BaseUrlGenerator implements UrlGenerator
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function setPathGenerator(PathGenerator $pathGenerator): UrlGenerator
     {
         $this->pathGenerator = $pathGenerator;

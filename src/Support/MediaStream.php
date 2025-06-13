@@ -26,6 +26,9 @@ class MediaStream implements Responsable
         $this->zipOptions = [];
     }
 
+    /**
+     * @return $this
+     */
     public function useZipOptions(callable $zipOptionsCallable): self
     {
         $zipOptionsCallable($this->zipOptions);
@@ -33,6 +36,9 @@ class MediaStream implements Responsable
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function addMedia(...$mediaItems): self
     {
         collect($mediaItems)

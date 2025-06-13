@@ -25,6 +25,9 @@ use Spatie\MediaLibraryPro\Models\TemporaryUpload;
 use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * @template TMedia of \Spatie\MediaLibrary\MediaCollections\Models\Media = \Spatie\MediaLibrary\MediaCollections\Models\Media
+ */
 class FileAdder
 {
     use Macroable;
@@ -70,6 +73,9 @@ class FileAdder
         $this->fileNameSanitizer = fn ($fileName) => $this->defaultSanitizer($fileName);
     }
 
+    /**
+     * @return $this
+     */
     public function setSubject(Model $subject): self
     {
         /** @var HasMedia $subject */
@@ -78,6 +84,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function setFile($file): self
     {
         $this->file = $file;
@@ -114,13 +123,16 @@ class FileAdder
             return $this;
         }
 
-        if ($file instanceof TemporaryUpload) {
+        if ($this->isInstanceOfTemporaryUploadModel($file)) {
             return $this;
         }
 
         throw UnknownType::create();
     }
 
+    /**
+     * @return $this
+     */
     public function preservingOriginal(bool $preserveOriginal = true): self
     {
         $this->preserveOriginal = $preserveOriginal;
@@ -128,11 +140,17 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function usingName(string $name): self
     {
         return $this->setName($name);
     }
 
+    /**
+     * @return $this
+     */
     public function setName(string $name): self
     {
         $this->mediaName = $name;
@@ -140,6 +158,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function setOrder(?int $order): self
     {
         $this->order = $order;
@@ -147,11 +168,17 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function usingFileName(string $fileName): self
     {
         return $this->setFileName($fileName);
     }
 
+    /**
+     * @return $this
+     */
     public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
@@ -159,6 +186,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function setFileSize(int $fileSize): self
     {
         $this->fileSize = $fileSize;
@@ -166,6 +196,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withCustomProperties(array $customProperties): self
     {
         $this->customProperties = $customProperties;
@@ -173,6 +206,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function storingConversionsOnDisk(string $diskName): self
     {
         $this->conversionsDiskName = $diskName;
@@ -180,6 +216,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function onQueue(?string $queue = null): self
     {
         $this->onQueue = $queue;
@@ -187,6 +226,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withManipulations(array $manipulations): self
     {
         $this->manipulations = $manipulations;
@@ -194,6 +236,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withProperties(array $properties): self
     {
         $this->properties = $properties;
@@ -201,11 +246,17 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withAttributes(array $properties): self
     {
         return $this->withProperties($properties);
     }
 
+    /**
+     * @return $this
+     */
     public function withResponsiveImages(): self
     {
         $this->generateResponsiveImages = true;
@@ -213,6 +264,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withResponsiveImagesIf($condition): self
     {
         $this->generateResponsiveImages = (bool) (is_callable($condition) ? $condition() : $condition);
@@ -220,6 +274,9 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function addCustomHeaders(array $customRemoteHeaders): self
     {
         $this->customHeaders = $customRemoteHeaders;
@@ -229,11 +286,17 @@ class FileAdder
         return $this;
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
     {
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaCollectionFromRemote(string $collectionName = 'default', string $diskName = ''): Media
     {
         $storage = Storage::disk($this->file->getDisk());
@@ -287,6 +350,9 @@ class FileAdder
         return $media;
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
@@ -297,7 +363,7 @@ class FileAdder
             return $this->toMediaCollectionFromRemote($collectionName, $diskName);
         }
 
-        if ($this->file instanceof TemporaryUpload) {
+        if ($this->isInstanceOfTemporaryUploadModel($this->file)) {
             return $this->toMediaCollectionFromTemporaryUpload($collectionName, $diskName, $this->fileName);
         }
 
@@ -352,6 +418,9 @@ class FileAdder
         return $media;
     }
 
+    /**
+     * @return TMedia
+     */
     public function toMediaLibrary(string $collectionName = 'default', string $diskName = ''): Media
     {
         return $this->toMediaCollection($collectionName, $diskName);
@@ -415,6 +484,9 @@ class FileAdder
         return $sanitizedFileName;
     }
 
+    /**
+     * @return $this
+     */
     public function sanitizingFileName(callable $fileNameSanitizer): self
     {
         $this->fileNameSanitizer = $fileNameSanitizer;
@@ -563,5 +635,16 @@ class FileAdder
         return $extension
             ? $file.'.'.$extension
             : $file;
+    }
+
+    protected function isInstanceOfTemporaryUploadModel(mixed $file): bool
+    {
+        $model = config('media-library.temporary_upload_model');
+
+        if ($model === null) {
+            return false;
+        }
+
+        return $file instanceof $model;
     }
 }
