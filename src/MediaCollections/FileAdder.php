@@ -501,9 +501,9 @@ class FileAdder
 
             $class = $this->subject::class;
 
-            $class::created(function ($model) {
-                $model->processUnattachedMedia(function (Media $media, self $fileAdder) use ($model) {
-                    $this->processMediaItem($model, $media, $fileAdder);
+            $class::created(function () {
+                $this->subject->processUnattachedMedia(function (Media $media, self $fileAdder) {
+                    $this->processMediaItem($this->subject, $media, $fileAdder);
                 });
             });
 
