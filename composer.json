@@ -33,7 +33,7 @@
         "illuminate/database": "^10.2|^11.0|^12.0",
         "illuminate/pipeline": "^10.2|^11.0|^12.0",
         "illuminate/support": "^10.2|^11.0|^12.0",
-        "maennchen/zipstream-php": "^3.1",
+        "maennchen/zipstream-php": "3.1",
         "spatie/image": "^3.3.2",
         "spatie/laravel-package-tools": "^1.16.1",
         "spatie/temporary-directory": "^2.2",
