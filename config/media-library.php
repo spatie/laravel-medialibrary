@@ -11,9 +11,7 @@ return [
     /*
      * If using R2 (Cloudflare), set your disk key below to true. Enables optimized copy behavior.
      */
-    'r2_disks' => [
-        'r2' => true, // disk name => true
-    ],
+    'r2_disk' => false,
 
     /*
      * The maximum file size of an item in bytes.
