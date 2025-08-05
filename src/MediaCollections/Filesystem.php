@@ -103,6 +103,10 @@ class Filesystem
             return true;
         }
 
+        if (config('media-library.r2_disks')[$media->disk] ?? false) {
+            return true;
+        }
+
         if (count($media->getCustomHeaders()) > 0) {
             return false;
         }
@@ -116,8 +120,26 @@ class Filesystem
 
     protected function copyFileOnDisk(string $file, string $destination, string $disk): void
     {
-        $this->filesystem->disk($disk)
-            ->copy($file, $destination);
+        $adapter = $this->filesystem->disk($disk)->getAdapter();
+
+        if (method_exists($adapter, 'getClient') && method_exists($adapter, 'getBucket') && config('media-library.r2_disks')[$disk] ?? false) {
+            $client = $adapter->getClient();
+            $bucket = $adapter->getBucket();
+
+            try {
+                $client->copyObject([
+                    'Bucket' => $bucket,
+                    'CopySource' => "{$bucket}/{$file}",
+                    'Key' => $destination,
+                ]);
+
+                return;
+            } catch (\Exception $e) {
+                // Ignore the exception, we will fall back to the default copy method
+            }
+        }
+
+        $this->filesystem->disk($disk)->copy($file, $destination);
     }
 
     protected function streamFileToDisk($stream, string $destination, string $disk, array $headers): void
