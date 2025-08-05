@@ -47,6 +47,11 @@ return [
     'disk_name' => env('MEDIA_DISK', 'public'),
 
     /*
+     * If using R2 (Cloudflare), set your disk key below to true. Enables optimized copy behavior.
+     */
+    'r2_disk' => env('R2_FILESYSTEM_DISK', false),
+    
+    /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
