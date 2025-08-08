@@ -335,7 +335,7 @@ it('can get the correct path to the converted media in a collection if conversio
     expect($this->testModelWithConversionQueued->getFirstMediaPath('avatar', 'avatar_thumb'))->toEqual($media->getPath('avatar_thumb'));
 });
 
-it('will return null when first media in a collection the conversion not marked as generated yet', function () {
+it('will return empty url when first media in a collection the conversion not marked as generated yet', function () {
     $media = $this
         ->testModelWithConversionQueued
         ->addMedia($this->getTestJpg())
@@ -345,7 +345,7 @@ it('will return null when first media in a collection the conversion not marked 
     unlink($avatarThumbConversion);
     $this->testModelWithConversionQueued->getFirstMedia('avatar')->markAsConversionNotGenerated('avatar_thumb');
 
-    expect($this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'))->toBeNull();
+    expect($this->testModelWithConversionQueued->getFirstMediaUrl('avatar', 'avatar_thumb'))->toEqual('');
 });
 
 it('will return preloaded media sorting on order column', function () {
