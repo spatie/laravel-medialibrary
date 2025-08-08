@@ -321,12 +321,8 @@ trait InteractsWithMedia
             ? $this->getFirstMedia($collectionName)
             : $this->getLastMedia($collectionName);
 
-        if (! $media) {
+        if (! $media || ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName))) {
             return $this->getFallbackMediaUrl($collectionName, $conversionName) ?: '';
-        }
-
-        if ($conversionName !== '' && ! $media->hasGeneratedConversion($conversionName)) {
-            return $media->getUrl();
         }
 
         return $media->getUrl($conversionName);
