@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.14.0 - 2025-08-19
+
+### What's Changed
+
+* Feat: set default expiration minutes when no value passes in args for temp url by @chinmaypurav in https://github.com/spatie/laravel-medialibrary/pull/3832
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/spatie/laravel-medialibrary/pull/3840
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot[bot] in https://github.com/spatie/laravel-medialibrary/pull/3825
+
+### New Contributors
+
+* @chinmaypurav made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3832
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.13.0...11.14.0
+
 ## 11.13.0 - 2025-05-22
 
 ### What's Changed
