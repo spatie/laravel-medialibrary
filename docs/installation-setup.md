@@ -47,11 +47,6 @@ return [
     'disk_name' => env('MEDIA_DISK', 'public'),
 
     /*
-     * If using R2 (Cloudflare), set your disk key below to true. Enables optimized copy behavior.
-     */
-    'r2_disk' => env('R2_FILESYSTEM_DISK', false),
-    
-    /*
      * The maximum file size of an item in bytes.
      * Adding a larger file will result in an exception.
      */
@@ -296,6 +291,17 @@ By default, the media library will store its files on Laravel's `public` disk. I
             'url'    => env('APP_URL').'/media',
             'visibility' => 'public',
             'throw' => false,
+            
+            /*
+             * OPTIONAL:
+             * 
+             * When set to true, Media Library will always perform a server-side copy
+             * when source and target files are on the same disk. This is useful
+             * for certain remote drivers (e.g. R2, S3-compatible) where
+             * direct streaming is not desirable eg: very large files and you want that
+             * it should not be loaded into PHP memory.
+             */
+            'force_server_copy' => true,
         ],
     ...
 ```
