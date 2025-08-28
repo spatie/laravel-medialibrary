@@ -340,6 +340,13 @@ sudo apt install jpegoptim optipng pngquant gifsicle libavif-bin
 sudo snap install svgo
 ```
 
+Here's how to install all the optimizers on Alpine Linux:
+
+```bash
+apk add jpegoptim optipng pngquant gifsicle libavif-apps
+npm install -g svgo
+```
+
 Here's how to install the binaries on MacOS (using [Homebrew](https://brew.sh/)):
 
 ```bash
