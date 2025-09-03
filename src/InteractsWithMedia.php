@@ -308,7 +308,7 @@ trait InteractsWithMedia
 
     protected function getMediaItem(string $collectionName, $filters, CollectionPosition $position)
     {
-        $media = $this->getMedia($collectionName, $filters);
+        $media = $this->getMedia($collectionName, $filters)->sortBy('id');
 
         return $position === CollectionPosition::First
             ? $media->first()
