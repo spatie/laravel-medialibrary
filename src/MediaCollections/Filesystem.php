@@ -22,9 +22,7 @@ class Filesystem
 
     public function __construct(
         protected Factory $filesystem
-    )
-    {
-    }
+    ) {}
 
     public function add(string $file, Media $media, ?string $targetFileName = null): bool
     {
@@ -65,7 +63,7 @@ class Filesystem
     {
         $destinationFileName = $targetFileName ?: $file->getFilename();
 
-        $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         $diskDriverName = (in_array($type, ['conversions', 'responsiveImages']))
             ? $media->getConversionsDiskDriverName()
@@ -127,7 +125,8 @@ class Filesystem
 
     protected function copyFileOnDisk(string $file, string $destination, string $disk): void
     {
-        $this->filesystem->disk($disk)->copy($file, $destination);
+        $this->filesystem->disk($disk)
+            ->copy($file, $destination);
     }
 
     protected function streamFileToDisk($stream, string $destination, string $disk, array $headers): void
@@ -144,7 +143,7 @@ class Filesystem
     {
         $destinationFileName = $targetFileName ?: pathinfo($pathToFile, PATHINFO_BASENAME);
 
-        $destination = $this->getMediaDirectory($media, $type) . $destinationFileName;
+        $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         $file = fopen($pathToFile, 'r');
 
@@ -163,7 +162,7 @@ class Filesystem
 
             fclose($file);
 
-            if (!$success) {
+            if (! $success) {
                 throw DiskCannotBeAccessed::create($diskName);
             }
 
@@ -182,7 +181,7 @@ class Filesystem
             fclose($file);
         }
 
-        if (!$success) {
+        if (! $success) {
             throw DiskCannotBeAccessed::create($diskName);
         }
     }
@@ -193,11 +192,10 @@ class Filesystem
     }
 
     public function getRemoteHeadersForFile(
-        string  $file,
-        array   $mediaCustomHeaders = [],
+        string $file,
+        array $mediaCustomHeaders = [],
         ?string $mimeType = null
-    ): array
-    {
+    ): array {
         $mimeTypeHeader = ['ContentType' => $mimeType ?: File::getMimeType($file)];
 
         $extraHeaders = config('media-library.remote.extra_headers');
@@ -212,7 +210,7 @@ class Filesystem
 
     public function getStream(Media $media)
     {
-        $sourceFile = $this->getMediaDirectory($media) . '/' . $media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
 
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
@@ -257,7 +255,7 @@ class Filesystem
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
-            static fn(string $path) => Str::contains($path, $mediaFilename . '___' . $conversionName)
+            static fn (string $path) => Str::contains($path, $mediaFilename.'___'.$conversionName)
         );
 
         $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
@@ -323,13 +321,13 @@ class Filesystem
         foreach ($media->getMediaConversionNames() as $conversionName) {
             $conversion = $conversionCollection->getByName($conversionName);
 
-            $oldFile = $conversionDirectory . $conversion->getConversionFile($mediaWithOldFileName);
-            $newFile = $conversionDirectory . $conversion->getConversionFile($media);
+            $oldFile = $conversionDirectory.$conversion->getConversionFile($mediaWithOldFileName);
+            $newFile = $conversionDirectory.$conversion->getConversionFile($media);
 
             $disk = $this->filesystem->disk($media->conversions_disk);
 
             // A media conversion file might be missing, waiting to be generated, failed etc.
-            if (!$disk->exists($oldFile)) {
+            if (! $disk->exists($oldFile)) {
                 continue;
             }
 
@@ -342,7 +340,7 @@ class Filesystem
         $directory = null;
         $pathGenerator = PathGeneratorFactory::create($media);
 
-        if (!$type) {
+        if (! $type) {
             $directory = $pathGenerator->getPath($media);
         }
 
