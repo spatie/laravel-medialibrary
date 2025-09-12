@@ -293,11 +293,10 @@ By default, the media library will store its files on Laravel's `public` disk. I
             'throw' => false,
             
             /*
-             * OPTIONAL:
-             * 
-             * When set to true, Media Library will always perform a server-side copy
-             * when source and target files are on the same disk. This is useful
-             * for certain remote drivers (e.g. R2, S3-compatible) where
+             * When setting this optional parameter to true, Media Library will always perform 
+             * a server-side copy when source and target files are on the same disk.
+             *
+             * This is useful for certain remote drivers (e.g. R2, S3-compatible) where
              * direct streaming is not desirable eg: very large files and you want that
              * it should not be loaded into PHP memory.
              */
