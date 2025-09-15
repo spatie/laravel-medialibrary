@@ -8,7 +8,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 beforeEach(function () {
     if (! canTestS3()) {
-        $this->markTestSkipped('Skipping S3 tests because no S3 getenv variables found');
+        $this->markTestSkipped('Skipping S3 tests because AWS environment variables are not configured (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION, AWS_BUCKET)');
     }
 
     $this->s3BaseDirectory = getS3BaseTestDirectory();
@@ -17,6 +17,10 @@ beforeEach(function () {
 });
 
 afterEach(function () {
+    if (! canTestS3()) {
+        return;
+    }
+
     cleanUpS3();
 
     config()->set('media-library.path_generator', null);
