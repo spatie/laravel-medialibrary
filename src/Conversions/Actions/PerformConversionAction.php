@@ -29,6 +29,10 @@ class PerformConversionAction
 
         $manipulationResult = (new PerformManipulationsAction)->execute($media, $conversion, $copiedOriginalFile);
 
+        if (! $manipulationResult || $manipulationResult === '') {
+            return;
+        }
+
         $newFileName = $conversion->getConversionFile($media);
 
         $renamedFile = $this->renameInLocalDirectory($manipulationResult, $newFileName);
