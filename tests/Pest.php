@@ -6,7 +6,7 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
 
-beforeEach(function() {
+beforeEach(function () {
     registerSpatiePestHelpers();
 });
 
@@ -76,4 +76,3 @@ function skipWhenRunningLocally(): void
         test()->markTestSkipped('This test cannot run locally');
     }
 }
-
