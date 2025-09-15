@@ -151,6 +151,14 @@ it('can get the temporary url to first media in a collection when no expiration 
     expect($this->testModel->getFirstTemporaryUrl(collectionName: 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
 });
 
+it('retrieves a temporary url for media when no expiration passed', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
+    $media->save();
+
+    expect($media->getTemporaryUrl())
+        ->toEqual($media->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+});
+
 it('retrieves a temporary media conversion url from s3', function () {
     $media = $this->testModelWithConversion
         ->addMedia($this->getTestJpg())
