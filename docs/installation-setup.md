@@ -206,6 +206,12 @@ return [
      * need to add additional flags, possibly using curl.
      */
     'media_downloader' => Spatie\MediaLibrary\Downloaders\DefaultDownloader::class,
+    
+    /*
+     * The default lifetime in minutes for temporary urls.
+     * This is used when you call the `getLastTemporaryUrl` or `getLastTemporaryUrl` method on a media item.
+     */
+    'temporary_url_default_lifetime' => env('MEDIA_TEMPORARY_URL_DEFAULT_LIFETIME', 5),
 
     'remote' => [
         /*
