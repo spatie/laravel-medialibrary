@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.15.0 - 2025-09-19
+
+### What's Changed
+
+* docs: add installation instructions for image optimizers on Alpine Linux by @nastoychev in https://github.com/spatie/laravel-medialibrary/pull/3845
+* Feat: allow null expiration for model get temporary url method by @chinmaypurav in https://github.com/spatie/laravel-medialibrary/pull/3851
+* Update issue template by @AlexVanderbist in https://github.com/spatie/laravel-medialibrary/pull/3850
+* Optimize filename suffix generation in MediaStream by @iizno in https://github.com/spatie/laravel-medialibrary/pull/3855
+
+### New Contributors
+
+* @iizno made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3855
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.14.0...11.15.0
+
 ## 11.14.0 - 2025-08-19
 
 ### What's Changed
