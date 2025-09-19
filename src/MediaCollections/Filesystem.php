@@ -93,6 +93,11 @@ class Filesystem
         );
     }
 
+    protected function diskForcesServerCopy(string $disk): bool
+    {
+        return (bool) (config("filesystems.disks.{$disk}.force_server_copy") ?? false);
+    }
+
     protected function shouldCopyFileOnDisk(RemoteFile $file, Media $media, string $diskDriverName): bool
     {
         if ($file->getDisk() !== $media->disk) {
@@ -100,6 +105,10 @@ class Filesystem
         }
 
         if ($diskDriverName === 'local') {
+            return true;
+        }
+
+        if ($this->diskForcesServerCopy($media->disk)) {
             return true;
         }
 
