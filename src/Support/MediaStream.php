@@ -11,6 +11,7 @@ use ZipStream\ZipStream;
 class MediaStream implements Responsable
 {
     protected Collection $mediaItems;
+
     private array $nameCounters = [];
 
     protected array $zipOptions;
@@ -112,7 +113,7 @@ class MediaStream implements Responsable
         $fileName = $mediaItems[$currentIndex]->getDownloadFilename();
 
         $prefix = $this->getZipFileNamePrefix($mediaItems, $currentIndex);
-        $key = $prefix . $fileName;
+        $key = $prefix.$fileName;
 
         $count = ($this->nameCounters[$key] ?? 0);
         $this->nameCounters[$key] = $count + 1;
