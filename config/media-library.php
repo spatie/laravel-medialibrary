@@ -288,4 +288,6 @@ return [
      * disabled lazy loading globally in the service provider.
      */
     'force_lazy_loading' => env('FORCE_MEDIA_LIBRARY_LAZY_LOADING', true),
+
+    'convert_gif_to_webp_using_gif2webp' => false,
 ];

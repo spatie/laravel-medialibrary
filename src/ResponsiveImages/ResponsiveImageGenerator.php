@@ -52,7 +52,7 @@ class ResponsiveImageGenerator
         $temporaryDirectory->delete();
     }
 
-    public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage): void
+    public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage, bool $shouldUseGif2WebpConverter): void
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
@@ -61,7 +61,7 @@ class ResponsiveImageGenerator
         $widthCalculator = $conversion->getWidthCalculator() ?? $this->widthCalculator;
 
         foreach ($widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory, $this->getConversionQuality($conversion));
+            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory, $this->getConversionQuality($conversion), $shouldUseGif2WebpConverter, $conversion->shouldTouchFiles());
         }
 
         $this->generateTinyJpg($media, $baseImage, $conversion->getName(), $temporaryDirectory);
@@ -80,18 +80,24 @@ class ResponsiveImageGenerator
         string $conversionName,
         int $targetWidth,
         BaseTemporaryDirectory $temporaryDirectory,
-        int $conversionQuality = self::DEFAULT_CONVERSION_QUALITY
+        int $conversionQuality = self::DEFAULT_CONVERSION_QUALITY,
+        bool $shouldUseGif2WebpConverter = false,
+        bool $shouldTouchFiles = true
     ): void {
         $extension = $this->fileNamer->extensionFromBaseImage($baseImage);
         $responsiveImagePath = $this->fileNamer->temporaryFileName($media, $extension);
 
         $tempDestination = $temporaryDirectory->path($responsiveImagePath);
 
-        ImageFactory::load($baseImage)
-            ->optimize()
-            ->width($targetWidth)
-            ->quality($conversionQuality)
-            ->save($tempDestination);
+        if ($shouldTouchFiles) {
+            ImageFactory::load($baseImage)
+                ->optimize()
+                ->width($targetWidth)
+                ->quality($conversionQuality)
+                ->save($tempDestination);
+        } else {
+            copy($baseImage, $tempDestination);
+        }
 
         $responsiveImageHeight = ImageFactory::load($tempDestination)->getHeight();
 
@@ -101,12 +107,16 @@ class ResponsiveImageGenerator
             $conversionName,
             $targetWidth,
             $responsiveImageHeight,
-            $extension
+            $shouldUseGif2WebpConverter ? "webp" : $extension
         );
 
         $responsiveImagePath = $temporaryDirectory->path($fileName);
 
         rename($tempDestination, $responsiveImagePath);
+
+        if ($shouldUseGif2WebpConverter) {
+            exec("gif2webp -lossy " . $responsiveImagePath . " -o " . $responsiveImagePath);
+        }
 
         $this->filesystem->copyToMediaLibrary($responsiveImagePath, $media, 'responsiveImages');
 

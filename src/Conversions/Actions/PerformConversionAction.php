@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Conversions\Actions;
 
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompletedEvent;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStartEvent;
@@ -19,15 +20,29 @@ class PerformConversionAction
     ): void {
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
-        $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
+        if ($conversion->shouldTouchFiles()) {
+            $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
+        }
 
         if (! $copiedOriginalFile) {
             return;
         }
 
+        $shouldUseGif2WebpConverter = config('media-library.convert_gif_to_webp_using_gif2webp')
+            && pathinfo($copiedOriginalFile, PATHINFO_EXTENSION) === "gif"
+            && $conversion->getManipulations()->getManipulationArgument('format') == ["webp"];
+
+        if ($shouldUseGif2WebpConverter) {
+            $conversion->setUseGif2WebpAsConverter();
+        }
+
         event(new ConversionWillStartEvent($media, $conversion, $copiedOriginalFile));
 
-        $manipulationResult = (new PerformManipulationsAction)->execute($media, $conversion, $copiedOriginalFile);
+        if ($conversion->shouldTouchFiles()) {
+            $manipulationResult = (new PerformManipulationsAction())->execute($media, $conversion, $copiedOriginalFile);
+        } else {
+            $manipulationResult = $copiedOriginalFile;
+        }
 
         if (! $manipulationResult || $manipulationResult === '') {
             return;
@@ -37,6 +52,13 @@ class PerformConversionAction
 
         $renamedFile = $this->renameInLocalDirectory($manipulationResult, $newFileName);
 
+        $manipulatedFile = $renamedFile;
+        if ($shouldUseGif2WebpConverter) {
+            $manipulatedFile = pathinfo($renamedFile, PATHINFO_DIRNAME) . '/' . (Str::random(32) . '.' . $media->extension);
+            copy($renamedFile, $manipulatedFile);
+            exec("gif2webp -lossy " . $renamedFile . " -o " . $renamedFile);
+        }
+
         if ($conversion->shouldGenerateResponsiveImages()) {
             /** @var ResponsiveImageGenerator $responsiveImageGenerator */
             $responsiveImageGenerator = app(ResponsiveImageGenerator::class);
@@ -44,7 +66,8 @@ class PerformConversionAction
             $responsiveImageGenerator->generateResponsiveImagesForConversion(
                 $media,
                 $conversion,
-                $renamedFile
+                $manipulatedFile,
+                $shouldUseGif2WebpConverter
             );
         }
 

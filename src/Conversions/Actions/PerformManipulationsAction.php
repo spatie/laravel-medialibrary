@@ -34,6 +34,15 @@ class PerformManipulationsAction
             $conversion->format($media->extension);
         }
 
+        if (Str::startsWith(File::mimeType($conversionTempFile), "video/") && $conversion->getManipulations()->getManipulationArgument('format') == ["webm"]) {
+            exec("ffmpeg -i " . $conversionTempFile . " -f webm -an " . $conversionTempFile . ".webm");
+            if (File::exists($conversionTempFile . '.webm')) {
+                unlink($conversionTempFile);
+                rename($conversionTempFile . '.webm', $conversionTempFile);
+            } else {
+                throw new \RuntimeException("Converted webm file does not exist, check if ffmpeg is intalled!");
+            }
+        } else {
         $image = Image::useImageDriver(config('media-library.image_driver'))
             ->loadFile($conversionTempFile)
             ->format('jpg');
@@ -44,6 +53,7 @@ class PerformManipulationsAction
             $image->save();
         } catch (UnsupportedImageFormat) {
 
+        }
         }
 
         return $conversionTempFile;
