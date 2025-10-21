@@ -96,7 +96,7 @@ it('get error when pass NotExistClass class', function () {
 
     expect($media->getUrl())->toEqual('/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
 })
-    ->throws(InvalidPathGenerator::class, sprintf('Path generator class `%s` doesn\'t exist' ,NotExistClass::class ));
+    ->throws(InvalidPathGenerator::class, sprintf('Path generator class `%s` doesn\'t exist', NotExistClass::class));
 
 it('get error when pass WrongCustomPathGenerator class', function () {
     PathGeneratorFactory::setCustomPathGenerators($this->testModelWithMorphMapInSideModel::class, WrongCustomPathGenerator::class);
@@ -107,4 +107,4 @@ it('get error when pass WrongCustomPathGenerator class', function () {
 
     expect($media->getUrl())->toEqual('/media/c4ca4238a0b923820dcc509a6f75849b/test.jpg');
 })
-    ->throws(InvalidPathGenerator::class, sprintf('Path generator class `%s` must implement `%s`' ,WrongCustomPathGenerator::class, PathGenerator::class ));
+    ->throws(InvalidPathGenerator::class, sprintf('Path generator class `%s` must implement `%s`', WrongCustomPathGenerator::class, PathGenerator::class));
