@@ -16,6 +16,6 @@ class InvalidPathGenerator extends Exception
     {
         $pathGeneratorClass = PathGenerator::class;
 
-        return new static("Path generator class `{$class}` must implement `$pathGeneratorClass}`");
+        return new static("Path generator class `{$class}` must implement `{$pathGeneratorClass}`");
     }
 }
