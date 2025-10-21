@@ -73,8 +73,8 @@ class YourModel extends Model
 
 This allows you to customize the directory structure on a per-model basis.
 
-> [!WARNING]  
-> Note: Path generators set in the model override those defined in the config file.
+Keep in mind that path generators set in the model override those defined in the config file.
+
 
 ### Defining a Custom Path Generator Inside a Model or Service Provider
 
