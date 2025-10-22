@@ -56,7 +56,7 @@ trait InteractsWithMedia
                 }
             }
 
-            $model->media()->cursor()->each(fn (Media $media) => $media->delete());
+            $model->deleteAllMedia();
         });
     }
 
@@ -681,6 +681,16 @@ trait InteractsWithMedia
         if ($validation->fails()) {
             throw MimeTypeNotAllowed::create($file, $allowedMimeTypes);
         }
+    }
+
+    public function deleteAllMedia(): self
+    {
+        $this
+            ->media()
+            ->cursor()
+            ->each(fn (Media $media) => $media->delete());
+
+        return $this;
     }
 
     public function registerMediaConversions(?Media $media = null): void {}
