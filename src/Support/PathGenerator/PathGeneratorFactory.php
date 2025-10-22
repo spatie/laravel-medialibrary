@@ -8,6 +8,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PathGeneratorFactory
 {
+    protected static array $customPathGenerators = [];
+
     public static function create(Media $media): PathGenerator
     {
         $pathGeneratorClass = static::getPathGeneratorClass($media);
@@ -17,11 +19,21 @@ class PathGeneratorFactory
         return app($pathGeneratorClass);
     }
 
+    /**
+     * @throws InvalidPathGenerator
+     */
+    public static function setCustomPathGenerators(string $model, string $pathGeneratorClass): void
+    {
+        static::guardAgainstInvalidPathGenerator($pathGeneratorClass);
+
+        self::$customPathGenerators[$model] = $pathGeneratorClass;
+    }
+
     protected static function getPathGeneratorClass(Media $media)
     {
         $defaultPathGeneratorClass = config('media-library.path_generator');
 
-        foreach (config('media-library.custom_path_generators', []) as $modelClass => $customPathGeneratorClass) {
+        foreach (array_merge(config('media-library.custom_path_generators', []), self::$customPathGenerators) as $modelClass => $customPathGeneratorClass) {
             if (static::mediaBelongToModelClass($media, $modelClass)) {
                 return $customPathGeneratorClass;
             }

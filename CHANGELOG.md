@@ -2,6 +2,35 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.16.0 - 2025-10-21
+
+### What's Changed
+
+* Test PHP 8.5 by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3857
+* Add Support for Defining Custom Path Generators in Models or Service Providers by @alissn in https://github.com/spatie/laravel-medialibrary/pull/3828
+* Bump stefanzweifel/git-auto-commit-action from 6 to 7 by @dependabot[bot] in https://github.com/spatie/laravel-medialibrary/pull/3860
+
+### New Contributors
+
+* @alissn made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3828
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.15.0...11.16.0
+
+## 11.15.0 - 2025-09-19
+
+### What's Changed
+
+* docs: add installation instructions for image optimizers on Alpine Linux by @nastoychev in https://github.com/spatie/laravel-medialibrary/pull/3845
+* Feat: allow null expiration for model get temporary url method by @chinmaypurav in https://github.com/spatie/laravel-medialibrary/pull/3851
+* Update issue template by @AlexVanderbist in https://github.com/spatie/laravel-medialibrary/pull/3850
+* Optimize filename suffix generation in MediaStream by @iizno in https://github.com/spatie/laravel-medialibrary/pull/3855
+
+### New Contributors
+
+* @iizno made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3855
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.14.0...11.15.0
+
 ## 11.14.0 - 2025-08-19
 
 ### What's Changed

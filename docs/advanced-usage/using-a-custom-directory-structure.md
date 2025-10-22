@@ -55,6 +55,31 @@ interface PathGenerator
 
 There aren't any restrictions on how the directories can be named. When a `Media`-object gets deleted the package will delete its entire associated directory. To avoid tears or worse, make sure that every media gets stored its own unique directory.
 
+### Model-specific Custom Path Generators
+In addition to setting a global path generator in the config file, You can also define a `CustomPathGenerator` class for specific models directly inside the model's `booting()` method or within a service provider:
+
+```php
+use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
+use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
+
+class YourModel extends Model
+{
+    protected static function booting(): void
+    {
+        PathGeneratorFactory::setCustomPathGenerators(static::class, CustomPathGenerator::class);
+    }
+}
+```
+
+This allows you to customize the directory structure on a per-model basis.
+
+Keep in mind that path generators set in the model override those defined in the config file.
+
+
+### Defining a Custom Path Generator Inside a Model or Service Provider
+
+ This approach allows for fine-grained control over the media directory structure on a per-model basis, without affecting global configuration.
+
 ## Are you a visual learner?
 
 Here's a video that shows custom paths:
