@@ -15,7 +15,7 @@ class Video extends ImageGenerator
         $ffmpeg = FFMpeg::create([
             'ffmpeg.binaries' => config('media-library.ffmpeg_path'),
             'ffprobe.binaries' => config('media-library.ffprobe_path'),
-            'timeout' => config('media-library.ffmpeg_timeout', 3600),
+            'timeout' => config('media-library.ffmpeg_timeout', 900),
             'ffmpeg.threads' => config('media-library.ffmpeg_threads', 0),
         ]);
 
