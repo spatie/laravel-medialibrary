@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.2 - 2025-11-03
+
+### What's Changed
+
+* Added Symfony 8 support to all symfony/* packages. by @thecaliskan in https://github.com/spatie/laravel-medialibrary/pull/3864
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.1...11.17.2
+
 ## 11.17.1 - 2025-11-03
 
 ### What's Changed
