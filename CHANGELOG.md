@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.1 - 2025-11-03
+
+### What's Changed
+
+* Add timeout and threads configuration for FFMpeg by @francoism90 in https://github.com/spatie/laravel-medialibrary/pull/3862
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.0...11.17.1
+
 ## 11.17.0 - 2025-10-22
 
 ### What's Changed
