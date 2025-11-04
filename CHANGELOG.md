@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.3 - 2025-11-04
+
+### What's Changed
+
+* Improve media library with safeguards by @imhayatunnabi in https://github.com/spatie/laravel-medialibrary/pull/3867
+
+### New Contributors
+
+* @imhayatunnabi made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3867
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.2...11.17.3
+
 ## 11.17.2 - 2025-11-03
 
 ### What's Changed
