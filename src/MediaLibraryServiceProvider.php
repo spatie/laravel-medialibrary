@@ -39,6 +39,8 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
+        $this->ensureAwsDefaultRegionFallback();
+
         $this->app->bind(WidthCalculator::class, config('media-library.responsive_images.width_calculator'));
         $this->app->bind(TinyPlaceholderGenerator::class, config('media-library.responsive_images.tiny_placeholder_generator'));
 
@@ -47,5 +49,24 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
 
             return new MediaRepository(new $mediaClass);
         });
+    }
+
+    protected function ensureAwsDefaultRegionFallback(): void
+    {
+        $defaultRegion = getenv('AWS_DEFAULT_REGION');
+
+        if (! empty($defaultRegion)) {
+            return;
+        }
+
+        $region = getenv('AWS_REGION');
+
+        if (empty($region)) {
+            return;
+        }
+
+        putenv("AWS_DEFAULT_REGION={$region}");
+        $_ENV['AWS_DEFAULT_REGION'] = $region;
+        $_SERVER['AWS_DEFAULT_REGION'] = $region;
     }
 }
