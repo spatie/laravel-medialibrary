@@ -6,12 +6,14 @@ use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFMpeg;
 use FFMpeg\Media\Video as FFMpegVideo;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Number;
 use Spatie\MediaLibrary\Conversions\Conversion;
 
 class Video extends ImageGenerator
 {
     public function convert(string $file, ?Conversion $conversion = null): ?string
     {
+        // Create an FFMpeg instance
         $ffmpeg = FFMpeg::create([
             'ffmpeg.binaries' => config('media-library.ffmpeg_path'),
             'ffprobe.binaries' => config('media-library.ffprobe_path'),
@@ -25,14 +27,23 @@ class Video extends ImageGenerator
             return null;
         }
 
-        $duration = $ffmpeg->getFFProbe()->format($file)->get('duration');
+        // Get the duration of the video in seconds
+        $duration = (float) $ffmpeg->getFFProbe()->format($file)->get('duration');
 
+        // Determine at which second to extract the frame
         $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
-        $seconds = $duration <= $seconds ? 0 : $seconds;
 
+        // If no specific second is set, default to the middle of the video
+        $seconds = $seconds > 0 ? $seconds : round($duration / 2);
+
+        // Clamp the seconds to be within the video duration
+        $quantity = Number::clamp($seconds, 0, $duration);
+
+        // Define the output image file path
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        $frame = $video->frame(TimeCode::fromSeconds($seconds));
+        // Extract the frame at the specified time and save it as an image
+        $frame = $video->frame(TimeCode::fromSeconds($quantity));
         $frame->save($imageFile);
 
         return $imageFile;
@@ -45,11 +56,30 @@ class Video extends ImageGenerator
 
     public function supportedExtensions(): Collection
     {
-        return collect(['webm', 'mov', 'mp4']);
+        return Collection::make([
+            'av1',
+            'm4v',
+            'mka',
+            'mkv',
+            'mov',
+            'mp4',
+            'mp4v-es',
+            'webm',
+        ]);
     }
 
     public function supportedMimeTypes(): Collection
     {
-        return collect(['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime']);
+        return Collection::make([
+            'video/av1',
+            'video/mkv',
+            'video/mp4',
+            'video/mp4v-es',
+            'video/quicktime',
+            'video/webm',
+            'video/x-m4v',
+            'video/x-matroska',
+            'video/x-msvideo',
+        ]);
     }
 }
