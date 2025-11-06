@@ -33,17 +33,14 @@ class Video extends ImageGenerator
         // Determine at which second to extract the frame
         $seconds = $conversion ? $conversion->getExtractVideoFrameAtSecond() : 0;
 
-        // If no specific second is set, default to the middle of the video
-        $seconds = $seconds > 0 ? $seconds : round($duration / 2);
-
         // Clamp the seconds to be within the video duration
-        $quantity = Number::clamp($seconds, 0, $duration);
+        $seconds = Number::clamp($seconds, 0, $duration);
 
         // Define the output image file path
         $imageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
         // Extract the frame at the specified time and save it as an image
-        $frame = $video->frame(TimeCode::fromSeconds($quantity));
+        $frame = $video->frame(TimeCode::fromSeconds($seconds));
         $frame->save($imageFile);
 
         return $imageFile;
