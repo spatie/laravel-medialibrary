@@ -67,6 +67,7 @@ class Video extends ImageGenerator
         return Collection::make([
             'video/av1',
             'video/mp4',
+            'video/mpeg',
             'video/quicktime',
             'video/webm',
             'video/x-m4v',
