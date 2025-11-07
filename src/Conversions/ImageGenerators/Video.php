@@ -58,7 +58,6 @@ class Video extends ImageGenerator
             'm4v',
             'mov',
             'mp4',
-            'mp4v-es',
             'webm',
         ]);
     }
@@ -68,7 +67,6 @@ class Video extends ImageGenerator
         return Collection::make([
             'video/av1',
             'video/mp4',
-            'video/mp4v-es',
             'video/quicktime',
             'video/webm',
             'video/x-m4v',
