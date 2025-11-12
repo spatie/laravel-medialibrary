@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use Illuminate\Support\Facades\Config;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
@@ -53,20 +54,27 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
 
     protected function ensureAwsDefaultRegionFallback(): void
     {
-        $defaultRegion = getenv('AWS_DEFAULT_REGION');
+        $defaultRegion = env('AWS_DEFAULT_REGION');
 
         if (! empty($defaultRegion)) {
             return;
         }
 
-        $region = getenv('AWS_REGION');
+        $region = env('AWS_REGION');
 
         if (empty($region)) {
             return;
         }
 
-        putenv("AWS_DEFAULT_REGION={$region}");
-        $_ENV['AWS_DEFAULT_REGION'] = $region;
-        $_SERVER['AWS_DEFAULT_REGION'] = $region;
+        // Update all S3 disk configurations to use the region from AWS_REGION
+        $disks = Config::get('filesystems.disks', []);
+
+        foreach ($disks as $diskName => $diskConfig) {
+            if (isset($diskConfig['driver']) && $diskConfig['driver'] === 's3') {
+                if (empty($diskConfig['region'])) {
+                    Config::set("filesystems.disks.{$diskName}.region", $region);
+                }
+            }
+        }
     }
 }
