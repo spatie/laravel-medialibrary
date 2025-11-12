@@ -18,16 +18,30 @@ class DefaultDownloader implements Downloader
             ],
         ]);
 
-        if (! $stream = @fopen($url, 'r', false, $context)) {
-            throw UnreachableUrl::create($url);
+        $stream = null;
+        $temporaryFile = null;
+
+        try {
+            if (! $stream = @fopen($url, 'r', false, $context)) {
+                throw UnreachableUrl::create($url);
+            }
+
+            $temporaryFile = tempnam(sys_get_temp_dir(), 'media-library');
+
+            file_put_contents($temporaryFile, $stream);
+
+            return $temporaryFile;
+        } catch (\Throwable $e) {
+            // Cleanup temporary file on error
+            if ($temporaryFile !== null && file_exists($temporaryFile)) {
+                @unlink($temporaryFile);
+            }
+            throw $e;
+        } finally {
+            // Ensure stream is always closed
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
         }
-
-        $temporaryFile = tempnam(sys_get_temp_dir(), 'media-library');
-
-        file_put_contents($temporaryFile, $stream);
-
-        fclose($stream);
-
-        return $temporaryFile;
     }
 }

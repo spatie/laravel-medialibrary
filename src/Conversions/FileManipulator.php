@@ -67,19 +67,22 @@ class FileManipulator
 
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
-            $media,
-            $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
-        );
+        try {
+            $copiedOriginalFile = app(Filesystem::class)->copyFromMediaLibrary(
+                $media,
+                $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
+            );
 
-        // Check if the file exists and has content to avoid issues with missing files
-        if (! file_exists($copiedOriginalFile) || filesize($copiedOriginalFile) === 0) {
-            return $this;
+            // Check if the file exists and has content to avoid issues with missing files
+            if (! file_exists($copiedOriginalFile) || filesize($copiedOriginalFile) === 0) {
+                return $this;
+            }
+
+            $conversions->each(fn (Conversion $conversion) => (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile));
+        } finally {
+            // Ensure temporary directory is always cleaned up, even if exceptions occur
+            $temporaryDirectory->delete();
         }
-
-        $conversions->each(fn (Conversion $conversion) => (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile));
-
-        $temporaryDirectory->delete();
 
         return $this;
     }

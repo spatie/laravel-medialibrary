@@ -67,6 +67,9 @@ class FileAdder
 
     public ?int $order = null;
 
+    /** @var array<string> Temporary files that need cleanup */
+    protected array $temporaryFiles = [];
+
     public function __construct(
         protected ?Filesystem $filesystem
     ) {
@@ -515,36 +518,46 @@ class FileAdder
 
     protected function processMediaItem(HasMedia $model, Media $media, self $fileAdder): void
     {
-        $this->guardAgainstDisallowedFileAdditions($media);
+        try {
+            $this->guardAgainstDisallowedFileAdditions($media);
 
-        $this->checkGenerateResponsiveImages($media);
+            $this->checkGenerateResponsiveImages($media);
 
-        if (! $media->getConnectionName()) {
-            $media->setConnection($model->getConnectionName());
-        }
+            if (! $media->getConnectionName()) {
+                $media->setConnection($model->getConnectionName());
+            }
 
-        $model->media()->save($media);
+            $model->media()->save($media);
 
-        if ($fileAdder->file instanceof RemoteFile) {
-            $addedMediaSuccessfully = $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);
-        } else {
-            $addedMediaSuccessfully = $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
-        }
-
-        if (! $addedMediaSuccessfully) {
-            $media->forceDelete();
-
-            throw DiskCannotBeAccessed::create($media->disk);
-        }
-
-        if (! $fileAdder->preserveOriginal) {
             if ($fileAdder->file instanceof RemoteFile) {
-                Storage::disk($fileAdder->file->getDisk())->delete($fileAdder->file->getKey());
+                $addedMediaSuccessfully = $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);
             } else {
-                if (file_exists($fileAdder->pathToFile)) {
-                    unlink($fileAdder->pathToFile);
+                $addedMediaSuccessfully = $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
+            }
+
+            if (! $addedMediaSuccessfully) {
+                $media->forceDelete();
+                $this->cleanupTemporaryFiles();
+
+                throw DiskCannotBeAccessed::create($media->disk);
+            }
+
+            if (! $fileAdder->preserveOriginal) {
+                if ($fileAdder->file instanceof RemoteFile) {
+                    Storage::disk($fileAdder->file->getDisk())->delete($fileAdder->file->getKey());
+                } else {
+                    if (file_exists($fileAdder->pathToFile)) {
+                        unlink($fileAdder->pathToFile);
+                    }
                 }
             }
+
+            // Cleanup temporary files after successful upload
+            $this->cleanupTemporaryFiles();
+        } catch (\Throwable $e) {
+            // Ensure temporary files are cleaned up on any exception
+            $this->cleanupTemporaryFiles();
+            throw $e;
         }
 
         if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
@@ -646,5 +659,29 @@ class FileAdder
         }
 
         return $file instanceof $model;
+    }
+
+    /**
+     * Register a temporary file for cleanup.
+     */
+    public function registerTemporaryFile(string $filePath): void
+    {
+        if (file_exists($filePath) && ! in_array($filePath, $this->temporaryFiles, true)) {
+            $this->temporaryFiles[] = $filePath;
+        }
+    }
+
+    /**
+     * Clean up all registered temporary files.
+     */
+    protected function cleanupTemporaryFiles(): void
+    {
+        foreach ($this->temporaryFiles as $tempFile) {
+            if (file_exists($tempFile)) {
+                @unlink($tempFile);
+            }
+        }
+
+        $this->temporaryFiles = [];
     }
 }

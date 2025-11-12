@@ -154,24 +154,38 @@ trait InteractsWithMedia
 
         $downloader = config('media-library.media_downloader', DefaultDownloader::class);
         $temporaryFile = (new $downloader)->getTempFile($url);
-        $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
-        $filename = basename(parse_url($url, PHP_URL_PATH));
-        $filename = urldecode($filename);
+        try {
+            $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
-        if ($filename === '') {
-            $filename = 'file';
+            $filename = basename(parse_url($url, PHP_URL_PATH));
+            $filename = urldecode($filename);
+
+            if ($filename === '') {
+                $filename = 'file';
+            }
+
+            if (! Str::contains($filename, '.')) {
+                $mediaExtension = explode('/', mime_content_type($temporaryFile));
+                $filename = "{$filename}.{$mediaExtension[1]}";
+            }
+
+            $file = app(FileAdderFactory::class)
+                ->create($this, $temporaryFile)
+                ->usingName(pathinfo($filename, PATHINFO_FILENAME))
+                ->usingFileName($filename);
+
+            // Register temporary file for cleanup
+            $file->registerTemporaryFile($temporaryFile);
+
+            return $file;
+        } catch (\Throwable $e) {
+            // Cleanup temporary file on error
+            if (file_exists($temporaryFile)) {
+                @unlink($temporaryFile);
+            }
+            throw $e;
         }
-
-        if (! Str::contains($filename, '.')) {
-            $mediaExtension = explode('/', mime_content_type($temporaryFile));
-            $filename = "{$filename}.{$mediaExtension[1]}";
-        }
-
-        return app(FileAdderFactory::class)
-            ->create($this, $temporaryFile)
-            ->usingName(pathinfo($filename, PATHINFO_FILENAME))
-            ->usingFileName($filename);
     }
 
     /**
@@ -184,13 +198,24 @@ trait InteractsWithMedia
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
-        file_put_contents($tmpFile, $text);
+        try {
+            file_put_contents($tmpFile, $text);
 
-        $file = app(FileAdderFactory::class)
-            ->create($this, $tmpFile)
-            ->usingFileName('text.txt');
+            $file = app(FileAdderFactory::class)
+                ->create($this, $tmpFile)
+                ->usingFileName('text.txt');
 
-        return $file;
+            // Register temporary file for cleanup
+            $file->registerTemporaryFile($tmpFile);
+
+            return $file;
+        } catch (\Throwable $e) {
+            // Cleanup temporary file on error
+            if (file_exists($tmpFile)) {
+                @unlink($tmpFile);
+            }
+            throw $e;
+        }
     }
 
     /**
@@ -223,13 +248,25 @@ trait InteractsWithMedia
 
         // temporarily store the decoded data on the filesystem to be able to pass it to the fileAdder
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
-        file_put_contents($tmpFile, $binaryData);
 
-        $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
+        try {
+            file_put_contents($tmpFile, $binaryData);
 
-        $file = app(FileAdderFactory::class)->create($this, $tmpFile);
+            $this->guardAgainstInvalidMimeType($tmpFile, $allowedMimeTypes);
 
-        return $file;
+            $file = app(FileAdderFactory::class)->create($this, $tmpFile);
+
+            // Register temporary file for cleanup
+            $file->registerTemporaryFile($tmpFile);
+
+            return $file;
+        } catch (\Throwable $e) {
+            // Cleanup temporary file on error
+            if (file_exists($tmpFile)) {
+                @unlink($tmpFile);
+            }
+            throw $e;
+        }
     }
 
     /**
@@ -241,13 +278,24 @@ trait InteractsWithMedia
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
-        file_put_contents($tmpFile, $stream);
+        try {
+            file_put_contents($tmpFile, $stream);
 
-        $file = app(FileAdderFactory::class)
-            ->create($this, $tmpFile)
-            ->usingFileName('text.txt');
+            $file = app(FileAdderFactory::class)
+                ->create($this, $tmpFile)
+                ->usingFileName('text.txt');
 
-        return $file;
+            // Register temporary file for cleanup
+            $file->registerTemporaryFile($tmpFile);
+
+            return $file;
+        } catch (\Throwable $e) {
+            // Cleanup temporary file on error
+            if (file_exists($tmpFile)) {
+                @unlink($tmpFile);
+            }
+            throw $e;
+        }
     }
 
     /**
