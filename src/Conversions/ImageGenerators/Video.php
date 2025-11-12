@@ -53,24 +53,11 @@ class Video extends ImageGenerator
 
     public function supportedExtensions(): Collection
     {
-        return Collection::make([
-            'av1',
-            'm4v',
-            'mov',
-            'mp4',
-            'webm',
-        ]);
+        return collect(['webm', 'mov', 'mp4', 'm4v']);
     }
 
     public function supportedMimeTypes(): Collection
     {
-        return Collection::make([
-            'video/av1',
-            'video/mp4',
-            'video/mpeg',
-            'video/quicktime',
-            'video/webm',
-            'video/x-m4v',
-        ]);
+        return collect(['video/webm', 'video/mpeg', 'video/mp4', 'video/quicktime', 'video/x-m4v']);
     }
 }

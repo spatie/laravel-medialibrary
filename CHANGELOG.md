@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.4 - 2025-11-12
+
+### What's Changed
+
+* Add m4v format clean by @imhayatunnabi in https://github.com/spatie/laravel-medialibrary/pull/3873
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.3...11.17.4
+
 ## 11.17.3 - 2025-11-04
 
 ### What's Changed
