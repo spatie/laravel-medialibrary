@@ -9,7 +9,6 @@ use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
@@ -138,10 +137,6 @@ class Filesystem
         $destination = $this->getMediaDirectory($media, $type).$destinationFileName;
 
         $file = fopen($pathToFile, 'r');
-
-        if ($file === false) {
-            throw FileDoesNotExist::create($pathToFile);
-        }
 
         $diskName = (in_array($type, ['conversions', 'responsiveImages']))
             ? $media->conversions_disk

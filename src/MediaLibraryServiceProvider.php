@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary;
 
-use Illuminate\Support\Facades\Config;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
@@ -35,13 +34,11 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
         $mediaClass = config('media-library.media_model', Media::class);
         $mediaObserverClass = config('media-library.media_observer', MediaObserver::class);
 
-        $mediaClass::observe($this->app->make($mediaObserverClass));
+        $mediaClass::observe(new $mediaObserverClass);
     }
 
     public function packageRegistered(): void
     {
-        $this->ensureAwsDefaultRegionFallback();
-
         $this->app->bind(WidthCalculator::class, config('media-library.responsive_images.width_calculator'));
         $this->app->bind(TinyPlaceholderGenerator::class, config('media-library.responsive_images.tiny_placeholder_generator'));
 
@@ -50,31 +47,5 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
 
             return new MediaRepository(new $mediaClass);
         });
-    }
-
-    protected function ensureAwsDefaultRegionFallback(): void
-    {
-        $defaultRegion = env('AWS_DEFAULT_REGION');
-
-        if (! empty($defaultRegion)) {
-            return;
-        }
-
-        $region = env('AWS_REGION');
-
-        if (empty($region)) {
-            return;
-        }
-
-        // Update all S3 disk configurations to use the region from AWS_REGION
-        $disks = Config::get('filesystems.disks', []);
-
-        foreach ($disks as $diskName => $diskConfig) {
-            if (isset($diskConfig['driver']) && $diskConfig['driver'] === 's3') {
-                if (empty($diskConfig['region'])) {
-                    Config::set("filesystems.disks.{$diskName}.region", $region);
-                }
-            }
-        }
     }
 }
