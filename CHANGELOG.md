@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.5 - 2025-11-13
+
+### What's Changed
+
+* fix: duration should be parsed as float by @francoism90 in https://github.com/spatie/laravel-medialibrary/pull/3869
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.4...11.17.5
+
 ## 11.17.4 - 2025-11-12
 
 ### What's Changed
