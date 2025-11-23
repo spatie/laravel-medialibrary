@@ -27,6 +27,8 @@ use ZipArchive;
 
 abstract class TestCase extends Orchestra
 {
+    protected static $latestResponse;
+
     protected TestModel $testModel;
 
     protected TestModel $testUnsavedModel;
