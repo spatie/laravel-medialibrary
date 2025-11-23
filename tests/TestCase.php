@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\File;
+use Illuminate\Testing\TestResponse;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Schema;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
@@ -27,6 +28,8 @@ use ZipArchive;
 
 abstract class TestCase extends Orchestra
 {
+    protected static ?TestResponse $latestResponse = null;
+
     protected TestModel $testModel;
 
     protected TestModel $testUnsavedModel;
