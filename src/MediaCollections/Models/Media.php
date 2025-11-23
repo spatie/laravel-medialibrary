@@ -131,13 +131,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return UrlGeneratorFactory::createForMedia($this, $conversionName);
     }
 
-    public function getAvailableUrl(array $conversionNames): string
+    public function getAvailableUrl(array $conversionNames = []): string
     {
-        foreach ($conversionNames as $conversionName) {
-            if (! $this->hasGeneratedConversion($conversionName)) {
-                continue;
-            }
-
+        if ($conversionName = $this->firstGeneratedConversion($conversionNames)) {
             return $this->getUrl($conversionName);
         }
 
@@ -149,43 +145,44 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this->file_name;
     }
 
-    public function getAvailableFullUrl(array $conversionNames): string
+    public function getAvailableFullUrl(array $conversionNames = []): string
     {
-        foreach ($conversionNames as $conversionName) {
-            if (! $this->hasGeneratedConversion($conversionName)) {
-                continue;
-            }
-
+        if ($conversionName = $this->firstGeneratedConversion($conversionNames)) {
             return $this->getFullUrl($conversionName);
         }
 
         return $this->getFullUrl();
     }
 
-    public function getAvailablePath(array $conversionNames): string
+    public function getAvailablePath(array $conversionNames = []): string
     {
-        foreach ($conversionNames as $conversionName) {
-            if (! $this->hasGeneratedConversion($conversionName)) {
-                continue;
-            }
-
+        if ($conversionName = $this->firstGeneratedConversion($conversionNames)) {
             return $this->getPath($conversionName);
         }
 
         return $this->getPath();
     }
 
-    public function getAvailablePathRelativeToRoot(array $conversionNames): string
+    public function getAvailablePathRelativeToRoot(array $conversionNames = []): string
+    {
+        if ($conversionName = $this->firstGeneratedConversion($conversionNames)) {
+            return $this->getPathRelativeToRoot($conversionName);
+        }
+
+        return $this->getPathRelativeToRoot();
+    }
+
+    protected function firstGeneratedConversion(array $conversionNames = []): ?string
     {
         foreach ($conversionNames as $conversionName) {
             if (! $this->hasGeneratedConversion($conversionName)) {
                 continue;
             }
 
-            return $this->getPathRelativeToRoot($conversionName);
+            return $conversionName;
         }
 
-        return $this->getPathRelativeToRoot();
+        return null;
     }
 
     protected function type(): Attribute
