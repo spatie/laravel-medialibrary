@@ -15,8 +15,6 @@ class Avif extends ImageGenerator
 
         imagepng($image, $pathToImageFile, 9);
 
-        imagedestroy($image);
-
         return $pathToImageFile;
     }
 
@@ -27,10 +25,6 @@ class Avif extends ImageGenerator
         }
 
         if (! function_exists('imagepng')) {
-            return false;
-        }
-
-        if (! function_exists('imagedestroy')) {
             return false;
         }
 
