@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.6 - 2025-12-10
+
+### What's Changed
+
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/spatie/laravel-medialibrary/pull/3883
+* Allow ZipStream to be 'unfinished' by @chrispage1 in https://github.com/spatie/laravel-medialibrary/pull/3887
+* Set config directory for larastan by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3894
+* Fix imagedestroy deprecation by @erikn69 in https://github.com/spatie/laravel-medialibrary/pull/3893
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.5...11.17.6
+
 ## 11.17.5 - 2025-11-13
 
 ### What's Changed
