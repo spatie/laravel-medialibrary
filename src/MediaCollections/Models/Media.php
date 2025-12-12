@@ -49,7 +49,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * @property string $conversions_disk
  * @property string $type
  * @property string $extension
- * @property-read string $humanReadableSize
+ * @property-read string $human_readable_size
  * @property-read string $preview_url
  * @property-read string $original_url
  * @property int $size
