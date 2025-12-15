@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.7 - 2025-12-15
+
+### What's Changed
+
+* Fix PHPDoc property name to use snake_case by @michael-tscholl in https://github.com/spatie/laravel-medialibrary/pull/3895
+
+### New Contributors
+
+* @michael-tscholl made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3895
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.6...11.17.7
+
 ## 11.17.6 - 2025-12-10
 
 ### What's Changed
