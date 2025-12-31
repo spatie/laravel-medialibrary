@@ -193,7 +193,7 @@ class CleanCommand extends Command
             $prefix = trim($prefix, '/').'/';
         }
 
-        $mediaIds = $this->mediaRepository->allIds();
+        $mediaIds = $this->mediaRepository->allIds()->flip();
 
         /** @var array<int, string> */
         $directories = $this->fileSystem->disk($diskName)->directories($prefix);
@@ -201,7 +201,7 @@ class CleanCommand extends Command
         collect($directories)
             ->map(fn (string $directory) => str_replace($prefix, '', $directory))
             ->filter(fn (string $directory) => is_numeric($directory))
-            ->reject(fn (string $directory) => $mediaIds->contains((int) $directory))
+            ->reject(fn (string $directory) => isset($mediaIds[$directory]))
             ->each(function (string $directory) use ($diskName, $prefix) {
                 $directory = $prefix.$directory;
 
