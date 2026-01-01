@@ -195,7 +195,7 @@ class CleanCommand extends Command
 
         $mediaIdSet = $this->mediaRepository->allIds()->flip();
 
-        /** @var array<int, string> */
+        /** @var array<int, string> $directories */
         $directories = $this->fileSystem->disk($diskName)->directories($prefix);
 
         collect($directories)
