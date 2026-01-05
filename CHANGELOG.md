@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.8 - 2026-01-05
+
+### What's Changed
+
+* feat: faster clean command via hash lookup by @ImJustToNy in https://github.com/spatie/laravel-medialibrary/pull/3898
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.7...11.17.8
+
 ## 11.17.7 - 2025-12-15
 
 ### What's Changed
