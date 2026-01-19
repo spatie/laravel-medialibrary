@@ -206,7 +206,7 @@ class Filesystem
 
     public function getStream(Media $media)
     {
-        $sourceFile = $this->getMediaDirectory($media).'/'.$media->file_name;
+        $sourceFile = $this->getMediaDirectory($media).$media->file_name;
 
         return $this->filesystem->disk($media->disk)->readStream($sourceFile);
     }
