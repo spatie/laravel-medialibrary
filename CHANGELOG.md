@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.9 - 2026-01-23
+
+### What's Changed
+
+* Fix getStream path concatenation for custom PathGenerator by @dmitrakovich in https://github.com/spatie/laravel-medialibrary/pull/3904
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.8...11.17.9
+
 ## 11.17.8 - 2026-01-05
 
 ### What's Changed
