@@ -14,11 +14,11 @@ jobs:
         dependency-version: [prefer-lowest, prefer-stable]
         include:
           - laravel: 10.*
-            testbench: ^8.0
+            testbench: ^8.36
           - laravel: 11.*
-            testbench: ^9.0
+            testbench: ^9.15
           - laravel: 12.*
-            testbench: ^10.6
+            testbench: ^10.8
         exclude:
           - laravel: 10.*
             php: 8.5
@@ -36,7 +36,7 @@ jobs:
         run: sudo apt-get -y install ghostscript
 
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2

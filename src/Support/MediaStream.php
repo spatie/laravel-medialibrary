@@ -79,7 +79,7 @@ class MediaStream implements Responsable
         return new StreamedResponse(fn () => $this->getZipStream(), 200, $headers);
     }
 
-    public function getZipStream(): ZipStream
+    public function getZipStream(bool $finish = true): ZipStream
     {
         $this->zipOptions['outputName'] = $this->zipName;
         $zip = new ZipStream(...$this->zipOptions);
@@ -94,7 +94,9 @@ class MediaStream implements Responsable
             }
         });
 
-        $zip->finish();
+        if ($finish) {
+            $zip->finish();
+        }
 
         return $zip;
     }
