@@ -175,6 +175,19 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this->getPath();
     }
 
+    public function getAvailablePathRelativeToRoot(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getPathRelativeToRoot($conversionName);
+        }
+
+        return $this->getPathRelativeToRoot();
+    }
+
     protected function type(): Attribute
     {
         return Attribute::get(

@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.17.10 - 2026-01-23
+
+### What's Changed
+
+* Add `getAvailablePathRelativeToRoot()` method by @adriaanzon in https://github.com/spatie/laravel-medialibrary/pull/3877
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.9...11.17.10
+
 ## 11.17.9 - 2026-01-23
 
 ### What's Changed
