@@ -21,6 +21,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
@@ -485,10 +486,17 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return new RegisteredResponsiveImages($this, $conversionName);
     }
 
+    /**
+     * @throws InvalidConversion if the conversion does not exist
+     */
     public function stream($conversion = '')
     {
         /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
+
+        if (!$this->hasGeneratedConversion($conversion)) {
+            throw new InvalidConversion($conversion);
+        }
 
         return $conversion === ''
             ? $filesystem->getStream($this)
