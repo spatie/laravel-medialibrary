@@ -50,3 +50,18 @@ it('can use custom headers when copying the media to an external filesystem', fu
         $this->filesystem->getRemoteHeadersForFile($this->getTestJpg())
     );
 });
+
+it('can get stream with custom path generator that uses prefix instead of directory', function () {
+    config()->set('media-library.path_generator', \Spatie\MediaLibrary\Tests\TestSupport\TestPrefixPathGenerator::class);
+
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection();
+
+    $stream = $this->filesystem->getStream($media);
+
+    expect($stream)->not->toBeNull();
+    expect(is_resource($stream))->toBeTrue();
+
+    fclose($stream);
+});

@@ -50,7 +50,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * @property string $conversions_disk
  * @property string $type
  * @property string $extension
- * @property-read string $humanReadableSize
+ * @property-read string $human_readable_size
  * @property-read string $preview_url
  * @property-read string $original_url
  * @property int $size
@@ -107,8 +107,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $urlGenerator->getUrl();
     }
 
-    public function getTemporaryUrl(DateTimeInterface $expiration, string $conversionName = '', array $options = []): string
+    public function getTemporaryUrl(?DateTimeInterface $expiration = null, string $conversionName = '', array $options = []): string
     {
+        $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
         $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getTemporaryUrl($expiration, $options);
@@ -173,6 +174,19 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         }
 
         return $this->getPath();
+    }
+
+    public function getAvailablePathRelativeToRoot(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getPathRelativeToRoot($conversionName);
+        }
+
+        return $this->getPathRelativeToRoot();
     }
 
     protected function type(): Attribute

@@ -72,6 +72,11 @@ class FileManipulator
             $temporaryDirectory->path(Str::random(32).'.'.$media->extension)
         );
 
+        // Check if the file exists and has content to avoid issues with missing files
+        if (! file_exists($copiedOriginalFile) || filesize($copiedOriginalFile) === 0) {
+            return $this;
+        }
+
         $conversions->each(fn (Conversion $conversion) => (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile));
 
         $temporaryDirectory->delete();

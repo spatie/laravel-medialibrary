@@ -8,7 +8,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 beforeEach(function () {
     if (! canTestS3()) {
-        $this->markTestSkipped('Skipping S3 tests because no S3 getenv variables found');
+        $this->markTestSkipped('Skipping S3 tests because AWS environment variables are not configured (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION, AWS_BUCKET)');
     }
 
     $this->s3BaseDirectory = getS3BaseTestDirectory();
@@ -17,6 +17,10 @@ beforeEach(function () {
 });
 
 afterEach(function () {
+    if (! canTestS3()) {
+        return;
+    }
+
     cleanUpS3();
 
     config()->set('media-library.path_generator', null);
@@ -139,6 +143,24 @@ it('can get the temporary url to first media in a collection', function () {
     $secondMedia->save();
 
     expect($this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+});
+
+it('can get the temporary url to first media in a collection when no expiration passed', function () {
+    $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
+    $firstMedia->save();
+
+    $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
+    $secondMedia->save();
+
+    expect($this->testModel->getFirstTemporaryUrl(collectionName: 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+});
+
+it('retrieves a temporary url for media when no expiration passed', function () {
+    $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
+    $media->save();
+
+    expect($media->getTemporaryUrl())
+        ->toEqual($media->getTemporaryUrl(Carbon::now()->addMinutes(5)));
 });
 
 it('retrieves a temporary media conversion url from s3', function () {

@@ -12,6 +12,8 @@ class MediaStream implements Responsable
 {
     protected Collection $mediaItems;
 
+    private array $nameCounters = [];
+
     protected array $zipOptions;
 
     public static function create(string $zipName): self
@@ -77,7 +79,7 @@ class MediaStream implements Responsable
         return new StreamedResponse(fn () => $this->getZipStream(), 200, $headers);
     }
 
-    public function getZipStream(): ZipStream
+    public function getZipStream(bool $finish = true): ZipStream
     {
         $this->zipOptions['outputName'] = $this->zipName;
         $zip = new ZipStream(...$this->zipOptions);
@@ -92,7 +94,9 @@ class MediaStream implements Responsable
             }
         });
 
-        $zip->finish();
+        if ($finish) {
+            $zip->finish();
+        }
 
         return $zip;
     }
@@ -108,28 +112,22 @@ class MediaStream implements Responsable
 
     protected function getFileNameWithSuffix(Collection $mediaItems, int $currentIndex): string
     {
-        $fileNameCount = 0;
-
         $fileName = $mediaItems[$currentIndex]->getDownloadFilename();
 
-        foreach ($mediaItems as $index => $media) {
-            if ($index >= $currentIndex) {
-                break;
-            }
+        $prefix = $this->getZipFileNamePrefix($mediaItems, $currentIndex);
+        $key = $prefix.$fileName;
 
-            if ($this->getZipFileNamePrefix($mediaItems, $index).$media->getDownloadFilename() === $this->getZipFileNamePrefix($mediaItems, $currentIndex).$fileName) {
-                $fileNameCount++;
-            }
-        }
+        $count = ($this->nameCounters[$key] ?? 0);
+        $this->nameCounters[$key] = $count + 1;
 
-        if ($fileNameCount === 0) {
+        if ($count === 0) {
             return $fileName;
         }
 
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);
         $fileNameWithoutExtension = pathinfo($fileName, PATHINFO_FILENAME);
 
-        return "{$fileNameWithoutExtension} ({$fileNameCount}).{$extension}";
+        return "{$fileNameWithoutExtension} ({$count}).{$extension}";
     }
 
     protected function getZipFileNamePrefix(Collection $mediaItems, int $currentIndex): string

@@ -6,6 +6,10 @@ use Spatie\MediaLibrary\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
 
+beforeEach(function () {
+    registerSpatiePestHelpers();
+});
+
 expect()->extend('toHaveExtension', function (string $expectedExtension) {
     $actualExtension = pathinfo($this->value, PATHINFO_EXTENSION);
 
@@ -24,7 +28,10 @@ function assertS3FileNotExists(string $filePath): void
 
 function canTestS3(): bool
 {
-    return ! empty(getenv('AWS_ACCESS_KEY_ID'));
+    return ! empty(getenv('AWS_ACCESS_KEY_ID'))
+        && ! empty(getenv('AWS_SECRET_ACCESS_KEY'))
+        && ! empty(getenv('AWS_DEFAULT_REGION'))
+        && ! empty(getenv('AWS_BUCKET'));
 }
 
 function getS3BaseTestDirectory(): string

@@ -20,6 +20,6 @@ it('can return a text as a response', function () {
     $result = $this->call('get', 'upload');
 
     expect($result->getStatusCode())->toEqual(200);
-    $result->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
+    expect(strtolower($result->headers->get('Content-Type')))->toEqual('text/plain; charset=utf-8');
     $result->assertHeader('Content-Length', 45);
 });

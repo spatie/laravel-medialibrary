@@ -193,6 +193,18 @@ return [
     'ffprobe_path' => env('FFPROBE_PATH', '/usr/bin/ffprobe'),
 
     /*
+     * The timeout (in seconds) that will be used when generating video
+     * thumbnails via FFMPEG.
+     */
+    'ffmpeg_timeout' => env('FFMPEG_TIMEOUT', 900),
+
+    /*
+     * The number of threads that FFMPEG should use. 0 means that FFMPEG
+     * may decide itself.
+     */
+    'ffmpeg_threads' => env('FFMPEG_THREADS', 0),
+
+    /*
      * Here you can override the class names of the jobs used by this package. Make sure
      * your custom jobs extend the ones provided by the package.
      */
@@ -214,6 +226,12 @@ return [
      * Please note that this is a security risk and should only be false in a local environment.
      */
     'media_downloader_ssl' => env('MEDIA_DOWNLOADER_SSL', true),
+
+    /*
+     * The default lifetime in minutes for temporary urls.
+     * This is used when you call the `getLastTemporaryUrl` or `getLastTemporaryUrl` method on a media item.
+     */
+    'temporary_url_default_lifetime' => env('MEDIA_TEMPORARY_URL_DEFAULT_LIFETIME', 5),
 
     'remote' => [
         /*
