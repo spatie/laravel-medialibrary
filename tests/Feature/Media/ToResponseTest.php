@@ -31,3 +31,15 @@ test('to inline response sends correct attachment header', function () {
 
     expect($response->headers->get('Content-Disposition'))->toEqual('inline; filename="test.pdf"');
 });
+
+test('to response throws on non-existing conversions', function () {
+    $media =
+        $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()
+            ->toMediaCollection();
+
+    expect(fn() => $media->toResponse(request(), 'non-existing-conversion')
+    )->toThrow(
+        \Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion::class,
+        'There is no conversion named `non-existing-conversion`'
+    );
+});

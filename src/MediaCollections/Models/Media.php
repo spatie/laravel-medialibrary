@@ -508,13 +508,14 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
-        if (!$this->hasGeneratedConversion($conversion)) {
-            throw new InvalidConversion($conversion);
+        if ($conversion === '') {
+            return $filesystem->getStream($this);
+        } else {
+            if (!$this->hasGeneratedConversion($conversion)) {
+                throw new InvalidConversion($conversion);
+            }
+            return $filesystem->getConversionStream($this, $conversion);
         }
-
-        return $conversion === ''
-            ? $filesystem->getStream($this)
-            : $filesystem->getConversionStream($this, $conversion);
     }
 
     public function toHtml(): string
