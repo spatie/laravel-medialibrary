@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.18.0 - 2026-02-09
+
+### What's Changed
+
+* Add vips as a documented image driver option by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3911
+* Fix: setNewOrder method upgrade by @GameBear64 in https://github.com/spatie/laravel-medialibrary/pull/3908
+* Update Laravel Filesystem documentation link to v12 by @mathiasdg in https://github.com/spatie/laravel-medialibrary/pull/3909
+* Add conversion to responsAdd conversion parameter to toResponse and toInlineResponse by @miccehedin in https://github.com/spatie/laravel-medialibrary/pull/3907
+* Fix #3889: Clean orphaned responsive images for base image by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3913
+* Fix S3 conversions inheriting original media's ContentType by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3914
+
+### New Contributors
+
+* @GameBear64 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3908
+* @mathiasdg made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3909
+* @miccehedin made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3907
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.17.10...11.18.0
+
 ## 11.17.10 - 2026-01-23
 
 ### What's Changed
