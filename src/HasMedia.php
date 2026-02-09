@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
+use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -44,6 +45,8 @@ interface HasMedia
     public function registerMediaCollections(): void;
 
     public function registerAllMediaConversions(?Media $media = null): void;
+
+    public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection;
 
     public function getMediaModel(): string;
 }
