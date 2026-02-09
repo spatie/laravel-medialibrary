@@ -51,6 +51,33 @@ it('can use custom headers when copying the media to an external filesystem', fu
     );
 });
 
+it('does not let media custom headers override ContentType for conversions', function () {
+    $mediaCustomHeaders = [
+        'ContentType' => 'application/pdf',
+        'CacheControl' => 'max-age=31536000',
+    ];
+
+    $headers = $this->filesystem->getRemoteHeadersForFile(
+        $this->getTestJpg(),
+        $mediaCustomHeaders,
+    );
+
+    // Without the fix, ContentType would be 'application/pdf' from the custom headers
+    expect($headers['ContentType'])->toBe('application/pdf');
+
+    // Simulate what copyToMediaLibrary now does for conversions:
+    // strip ContentType from custom headers so it's derived from the actual file
+    unset($mediaCustomHeaders['ContentType']);
+
+    $headers = $this->filesystem->getRemoteHeadersForFile(
+        $this->getTestJpg(),
+        $mediaCustomHeaders,
+    );
+
+    expect($headers['ContentType'])->toBe('image/jpeg');
+    expect($headers['CacheControl'])->toBe('max-age=31536000');
+});
+
 it('can get stream with custom path generator that uses prefix instead of directory', function () {
     config()->set('media-library.path_generator', \Spatie\MediaLibrary\Tests\TestSupport\TestPrefixPathGenerator::class);
 

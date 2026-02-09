@@ -78,11 +78,17 @@ class Filesystem
 
         $storage = Storage::disk($file->getDisk());
 
+        $customHeaders = $media->getCustomHeaders();
+
+        if (in_array($type, ['conversions', 'responsiveImages'])) {
+            unset($customHeaders['ContentType']);
+        }
+
         $headers = $diskDriverName === 'local'
             ? []
             : $this->getRemoteHeadersForFile(
                 $file->getKey(),
-                $media->getCustomHeaders(),
+                $customHeaders,
                 $storage->mimeType($file->getKey())
             );
 
@@ -165,12 +171,18 @@ class Filesystem
             return;
         }
 
+        $customHeaders = $media->getCustomHeaders();
+
+        if (in_array($type, ['conversions', 'responsiveImages'])) {
+            unset($customHeaders['ContentType']);
+        }
+
         $success = $this->filesystem
             ->disk($diskName)
             ->put(
                 $destination,
                 $file,
-                $this->getRemoteHeadersForFile($pathToFile, $media->getCustomHeaders()),
+                $this->getRemoteHeadersForFile($pathToFile, $customHeaders),
             );
 
         if (is_resource($file)) {
