@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.18.1 - 2026-02-09
+
+### What's Changed
+
+* Revert breaking interface change on `registerAllMediaConversions()` — the `?Media $media = null` parameter that was added to the `HasMedia` interface in v11.18.0 has been removed, as it broke userland code that overrides the method without the parameter. The PHPStan error is now handled via the baseline instead. Fixes #3915.
+
 ## 11.18.0 - 2026-02-09
 
 ### What's Changed
