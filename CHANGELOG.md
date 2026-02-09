@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.18.2 - 2026-02-09
+
+### What's Changed
+
+* Fix setNewOrder breaking with non-sequential array keys by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3916
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.18.1...11.18.2
+
 ## 11.18.1 - 2026-02-09
 
 ### What's Changed
