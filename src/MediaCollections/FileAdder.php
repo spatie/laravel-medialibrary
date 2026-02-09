@@ -78,7 +78,7 @@ class FileAdder
      */
     public function setSubject(Model $subject): self
     {
-        /** @var HasMedia $subject */
+        /** @var HasMedia $subject */ // @phpstan-ignore varTag.nativeType
         $this->subject = $subject;
 
         return $this;

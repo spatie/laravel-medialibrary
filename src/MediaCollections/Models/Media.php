@@ -86,9 +86,10 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
 
+    /** @phpstan-ignore method.childReturnType */
     public function newCollection(array $models = []): MediaCollection
     {
-        return new MediaCollection($models);
+        return new MediaCollection($models); // @phpstan-ignore argument.type
     }
 
     public function model(): MorphTo

@@ -67,6 +67,7 @@ class ConversionCollection extends Collection
          * properties. This will causes extra queries.
          */
         if ($model->registerMediaConversionsUsingModelInstance && $media->model) {
+            /** @var \Spatie\MediaLibrary\HasMedia $model */
             $model = $media->model;
 
             $model->mediaConversions = [];

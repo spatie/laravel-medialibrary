@@ -29,7 +29,7 @@ class PerformConversionAction
 
         $manipulationResult = (new PerformManipulationsAction)->execute($media, $conversion, $copiedOriginalFile);
 
-        if (! $manipulationResult || $manipulationResult === '') {
+        if (! $manipulationResult) {
             return;
         }
 

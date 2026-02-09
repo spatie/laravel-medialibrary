@@ -19,7 +19,7 @@ class Pdf extends ImageGenerator
         if ($this->usesPdfToImageV3()) {
             (new \Spatie\PdfToImage\Pdf($file))->selectPage($pageNumber)->save($imageFile);
         } else {
-            (new \Spatie\PdfToImage\Pdf($file))->setPage($pageNumber)->saveImage($imageFile);
+            (new \Spatie\PdfToImage\Pdf($file))->setPage($pageNumber)->saveImage($imageFile); // @phpstan-ignore method.notFound
         }
 
         return $imageFile;

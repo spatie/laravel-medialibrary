@@ -104,7 +104,7 @@ class HtmlableMedia implements \Stringable, Htmlable
         $media = $this->media;
         $conversion = $this->conversionName;
 
-        return view("media-library::{$viewName}", compact(
+        return view("media-library::{$viewName}", compact( // @phpstan-ignore argument.type
             'media',
             'conversion',
             'attributeString',

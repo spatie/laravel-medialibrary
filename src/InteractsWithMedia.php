@@ -30,6 +30,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @template TMedia of \Spatie\MediaLibrary\MediaCollections\Models\Media = \Spatie\MediaLibrary\MediaCollections\Models\Media
+ *
+ * @phpstan-ignore trait.unused
  */
 trait InteractsWithMedia
 {

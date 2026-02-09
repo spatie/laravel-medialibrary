@@ -106,7 +106,7 @@ class MediaRepository
     {
         return $this->query()->where(fn (Builder $query) => $query->whereDoesntHave(
             'model',
-            fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q,
+            fn (Builder $q) => $q->hasMacro('withTrashed') ? $q->withTrashed() : $q, // @phpstan-ignore method.notFound
         ));
     }
 
