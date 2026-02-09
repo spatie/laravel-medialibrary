@@ -5,6 +5,8 @@ namespace Spatie\MediaLibrary\MediaCollections\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Console\ConfirmableTrait;
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Arr;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
@@ -163,8 +165,11 @@ class CleanCommand extends Command
     {
         $conversionNamesWithResponsiveImages = ConversionCollection::createForMedia($media)
             ->filter(fn (Conversion $conversion) => $conversion->shouldGenerateResponsiveImages())
-            ->map(fn (Conversion $conversion) => $conversion->getName())
-            ->push('media_library_original');
+            ->map(fn (Conversion $conversion) => $conversion->getName());
+
+        if ($this->shouldGenerateResponsiveImagesForOriginal($media)) {
+            $conversionNamesWithResponsiveImages->push('media_library_original');
+        }
 
         /** @var array<int, string> $responsiveImagesGeneratedFor */
         $responsiveImagesGeneratedFor = array_keys($media->responsive_images);
@@ -177,6 +182,26 @@ class CleanCommand extends Command
                     $responsiveImages->delete();
                 }
             });
+    }
+
+    protected function shouldGenerateResponsiveImagesForOriginal(Media $media): bool
+    {
+        $modelName = Arr::get(Relation::morphMap(), $media->model_type, $media->model_type);
+
+        if (! class_exists($modelName)) {
+            return true;
+        }
+
+        /** @var \Spatie\MediaLibrary\HasMedia $model */
+        $model = new $modelName;
+
+        $collection = $model->getMediaCollection($media->collection_name);
+
+        if (! $collection) {
+            return false;
+        }
+
+        return $collection->generateResponsiveImages;
     }
 
     protected function deleteOrphanedDirectories(): void

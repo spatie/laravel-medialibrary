@@ -213,6 +213,34 @@ it('can clean responsive images for active conversions without responsive images
     $this->assertFileDoesNotExist($thumbReponsiveImagesPath);
 });
 
+it('can clean responsive images for original when collection no longer generates responsive images', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    $originalResponsiveImageFileName = "{$media->file_name}___media_library_original_340_280.jpg";
+    $responsiveImagesDir = $this->getMediaDirectory("{$media->id}/responsive-images");
+    mkdir($responsiveImagesDir);
+    $originalResponsiveImagesPath = $responsiveImagesDir.'/'.$originalResponsiveImageFileName;
+    touch($originalResponsiveImagesPath);
+
+    $media->responsive_images = [
+        'media_library_original' => [
+            'base64svg' => 'data:image/svg+xml;base64,PCPg==',
+            'urls' => [$originalResponsiveImageFileName],
+        ],
+    ];
+    $media->save();
+
+    $this->artisan('media-library:clean');
+
+    $media->refresh();
+
+    expect($media->responsive_images)->toBeEmpty();
+    $this->assertFileDoesNotExist($originalResponsiveImagesPath);
+});
+
 it('will throw an exception when using a non existing disk', function () {
     $this->expectException(DiskDoesNotExist::class);
 
