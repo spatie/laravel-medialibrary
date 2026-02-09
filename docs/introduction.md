@@ -25,7 +25,7 @@ $yourModel->addMedia($smallFile)->toMediaCollection('downloads', 'local');
 $yourModel->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
-The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/10.x/filesystem), so you can plug in any compatible filesystem.
+The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/12.x/filesystem), so you can plug in any compatible filesystem.
 
 The package can also generate derived images such as thumbnails for images, videos and PDFs. Once you've [set up your model](/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model), they're easily accessible:
 
