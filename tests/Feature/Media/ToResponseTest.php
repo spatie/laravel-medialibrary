@@ -1,5 +1,6 @@
 <?php
 
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 test('to response sends the content', function () {
@@ -33,13 +34,11 @@ test('to inline response sends correct attachment header', function () {
 });
 
 test('to response throws on non-existing conversions', function () {
-    $media =
-        $this->testModel->addMedia($this->getTestPdf())->preservingOriginal()
-            ->toMediaCollection();
+    $media = $this->testModel
+        ->addMedia($this->getTestPdf())
+        ->preservingOriginal()
+        ->toMediaCollection();
 
-    expect(fn() => $media->toResponse(request(), 'non-existing-conversion')
-    )->toThrow(
-        \Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion::class,
-        'There is no conversion named `non-existing-conversion`'
-    );
+    expect(fn () => $media->toResponse(request(), 'non-existing-conversion'))
+        ->toThrow(InvalidConversion::class, 'There is no conversion named `non-existing-conversion`');
 });

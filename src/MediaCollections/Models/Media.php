@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Mail\Attachment;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
@@ -349,51 +350,44 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this;
     }
 
-    public function toResponse($request, $conversion = ''): StreamedResponse
+    public function toResponse($request, string $conversion = ''): StreamedResponse
     {
         return $this->buildResponse($request, 'attachment', $conversion);
     }
 
-    public function toInlineResponse($request, $conversion = ''): StreamedResponse
+    public function toInlineResponse($request, string $conversion = ''): StreamedResponse
     {
         return $this->buildResponse($request, 'inline', $conversion);
     }
 
     public function toAvailableResponse($request, array $conversionNames): StreamedResponse
     {
-        foreach ($conversionNames as $conversionName) {
-            if (!$this->hasGeneratedConversion($conversionName)) {
-                continue;
-            }
-
-            return $this->toResponse($request, $conversionName);
-        }
-        return $this->toResponse($request);
+        return $this->toResponse($request, $this->findFirstAvailableConversion($conversionNames));
     }
 
     public function toAvailableInlineResponse($request, array $conversionNames): StreamedResponse
     {
-        foreach ($conversionNames as $conversionName) {
-            if (!$this->hasGeneratedConversion($conversionName)) {
-                continue;
-            }
-
-            return $this->toInlineResponse($request, $conversionName);
-        }
-        return $this->toInlineResponse($request);
+        return $this->toInlineResponse($request, $this->findFirstAvailableConversion($conversionNames));
     }
 
-    private function buildResponse($request, string $contentDispositionType, $conversion = ''): StreamedResponse
+    private function findFirstAvailableConversion(array $conversionNames): string
+    {
+        foreach ($conversionNames as $conversionName) {
+            if ($this->hasGeneratedConversion($conversionName)) {
+                return $conversionName;
+            }
+        }
+
+        return '';
+    }
+
+    private function buildResponse($request, string $contentDispositionType, string $conversion = ''): StreamedResponse
     {
         $filename = str_replace('"', '\'', Str::ascii($this->getDownloadFilename()));
 
-        if ($conversion === '') {
-            $size = $this->size;
-        } else {
-            /** @var Filesystem $filesystem */
-            $filesystem = app(Filesystem::class);
-            $size = $filesystem->getConversionSize($this, $conversion);
-        }
+        $size = $conversion !== ''
+            ? Storage::disk($this->conversions_disk)->size($this->getPathRelativeToRoot($conversion))
+            : $this->size;
 
         $downloadHeaders = [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
@@ -500,22 +494,20 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return new RegisteredResponsiveImages($this, $conversionName);
     }
 
-    /**
-     * @throws InvalidConversion if the conversion does not exist
-     */
-    public function stream($conversion = '')
+    public function stream(string $conversion = '')
     {
         /** @var Filesystem $filesystem */
         $filesystem = app(Filesystem::class);
 
         if ($conversion === '') {
             return $filesystem->getStream($this);
-        } else {
-            if (!$this->hasGeneratedConversion($conversion)) {
-                throw new InvalidConversion($conversion);
-            }
-            return $filesystem->getConversionStream($this, $conversion);
         }
+
+        if (! $this->hasGeneratedConversion($conversion)) {
+            throw InvalidConversion::unknownName($conversion);
+        }
+
+        return $filesystem->getConversionStream($this, $conversion);
     }
 
     public function toHtml(): string

@@ -53,7 +53,8 @@ array of conversion names. It will stream the content of the first conversion th
 available. If none of the provided conversions have been generated yet, then it will use the original file.
 
 ```php
-use Illuminate\Http\Request;use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 public function download(Request $request, Media $media)
 {
