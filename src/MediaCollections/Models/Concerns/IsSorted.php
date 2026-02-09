@@ -38,16 +38,18 @@ trait IsSorted
             return;
         }
 
+        $ids = array_values($ids);
+
         $models = static::whereIn('id', $ids)->get()->keyBy('id');
         $orderColumn = (new static)->determineOrderColumnName();
 
-        foreach ($ids as $i => $id) {
+        foreach ($ids as $id) {
             if (! isset($models[$id])) {
                 continue;
             }
 
             $model = $models[$id];
-            $model->$orderColumn = $startOrder + $i;
+            $model->$orderColumn = $startOrder++;
             $model->save();
         }
     }
