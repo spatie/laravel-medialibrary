@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.19.0 - 2026-02-12
+
+### What's Changed
+
+* Add Laravel Boost v2 skill by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3917
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.18.2...11.19.0
+
 ## 11.18.2 - 2026-02-09
 
 ### What's Changed
