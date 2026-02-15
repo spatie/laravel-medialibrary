@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.20.0 - 2026-02-15
+
+### What's new
+
+- Add `getAvailableTemporaryUrl` method (#3919)
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.19.0...11.20.0
+
 ## 11.19.0 - 2026-02-12
 
 ### What's Changed
