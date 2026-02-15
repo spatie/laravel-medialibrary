@@ -32,21 +32,21 @@ it('can get a temporary url of first available conversion', function () {
 
     $this->assertStringContainsString(
         "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-large.jpg",
-        $media->getAvailableTemporaryUrl(Carbon::now()->addMinutes(5), ['small', 'medium', 'large'], [])
+        $media->getAvailableTemporaryUrl(['small', 'medium', 'large'], Carbon::now()->addMinutes(5))
     );
 
     $media->markAsConversionGenerated('medium');
 
     $this->assertStringContainsString(
         "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-medium.jpg",
-        $media->getAvailableTemporaryUrl(Carbon::now()->addMinutes(5), ['small', 'medium', 'large'], [])
+        $media->getAvailableTemporaryUrl(['small', 'medium', 'large'], Carbon::now()->addMinutes(5))
     );
 
     $media->markAsConversionGenerated('small');
 
     $this->assertStringContainsString(
         "/{$this->s3BaseDirectory}/{$media->id}/conversions/test-small.jpg",
-        $media->getAvailableTemporaryUrl(Carbon::now()->addMinutes(5), ['small', 'medium', 'large'], [])
+        $media->getAvailableTemporaryUrl(['small', 'medium', 'large'], Carbon::now()->addMinutes(5))
     );
 });
 
@@ -58,6 +58,6 @@ it('uses original url if no conversion has been generated yet', function () {
 
     $this->assertStringContainsString(
         "/{$this->s3BaseDirectory}/{$media->id}/test.jpg",
-        $media->getAvailableTemporaryUrl(Carbon::now()->addMinutes(5), ['small', 'medium', 'large'], [])
+        $media->getAvailableTemporaryUrl(['small', 'medium', 'large'], Carbon::now()->addMinutes(5))
     );
 });
