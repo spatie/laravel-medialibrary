@@ -147,6 +147,21 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $this->getUrl();
     }
 
+    public function getAvailableTemporaryUrl(?DateTimeInterface $expiration = null, array $conversionNames = [], array $options = [])
+    {
+        $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
+
+        foreach($conversionNames as $conversionName) {
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            return $this->getTemporaryUrl($expiration, $conversionName, $options);
+        }
+
+        return $this->getTemporaryUrl($expiration, '', $options);
+    }
+
     public function getDownloadFilename(): string
     {
         return $this->file_name;
