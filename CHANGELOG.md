@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.21.0 - 2026-02-21
+
+### What's Changed
+
+- Add Laravel 13 support
+
 ## 11.20.0 - 2026-02-15
 
 ### What's new
