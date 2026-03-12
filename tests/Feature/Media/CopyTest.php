@@ -1,13 +1,14 @@
 <?php
 
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
 it('can copy media from one model to another', function () {
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var Media $media */
     $media = $model
         ->addMedia($this->getTestJpg())
         ->usingName('custom-name')
@@ -42,7 +43,7 @@ it('can copy file without extension', function () {
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var Media $media */
     $media = $model
         ->addMedia($this->getTestImageWithoutExtension())
         ->usingName('custom-name')
@@ -73,7 +74,7 @@ it('can copy media from one model to another on a specific disk', function () {
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var Media $media */
     $media = $model
         ->addMedia($this->getTestJpg())
         ->usingName('custom-name')
@@ -104,7 +105,7 @@ it('can handle file adder callback', function () {
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var Media $media */
     $media = $model
         ->addMedia($this->getTestJpg())
         ->usingName('custom-name')
@@ -134,7 +135,7 @@ it('can copy file with accent', function () {
     /** @var TestModel $model */
     $model = TestModel::create(['name' => 'test']);
 
-    /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $media */
+    /** @var Media $media */
     $media = $model
         ->addMedia($this->getAntaresThumbJpgWithAccent())
         ->usingName('custom-name')

@@ -48,9 +48,9 @@ class ResponsiveImage
         $encodedFileName = rawurlencode($this->fileName);
 
         if (str_contains($baseUrl, '?')) {
-            $url = Str::before($baseUrl, '?') . $encodedFileName . '?' . Str::after($baseUrl, '?');
+            $url = Str::before($baseUrl, '?').$encodedFileName.'?'.Str::after($baseUrl, '?');
         } else {
-            $url = $baseUrl . $encodedFileName;
+            $url = $baseUrl.$encodedFileName;
         }
 
         if (config('media-library.version_urls') === true) {

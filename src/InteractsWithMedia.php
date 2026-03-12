@@ -14,6 +14,7 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
 use Spatie\MediaLibrary\Enums\CollectionPosition;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenClearedEvent;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
@@ -146,7 +147,7 @@ trait InteractsWithMedia
      *
      * @return FileAdder<TMedia>
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws FileCannotBeAdded
      */
     public function addMediaFromUrl(string $url, array|string ...$allowedMimeTypes): FileAdder
     {
@@ -200,7 +201,7 @@ trait InteractsWithMedia
      *
      * @return FileAdder<TMedia>
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
+     * @throws FileCannotBeAdded
      * @throws InvalidBase64Data
      */
     public function addMediaFromBase64(string $base64data, array|string ...$allowedMimeTypes): FileAdder
@@ -583,7 +584,7 @@ trait InteractsWithMedia
      * Delete the associated media with the given id.
      * You may also pass a media object.
      *
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted
+     * @throws MediaCannotBeDeleted
      */
     public function deleteMedia(int|string|Media $mediaId): void
     {
