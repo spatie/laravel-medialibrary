@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\ResponsiveImages;
 
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
@@ -43,10 +44,18 @@ class ResponsiveImage
 
         $urlGenerator = UrlGeneratorFactory::createForMedia($this->media, $conversionName);
 
-        $url = $urlGenerator->getResponsiveImagesDirectoryUrl().rawurlencode($this->fileName);
+        $baseUrl = $urlGenerator->getResponsiveImagesDirectoryUrl();
+        $encodedFileName = rawurlencode($this->fileName);
+
+        if (str_contains($baseUrl, '?')) {
+            $url = Str::before($baseUrl, '?') . $encodedFileName . '?' . Str::after($baseUrl, '?');
+        } else {
+            $url = $baseUrl . $encodedFileName;
+        }
 
         if (config('media-library.version_urls') === true) {
-            $url = "{$url}?v={$this->media->updated_at->timestamp}";
+            $separator = str_contains($url, '?') ? '&' : '?';
+            $url = "{$url}{$separator}v={$this->media->updated_at->timestamp}";
         }
 
         return $url;

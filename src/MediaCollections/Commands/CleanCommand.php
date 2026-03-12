@@ -218,18 +218,19 @@ class CleanCommand extends Command
             $prefix = trim($prefix, '/').'/';
         }
 
-        $mediaIdSet = $this->mediaRepository->allIds()->flip();
+        $expectedPaths = $this->mediaRepository->all()
+            ->filter(fn (Media $media) => $media->disk === $diskName)
+            ->map(fn (Media $media) => rtrim(PathGeneratorFactory::create($media)->getPath($media), '/'))
+            ->collect()
+            ->values()
+            ->flip();
 
         /** @var array<int, string> $directories */
         $directories = $this->fileSystem->disk($diskName)->directories($prefix);
 
         collect($directories)
-            ->map(fn (string $directory) => str_replace($prefix, '', $directory))
-            ->filter(fn (string $directory) => is_numeric($directory))
-            ->reject(fn (string $directory) => $mediaIdSet->has((int) $directory))
-            ->each(function (string $directory) use ($diskName, $prefix) {
-                $directory = $prefix.$directory;
-
+            ->reject(fn (string $directory) => $expectedPaths->has($directory))
+            ->each(function (string $directory) use ($diskName) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }

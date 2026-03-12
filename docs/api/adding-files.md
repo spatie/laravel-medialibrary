@@ -219,10 +219,6 @@ public function preservingOriginal()
 public function usingName($name)
 ```
 
-### setName
-
-This is an alias for `usingName`
-
 ### usingFileName
 
 ```php
@@ -235,10 +231,6 @@ This is an alias for `usingName`
  */
 public function usingFileName($fileName)
 ```
-
-### setFileName
-
-This is an alias for `usingFileName`
 
 ### withCustomProperties
 
