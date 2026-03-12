@@ -11,7 +11,7 @@ use Spatie\Image\Enums\Fit;
 use Spatie\Image\Enums\FlipDirection;
 use Spatie\Image\Enums\Orientation;
 
-/** @mixin \Spatie\Image\Drivers\ImageDriver */
+/** @mixin ImageDriver */
 class Manipulations
 {
     protected array $manipulations = [];

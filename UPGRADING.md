@@ -2,6 +2,20 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v11 to v12
+
+- PHP 8.4 or higher is now required.
+- Laravel 12 or higher is now required.
+- Pest 4 is now required for running the test suite.
+- PHPStan/Larastan 3 is now required.
+- `FileAdder::setName()` has been removed. Use `usingName()` instead.
+- `FileAdder::setFileName()` has been removed. Use `usingFileName()` instead.
+- `FileAdder::toMediaLibrary()` has been removed. Use `toMediaCollection()` instead.
+- `FileAdder::withAttributes()` has been removed. Use `withProperties()` instead.
+- The parameter order of `getFirstTemporaryUrl()` and `getLastTemporaryUrl()` has changed from `($expiration, $collectionName, $conversionName)` to `($collectionName, $conversionName, $expiration)`.
+- UUIDs are now v7 (time-ordered) instead of v4.
+- The parent model's `updated_at` is now automatically touched when media is added, updated, or deleted.
+
 ## From v10 to v11
 
 - Image v3 is now used. Make sure to update your image conversions to the new syntax. See [the image docs](https://spatie.be/docs/image/v3) for more info.

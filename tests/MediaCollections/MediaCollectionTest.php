@@ -53,7 +53,7 @@ it('doesnt move media on change', function () {
 
     expect($oldMediaPath)->toBeFile();
 
-    $mediaItem->update(['uuid' => Str::uuid()]);
+    $mediaItem->update(['uuid' => Str::uuid7()]);
 
     $this->assertNotEquals($oldMediaPath, $mediaItem->getPath());
     expect($oldMediaPath)->toBeFile();
@@ -76,7 +76,7 @@ it('moves media on change', function () {
 
     expect($oldMediaPath)->toBeFile();
 
-    $mediaItem->update(['uuid' => Str::uuid()]);
+    $mediaItem->update(['uuid' => Str::uuid7()]);
 
     $this->assertNotEquals($oldMediaPath, $mediaItem->getPath());
     $this->assertFileDoesNotExist($oldMediaPath);

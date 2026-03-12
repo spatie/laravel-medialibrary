@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Mail\Attachment;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -60,8 +61,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
  * @property array $custom_properties
  * @property array $generated_conversions
  * @property array $responsive_images
- * @property-read ?\Illuminate\Support\Carbon $created_at
- * @property-read ?\Illuminate\Support\Carbon $updated_at
+ * @property-read ?Carbon $created_at
+ * @property-read ?Carbon $updated_at
  */
 class Media extends Model implements Attachable, Htmlable, Responsable
 {
@@ -85,6 +86,21 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     ];
 
     protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
+
+    protected static function booted(): void
+    {
+        static::saved(function (Media $media) {
+            if (config('media-library.touch_parent_model') && $media->model) {
+                $media->model->touchQuietly();
+            }
+        });
+
+        static::deleted(function (Media $media) {
+            if (config('media-library.touch_parent_model') && $media->model) {
+                $media->model->touchQuietly();
+            }
+        });
+    }
 
     /** @phpstan-ignore method.childReturnType */
     public function newCollection(array $models = []): MediaCollection
@@ -287,6 +303,21 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         $this->custom_properties = $customProperties;
 
         return $this;
+    }
+
+    public function setFocalPoint(int|float $x, int|float $y): self
+    {
+        return $this->setCustomProperty('focal_point', ['x' => $x, 'y' => $y]);
+    }
+
+    public function getFocalPoint(): ?array
+    {
+        return $this->getCustomProperty('focal_point');
+    }
+
+    public function hasFocalPoint(): bool
+    {
+        return $this->hasCustomProperty('focal_point');
     }
 
     /**

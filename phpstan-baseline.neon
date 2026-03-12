@@ -1,18 +1,1027 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\HasMedia\\:\\:#"
-
-		-
-			message: "#^Call to an undefined method Spatie\\\\MediaLibrary\\\\Support\\\\UrlGenerator\\\\UrlGenerator\\:\\:getPathRelativeToRoot\\(\\)\\.$#"
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Actions\\PerformManipulationsAction\:\:extractTargetDimensions\(\) has parameter \$manipulationArray with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
-			path: src/MediaCollections/Models/Media.php
+			path: src/Conversions/Actions/PerformManipulationsAction.php
 
 		-
-			message: "#^Method Spatie\\\\MediaLibrary\\\\HasMedia\\:\\:registerAllMediaConversions\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Commands\\RegenerateCommand\:\:getMediaIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Commands/RegenerateCommand.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Commands\\RegenerateCommand\:\:getMediaToBeRegenerated\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/Commands/RegenerateCommand.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Conversions\\Commands\\RegenerateCommand\:\:\$errorMessages type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Commands/RegenerateCommand.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Conversion\:\:__call\(\) has parameter \$arguments with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Conversions/Conversion.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Conversion\:\:__call\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Conversions/Conversion.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Conversion\:\:getPerformOnCollections\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Conversion.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Conversion\:\:performOnCollections\(\) has parameter \$collectionNames with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Conversions/Conversion.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Conversion\:\:setManipulations\(\) has parameter \$manipulations with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Conversions/Conversion.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Conversions\\Conversion\:\:\$performOnCollections type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Conversion.php
+
+		-
+			message: '#^Access to an undefined property Spatie\\MediaLibrary\\HasMedia\:\:\$mediaConversions\.$#'
+			identifier: property.notFound
+			count: 2
+			path: src/Conversions/ConversionCollection.php
+
+		-
+			message: '#^Access to an undefined property Spatie\\MediaLibrary\\HasMedia\:\:\$registerMediaConversionsUsingModelInstance\.$#'
+			identifier: property.notFound
 			count: 1
 			path: src/Conversions/ConversionCollection.php
 
 		-
-			message: "#FFMpeg#"
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ConversionCollection\:\:createForMedia\(\) return type with generic class Spatie\\MediaLibrary\\Conversions\\ConversionCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ConversionCollection.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ConversionCollection\:\:getConversions\(\) return type with generic class Spatie\\MediaLibrary\\Conversions\\ConversionCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ConversionCollection.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ConversionCollection\:\:getConversionsFiles\(\) return type with generic class Spatie\\MediaLibrary\\Conversions\\ConversionCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ConversionCollection.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:registerAllMediaConversions\(\) invoked with 1 parameter, 0 required\.$#'
+			identifier: arguments.count
+			count: 1
+			path: src/Conversions/ConversionCollection.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\FileManipulator\:\:createDerivedFiles\(\) has parameter \$onlyConversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/FileManipulator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\FileManipulator\:\:dispatchQueuedConversions\(\) has parameter \$conversions with generic class Spatie\\MediaLibrary\\Conversions\\ConversionCollection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/FileManipulator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\FileManipulator\:\:performConversions\(\) has parameter \$conversions with generic class Spatie\\MediaLibrary\\Conversions\\ConversionCollection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/FileManipulator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Avif\:\:supportedExtensions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Avif.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Avif\:\:supportedMimeTypes\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Avif.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Image\:\:supportedExtensions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Image.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Image\:\:supportedMimeTypes\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Image.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\ImageGenerator\:\:supportedExtensions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGenerator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\ImageGenerator\:\:supportedMimeTypes\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGenerator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\ImageGeneratorFactory\:\:getImageGenerators\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
+
+		-
+			message: '#^Unable to resolve the template type TValue in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Conversions/ImageGenerators/ImageGeneratorFactory.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Pdf\:\:supportedExtensions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Pdf.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Pdf\:\:supportedMimeTypes\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Pdf.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Svg\:\:supportedExtensions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Svg.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Svg\:\:supportedMimeTypes\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Svg.php
+
+		-
+			message: '#^Call to method frame\(\) on an unknown class FFMpeg\\Media\\Video\.$#'
+			identifier: class.notFound
+			count: 1
 			path: src/Conversions/ImageGenerators/Video.php
+
+		-
+			message: '#^Call to static method create\(\) on an unknown class FFMpeg\\FFMpeg\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Conversions/ImageGenerators/Video.php
+
+		-
+			message: '#^Call to static method fromSeconds\(\) on an unknown class FFMpeg\\Coordinate\\TimeCode\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Conversions/ImageGenerators/Video.php
+
+		-
+			message: '#^Class FFMpeg\\Media\\Video not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Conversions/ImageGenerators/Video.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Video\:\:supportedExtensions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Video.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Video\:\:supportedMimeTypes\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Video.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Webp\:\:supportedExtensions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Webp.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\ImageGenerators\\Webp\:\:supportedMimeTypes\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/ImageGenerators/Webp.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Jobs\\PerformConversionsJob\:\:__construct\(\) has parameter \$conversions with generic class Spatie\\MediaLibrary\\Conversions\\ConversionCollection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Conversions/Jobs/PerformConversionsJob.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Conversions\\Jobs\\PerformConversionsJob\:\:\$deleteWhenMissingModels has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: src/Conversions/Jobs/PerformConversionsJob.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Manipulations\:\:__call\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Manipulations.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Manipulations\:\:__construct\(\) has parameter \$manipulations with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Manipulations.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Manipulations\:\:addManipulation\(\) has parameter \$parameters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Manipulations.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Manipulations\:\:getManipulationArgument\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Manipulations.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Conversions\\Manipulations\:\:toArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Manipulations.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Conversions\\Manipulations\:\:\$manipulations type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Conversions/Manipulations.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:clearMediaCollectionExcept\(\) has parameter \$excludedMedia with generic class Illuminate\\Support\\Collection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/HasMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:clearMediaCollectionExcept\(\) has parameter \$excludedMedia with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/HasMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:clearMediaCollectionExcept\(\) has parameter \$excludedMedia with no value type specified in iterable type array\|Illuminate\\Support\\Collection\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/HasMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:getMedia\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/HasMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:getMedia\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/HasMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:loadMedia\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/HasMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\HasMedia\:\:media\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphMany does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/HasMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Contracts\\MediaLibraryRequest\:\:mediaLibraryRequestItems\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Contracts/MediaLibraryRequest.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Exceptions\\MediaCannotBeDeleted\:\:doesNotBelongToModel\(\) has parameter \$mediaId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Exceptions/MediaCannotBeDeleted.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Exceptions\\MimeTypeNotAllowed\:\:create\(\) has parameter \$allowedMimeTypes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Exceptions/MimeTypeNotAllowed.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\File\:\:createFromMedia\(\) has parameter \$media with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/File.php
+
+		-
+			message: '#^Access to an undefined property Spatie\\MediaLibrary\\HasMedia\:\:\$exists\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Access to an undefined property Spatie\\MediaLibrary\\HasMedia\:\:\$mediaCollections\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:addCustomHeaders\(\) has parameter \$customRemoteHeaders with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:withCustomProperties\(\) has parameter \$customProperties with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:withManipulations\(\) has parameter \$manipulations with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:withProperties\(\) has parameter \$properties with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:\$customHeaders type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:\$customProperties type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:\$manipulations type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\MediaCollections\\FileAdder\:\:\$properties type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Unable to resolve the template type TValue in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/MediaCollections/FileAdder.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\FileAdderFactory\:\:createAllFromRequest\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/FileAdderFactory.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\FileAdderFactory\:\:createMultipleFromRequest\(\) has parameter \$keys with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/FileAdderFactory.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\FileAdderFactory\:\:createMultipleFromRequest\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/FileAdderFactory.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:addCustomRemoteHeaders\(\) has parameter \$customRemoteHeaders with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:getConversionStream\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:getRemoteHeadersForFile\(\) has parameter \$mediaCustomHeaders with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:getRemoteHeadersForFile\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:getStream\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:streamFileToDisk\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:streamFileToDisk\(\) has parameter \$stream with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\MediaCollections\\Filesystem\:\:\$customRemoteHeaders type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Filesystem.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\HtmlableMedia\:\:attributes\(\) has parameter \$attributes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/HtmlableMedia.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\MediaCollections\\HtmlableMedia\:\:\$extraAttributes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/HtmlableMedia.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaCollection\:\:acceptsMimeTypes\(\) has parameter \$mimeTypes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/MediaCollection.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaCollection\:\:create\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/MediaCollection.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\MediaCollections\\MediaCollection\:\:\$acceptsMimeTypes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/MediaCollection.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:all\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:allIds\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:applyFilterToMediaCollection\(\) has parameter \$filter with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:applyFilterToMediaCollection\(\) has parameter \$media with generic class Illuminate\\Support\\Collection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:applyFilterToMediaCollection\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getByCollectionName\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getByIdGreaterThan\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getByIds\(\) has parameter \$ids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getByIds\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getByModelType\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getByModelTypeAndCollectionName\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getCollection\(\) has parameter \$filter with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getCollection\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getDefaultFilterFunction\(\) has parameter \$filters with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getOrphans\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:getOrphansByCollectionName\(\) return type with generic class Illuminate\\Support\\LazyCollection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:orphansQuery\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\MediaRepository\:\:query\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/MediaRepository.php
+
+		-
+			message: '#^Call to an undefined method Spatie\\MediaLibrary\\Support\\UrlGenerator\\UrlGenerator\:\:getPathRelativeToRoot\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Class Spatie\\MediaLibrary\\MediaCollections\\Models\\Media has PHPDoc tag @property for property \$custom_properties with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Class Spatie\\MediaLibrary\\MediaCollections\\Models\\Media has PHPDoc tag @property for property \$generated_conversions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Class Spatie\\MediaLibrary\\MediaCollections\\Models\\Media has PHPDoc tag @property for property \$manipulations with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Class Spatie\\MediaLibrary\\MediaCollections\\Models\\Media has PHPDoc tag @property for property \$responsive_images with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:__invoke\(\) has parameter \$arguments with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:buildResponse\(\) has parameter \$request with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:extension\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:findFirstAvailableConversion\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:findWithTemporaryUploadInCurrentSession\(\) has parameter \$uuids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:findWithTemporaryUploadInCurrentSession\(\) return type with generic class Illuminate\\Database\\Eloquent\\Collection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getAvailableFullUrl\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getAvailablePath\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getAvailablePathRelativeToRoot\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getAvailableTemporaryUrl\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getAvailableTemporaryUrl\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getAvailableUrl\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getCustomHeaders\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getFocalPoint\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getGeneratedConversions\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getMediaConversionNames\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getResponsiveImageUrls\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:getTemporaryUrl\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:humanReadableSize\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:img\(\) has parameter \$extraAttributes with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:model\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:newCollection\(\) return type with generic class Spatie\\MediaLibrary\\MediaCollections\\Models\\Collections\\MediaCollection does not specify its types\: TKey, TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:originalUrl\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:previewUrl\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:scopeOrdered\(\) has parameter \$query with generic class Illuminate\\Database\\Eloquent\\Builder but does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:scopeOrdered\(\) return type with generic class Illuminate\\Database\\Eloquent\\Builder does not specify its types\: TModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:setCustomHeaders\(\) has parameter \$customHeaders with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:setNewOrder\(\) has parameter \$ids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:stream\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:temporaryUpload\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\BelongsTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:toAvailableInlineResponse\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:toAvailableInlineResponse\(\) has parameter \$request with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:toAvailableResponse\(\) has parameter \$conversionNames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:toAvailableResponse\(\) has parameter \$request with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:toInlineResponse\(\) has parameter \$request with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:type\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Unable to resolve the template type TRelatedModel in call to method Illuminate\\Database\\Eloquent\\Model\:\:belongsTo\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/MediaCollections/Models/Media.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\RegisteredResponsiveImages\:\:getFilenames\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ResponsiveImages/RegisteredResponsiveImages.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\RegisteredResponsiveImages\:\:getUrls\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ResponsiveImages/RegisteredResponsiveImages.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\ResponsiveImages\\RegisteredResponsiveImages\:\:\$files with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/ResponsiveImages/RegisteredResponsiveImages.php
+
+		-
+			message: '#^Unable to resolve the template type TKey in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/ResponsiveImages/RegisteredResponsiveImages.php
+
+		-
+			message: '#^Unable to resolve the template type TValue in call to function collect$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/ResponsiveImages/RegisteredResponsiveImages.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\ResponsiveImage\:\:getPropertyParts\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ResponsiveImages/ResponsiveImage.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\ResponsiveImage\:\:register\(\) has parameter \$conversionName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/ResponsiveImages/ResponsiveImage.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\ResponsiveImage\:\:register\(\) has parameter \$fileName with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/ResponsiveImages/ResponsiveImage.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\WidthCalculator\\FileSizeOptimizedWidthCalculator\:\:calculateWidths\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/ResponsiveImages/WidthCalculator/FileSizeOptimizedWidthCalculator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\WidthCalculator\\FileSizeOptimizedWidthCalculator\:\:calculateWidthsFromFile\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/ResponsiveImages/WidthCalculator/FileSizeOptimizedWidthCalculator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\WidthCalculator\\WidthCalculator\:\:calculateWidths\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/ResponsiveImages/WidthCalculator/WidthCalculator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\ResponsiveImages\\WidthCalculator\\WidthCalculator\:\:calculateWidthsFromFile\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/ResponsiveImages/WidthCalculator/WidthCalculator.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Support\\MediaStream\:\:addMedia\(\) has parameter \$mediaItems with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Support\\MediaStream\:\:getFileNameWithSuffix\(\) has parameter \$mediaItems with generic class Illuminate\\Support\\Collection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Support\\MediaStream\:\:getMediaItems\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Support\\MediaStream\:\:getZipFileNamePrefix\(\) has parameter \$mediaItems with generic class Illuminate\\Support\\Collection but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Support\\MediaStream\:\:getZipStreamContents\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Support\\MediaStream\:\:\$mediaItems with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Support\\MediaStream\:\:\$nameCounters type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Support\\MediaStream\:\:\$zipOptions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Unable to resolve the template type TFlatMapKey in call to method Illuminate\\Support\\Collection\<int\|string,mixed\>\:\:flatMap\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Unable to resolve the template type TFlatMapValue in call to method Illuminate\\Support\\Collection\<int\|string,mixed\>\:\:flatMap\(\)$#'
+			identifier: argument.templateType
+			count: 1
+			path: src/Support/MediaStream.php
+
+		-
+			message: '#^Method Spatie\\MediaLibrary\\Support\\PathGenerator\\PathGeneratorFactory\:\:getPathGeneratorClass\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Support/PathGenerator/PathGeneratorFactory.php
+
+		-
+			message: '#^Property Spatie\\MediaLibrary\\Support\\PathGenerator\\PathGeneratorFactory\:\:\$customPathGenerators type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Support/PathGenerator/PathGeneratorFactory.php

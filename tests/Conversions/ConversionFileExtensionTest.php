@@ -18,6 +18,12 @@ it('can keep the original image format if the original file is an image with upp
     expect($media->getUrl('keep_original_format'))->toHaveExtension('PNG');
 });
 
+it('can keep the original image format when the original file is avif', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getTestAvif())->toMediaCollection();
+
+    expect($media->getUrl('keep_original_format'))->toHaveExtension('avif');
+});
+
 it('always defaults to jpg when the original file is not an image', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestMp4())->toMediaCollection();
 

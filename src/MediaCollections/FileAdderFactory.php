@@ -71,7 +71,7 @@ class FileAdderFactory
         return $fileAdder
             ->setSubject($subject)
             ->setFile($pendingMedia->temporaryUpload)
-            ->setName($pendingMedia->name)
+            ->usingName($pendingMedia->name)
             ->setOrder($pendingMedia->order);
     }
 }

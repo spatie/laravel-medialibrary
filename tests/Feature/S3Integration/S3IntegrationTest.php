@@ -142,7 +142,7 @@ it('can get the temporary url to first media in a collection', function () {
     $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
     $secondMedia->save();
 
-    expect($this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+    expect($this->testModel->getFirstTemporaryUrl('images', '', Carbon::now()->addMinutes(5)))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
 });
 
 it('can get the temporary url to first media in a collection when no expiration passed', function () {

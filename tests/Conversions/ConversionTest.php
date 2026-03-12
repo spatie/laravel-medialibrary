@@ -155,3 +155,19 @@ it('will use the pdf page number parameter if it was given', function () {
 
     expect($this->conversion->getPdfPageNumber())->toEqual(10);
 });
+
+it('does not use focal point by default', function () {
+    expect($this->conversion->shouldUseFocalPoint())->toBeFalse();
+});
+
+it('can be set to use focal point', function () {
+    $this->conversion->useFocalPoint();
+
+    expect($this->conversion->shouldUseFocalPoint())->toBeTrue();
+});
+
+it('can disable focal point after enabling it', function () {
+    $this->conversion->useFocalPoint()->useFocalPoint(false);
+
+    expect($this->conversion->shouldUseFocalPoint())->toBeFalse();
+});

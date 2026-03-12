@@ -4,12 +4,13 @@ namespace Spatie\MediaLibrary\Conversions;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
+use Spatie\Image\Drivers\ImageDriver;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
-/** @mixin \Spatie\Image\Drivers\ImageDriver */
+/** @mixin ImageDriver */
 class Conversion
 {
     use Conditionable;
@@ -33,6 +34,8 @@ class Conversion
     protected ?string $loadingAttributeValue;
 
     protected int $pdfPageNumber = 1;
+
+    protected bool $useFocalPoint = false;
 
     public function __construct(
         protected string $name,
@@ -250,6 +253,18 @@ class Conversion
     public function getLoadingAttributeValue(): ?string
     {
         return $this->loadingAttributeValue;
+    }
+
+    public function useFocalPoint(bool $useFocalPoint = true): self
+    {
+        $this->useFocalPoint = $useFocalPoint;
+
+        return $this;
+    }
+
+    public function shouldUseFocalPoint(): bool
+    {
+        return $this->useFocalPoint;
     }
 
     public function pdfPageNumber(int $pageNumber): self

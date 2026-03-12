@@ -70,6 +70,25 @@ $mediaItem->hasCustomProperty('nested.does-not-exist'); // returns false
 $mediaItem->getCustomProperty('nested.does-not-exist'); // returns null
 ```
 
+## Focal points
+
+The media library stores focal point data as a custom property. There are convenient methods to work with focal points without having to interact with custom properties directly.
+
+To set a focal point on a media item, use `setFocalPoint()`. The values represent percentage coordinates (0 to 100) indicating the important area of the image.
+
+```php
+$media->setFocalPoint(70, 30)->save();
+```
+
+You can retrieve and check focal point data with these methods:
+
+```php
+$media->getFocalPoint(); // returns ['x' => 70, 'y' => 30]
+$media->hasFocalPoint(); // returns true
+```
+
+Focal points are especially useful when defining image conversions. See the [defining conversions documentation](/docs/laravel-medialibrary/v12/converting-images/defining-conversions) to learn how to use `useFocalPoint()` on a conversion.
+
 ---
 title: Special custom properties
 weight: 2

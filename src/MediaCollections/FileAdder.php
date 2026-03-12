@@ -87,13 +87,13 @@ class FileAdder
     /**
      * @return $this
      */
-    public function setFile($file): self
+    public function setFile(mixed $file): self
     {
         $this->file = $file;
 
         if (is_string($file)) {
             $this->pathToFile = $file;
-            $this->setFileName(pathinfo($file, PATHINFO_BASENAME));
+            $this->fileName = pathinfo($file, PATHINFO_BASENAME);
             $this->mediaName = pathinfo($file, PATHINFO_FILENAME);
 
             return $this;
@@ -101,7 +101,7 @@ class FileAdder
 
         if ($file instanceof RemoteFile) {
             $this->pathToFile = $file->getKey();
-            $this->setFileName($file->getFilename());
+            $this->fileName = $file->getFilename();
             $this->mediaName = $file->getName();
 
             return $this;
@@ -109,7 +109,7 @@ class FileAdder
 
         if ($file instanceof UploadedFile) {
             $this->pathToFile = $file->getPath().'/'.$file->getFilename();
-            $this->setFileName($file->getClientOriginalName());
+            $this->fileName = $file->getClientOriginalName();
             $this->mediaName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
             return $this;
@@ -117,7 +117,7 @@ class FileAdder
 
         if ($file instanceof SymfonyFile) {
             $this->pathToFile = $file->getPath().'/'.$file->getFilename();
-            $this->setFileName(pathinfo($file->getFilename(), PATHINFO_BASENAME));
+            $this->fileName = pathinfo($file->getFilename(), PATHINFO_BASENAME);
             $this->mediaName = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
             return $this;
@@ -145,14 +145,6 @@ class FileAdder
      */
     public function usingName(string $name): self
     {
-        return $this->setName($name);
-    }
-
-    /**
-     * @return $this
-     */
-    public function setName(string $name): self
-    {
         $this->mediaName = $name;
 
         return $this;
@@ -173,20 +165,14 @@ class FileAdder
      */
     public function usingFileName(string $fileName): self
     {
-        return $this->setFileName($fileName);
-    }
-
-    /**
-     * @return $this
-     */
-    public function setFileName(string $fileName): self
-    {
         $this->fileName = $fileName;
 
         return $this;
     }
 
     /**
+     * @internal
+     *
      * @return $this
      */
     public function setFileSize(int $fileSize): self
@@ -249,14 +235,6 @@ class FileAdder
     /**
      * @return $this
      */
-    public function withAttributes(array $properties): self
-    {
-        return $this->withProperties($properties);
-    }
-
-    /**
-     * @return $this
-     */
     public function withResponsiveImages(): self
     {
         $this->generateResponsiveImages = true;
@@ -267,7 +245,7 @@ class FileAdder
     /**
      * @return $this
      */
-    public function withResponsiveImagesIf($condition): self
+    public function withResponsiveImagesIf(bool|callable $condition): self
     {
         $this->generateResponsiveImages = (bool) (is_callable($condition) ? $condition() : $condition);
 
@@ -416,14 +394,6 @@ class FileAdder
         $this->attachMedia($media);
 
         return $media;
-    }
-
-    /**
-     * @return TMedia
-     */
-    public function toMediaLibrary(string $collectionName = 'default', string $diskName = ''): Media
-    {
-        return $this->toMediaCollection($collectionName, $diskName);
     }
 
     protected function determineDiskName(string $diskName, string $collectionName): string

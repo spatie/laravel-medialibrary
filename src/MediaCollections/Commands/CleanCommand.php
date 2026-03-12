@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -192,7 +193,7 @@ class CleanCommand extends Command
             return true;
         }
 
-        /** @var \Spatie\MediaLibrary\HasMedia $model */
+        /** @var HasMedia $model */
         $model = new $modelName;
 
         $collection = $model->getMediaCollection($media->collection_name);
@@ -218,18 +219,19 @@ class CleanCommand extends Command
             $prefix = trim($prefix, '/').'/';
         }
 
-        $mediaIdSet = $this->mediaRepository->allIds()->flip();
+        $expectedPaths = $this->mediaRepository->all()
+            ->filter(fn (Media $media) => $media->disk === $diskName)
+            ->map(fn (Media $media) => rtrim(PathGeneratorFactory::create($media)->getPath($media), '/'))
+            ->collect()
+            ->values()
+            ->flip();
 
         /** @var array<int, string> $directories */
         $directories = $this->fileSystem->disk($diskName)->directories($prefix);
 
         collect($directories)
-            ->map(fn (string $directory) => str_replace($prefix, '', $directory))
-            ->filter(fn (string $directory) => is_numeric($directory))
-            ->reject(fn (string $directory) => $mediaIdSet->has((int) $directory))
-            ->each(function (string $directory) use ($diskName, $prefix) {
-                $directory = $prefix.$directory;
-
+            ->reject(fn (string $directory) => $expectedPaths->has($directory))
+            ->each(function (string $directory) use ($diskName) {
                 if (! $this->isDryRun) {
                     $this->fileSystem->disk($diskName)->deleteDirectory($directory);
                 }
