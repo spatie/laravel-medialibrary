@@ -90,13 +90,13 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     protected static function booted(): void
     {
         static::saved(function (Media $media) {
-            if ($media->model) {
+            if (config('media-library.touch_parent_model') && $media->model) {
                 $media->model->touchQuietly();
             }
         });
 
         static::deleted(function (Media $media) {
-            if ($media->model) {
+            if (config('media-library.touch_parent_model') && $media->model) {
                 $media->model->touchQuietly();
             }
         });

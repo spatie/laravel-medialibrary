@@ -258,6 +258,12 @@ return [
     'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', false),
 
     /*
+     * When enabled, the parent model's `updated_at` will be touched
+     * when media is added, updated, or deleted.
+     */
+    'touch_parent_model' => true,
+
+    /*
      * When converting Media instances to response the media library will add
      * a `loading` attribute to the `img` tag. Here you can set the default
      * value of that attribute.
