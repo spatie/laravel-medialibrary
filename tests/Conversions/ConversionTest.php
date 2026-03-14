@@ -72,26 +72,23 @@ it('will be non queued by default', function () {
 });
 
 it('can be set to queued', function () {
-    config()->set('media-library.queue_conversions_by_default', false);
-    expect($this->conversion->queued()->shouldBeQueued())->toBeTrue();
+    config()->set('media-library.queue_conversions_by_default', false);    
+    $this->conversion->queued();
+    expect($this->conversion->shouldBeQueued())->toBeTrue();
+    expect($this->conversion->shouldBeDeferred())->toBeFalse();
 });
 
 it('can be set to non queued', function () {
     config()->set('media-library.queue_conversions_by_default', true);
-    expect($this->conversion->nonQueued()->shouldBeQueued())->toBeFalse();
+    $this->conversion->nonQueued();
+    expect($this->conversion->shouldBeQueued())->toBeFalse();
+    expect($this->conversion->shouldBeDeferred())->toBeFalse();
 });
 
 it('can be set to deferred', function () {
-    expect($this->conversion->deferred()->shouldBeDeferred())->toBeTrue();
-});
-
-it('will not be queued when deferred', function () {
-    config()->set('media-library.queue_conversions_by_default', true);
-    expect($this->conversion->deferred()->shouldBeQueued())->toBeFalse();
-});
-
-it('will not be deferred when queued', function () {
-    expect($this->conversion->deferred()->queued()->shouldBeDeferred())->toBeFalse();
+    $this->conversion->deferred();
+    expect($this->conversion->shouldBeDeferred())->toBeTrue();
+    expect($this->conversion->shouldBeQueued())->toBeFalse();
 });
 
 it('can determine the extension of the result', function () {

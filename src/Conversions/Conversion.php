@@ -179,6 +179,7 @@ class Conversion
     public function nonQueued(): self
     {
         $this->performOnQueue = false;
+        $this->performDeferred = false;
 
         return $this;
     }
