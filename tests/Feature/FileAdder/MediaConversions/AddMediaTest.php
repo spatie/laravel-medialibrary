@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Defer\DeferredCallbackCollection;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -164,6 +165,30 @@ it('will have access the model instance when register media conversions using mo
         ->toArray();
 
     expect($conversionManipulations['width'])->toEqual([123]);
+});
+
+it('can create a deferred derived version of an image', function () {
+    $modelClass = new class extends TestModelWithConversion
+    {
+        public function registerMediaConversions(?Media $media = null): void
+        {
+            $this->addMediaConversion('thumb')
+                ->width(50)
+                ->deferred();
+        }
+    };
+
+    $model = $modelClass::first();
+
+    $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images');
+
+    $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
+
+    $this->assertFileDoesNotExist($thumbPath);
+
+    $this->app->make(DeferredCallbackCollection::class)->invoke();
+
+    $this->assertFileExists($thumbPath);
 });
 
 it('can set filesize', function () {
