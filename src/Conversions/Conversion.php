@@ -24,6 +24,8 @@ class Conversion
 
     protected bool $performOnQueue;
 
+    protected bool $performDeferred = false;
+
     protected bool $keepOriginalImageFormat = false;
 
     protected bool $generateResponsiveImages = false;
@@ -179,6 +181,14 @@ class Conversion
         return $this;
     }
 
+    public function deferred(): self
+    {
+        $this->performDeferred = true;
+        $this->performOnQueue = false;
+
+        return $this;
+    }
+
     public function nonOptimized(): self
     {
         $this->removeManipulation('optimize');
@@ -213,6 +223,11 @@ class Conversion
     public function shouldBeQueued(): bool
     {
         return $this->performOnQueue;
+    }
+
+    public function shouldBeDeferred(): bool
+    {
+        return $this->performDeferred;
     }
 
     public function getResultExtension(string $originalFileExtension = ''): string
