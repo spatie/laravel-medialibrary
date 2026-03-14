@@ -72,7 +72,7 @@ it('will be non queued by default', function () {
 });
 
 it('can be set to queued', function () {
-    config()->set('media-library.queue_conversions_by_default', false);    
+    config()->set('media-library.queue_conversions_by_default', false);
     $this->conversion->queued();
     expect($this->conversion->shouldBeQueued())->toBeTrue();
     expect($this->conversion->shouldBeDeferred())->toBeFalse();
