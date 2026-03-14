@@ -90,6 +90,10 @@ it('will not be queued when deferred', function () {
     expect($this->conversion->deferred()->shouldBeQueued())->toBeFalse();
 });
 
+it('will not be deferred when queued', function () {
+    expect($this->conversion->deferred()->queued()->shouldBeDeferred())->toBeFalse();
+});
+
 it('can determine the extension of the result', function () {
     $this->conversion->width(50);
 

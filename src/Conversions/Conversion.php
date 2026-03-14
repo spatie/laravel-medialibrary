@@ -170,6 +170,7 @@ class Conversion
 
     public function queued(): self
     {
+        $this->performDeferred = false;
         $this->performOnQueue = true;
 
         return $this;
