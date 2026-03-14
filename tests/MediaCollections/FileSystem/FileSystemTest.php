@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
+use Spatie\MediaLibrary\Tests\TestSupport\TestPrefixPathGenerator;
 
 beforeEach(function () {
     $this->filesystem = app()->make(Filesystem::class);
@@ -79,7 +80,7 @@ it('does not let media custom headers override ContentType for conversions', fun
 });
 
 it('can get stream with custom path generator that uses prefix instead of directory', function () {
-    config()->set('media-library.path_generator', \Spatie\MediaLibrary\Tests\TestSupport\TestPrefixPathGenerator::class);
+    config()->set('media-library.path_generator', TestPrefixPathGenerator::class);
 
     $media = $this->testModel
         ->addMedia($this->getTestJpg())
