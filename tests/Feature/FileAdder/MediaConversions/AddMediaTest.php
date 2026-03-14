@@ -7,6 +7,7 @@ use Spatie\MediaLibrary\Conversions\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionDeferred;
 
 it('can add an file to the default collection', function () {
     $media = $this->testModelWithoutMediaConversions
@@ -168,19 +169,9 @@ it('will have access the model instance when register media conversions using mo
 });
 
 it('can create a deferred derived version of an image', function () {
-    $modelClass = new class extends TestModelWithConversion
-    {
-        public function registerMediaConversions(?Media $media = null): void
-        {
-            $this->addMediaConversion('thumb')
-                ->width(50)
-                ->deferred();
-        }
-    };
-
-    $model = $modelClass::first();
-
-    $media = $model->addMedia($this->getTestJpg())->toMediaCollection('images');
+    $media = $this->testModelWithConversionDeferred
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('images');
 
     $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
 
