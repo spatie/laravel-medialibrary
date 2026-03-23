@@ -179,7 +179,7 @@ it('can create a deferred derived version of an image', function () {
     $this->app->make(DeferredCallbackCollection::class)->invoke();
 
     $this->assertFileExists($thumbPath);
-});
+})->skip(! function_exists('defer'), 'Deferred conversions require Laravel 11.23 or higher.');
 
 it('can set filesize', function () {
     $media = $this->testModelWithoutMediaConversions
