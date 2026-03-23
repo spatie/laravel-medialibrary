@@ -167,6 +167,23 @@ This prevents unexpected behaviour where the model does not yet exist in the dat
 If you need the conversions to run within your transaction, you can set the `queue_conversions_after_database_commit`
 in the `media-library` config file to `false`.
 
+## Deferred conversions
+
+Instead of processing a conversion synchronously or dispatching it to a queue, you can use `deferred()` to schedule the conversion to run after the HTTP response has been sent to the browser. This uses Laravel's [`defer()` helper](https://laravel.com/docs/13.x/helpers#deferred-functions) under the hood.
+
+Deferred conversions are useful when you need a conversion to happen promptly after upload without blocking the upload request itself — for example, generating an avatar thumbnail that should be available quickly, but doesn't need to delay the response.
+
+```php
+// in your model
+public function registerMediaConversions(?Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->deferred();
+}
+```
+
 ## Using model properties in a conversion
 
 When registering conversions inside the `registerMediaConversions` function you won't have access to your model properties by default. If you want to use a property of your model as input for defining a conversion you must set `registerMediaConversionsUsingModelInstance` to `

@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
+use Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader;
 
 it('can save a url to a temp location', function () {
     $url = 'https://example.com';
 
-    \Illuminate\Support\Facades\Http::shouldReceive('withUserAgent')
+    Http::shouldReceive('withUserAgent')
         ->with('Spatie MediaLibrary')
         ->once()
         ->andReturnSelf()
@@ -23,7 +25,7 @@ it('can save a url to a temp location', function () {
         ->with($url)
         ->once();
 
-    $downloader = new \Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader;
+    $downloader = new HttpFacadeDownloader;
 
     $result = $downloader->getTempFile($url);
 
@@ -38,7 +40,7 @@ it('can be mocked easily for tests', function () {
         'https://example.com' => Http::response('::file::'),
     ]);
 
-    $downloader = new \Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader;
+    $downloader = new HttpFacadeDownloader;
 
     $result = $downloader->getTempFile($url);
 
@@ -46,7 +48,7 @@ it('can be mocked easily for tests', function () {
         ->toBeString()
         ->and($result)
         ->toBeFile()
-        ->and(\Illuminate\Support\Facades\File::get($result))
+        ->and(File::get($result))
         ->toBe('::file::');
 
     Http::assertSent(function (Request $request) {
