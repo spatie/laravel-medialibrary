@@ -14,7 +14,7 @@ $yourModel
 
 The file will now be associated with the `YourModel` instance and will be moved to the disk you've configured.
 
-If you want to not move, but copy, the original file you can call `preservingOriginal`:
+If you want to copy the original file rather than move it, you can call `preservingOriginal`:
 
 ```php
 $yourModel
