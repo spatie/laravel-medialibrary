@@ -13,7 +13,7 @@ Please check [the image generator docs](/docs/laravel-medialibrary/v11/convertin
 
 ## Are you a visual learner?
 
-Here's a video that shows how to working with conversion.
+Here's a video that shows how to work with conversions.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1i-HTyyEmvM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -52,10 +52,10 @@ $media = YourModel::first()->addMedia($pathToImage)->toMediaCollection();
 Besides storing the original item, the media library also has created a derived image.
 
 ```php
-$media->getPath();  // the path to the where the original image is stored
+$media->getPath();  // the path to where the original image is stored
 $media->getPath('thumb'); // the path to the converted image with dimensions 368x232
 
-$media->getUrl();  // the url to the where the original image is stored
+$media->getUrl();  // the url to where the original image is stored
 $media->getUrl('thumb'); // the url to the converted image with dimensions 368x232
 ```
 
