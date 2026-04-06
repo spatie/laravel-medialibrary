@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -192,7 +193,7 @@ class CleanCommand extends Command
             return true;
         }
 
-        /** @var \Spatie\MediaLibrary\HasMedia $model */
+        /** @var HasMedia $model */
         $model = new $modelName;
 
         $collection = $model->getMediaCollection($media->collection_name);
