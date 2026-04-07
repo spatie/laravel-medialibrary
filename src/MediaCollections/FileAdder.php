@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileNameNotAllowed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAddedToFullCollection;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -596,6 +597,17 @@ class FileAdder
 
         if (! empty($collection->acceptsMimeTypes) && ! in_array($file->mimeType, $collection->acceptsMimeTypes)) {
             throw FileUnacceptableForCollection::create($file, $collection, $this->subject);
+        }
+
+        if ($collection->collectionSizeLimit && $collection->keepFirst) {
+            /** @var HasMedia */
+            $subject = $this->subject->fresh();
+
+            $collectionMedia = $subject->getMedia($collection->name);
+
+            if ($collectionMedia->count() >= $collection->collectionSizeLimit) {
+                throw FileCannotBeAddedToFullCollection::create($file, $collection, $this->subject);
+            }
         }
     }
 

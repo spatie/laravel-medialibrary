@@ -28,6 +28,8 @@ class MediaCollection
 
     public bool $singleFile = false;
 
+    public bool $keepFirst = false;
+
     /** @var array<string, string> */
     public array $fallbackUrls = [];
 
@@ -104,6 +106,26 @@ class MediaCollection
         $this->singleFile = ($maximumNumberOfItemsInCollection === 1);
 
         $this->collectionSizeLimit = $maximumNumberOfItemsInCollection;
+
+        $this->keepFirst = false;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function onlyKeepFirst(int $maximumNumberOfItemsInCollection): self
+    {
+        if ($maximumNumberOfItemsInCollection < 1) {
+            throw new InvalidArgumentException("You should pass a value higher than 0. `{$maximumNumberOfItemsInCollection}` given.");
+        }
+
+        $this->singleFile = ($maximumNumberOfItemsInCollection === 1);
+
+        $this->collectionSizeLimit = $maximumNumberOfItemsInCollection;
+
+        $this->keepFirst = true;
 
         return $this;
     }

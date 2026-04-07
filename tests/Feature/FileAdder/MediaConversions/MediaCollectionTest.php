@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAddedToFullCollection;
 use Spatie\MediaLibrary\MediaCollections\File;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
@@ -254,5 +255,30 @@ test('if the only keeps latest method is specified it will delete all other medi
     $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
     $this->assertFalse($model->getMedia('images')->contains(fn ($model) => $model->is($firstFile)));
+    expect($model->getMedia('images'))->toHaveCount(3);
+});
+
+test('if the only keeps first method is specified it will reject adding new media and will only keep the first n ones', function () {
+    $testModel = new class extends TestModelWithConversion
+    {
+        public function registerMediaCollections(): void
+        {
+            $this
+                ->addMediaCollection('images')
+                ->onlyKeepFirst(3);
+        }
+    };
+
+    $model = $testModel::create(['name' => 'testmodel']);
+
+    $firstFile = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+    $this->expectException(FileCannotBeAddedToFullCollection::class);
+
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
+
+    $this->assertTrue($model->getMedia('images')->contains(fn ($model) => $model->is($firstFile)));
     expect($model->getMedia('images'))->toHaveCount(3);
 });
