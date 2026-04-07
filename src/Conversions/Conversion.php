@@ -35,6 +35,8 @@ class Conversion
 
     protected int $pdfPageNumber = 1;
 
+    protected bool $useFocalPoint = false;
+
     public function __construct(
         protected string $name,
     ) {
@@ -251,6 +253,18 @@ class Conversion
     public function getLoadingAttributeValue(): ?string
     {
         return $this->loadingAttributeValue;
+    }
+
+    public function useFocalPoint(bool $useFocalPoint = true): self
+    {
+        $this->useFocalPoint = $useFocalPoint;
+
+        return $this;
+    }
+
+    public function shouldUseFocalPoint(): bool
+    {
+        return $this->useFocalPoint;
     }
 
     public function pdfPageNumber(int $pageNumber): self

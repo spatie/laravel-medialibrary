@@ -11,7 +11,7 @@ If you only use the base package issue this command:
 composer require "spatie/laravel-medialibrary"
 ```
 
-If you have a license for Media Library Pro, you should install `spatie/laravel-media-library-pro` instead. Please refer to our [Media Library Pro installation instructions](https://spatie.be/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/installation) to continue.
+If you have a license for Media Library Pro, you should install `spatie/laravel-media-library-pro` instead. Please refer to our [Media Library Pro installation instructions](https://spatie.be/docs/laravel-medialibrary/v12/handling-uploads-with-media-library-pro/installation) to continue.
 
 ## Preparing the database
 
@@ -233,7 +233,7 @@ return [
          * images. By default we optimize for filesize and create variations that each are 20%
          * smaller than the previous one. More info in the documentation.
          *
-         * https://spatie.be/docs/laravel-medialibrary/v11/responsive-images/getting-started-with-responsive-images
+         * https://spatie.be/docs/laravel-medialibrary/v12/responsive-images/getting-started-with-responsive-images
          */
         'width_calculator' => Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\FileSizeOptimizedWidthCalculator::class,
 
@@ -256,6 +256,12 @@ return [
      * in a S3 bucket to their right place.
      */
     'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', false),
+
+    /*
+     * When enabled, the parent model's `updated_at` will be touched
+     * when media is added, updated, or deleted.
+     */
+    'touch_parent_model' => true,
 
     /*
      * When converting Media instances to response the media library will add
@@ -323,7 +329,7 @@ If you are planning on working with image manipulations it's recommended to conf
 
 ### Setting up optimization tools
 
-Media library will use these tools to [optimize converted images](https://spatie.be/docs/laravel-medialibrary/v11/converting-images/optimizing-converted-images) if they are present on your system:
+Media library will use these tools to [optimize converted images](https://spatie.be/docs/laravel-medialibrary/v12/converting-images/optimizing-converted-images) if they are present on your system:
 
 - [JpegOptim](http://freecode.com/projects/jpegoptim)
 - [Optipng](http://optipng.sourceforge.net/)
@@ -366,8 +372,8 @@ brew install libavif
 
 ## Installing Media Library Pro
 
-[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/introduction) beautifully with the laravel-medialibrary.
+[Media Library Pro](http://medialibrary.pro) is an optional add-on package that offers Blade, Vue, and React components to upload files to your application. It [integrates](https://spatie.be/docs/laravel-medialibrary/v12/handling-uploads-with-media-library-pro/introduction) beautifully with the laravel-medialibrary.
 
 You can buy a license for Media Library Pro on [the product page](https://spatie.be/products/media-library-pro) at spatie.be.
 
-To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v11/handling-uploads-with-media-library-pro/installation).
+To install Media Library Pro, you should follow [these instructions](https://spatie.be/docs/laravel-medialibrary/v12/handling-uploads-with-media-library-pro/installation).

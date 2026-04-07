@@ -3,7 +3,7 @@ title: Requirements
 weight: 5
 ---
 
-Laravel Media Library requires **PHP 8.2+** and **Laravel 10+**. 
+Laravel Media Library requires **PHP 8.4+** and **Laravel 12+**.
 
 The [exif extension](http://php.net/manual/en/exif.installation.php) is required (on most systems it will be installed by default). 
 To create derived images **[GD](http://php.net/manual/en/book.image.php)** needs to be installed on your server. 

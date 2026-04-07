@@ -13,7 +13,7 @@ trait HasUuid
         static::creating(function (Model $model) {
             /** @var Media $model */
             if (empty($model->uuid)) {
-                $model->uuid = (string) Str::uuid();
+                $model->uuid = (string) Str::uuid7();
             }
         });
     }

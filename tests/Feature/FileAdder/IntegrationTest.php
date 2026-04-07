@@ -27,10 +27,10 @@ it('can add an file to the default collection', function () {
     expect($media->collection_name)->toEqual('default');
 });
 
-test('to media collection has an alias called to media library', function () {
+it('can add a file to the default collection using toMediaCollection', function () {
     $media = $this->testModel
         ->addMedia($this->getTestJpg())
-        ->toMediaLibrary();
+        ->toMediaCollection();
 
     expect($media->collection_name)->toEqual('default');
 });
@@ -429,14 +429,6 @@ it('can add properties to the saved media', function () {
         ->addMedia($this->getTestJpg())
         ->preservingOriginal()
         ->withProperties(['name' => 'testName'])
-        ->toMediaCollection();
-
-    expect($media->name)->toEqual('testName');
-
-    $media = $this->testModel
-        ->addMedia($this->getTestJpg())
-        ->preservingOriginal()
-        ->withAttributes(['name' => 'testName'])
         ->toMediaCollection();
 
     expect($media->name)->toEqual('testName');

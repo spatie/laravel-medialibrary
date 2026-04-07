@@ -240,7 +240,7 @@ trait InteractsWithMedia
      *
      * @return FileAdder<TMedia>
      */
-    public function addMediaFromStream($stream): FileAdder
+    public function addMediaFromStream(mixed $stream): FileAdder
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'media-library');
 
@@ -296,7 +296,7 @@ trait InteractsWithMedia
     /**
      * @return TMedia|null
      */
-    public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
+    public function getFirstMedia(string $collectionName = 'default', array|callable $filters = []): ?Media
     {
         return $this->getMediaItem($collectionName, $filters, CollectionPosition::First);
     }
@@ -304,12 +304,12 @@ trait InteractsWithMedia
     /**
      * @return TMedia|null
      */
-    public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
+    public function getLastMedia(string $collectionName = 'default', array|callable $filters = []): ?Media
     {
         return $this->getMediaItem($collectionName, $filters, CollectionPosition::Last);
     }
 
-    protected function getMediaItem(string $collectionName, $filters, CollectionPosition $position)
+    protected function getMediaItem(string $collectionName, array|callable $filters, CollectionPosition $position): ?Media
     {
         $media = $this->getMedia($collectionName, $filters);
 
@@ -383,9 +383,9 @@ trait InteractsWithMedia
      * If no profile is given, return the source's url.
      */
     public function getFirstTemporaryUrl(
-        ?DateTimeInterface $expiration = null,
         string $collectionName = 'default',
-        string $conversionName = ''
+        string $conversionName = '',
+        ?DateTimeInterface $expiration = null,
     ): string {
         $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
 
@@ -399,9 +399,9 @@ trait InteractsWithMedia
      * If no profile is given, return the source's url.
      */
     public function getLastTemporaryUrl(
-        ?DateTimeInterface $expiration = null,
         string $collectionName = 'default',
-        string $conversionName = ''
+        string $conversionName = '',
+        ?DateTimeInterface $expiration = null,
     ): string {
         $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
 

@@ -145,6 +145,7 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
             $table->string('name');
             $table->integer('width')->nullable();
+            $table->timestamps();
             $table->softDeletes();
         });
 
