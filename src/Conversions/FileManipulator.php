@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Conversions;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use RuntimeException;
 use Spatie\MediaLibrary\Conversions\Actions\PerformConversionAction;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
@@ -25,7 +26,7 @@ class FileManipulator
             return;
         }
 
-        [$queuedConversions, $conversions] = ConversionCollection::createForMedia($media)
+        $allConversions = ConversionCollection::createForMedia($media)
             ->filter(function (Conversion $conversion) use ($onlyConversionNames) {
                 if (count($onlyConversionNames) === 0) {
                     return true;
@@ -33,11 +34,19 @@ class FileManipulator
 
                 return in_array($conversion->getName(), $onlyConversionNames);
             })
-            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
-            ->partition(fn (Conversion $conversion) => $queueAll || $conversion->shouldBeQueued());
+            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name));
+
+        [$deferredConversions, $remaining] = $allConversions->partition(
+            fn (Conversion $conversion) => ! $queueAll && $conversion->shouldBeDeferred()
+        );
+
+        [$queuedConversions, $conversions] = $remaining->partition(
+            fn (Conversion $conversion) => $queueAll || $conversion->shouldBeQueued()
+        );
 
         $this
             ->performConversions($conversions, $media, $onlyMissing)
+            ->performDeferredConversions($deferredConversions, $media, $onlyMissing)
             ->dispatchQueuedConversions($media, $queuedConversions, $onlyMissing)
             ->generateResponsiveImages($media, $withResponsiveImages);
     }
@@ -80,6 +89,26 @@ class FileManipulator
         $conversions->each(fn (Conversion $conversion) => (new PerformConversionAction)->execute($conversion, $media, $copiedOriginalFile));
 
         $temporaryDirectory->delete();
+
+        return $this;
+    }
+
+    protected function performDeferredConversions(
+        ConversionCollection $conversions,
+        Media $media,
+        bool $onlyMissing = false
+    ): self {
+        if ($conversions->isEmpty()) {
+            return $this;
+        }
+
+        if (! function_exists('defer')) {
+            throw new RuntimeException(
+                'Deferred conversions require Laravel 11.23 or higher. Use queued() or nonQueued() instead.',
+            );
+        }
+
+        defer(fn () => $this->performConversions($conversions, $media, $onlyMissing));
 
         return $this;
     }

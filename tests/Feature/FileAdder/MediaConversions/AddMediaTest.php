@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Defer\DeferredCallbackCollection;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -165,6 +166,20 @@ it('will have access the model instance when register media conversions using mo
 
     expect($conversionManipulations['width'])->toEqual([123]);
 });
+
+it('can create a deferred derived version of an image', function () {
+    $media = $this->testModelWithConversionDeferred
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('images');
+
+    $thumbPath = $this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg');
+
+    $this->assertFileDoesNotExist($thumbPath);
+
+    $this->app->make(DeferredCallbackCollection::class)->invoke();
+
+    $this->assertFileExists($thumbPath);
+})->skip(! function_exists('defer'), 'Deferred conversions require Laravel 11.23 or higher.');
 
 it('can set filesize', function () {
     $media = $this->testModelWithoutMediaConversions

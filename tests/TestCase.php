@@ -15,6 +15,7 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionDeferred;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionQueued;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionsOnOtherDisk;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionUsingModelInstance;
@@ -39,6 +40,8 @@ abstract class TestCase extends Orchestra
     protected TestModelWithPreviewConversion $testModelWithPreviewConversion;
 
     protected TestModelWithoutMediaConversions $testModelWithoutMediaConversions;
+
+    protected TestModelWithConversionDeferred $testModelWithConversionDeferred;
 
     protected TestModelWithConversionQueued $testModelWithConversionQueued;
 
@@ -67,6 +70,7 @@ abstract class TestCase extends Orchestra
         $this->testModelWithConversion = TestModelWithConversion::first();
         $this->testModelWithMultipleConversions = TestModelWithMultipleConversions::first();
         $this->testModelWithPreviewConversion = TestModelWithPreviewConversion::first();
+        $this->testModelWithConversionDeferred = TestModelWithConversionDeferred::first();
         $this->testModelWithConversionQueued = TestModelWithConversionQueued::first();
         $this->testModelWithoutMediaConversions = TestModelWithoutMediaConversions::first();
         $this->testModelWithMorphMap = TestModelWithMorphMap::first();
