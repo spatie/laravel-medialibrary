@@ -70,7 +70,7 @@ abstract class BaseUrlGenerator implements UrlGenerator
     {
         return Storage::disk($this->getDiskName());
     }
-    
+
     protected function getUrlEncodedPathRelativeToRoot(): string
     {
         return implode('/', array_map(
