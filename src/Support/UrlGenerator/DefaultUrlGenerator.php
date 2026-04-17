@@ -9,14 +9,14 @@ class DefaultUrlGenerator extends BaseUrlGenerator
 {
     public function getUrl(): string
     {
-        $url = $this->getDisk()->url($this->getPathRelativeToRoot());
+        $url = $this->getDisk()->url($this->getUrlEncodedPathRelativeToRoot());
 
         return $this->versionUrl($url);
     }
 
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
     {
-        return $this->getDisk()->temporaryUrl($this->getPathRelativeToRoot(), $expiration, $options);
+        return $this->getDisk()->temporaryUrl($this->getUrlEncodedPathRelativeToRoot(), $expiration, $options);
     }
 
     public function getBaseMediaDirectoryUrl(): string
