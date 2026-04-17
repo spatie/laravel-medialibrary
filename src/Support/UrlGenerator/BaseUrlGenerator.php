@@ -73,10 +73,9 @@ abstract class BaseUrlGenerator implements UrlGenerator
 
     protected function getUrlEncodedPathRelativeToRoot(): string
     {
-        return implode('/', array_map(
-            'rawurlencode',
-            explode('/', $this->getPathRelativeToRoot())
-        ));
+        $segments = explode('/', $this->getPathRelativeToRoot());
+
+        return implode('/', array_map(rawurlencode(...), $segments));
     }
 
     public function versionUrl(string $path = ''): string

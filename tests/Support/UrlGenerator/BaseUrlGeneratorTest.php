@@ -65,6 +65,5 @@ it('correctly encodes percent signs in filenames when getting url', function () 
         ->toMediaCollection();
 
     expect($media->getUrl())->toContain('IMG_5405%2520copy.jpg');
-
     expect($media->getPath())->toContain('IMG_5405%20copy.jpg');
 });
