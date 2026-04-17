@@ -58,3 +58,12 @@ it('can get the responsive images directory url', function () {
 
     expect($this->urlGenerator->getResponsiveImagesDirectoryUrl())->toEqual('/media/1/responsive-images/');
 });
+
+it('correctly encodes percent signs in filenames when getting url', function () {
+    $media = $this->testModel->addMedia($this->getTestFilesDirectory('test_.jpg'))
+        ->usingFileName('IMG_5405%20copy.jpg')
+        ->toMediaCollection();
+
+    expect($media->getUrl())->toContain('IMG_5405%2520copy.jpg');
+    expect($media->getPath())->toContain('IMG_5405%20copy.jpg');
+});

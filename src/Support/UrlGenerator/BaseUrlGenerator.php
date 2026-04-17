@@ -71,6 +71,13 @@ abstract class BaseUrlGenerator implements UrlGenerator
         return Storage::disk($this->getDiskName());
     }
 
+    protected function getUrlEncodedPathRelativeToRoot(): string
+    {
+        $segments = explode('/', $this->getPathRelativeToRoot());
+
+        return implode('/', array_map(rawurlencode(...), $segments));
+    }
+
     public function versionUrl(string $path = ''): string
     {
         if (! $this->config->get('media-library.version_urls')) {
