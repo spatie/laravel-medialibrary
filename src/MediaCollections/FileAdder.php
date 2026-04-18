@@ -318,7 +318,7 @@ class FileAdder
         $media->name = $this->mediaName;
 
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
-        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName, $this->subject);
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         $media->file_name = $this->fileName;
@@ -356,7 +356,7 @@ class FileAdder
     public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
     {
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
-        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
+        $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName, $this->subject);
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
 
         if ($this->file instanceof RemoteFile) {

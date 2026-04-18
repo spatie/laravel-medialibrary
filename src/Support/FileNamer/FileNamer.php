@@ -4,10 +4,11 @@ namespace Spatie\MediaLibrary\Support\FileNamer;
 
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\HasMedia;
 
 abstract class FileNamer
 {
-    public function originalFileName(string $fileName): string
+    public function originalFileName(string $fileName, ?HasMedia $model = null): string
     {
         $extLength = strlen(pathinfo($fileName, PATHINFO_EXTENSION));
 
