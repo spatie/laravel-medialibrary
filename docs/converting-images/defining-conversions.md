@@ -171,7 +171,7 @@ in the `media-library` config file to `false`.
 
 Instead of processing a conversion synchronously or dispatching it to a queue, you can use `deferred()` to schedule the conversion to run after the HTTP response has been sent to the browser. This uses Laravel's [`defer()` helper](https://laravel.com/docs/13.x/helpers#deferred-functions) under the hood.
 
-Deferred conversions are useful when you need a conversion to happen promptly after upload without blocking the upload request itself — for example, generating an avatar thumbnail that should be available quickly, but doesn't need to delay the response.
+Deferred conversions are useful when you need a conversion to happen promptly after upload without blocking the upload request itself. A common case is generating an avatar thumbnail that should be available quickly, but doesn't need to delay the response.
 
 ```php
 // in your model
@@ -183,6 +183,10 @@ public function registerMediaConversions(?Media $media = null): void
             ->deferred();
 }
 ```
+
+Deferred conversions run inline in the same PHP process after the response is flushed, so they keep the worker busy until they finish. For slow conversions, or models with many conversions, prefer `queued()` so the work runs on a queue worker instead.
+
+Deferred conversions require Laravel 11.23 or higher (the version that introduced the `defer()` helper). On older versions, use `queued()` or `nonQueued()`.
 
 ## Using model properties in a conversion
 
