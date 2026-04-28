@@ -36,12 +36,20 @@ class FileManipulator
             })
             ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name));
 
+        if ($queueAll) {
+            $this
+                ->dispatchQueuedConversions($media, $allConversions, $onlyMissing)
+                ->generateResponsiveImages($media, $withResponsiveImages);
+
+            return;
+        }
+
         [$deferredConversions, $remaining] = $allConversions->partition(
-            fn (Conversion $conversion) => ! $queueAll && $conversion->shouldBeDeferred()
+            fn (Conversion $conversion) => $conversion->shouldBeDeferred()
         );
 
         [$queuedConversions, $conversions] = $remaining->partition(
-            fn (Conversion $conversion) => $queueAll || $conversion->shouldBeQueued()
+            fn (Conversion $conversion) => $conversion->shouldBeQueued()
         );
 
         $this
