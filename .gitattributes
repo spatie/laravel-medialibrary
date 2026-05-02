@@ -15,6 +15,7 @@
 /tests              export-ignore
 /.editorconfig      export-ignore
 /docs               export-ignore
+/speaking-page.png  export-ignore
 /UPGRADING.md       export-ignore
 /CHANGELOG.md       export-ignore
 /CONTRIBUTING.md    export-ignore
