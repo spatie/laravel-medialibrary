@@ -65,3 +65,53 @@ it('will store the conversion on the disk specified in on the media collection',
     );
     expect($conversionsFilePath)->toBeFile();
 });
+
+it('uses the globally configured conversions disk when no other disk is specified', function () {
+    config()->set('media-library.conversions_disk_name', 'secondMediaDisk');
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection();
+
+    expect($media->disk)->toEqual('public');
+    expect($media->conversions_disk)->toEqual('secondMediaDisk');
+
+    expect($media->getPath('thumb'))->toBeFile();
+    $this->assertEquals(
+        $this->getTestsPath('TestSupport/temp/media2/1/conversions/test-thumb.jpg'),
+        $media->getPath('thumb')
+    );
+});
+
+it('falls back to the originals disk when the global conversions disk is empty', function () {
+    config()->set('media-library.conversions_disk_name', null);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection();
+
+    expect($media->conversions_disk)->toEqual($media->disk);
+});
+
+it('lets a per-call storingConversionsOnDisk override the global config', function () {
+    config()->set('media-library.conversions_disk_name', 'public');
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
+
+    expect($media->conversions_disk)->toEqual('secondMediaDisk');
+});
+
+it('lets a per-collection conversions disk override the global config', function () {
+    config()->set('media-library.conversions_disk_name', 'public');
+
+    $media = $this->testModelWithConversionsOnOtherDisk
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('thumb');
+
+    // The collection registers 'secondMediaDisk' via storeConversionsOnDisk(),
+    // which must win over the global config value.
+    expect($media->conversions_disk)->toEqual('secondMediaDisk');
+});

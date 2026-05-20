@@ -457,6 +457,12 @@ class FileAdder
             }
         }
 
+        $configuredConversionsDiskName = config('media-library.conversions_disk_name');
+
+        if (! empty($configuredConversionsDiskName)) {
+            return $configuredConversionsDiskName;
+        }
+
         return $originalsDiskName;
     }
 

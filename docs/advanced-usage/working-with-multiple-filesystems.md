@@ -27,6 +27,23 @@ $media = $yourModel
    ->toMediaCollection('images', 'local');
 ```
 
+### Configuring a default conversions disk
+
+If you want every conversion to land on a particular disk without repeating `storingConversionsOnDisk(...)` for every upload, set the `conversions_disk_name` config value:
+
+```php
+// config/media-library.php
+
+return [
+    'disk_name' => 's3',
+    'conversions_disk_name' => 'public',
+
+    // ...
+];
+```
+
+With this in place, conversions and responsive images are saved on the `public` disk by default, while the originals still live on `s3`. Anything you set explicitly — either via `->storingConversionsOnDisk(...)` on a `FileAdder` or via `->storeConversionsOnDisk(...)` on a media collection — takes precedence. When the value is `null` (the default), conversions stay on the originals' disk, preserving the historical behavior.
+
 ## Are you a visual learner?
 
 Here's a video that shows how to work with multiple filesystems.
