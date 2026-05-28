@@ -317,6 +317,21 @@ return [
 
 Want to use S3? Then follow Laravel's instructions on [how to add the S3 Flysystem driver](https://laravel.com/docs/filesystem#configuration). If possible, we recommend [using a remote filesystem like S3](https://twitter.com/taylorotwell/status/1153326292412129280) instead of your local filesystem to prevent security issues.
 
+If you keep your originals on a remote disk like S3 but want to store the generated conversions (thumbnails, responsive images) on a different disk — for example, locally so the application can serve them without an extra remote round-trip — you can set the `conversions_disk_name` config value:
+
+```php
+// config/media-library.php
+
+return [
+    'disk_name' => 's3',
+    'conversions_disk_name' => 'public',
+
+    // ...
+];
+```
+
+When `conversions_disk_name` is left `null` (the default), conversions are stored on the same disk as the original media. The setting is overridden by any explicit `->storingConversionsOnDisk(...)` call or by a `storeConversionsOnDisk(...)` setting on a media collection.
+
 ## Setting up a queue
 
 If you are planning on working with image manipulations it's recommended to configure a queue on your server and specify it in the config file.
