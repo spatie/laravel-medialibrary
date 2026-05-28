@@ -142,7 +142,8 @@ it('can get the temporary url to first media in a collection', function () {
     $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
     $secondMedia->save();
 
-    expect($this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+    expect(s3UrlWithoutTimingParams($this->testModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images')))
+        ->toEqual(s3UrlWithoutTimingParams($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5))));
 });
 
 it('can get the temporary url to first media in a collection when no expiration passed', function () {
@@ -152,15 +153,16 @@ it('can get the temporary url to first media in a collection when no expiration 
     $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
     $secondMedia->save();
 
-    expect($this->testModel->getFirstTemporaryUrl(collectionName: 'images'))->toEqual($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+    expect(s3UrlWithoutTimingParams($this->testModel->getFirstTemporaryUrl(collectionName: 'images')))
+        ->toEqual(s3UrlWithoutTimingParams($firstMedia->getTemporaryUrl(Carbon::now()->addMinutes(5))));
 });
 
 it('retrieves a temporary url for media when no expiration passed', function () {
     $media = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images', 's3_disk');
     $media->save();
 
-    expect($media->getTemporaryUrl())
-        ->toEqual($media->getTemporaryUrl(Carbon::now()->addMinutes(5)));
+    expect(s3UrlWithoutTimingParams($media->getTemporaryUrl()))
+        ->toEqual(s3UrlWithoutTimingParams($media->getTemporaryUrl(Carbon::now()->addMinutes(5))));
 });
 
 it('retrieves a temporary media conversion url from s3', function () {
