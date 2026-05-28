@@ -39,6 +39,8 @@ $this->addMediaConversion('thumb')
 
 The only requirement to perform a conversion of a SVG file is [Imagick](http://php.net/manual/en/imagick.setresolution.php).
 
+**Security note.** SVG files are XML documents. When Imagick renders an SVG it can, depending on your ImageMagick build and delegate configuration, resolve external entities or remote references contained in the file. If you accept SVG uploads from untrusted users, harden your ImageMagick `policy.xml` (for example, by disabling the `SVG`, `URL`, and `HTTPS` coders), keep ImageMagick and its delegates up to date, and consider sanitizing or rejecting SVG uploads at the application layer. See the [ImageMagick security policy documentation](https://imagemagick.org/script/security-policy.php) for details.
+
 ## Video
 
 The video image generator uses the [PHP-FFMpeg](https://github.com/PHP-FFMpeg/PHP-FFMpeg) package that you can install via Composer:

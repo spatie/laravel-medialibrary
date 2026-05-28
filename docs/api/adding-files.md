@@ -49,6 +49,8 @@ This method only accepts URLs that start with `http://` or `https://`
 public function addMediaFromUrl(string $url)
 ```
 
+**Security note.** `addMediaFromUrl` fetches whatever URL you pass to it from your server. It validates only that the URL starts with `http://` or `https://`, not that the destination is safe to reach. Passing user supplied URLs directly therefore exposes your application to server side request forgery (SSRF), letting an attacker make requests to internal hosts, RFC 1918 ranges, loopback, or cloud metadata endpoints (such as `http://169.254.169.254/`). Only call `addMediaFromUrl` with URLs you control, or that you have validated against an allowlist of hosts.
+
 ### addMediaFromDisk
 
 ```php

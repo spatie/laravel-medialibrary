@@ -5,7 +5,6 @@ namespace Spatie\MediaLibrary\MediaCollections;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
@@ -467,21 +466,95 @@ class FileAdder
         }
     }
 
+    /**
+     * Default list of executable extensions that are blocked anywhere in an
+     * uploaded file name. Referenced by `config/media-library.php` so the
+     * shipped config and the in-code fallback cannot drift.
+     *
+     * @var array<int, string>
+     */
+    public static array $defaultDisallowedExtensions = [
+        'php', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8',
+        'phtml', 'phtm', 'pht', 'phps', 'phar',
+        'shtml', 'shtm', 'stm',
+        'htaccess', 'htpasswd',
+        'cgi', 'pl', 'asp', 'aspx', 'jsp', 'jspx',
+    ];
+
     public function defaultSanitizer(string $fileName): string
     {
         $sanitizedFileName = preg_replace('#\p{C}+#u', '', $fileName);
 
         $sanitizedFileName = str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
 
-        $phpExtensions = [
-            '.php', '.php3', '.php4', '.php5', '.php7', '.php8', '.phtml', '.phar',
-        ];
-
-        if (Str::endsWith(strtolower($sanitizedFileName), $phpExtensions)) {
-            throw FileNameNotAllowed::create($fileName, $sanitizedFileName);
-        }
+        $this->guardAgainstDisallowedFileName($fileName, $sanitizedFileName);
 
         return $sanitizedFileName;
+    }
+
+    protected function guardAgainstDisallowedFileName(string $originalFileName, string $sanitizedFileName): void
+    {
+        $extensions = $this->extensionsFromFileName($sanitizedFileName);
+
+        $offending = array_intersect($extensions, $this->disallowedExtensions());
+
+        if ($offending !== []) {
+            throw FileNameNotAllowed::create($originalFileName, $sanitizedFileName, reset($offending));
+        }
+
+        $allowedExtensions = $this->allowedExtensions();
+
+        if ($allowedExtensions === []) {
+            return;
+        }
+
+        $finalExtension = strtolower(pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
+
+        if (! in_array($finalExtension, $allowedExtensions, true)) {
+            throw FileNameNotAllowed::create($originalFileName, $sanitizedFileName, $finalExtension ?: null);
+        }
+    }
+
+    /**
+     * Returns every dot-separated segment after the first one, so the
+     * disallowed-extension check can catch a dangerous extension that is
+     * not the final one (for example, the `php` segment in `shell.php.jpg`).
+     *
+     * @return array<int, string>
+     */
+    protected function extensionsFromFileName(string $fileName): array
+    {
+        $parts = explode('.', strtolower($fileName));
+
+        array_shift($parts);
+
+        return $parts;
+    }
+
+    /** @return array<int, string> */
+    protected function disallowedExtensions(): array
+    {
+        $extensions = config('media-library.disallowed_extensions') ?? self::$defaultDisallowedExtensions;
+
+        return $this->normalizeExtensions($extensions);
+    }
+
+    /** @return array<int, string> */
+    protected function allowedExtensions(): array
+    {
+        return $this->normalizeExtensions(config('media-library.allowed_extensions') ?? []);
+    }
+
+    /**
+     * @param  array<int, string>  $extensions
+     * @return array<int, string>
+     */
+    protected function normalizeExtensions(array $extensions): array
+    {
+        return array_map(
+            fn (string $extension) => ltrim(strtolower($extension), '.'),
+            $extensions,
+        );
     }
 
     /**

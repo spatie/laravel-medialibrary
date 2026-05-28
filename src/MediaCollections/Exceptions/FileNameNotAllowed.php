@@ -4,8 +4,12 @@ namespace Spatie\MediaLibrary\MediaCollections\Exceptions;
 
 class FileNameNotAllowed extends FileCannotBeAdded
 {
-    public static function create(string $orignalName, string $sanitizedName): self
+    public static function create(string $originalName, string $sanitizedName, ?string $extension = null): self
     {
-        return new static("The file name `{$orignalName}` was sanitized to `{$sanitizedName}`. This sanitized file name is not allowed because it is a PHP file.");
+        $reason = $extension !== null
+            ? "The extension `{$extension}` is not allowed because it poses a security risk."
+            : 'Its extension is not allowed because it poses a security risk.';
+
+        return new static("The file name `{$originalName}` was sanitized to `{$sanitizedName}`. {$reason}");
     }
 }

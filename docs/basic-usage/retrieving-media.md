@@ -87,6 +87,18 @@ $yourModel
    ->toMediaCollection();
 ```
 
+**Security note.** By default, Media Library rejects uploads whose file name contains a potentially executable extension such as `.php` or `.phtml`. The check looks at every extension segment in the name, so `malicious.php.jpg` is blocked too. Passing your own callable to `sanitizingFileName` fully replaces the default sanitizer (including this protection), so make sure your callable does not let dangerous file names through.
+
+The blocked extensions can be configured (and an opt-in allowlist enabled) in `config/media-library.php`:
+
+```php
+// Reject these extensions anywhere in the file name.
+'disallowed_extensions' => ['php', 'phtml', 'phar', 'htaccess', /* ... */],
+
+// When set, only accept uploads whose final extension is in this list.
+'allowed_extensions' => ['jpg', 'jpeg', 'png', 'pdf'],
+```
+
 You can also retrieve the size of the file via  `size` and `human_readable_size` :
 
 ```php
