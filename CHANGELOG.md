@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.0 - 2026-05-28
+
+### What's Changed
+
+* Update Retrieving converted images documentation to include getAvailableTemporaryUrl by @Orrison in https://github.com/spatie/laravel-medialibrary/pull/3936
+* Fix flaky S3 temporary-URL tests by comparing without timing params by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3940
+* Harden filename validation against malicious extensions by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3939
+* Add opt-in conversions_disk_name config for default conversions disk by @patrickweh in https://github.com/spatie/laravel-medialibrary/pull/3938
+
+### New Contributors
+
+* @patrickweh made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3938
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.22.1...11.23.0
+
 ## 11.22.1 - 2026-05-04
 
 ### What's Changed
