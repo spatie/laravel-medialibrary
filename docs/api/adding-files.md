@@ -49,6 +49,18 @@ This method only accepts URLs that start with `http://` or `https://`
 public function addMediaFromUrl(string $url)
 ```
 
+#### A note on security
+
+`addMediaFromUrl` downloads whatever is hosted at the given URL. Like any function that fetches a server side URL (`file_get_contents`, `curl`, and so on), it does exactly what you ask of it. If you pass a URL that originates from your end users, treat that input as untrusted.
+
+When handling user supplied URLs, keep these things in mind.
+
+* Restrict the accepted content by passing one or more allowed MIME types. The download is rejected when the file does not match: `->addMediaFromUrl($url, 'image/jpeg', 'image/png')`.
+* Validate the URL itself before passing it in (for example, allow only certain hosts) to avoid server side request forgery against your internal network.
+* Store media outside your public web root, or on a disk where script execution is disabled. A downloaded `.php` file can only ever be executed if your server is configured to run scripts from the directory in which media is stored. This is a deployment concern, and is the default for any file upload feature in any framework.
+
+These are general defense in depth practices for any feature that stores remote or user provided files. The method does not, by itself, expose your application to remote code execution.
+
 ### addMediaFromDisk
 
 ```php
