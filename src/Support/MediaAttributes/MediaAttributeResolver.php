@@ -6,6 +6,7 @@ use ReflectionClass;
 use Spatie\MediaLibrary\Attributes\MediaCollection;
 use Spatie\MediaLibrary\Attributes\MediaConversion;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
+use Spatie\MediaLibrary\MediaCollections\MediaCollection as MediaCollectionBuilder;
 
 class MediaAttributeResolver
 {
@@ -20,6 +21,50 @@ class MediaAttributeResolver
     public function collectionAttributes(): array
     {
         return $this->parse()['collections'];
+    }
+
+    /** @return array<string, MediaCollectionBuilder> */
+    public function toMediaCollections(): array
+    {
+        $collections = [];
+
+        foreach ($this->collectionAttributes() as $attribute) {
+            $builder = MediaCollectionBuilder::create($attribute->name);
+
+            if ($attribute->onlyKeepLatest !== null) {
+                $builder->onlyKeepLatest($attribute->onlyKeepLatest);
+            } elseif ($attribute->singleFile) {
+                $builder->singleFile();
+            }
+
+            if ($attribute->acceptsMimeTypes !== []) {
+                $builder->acceptsMimeTypes($attribute->acceptsMimeTypes);
+            }
+
+            if ($attribute->disk !== null) {
+                $builder->useDisk($attribute->disk);
+            }
+
+            if ($attribute->conversionsDisk !== null) {
+                $builder->storeConversionsOnDisk($attribute->conversionsDisk);
+            }
+
+            if ($attribute->fallbackUrl !== null) {
+                $builder->useFallbackUrl($attribute->fallbackUrl);
+            }
+
+            if ($attribute->fallbackPath !== null) {
+                $builder->useFallbackPath($attribute->fallbackPath);
+            }
+
+            if ($attribute->responsiveImages) {
+                $builder->withResponsiveImages();
+            }
+
+            $collections[$attribute->name] = $builder;
+        }
+
+        return $collections;
     }
 
     /** @return MediaConversion[] */

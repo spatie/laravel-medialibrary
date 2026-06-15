@@ -38,6 +38,19 @@ it('caches parsed attributes per class', function () {
     expect($first->conversionAttributes())->toBe($second->conversionAttributes());
 });
 
+it('builds media collection builder objects from attributes', function () {
+    $resolver = new MediaAttributeResolver(TestModelWithMediaAttributes::class);
+
+    $collections = $resolver->toMediaCollections();
+
+    expect($collections)->toHaveKey('avatar')
+        ->and($collections)->toHaveKey('downloads')
+        ->and($collections['avatar'])->toBeInstanceOf(\Spatie\MediaLibrary\MediaCollections\MediaCollection::class)
+        ->and($collections['avatar']->name)->toBe('avatar')
+        ->and($collections['avatar']->singleFile)->toBeTrue()
+        ->and($collections['avatar']->fallbackUrls['default'])->toBe('/default.png');
+});
+
 #[\Spatie\MediaLibrary\Attributes\MediaCollection(name: 'avatar')]
 #[\Spatie\MediaLibrary\Attributes\MediaCollection(name: 'avatar')]
 class TestModelWithDuplicateCollectionAttribute extends TestModel
