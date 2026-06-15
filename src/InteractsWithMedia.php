@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenClearedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
@@ -720,9 +721,41 @@ trait InteractsWithMedia
         $this->registerMediaCollections();
     }
 
+    protected function guardAgainstAttributeConversionsForUnknownCollections(): void
+    {
+        $validCollectionNames = [...array_keys($this->mediaCollections), 'default'];
+
+        foreach ($this->mediaAttributeResolver()->conversionAttributes() as $conversionAttribute) {
+            foreach ($conversionAttribute->collections as $collectionName) {
+                if (! in_array($collectionName, $validCollectionNames, true)) {
+                    throw InvalidMediaAttribute::unknownCollection(
+                        $conversionAttribute->name,
+                        $collectionName,
+                        static::class,
+                    );
+                }
+            }
+        }
+    }
+
+    protected function dedupeConversionsByName(array $conversions): array
+    {
+        $byName = [];
+
+        foreach ($conversions as $conversion) {
+            $byName[$conversion->getName()] = $conversion;
+        }
+
+        return array_values($byName);
+    }
+
     public function registerAllMediaConversions(?Media $media = null): void
     {
         $this->registerAllMediaCollections();
+
+        $this->guardAgainstAttributeConversionsForUnknownCollections();
+
+        $this->mediaConversions = $this->mediaAttributeResolver()->toConversions();
 
         collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) use ($media) {
             $actualMediaConversions = $this->mediaConversions;
@@ -740,6 +773,8 @@ trait InteractsWithMedia
         });
 
         $this->registerMediaConversions($media);
+
+        $this->mediaConversions = $this->dedupeConversionsByName($this->mediaConversions);
     }
 
     public function __sleep(): array

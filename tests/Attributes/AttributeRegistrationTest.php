@@ -1,7 +1,11 @@
 <?php
 
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\Support\MediaAttributes\MediaAttributeResolver;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionAttributeAndMethod;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionForUnknownCollection;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMediaAttributes;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithOverridingCollectionMethod;
 
@@ -25,3 +29,30 @@ it('lets a method-defined collection override a same-named attribute collection'
 
     expect($model->getMediaCollection('avatar')->singleFile)->toBeFalse();
 });
+
+it('registers conversions declared via attributes', function () {
+    $model = new TestModelWithMediaAttributes;
+
+    $model->registerAllMediaConversions();
+
+    $names = collect($model->mediaConversions)->map(fn (Conversion $conversion) => $conversion->getName())->all();
+
+    expect($names)->toContain('thumb', 'preview');
+});
+
+it('lets a method-defined conversion override a same-named attribute conversion', function () {
+    $model = new TestModelWithConversionAttributeAndMethod;
+
+    $model->registerAllMediaConversions();
+
+    $thumbs = collect($model->mediaConversions)->filter(fn (Conversion $conversion) => $conversion->getName() === 'thumb');
+
+    expect($thumbs)->toHaveCount(1)
+        ->and($thumbs->first()->shouldBeQueued())->toBeFalse();
+});
+
+it('throws when an attribute conversion references an unknown collection', function () {
+    $model = new TestModelWithConversionForUnknownCollection;
+
+    $model->registerAllMediaConversions();
+})->throws(InvalidMediaAttribute::class);
