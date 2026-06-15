@@ -4,9 +4,9 @@ namespace Spatie\MediaLibrary\MediaCollections;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\SerializableClosure\SerializableClosure;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
+use Laravel\SerializableClosure\SerializableClosure;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
