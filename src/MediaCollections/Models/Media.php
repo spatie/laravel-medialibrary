@@ -19,6 +19,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Laravel\SerializableClosure\SerializableClosure;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
@@ -87,7 +88,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
 
-    /** @var array{then: ?\Laravel\SerializableClosure\SerializableClosure, catch: ?\Laravel\SerializableClosure\SerializableClosure, responsiveImages: bool, queue: ?string}|null */
+    /** @var array{then: ?SerializableClosure, catch: ?SerializableClosure, responsiveImages: bool, queue: ?string}|null */
     public ?array $mediaDerivativeCallbacks = null;
 
     /** @phpstan-ignore method.childReturnType */
