@@ -25,6 +25,7 @@ use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\MediaAttributes\MediaAttributeResolver;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -410,14 +411,14 @@ trait InteractsWithMedia
 
     public function getRegisteredMediaCollections(): Collection
     {
-        $this->registerMediaCollections();
+        $this->registerAllMediaCollections();
 
         return collect($this->mediaCollections);
     }
 
     public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection
     {
-        $this->registerMediaCollections();
+        $this->registerAllMediaCollections();
 
         return collect($this->mediaCollections)
             ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
@@ -700,9 +701,28 @@ trait InteractsWithMedia
 
     public function registerMediaCollections(): void {}
 
+    protected function mediaAttributeResolver(): MediaAttributeResolver
+    {
+        return new MediaAttributeResolver(static::class);
+    }
+
+    protected function registerMediaCollectionsFromAttributes(): void
+    {
+        foreach ($this->mediaAttributeResolver()->toMediaCollections() as $name => $mediaCollection) {
+            $this->mediaCollections[$name] = $mediaCollection;
+        }
+    }
+
+    public function registerAllMediaCollections(): void
+    {
+        $this->registerMediaCollectionsFromAttributes();
+
+        $this->registerMediaCollections();
+    }
+
     public function registerAllMediaConversions(?Media $media = null): void
     {
-        $this->registerMediaCollections();
+        $this->registerAllMediaCollections();
 
         collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) use ($media) {
             $actualMediaConversions = $this->mediaConversions;

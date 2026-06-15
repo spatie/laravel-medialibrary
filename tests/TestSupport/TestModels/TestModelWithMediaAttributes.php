@@ -12,4 +12,5 @@ use Spatie\MediaLibrary\Attributes\MediaConversion;
 #[MediaConversion(name: 'preview', width: 500)]
 class TestModelWithMediaAttributes extends TestModel
 {
+    public function registerMediaCollections(): void {}
 }
