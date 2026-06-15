@@ -11,6 +11,7 @@ class MediaCollection
         public string $name,
         public bool $singleFile = false,
         public ?int $onlyKeepLatest = null,
+        /** @var array<int, string> */
         public array $acceptsMimeTypes = [],
         public ?string $disk = null,
         public ?string $conversionsDisk = null,
