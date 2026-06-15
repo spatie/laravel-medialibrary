@@ -220,7 +220,9 @@ class FileManipulator
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue($callbacks['queue']);
 
-        dispatch($job);
+        config('media-library.queue_conversions_after_database_commit')
+            ? dispatch($job)->afterCommit()
+            : dispatch($job);
     }
 
     protected function canConvertMedia(Media $media): bool

@@ -35,6 +35,10 @@ class RunMediaCallbacksJob implements ShouldQueue
                 app()->call([$derivativeJob, 'handle']);
             }
 
+            if ($this->derivativeJobs !== []) {
+                $this->media->refresh();
+            }
+
             if ($this->thenCallback) {
                 ($this->thenCallback->getClosure())($this->media);
             }

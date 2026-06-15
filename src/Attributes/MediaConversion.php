@@ -9,16 +9,16 @@ use Spatie\Image\Enums\Fit;
 class MediaConversion
 {
     public function __construct(
-        public string $name,
+        public readonly string $name,
         /** @var array<int, string> */
-        public array $collections = [],
-        public ?int $width = null,
-        public ?int $height = null,
-        public ?Fit $fit = null,
-        public ?string $format = null,
-        public ?int $quality = null,
-        public ?bool $queued = null,
-        public bool $responsiveImages = false,
-        public bool $keepOriginalImageFormat = false,
+        public readonly array $collections = [],
+        public readonly ?int $width = null,
+        public readonly ?int $height = null,
+        public readonly ?Fit $fit = null,
+        public readonly ?string $format = null,
+        public readonly ?int $quality = null,
+        public readonly ?bool $queued = null,
+        public readonly bool $responsiveImages = false,
+        public readonly bool $keepOriginalImageFormat = false,
     ) {}
 }

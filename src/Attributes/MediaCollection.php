@@ -8,15 +8,15 @@ use Attribute;
 class MediaCollection
 {
     public function __construct(
-        public string $name,
-        public bool $singleFile = false,
-        public ?int $onlyKeepLatest = null,
+        public readonly string $name,
+        public readonly bool $singleFile = false,
+        public readonly ?int $onlyKeepLatest = null,
         /** @var array<int, string> */
-        public array $acceptsMimeTypes = [],
-        public ?string $disk = null,
-        public ?string $conversionsDisk = null,
-        public ?string $fallbackUrl = null,
-        public ?string $fallbackPath = null,
-        public bool $responsiveImages = false,
+        public readonly array $acceptsMimeTypes = [],
+        public readonly ?string $disk = null,
+        public readonly ?string $conversionsDisk = null,
+        public readonly ?string $fallbackUrl = null,
+        public readonly ?string $fallbackPath = null,
+        public readonly bool $responsiveImages = false,
     ) {}
 }

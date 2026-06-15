@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Support\MediaAttributes;
 
+use ReflectionAttribute;
 use ReflectionClass;
 use Spatie\MediaLibrary\Attributes\MediaCollection;
 use Spatie\MediaLibrary\Attributes\MediaConversion;
@@ -11,14 +12,14 @@ use Spatie\MediaLibrary\MediaCollections\MediaCollection as MediaCollectionBuild
 
 class MediaAttributeResolver
 {
-    /** @var array<class-string, array{collections: MediaCollection[], conversions: MediaConversion[]}> */
+    /** @var array<class-string, array{collections: array<int, MediaCollection>, conversions: array<int, MediaConversion>}> */
     private static array $cache = [];
 
     public function __construct(
         protected string $modelClass,
     ) {}
 
-    /** @return MediaCollection[] */
+    /** @return array<int, MediaCollection> */
     public function collectionAttributes(): array
     {
         return $this->parse()['collections'];
@@ -68,7 +69,7 @@ class MediaAttributeResolver
         return $collections;
     }
 
-    /** @return Conversion[] */
+    /** @return array<int, Conversion> */
     public function toConversions(): array
     {
         $conversions = [];
@@ -120,13 +121,13 @@ class MediaAttributeResolver
         return $conversions;
     }
 
-    /** @return MediaConversion[] */
+    /** @return array<int, MediaConversion> */
     public function conversionAttributes(): array
     {
         return $this->parse()['conversions'];
     }
 
-    /** @return array{collections: MediaCollection[], conversions: MediaConversion[]} */
+    /** @return array{collections: array<int, MediaCollection>, conversions: array<int, MediaConversion>} */
     protected function parse(): array
     {
         if (isset(self::$cache[$this->modelClass])) {
@@ -136,12 +137,12 @@ class MediaAttributeResolver
         $reflection = new ReflectionClass($this->modelClass);
 
         $collections = array_map(
-            fn ($attribute) => $attribute->newInstance(),
+            fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
             $reflection->getAttributes(MediaCollection::class),
         );
 
         $conversions = array_map(
-            fn ($attribute) => $attribute->newInstance(),
+            fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
             $reflection->getAttributes(MediaConversion::class),
         );
 
@@ -153,7 +154,7 @@ class MediaAttributeResolver
         ];
     }
 
-    /** @param MediaCollection[] $collections */
+    /** @param array<int, MediaCollection> $collections */
     protected function guardAgainstDuplicateCollections(array $collections): void
     {
         $seen = [];
