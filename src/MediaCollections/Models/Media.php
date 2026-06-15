@@ -87,6 +87,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
 
+    /** @var array{then: ?\Laravel\SerializableClosure\SerializableClosure, catch: ?\Laravel\SerializableClosure\SerializableClosure, responsiveImages: bool, queue: ?string}|null */
+    public ?array $mediaDerivativeCallbacks = null;
+
     /** @phpstan-ignore method.childReturnType */
     public function newCollection(array $models = []): MediaCollection
     {
