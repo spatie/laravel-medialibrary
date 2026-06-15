@@ -742,15 +742,20 @@ trait InteractsWithMedia
      * @param  Conversion[]  $conversions
      * @return Conversion[]
      */
-    protected function dedupeConversionsByName(array $conversions): array
+    protected function dedupeConversions(array $conversions): array
     {
-        $byName = [];
+        $deduped = [];
 
         foreach ($conversions as $conversion) {
-            $byName[$conversion->getName()] = $conversion;
+            $performOnCollections = $conversion->getPerformOnCollections();
+            sort($performOnCollections);
+
+            $key = $conversion->getName().'|'.implode(',', $performOnCollections);
+
+            $deduped[$key] = $conversion;
         }
 
-        return array_values($byName);
+        return array_values($deduped);
     }
 
     public function registerAllMediaConversions(?Media $media = null): void
@@ -778,7 +783,7 @@ trait InteractsWithMedia
 
         $this->registerMediaConversions($media);
 
-        $this->mediaConversions = $this->dedupeConversionsByName($this->mediaConversions);
+        $this->mediaConversions = $this->dedupeConversions($this->mediaConversions);
     }
 
     public function __sleep(): array

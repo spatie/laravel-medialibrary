@@ -5,8 +5,8 @@ namespace Spatie\MediaLibrary\Support\MediaAttributes;
 use ReflectionClass;
 use Spatie\MediaLibrary\Attributes\MediaCollection;
 use Spatie\MediaLibrary\Attributes\MediaConversion;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection as MediaCollectionBuilder;
 
 class MediaAttributeResolver

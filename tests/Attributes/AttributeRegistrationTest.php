@@ -8,6 +8,8 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionAttr
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionForUnknownCollection;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMediaAttributes;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithOverridingCollectionMethod;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionScopedToDefault;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithSameConversionNamePerCollection;
 
 beforeEach(fn () => MediaAttributeResolver::clearCache());
 
@@ -56,3 +58,29 @@ it('throws when an attribute conversion references an unknown collection', funct
 
     $model->registerAllMediaConversions();
 })->throws(InvalidMediaAttribute::class);
+
+it('keeps same-named conversions that target different collections', function () {
+    $model = new TestModelWithSameConversionNamePerCollection;
+
+    $model->registerAllMediaConversions();
+
+    $thumbs = collect($model->mediaConversions)->filter(fn (Conversion $conversion) => $conversion->getName() === 'thumb');
+
+    expect($thumbs)->toHaveCount(2);
+
+    $forA = $thumbs->first(fn (Conversion $conversion) => $conversion->shouldBePerformedOn('collA') && ! $conversion->shouldBePerformedOn('collB'));
+    $forB = $thumbs->first(fn (Conversion $conversion) => $conversion->shouldBePerformedOn('collB') && ! $conversion->shouldBePerformedOn('collA'));
+
+    expect($forA)->not->toBeNull()
+        ->and($forB)->not->toBeNull();
+});
+
+it('allows an attribute conversion scoped to the implicit default collection', function () {
+    $model = new TestModelWithConversionScopedToDefault;
+
+    $model->registerAllMediaConversions();
+
+    $names = collect($model->mediaConversions)->map(fn (Conversion $conversion) => $conversion->getName())->all();
+
+    expect($names)->toContain('square');
+});
