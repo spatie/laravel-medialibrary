@@ -84,3 +84,12 @@ it('allows an attribute conversion scoped to the implicit default collection', f
 
     expect($names)->toContain('square');
 });
+
+it('applies an attribute-only collection (singleFile) during the add path', function () {
+    $model = TestModelWithMediaAttributes::create(['name' => 'test']);
+
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('avatar');
+    $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('avatar');
+
+    expect($model->getMedia('avatar'))->toHaveCount(1);
+});

@@ -689,10 +689,8 @@ class FileAdder
 
     protected function getMediaCollection(string $collectionName): ?MediaCollection
     {
-        $this->subject->registerMediaCollections();
-
-        return collect($this->subject->mediaCollections)
-            ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
+        // Delegate to the subject so collections declared via attributes are resolved too.
+        return $this->subject->getMediaCollection($collectionName);
     }
 
     protected function guardAgainstDisallowedFileAdditions(Media $media): void
