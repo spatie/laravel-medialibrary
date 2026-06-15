@@ -6,9 +6,9 @@ use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\Support\MediaAttributes\MediaAttributeResolver;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionAttributeAndMethod;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionForUnknownCollection;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionScopedToDefault;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMediaAttributes;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithOverridingCollectionMethod;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversionScopedToDefault;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithSameConversionNamePerCollection;
 
 beforeEach(fn () => MediaAttributeResolver::clearCache());

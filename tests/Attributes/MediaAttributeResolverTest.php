@@ -2,6 +2,7 @@
 
 use Spatie\MediaLibrary\Attributes\MediaCollection;
 use Spatie\MediaLibrary\Attributes\MediaConversion;
+use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
 use Spatie\MediaLibrary\Support\MediaAttributes\MediaAttributeResolver;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
@@ -45,7 +46,7 @@ it('builds media collection builder objects from attributes', function () {
 
     expect($collections)->toHaveKey('avatar')
         ->and($collections)->toHaveKey('downloads')
-        ->and($collections['avatar'])->toBeInstanceOf(\Spatie\MediaLibrary\MediaCollections\MediaCollection::class)
+        ->and($collections['avatar'])->toBeInstanceOf(Spatie\MediaLibrary\MediaCollections\MediaCollection::class)
         ->and($collections['avatar']->name)->toBe('avatar')
         ->and($collections['avatar']->singleFile)->toBeTrue()
         ->and($collections['avatar']->fallbackUrls['default'])->toBe('/default.png');
@@ -61,14 +62,12 @@ it('builds conversion builder objects from attributes', function () {
     $thumb = collect($conversions)->firstWhere(fn ($conversion) => $conversion->getName() === 'thumb');
     $preview = collect($conversions)->firstWhere(fn ($conversion) => $conversion->getName() === 'preview');
 
-    expect($thumb)->toBeInstanceOf(\Spatie\MediaLibrary\Conversions\Conversion::class)
+    expect($thumb)->toBeInstanceOf(Conversion::class)
         ->and($thumb->shouldBePerformedOn('avatar'))->toBeTrue()
         ->and($thumb->shouldBePerformedOn('downloads'))->toBeFalse()
         ->and($preview->shouldBePerformedOn('downloads'))->toBeTrue();
 });
 
-#[\Spatie\MediaLibrary\Attributes\MediaCollection(name: 'avatar')]
-#[\Spatie\MediaLibrary\Attributes\MediaCollection(name: 'avatar')]
-class TestModelWithDuplicateCollectionAttribute extends TestModel
-{
-}
+#[MediaCollection(name: 'avatar')]
+#[MediaCollection(name: 'avatar')]
+class TestModelWithDuplicateCollectionAttribute extends TestModel {}
