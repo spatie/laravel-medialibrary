@@ -16,8 +16,8 @@ use Spatie\MediaLibrary\Enums\CollectionPosition;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenClearedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MimeTypeNotAllowed;
@@ -738,6 +738,10 @@ trait InteractsWithMedia
         }
     }
 
+    /**
+     * @param  Conversion[]  $conversions
+     * @return Conversion[]
+     */
     protected function dedupeConversionsByName(array $conversions): array
     {
         $byName = [];

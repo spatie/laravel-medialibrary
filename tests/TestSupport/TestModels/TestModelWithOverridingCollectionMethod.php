@@ -9,7 +9,6 @@ class TestModelWithOverridingCollectionMethod extends TestModel
 {
     public function registerMediaCollections(): void
     {
-        // Re-declares `avatar` without singleFile, which must win over the attribute.
         $this->addMediaCollection('avatar');
     }
 }

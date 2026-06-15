@@ -10,7 +10,6 @@ class TestModelWithConversionAttributeAndMethod extends TestModel
 {
     public function registerMediaConversions(?Media $media = null): void
     {
-        // Re-declares `thumb` as non-queued, which must win over the attribute.
         $this->addMediaConversion('thumb')->width(150)->nonQueued();
     }
 }
