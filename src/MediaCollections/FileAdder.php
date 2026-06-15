@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
+use BackedEnum;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
+use Spatie\MediaLibrary\Support\CollectionName;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\RemoteFile;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
@@ -313,16 +315,20 @@ class FileAdder
     /**
      * @return TMedia
      */
-    public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
+    public function toMediaCollectionOnCloudDisk(BackedEnum|string $collectionName = 'default'): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
     /**
      * @return TMedia
      */
-    public function toMediaCollectionFromRemote(string $collectionName = 'default', string $diskName = ''): Media
+    public function toMediaCollectionFromRemote(BackedEnum|string $collectionName = 'default', string $diskName = ''): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $storage = Storage::disk($this->file->getDisk());
 
         if (! $storage->exists($this->pathToFile)) {
@@ -377,8 +383,10 @@ class FileAdder
     /**
      * @return TMedia
      */
-    public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
+    public function toMediaCollection(BackedEnum|string $collectionName = 'default', string $diskName = ''): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
         $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
@@ -445,8 +453,10 @@ class FileAdder
     /**
      * @return TMedia
      */
-    public function toMediaLibrary(string $collectionName = 'default', string $diskName = ''): Media
+    public function toMediaLibrary(BackedEnum|string $collectionName = 'default', string $diskName = ''): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->toMediaCollection($collectionName, $diskName);
     }
 

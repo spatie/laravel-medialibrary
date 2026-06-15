@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use BackedEnum;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,6 +27,7 @@ use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\CollectionName;
 use Spatie\MediaLibrary\Support\MediaAttributes\MediaAttributeResolver;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
@@ -268,8 +270,10 @@ trait InteractsWithMedia
     /*
      * Determine if there is media in the given collection.
      */
-    public function hasMedia(string $collectionName = 'default', array|callable $filters = []): bool
+    public function hasMedia(BackedEnum|string $collectionName = 'default', array|callable $filters = []): bool
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return count($this->getMedia($collectionName, $filters)) ? true : false;
     }
 
@@ -278,8 +282,10 @@ trait InteractsWithMedia
      *
      * @return MediaCollections\Models\Collections\MediaCollection<int, TMedia>
      */
-    public function getMedia(string $collectionName = 'default', array|callable $filters = []): MediaCollections\Models\Collections\MediaCollection
+    public function getMedia(BackedEnum|string $collectionName = 'default', array|callable $filters = []): MediaCollections\Models\Collections\MediaCollection
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->getMediaRepository()
             ->getCollection($this, $collectionName, $filters)
             ->collectionName($collectionName);
@@ -298,16 +304,20 @@ trait InteractsWithMedia
     /**
      * @return TMedia|null
      */
-    public function getFirstMedia(string $collectionName = 'default', $filters = []): ?Media
+    public function getFirstMedia(BackedEnum|string $collectionName = 'default', $filters = []): ?Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->getMediaItem($collectionName, $filters, CollectionPosition::First);
     }
 
     /**
      * @return TMedia|null
      */
-    public function getLastMedia(string $collectionName = 'default', $filters = []): ?Media
+    public function getLastMedia(BackedEnum|string $collectionName = 'default', $filters = []): ?Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->getMediaItem($collectionName, $filters, CollectionPosition::Last);
     }
 
@@ -342,8 +352,10 @@ trait InteractsWithMedia
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    public function getFirstMediaUrl(BackedEnum|string $collectionName = 'default', string $conversionName = ''): string
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::First);
     }
 
@@ -352,8 +364,10 @@ trait InteractsWithMedia
      * for last media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getLastMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    public function getLastMediaUrl(BackedEnum|string $collectionName = 'default', string $conversionName = ''): string
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->getMediaItemUrl($collectionName, $conversionName, CollectionPosition::Last);
     }
 
@@ -386,9 +400,11 @@ trait InteractsWithMedia
      */
     public function getFirstTemporaryUrl(
         ?DateTimeInterface $expiration = null,
-        string $collectionName = 'default',
+        BackedEnum|string $collectionName = 'default',
         string $conversionName = ''
     ): string {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
 
         return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::First);
@@ -402,9 +418,11 @@ trait InteractsWithMedia
      */
     public function getLastTemporaryUrl(
         ?DateTimeInterface $expiration = null,
-        string $collectionName = 'default',
+        BackedEnum|string $collectionName = 'default',
         string $conversionName = ''
     ): string {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
 
         return $this->getMediaItemTemporaryUrl($expiration, $collectionName, $conversionName, CollectionPosition::Last);
@@ -417,16 +435,20 @@ trait InteractsWithMedia
         return collect($this->mediaCollections);
     }
 
-    public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection
+    public function getMediaCollection(BackedEnum|string $collectionName = 'default'): ?MediaCollection
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $this->registerAllMediaCollections();
 
         return collect($this->mediaCollections)
             ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
     }
 
-    public function getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = ''): string
+    public function getFallbackMediaUrl(BackedEnum|string $collectionName = 'default', string $conversionName = ''): string
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $fallbackUrls = optional($this->getMediaCollection($collectionName))->fallbackUrls;
 
         if (in_array($conversionName, ['', 'default'], true)) {
@@ -436,8 +458,10 @@ trait InteractsWithMedia
         return $fallbackUrls[$conversionName] ?? $fallbackUrls['default'] ?? '';
     }
 
-    public function getFallbackMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    public function getFallbackMediaPath(BackedEnum|string $collectionName = 'default', string $conversionName = ''): string
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $fallbackPaths = optional($this->getMediaCollection($collectionName))->fallbackPaths;
 
         if (in_array($conversionName, ['', 'default'], true)) {
@@ -469,21 +493,27 @@ trait InteractsWithMedia
      * for first media for the given collectionName.
      * If no profile is given, return the source's url.
      */
-    public function getFirstMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    public function getFirstMediaPath(BackedEnum|string $collectionName = 'default', string $conversionName = ''): string
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::First);
     }
 
-    public function getLastMediaPath(string $collectionName = 'default', string $conversionName = ''): string
+    public function getLastMediaPath(BackedEnum|string $collectionName = 'default', string $conversionName = ''): string
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->getMediaItemPath($collectionName, $conversionName, CollectionPosition::Last);
     }
 
     /*
      * Update a media collection by deleting and inserting again with new values.
      */
-    public function updateMedia(array $newMediaArray, string $collectionName = 'default'): Collection
+    public function updateMedia(array $newMediaArray, BackedEnum|string $collectionName = 'default'): Collection
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
 
         $mediaClass = $this->getMediaModel();
@@ -534,8 +564,10 @@ trait InteractsWithMedia
     /**
      * @return $this
      */
-    public function clearMediaCollection(string $collectionName = 'default'): HasMedia
+    public function clearMediaCollection(BackedEnum|string $collectionName = 'default'): HasMedia
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $this
             ->getMedia($collectionName)
             ->each(fn (Media $media) => $media->delete());
@@ -553,9 +585,11 @@ trait InteractsWithMedia
      * @return $this
      */
     public function clearMediaCollectionExcept(
-        string $collectionName = 'default',
+        BackedEnum|string $collectionName = 'default',
         array|Collection|Media $excludedMedia = []
     ): HasMedia {
+        $collectionName = CollectionName::resolve($collectionName);
+
         if ($excludedMedia instanceof Media) {
             $excludedMedia = collect()->push($excludedMedia);
         }
@@ -612,8 +646,10 @@ trait InteractsWithMedia
         return $conversion;
     }
 
-    public function addMediaCollection(string $name): MediaCollection
+    public function addMediaCollection(BackedEnum|string $name): MediaCollection
     {
+        $name = CollectionName::resolve($name);
+
         $mediaCollection = MediaCollection::create($name);
 
         $this->mediaCollections[$name] = $mediaCollection;
@@ -638,8 +674,10 @@ trait InteractsWithMedia
         return $this->relationLoaded('media');
     }
 
-    public function loadMedia(string $collectionName): Collection
+    public function loadMedia(BackedEnum|string $collectionName): Collection
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         if (config('media-library.force_lazy_loading') && $this->exists) {
             $this->loadMissing('media');
         }

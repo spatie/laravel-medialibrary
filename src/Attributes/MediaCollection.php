@@ -3,12 +3,16 @@
 namespace Spatie\MediaLibrary\Attributes;
 
 use Attribute;
+use BackedEnum;
+use Spatie\MediaLibrary\Support\CollectionName;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
 class MediaCollection
 {
+    public readonly string $name;
+
     public function __construct(
-        public readonly string $name,
+        BackedEnum|string $name,
         public readonly bool $singleFile = false,
         public readonly ?int $onlyKeepLatest = null,
         /** @var array<int, string> */
@@ -18,5 +22,7 @@ class MediaCollection
         public readonly ?string $fallbackUrl = null,
         public readonly ?string $fallbackPath = null,
         public readonly bool $responsiveImages = false,
-    ) {}
+    ) {
+        $this->name = CollectionName::resolve($name);
+    }
 }

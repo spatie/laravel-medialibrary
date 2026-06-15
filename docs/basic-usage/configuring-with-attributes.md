@@ -30,7 +30,7 @@ The `#[MediaCollection]` attribute accepts the following arguments.
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| `name` | `string` | The name of the collection. Required. |
+| `name` | `string` or a string-backed enum | The name of the collection. Required. |
 | `singleFile` | `bool` | Keep only the latest file in the collection. |
 | `onlyKeepLatest` | `?int` | Keep only the latest N files in the collection. Takes precedence over `singleFile`. |
 | `acceptsMimeTypes` | `array` | Restrict the collection to these mime types. |
@@ -47,7 +47,7 @@ The `#[MediaConversion]` attribute accepts the following arguments.
 | Argument | Type | Description |
 | --- | --- | --- |
 | `name` | `string` | The name of the conversion. Required. |
-| `collections` | `array` | The collections this conversion applies to. When omitted, it applies to all collections. |
+| `collections` | `array` of strings or string-backed enums | The collections this conversion applies to. When omitted, it applies to all collections. |
 | `width` | `?int` | The desired width. |
 | `height` | `?int` | The desired height. |
 | `fit` | `?Fit` | A `Spatie\Image\Enums\Fit` case. When set, the width and height are passed to the fit. |
@@ -73,6 +73,36 @@ class NewsItem extends Model implements HasMedia
         $this->addMediaConversion('watermarked')->watermark(storage_path('logo.png'));
     }
 }
+```
+
+## Using enums for collection names
+
+Anywhere a collection name is accepted you can pass a string-backed enum instead of a string. This applies to the attributes shown above and to the rest of the API (`addMediaCollection()`, `toMediaCollection()`, `getMedia()`, `getFirstMedia()`, `clearMediaCollection()`, and so on). The enum is resolved to its value, so an enum case backed by `'avatar'` behaves exactly like the string `'avatar'`.
+
+```php
+enum MediaCollectionName: string
+{
+    case Avatar = 'avatar';
+    case Downloads = 'downloads';
+}
+```
+
+```php
+use Spatie\MediaLibrary\Attributes\MediaCollection;
+use Spatie\MediaLibrary\Attributes\MediaConversion;
+
+#[MediaCollection(name: MediaCollectionName::Avatar, singleFile: true)]
+#[MediaConversion(name: 'thumb', collections: [MediaCollectionName::Avatar], width: 150, height: 150)]
+class User extends Model implements HasMedia
+{
+    use InteractsWithMedia;
+}
+```
+
+```php
+$user->addMedia($request->file('avatar'))->toMediaCollection(MediaCollectionName::Avatar);
+
+$user->getFirstMediaUrl(MediaCollectionName::Avatar, 'thumb');
 ```
 
 ## When to use methods instead

@@ -8,6 +8,7 @@ use Spatie\Image\Drivers\ImageDriver;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
+use Spatie\MediaLibrary\Support\CollectionName;
 use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 
 /** @mixin ImageDriver */
@@ -149,7 +150,7 @@ class Conversion
 
     public function performOnCollections(...$collectionNames): self
     {
-        $this->performOnCollections = $collectionNames;
+        $this->performOnCollections = CollectionName::resolveMany($collectionNames);
 
         return $this;
     }
