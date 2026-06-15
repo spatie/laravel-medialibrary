@@ -7,6 +7,8 @@ use Spatie\MediaLibrary\Support\MediaAttributes\MediaAttributeResolver;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithMediaAttributes;
 
+afterEach(fn () => MediaAttributeResolver::clearCache());
+
 it('reads collection and conversion attributes from a model class', function () {
     $resolver = new MediaAttributeResolver(TestModelWithMediaAttributes::class);
 

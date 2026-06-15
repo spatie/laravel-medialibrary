@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
 class MediaAttributeResolver
 {
     /** @var array<class-string, array{collections: MediaCollection[], conversions: MediaConversion[]}> */
-    protected static array $cache = [];
+    private static array $cache = [];
 
     public function __construct(
         protected string $modelClass,
@@ -31,8 +31,8 @@ class MediaAttributeResolver
     /** @return array{collections: MediaCollection[], conversions: MediaConversion[]} */
     protected function parse(): array
     {
-        if (isset(static::$cache[$this->modelClass])) {
-            return static::$cache[$this->modelClass];
+        if (isset(self::$cache[$this->modelClass])) {
+            return self::$cache[$this->modelClass];
         }
 
         $reflection = new ReflectionClass($this->modelClass);
@@ -49,7 +49,7 @@ class MediaAttributeResolver
 
         $this->guardAgainstDuplicateCollections($collections);
 
-        return static::$cache[$this->modelClass] = [
+        return self::$cache[$this->modelClass] = [
             'collections' => $collections,
             'conversions' => $conversions,
         ];
@@ -71,6 +71,6 @@ class MediaAttributeResolver
 
     public static function clearCache(): void
     {
-        static::$cache = [];
+        self::$cache = [];
     }
 }
