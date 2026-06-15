@@ -6,6 +6,7 @@ use ReflectionClass;
 use Spatie\MediaLibrary\Attributes\MediaCollection;
 use Spatie\MediaLibrary\Attributes\MediaConversion;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
+use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection as MediaCollectionBuilder;
 
 class MediaAttributeResolver
@@ -65,6 +66,58 @@ class MediaAttributeResolver
         }
 
         return $collections;
+    }
+
+    /** @return Conversion[] */
+    public function toConversions(): array
+    {
+        $conversions = [];
+
+        foreach ($this->conversionAttributes() as $attribute) {
+            $conversion = Conversion::create($attribute->name);
+
+            if ($attribute->fit !== null) {
+                $conversion->fit($attribute->fit, $attribute->width, $attribute->height);
+            } else {
+                if ($attribute->width !== null) {
+                    $conversion->width($attribute->width);
+                }
+
+                if ($attribute->height !== null) {
+                    $conversion->height($attribute->height);
+                }
+            }
+
+            if ($attribute->format !== null) {
+                $conversion->format($attribute->format);
+            }
+
+            if ($attribute->quality !== null) {
+                $conversion->quality($attribute->quality);
+            }
+
+            if ($attribute->queued === true) {
+                $conversion->queued();
+            } elseif ($attribute->queued === false) {
+                $conversion->nonQueued();
+            }
+
+            if ($attribute->responsiveImages) {
+                $conversion->withResponsiveImages();
+            }
+
+            if ($attribute->keepOriginalImageFormat) {
+                $conversion->keepOriginalImageFormat();
+            }
+
+            if ($attribute->collections !== []) {
+                $conversion->performOnCollections(...$attribute->collections);
+            }
+
+            $conversions[] = $conversion;
+        }
+
+        return $conversions;
     }
 
     /** @return MediaConversion[] */

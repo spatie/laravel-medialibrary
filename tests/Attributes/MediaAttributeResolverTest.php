@@ -51,6 +51,22 @@ it('builds media collection builder objects from attributes', function () {
         ->and($collections['avatar']->fallbackUrls['default'])->toBe('/default.png');
 });
 
+it('builds conversion builder objects from attributes', function () {
+    $resolver = new MediaAttributeResolver(TestModelWithMediaAttributes::class);
+
+    $conversions = $resolver->toConversions();
+
+    expect($conversions)->toHaveCount(2);
+
+    $thumb = collect($conversions)->firstWhere(fn ($conversion) => $conversion->getName() === 'thumb');
+    $preview = collect($conversions)->firstWhere(fn ($conversion) => $conversion->getName() === 'preview');
+
+    expect($thumb)->toBeInstanceOf(\Spatie\MediaLibrary\Conversions\Conversion::class)
+        ->and($thumb->shouldBePerformedOn('avatar'))->toBeTrue()
+        ->and($thumb->shouldBePerformedOn('downloads'))->toBeFalse()
+        ->and($preview->shouldBePerformedOn('downloads'))->toBeTrue();
+});
+
 #[\Spatie\MediaLibrary\Attributes\MediaCollection(name: 'avatar')]
 #[\Spatie\MediaLibrary\Attributes\MediaCollection(name: 'avatar')]
 class TestModelWithDuplicateCollectionAttribute extends TestModel
