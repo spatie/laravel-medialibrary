@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Laravel\SerializableClosure\SerializableClosure;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Throwable;
 
 class RunMediaCallbacksJob implements ShouldQueue
 {
@@ -17,17 +18,32 @@ class RunMediaCallbacksJob implements ShouldQueue
 
     public $deleteWhenMissingModels = true;
 
+    /**
+     * @param  array<int, object>  $derivativeJobs
+     */
     public function __construct(
+        protected array $derivativeJobs,
         protected ?SerializableClosure $thenCallback,
+        protected ?SerializableClosure $catchCallback,
         protected Media $media,
     ) {}
 
     public function handle(): void
     {
-        if (! $this->thenCallback) {
-            return;
-        }
+        try {
+            foreach ($this->derivativeJobs as $derivativeJob) {
+                app()->call([$derivativeJob, 'handle']);
+            }
 
-        ($this->thenCallback->getClosure())($this->media);
+            if ($this->thenCallback) {
+                ($this->thenCallback->getClosure())($this->media);
+            }
+        } catch (Throwable $exception) {
+            if (! $this->catchCallback) {
+                throw $exception;
+            }
+
+            ($this->catchCallback->getClosure())($exception);
+        }
     }
 }

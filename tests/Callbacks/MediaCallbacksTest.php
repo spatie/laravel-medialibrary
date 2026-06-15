@@ -4,6 +4,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\ThrowingConversionsJob;
+use Throwable;
 
 beforeEach(function () {
     config()->set('queue.default', 'sync');
@@ -44,20 +45,16 @@ it('runs the catch callback when a derivative job fails', function () {
 
     $model = TestModelWithConversion::create(['name' => 'test']);
 
-    try {
-        $model
-            ->addMedia($this->getTestJpg())
-            ->preservingOriginal()
-            ->then(function (Media $media) {
-                cache()->put('then-called', true);
-            })
-            ->catch(function (Throwable $exception) {
-                cache()->put('catch-message', $exception->getMessage());
-            })
-            ->toMediaCollection();
-    } catch (Throwable) {
-        // Under the sync driver the exception propagates after the catch callback fires.
-    }
+    $model
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->then(function (Media $media) {
+            cache()->put('then-called', true);
+        })
+        ->catch(function (Throwable $exception) {
+            cache()->put('catch-message', $exception->getMessage());
+        })
+        ->toMediaCollection();
 
     expect(cache()->get('catch-message'))->toBe('Conversion failed on purpose')
         ->and(cache()->get('then-called'))->toBeNull();

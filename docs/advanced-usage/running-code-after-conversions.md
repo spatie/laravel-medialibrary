@@ -33,9 +33,11 @@ With the `sync` queue driver the derivatives run inline, and the callback still 
 
 If a media item has no conversions and no responsive images, the `then` callback fires immediately with the media.
 
-## Failure handling on the sync driver
+## Failure handling
 
-On a real queue, a failing derivative is handled in the worker, and your `catch` callback runs there. On the `sync` driver, the callback still runs, but the underlying exception also propagates out of `toMediaCollection()` (this is how the sync queue behaves). In production, where derivatives run on a real queue, this propagation does not happen.
+If a derivative fails to generate, your `catch` callback runs with the throwable, on the queue worker when queued, or inline when using the `sync` driver. The behavior is the same in both cases.
+
+If you do not register a `catch` callback, a failing derivative surfaces as a regular failed job (or, on the `sync` driver, the exception propagates as usual).
 
 ## Serialization constraint
 

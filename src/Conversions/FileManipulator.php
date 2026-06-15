@@ -2,7 +2,6 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -14,7 +13,6 @@ use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
 use Spatie\MediaLibrary\Support\TemporaryDirectory;
-use Throwable;
 
 class FileManipulator
 {
@@ -26,7 +24,7 @@ class FileManipulator
         bool $queueAll = false,
     ): void {
         if ($media->mediaDerivativeCallbacks) {
-            $this->dispatchCallbackChain($media);
+            $this->dispatchMediaCallbacks($media);
 
             return;
         }
@@ -189,11 +187,11 @@ class FileManipulator
         return $this;
     }
 
-    protected function dispatchCallbackChain(Media $media): void
+    protected function dispatchMediaCallbacks(Media $media): void
     {
         $callbacks = $media->mediaDerivativeCallbacks;
 
-        $jobs = [];
+        $derivativeJobs = [];
 
         if ($this->canConvertMedia($media)) {
             $conversions = ConversionCollection::createForMedia($media)
@@ -205,7 +203,7 @@ class FileManipulator
                     PerformConversionsJob::class
                 );
 
-                $jobs[] = new $performConversionsJobClass($conversions, $media);
+                $derivativeJobs[] = new $performConversionsJobClass($conversions, $media);
             }
 
             if ($callbacks['responsiveImages']) {
@@ -214,23 +212,15 @@ class FileManipulator
                     GenerateResponsiveImagesJob::class
                 );
 
-                $jobs[] = new $generateResponsiveImagesJobClass($media);
+                $derivativeJobs[] = new $generateResponsiveImagesJobClass($media);
             }
         }
 
-        $jobs[] = new RunMediaCallbacksJob($callbacks['then'], $media);
-
-        $chain = Bus::chain($jobs)
+        $job = (new RunMediaCallbacksJob($derivativeJobs, $callbacks['then'], $callbacks['catch'], $media))
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue($callbacks['queue']);
 
-        if ($catchCallback = $callbacks['catch']) {
-            $chain->catch(function (Throwable $exception) use ($catchCallback) {
-                ($catchCallback->getClosure())($exception);
-            });
-        }
-
-        $chain->dispatch();
+        dispatch($job);
     }
 
     protected function canConvertMedia(Media $media): bool
