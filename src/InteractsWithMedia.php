@@ -16,6 +16,7 @@ use Spatie\MediaLibrary\Enums\CollectionPosition;
 use Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenClearedEvent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidBase64Data;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidMediaAttribute;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidUrl;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeDeleted;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\MediaCannotBeUpdated;
@@ -25,6 +26,7 @@ use Spatie\MediaLibrary\MediaCollections\FileAdderFactory;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\MediaAttributes\MediaAttributeResolver;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibraryPro\PendingMediaLibraryRequestHandler;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -410,14 +412,14 @@ trait InteractsWithMedia
 
     public function getRegisteredMediaCollections(): Collection
     {
-        $this->registerMediaCollections();
+        $this->registerAllMediaCollections();
 
         return collect($this->mediaCollections);
     }
 
     public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection
     {
-        $this->registerMediaCollections();
+        $this->registerAllMediaCollections();
 
         return collect($this->mediaCollections)
             ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
@@ -700,9 +702,69 @@ trait InteractsWithMedia
 
     public function registerMediaCollections(): void {}
 
+    protected function mediaAttributeResolver(): MediaAttributeResolver
+    {
+        return new MediaAttributeResolver(static::class);
+    }
+
+    protected function registerMediaCollectionsFromAttributes(): void
+    {
+        foreach ($this->mediaAttributeResolver()->toMediaCollections() as $name => $mediaCollection) {
+            $this->mediaCollections[$name] = $mediaCollection;
+        }
+    }
+
+    public function registerAllMediaCollections(): void
+    {
+        $this->registerMediaCollectionsFromAttributes();
+
+        $this->registerMediaCollections();
+    }
+
+    protected function guardAgainstAttributeConversionsForUnknownCollections(): void
+    {
+        $validCollectionNames = [...array_keys($this->mediaCollections), 'default'];
+
+        foreach ($this->mediaAttributeResolver()->conversionAttributes() as $conversionAttribute) {
+            foreach ($conversionAttribute->collections as $collectionName) {
+                if (! in_array($collectionName, $validCollectionNames, true)) {
+                    throw InvalidMediaAttribute::unknownCollection(
+                        $conversionAttribute->name,
+                        $collectionName,
+                        static::class,
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * @param  Conversion[]  $conversions
+     * @return Conversion[]
+     */
+    protected function dedupeConversions(array $conversions): array
+    {
+        $deduped = [];
+
+        foreach ($conversions as $conversion) {
+            $performOnCollections = $conversion->getPerformOnCollections();
+            sort($performOnCollections);
+
+            $key = $conversion->getName().'|'.implode(',', $performOnCollections);
+
+            $deduped[$key] = $conversion;
+        }
+
+        return array_values($deduped);
+    }
+
     public function registerAllMediaConversions(?Media $media = null): void
     {
-        $this->registerMediaCollections();
+        $this->registerAllMediaCollections();
+
+        $this->guardAgainstAttributeConversionsForUnknownCollections();
+
+        $this->mediaConversions = $this->mediaAttributeResolver()->toConversions();
 
         collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) use ($media) {
             $actualMediaConversions = $this->mediaConversions;
@@ -720,6 +782,8 @@ trait InteractsWithMedia
         });
 
         $this->registerMediaConversions($media);
+
+        $this->mediaConversions = $this->dedupeConversions($this->mediaConversions);
     }
 
     public function __sleep(): array
