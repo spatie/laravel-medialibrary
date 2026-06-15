@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
+use Laravel\SerializableClosure\SerializableClosure;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
@@ -53,6 +54,10 @@ class FileAdder
     protected string $diskName = '';
 
     protected ?string $onQueue = null;
+
+    protected ?SerializableClosure $thenCallback = null;
+
+    protected ?SerializableClosure $catchCallback = null;
 
     protected ?int $fileSize = null;
 
@@ -221,6 +226,26 @@ class FileAdder
     public function onQueue(?string $queue = null): self
     {
         $this->onQueue = $queue;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function then(Closure $callback): self
+    {
+        $this->thenCallback = new SerializableClosure($callback);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function catch(Closure $callback): self
+    {
+        $this->catchCallback = new SerializableClosure($callback);
 
         return $this;
     }
@@ -602,6 +627,15 @@ class FileAdder
             $media->setConnection($model->getConnectionName());
         }
 
+        if ($this->thenCallback || $this->catchCallback) {
+            $media->mediaDerivativeCallbacks = [
+                'then' => $this->thenCallback,
+                'catch' => $this->catchCallback,
+                'responsiveImages' => $this->generateResponsiveImages,
+                'queue' => $this->onQueue ?? config('media-library.queue_name'),
+            ];
+        }
+
         $model->media()->save($media);
 
         if ($fileAdder->file instanceof RemoteFile) {
@@ -626,7 +660,7 @@ class FileAdder
             }
         }
 
-        if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
+        if (! $media->mediaDerivativeCallbacks && $this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
             $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
