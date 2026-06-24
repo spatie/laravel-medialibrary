@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.1 - 2026-06-24
+
+### Fixed
+
+- Strip path-traversal (`..`) segments from the `zip_filename_prefix` custom property so `MediaStream` can no longer emit ZIP archives with traversal entries (zip-slip defense-in-depth) #3947
+
 ## 11.23.0 - 2026-05-28
 
 ### What's Changed
