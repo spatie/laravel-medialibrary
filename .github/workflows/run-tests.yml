@@ -44,7 +44,7 @@ jobs:
         run: sudo apt-get -y install ghostscript
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
