@@ -162,6 +162,44 @@ it('can clean orphan files using `registerMediaConversionsUsingModelInstance` in
     $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model3']['collection1']->id));
 });
 
+it('can clean orphaned directories when using a custom path generator', function () {
+    config()->set('media-library.path_generator', CustomPathGenerator::class);
+
+    $media = TestModel::create(['name' => 'test.jpg'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
+
+    $liveDirectory = $this->getMediaDirectory(md5($media->id));
+    expect("{$liveDirectory}/test.jpg")->toBeFile();
+
+    // Simulate a leftover directory whose media record no longer exists. Its
+    // name follows the custom (non-numeric) layout, so the old ID-based
+    // cleanup would never match it.
+    $orphanDirectory = $this->getMediaDirectory(md5('orphan'));
+    mkdir($orphanDirectory);
+    touch("{$orphanDirectory}/test.jpg");
+    expect($orphanDirectory)->toBeDirectory();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertDirectoryDoesNotExist($orphanDirectory);
+    expect($liveDirectory)->toBeDirectory();
+    expect("{$liveDirectory}/test.jpg")->toBeFile();
+});
+
+it('keeps cleaning orphaned directories for the default numeric path generator', function () {
+    DB::table('media')->delete($this->media['model1']['collection1']->id);
+
+    $orphanDirectory = $this->getMediaDirectory($this->media['model1']['collection1']->id);
+    expect($orphanDirectory)->toBeDirectory();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertDirectoryDoesNotExist($orphanDirectory);
+    expect($this->getMediaDirectory($this->media['model1']['collection2']->id))->toBeDirectory();
+});
+
 it('can clean responsive images for deprecated conversions', function () {
     $media = $this->testModelWithResponsiveImages
         ->addMedia($this->getTestJpg())
