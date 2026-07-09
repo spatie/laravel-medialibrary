@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 
 it('can get an url of an original item', function () {
@@ -45,4 +46,22 @@ it('throws an exception when trying to get a temporary url on local disk', funct
     $this->expectException(RuntimeException::class);
 
     $media->getTemporaryUrl(Carbon::now()->addMinutes(5));
+});
+
+it('passes the raw path to the disk when generating a temporary url on local disk', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->usingFileName('tést.jpg')
+        ->toMediaCollection();
+
+    $disk = Mockery::mock(Storage::disk('public'))->makePartial();
+    $disk->shouldReceive('temporaryUrl')
+        ->once()
+        ->withArgs(fn (string $path) => $path === "{$media->id}/tést.jpg")
+        ->andReturn('https://example.com/temporary-url');
+
+    Storage::set('public', $disk);
+
+    expect($media->getTemporaryUrl(Carbon::now()->addMinutes(5)))
+        ->toEqual('https://example.com/temporary-url');
 });
