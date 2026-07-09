@@ -362,13 +362,16 @@ it('can set updated_at column when regenerating', function () {
         ->addMedia($this->getTestFilesDirectory('test.jpg'))
         ->toMediaCollection('images');
 
-    $this->travelBack();
+    // Freeze "now" at a fixed, later instant so the regenerated updated_at is
+    // deterministic, rather than comparing against the real clock with a
+    // several-second slop that can flake when the command is slow under load.
+    $this->travelTo('2020-06-01 12:00:00');
 
     $this->artisan('media-library:regenerate');
 
     $media->refresh();
 
-    expect($media->updated_at)->toBeGreaterThanOrEqual(now()->subSeconds(5));
+    expect($media->updated_at->timestamp)->toBe(now()->timestamp);
 });
 
 it('can force queue non-queued conversions', function () {
