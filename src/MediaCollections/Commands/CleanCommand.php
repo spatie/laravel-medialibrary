@@ -30,7 +30,7 @@ class CleanCommand extends Command
     {--delete-orphaned : Delete orphaned media items},
     {--skip-conversions : Do not remove deprecated conversions}';
 
-    protected $description = 'Clean deprecated conversions and files without related model.';
+    protected $description = 'Clean deprecated conversions and files without related model';
 
     protected MediaRepository $mediaRepository;
 
