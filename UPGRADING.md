@@ -2,6 +2,26 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v11 to v12
+
+This section is a work in progress while the next major version is being developed.
+
+### Configuring collections and conversions with attributes
+
+You can now declare media collections and conversions with the `#[MediaCollection]` and `#[MediaConversion]` attributes on your model, as an alternative to the `registerMediaCollections()` and `registerMediaConversions()` methods.
+
+This is additive. The methods keep working, and a collection or conversion declared in a method overrides a same named one declared via an attribute. See [configuring with attributes](https://spatie.be/docs/laravel-medialibrary/v12/basic-usage/configuring-with-attributes) for the full argument surface.
+
+### Running code after conversions with `then()` and `catch()`
+
+When adding media you can chain `->then(fn (Media $media) => ...)` and `->catch(fn (Throwable $exception) => ...)` before `toMediaCollection()`. The callbacks run after the media item's derivatives have been generated. Using `then()` runs the derivatives on the queue. See [running code after conversions](https://spatie.be/docs/laravel-medialibrary/v12/advanced-usage/running-code-after-conversions).
+
+### Enum collection names
+
+Every method that accepts a collection name now also accepts a string-backed enum (for example `toMediaCollection(MyCollections::Avatar)` and `getFirstMediaUrl(MyCollections::Avatar)`).
+
+This is additive for callers, who can keep passing strings. The parameter type on these methods was widened from `string` to `BackedEnum|string`. If you override any of them in a subclass (for example a custom model, a custom media collection, or a custom `FileAdder`), widen the overridden parameter type to `BackedEnum|string` so the signatures stay compatible.
+
 ## From v10 to v11
 
 - Image v3 is now used. Make sure to update your image conversions to the new syntax. See [the image docs](https://spatie.be/docs/image/v3) for more info.
