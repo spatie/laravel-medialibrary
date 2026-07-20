@@ -50,8 +50,13 @@ it('fetches and stores the file for a mode A cloudflare conversion', function ()
         ->and($media->getPath('avatar'))->toEndWith('.webp')
         ->and(file_get_contents($media->getPath('avatar')))->toBe('transformed-bytes');
 
-    Http::assertSent(fn ($request) => str_contains($request->url(), 'gravity=face')
-        && str_contains($request->url(), 'fit=cover'));
+    Http::assertSent(function ($request) {
+        if (! str_contains($request->url(), 'gravity=face')) {
+            return false;
+        }
+
+        return str_contains($request->url(), 'fit=cover');
+    });
 });
 
 it('runs the local spatie closure conversion normally', function () {
