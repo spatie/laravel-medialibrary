@@ -30,21 +30,21 @@ beforeEach(function () {
 
     // A media whose full url points at the public test image, so Cloudflare has
     // a reachable original to transform without needing a public media disk.
-    $this->media = new class($sourceUrl) extends Media
+    $media = new class extends Media
     {
-        public function __construct(protected string $sourceUrl)
-        {
-            parent::__construct();
-
-            $this->file_name = 'source.jpg';
-            $this->mime_type = 'image/jpeg';
-        }
+        public string $liveSourceUrl = '';
 
         public function getFullUrl(string $conversionName = ''): string
         {
-            return $this->sourceUrl;
+            return $this->liveSourceUrl;
         }
     };
+
+    $media->liveSourceUrl = $sourceUrl;
+    $media->file_name = 'source.jpg';
+    $media->mime_type = 'image/jpeg';
+
+    $this->media = $media;
 });
 
 it('transforms and downloads a real image through cloudflare', function () {

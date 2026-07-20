@@ -22,4 +22,17 @@ enum CloudflareFormat: string
             self::Auto => 'jpg',
         };
     }
+
+    /**
+     * The Accept header value that makes Cloudflare return this format.
+     */
+    public function mimeType(): string
+    {
+        return match ($this) {
+            self::Avif => 'image/avif',
+            self::Webp => 'image/webp',
+            self::Jpeg, self::BaselineJpeg => 'image/jpeg',
+            self::Auto => 'image/*',
+        };
+    }
 }

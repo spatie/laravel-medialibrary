@@ -64,6 +64,35 @@ it('throws when the media is not an image', function () {
     );
 })->throws(CloudflareTransformationFailed::class);
 
+it('asks cloudflare for the requested format through the accept header', function () {
+    Http::fake(['*' => Http::response('bytes', 200)]);
+
+    $driver = new CloudflareImageDriver(['zone' => 'https://cf.test']);
+
+    $driver->convert(
+        $this->media,
+        ($this->conversion)(fn (CloudflareImage $image) => $image->format(CloudflareFormat::Webp)),
+        tempnam(sys_get_temp_dir(), 'cf'),
+    );
+
+    Http::assertSent(fn ($request) => $request->header('Accept') === ['image/webp']);
+});
+
+it('keeps the original format when no format is requested', function () {
+    Http::fake(['*' => Http::response('bytes', 200)]);
+
+    $driver = new CloudflareImageDriver(['zone' => 'https://cf.test']);
+
+    $driver->convert(
+        $this->media,
+        ($this->conversion)(fn (CloudflareImage $image) => $image->width(10)),
+        tempnam(sys_get_temp_dir(), 'cf'),
+    );
+
+    // The jpg test image reports image/jpeg, so that is what we accept.
+    Http::assertSent(fn ($request) => $request->header('Accept') === ['image/jpeg']);
+});
+
 it('writes the fetched bytes to the given file', function () {
     Http::fake(['*' => Http::response('the-transformed-image', 200)]);
 
