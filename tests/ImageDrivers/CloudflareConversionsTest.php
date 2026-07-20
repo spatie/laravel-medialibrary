@@ -25,7 +25,9 @@ it('builds a delivery url for a virtual conversion instead of generating a file'
         ->and($heroUrl)->toContain('quality=75')
         ->and($heroUrl)->toContain('format=auto')
         ->and($heroUrl)->toEndWith($media->getFullUrl())
-        ->and($media->hasGeneratedConversion('hero'))->toBeTrue();
+        ->and($media->hasGeneratedConversion('hero'))->toBeTrue()
+        // It is virtual: nothing was generated, so it is absent from generated_conversions.
+        ->and($media->generated_conversions)->not->toHaveKey('hero');
 });
 
 it('does not store a file for a virtual conversion and throws on getPath', function () {
