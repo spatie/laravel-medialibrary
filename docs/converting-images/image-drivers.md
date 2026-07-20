@@ -31,7 +31,7 @@ Set the default driver in the config file. The legacy `gd`, `imagick`, and `vips
 
 ```php
 // config/media-library.php
-'image_driver' => env('MEDIA_LIBRARY_IMAGE_DRIVER', 'gd'),
+'image_driver' => env('IMAGE_DRIVER', 'gd'),
 ```
 
 Override it per conversion with `useImageDriver()`:
@@ -44,7 +44,7 @@ $this->addMediaConversion('hero')
 
 ## Cloudflare
 
-The `cloudflare` and `cloudflare-delivery` drivers let Cloudflare perform conversions, either storing the result on your disk or transforming on request at the edge. See the dedicated [using Cloudflare](/docs/laravel-medialibrary/v12/converting-images/using-cloudflare) page.
+The `cloudflare` and `cloudflare-delivery` drivers let Cloudflare perform conversions, either storing the result on your disk or transforming on request at the edge. See the dedicated [using Cloudflare](/docs/laravel-medialibrary/v11/converting-images/using-cloudflare) page.
 
 ## Registering your own driver
 
@@ -58,3 +58,5 @@ public function boot(ImageDriverManager $manager): void
     $manager->extend('imgproxy', fn (array $config) => new ImgproxyImageDriver($config));
 }
 ```
+
+Referencing a driver name that is neither built in nor registered (in the config's `image_driver`, or through `useImageDriver()`) throws an `InvalidImageDriver` exception.

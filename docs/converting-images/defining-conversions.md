@@ -77,7 +77,7 @@ public function registerMediaConversions(?Media $media = null): void
 }
 ```
 
-The type of the closure parameter also selects the image driver. The default is [spatie/image](https://spatie.be/docs/image/v3), but you can also let Cloudflare perform the conversion. See [image drivers](/docs/laravel-medialibrary/v12/converting-images/image-drivers) and [using Cloudflare](/docs/laravel-medialibrary/v12/converting-images/using-cloudflare).
+The type of the closure parameter also selects the image driver. The default is [spatie/image](https://spatie.be/docs/image/v3), but you can also let Cloudflare perform the conversion. See [image drivers](/docs/laravel-medialibrary/v11/converting-images/image-drivers) and [using Cloudflare](/docs/laravel-medialibrary/v11/converting-images/using-cloudflare).
 
 ## Using multiple conversions
 

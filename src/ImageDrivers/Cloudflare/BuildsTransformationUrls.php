@@ -28,6 +28,10 @@ trait BuildsTransformationUrls
             ksort($parameters);
         }
 
+        if ($parameters === []) {
+            throw CloudflareTransformationFailed::noParameters($conversion->getName());
+        }
+
         $parameterString = collect($parameters)
             ->map(fn (string|int|float $value, string $name) => "{$name}={$value}")
             ->implode(',');

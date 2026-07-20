@@ -20,4 +20,9 @@ class CloudflareTransformationFailed extends Exception
     {
         return new static('The cloudflare image driver needs a `zone` (the base url of a Cloudflare zone with image transformations enabled). Set it in the `media-library.image_drivers` config.');
     }
+
+    public static function noParameters(string $conversionName): self
+    {
+        return new static("The cloudflare conversion `{$conversionName}` has no transformation options. Set at least one (for example a width) in its `manipulate()` closure.");
+    }
 }

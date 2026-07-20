@@ -20,10 +20,12 @@ class PerformConversionAction
         Media $media,
         string $copiedOriginalFile
     ): void {
-        if ($conversion->shouldGenerateResponsiveImages()
-            && ! app(ImageDriverManager::class)->forConversion($conversion) instanceof SupportsResponsiveImages
-        ) {
-            throw ResponsiveImagesNotSupported::forConversion($conversion->getName());
+        if ($conversion->shouldGenerateResponsiveImages()) {
+            $driver = app(ImageDriverManager::class)->forConversion($conversion);
+
+            if (! $driver instanceof SupportsResponsiveImages) {
+                throw ResponsiveImagesNotSupported::forConversion($conversion->getName());
+            }
         }
 
         $imageGenerator = ImageGeneratorFactory::forMedia($media);

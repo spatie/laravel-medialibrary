@@ -91,7 +91,12 @@ class ImageDriverManager
             return null;
         }
 
-        foreach (array_keys($this->driverConfigs()) as $name) {
+        $driverNames = array_unique([
+            ...array_keys($this->driverConfigs()),
+            ...array_keys($this->customCreators),
+        ]);
+
+        foreach ($driverNames as $name) {
             $imageClass = $this->driver($name)->imageClass();
 
             if ($type->getName() === $imageClass || is_subclass_of($type->getName(), $imageClass)) {

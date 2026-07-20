@@ -49,6 +49,23 @@ it('lets you register a custom driver', function () {
     expect($this->manager->driver('custom'))->toBe($custom);
 });
 
+it('infers a custom registered driver from the manipulation closure parameter type', function () {
+    $custom = new class implements MediaImageDriver
+    {
+        public function imageClass(): string
+        {
+            return ArrayObject::class;
+        }
+    };
+
+    $this->manager->extend('custom', fn () => $custom);
+
+    $conversion = Conversion::create('a')
+        ->manipulate(fn (ArrayObject $image) => $image);
+
+    expect($this->manager->forConversion($conversion))->toBe($custom);
+});
+
 it('infers the driver from the manipulation closure parameter type', function () {
     $spatieConversion = Conversion::create('a')
         ->manipulate(fn (ImageDriver $image) => $image);

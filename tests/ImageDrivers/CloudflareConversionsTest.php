@@ -38,6 +38,24 @@ it('does not store a file for a virtual conversion and throws on getPath', funct
     expect(fn () => $media->getPath('hero'))->toThrow(VirtualConversionHasNoFile::class);
 });
 
+it('throws on getPathRelativeToRoot for a virtual conversion', function () {
+    Http::fake(['*' => Http::response('transformed-bytes', 200)]);
+
+    $media = $this->model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
+
+    expect(fn () => $media->getPathRelativeToRoot('hero'))->toThrow(VirtualConversionHasNoFile::class);
+});
+
+it('skips a virtual conversion in getAvailablePath and falls back to a file', function () {
+    Http::fake(['*' => Http::response('transformed-bytes', 200)]);
+
+    $media = $this->model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
+
+    // 'hero' is virtual (no file), 'avatar' is a real stored file. The virtual one
+    // must be skipped instead of throwing, so we get the avatar file path.
+    expect($media->getAvailablePath(['hero', 'avatar']))->toBe($media->getPath('avatar'));
+});
+
 it('fetches and stores the file for a mode A cloudflare conversion', function () {
     Http::fake([
         'example.com/cdn-cgi/image/*' => Http::response('transformed-bytes', 200),

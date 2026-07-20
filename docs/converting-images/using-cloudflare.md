@@ -138,7 +138,7 @@ The widths come from a fixed ladder you configure, since analyzing the image to 
 
 ## Available manipulations
 
-`CloudflareImage` covers Cloudflare's parameters, including `width`, `height`, `fit` (a `CloudflareFit` case), `gravity` (for example `'auto'` or `'face'`), `format` (a `CloudflareFormat` case), `quality`, `blur`, `sharpen`, `brightness`, `contrast`, `saturation`, `rotate`, `flip`, `dpr`, `background`, `segment` (background removal), `upscale`, and `zoom`. For any parameter without a dedicated method, use `->parameter('name', 'value')`.
+`CloudflareImage` covers Cloudflare's parameters, including `width`, `height`, `fit` (a `CloudflareFit` case), `gravity` (for example `'auto'` or `'face'`), `format` (a `CloudflareFormat` case), `quality`, `blur`, `sharpen`, `brightness`, `contrast`, `saturation`, `rotate`, `flip`, `dpr`, `background`, `segment` (background removal), `upscale`, `zoom`, `preserveAnimation` (keep animated frames), and `metadata` (control which EXIF data is kept). For any parameter without a dedicated method, use `->parameter('name', 'value')`.
 
 ## Good to know
 

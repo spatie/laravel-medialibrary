@@ -18,8 +18,10 @@ class PerformManipulationsAction
         string $imageFile,
     ): string {
 
-        if ($conversion->getManipulations()->isEmpty() && ! $conversion->getManipulationClosure()) {
-            return $imageFile;
+        if ($conversion->getManipulations()->isEmpty()) {
+            if (! $conversion->getManipulationClosure()) {
+                return $imageFile;
+            }
         }
 
         if (! File::exists($imageFile)) {

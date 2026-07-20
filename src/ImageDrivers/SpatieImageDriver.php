@@ -28,11 +28,11 @@ class SpatieImageDriver implements GeneratesConversionFiles, SupportsResponsiveI
             ->loadFile($file)
             ->format('jpg');
 
-        if ($closure = $conversion->getManipulationClosure()) {
-            ($closure->getClosure())($image);
-        }
-
         try {
+            if ($closure = $conversion->getManipulationClosure()) {
+                ($closure->getClosure())($image);
+            }
+
             $conversion->getManipulations()->apply($image);
 
             $image->save();

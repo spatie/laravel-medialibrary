@@ -670,20 +670,23 @@ class FileAdder
             }
         }
 
-        if (! $media->mediaDerivativeCallbacks && $this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
-            $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
+        // The derivative callback chain generates responsive images itself.
+        if (! $media->mediaDerivativeCallbacks) {
+            if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
+                $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
-            $job = new $generateResponsiveImagesJobClass($media);
+                $job = new $generateResponsiveImagesJobClass($media);
 
-            if ($customConnection = config('media-library.queue_connection_name')) {
-                $job->onConnection($customConnection);
+                if ($customConnection = config('media-library.queue_connection_name')) {
+                    $job->onConnection($customConnection);
+                }
+
+                if ($customQueue = ($this->onQueue ?? config('media-library.queue_name'))) {
+                    $job->onQueue($customQueue);
+                }
+
+                dispatch($job);
             }
-
-            if ($customQueue = ($this->onQueue ?? config('media-library.queue_name'))) {
-                $job->onQueue($customQueue);
-            }
-
-            dispatch($job);
         }
 
         if ($collectionSizeLimit = optional($this->getMediaCollection($media->collection_name))->collectionSizeLimit) {

@@ -59,7 +59,7 @@ The `#[MediaConversion]` attribute accepts the following arguments.
 
 ## Combining attributes with methods
 
-Attributes and the `registerMediaCollections()` / `registerMediaConversions()` methods can be used together. Attributes are resolved first, then the methods run on top. A collection or conversion declared in a method overrides an attribute declared one with the same name. This lets you cover the common cases with attributes while keeping the methods for anything dynamic.
+Attributes and the `registerMediaCollections()` / `registerMediaConversions()` methods can be used together. Attributes are resolved first, then the methods run on top. A collection or conversion declared in a method overrides an attribute declared one with the same name. (A conversion is matched on both its name and the collections it runs on, so a same named method conversion that targets different collections lives alongside the attribute one instead of replacing it.) This lets you cover the common cases with attributes while keeping the methods for anything dynamic.
 
 ```php
 #[MediaCollection(name: 'images')]
@@ -74,6 +74,13 @@ class NewsItem extends Model implements HasMedia
     }
 }
 ```
+
+## Validation
+
+The attributes are validated when the media collections and conversions are registered. Two mistakes throw an `InvalidMediaAttribute` exception:
+
+- Declaring the same collection name more than once on a model.
+- Pointing a `#[MediaConversion]` at a collection that no attribute or method declares. (The implicit `default` collection is always allowed.)
 
 ## Using enums for collection names
 

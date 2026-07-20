@@ -40,6 +40,12 @@ it('throws when no zone is configured', function () {
     $driver->transformationUrl($this->media, ($this->conversion)(fn (CloudflareImage $image) => $image->width(10)));
 })->throws(CloudflareTransformationFailed::class);
 
+it('throws when the conversion has no transformation options', function () {
+    $driver = new CloudflareImageDriver(['zone' => 'https://cf.test']);
+
+    $driver->transformationUrl($this->media, Conversion::create('cf'));
+})->throws(CloudflareTransformationFailed::class);
+
 it('throws when cloudflare returns a failed response', function () {
     Http::fake(['*' => Http::response('nope', 500)]);
 
