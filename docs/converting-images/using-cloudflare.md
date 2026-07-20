@@ -108,7 +108,31 @@ $media->getPath('hero'); // throws: a virtual conversion has no file
 
 `hasGeneratedConversion('hero')` returns true, and retrieving the conversion url works exactly like any other conversion, so your views do not need to know which driver produced it.
 
-Because a virtual conversion is only a url, new conversions are available instantly with no generation cost, and responsive srcsets are just the same url at different widths.
+### Responsive images
+
+A `cloudflare-delivery` conversion that calls `->withResponsiveImages()` produces a responsive srcset for free. No files are generated or stored. `getSrcset()` returns the same edge url at a set of widths, and the browser picks the one it needs.
+
+```php
+$this->addMediaConversion('hero')
+    ->useImageDriver('cloudflare-delivery')
+    ->withResponsiveImages()
+    ->manipulate(fn (CloudflareImage $image) => $image->format(CloudflareFormat::Auto));
+```
+
+```php
+$media->getSrcset('hero');
+// https://your-zone/cdn-cgi/image/format=auto,width=320/<original> 320w, ...width=640... 640w, ...
+```
+
+The widths come from a fixed ladder you configure, since analyzing the image to pick optimal widths would mean fetching it and defeat the point.
+
+```php
+// config/media-library.php
+'cloudflare-delivery' => [
+    // ...
+    'responsive_widths' => [320, 640, 960, 1280, 1920],
+],
+```
 
 ## Available manipulations
 
