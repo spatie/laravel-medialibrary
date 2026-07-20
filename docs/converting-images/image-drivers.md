@@ -44,57 +44,7 @@ $this->addMediaConversion('hero')
 
 ## Cloudflare
 
-Both Cloudflare drivers share one image object, `CloudflareImage`, whose methods are Cloudflare's transformation parameters. Because they are real methods, capabilities local engines do not have (face aware cropping, background removal, automatic format negotiation) are first class and autocompleted.
-
-```php
-use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareFit;
-use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareFormat;
-use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImage;
-
-// Mode A: Cloudflare renders it, Media Library stores the file.
-$this->addMediaConversion('avatar')
-    ->manipulate(fn (CloudflareImage $image) => $image
-        ->width(300)->height(300)
-        ->fit(CloudflareFit::Cover)
-        ->gravity('face')
-        ->format(CloudflareFormat::Webp)
-    );
-
-// Mode B: never generated, transformed at the edge on request.
-$this->addMediaConversion('hero')
-    ->useImageDriver('cloudflare-delivery')
-    ->manipulate(fn (CloudflareImage $image) => $image
-        ->width(1600)->quality(75)->format(CloudflareFormat::Auto)
-    );
-```
-
-Set the zone (a Cloudflare zone with image transformations enabled) in the config:
-
-```php
-// config/media-library.php
-'image_drivers' => [
-    'cloudflare' => [
-        'driver' => Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImageDriver::class,
-        'zone' => env('CLOUDFLARE_IMAGES_ZONE'),
-    ],
-    'cloudflare-delivery' => [
-        'driver' => Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareDeliveryImageDriver::class,
-        'zone' => env('CLOUDFLARE_IMAGES_ZONE'),
-    ],
-],
-```
-
-Cloudflare needs to reach the original image, so it must live on a publicly reachable disk. The Cloudflare drivers accept declarative parameters only, so a closure typed against `CloudflareImage` cannot call local pixel operations.
-
-### Virtual conversions
-
-A conversion on the `cloudflare-delivery` driver is virtual: it is never generated as a file.
-
-- `getUrl('hero')` returns the Cloudflare transformation url.
-- `hasGeneratedConversion('hero')` returns true.
-- `getPath('hero')` throws, because there is no file on disk.
-
-Retrieving media does not change. `getFirstMediaUrl('images', 'hero')` returns the right url whichever driver produced the conversion.
+The `cloudflare` and `cloudflare-delivery` drivers let Cloudflare perform conversions, either storing the result on your disk or transforming on request at the edge. See the dedicated [using Cloudflare](/docs/laravel-medialibrary/v12/converting-images/using-cloudflare) page.
 
 ## Registering your own driver
 
