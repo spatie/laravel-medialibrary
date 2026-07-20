@@ -20,10 +20,13 @@ In the Cloudflare dashboard, go to **Images** and then **Transformations**, sele
 
 ### 2. Make sure Cloudflare can reach your originals
 
-Cloudflare fetches the original image over its public url and transforms it. This means:
+Cloudflare fetches the original image over its public url and transforms it. This means the original must live on a publicly reachable disk. An image on a local disk that is not reachable from the internet, for example during local development, cannot be transformed.
 
-- The original must live on a publicly reachable disk. An image on a local disk that is not reachable from the internet, for example during local development, cannot be transformed.
-- By default Cloudflare only pulls source images from the same zone where transformations are served. If your originals live somewhere else, such as an S3 or R2 bucket on a different domain, add that origin under **Define source origins** in the same Transformations screen.
+On the Transformations screen, under **Sources**, Cloudflare also controls which origins it will pull originals from. Pick the option that matches where your media disk serves files:
+
+- **This zone only**: Cloudflare only transforms originals served from your zone (for example `your-site.com` or `*.your-site.com`). Use this when your originals are hosted on that domain.
+- **Specified origins**: allow one or more explicit origins. This is the right choice when your originals live elsewhere, such as an S3 or R2 bucket on a different domain. Add the exact host your disk serves from. It does not automatically include subdomains, so list each one.
+- **Any origin**: allows any origin to be transformed through your zone. This lets third parties run transformations that count against your account, so avoid it in production.
 
 ### 3. Configure the zone
 
