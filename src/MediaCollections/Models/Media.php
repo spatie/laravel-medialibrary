@@ -26,6 +26,7 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
 use Spatie\MediaLibrary\ImageDrivers\ResolvesConversionUrls;
+use Spatie\MediaLibrary\ImageDrivers\ResolvesResponsiveConversionUrls;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\VirtualConversionHasNoFile;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
@@ -469,6 +470,10 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getResponsiveImageUrls(string $conversionName = ''): array
     {
+        if ($urls = $this->virtualResponsiveUrls($conversionName)) {
+            return array_values($urls);
+        }
+
         return $this->responsiveImages($conversionName)->getUrls();
     }
 
@@ -479,7 +484,41 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getSrcset(string $conversionName = ''): string
     {
+        if ($urls = $this->virtualResponsiveUrls($conversionName)) {
+            return collect($urls)
+                ->map(fn (string $url, int $width) => "{$url} {$width}w")
+                ->implode(', ');
+        }
+
         return $this->responsiveImages($conversionName)->getSrcset();
+    }
+
+    /**
+     * For a virtual conversion that opted into responsive images, the srcset is
+     * a set of edge urls at different widths, built by the driver. No files are
+     * generated or stored.
+     *
+     * @return array<int, string>|null
+     */
+    protected function virtualResponsiveUrls(string $conversionName): ?array
+    {
+        if ($conversionName === '') {
+            return null;
+        }
+
+        $conversion = $this->findVirtualConversion($conversionName);
+
+        if (! $conversion || ! $conversion->shouldGenerateResponsiveImages()) {
+            return null;
+        }
+
+        $driver = app(ImageDriverManager::class)->forConversion($conversion);
+
+        if (! $driver instanceof ResolvesResponsiveConversionUrls) {
+            return null;
+        }
+
+        return $driver->responsiveConversionUrls($this, $conversion);
     }
 
     protected function previewUrl(): Attribute

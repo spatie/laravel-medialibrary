@@ -266,6 +266,11 @@ return [
         'cloudflare-delivery' => [
             'driver' => CloudflareDeliveryImageDriver::class,
             'zone' => env('CLOUDFLARE_IMAGES_ZONE'),
+
+            // Widths used to build the responsive srcset for conversions that
+            // opt into responsive images. No files are generated; each width is
+            // a separate edge url.
+            'responsive_widths' => [320, 640, 960, 1280, 1920],
         ],
     ],
 

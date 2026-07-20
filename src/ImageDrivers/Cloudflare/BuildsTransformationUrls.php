@@ -13,7 +13,7 @@ trait BuildsTransformationUrls
         return CloudflareImage::class;
     }
 
-    public function transformationUrl(Media $media, Conversion $conversion): string
+    public function transformationUrl(Media $media, Conversion $conversion, ?int $widthOverride = null): string
     {
         $zone = rtrim((string) ($this->config['zone'] ?? ''), '/');
 
@@ -21,7 +21,14 @@ trait BuildsTransformationUrls
             throw CloudflareTransformationFailed::missingZone();
         }
 
-        $parameterString = collect($this->cloudflareImage($conversion)->toParameters())
+        $parameters = $this->cloudflareImage($conversion)->toParameters();
+
+        if ($widthOverride !== null) {
+            $parameters['width'] = $widthOverride;
+            ksort($parameters);
+        }
+
+        $parameterString = collect($parameters)
             ->map(fn (string|int|float $value, string $name) => "{$name}={$value}")
             ->implode(',');
 

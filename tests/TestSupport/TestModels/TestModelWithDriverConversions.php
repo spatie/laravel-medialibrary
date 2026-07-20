@@ -25,9 +25,11 @@ class TestModelWithDriverConversions extends TestModel
                 ->width(300)->height(300)->fit(CloudflareFit::Cover)->gravity('face')->format(CloudflareFormat::Webp)
             );
 
-        // Never generated, transformed at the edge on request (Mode B).
+        // Never generated, transformed at the edge on request (Mode B). Responsive
+        // images become a srcset of edge urls at different widths, no files stored.
         $this->addMediaConversion('hero')
             ->useImageDriver('cloudflare-delivery')
+            ->withResponsiveImages()
             ->manipulate(fn (CloudflareImage $image) => $image
                 ->width(1600)->quality(75)->format(CloudflareFormat::Auto)
             );

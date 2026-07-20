@@ -80,3 +80,22 @@ it('serves a working delivery url from the edge', function () {
     expect($response->status())->toBe(200)
         ->and($response->header('content-type'))->toContain('image');
 });
+
+it('serves each responsive srcset width from the edge', function () {
+    $conversion = Conversion::create('cf')
+        ->withResponsiveImages()
+        ->manipulate(fn (CloudflareImage $image) => $image->format(CloudflareFormat::Auto));
+
+    $driver = new CloudflareDeliveryImageDriver($this->config + ['responsive_widths' => [40, 80]]);
+
+    $urls = $driver->responsiveConversionUrls($this->media, $conversion);
+
+    $file = tempnam(sys_get_temp_dir(), 'cf');
+    file_put_contents($file, Http::get($urls[40])->body());
+
+    [$width] = getimagesize($file);
+
+    expect($width)->toBeLessThanOrEqual(40);
+
+    @unlink($file);
+});
