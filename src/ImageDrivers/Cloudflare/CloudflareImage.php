@@ -7,7 +7,6 @@ namespace Spatie\MediaLibrary\ImageDrivers\Cloudflare;
  * Cloudflare transformation parameters. Only parameters Cloudflare supports
  * exist as methods, so unsupported operations surface in your editor and in
  * static analysis instead of at runtime.
- *
  */
 class CloudflareImage
 {

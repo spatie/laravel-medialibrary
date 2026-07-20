@@ -1,7 +1,9 @@
 <?php
 
+use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareFit;
 use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImage;
+use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 
 /**
@@ -24,10 +26,10 @@ it('really transforms an image through cloudflare', function () {
 
     $media = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
 
-    $conversion = \Spatie\MediaLibrary\Conversions\Conversion::create('cf')
+    $conversion = Conversion::create('cf')
         ->manipulate(fn (CloudflareImage $image) => $image->width(50)->height(50)->fit(CloudflareFit::Cover));
 
-    $driver = app(\Spatie\MediaLibrary\ImageDrivers\ImageDriverManager::class)->driver('cloudflare');
+    $driver = app(ImageDriverManager::class)->driver('cloudflare');
 
     $temporaryFile = tempnam(sys_get_temp_dir(), 'cf').'.jpg';
 

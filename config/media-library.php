@@ -15,6 +15,9 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
+use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareDeliveryImageDriver;
+use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImageDriver;
+use Spatie\MediaLibrary\ImageDrivers\SpatieImageDriver;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver;
@@ -253,15 +256,15 @@ return [
      */
     'image_drivers' => [
         'spatie' => [
-            'driver' => Spatie\MediaLibrary\ImageDrivers\SpatieImageDriver::class,
+            'driver' => SpatieImageDriver::class,
             'engine' => 'gd',
         ],
         'cloudflare' => [
-            'driver' => Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImageDriver::class,
+            'driver' => CloudflareImageDriver::class,
             'zone' => env('CLOUDFLARE_IMAGES_ZONE'),
         ],
         'cloudflare-delivery' => [
-            'driver' => Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareDeliveryImageDriver::class,
+            'driver' => CloudflareDeliveryImageDriver::class,
             'zone' => env('CLOUDFLARE_IMAGES_ZONE'),
         ],
     ],
