@@ -10,12 +10,26 @@ There are two ways to use it:
 - **Store the result** (`cloudflare`): Cloudflare transforms the image and Media Library fetches the result and stores it as a normal conversion file on your disk. Everything downstream (urls, regeneration, zip downloads) works as usual.
 - **Transform on request** (`cloudflare-delivery`): nothing is generated or stored. The conversion url points at Cloudflare, which transforms the image at its edge when the url is requested.
 
-## Requirements
+## Setup
 
-- A Cloudflare zone with image transformations enabled.
-- The original image must live on a publicly reachable disk, because Cloudflare fetches it.
+Follow these steps once.
 
-Set the zone (the base url of that zone) in the config file:
+### 1. Enable transformations on your zone
+
+In the Cloudflare dashboard, go to **Images** and then **Transformations**, select the zone (a domain that is proxied through Cloudflare), and enable transformations on it. This is what makes the `/cdn-cgi/image/` delivery urls work for that domain.
+
+### 2. Make sure Cloudflare can reach your originals
+
+Cloudflare fetches the original image over its public url and transforms it. This means:
+
+- The original must live on a publicly reachable disk. An image on a local disk that is not reachable from the internet, for example during local development, cannot be transformed.
+- By default Cloudflare only pulls source images from the same zone where transformations are served. If your originals live somewhere else, such as an S3 or R2 bucket on a different domain, add that origin under **Define source origins** in the same Transformations screen.
+
+### 3. Configure the zone
+
+The zone is the base url of the domain from step 1, for example `https://your-site.com`. Media Library builds delivery urls like `https://your-site.com/cdn-cgi/image/width=300,fit=cover/<original url>`.
+
+Set it in the config file:
 
 ```php
 // config/media-library.php
