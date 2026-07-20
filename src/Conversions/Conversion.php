@@ -2,10 +2,14 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
+use Laravel\SerializableClosure\SerializableClosure;
 use Spatie\Image\Drivers\ImageDriver;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
+use Spatie\MediaLibrary\ImageDrivers\ProvidesConversionExtension;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator;
 use Spatie\MediaLibrary\Support\CollectionName;
@@ -37,6 +41,10 @@ class Conversion
     protected ?string $loadingAttributeValue;
 
     protected int $pdfPageNumber = 1;
+
+    protected ?SerializableClosure $manipulationClosure = null;
+
+    protected ?string $imageDriverName = null;
 
     public function __construct(
         protected string $name,
@@ -113,6 +121,47 @@ class Conversion
         $this->manipulations = new Manipulations;
 
         return $this;
+    }
+
+    /**
+     * Manipulate the image with a closure that receives the image object of
+     * the driver performing this conversion. Type the parameter against that
+     * driver's image class (for example `Spatie\Image\Drivers\ImageDriver` or
+     * `CloudflareImage`) to select the driver and get full autocompletion.
+     *
+     * The closure is serialized to run on the queue, so only capture
+     * serializable values.
+     */
+    public function manipulate(Closure $manipulations): self
+    {
+        $this->manipulationClosure = new SerializableClosure($manipulations);
+
+        return $this;
+    }
+
+    public function getManipulationClosure(): ?SerializableClosure
+    {
+        return $this->manipulationClosure;
+    }
+
+    public function useImageDriver(string $imageDriverName): self
+    {
+        $this->imageDriverName = $imageDriverName;
+
+        return $this;
+    }
+
+    public function getImageDriverName(): ?string
+    {
+        return $this->imageDriverName;
+    }
+
+    /**
+     * A virtual conversion is delivered by url and never generated as a file.
+     */
+    public function isVirtual(): bool
+    {
+        return app(ImageDriverManager::class)->isVirtual($this);
     }
 
     public function __call($name, $arguments): self
@@ -236,6 +285,12 @@ class Conversion
 
     public function getResultExtension(string $originalFileExtension = ''): string
     {
+        $driver = app(ImageDriverManager::class)->forConversion($this);
+
+        if ($driver instanceof ProvidesConversionExtension) {
+            return $driver->conversionExtension($this, $originalFileExtension);
+        }
+
         if ($this->shouldKeepOriginalImageFormat()) {
             if (in_array(strtolower($originalFileExtension), ['jpg', 'jpeg', 'pjpg', 'png', 'gif', 'webp', 'avif'])) {
                 return $originalFileExtension;

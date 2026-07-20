@@ -1,200 +1,33 @@
-# Pluggable image drivers (spatie/image and Laravel image) design
+# Pluggable image drivers design (final)
+
+Supersedes the earlier draft in this file. The design converged through discussion; this records the final, simplified shape.
 
 ## Summary
 
-Let Media Library run conversions through more than one image engine. Ship spatie/image as the default (unchanged behavior), add Laravel's image (`Illuminate\Image`, over Intervention v4) as a first class alternative, and let users register their own driver. Conversions are written against the configured engine directly (passthrough, not a neutral vocabulary), and an ide-helper generator keeps autocompletion accurate for whichever engine is configured.
+Conversions run through a named image driver. Each driver has its own real image object, and manipulations are written as typed closures against that object. Shipped drivers: `spatie` (default, wraps spatie/image, behavior unchanged), `cloudflare` (Cloudflare transforms the image, we fetch and store the file), and `cloudflare-delivery` (no file is generated; URLs transform at the edge). Custom drivers can be registered.
 
 ## Decision record
 
-Settled during design discussion:
+1. Real objects, not a recorder or neutral vocabulary. A closure is typed against the driver's native image class (`Spatie\Image\Drivers\ImageDriver`, `CloudflareImage`). Unsupported operations do not exist on the type, so errors surface in the IDE and static analysis, not at runtime.
+2. `CloudflareImage` is a first class engine object whose native manipulation model is URL parameter accumulation. Its methods are exactly Cloudflare's supported transformation parameters, including capabilities local engines lack (`gravity('face')`, `segment()`, `upscale('generate')`).
+3. Closures are wrapped in `SerializableClosure` so queued conversion jobs (which serialize the `ConversionCollection`) keep working.
+4. The closure's parameter type infers the driver. Explicit `useImageDriver()` always wins. The `cloudflare-delivery` driver must be selected explicitly (it shares `CloudflareImage` with `cloudflare`).
+5. `format()` and `quality()` remain first class conversion settings (not closure calls). Drivers consume them: the spatie driver applies them as manipulations (as today), the Cloudflare drivers map them to URL parameters. This keeps file extension resolution working.
+6. The autocompletion story needs no tooling: real classes, real methods, typed closure params. The earlier ide-helper generator idea is dead.
 
-1. Passthrough, not neutral. A conversion speaks the configured engine's manipulation vocabulary directly. We do not build an engine neutral manipulation set.
-2. Autocompletion parity via a generated ide-helper stub (the `barryvdh/laravel-ide-helper` pattern), because static generics and `.phpstorm.meta.php` cannot read runtime config.
-3. The default driver is spatie/image. Out of the box nothing changes, and generation is only needed when switching engines.
+## v1 scope
 
-## Consequence of passthrough
+In: driver manager + config, `Conversion::manipulate(Closure)` + `useImageDriver()`, spatie driver (default, includes legacy fluent manipulations unchanged), Cloudflare storage driver (Mode A), Cloudflare delivery driver (Mode B, virtual conversions), docs, offline tests.
 
-Because a conversion is written against the configured engine, switching engines is a migration, not a transparent toggle. A conversion that uses a spatie only manipulation (for example `focalCropAndResize`) will not run on the Laravel engine. This is intended and must be documented clearly. The benefit is that users keep the exact fluent autocompletion and full manipulation surface they have today, per engine.
-
-## Current coupling (what we are abstracting)
-
-- `Support\ImageFactory::load()` and `Conversions\Actions\PerformManipulationsAction::execute()` both call `Spatie\Image\Image::useImageDriver(config('media-library.image_driver'))`. Today `image_driver` selects a spatie engine (`gd`, `imagick`, `vips`).
-- `Conversions\Manipulations` records manipulations as a name to args map and replays them with `$image->$name(...$args)` onto a `Spatie\Image\Drivers\ImageDriver`. It also coerces raw scalar arguments to spatie enums in `transformParameters()`.
-- `Conversions\Conversion` is `@mixin \Spatie\Image\Drivers\ImageDriver`. Its `__call` records onto `Manipulations`. It also owns format concerns (`format()`, `keepOriginalImageFormat()`, `getResultExtension()`), quality, and the optimizer toggle.
-- `PerformManipulationsAction` defaults output to `jpg`, applies `keepOriginalImageFormat`, and swallows `Spatie\Image\Exceptions\UnsupportedImageFormat`.
+Out (deliberate): Laravel/Intervention driver (documented extension point, fast follow), Cloudflare Images storage/imagedelivery.net (B1), declarative attribute portability to Cloudflare (Cloudflare conversions are closure only), temporary URLs / responsive images / zip export for virtual conversions, a `driver:` argument on the `#[MediaConversion]` attribute.
 
 ## Architecture
 
-### Driver manager
-
-A `Spatie\MediaLibrary\Conversions\ImageDrivers\ImageDriverManager` (built on Laravel's `Illuminate\Support\Manager`) resolves a driver by name from config, and supports `extend()` for custom drivers.
-
-```php
-'image_driver' => env('MEDIA_LIBRARY_IMAGE_DRIVER', 'spatie'),
-
-'image_drivers' => [
-    'spatie' => [
-        'driver' => Spatie\MediaLibrary\Conversions\ImageDrivers\SpatieImageDriver::class,
-        'engine' => 'gd', // gd | imagick | vips
-    ],
-    'laravel' => [
-        'driver' => Spatie\MediaLibrary\Conversions\ImageDrivers\LaravelImageDriver::class,
-        'engine' => 'gd', // gd | imagick
-    ],
-],
-```
-
-Note: the existing scalar `image_driver` values (`gd`/`imagick`/`vips`) become driver names. We keep backward compatibility by mapping a legacy engine value to the spatie driver with that engine (see Migration).
-
-### Driver contract
-
-The contract is deliberately thin. It produces and drives an engine native image object; it does not describe manipulations (those pass through).
-
-```php
-namespace Spatie\MediaLibrary\Conversions\ImageDrivers;
-
-use Spatie\MediaLibrary\Conversions\Conversion;
-
-interface MediaImageDriver
-{
-    public function loadFile(string $path): static;
-
-    /** The engine native image object that manipulations are replayed onto. */
-    public function image(): object;
-
-    /** Replay the conversion's recorded manipulations onto the image. */
-    public function applyManipulations(Conversion $conversion): static;
-
-    /** Apply format and quality, then write to disk. */
-    public function save(string $path): void;
-
-    public function getWidth(): int;
-
-    public function getHeight(): int;
-
-    /** The file extension this driver will produce for the conversion. */
-    public function resultExtension(Conversion $conversion, string $originalExtension): string;
-}
-```
-
-- `SpatieImageDriver` wraps `Spatie\Image\Image` (default). Its `applyManipulations()` runs the existing `Manipulations::apply()` path, including the spatie enum coercion, which moves out of the shared `Manipulations` class into this adapter.
-- `LaravelImageDriver` wraps `Illuminate\Image` / Intervention v4. Its `applyManipulations()` replays the recorded calls onto the Intervention image, and its `save()` maps format and quality to Intervention's encoders.
-
-### Where format, quality, and the optimizer live
-
-These are NOT passed through, because engines name them differently (spatie `->format('webp')` vs Intervention `->toWebp()`), and Media Library itself needs the resulting extension for storage, URLs, and responsive images.
-
-- `format`, `quality`, and `keepOriginalImageFormat` stay first class settings on `Conversion` (as today).
-- Each driver applies them in `save()` and reports the produced extension via `resultExtension()`.
-- The optimizer chain (`spatie/image-optimizer`) runs in Media Library's pipeline after `save()`, so it is engine agnostic and both drivers benefit. Today spatie/image runs it internally; we move the optimize step up into the Media Library pipeline so the Laravel driver gets it too.
-
-### Manipulations become engine agnostic as a recorder
-
-`Manipulations` keeps recording name to args, but stops importing spatie enums and stops doing spatie specific `transformParameters()`. That coercion moves into `SpatieImageDriver`. The recorder only stores and replays.
-
-### Unsupported manipulations
-
-If a recorded manipulation does not exist on the configured engine's image object, the driver throws `Spatie\MediaLibrary\Conversions\Exceptions\UnsupportedManipulation` with the manipulation name and driver name, instead of a fatal `BadMethodCallException`. This makes a bad engine switch a clear, actionable error.
-
-## Usage
-
-### Defining conversions (spatie default, unchanged)
-
-```php
-use Spatie\Image\Enums\Fit;
-
-public function registerMediaConversions(?Media $media = null): void
-{
-    $this->addMediaConversion('thumb')
-        ->fit(Fit::Crop, 300, 300)
-        ->format('webp')
-        ->quality(80);
-}
-```
-
-### Defining conversions on the Laravel engine
-
-With `image_driver` set to `laravel` and the ide-helper regenerated, the same fluent call autocompletes Intervention v4's surface:
-
-```php
-public function registerMediaConversions(?Media $media = null): void
-{
-    $this->addMediaConversion('thumb')
-        ->cover(300, 300)   // Intervention v4 vocabulary
-        ->format('webp')
-        ->quality(80);
-}
-```
-
-### Per conversion engine override
-
-```php
-$this->addMediaConversion('hero')
-    ->useImageDriver('laravel')
-    ->cover(1600, 900);
-```
-
-### Registering a custom driver
-
-```php
-use Spatie\MediaLibrary\Conversions\ImageDrivers\ImageDriverManager;
-
-public function boot(ImageDriverManager $manager): void
-{
-    $manager->extend('imgproxy', fn (array $config) => new ImgproxyImageDriver($config));
-}
-```
-
-## Autocompletion: the ide-helper generator
-
-Static analysis cannot read `config('media-library.image_driver')`, so we generate an ide-helper stub from the booted app.
-
-- Command: `php artisan media-library:ide-helper`.
-- It resolves the configured driver, finds that engine's image type, and writes an ide-only file (not in the autoload map, so PHP never executes it) that re declares `Conversion` with the configured `@mixin`:
-
-```php
-// _media-library_ide_helper.php (generated)
-namespace Spatie\MediaLibrary\Conversions {
-    /** @mixin \Spatie\Image\Drivers\ImageDriver */          // image_driver = spatie
-    class Conversion {}
-}
-```
-
-```php
-namespace Spatie\MediaLibrary\Conversions {
-    /** @mixin \Intervention\Image\Interfaces\ImageInterface */ // image_driver = laravel
-    class Conversion {}
-}
-```
-
-- The package ships with the spatie `@mixin` as the committed default on the real `Conversion` class, so out of the box DX is unchanged and generation is only needed after switching drivers.
-- Wire regeneration into `composer.json` `post-autoload-dump` (and document a manual run), the same way `barryvdh/laravel-ide-helper` does.
-- PHPStan and larastan can consume the same stub through `stubFiles`, so static analysis stays accurate too.
-
-## Non goals
-
-1. An engine neutral manipulation vocabulary or portable conversions. Explicitly rejected in favor of passthrough.
-2. Making a driver switch transparent. It is a migration.
-3. Remote or on the fly transformation services beyond what the `MediaImageDriver` contract naturally allows. A Cloudflare Images style driver could be a later community driver, but it does not fit the load, manipulate, save shape cleanly and is out of scope here.
-
-## Migration and breaking changes
-
-- The `media-library.image_driver` config value changes meaning from a spatie engine name to a Media Library driver name. Provide a compatibility shim: if the value is `gd`, `imagick`, or `vips`, resolve the spatie driver with that engine and emit a deprecation notice suggesting the new `image_drivers` config.
-- Add `image_drivers` to the published config.
-- The optimizer step moves from inside spatie/image to the Media Library pipeline. Confirm parity (same optimizer chain, same defaults).
-- This targets the next major, aligned with the attribute and callback work already on `next-major`.
+- `ImageDriverManager` (singleton): resolves named drivers from `media-library.image_drivers`, `extend()` for custom drivers, infers a driver name from a closure's first parameter type, maps the legacy `image_driver` values (`gd`/`imagick`/`vips`) to the spatie driver with that engine.
+- Contracts: `MediaImageDriver` (base, `imageClass()`), `GeneratesConversionFiles` (`convert(Media, Conversion, string $file): string`), `ResolvesConversionUrls` (`conversionUrl(Media, Conversion): string`). A conversion whose driver resolves URLs is "virtual": the generation pipeline skips it and `Media::getUrl()` asks the driver instead. `Media::hasGeneratedConversion()` reports true for virtual conversions; `getPath()` throws.
+- Cloudflare URL shape: `{zone}/cdn-cgi/image/{params}/{original full url}`. Mode A fetches that URL via Laravel's Http client and stores the bytes as a normal conversion file (original must be reachable by Cloudflare; non image originals are rejected). Delivery mode returns the URL at `getUrl()` time.
+- The format parameter maps `jpg`/`pjpg` to `jpeg` and is omitted when Cloudflare cannot output the format (for example `png`, `gif`, which Cloudflare preserves when no format is given).
 
 ## Testing
 
-- Conversions produce identical output on the spatie driver as today (snapshot parity).
-- The same simple conversion (fit, format, quality) runs on both spatie and laravel drivers and produces a valid image of the expected dimensions and format.
-- Per conversion `useImageDriver()` override runs that conversion on the named driver.
-- A manipulation unsupported by the configured engine throws `UnsupportedManipulation` with a clear message.
-- The ide-helper command generates the expected `@mixin` for each configured driver.
-- A custom `extend()`ed driver is resolved and used.
-
-## Open questions
-
-1. Does the Laravel driver depend on `laravel/framework` bringing `Illuminate\Image` in, or on `intervention/image` directly. Prefer depending on what Laravel exposes so we track its engine, and make the driver a suggested (not required) dependency so spatie only users pull nothing new.
-2. Exact ide-helper file location and whether to integrate with `barryvdh/laravel-ide-helper` as an extension rather than shipping our own command.
-3. Whether `resultExtension()` needs to consult the engine (some engines infer format from the output path) or can stay driven by the `format` setting alone.
+Everything core is offline: `CloudflareImage` param building is pure, Mode A uses `Http::fake()`, delivery mode is string assertions, spatie driver is covered by the existing suite plus closure tests, serialization is a `serialize`/`unserialize` round trip of a job. An optional live smoke test runs only when `CLOUDFLARE_ZONE` is set; CI never needs credentials.

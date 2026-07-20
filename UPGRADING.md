@@ -16,6 +16,14 @@ This is additive. The methods keep working, and a collection or conversion decla
 
 When adding media you can chain `->then(fn (Media $media) => ...)` and `->catch(fn (Throwable $exception) => ...)` before `toMediaCollection()`. The callbacks run after the media item's derivatives have been generated. Using `then()` runs the derivatives on the queue. See [running code after conversions](https://spatie.be/docs/laravel-medialibrary/v12/advanced-usage/running-code-after-conversions).
 
+### Pluggable image drivers
+
+Conversions now run through a named image driver. The default is `spatie` (spatie/image), so existing conversions behave exactly as before. The legacy `image_driver` values `gd`, `imagick`, and `vips` keep working and select the spatie engine.
+
+New: a conversion can be written as a closure typed against the driver's image object (`->manipulate(fn (ImageDriver $image) => ...)`), and Cloudflare is available as a driver, either fetching and storing the transformed file (`cloudflare`) or transforming at the edge on request (`cloudflare-delivery`). See [image drivers](https://spatie.be/docs/laravel-medialibrary/v12/converting-images/image-drivers).
+
+If you published the config file, add the new `image_drivers` array (see the package's config file for the default).
+
 ### Enum collection names
 
 Every method that accepts a collection name now also accepts a string-backed enum (for example `toMediaCollection(MyCollections::Avatar)` and `getFirstMediaUrl(MyCollections::Avatar)`).

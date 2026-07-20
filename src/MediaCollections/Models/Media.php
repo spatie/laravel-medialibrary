@@ -24,7 +24,10 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
+use Spatie\MediaLibrary\ImageDrivers\ResolvesConversionUrls;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\VirtualConversionHasNoFile;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\HtmlableMedia;
@@ -109,6 +112,13 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getUrl(string $conversionName = ''): string
     {
+        if ($conversionName !== '' && $virtualConversion = $this->findVirtualConversion($conversionName)) {
+            /** @var ResolvesConversionUrls $driver */
+            $driver = app(ImageDriverManager::class)->forConversion($virtualConversion);
+
+            return $driver->conversionUrl($this, $virtualConversion);
+        }
+
         $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
 
         return $urlGenerator->getUrl();
@@ -124,6 +134,10 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getPath(string $conversionName = ''): string
     {
+        if ($conversionName !== '' && $this->findVirtualConversion($conversionName)) {
+            throw VirtualConversionHasNoFile::create($conversionName);
+        }
+
         $urlGenerator = $this->getUrlGenerator($conversionName);
 
         return $urlGenerator->getPath();
@@ -356,7 +370,30 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     {
         $generatedConversions = $this->generated_conversions;
 
-        return Arr::get($generatedConversions, $conversionName, false);
+        if (Arr::get($generatedConversions, $conversionName, false)) {
+            return true;
+        }
+
+        return $this->findVirtualConversion($conversionName) !== null;
+    }
+
+    /**
+     * Find a registered conversion for this media that is delivered by url
+     * instead of being generated as a file.
+     */
+    protected function findVirtualConversion(string $conversionName): ?Conversion
+    {
+        if (! $this->exists || ! $this->relationLoaded('model') && ! $this->model_id) {
+            return null;
+        }
+
+        try {
+            $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
+        } catch (InvalidConversion) {
+            return null;
+        }
+
+        return $conversion->isVirtual() ? $conversion : null;
     }
 
     /**

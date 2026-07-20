@@ -41,7 +41,8 @@ class FileManipulator
 
                 return in_array($conversion->getName(), $onlyConversionNames);
             })
-            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name));
+            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
+            ->reject(fn (Conversion $conversion) => $conversion->isVirtual());
 
         if ($queueAll) {
             $this
@@ -195,7 +196,8 @@ class FileManipulator
 
         if ($this->canConvertMedia($media)) {
             $conversions = ConversionCollection::createForMedia($media)
-                ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name));
+                ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
+                ->reject(fn (Conversion $conversion) => $conversion->isVirtual());
 
             if ($conversions->isNotEmpty()) {
                 $performConversionsJobClass = config(
