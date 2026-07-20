@@ -1,43 +1,82 @@
 <?php
 
+use Illuminate\Support\Facades\Http;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareDeliveryImageDriver;
 use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareFit;
+use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareFormat;
 use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImage;
-use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
-use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImageDriver;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * This test hits the real Cloudflare edge. It only runs when a
- * CLOUDFLARE_IMAGES_ZONE and MEDIA_LIBRARY_PUBLIC_URL are set, and is skipped
- * everywhere else, so CI never needs credentials.
+ * These tests hit the real Cloudflare edge. They run only when
+ * CLOUDFLARE_IMAGES_ZONE and CLOUDFLARE_TEST_IMAGE_URL are set, and are skipped
+ * everywhere else, so CI and local runs never need credentials.
+ *
+ * CLOUDFLARE_IMAGES_ZONE is a zone with image transformations enabled, for
+ * example https://your-site.com. CLOUDFLARE_TEST_IMAGE_URL is a publicly
+ * reachable image hosted on an origin that zone is allowed to fetch from.
  */
 beforeEach(function () {
     $zone = env('CLOUDFLARE_IMAGES_ZONE');
+    $sourceUrl = env('CLOUDFLARE_TEST_IMAGE_URL');
 
-    if (! $zone) {
-        $this->markTestSkipped('Set CLOUDFLARE_IMAGES_ZONE to run the live Cloudflare test.');
+    if (! $zone || ! $sourceUrl) {
+        $this->markTestSkipped('Set CLOUDFLARE_IMAGES_ZONE and CLOUDFLARE_TEST_IMAGE_URL to run the live Cloudflare tests.');
     }
 
-    config()->set('media-library.image_drivers.cloudflare.zone', $zone);
+    $this->config = ['zone' => $zone];
+
+    // A media whose full url points at the public test image, so Cloudflare has
+    // a reachable original to transform without needing a public media disk.
+    $this->media = new class($sourceUrl) extends Media
+    {
+        public function __construct(protected string $sourceUrl)
+        {
+            parent::__construct();
+
+            $this->file_name = 'source.jpg';
+            $this->mime_type = 'image/jpeg';
+        }
+
+        public function getFullUrl(string $conversionName = ''): string
+        {
+            return $this->sourceUrl;
+        }
+    };
 });
 
-it('really transforms an image through cloudflare', function () {
-    $model = TestModel::create(['name' => 'test']);
-
-    $media = $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
-
+it('transforms and downloads a real image through cloudflare', function () {
     $conversion = Conversion::create('cf')
-        ->manipulate(fn (CloudflareImage $image) => $image->width(50)->height(50)->fit(CloudflareFit::Cover));
+        ->manipulate(fn (CloudflareImage $image) => $image
+            ->width(50)
+            ->height(50)
+            ->fit(CloudflareFit::Cover)
+            ->format(CloudflareFormat::Webp)
+        );
 
-    $driver = app(ImageDriverManager::class)->driver('cloudflare');
+    $file = tempnam(sys_get_temp_dir(), 'cf').'.webp';
 
-    $temporaryFile = tempnam(sys_get_temp_dir(), 'cf').'.jpg';
+    (new CloudflareImageDriver($this->config))->convert($this->media, $conversion, $file);
 
-    $driver->convert($media, $conversion, $temporaryFile);
+    expect(filesize($file))->toBeGreaterThan(0);
 
-    [$width, $height] = getimagesize($temporaryFile);
+    [$width, $height] = getimagesize($file);
 
     expect($width)->toBeLessThanOrEqual(50)->and($height)->toBeLessThanOrEqual(50);
 
-    @unlink($temporaryFile);
+    @unlink($file);
+});
+
+it('serves a working delivery url from the edge', function () {
+    $conversion = Conversion::create('cf')
+        ->manipulate(fn (CloudflareImage $image) => $image->width(60)->format(CloudflareFormat::Auto));
+
+    $url = (new CloudflareDeliveryImageDriver($this->config))->conversionUrl($this->media, $conversion);
+
+    $response = Http::get($url);
+
+    expect($response->status())->toBe(200)
+        ->and($response->header('content-type'))->toContain('image');
 });
