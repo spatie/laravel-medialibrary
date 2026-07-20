@@ -8,7 +8,7 @@ use Spatie\Image\Image;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class SpatieImageDriver implements GeneratesConversionFiles
+class SpatieImageDriver implements GeneratesConversionFiles, SupportsResponsiveImages
 {
     /**
      * @param  array<string, mixed>  $config

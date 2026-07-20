@@ -124,6 +124,8 @@ $media->getSrcset('hero');
 // https://your-zone/cdn-cgi/image/format=auto,width=320/<original> 320w, ...width=640... 640w, ...
 ```
 
+Responsive images are only supported on the `cloudflare-delivery` driver. Adding `->withResponsiveImages()` to a `cloudflare` (store the result) conversion throws an exception, because those responsive variants would be generated locally, which is exactly what the Cloudflare driver avoids. Use `cloudflare-delivery` for edge responsive images.
+
 The widths come from a fixed ladder you configure, since analyzing the image to pick optimal widths would mean fetching it and defeat the point.
 
 ```php

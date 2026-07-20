@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Http;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\ResponsiveImagesNotSupported;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCloudflareModeAResponsive;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithDriverConversions;
 
 beforeEach(function () {
@@ -41,4 +43,14 @@ it('does not build a virtual srcset when the conversion has no responsive images
     // `avatar` is a mode A cloudflare conversion without withResponsiveImages().
     expect($this->media->getSrcset('avatar'))->toBe('')
         ->and($this->media->hasResponsiveImages('avatar'))->toBeFalse();
+});
+
+it('throws when responsive images are requested on the file storing cloudflare driver', function () {
+    Http::fake(['*' => Http::response('bytes', 200)]);
+    config()->set('media-library.image_drivers.cloudflare.zone', 'https://example.com');
+
+    $model = TestModelWithCloudflareModeAResponsive::create(['name' => 'test']);
+
+    expect(fn () => $model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection())
+        ->toThrow(ResponsiveImagesNotSupported::class);
 });

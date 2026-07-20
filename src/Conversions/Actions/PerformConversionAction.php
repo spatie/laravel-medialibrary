@@ -6,6 +6,9 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompletedEvent;
 use Spatie\MediaLibrary\Conversions\Events\ConversionWillStartEvent;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
+use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
+use Spatie\MediaLibrary\ImageDrivers\SupportsResponsiveImages;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\ResponsiveImagesNotSupported;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
@@ -17,6 +20,12 @@ class PerformConversionAction
         Media $media,
         string $copiedOriginalFile
     ): void {
+        if ($conversion->shouldGenerateResponsiveImages()
+            && ! app(ImageDriverManager::class)->forConversion($conversion) instanceof SupportsResponsiveImages
+        ) {
+            throw ResponsiveImagesNotSupported::forConversion($conversion->getName());
+        }
+
         $imageGenerator = ImageGeneratorFactory::forMedia($media);
 
         $copiedOriginalFile = $imageGenerator->convert($copiedOriginalFile, $conversion);
