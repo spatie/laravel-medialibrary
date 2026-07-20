@@ -20,7 +20,7 @@ When adding media you can chain `->then(fn (Media $media) => ...)` and `->catch(
 
 Conversions now run through a named image driver. The default is `spatie` (spatie/image), so existing conversions behave exactly as before. The legacy `image_driver` values `gd`, `imagick`, and `vips` keep working and select the spatie engine.
 
-New: a conversion can be written as a closure typed against the driver's image object (`->manipulate(fn (ImageDriver $image) => ...)`), and Cloudflare is available as a driver, either fetching and storing the transformed file (`cloudflare`) or transforming at the edge on request (`cloudflare-delivery`). See [image drivers](https://spatie.be/docs/laravel-medialibrary/v12/converting-images/image-drivers).
+New: a conversion can be written as a closure typed against the driver's image object (`->manipulate(fn (ImageDriver $image) => ...)`), and Cloudflare is available as a driver, either fetching and storing the transformed file (`cloudflare`) or transforming at the edge on request (`cloudflare-delivery`). See [image drivers](https://spatie.be/docs/laravel-medialibrary/v12/converting-images/image-drivers) and [using Cloudflare](https://spatie.be/docs/laravel-medialibrary/v12/converting-images/using-cloudflare).
 
 If you published the config file, add the new `image_drivers` array (see the package's config file for the default).
 
