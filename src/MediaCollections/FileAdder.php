@@ -648,7 +648,13 @@ class FileAdder
             $collectionMedia = $subject->getMedia($media->collection_name);
 
             if ($collectionMedia->count() > $collectionSizeLimit) {
-                $model->clearMediaCollectionExcept($media->collection_name, $collectionMedia->slice(-$collectionSizeLimit, $collectionSizeLimit));
+                $mediaToKeep = $collectionMedia
+                    ->reject(fn (Media $collectionItem) => $collectionItem->is($media))
+                    ->sortByDesc($media->getKeyName())
+                    ->take($collectionSizeLimit - 1)
+                    ->push($media);
+
+                $model->clearMediaCollectionExcept($media->collection_name, $mediaToKeep);
             }
         }
     }
