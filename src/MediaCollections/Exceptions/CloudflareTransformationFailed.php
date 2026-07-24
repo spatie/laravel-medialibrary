@@ -16,6 +16,11 @@ class CloudflareTransformationFailed extends Exception
         return new static("The cloudflare image driver can only convert images. `{$fileName}` is not an image.");
     }
 
+    public static function privateDisk(string $disk): self
+    {
+        return new static("The cloudflare image driver needs the original to be publicly reachable so Cloudflare can fetch it, but the `{$disk}` disk is private. Store the media on a public disk and allow its domain under Cloudflare's Images > Transformations > Sources.");
+    }
+
     public static function missingZone(): self
     {
         return new static('The cloudflare image driver needs a `zone` (the base url of a Cloudflare zone with image transformations enabled). Set it in the `media-library.image_drivers` config.');

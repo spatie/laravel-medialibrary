@@ -58,6 +58,27 @@ it('throws when cloudflare returns a failed response', function () {
     );
 })->throws(CloudflareTransformationFailed::class);
 
+it('throws when the original lives on a private disk', function () {
+    config()->set('filesystems.disks.privateDisk', [
+        'driver' => 'local',
+        'root' => $this->getTempDirectory('private-media'),
+        'visibility' => 'private',
+    ]);
+
+    $media = $this->model
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('default', 'privateDisk');
+
+    $driver = new CloudflareImageDriver(['zone' => 'https://cf.test']);
+
+    $driver->convert(
+        $media,
+        ($this->conversion)(fn (CloudflareImage $image) => $image->width(10)),
+        tempnam(sys_get_temp_dir(), 'cf'),
+    );
+})->throws(CloudflareTransformationFailed::class);
+
 it('throws when the media is not an image', function () {
     $media = $this->model->addMedia($this->getTestPdf())->preservingOriginal()->toMediaCollection();
 

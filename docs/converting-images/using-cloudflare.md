@@ -22,6 +22,8 @@ In the Cloudflare dashboard, go to **Images** and then **Transformations**, sele
 
 Cloudflare fetches the original image over its public url and transforms it. This means the original must live on a publicly reachable disk. An image on a local disk that is not reachable from the internet, for example during local development, cannot be transformed.
 
+When the `cloudflare` (store the result) driver detects that the original lives on a disk with private visibility, it throws a `CloudflareTransformationFailed` exception up front instead of making a request that Cloudflare cannot fulfil. Store your media on a public disk to avoid this.
+
 On the Transformations screen, under **Sources**, Cloudflare also controls which origins it will pull originals from. Pick the option that matches where your media disk serves files:
 
 - **This zone only**: Cloudflare only transforms originals served from your zone (for example `your-site.com` or `*.your-site.com`). Use this when your originals are hosted on that domain.

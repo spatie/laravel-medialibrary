@@ -3,11 +3,13 @@
 namespace Spatie\MediaLibrary\ImageDrivers\Cloudflare;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\ImageDrivers\GeneratesConversionFiles;
 use Spatie\MediaLibrary\ImageDrivers\ProvidesConversionExtension;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\CloudflareTransformationFailed;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Throwable;
 
 class CloudflareImageDriver implements GeneratesConversionFiles, ProvidesConversionExtension
 {
@@ -24,6 +26,10 @@ class CloudflareImageDriver implements GeneratesConversionFiles, ProvidesConvers
     {
         if ($media->type !== 'image') {
             throw CloudflareTransformationFailed::unsupportedMediaType($media->file_name);
+        }
+
+        if ($this->originalIsPrivate($media)) {
+            throw CloudflareTransformationFailed::privateDisk($media->disk);
         }
 
         $url = $this->transformationUrl($media, $conversion);
@@ -48,6 +54,22 @@ class CloudflareImageDriver implements GeneratesConversionFiles, ProvidesConvers
     public function conversionExtension(Conversion $conversion, string $originalExtension): string
     {
         return $this->targetFormat($conversion)?->extension() ?? $originalExtension;
+    }
+
+    /**
+     * Cloudflare fetches the original over the public internet, so a private
+     * original can never be transformed. We can only warn about the cases we can
+     * positively determine, and leave anything uncertain to the request itself.
+     */
+    protected function originalIsPrivate(Media $media): bool
+    {
+        try {
+            $visibility = Storage::disk($media->disk)->getVisibility($media->getPathRelativeToRoot());
+        } catch (Throwable) {
+            return false;
+        }
+
+        return $visibility === 'private';
     }
 
     protected function acceptHeader(Media $media, Conversion $conversion): string
