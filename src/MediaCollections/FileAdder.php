@@ -631,18 +631,24 @@ class FileAdder
     {
         $this->guardAgainstDisallowedFileAdditions($media);
 
-        $this->checkGenerateResponsiveImages($media);
+        $this->checkGenerateResponsiveImages($media, $fileAdder);
 
         if (! $media->getConnectionName()) {
             $media->setConnection($model->getConnectionName());
         }
 
-        if ($this->thenCallback || $this->catchCallback) {
+        // Everything below reads from the adder this media item was added with.
+        // While the subject was unsaved, all pending items are processed by the
+        // adder that registered the `created` listener, which is not
+        // necessarily the one that holds this item's settings.
+        $hasDerivativeCallbacks = $fileAdder->thenCallback || $fileAdder->catchCallback;
+
+        if ($hasDerivativeCallbacks) {
             $media->mediaDerivativeCallbacks = [
-                'then' => $this->thenCallback,
-                'catch' => $this->catchCallback,
-                'responsiveImages' => $this->generateResponsiveImages,
-                'queue' => $this->onQueue ?? config('media-library.queue_name'),
+                'then' => $fileAdder->thenCallback,
+                'catch' => $fileAdder->catchCallback,
+                'responsiveImages' => $fileAdder->generateResponsiveImages,
+                'queue' => $fileAdder->onQueue ?? config('media-library.queue_name'),
             ];
         }
 
@@ -671,22 +677,24 @@ class FileAdder
         }
 
         // The derivative callback chain generates responsive images itself.
-        if (! $media->mediaDerivativeCallbacks) {
-            if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
-                $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
+        $generateResponsiveImages = ! $hasDerivativeCallbacks
+            && $fileAdder->generateResponsiveImages
+            && (new ImageGenerator)->canConvert($media);
 
-                $job = new $generateResponsiveImagesJobClass($media);
+        if ($generateResponsiveImages) {
+            $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
-                if ($customConnection = config('media-library.queue_connection_name')) {
-                    $job->onConnection($customConnection);
-                }
+            $job = new $generateResponsiveImagesJobClass($media);
 
-                if ($customQueue = ($this->onQueue ?? config('media-library.queue_name'))) {
-                    $job->onQueue($customQueue);
-                }
-
-                dispatch($job);
+            if ($customConnection = config('media-library.queue_connection_name')) {
+                $job->onConnection($customConnection);
             }
+
+            if ($customQueue = ($fileAdder->onQueue ?? config('media-library.queue_name'))) {
+                $job->onQueue($customQueue);
+            }
+
+            dispatch($job);
         }
 
         if ($collectionSizeLimit = optional($this->getMediaCollection($media->collection_name))->collectionSizeLimit) {
@@ -723,12 +731,12 @@ class FileAdder
         }
     }
 
-    protected function checkGenerateResponsiveImages(Media $media): void
+    protected function checkGenerateResponsiveImages(Media $media, self $fileAdder): void
     {
         $collection = optional($this->getMediaCollection($media->collection_name))->generateResponsiveImages;
 
         if ($collection) {
-            $this->withResponsiveImages();
+            $fileAdder->withResponsiveImages();
         }
     }
 

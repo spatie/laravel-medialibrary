@@ -777,8 +777,8 @@ trait InteractsWithMedia
     }
 
     /**
-     * @param  Conversion[]  $conversions
-     * @return Conversion[]
+     * @param  array<int, Conversion>  $conversions
+     * @return array<int, Conversion>
      */
     protected function dedupeConversions(array $conversions): array
     {
@@ -788,9 +788,9 @@ trait InteractsWithMedia
             $performOnCollections = $conversion->getPerformOnCollections();
             sort($performOnCollections);
 
-            $key = $conversion->getName().'|'.implode(',', $performOnCollections);
+            $collections = implode(',', $performOnCollections);
 
-            $deduped[$key] = $conversion;
+            $deduped["{$conversion->getName()}|{$collections}"] = $conversion;
         }
 
         return array_values($deduped);
@@ -798,11 +798,20 @@ trait InteractsWithMedia
 
     public function registerAllMediaConversions(?Media $media = null): void
     {
+        $this->mediaConversions = [];
+
         $this->registerAllMediaCollections();
 
         $this->guardAgainstAttributeConversionsForUnknownCollections();
 
-        $this->mediaConversions = $this->mediaAttributeResolver()->toConversions();
+        // Attributes are registered first so that a same named conversion coming
+        // from a method wins. Collections may have registered conversions of
+        // their own while running registerMediaCollections(); those keep their
+        // place after the attributes.
+        $this->mediaConversions = [
+            ...$this->mediaAttributeResolver()->toConversions(),
+            ...$this->mediaConversions,
+        ];
 
         collect($this->mediaCollections)->each(function (MediaCollection $mediaCollection) use ($media) {
             $actualMediaConversions = $this->mediaConversions;

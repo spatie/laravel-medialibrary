@@ -112,6 +112,24 @@ $user->addMedia($request->file('avatar'))->toMediaCollection(MediaCollectionName
 $user->getFirstMediaUrl(MediaCollectionName::Avatar, 'thumb');
 ```
 
+## Inheritance
+
+Attributes on a parent class apply to its subclasses. Declaring a collection or a conversion with the same name on the subclass replaces the one it inherited, so a base model can define the shared setup and each model can adjust it.
+
+```php
+#[MediaCollection(name: 'avatar', singleFile: true)]
+#[MediaConversion(name: 'thumb', width: 150)]
+abstract class BaseUser extends Model implements HasMedia
+{
+    use InteractsWithMedia;
+}
+
+#[MediaConversion(name: 'thumb', width: 400)]
+class Admin extends BaseUser
+{
+}
+```
+
 ## When to use methods instead
 
 The attribute arguments cover geometry, format, and the collection level toggles. They do not expose the full set of [spatie/image](https://spatie.be/docs/image/v3) manipulations (such as `blur`, `greyscale`, `border`, or `watermark`). For those, and for conversions that depend on the `$media` instance, or collections that use `acceptsFile()` with a closure, keep using the `registerMediaConversions()` and `registerMediaCollections()` methods.

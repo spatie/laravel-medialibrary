@@ -3,7 +3,6 @@
 use Laravel\SerializableClosure\SerializableClosure;
 use Spatie\MediaLibrary\Conversions\Jobs\RunMediaCallbacksJob;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
-use Throwable;
 
 it('runs the derivative jobs and then the then closure with the media', function () {
     $model = TestModel::create(['name' => 'test']);

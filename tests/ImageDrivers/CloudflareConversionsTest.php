@@ -26,7 +26,6 @@ it('builds a delivery url for a virtual conversion instead of generating a file'
         ->and($heroUrl)->toContain('format=auto')
         ->and($heroUrl)->toEndWith($media->getFullUrl())
         ->and($media->hasGeneratedConversion('hero'))->toBeTrue()
-        // It is virtual: nothing was generated, so it is absent from generated_conversions.
         ->and($media->generated_conversions)->not->toHaveKey('hero');
 });
 
@@ -51,8 +50,6 @@ it('skips a virtual conversion in getAvailablePath and falls back to a file', fu
 
     $media = $this->model->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection();
 
-    // 'hero' is virtual (no file), 'avatar' is a real stored file. The virtual one
-    // must be skipped instead of throwing, so we get the avatar file path.
     expect($media->getAvailablePath(['hero', 'avatar']))->toBe($media->getPath('avatar'));
 });
 

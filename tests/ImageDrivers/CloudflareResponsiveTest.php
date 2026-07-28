@@ -6,7 +6,6 @@ use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithCloudflareMode
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithDriverConversions;
 
 beforeEach(function () {
-    // The fixture also has a mode A cloudflare conversion that runs on add.
     Http::fake(['*' => Http::response('bytes', 200)]);
     config()->set('media-library.image_drivers.cloudflare.zone', 'https://example.com');
 
@@ -35,12 +34,10 @@ it('exposes the responsive urls and reports having them', function () {
 it('overrides the closure width with each responsive width', function () {
     $srcset = $this->media->getSrcset('hero');
 
-    // The conversion closure sets width(1600); responsive replaces it per entry.
     expect($srcset)->not->toContain('width=1600');
 });
 
 it('does not build a virtual srcset when the conversion has no responsive images', function () {
-    // `avatar` is a mode A cloudflare conversion without withResponsiveImages().
     expect($this->media->getSrcset('avatar'))->toBe('')
         ->and($this->media->hasResponsiveImages('avatar'))->toBeFalse();
 });

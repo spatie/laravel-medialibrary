@@ -24,16 +24,21 @@ class SpatieImageDriver implements GeneratesConversionFiles, SupportsResponsiveI
 
     public function convert(Media $media, Conversion $conversion, string $file): string
     {
-        $image = Image::useImageDriver($this->config['engine'] ?? 'gd')
-            ->loadFile($file)
-            ->format('jpg');
+        $image = Image::useImageDriver($this->config['engine'] ?? 'gd')->loadFile($file);
 
         try {
+            $conversion->getManipulations()->apply($image);
+
+            // The closure runs last so it can refine what the conversion's own
+            // manipulations set up.
             if ($closure = $conversion->getManipulationClosure()) {
                 ($closure->getClosure())($image);
             }
 
-            $conversion->getManipulations()->apply($image);
+            // The conversion file is named before it is generated, so the format
+            // that name was derived from has the final say. Set the output format
+            // with format() on the conversion, not inside the closure.
+            $image->format($conversion->getResultExtension($media->extension) ?: 'jpg');
 
             $image->save();
         } catch (UnsupportedImageFormat) {

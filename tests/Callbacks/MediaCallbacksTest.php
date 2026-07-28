@@ -4,7 +4,6 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\ThrowingConversionsJob;
-use Throwable;
 
 beforeEach(function () {
     config()->set('queue.default', 'sync');

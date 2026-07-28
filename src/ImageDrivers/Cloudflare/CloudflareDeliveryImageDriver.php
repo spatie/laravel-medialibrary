@@ -24,10 +24,19 @@ class CloudflareDeliveryImageDriver implements ResolvesResponsiveConversionUrls
 
     public function responsiveConversionUrls(Media $media, Conversion $conversion): array
     {
+        // The manipulation closure and the original's url are identical for
+        // every width, so resolve them once instead of once per entry.
+        $parameters = $this->transformationParameters($conversion);
+        $sourceUrl = $media->getFullUrl();
+
         $urls = [];
 
         foreach ($this->responsiveWidths() as $width) {
-            $urls[$width] = $this->transformationUrl($media, $conversion, $width);
+            $widthParameters = [...$parameters, 'width' => $width];
+
+            ksort($widthParameters);
+
+            $urls[$width] = $this->transformationUrlForParameters($widthParameters, $sourceUrl);
         }
 
         return $urls;

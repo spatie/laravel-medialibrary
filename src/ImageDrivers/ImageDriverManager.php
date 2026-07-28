@@ -16,14 +16,29 @@ class ImageDriverManager
     /** @var array<string, MediaImageDriver> */
     protected array $resolved = [];
 
+    /** @var array<string, array<string, mixed>> */
+    protected array $resolvedConfigs = [];
+
     /** @var array<string, Closure(array): MediaImageDriver> */
     protected array $customCreators = [];
 
+    /**
+     * Resolved drivers are reused so that a custom creator is only run once,
+     * but the manager is a singleton, so a driver built from configuration that
+     * has since changed is rebuilt rather than served from the cache.
+     */
     public function driver(?string $name = null): MediaImageDriver
     {
         $name ??= $this->defaultDriverName();
 
-        return $this->resolved[$name] ??= $this->resolve($name);
+        $config = $this->driverConfigs()[$name] ?? [];
+
+        if (! isset($this->resolved[$name]) || $this->resolvedConfigs[$name] !== $config) {
+            $this->resolvedConfigs[$name] = $config;
+            $this->resolved[$name] = $this->resolve($name, $config);
+        }
+
+        return $this->resolved[$name];
     }
 
     /**
@@ -33,16 +48,27 @@ class ImageDriverManager
     {
         $this->customCreators[$name] = $creator;
 
-        unset($this->resolved[$name]);
+        unset($this->resolved[$name], $this->resolvedConfigs[$name]);
     }
 
     public function forConversion(Conversion $conversion): MediaImageDriver
     {
-        $name = $conversion->getImageDriverName()
-            ?? $this->inferDriverName($conversion->getManipulationClosure())
-            ?? $this->defaultDriverName();
+        return $this->driver($this->driverNameFor($conversion));
+    }
 
-        return $this->driver($name);
+    public function driverNameFor(Conversion $conversion): string
+    {
+        if ($name = $conversion->getImageDriverName()) {
+            return $name;
+        }
+
+        // Inferring means reflecting on the manipulation closure and comparing
+        // its parameter type against every registered driver. The answer never
+        // changes for a given conversion, and urls ask for it constantly.
+        return $conversion->rememberInferredImageDriverName(
+            fn () => $this->inferDriverName($conversion->getManipulationClosure())
+                ?? $this->defaultDriverName()
+        );
     }
 
     public function isVirtual(Conversion $conversion): bool
@@ -107,15 +133,16 @@ class ImageDriverManager
         return null;
     }
 
-    protected function resolve(string $name): MediaImageDriver
+    /**
+     * @param  array<string, mixed>  $config
+     */
+    protected function resolve(string $name, array $config): MediaImageDriver
     {
-        $config = $this->driverConfigs()[$name] ?? null;
-
         if (isset($this->customCreators[$name])) {
-            return ($this->customCreators[$name])($config ?? []);
+            return ($this->customCreators[$name])($config);
         }
 
-        if (! $config || ! isset($config['driver'])) {
+        if (! isset($config['driver'])) {
             throw InvalidImageDriver::unknown($name);
         }
 

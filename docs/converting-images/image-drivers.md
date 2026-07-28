@@ -23,7 +23,19 @@ $this->addMediaConversion('thumb')
 
 The type of the closure parameter also selects the driver. A closure typed against `Spatie\Image\Drivers\ImageDriver` uses the default spatie engine. A closure typed against `CloudflareImage` uses Cloudflare.
 
-You can still define conversions with the fluent manipulation methods (`->width(300)->height(300)`) as before. Those run on the spatie driver.
+You can still define conversions with the fluent manipulation methods (`->width(300)->height(300)`) as before. Those run on the spatie driver. When you use both, the fluent methods are applied first and the closure runs after them, so the closure can refine what they set up.
+
+### Setting the output format
+
+On the spatie driver, set the output format with `format()` on the conversion rather than inside the closure.
+
+```php
+$this->addMediaConversion('thumb')
+    ->format('webp')
+    ->manipulate(fn (ImageDriver $image) => $image->fit(Fit::Crop, 300, 300));
+```
+
+A conversion file is named before it is generated, because urls have to resolve without reading the file. The format that name was derived from therefore has the final say, and a `format()` call inside the closure is ignored. On the Cloudflare drivers the format is part of the transformation itself, so there you do set it on the `CloudflareImage` object.
 
 ## Choosing the driver
 

@@ -25,9 +25,13 @@ The `then` callback receives the `Media`. The `catch` callback receives the `Thr
 
 Using `then()` runs the media's derivatives on the queue, and the callback fires once they finish. This is true even for conversions that would otherwise run inline. It is the same idea as queueing the work and continuing afterwards.
 
+Because the callback has to fire after everything is done, all of the media item's derivatives run inside a single job, in order. That means `queued()`, `nonQueued()` and `deferred()` on individual conversions do not apply to a media item added with `then()`. Every conversion for that item runs on the queue, inside that one job.
+
 With the `sync` queue driver the derivatives run inline, and the callback still fires. This makes the feature behave predictably in local development and in tests.
 
 `toMediaCollection()` still returns the `Media` synchronously. The callbacks are additive and do not change that.
+
+On the `sync` driver the callback runs while `toMediaCollection()` is still executing, so the collection has not been pruned yet. If your collection uses `singleFile()` or `onlyKeepLatest()`, a `then` callback that reads the whole collection sees the item that is about to be removed. Read the `Media` the callback receives rather than re-reading the collection.
 
 ## Media without derivatives
 

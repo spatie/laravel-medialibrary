@@ -46,6 +46,8 @@ class Conversion
 
     protected ?string $imageDriverName = null;
 
+    protected ?string $inferredImageDriverName = null;
+
     public function __construct(
         protected string $name,
     ) {
@@ -154,6 +156,14 @@ class Conversion
     public function getImageDriverName(): ?string
     {
         return $this->imageDriverName;
+    }
+
+    /**
+     * @param  callable(): string  $infer
+     */
+    public function rememberInferredImageDriverName(callable $infer): string
+    {
+        return $this->inferredImageDriverName ??= $infer();
     }
 
     /**

@@ -28,8 +28,6 @@ beforeEach(function () {
 
     $this->config = ['zone' => $zone];
 
-    // A media whose full url points at the public test image, so Cloudflare has
-    // a reachable original to transform without needing a public media disk.
     $media = new class extends Media
     {
         public string $liveSourceUrl = '';

@@ -79,14 +79,14 @@ class MediaAttributeResolver
 
             if ($attribute->fit !== null) {
                 $conversion->fit($attribute->fit, $attribute->width, $attribute->height);
-            } else {
-                if ($attribute->width !== null) {
-                    $conversion->width($attribute->width);
-                }
+            }
 
-                if ($attribute->height !== null) {
-                    $conversion->height($attribute->height);
-                }
+            if ($attribute->fit === null && $attribute->width !== null) {
+                $conversion->width($attribute->width);
+            }
+
+            if ($attribute->fit === null && $attribute->height !== null) {
+                $conversion->height($attribute->height);
             }
 
             if ($attribute->format !== null) {
@@ -134,19 +134,17 @@ class MediaAttributeResolver
             return self::$cache[$this->modelClass];
         }
 
-        $reflection = new ReflectionClass($this->modelClass);
+        $collections = [];
+        $conversions = [];
 
-        $collections = array_map(
-            fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
-            $reflection->getAttributes(MediaCollection::class),
-        );
+        foreach ($this->classHierarchy() as $class) {
+            $classCollections = $this->attributesOfType($class, MediaCollection::class);
 
-        $conversions = array_map(
-            fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
-            $reflection->getAttributes(MediaConversion::class),
-        );
+            $this->guardAgainstDuplicateCollections($classCollections, $class->getName());
 
-        $this->guardAgainstDuplicateCollections($collections);
+            $collections = [...$collections, ...$classCollections];
+            $conversions = [...$conversions, ...$this->attributesOfType($class, MediaConversion::class)];
+        }
 
         return self::$cache[$this->modelClass] = [
             'collections' => $collections,
@@ -154,14 +152,48 @@ class MediaAttributeResolver
         ];
     }
 
-    /** @param array<int, MediaCollection> $collections */
-    protected function guardAgainstDuplicateCollections(array $collections): void
+    /**
+     * Attributes are not inherited, so walk the class hierarchy ourselves.
+     * Ancestors come first, which lets a model redeclare a collection or a
+     * conversion that a parent class already declared.
+     *
+     * @return array<int, ReflectionClass<object>>
+     */
+    protected function classHierarchy(): array
+    {
+        $classes = [];
+
+        for ($class = new ReflectionClass($this->modelClass); $class; $class = $class->getParentClass()) {
+            array_unshift($classes, $class);
+        }
+
+        return $classes;
+    }
+
+    /**
+     * @param  ReflectionClass<object>  $class
+     * @param  class-string  $attributeClass
+     * @return array<int, MediaCollection|MediaConversion>
+     */
+    protected function attributesOfType(ReflectionClass $class, string $attributeClass): array
+    {
+        return array_map(
+            fn (ReflectionAttribute $attribute) => $attribute->newInstance(),
+            $class->getAttributes($attributeClass),
+        );
+    }
+
+    /**
+     * @param  array<int, MediaCollection>  $collections
+     * @param  class-string  $declaringClass
+     */
+    protected function guardAgainstDuplicateCollections(array $collections, string $declaringClass): void
     {
         $seen = [];
 
         foreach ($collections as $collection) {
             if (in_array($collection->name, $seen, true)) {
-                throw InvalidMediaAttribute::duplicateCollection($collection->name, $this->modelClass);
+                throw InvalidMediaAttribute::duplicateCollection($collection->name, $declaringClass);
             }
 
             $seen[] = $collection->name;

@@ -38,15 +38,16 @@ class CloudflareImageDriver implements GeneratesConversionFiles, ProvidesConvers
         // ask for the format this conversion is stored as. Otherwise a webp
         // conversion could come back as the original format on a server side
         // fetch, and the stored file would not match its extension.
+        // Sinking straight to the temporary file keeps a large transformation out
+        // of the worker's memory.
         $response = Http::withHeaders(['Accept' => $this->acceptHeader($media, $conversion)])
             ->timeout($this->config['timeout'] ?? 30)
+            ->sink($file)
             ->get($url);
 
         if ($response->failed()) {
             throw CloudflareTransformationFailed::requestFailed($url, $response->status());
         }
-
-        file_put_contents($file, $response->body());
 
         return $file;
     }

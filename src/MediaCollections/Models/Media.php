@@ -94,6 +94,9 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     protected ?ConversionCollection $memoizedConversions = null;
 
+    /** @var array<string, array<int, string>> */
+    protected static array $virtualConversionNames = [];
+
     /** @var array{then: ?SerializableClosure, catch: ?SerializableClosure, responsiveImages: bool, queue: ?string}|null */
     public ?array $mediaDerivativeCallbacks = null;
 
@@ -115,15 +118,11 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getUrl(string $conversionName = ''): string
     {
-        if ($conversionName !== '') {
-            $virtualConversion = $this->findVirtualConversion($conversionName);
+        if ($virtualConversion = $this->findVirtualConversion($conversionName)) {
+            /** @var ResolvesConversionUrls $driver */
+            $driver = app(ImageDriverManager::class)->forConversion($virtualConversion);
 
-            if ($virtualConversion) {
-                /** @var ResolvesConversionUrls $driver */
-                $driver = app(ImageDriverManager::class)->forConversion($virtualConversion);
-
-                return $driver->conversionUrl($this, $virtualConversion);
-            }
+            return $driver->conversionUrl($this, $virtualConversion);
         }
 
         $urlGenerator = UrlGeneratorFactory::createForMedia($this, $conversionName);
@@ -133,6 +132,10 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getTemporaryUrl(?DateTimeInterface $expiration = null, string $conversionName = '', array $options = []): string
     {
+        if ($this->findVirtualConversion($conversionName)) {
+            throw VirtualConversionHasNoFile::create($conversionName);
+        }
+
         $expiration = $expiration ?: now()->addMinutes(config('media-library.temporary_url_default_lifetime'));
         $urlGenerator = $this->getUrlGenerator($conversionName);
 
@@ -141,10 +144,8 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getPath(string $conversionName = ''): string
     {
-        if ($conversionName !== '') {
-            if ($this->findVirtualConversion($conversionName)) {
-                throw VirtualConversionHasNoFile::create($conversionName);
-            }
+        if ($this->findVirtualConversion($conversionName)) {
+            throw VirtualConversionHasNoFile::create($conversionName);
         }
 
         $urlGenerator = $this->getUrlGenerator($conversionName);
@@ -154,10 +155,8 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
     public function getPathRelativeToRoot(string $conversionName = ''): string
     {
-        if ($conversionName !== '') {
-            if ($this->findVirtualConversion($conversionName)) {
-                throw VirtualConversionHasNoFile::create($conversionName);
-            }
+        if ($this->findVirtualConversion($conversionName)) {
+            throw VirtualConversionHasNoFile::create($conversionName);
         }
 
         return $this->getUrlGenerator($conversionName)->getPathRelativeToRoot();
@@ -185,6 +184,11 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     {
         foreach ($conversionNames as $conversionName) {
             if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
+            }
+
+            // Virtual conversions are delivered by url and have no file to sign.
+            if ($this->findVirtualConversion($conversionName)) {
                 continue;
             }
 
@@ -408,13 +412,17 @@ class Media extends Model implements Attachable, Htmlable, Responsable
      */
     protected function findVirtualConversion(string $conversionName): ?Conversion
     {
-        if (! $this->exists) {
+        if ($conversionName === '' || ! $this->exists) {
             return null;
         }
 
         $modelIsResolvable = $this->relationLoaded('model') || $this->model_id;
 
         if (! $modelIsResolvable) {
+            return null;
+        }
+
+        if (! in_array($conversionName, $this->virtualConversionNames(), true)) {
             return null;
         }
 
@@ -425,6 +433,37 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         }
 
         return $conversion->isVirtual() ? $conversion : null;
+    }
+
+    /**
+     * The names of the conversions for this media that are delivered by url.
+     *
+     * Asking whether a conversion exists happens on every url and on every
+     * serialization (`preview_url` is appended), while building the conversion
+     * collection instantiates the model and registers every conversion. Almost
+     * no application has virtual conversions at all, so the answer is cached
+     * per model and collection for the rest of the request.
+     *
+     * @return array<int, string>
+     */
+    protected function virtualConversionNames(): array
+    {
+        $cacheKey = "{$this->model_type}|{$this->collection_name}";
+
+        return static::$virtualConversionNames[$cacheKey] ??= $this->resolvedConversions()
+            ->filter(fn (Conversion $conversion) => $conversion->isVirtual())
+            ->map(fn (Conversion $conversion) => $conversion->getName())
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Forget the cached virtual conversion names. Only needed when conversions
+     * are registered differently within a single process, as tests do.
+     */
+    public static function forgetVirtualConversions(): void
+    {
+        static::$virtualConversionNames = [];
     }
 
     /**
@@ -470,9 +509,16 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     private function findFirstAvailableConversion(array $conversionNames): string
     {
         foreach ($conversionNames as $conversionName) {
-            if ($this->hasGeneratedConversion($conversionName)) {
-                return $conversionName;
+            if (! $this->hasGeneratedConversion($conversionName)) {
+                continue;
             }
+
+            // Virtual conversions are delivered by url and have no file to stream.
+            if ($this->findVirtualConversion($conversionName)) {
+                continue;
+            }
+
+            return $conversionName;
         }
 
         return '';
@@ -640,6 +686,10 @@ class Media extends Model implements Attachable, Htmlable, Responsable
 
         if (! $this->hasGeneratedConversion($conversion)) {
             throw InvalidConversion::unknownName($conversion);
+        }
+
+        if ($this->findVirtualConversion($conversion)) {
+            throw VirtualConversionHasNoFile::create($conversion);
         }
 
         return $filesystem->getConversionStream($this, $conversion);

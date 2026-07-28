@@ -116,7 +116,6 @@ it('keeps the original format when no format is requested', function () {
         tempnam(sys_get_temp_dir(), 'cf'),
     );
 
-    // The jpg test image reports image/jpeg, so that is what we accept.
     Http::assertSent(fn ($request) => $request->header('Accept') === ['image/jpeg']);
 });
 

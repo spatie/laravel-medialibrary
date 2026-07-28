@@ -4,6 +4,7 @@ namespace Spatie\MediaLibrary\Conversions\ImageGenerators;
 
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
 
 class Image extends ImageGenerator
 {
@@ -20,7 +21,7 @@ class Image extends ImageGenerator
     public function supportedExtensions(): Collection
     {
         $extensions = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'avif'];
-        if (config('media-library.image_driver') === 'imagick') {
+        if ($this->usesImagick()) {
             $extensions[] = 'tiff';
             $extensions[] = 'heic';
             $extensions[] = 'heif';
@@ -32,12 +33,17 @@ class Image extends ImageGenerator
     public function supportedMimeTypes(): Collection
     {
         $mimeTypes = ['image/jpeg', 'image/gif', 'image/png', 'image/webp', 'image/avif'];
-        if (config('media-library.image_driver') === 'imagick') {
+        if ($this->usesImagick()) {
             $mimeTypes[] = 'image/tiff';
             $mimeTypes[] = 'image/heic';
             $mimeTypes[] = 'image/heif';
         }
 
         return collect($mimeTypes);
+    }
+
+    protected function usesImagick(): bool
+    {
+        return app(ImageDriverManager::class)->spatieEngine() === 'imagick';
     }
 }

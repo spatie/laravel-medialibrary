@@ -22,7 +22,6 @@ it('survives serialization so it can run on the queue', function () {
         ->and($restored->getImageDriverName())->toBe('cloudflare')
         ->and($restored->getManipulationClosure())->not->toBeNull();
 
-    // The restored closure is still callable.
     $recorder = new class
     {
         public array $calls = [];
