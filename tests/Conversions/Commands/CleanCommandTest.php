@@ -387,6 +387,76 @@ it('will not clean orphaned media items when disabled', function () {
     ]);
 });
 
+it('can clean deprecated conversion files stored on a separate conversions disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $conversionsDirectory = $this->getTempDirectory("media2/{$media->id}/conversions");
+    $deprecatedImage = "{$conversionsDirectory}/test-deprecated.jpg";
+
+    touch($deprecatedImage);
+    expect($deprecatedImage)->toBeFile();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect("{$conversionsDirectory}/test-thumb.jpg")->toBeFile();
+});
+
+it('will not touch the original disk when looking for deprecated conversions on a separate disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $strayFileOnOriginalDisk = $this->getMediaDirectory("{$media->id}/stray.jpg");
+
+    touch($strayFileOnOriginalDisk);
+
+    $this->artisan('media-library:clean');
+
+    expect($strayFileOnOriginalDisk)->toBeFile();
+});
+
+it('can clean orphaned directories on the conversions disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $orphanedDirectory = $this->getTempDirectory('media2/9999');
+    mkdir($orphanedDirectory, 0777, true);
+
+    $this->artisan('media-library:clean');
+
+    $this->assertDirectoryDoesNotExist($orphanedDirectory);
+    $this->assertDirectoryExists($this->getTempDirectory("media2/{$media->id}"));
+});
+
+it('only cleans orphaned directories on the given disk when a disk argument is passed', function () {
+    $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $orphanedOnPublicDisk = $this->getMediaDirectory('9998');
+    $orphanedOnSecondDisk = $this->getTempDirectory('media2/9999');
+
+    mkdir($orphanedOnPublicDisk, 0777, true);
+    mkdir($orphanedOnSecondDisk, 0777, true);
+
+    $this->artisan('media-library:clean', ['disk' => 'public']);
+
+    $this->assertDirectoryDoesNotExist($orphanedOnPublicDisk);
+    $this->assertDirectoryExists($orphanedOnSecondDisk);
+});
+
 it('will not clean media items on soft deleted models', function () {
     $testModelClass = new class extends TestModel
     {
