@@ -86,6 +86,24 @@ test('generated conversion are cleared after cleanup', function () {
     expect($media->hasGeneratedConversion('test.deprecated'))->toBeFalse();
 });
 
+test('a live conversion keeps its generated flag when a deprecated file shares its name', function () {
+    /** @var Media $media */
+    $media = $this->media['model2']['collection1'];
+
+    expect($media->refresh()->hasGeneratedConversion('thumb'))->toBeTrue();
+
+    $liveConversion = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+    $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.png");
+
+    touch($deprecatedImage);
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($liveConversion)->toBeFile();
+    expect($media->refresh()->hasGeneratedConversion('thumb'))->toBeTrue();
+});
+
 it('can clean deprecated conversion files from a specific model type', function () {
     $media1 = $this->media['model1']['collection1'];
     $media2 = $this->media['model2']['collection1'];

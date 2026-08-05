@@ -259,13 +259,18 @@ class CleanCommand extends Command
     protected function markConversionAsRemoved(Media $media, string $conversionPath): void
     {
         $conversionFile = pathinfo($conversionPath, PATHINFO_FILENAME);
-
-        $generatedConversionName = null;
+        $conversionsDisk = $media->conversions_disk ?: $media->disk;
+        $conversionDirectory = PathGeneratorFactory::create($media)->getPathForConversions($media);
 
         $media->getGeneratedConversions()
             ->dot()
             ->filter(
                 fn (bool $isGenerated, string $generatedConversionName) => Str::contains($conversionFile, $generatedConversionName)
+            )
+            ->filter(
+                fn (bool $isGenerated, string $generatedConversionName) => ! $this->fileSystem
+                    ->disk($conversionsDisk)
+                    ->exists($conversionDirectory.Conversion::create($generatedConversionName)->getConversionFile($media))
             )
             ->each(
                 fn (bool $isGenerated, string $conversionName) => $media->markAsConversionNotGenerated($conversionName)
