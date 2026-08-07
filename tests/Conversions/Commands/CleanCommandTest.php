@@ -104,6 +104,31 @@ test('a live conversion keeps its generated flag when a deprecated file shares i
     expect($media->refresh()->hasGeneratedConversion('thumb'))->toBeTrue();
 });
 
+test('a live conversion that changes the file format keeps its generated flag', function () {
+    $testModelClass = new class extends TestModel
+    {
+        public function registerMediaConversions(?Media $media = null): void
+        {
+            $this->addMediaConversion('thumb')->width(50)->format('webp')->nonQueued();
+        }
+    };
+
+    $media = $testModelClass::create(['name' => 'test'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+
+    touch($deprecatedImage);
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($this->getMediaDirectory("{$media->id}/conversions/test-thumb.webp"))->toBeFile();
+    expect($media->refresh()->hasGeneratedConversion('thumb'))->toBeTrue();
+});
+
 it('can clean deprecated conversion files from a specific model type', function () {
     $media1 = $this->media['model1']['collection1'];
     $media2 = $this->media['model2']['collection1'];

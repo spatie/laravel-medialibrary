@@ -146,7 +146,7 @@ class CleanCommand extends Command
         $conversionFilePaths = ConversionCollection::createForMedia($media)->getConversionsFiles($media->collection_name);
 
         $conversionPath = PathGeneratorFactory::create($media)->getPathForConversions($media);
-        $conversionsDisk = $media->conversions_disk ?: $media->disk;
+        $conversionsDisk = $this->conversionsDiskName($media);
         $currentFilePaths = $this->fileSystem->disk($conversionsDisk)->files($conversionPath);
 
         collect($currentFilePaths)
@@ -208,15 +208,7 @@ class CleanCommand extends Command
 
     protected function deleteOrphanedDirectories(): void
     {
-        $diskNames = $this->argument('disk')
-            ? [$this->argument('disk')]
-            : $this->mediaRepository->allDiskNames()
-                ->push(config('media-library.disk_name'))
-                ->push(config('media-library.conversions_disk_name'))
-                ->filter()
-                ->unique()
-                ->values()
-                ->all();
+        $diskNames = $this->diskNamesToSweep();
 
         foreach ($diskNames as $diskName) {
             if (is_null(config("filesystems.disks.{$diskName}"))) {
@@ -256,26 +248,60 @@ class CleanCommand extends Command
         }
     }
 
+    /** @return array<int, string> */
+    protected function diskNamesToSweep(): array
+    {
+        $disk = $this->argument('disk');
+
+        if (is_string($disk) && $disk !== '') {
+            return [$disk];
+        }
+
+        return $this->mediaRepository->allDiskNames()
+            ->push(config('media-library.disk_name'))
+            ->push(config('media-library.conversions_disk_name'))
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+    }
+
     protected function markConversionAsRemoved(Media $media, string $conversionPath): void
     {
         $conversionFile = pathinfo($conversionPath, PATHINFO_FILENAME);
-        $conversionsDisk = $media->conversions_disk ?: $media->disk;
-        $conversionDirectory = PathGeneratorFactory::create($media)->getPathForConversions($media);
 
         $media->getGeneratedConversions()
             ->dot()
             ->filter(
                 fn (bool $isGenerated, string $generatedConversionName) => Str::contains($conversionFile, $generatedConversionName)
             )
-            ->filter(
-                fn (bool $isGenerated, string $generatedConversionName) => ! $this->fileSystem
-                    ->disk($conversionsDisk)
-                    ->exists($conversionDirectory.Conversion::create($generatedConversionName)->getConversionFile($media))
+            ->reject(
+                fn (bool $isGenerated, string $generatedConversionName) => $this->conversionFileExists($media, $generatedConversionName)
             )
             ->each(
                 fn (bool $isGenerated, string $conversionName) => $media->markAsConversionNotGenerated($conversionName)
             );
 
         $media->save();
+    }
+
+    protected function conversionFileExists(Media $media, string $conversionName): bool
+    {
+        $conversion = ConversionCollection::createForMedia($media)
+            ->getConversions($media->collection_name)
+            ->first(fn (Conversion $conversion) => $conversion->getName() === $conversionName);
+
+        if (! $conversion) {
+            return false;
+        }
+
+        $path = PathGeneratorFactory::create($media)->getPathForConversions($media).$conversion->getConversionFile($media);
+
+        return $this->fileSystem->disk($this->conversionsDiskName($media))->exists($path);
+    }
+
+    protected function conversionsDiskName(Media $media): string
+    {
+        return $media->conversions_disk ?: $media->disk;
     }
 }
