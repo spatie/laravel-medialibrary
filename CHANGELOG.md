@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.4 - 2026-08-07
+
+### What's Changed
+
+* docs: fix HasMedia interface import in custom image generator by @latent-9 in https://github.com/spatie/laravel-medialibrary/pull/3960
+* docs: fix outdated class namespaces in consuming events guide by @latent-9 in https://github.com/spatie/laravel-medialibrary/pull/3959
+* Fix media-library:clean when conversions live on a separate disk by @AdzerKI in https://github.com/spatie/laravel-medialibrary/pull/3958
+
+### New Contributors
+
+* @latent-9 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3960
+* @AdzerKI made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3958
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.3...11.23.4
+
 ## 11.23.3 - 2026-07-22
 
 ### What's Changed
