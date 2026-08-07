@@ -456,8 +456,10 @@ it('will not touch the original disk when looking for deprecated conversions on 
         ->storingConversionsOnDisk('secondMediaDisk')
         ->toMediaCollection('collection1');
 
-    $strayFileOnOriginalDisk = $this->getMediaDirectory("{$media->id}/stray.jpg");
+    $conversionsDirectoryOnOriginalDisk = $this->getMediaDirectory("{$media->id}/conversions");
+    mkdir($conversionsDirectoryOnOriginalDisk, 0777, true);
 
+    $strayFileOnOriginalDisk = "{$conversionsDirectoryOnOriginalDisk}/test-deprecated.jpg";
     touch($strayFileOnOriginalDisk);
 
     $this->artisan('media-library:clean');
