@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Image\Enums\BorderType;
+use Spatie\MediaLibrary\Downloaders\HttpFacadeDownloader;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
@@ -317,6 +319,24 @@ it('can add a remote file with a space in the name to the media library', functi
         ->toMediaCollection();
 
     expect($this->getMediaDirectory("{$media->id}/test-with-space.jpg"))->toBeFile();
+});
+
+it('does not let an encoded path in a remote url escape the media directory', function () {
+    config()->set('media-library.media_downloader', HttpFacadeDownloader::class);
+
+    $bytes = file_get_contents($this->getTestJpg());
+
+    Http::fake(['*' => Http::response($bytes, 200, ['Content-Type' => 'image/jpeg'])]);
+
+    $url = 'https://example.com/uploads%2F..%2F..%2Fevil.jpg';
+
+    $media = $this->testModel
+        ->addMediaFromUrl($url)
+        ->toMediaCollection();
+
+    expect($media->file_name)->not->toContain('/');
+    expect($media->file_name)->toEqual('evil.jpg');
+    expect($this->getMediaDirectory("{$media->id}/evil.jpg"))->toBeFile();
 });
 
 it('will thrown an exception when a remote file could not be added', function () {
