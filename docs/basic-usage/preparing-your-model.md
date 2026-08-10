@@ -34,3 +34,5 @@ public function registerMediaConversions(?Media $media = null): void
         ->nonQueued();
 }
 ```
+
+Every method that takes a collection name (such as `addMediaCollection()`, `toMediaCollection()`, and `getMedia()`) also accepts a string-backed enum. See [configuring with attributes](/docs/laravel-medialibrary/v11/basic-usage/configuring-with-attributes) for an example.

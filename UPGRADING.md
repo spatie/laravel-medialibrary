@@ -2,6 +2,40 @@
 
 Because there are many breaking changes an upgrade is not that easy. There are many edge cases this guide does not cover. We accept PRs to improve this guide.
 
+## From v11 to v12
+
+This section is a work in progress while the next major version is being developed.
+
+### Configuring collections and conversions with attributes
+
+You can now declare media collections and conversions with the `#[MediaCollection]` and `#[MediaConversion]` attributes on your model, as an alternative to the `registerMediaCollections()` and `registerMediaConversions()` methods.
+
+This is additive. The methods keep working, and a collection or conversion declared in a method overrides a same named one declared via an attribute. Attributes on a parent class apply to its subclasses, which can redeclare them. See [configuring with attributes](https://spatie.be/docs/laravel-medialibrary/v12/basic-usage/configuring-with-attributes) for the full argument surface.
+
+### Same named conversions
+
+Registering the same conversion name twice for the same set of collections now keeps the last registration instead of the first. A child model that calls `parent::registerMediaConversions()` and then registers its own conversion under that name therefore wins, which is what you would expect but is the opposite of v11.
+
+If you relied on the old behavior the generated file name can change, for example when the two registrations use a different `format()`. Regenerate the affected conversions after upgrading.
+
+### Running code after conversions with `then()` and `catch()`
+
+When adding media you can chain `->then(fn (Media $media) => ...)` and `->catch(fn (Throwable $exception) => ...)` before `toMediaCollection()`. The callbacks run after the media item's derivatives have been generated. Using `then()` runs all of that item's derivatives inside one queued job, so `queued()`, `nonQueued()` and `deferred()` on its conversions no longer apply. See [running code after conversions](https://spatie.be/docs/laravel-medialibrary/v12/advanced-usage/running-code-after-conversions).
+
+### Pluggable image drivers
+
+Conversions now run through a named image driver. The default is `spatie` (spatie/image), so existing conversions behave exactly as before. The legacy `image_driver` values `gd`, `imagick`, and `vips` keep working and select the spatie engine.
+
+New: a conversion can be written as a closure typed against the driver's image object (`->manipulate(fn (ImageDriver $image) => ...)`), and Cloudflare is available as a driver, either fetching and storing the transformed file (`cloudflare`) or transforming at the edge on request (`cloudflare-delivery`). See [image drivers](https://spatie.be/docs/laravel-medialibrary/v12/converting-images/image-drivers) and [using Cloudflare](https://spatie.be/docs/laravel-medialibrary/v12/converting-images/using-cloudflare).
+
+If you published the config file, add the new `image_drivers` array (see the package's config file for the default).
+
+### Enum collection names
+
+Every method that accepts a collection name now also accepts a string-backed enum (for example `toMediaCollection(MyCollections::Avatar)` and `getFirstMediaUrl(MyCollections::Avatar)`).
+
+This is additive for callers, who can keep passing strings. The parameter type on these methods was widened from `string` to `BackedEnum|string`. If you override any of them in a subclass (for example a custom model, a custom media collection, or a custom `FileAdder`), widen the overridden parameter type to `BackedEnum|string` so the signatures stay compatible.
+
 ## From v10 to v11
 
 - Image v3 is now used. Make sure to update your image conversions to the new syntax. See [the image docs](https://spatie.be/docs/image/v3) for more info.
