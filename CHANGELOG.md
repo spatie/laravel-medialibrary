@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.5 - 2026-08-10
+
+### What's Changed
+
+* Decode remote url path before stripping directory in addMediaFromUrl by @bunlongheng in https://github.com/spatie/laravel-medialibrary/pull/3961
+
+### New Contributors
+
+* @bunlongheng made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3961
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.4...11.23.5
+
 ## 11.23.4 - 2026-08-07
 
 ### What's Changed
