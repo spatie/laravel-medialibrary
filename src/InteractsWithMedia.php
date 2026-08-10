@@ -159,8 +159,7 @@ trait InteractsWithMedia
         $temporaryFile = (new $downloader)->getTempFile($url);
         $this->guardAgainstInvalidMimeType($temporaryFile, $allowedMimeTypes);
 
-        $filename = basename(parse_url($url, PHP_URL_PATH));
-        $filename = urldecode($filename);
+        $filename = basename(urldecode((string) parse_url($url, PHP_URL_PATH)));
 
         if ($filename === '') {
             $filename = 'file';
