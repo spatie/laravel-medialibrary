@@ -55,6 +55,8 @@ interface PathGenerator
 
 There aren't any restrictions on how the directories can be named. When a `Media`-object gets deleted the package will delete its entire associated directory. To avoid tears or worse, make sure that every media gets stored its own unique directory.
 
+The `media-library:clean` command treats every top-level directory below the configured media prefix that is not used by a current media path as orphaned. Use a dedicated disk or prefix for media, and run the command with `--dry-run` before deleting files when introducing a custom path generator.
+
 ### Model-specific Custom Path Generators
 In addition to setting a global path generator in the config file, You can also define a `CustomPathGenerator` class for specific models directly inside the model's `booting()` method or within a service provider:
 

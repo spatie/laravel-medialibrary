@@ -6,6 +6,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
+use Spatie\MediaLibrary\Tests\Support\PathGenerator\SeparatedPathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerators\TestPathGeneratorConversionsInOriginalImageDirectory;
@@ -241,6 +242,42 @@ it('keeps cleaning orphaned directories for the default numeric path generator',
 
     $this->assertDirectoryDoesNotExist($orphanDirectory);
     expect($this->getMediaDirectory($this->media['model1']['collection2']->id))->toBeDirectory();
+});
+
+it('keeps every live custom directory on its storage disk', function () {
+    $testModel = new class extends TestModelWithConversion {};
+    $testModel->name = 'test';
+    $testModel->save();
+
+    config()->set('media-library.custom_path_generators', [
+        $testModel::class => SeparatedPathGenerator::class,
+    ]);
+    config()->set('media-library.prefix', 'media');
+
+    $media = $testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $originalDirectory = $this->getMediaDirectory("media/0/{$media->id}");
+    $conversionDirectory = $this->getTempDirectory("media2/media/conversions/{$media->id}");
+    $responsiveImagesDirectory = $this->getTempDirectory("media2/media/responsive-images/{$media->id}");
+    mkdir($responsiveImagesDirectory, recursive: true);
+    touch("{$responsiveImagesDirectory}/responsive.jpg");
+
+    $unusedConversionsDirectory = $this->getMediaDirectory('media/conversions');
+    mkdir($unusedConversionsDirectory);
+
+    $this->artisan('media-library:clean');
+
+    expect($originalDirectory)->toBeDirectory();
+    expect("{$originalDirectory}/test.jpg")->toBeFile();
+    expect($conversionDirectory)->toBeDirectory();
+    expect("{$conversionDirectory}/test-thumb.jpg")->toBeFile();
+    expect($responsiveImagesDirectory)->toBeDirectory();
+    expect("{$responsiveImagesDirectory}/responsive.jpg")->toBeFile();
+    $this->assertDirectoryDoesNotExist($unusedConversionsDirectory);
 });
 
 it('can clean responsive images for deprecated conversions', function () {
