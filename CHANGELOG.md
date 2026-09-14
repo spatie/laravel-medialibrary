@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.8 - 2026-09-14
+
+### What's Changed
+
+* Fix `keepOriginalImageFormat()` encoding conversions as JPEG when the original file has an uppercase extension by @moemadeldin in https://github.com/spatie/laravel-medialibrary/pull/3964
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.7...11.23.8
+
 ## 11.23.7 - 2026-09-03
 
 ### What's Changed
