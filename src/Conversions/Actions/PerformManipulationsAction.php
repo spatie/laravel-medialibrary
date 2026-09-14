@@ -30,7 +30,7 @@ class PerformManipulationsAction
         File::copy($imageFile, $conversionTempFile);
 
         $supportedFormats = ['jpg', 'jpeg', 'pjpg', 'png', 'gif', 'webp'];
-        if ($conversion->shouldKeepOriginalImageFormat() && in_array($media->extension, $supportedFormats)) {
+        if ($conversion->shouldKeepOriginalImageFormat() && in_array(strtolower($media->extension), $supportedFormats)) {
             $conversion->format($media->extension);
         }
 
