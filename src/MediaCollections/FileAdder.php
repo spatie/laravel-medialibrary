@@ -2,10 +2,12 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
+use BackedEnum;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Traits\Macroable;
+use Laravel\SerializableClosure\SerializableClosure;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskCannotBeAccessed;
@@ -18,6 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\UnknownType;
 use Spatie\MediaLibrary\MediaCollections\File as PendingFile;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
+use Spatie\MediaLibrary\Support\CollectionName;
 use Spatie\MediaLibrary\Support\File;
 use Spatie\MediaLibrary\Support\RemoteFile;
 use Spatie\MediaLibraryPro\Models\TemporaryUpload;
@@ -53,6 +56,10 @@ class FileAdder
     protected string $diskName = '';
 
     protected ?string $onQueue = null;
+
+    protected ?SerializableClosure $thenCallback = null;
+
+    protected ?SerializableClosure $catchCallback = null;
 
     protected ?int $fileSize = null;
 
@@ -228,6 +235,26 @@ class FileAdder
     /**
      * @return $this
      */
+    public function then(Closure $callback): self
+    {
+        $this->thenCallback = new SerializableClosure($callback);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function catch(Closure $callback): self
+    {
+        $this->catchCallback = new SerializableClosure($callback);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function withManipulations(array $manipulations): self
     {
         $this->manipulations = $manipulations;
@@ -288,16 +315,20 @@ class FileAdder
     /**
      * @return TMedia
      */
-    public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
+    public function toMediaCollectionOnCloudDisk(BackedEnum|string $collectionName = 'default'): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->toMediaCollection($collectionName, config('filesystems.cloud'));
     }
 
     /**
      * @return TMedia
      */
-    public function toMediaCollectionFromRemote(string $collectionName = 'default', string $diskName = ''): Media
+    public function toMediaCollectionFromRemote(BackedEnum|string $collectionName = 'default', string $diskName = ''): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $storage = Storage::disk($this->file->getDisk());
 
         if (! $storage->exists($this->pathToFile)) {
@@ -352,8 +383,10 @@ class FileAdder
     /**
      * @return TMedia
      */
-    public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
+    public function toMediaCollection(BackedEnum|string $collectionName = 'default', string $diskName = ''): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         $sanitizedFileName = ($this->fileNameSanitizer)($this->fileName);
         $fileName = app(config('media-library.file_namer'))->originalFileName($sanitizedFileName);
         $this->fileName = $this->appendExtension($fileName, pathinfo($sanitizedFileName, PATHINFO_EXTENSION));
@@ -420,8 +453,10 @@ class FileAdder
     /**
      * @return TMedia
      */
-    public function toMediaLibrary(string $collectionName = 'default', string $diskName = ''): Media
+    public function toMediaLibrary(BackedEnum|string $collectionName = 'default', string $diskName = ''): Media
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         return $this->toMediaCollection($collectionName, $diskName);
     }
 
@@ -596,10 +631,25 @@ class FileAdder
     {
         $this->guardAgainstDisallowedFileAdditions($media);
 
-        $this->checkGenerateResponsiveImages($media);
+        $this->checkGenerateResponsiveImages($media, $fileAdder);
 
         if (! $media->getConnectionName()) {
             $media->setConnection($model->getConnectionName());
+        }
+
+        // Everything below reads from the adder this media item was added with.
+        // While the subject was unsaved, all pending items are processed by the
+        // adder that registered the `created` listener, which is not
+        // necessarily the one that holds this item's settings.
+        $hasDerivativeCallbacks = $fileAdder->thenCallback || $fileAdder->catchCallback;
+
+        if ($hasDerivativeCallbacks) {
+            $media->mediaDerivativeCallbacks = [
+                'then' => $fileAdder->thenCallback,
+                'catch' => $fileAdder->catchCallback,
+                'responsiveImages' => $fileAdder->generateResponsiveImages,
+                'queue' => $fileAdder->onQueue ?? config('media-library.queue_name'),
+            ];
         }
 
         $model->media()->save($media);
@@ -626,7 +676,12 @@ class FileAdder
             }
         }
 
-        if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
+        // The derivative callback chain generates responsive images itself.
+        $generateResponsiveImages = ! $hasDerivativeCallbacks
+            && $fileAdder->generateResponsiveImages
+            && (new ImageGenerator)->canConvert($media);
+
+        if ($generateResponsiveImages) {
             $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);
@@ -635,7 +690,7 @@ class FileAdder
                 $job->onConnection($customConnection);
             }
 
-            if ($customQueue = ($this->onQueue ?? config('media-library.queue_name'))) {
+            if ($customQueue = ($fileAdder->onQueue ?? config('media-library.queue_name'))) {
                 $job->onQueue($customQueue);
             }
 
@@ -661,10 +716,8 @@ class FileAdder
 
     protected function getMediaCollection(string $collectionName): ?MediaCollection
     {
-        $this->subject->registerMediaCollections();
-
-        return collect($this->subject->mediaCollections)
-            ->first(fn (MediaCollection $collection) => $collection->name === $collectionName);
+        // Delegate to the subject so collections declared via attributes are resolved too.
+        return $this->subject->getMediaCollection($collectionName);
     }
 
     protected function guardAgainstDisallowedFileAdditions(Media $media): void
@@ -684,12 +737,12 @@ class FileAdder
         }
     }
 
-    protected function checkGenerateResponsiveImages(Media $media): void
+    protected function checkGenerateResponsiveImages(Media $media, self $fileAdder): void
     {
         $collection = optional($this->getMediaCollection($media->collection_name))->generateResponsiveImages;
 
         if ($collection) {
-            $this->withResponsiveImages();
+            $fileAdder->withResponsiveImages();
         }
     }
 

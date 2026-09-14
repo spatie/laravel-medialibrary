@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use RuntimeException;
 use Spatie\MediaLibrary\Conversions\Actions\PerformConversionAction;
+use Spatie\MediaLibrary\Conversions\ImageGenerators\Image as ImageGenerator;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGeneratorFactory;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
+use Spatie\MediaLibrary\Conversions\Jobs\RunMediaCallbacksJob;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\ResponsiveImages\Jobs\GenerateResponsiveImagesJob;
@@ -22,19 +24,17 @@ class FileManipulator
         bool $withResponsiveImages = false,
         bool $queueAll = false,
     ): void {
+        if ($media->mediaDerivativeCallbacks) {
+            $this->dispatchMediaCallbacks($media, $onlyConversionNames, $onlyMissing);
+
+            return;
+        }
+
         if (! $this->canConvertMedia($media)) {
             return;
         }
 
-        $allConversions = ConversionCollection::createForMedia($media)
-            ->filter(function (Conversion $conversion) use ($onlyConversionNames) {
-                if (count($onlyConversionNames) === 0) {
-                    return true;
-                }
-
-                return in_array($conversion->getName(), $onlyConversionNames);
-            })
-            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name));
+        $allConversions = $this->conversionsToPerform($media, $onlyConversionNames);
 
         if ($queueAll) {
             $this
@@ -143,9 +143,7 @@ class FileManipulator
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue(config('media-library.queue_name'));
 
-        config('media-library.queue_conversions_after_database_commit')
-            ? dispatch($job)->afterCommit()
-            : dispatch($job);
+        $this->dispatchDerivativeJob($job);
 
         return $this;
     }
@@ -173,11 +171,80 @@ class FileManipulator
             ->onConnection(config('media-library.queue_connection_name'))
             ->onQueue(config('media-library.queue_name'));
 
+        $this->dispatchDerivativeJob($job);
+
+        return $this;
+    }
+
+    /**
+     * Every conversion that should produce a file for this media item.
+     *
+     * @param  array<int, string>  $onlyConversionNames
+     */
+    protected function conversionsToPerform(Media $media, array $onlyConversionNames = []): ConversionCollection
+    {
+        return ConversionCollection::createForMedia($media)
+            ->filter(function (Conversion $conversion) use ($onlyConversionNames) {
+                if (count($onlyConversionNames) === 0) {
+                    return true;
+                }
+
+                return in_array($conversion->getName(), $onlyConversionNames);
+            })
+            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
+            ->reject(fn (Conversion $conversion) => $conversion->isVirtual());
+    }
+
+    /**
+     * @param  array<int, string>  $onlyConversionNames
+     */
+    protected function dispatchMediaCallbacks(Media $media, array $onlyConversionNames = [], bool $onlyMissing = false): void
+    {
+        $callbacks = $media->mediaDerivativeCallbacks;
+
+        // Saving this media item again would otherwise let the media observer
+        // run the whole chain, and the callbacks, a second time.
+        $media->mediaDerivativeCallbacks = null;
+
+        $derivativeJobs = [];
+
+        if ($this->canConvertMedia($media)) {
+            $conversions = $this->conversionsToPerform($media, $onlyConversionNames);
+
+            if ($conversions->isNotEmpty()) {
+                $performConversionsJobClass = config(
+                    'media-library.jobs.perform_conversions',
+                    PerformConversionsJob::class
+                );
+
+                $derivativeJobs[] = new $performConversionsJobClass($conversions, $media, $onlyMissing);
+            }
+        }
+
+        // Responsive images are generated from the original by the local
+        // generator, so only real raster images qualify, exactly as they do
+        // when no callbacks are involved.
+        if ($callbacks['responsiveImages'] && (new ImageGenerator)->canConvert($media)) {
+            $generateResponsiveImagesJobClass = config(
+                'media-library.jobs.generate_responsive_images',
+                GenerateResponsiveImagesJob::class
+            );
+
+            $derivativeJobs[] = new $generateResponsiveImagesJobClass($media);
+        }
+
+        $job = (new RunMediaCallbacksJob($derivativeJobs, $callbacks['then'], $callbacks['catch'], $media))
+            ->onConnection(config('media-library.queue_connection_name'))
+            ->onQueue($callbacks['queue']);
+
+        $this->dispatchDerivativeJob($job);
+    }
+
+    protected function dispatchDerivativeJob(object $job): void
+    {
         config('media-library.queue_conversions_after_database_commit')
             ? dispatch($job)->afterCommit()
             : dispatch($job);
-
-        return $this;
     }
 
     protected function canConvertMedia(Media $media): bool

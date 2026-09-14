@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\MediaLibrary\Conversions\Commands\RegenerateCommand;
+use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
 use Spatie\MediaLibrary\MediaCollections\Commands\CleanCommand;
 use Spatie\MediaLibrary\MediaCollections\Commands\ClearCommand;
 use Spatie\MediaLibrary\MediaCollections\MediaRepository;
@@ -41,6 +42,8 @@ class MediaLibraryServiceProvider extends PackageServiceProvider
     {
         $this->app->bind(WidthCalculator::class, config('media-library.responsive_images.width_calculator'));
         $this->app->bind(TinyPlaceholderGenerator::class, config('media-library.responsive_images.tiny_placeholder_generator'));
+
+        $this->app->singleton(ImageDriverManager::class);
 
         $this->app->scoped(MediaRepository::class, function () {
             $mediaClass = config('media-library.media_model');

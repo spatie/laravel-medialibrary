@@ -4,9 +4,10 @@ namespace Spatie\MediaLibrary\Conversions\Actions;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Spatie\Image\Exceptions\UnsupportedImageFormat;
-use Spatie\Image\Image;
 use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\ImageDrivers\GeneratesConversionFiles;
+use Spatie\MediaLibrary\ImageDrivers\ImageDriverManager;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidImageDriver;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class PerformManipulationsAction
@@ -18,7 +19,9 @@ class PerformManipulationsAction
     ): string {
 
         if ($conversion->getManipulations()->isEmpty()) {
-            return $imageFile;
+            if (! $conversion->getManipulationClosure()) {
+                return $imageFile;
+            }
         }
 
         if (! File::exists($imageFile)) {
@@ -34,19 +37,13 @@ class PerformManipulationsAction
             $conversion->format($media->extension);
         }
 
-        $image = Image::useImageDriver(config('media-library.image_driver'))
-            ->loadFile($conversionTempFile)
-            ->format('jpg');
+        $driver = app(ImageDriverManager::class)->forConversion($conversion);
 
-        try {
-            $conversion->getManipulations()->apply($image);
-
-            $image->save();
-        } catch (UnsupportedImageFormat) {
-
+        if (! $driver instanceof GeneratesConversionFiles) {
+            throw InvalidImageDriver::cannotGenerateFiles($driver::class);
         }
 
-        return $conversionTempFile;
+        return $driver->convert($media, $conversion, $conversionTempFile);
     }
 
     protected function getConversionTempFileName(

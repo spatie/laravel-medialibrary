@@ -95,10 +95,14 @@ class HtmlableMedia implements \Stringable, Htmlable
                 ? 'responsiveImageWithPlaceholder'
                 : 'responsiveImage';
 
+            // A virtual conversion builds its srcset from edge urls, so there are
+            // no stored files to read the intrinsic dimensions from.
             $responsiveImage = $this->media->responsiveImages($this->conversionName)->files->first();
 
-            $width = $responsiveImage->width();
-            $height = $responsiveImage->height();
+            if ($responsiveImage) {
+                $width = $responsiveImage->width();
+                $height = $responsiveImage->height();
+            }
         }
 
         $media = $this->media;
