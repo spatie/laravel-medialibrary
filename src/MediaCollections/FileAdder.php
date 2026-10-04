@@ -491,7 +491,9 @@ class FileAdder
     {
         $sanitizedFileName = preg_replace('#\p{C}+#u', '', $fileName);
 
-        $sanitizedFileName = str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
+        $sanitizedFileName = preg_replace('#\p{Z}#u', '-', $sanitizedFileName);
+
+        $sanitizedFileName = str_replace(['#', '/', '\\'], '-', $sanitizedFileName);
 
         $this->guardAgainstDisallowedFileName($fileName, $sanitizedFileName);
 
