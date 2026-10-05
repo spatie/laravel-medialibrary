@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.9 - 2026-10-05
+
+### What's Changed
+
+* Replace all Unicode space separators in the default file name sanitizer by @chengkangzai in https://github.com/spatie/laravel-medialibrary/pull/3965
+
+### New Contributors
+
+* @chengkangzai made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3965
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.8...11.23.9
+
 ## 11.23.8 - 2026-09-14
 
 ### What's Changed
