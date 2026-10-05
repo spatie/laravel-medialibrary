@@ -59,6 +59,26 @@ $media->getUrl();  // the url to where the original image is stored
 $media->getUrl('thumb'); // the url to the converted image with dimensions 368x232
 ```
 
+## Manipulating with a closure
+
+Instead of the fluent methods you can manipulate the image with a closure. Type its parameter against the image object of the driver that performs the conversion, and your editor gives you full autocompletion for that driver's manipulations.
+
+```php
+use Spatie\Image\Drivers\ImageDriver;
+use Spatie\Image\Enums\Fit;
+
+public function registerMediaConversions(?Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+        ->manipulate(fn (ImageDriver $image) => $image
+            ->fit(Fit::Crop, 368, 232)
+            ->sharpen(10)
+        );
+}
+```
+
+The type of the closure parameter also selects the image driver. The default is [spatie/image](https://spatie.be/docs/image/v3), but you can also let Cloudflare perform the conversion. See [image drivers](/docs/laravel-medialibrary/v11/converting-images/image-drivers) and [using Cloudflare](/docs/laravel-medialibrary/v11/converting-images/using-cloudflare).
+
 ## Using multiple conversions
 
 You can register as many media conversions as you want

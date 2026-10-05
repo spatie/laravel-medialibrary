@@ -15,6 +15,9 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\Video;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\Webp;
 use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
 use Spatie\MediaLibrary\Downloaders\DefaultDownloader;
+use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareDeliveryImageDriver;
+use Spatie\MediaLibrary\ImageDrivers\Cloudflare\CloudflareImageDriver;
+use Spatie\MediaLibrary\ImageDrivers\SpatieImageDriver;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Observers\MediaObserver;
@@ -239,10 +242,37 @@ return [
     'temporary_directory_path' => null,
 
     /*
-     * The engine that should perform the image conversions.
-     * Should be either `gd`, `imagick` or `vips`.
+     * The default image driver that performs conversions. This is a key of the
+     * `image_drivers` array below. The legacy values `gd`, `imagick` and
+     * `vips` keep working and select the spatie driver with that engine.
      */
     'image_driver' => env('IMAGE_DRIVER', 'gd'),
+
+    /*
+     * The available image drivers. A conversion can pick one explicitly with
+     * useImageDriver(), or implicitly through the type of its manipulation
+     * closure parameter. You can register your own drivers with
+     * ImageDriverManager::extend().
+     */
+    'image_drivers' => [
+        'spatie' => [
+            'driver' => SpatieImageDriver::class,
+            'engine' => 'gd',
+        ],
+        'cloudflare' => [
+            'driver' => CloudflareImageDriver::class,
+            'zone' => env('CLOUDFLARE_IMAGES_ZONE'),
+        ],
+        'cloudflare-delivery' => [
+            'driver' => CloudflareDeliveryImageDriver::class,
+            'zone' => env('CLOUDFLARE_IMAGES_ZONE'),
+
+            // Widths used to build the responsive srcset for conversions that
+            // opt into responsive images. No files are generated; each width is
+            // a separate edge url.
+            'responsive_widths' => [320, 640, 960, 1280, 1920],
+        ],
+    ],
 
     /*
      * FFMPEG & FFProbe binaries paths, only used if you try to generate video

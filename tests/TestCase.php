@@ -11,6 +11,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\File;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Schema;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\MediaLibrary\Support\MediaLibraryPro;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
@@ -60,6 +61,8 @@ abstract class TestCase extends Orchestra
         $this->loadEnvironmentVariables();
 
         parent::setUp();
+
+        Media::forgetVirtualConversions();
 
         $this->setUpDatabase($this->app);
 

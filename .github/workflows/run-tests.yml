@@ -74,3 +74,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
+          CLOUDFLARE_IMAGES_ZONE: ${{ secrets.CLOUDFLARE_IMAGES_ZONE }}
+          CLOUDFLARE_TEST_IMAGE_URL: ${{ secrets.CLOUDFLARE_TEST_IMAGE_URL }}
