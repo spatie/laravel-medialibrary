@@ -4,11 +4,6 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\MediaLibrary\\\\HasMedia\\:\\:#"
 
 		-
-			message: "#^Call to an undefined method Spatie\\\\MediaLibrary\\\\Support\\\\UrlGenerator\\\\UrlGenerator\\:\\:getPathRelativeToRoot\\(\\)\\.$#"
-			count: 1
-			path: src/MediaCollections/Models/Media.php
-
-		-
 			message: "#^Method Spatie\\\\MediaLibrary\\\\HasMedia\\:\\:registerAllMediaConversions\\(\\) invoked with 1 parameter, 0 required\\.$#"
 			count: 1
 			path: src/Conversions/ConversionCollection.php
