@@ -36,6 +36,12 @@ Every method that accepts a collection name now also accepts a string-backed enu
 
 This is additive for callers, who can keep passing strings. The parameter type on these methods was widened from `string` to `BackedEnum|string`. If you override any of them in a subclass (for example a custom model, a custom media collection, or a custom `FileAdder`), widen the overridden parameter type to `BackedEnum|string` so the signatures stay compatible.
 
+### `getPathRelativeToRoot()` on the `UrlGenerator` interface
+
+The `Spatie\MediaLibrary\Support\UrlGenerator\UrlGenerator` interface now declares `getPathRelativeToRoot(): string`. The package already called this method when deleting, copying and attaching media, so a generator without it would fail at runtime.
+
+If your custom URL generator extends `BaseUrlGenerator` or `DefaultUrlGenerator`, you don't need to change anything. If it implements the interface directly, add a `getPathRelativeToRoot()` method that returns the media file's path relative to the root of its disk.
+
 ## From v10 to v11
 
 - Image v3 is now used. Make sure to update your image conversions to the new syntax. See [the image docs](https://spatie.be/docs/image/v3) for more info.

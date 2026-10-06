@@ -13,6 +13,8 @@ interface UrlGenerator
 
     public function getPath(): string;
 
+    public function getPathRelativeToRoot(): string;
+
     public function setMedia(Media $media): self;
 
     public function setConversion(Conversion $conversion): self;
