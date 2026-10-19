@@ -34,39 +34,43 @@ class ResponsiveImageGenerator
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $baseImage = app(Filesystem::class)->copyFromMediaLibrary(
-            $media,
-            $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
-        );
+        try {
+            $baseImage = app(Filesystem::class)->copyFromMediaLibrary(
+                $media,
+                $temporaryDirectory->path(Str::random(16).'.'.$media->extension)
+            );
 
-        $media = $this->cleanResponsiveImages($media);
+            $media = $this->cleanResponsiveImages($media);
 
-        foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $width, $temporaryDirectory);
+            foreach ($this->widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
+                $this->generateResponsiveImage($media, $baseImage, 'media_library_original', $width, $temporaryDirectory);
+            }
+
+            event(new ResponsiveImagesGeneratedEvent($media));
+
+            $this->generateTinyJpg($media, $baseImage, 'media_library_original', $temporaryDirectory);
+        } finally {
+            $temporaryDirectory->delete();
         }
-
-        event(new ResponsiveImagesGeneratedEvent($media));
-
-        $this->generateTinyJpg($media, $baseImage, 'media_library_original', $temporaryDirectory);
-
-        $temporaryDirectory->delete();
     }
 
     public function generateResponsiveImagesForConversion(Media $media, Conversion $conversion, string $baseImage): void
     {
         $temporaryDirectory = TemporaryDirectory::create();
 
-        $media = $this->cleanResponsiveImages($media, $conversion->getName());
+        try {
+            $media = $this->cleanResponsiveImages($media, $conversion->getName());
 
-        $widthCalculator = $conversion->getWidthCalculator() ?? $this->widthCalculator;
+            $widthCalculator = $conversion->getWidthCalculator() ?? $this->widthCalculator;
 
-        foreach ($widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
-            $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory, $this->getConversionQuality($conversion));
+            foreach ($widthCalculator->calculateWidthsFromFile($baseImage) as $width) {
+                $this->generateResponsiveImage($media, $baseImage, $conversion->getName(), $width, $temporaryDirectory, $this->getConversionQuality($conversion));
+            }
+
+            $this->generateTinyJpg($media, $baseImage, $conversion->getName(), $temporaryDirectory);
+        } finally {
+            $temporaryDirectory->delete();
         }
-
-        $this->generateTinyJpg($media, $baseImage, $conversion->getName(), $temporaryDirectory);
-
-        $temporaryDirectory->delete();
     }
 
     private function getConversionQuality(Conversion $conversion): int
