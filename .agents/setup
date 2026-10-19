@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+packages=(php8.5-cli php8.5-curl php8.5-mbstring php8.5-xml php8.5-zip php8.5-sqlite3 php8.5-bcmath php8.5-soap php8.5-intl php8.5-gd php8.5-imagick ffmpeg ghostscript)
+missingPackages=()
+
+for package in "${packages[@]}"; do
+    if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'install ok installed'; then
+        missingPackages+=("$package")
+    fi
+done
+
+if (( ${#missingPackages[@]} )); then
+    if [[ ! -f /etc/apt/sources.list.d/php.list ]]; then
+        curl -fsSLo /tmp/debsuryorg-archive-keyring.deb https://packages.sury.org/debsuryorg-archive-keyring.deb
+        sudo dpkg -i /tmp/debsuryorg-archive-keyring.deb
+        echo 'deb [signed-by=/usr/share/keyrings/debsuryorg-archive-keyring.gpg] https://packages.sury.org/php/ bookworm main' | sudo tee /etc/apt/sources.list.d/php.list
+        rm /tmp/debsuryorg-archive-keyring.deb
+    fi
+
+    sudo apt-get update -qq
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y "${missingPackages[@]}"
+fi
+
+if ! command -v composer >/dev/null; then
+    installer=$(mktemp)
+    curl -fsSL https://getcomposer.org/installer -o "$installer"
+    expectedSignature=$(curl -fsSL https://composer.github.io/installer.sig)
+    actualSignature=$(php8.5 -r 'echo hash_file("sha384", $argv[1]);' "$installer")
+    [[ "$actualSignature" == "$expectedSignature" ]]
+    sudo php8.5 "$installer" --install-dir=/usr/local/bin --filename=composer
+    rm "$installer"
+fi
+
+if [[ -f /etc/ImageMagick-6/policy.xml ]]; then
+    sudo sed -i 's/rights="none" pattern="PDF"/rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+fi
+
+php8.5 "$(command -v composer)" update --no-interaction --prefer-dist
