@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.10 - 2026-10-19
+
+### What’s Changed
+
+* Clean up temporary directories when conversions or responsive-image generation fail or return early, while preserving the original media files and propagating exceptions. Fixes #3966 via #3968 by @littfed.
+* Strengthen regression coverage for empty/missing files, copy and conversion failures, and responsive-image placeholder failures.
+* Update test tooling to the latest compatible Pest majors and PHP 8.2–8.5 / Laravel 12–13 coverage. Add PHPStan and read-only Pint checks to fork pull requests.
+
+#### Requirements
+
+PHP 8.2+ remains supported. End-of-life Laravel 10 and 11 are no longer supported; Laravel 12+ is now required.
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.9...11.23.10
+
 ## 11.23.9 - 2026-10-05
 
 ### What's Changed
