@@ -1,10 +1,18 @@
 name: PHPStan
 
 on:
+    pull_request:
+        paths:
+            - '**.php'
+            - 'composer.json'
+            - 'phpstan.neon.dist'
+            - '.github/workflows/phpstan.yml'
     push:
         paths:
             - '**.php'
+            - 'composer.json'
             - 'phpstan.neon.dist'
+            - '.github/workflows/phpstan.yml'
 
 jobs:
     phpstan:
@@ -16,7 +24,7 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.2'
+                  php-version: '8.5'
                   extensions: dom, curl, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
                   coverage: none
 
