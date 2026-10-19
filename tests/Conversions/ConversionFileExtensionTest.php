@@ -24,3 +24,9 @@ it('always defaults to jpg when the original file is not an image', function () 
     expect($media->getUrl('thumb'))->toHaveExtension('jpg');
     expect($media->getUrl('keep_original_format'))->toHaveExtension('jpg');
 });
+
+it('actually encodes as the original format when the extension is uppercase', function () {
+    $media = $this->testModelWithConversion->addMedia($this->getUppercaseExtensionTestPng())->toMediaCollection();
+
+    expect(mime_content_type($media->getPath('keep_original_format')))->toEqual('image/png');
+});

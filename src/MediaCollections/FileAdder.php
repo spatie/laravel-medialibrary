@@ -526,7 +526,9 @@ class FileAdder
     {
         $sanitizedFileName = preg_replace('#\p{C}+#u', '', $fileName);
 
-        $sanitizedFileName = str_replace(['#', '/', '\\', ' '], '-', $sanitizedFileName);
+        $sanitizedFileName = preg_replace('#\p{Z}#u', '-', $sanitizedFileName);
+
+        $sanitizedFileName = str_replace(['#', '/', '\\'], '-', $sanitizedFileName);
 
         $this->guardAgainstDisallowedFileName($fileName, $sanitizedFileName);
 
@@ -703,7 +705,13 @@ class FileAdder
             $collectionMedia = $subject->getMedia($media->collection_name);
 
             if ($collectionMedia->count() > $collectionSizeLimit) {
-                $model->clearMediaCollectionExcept($media->collection_name, $collectionMedia->slice(-$collectionSizeLimit, $collectionSizeLimit));
+                $mediaToKeep = $collectionMedia
+                    ->reject(fn (Media $collectionItem) => $collectionItem->is($media))
+                    ->sortByDesc($media->getKeyName())
+                    ->take($collectionSizeLimit - 1)
+                    ->push($media);
+
+                $model->clearMediaCollectionExcept($media->collection_name, $mediaToKeep);
             }
         }
     }

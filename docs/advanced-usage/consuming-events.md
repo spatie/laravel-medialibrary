@@ -8,30 +8,30 @@ The media library will fire the following events that your handlers can listen f
 ### MediaHasBeenAddedEvent
 This event is fired after a file has been saved to disk.
 
-The event has a property `media` that holds the `\Spatie\MediaLibrary\Models\Media`-object of which the file has been stored.
+The event has a property `media` that holds the `\Spatie\MediaLibrary\MediaCollections\Models\Media`-object of which the file has been stored.
 
 ### ConversionWillStartEvent
 This event is fired right before a conversion will start.
 
 The event has two public properties:
 
-- `media`: the `\Spatie\MediaLibrary\Models\Media`-object of which a conversion will be started
-- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversion\Conversion`) that will start
+- `media`: the `\Spatie\MediaLibrary\MediaCollections\Models\Media`-object of which a conversion will be started
+- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversions\Conversion`) that will start
 
 ### ConversionHasBeenCompletedEvent
 This event is fired when a conversion has been completed.
 
 The event has two public properties:
 
-- `media`: the `\Spatie\MediaLibrary\Models\Media`-object of which a conversion has been completed
-- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversion\Conversion`) that has just been completed
+- `media`: the `\Spatie\MediaLibrary\MediaCollections\Models\Media`-object of which a conversion has been completed
+- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversions\Conversion`) that has just been completed
 
 ### CollectionHasBeenClearedEvent
 This event will be fired after a collection has been cleared.
 
 The event has two public properties:
 
-- `model`:  the object that conforms to `\Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia` of which a collection has just been cleared.
+- `model`:  the object that conforms to `\Spatie\MediaLibrary\HasMedia` of which a collection has just been cleared.
 - `collectionName`: the name of the collection that has just been cleared
 
 ## Sample usage

@@ -132,6 +132,18 @@ class MediaStream implements Responsable
 
     protected function getZipFileNamePrefix(Collection $mediaItems, int $currentIndex): string
     {
-        return $mediaItems[$currentIndex]->hasCustomProperty('zip_filename_prefix') ? $mediaItems[$currentIndex]->getCustomProperty('zip_filename_prefix') : '';
+        $media = $mediaItems[$currentIndex];
+
+        if (! $media->hasCustomProperty('zip_filename_prefix')) {
+            return '';
+        }
+
+        $prefix = str_replace('\\', '/', (string) $media->getCustomProperty('zip_filename_prefix'));
+
+        $prefix = collect(explode('/', $prefix))
+            ->reject(fn (string $segment) => $segment === '.' || $segment === '..')
+            ->implode('/');
+
+        return ltrim($prefix, '/');
     }
 }

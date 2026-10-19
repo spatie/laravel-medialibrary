@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
@@ -15,6 +16,30 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @mixin Model
  *
  * @method void prepareToAttachMedia(Media $media, FileAdder $fileAdder)
+ * @method FileAdder addMediaFromRequest(string $key)
+ * @method FileAdder addMediaFromDisk(string $key, ?string $disk = null)
+ * @method FileAdder addMediaFromUrl(string $url, array|string ...$allowedMimeTypes)
+ * @method FileAdder addMediaFromString(string $text)
+ * @method FileAdder addMediaFromBase64(string $base64data, array|string ...$allowedMimeTypes)
+ * @method FileAdder addMediaFromStream(mixed $stream)
+ * @method Collection addMultipleMediaFromRequest(array $keys)
+ * @method Collection addAllMediaFromRequest()
+ * @method ?Media getFirstMedia(string $collectionName = 'default', array|callable $filters = [])
+ * @method ?Media getLastMedia(string $collectionName = 'default', array|callable $filters = [])
+ * @method string getFirstMediaUrl(string $collectionName = 'default', string $conversionName = '')
+ * @method string getLastMediaUrl(string $collectionName = 'default', string $conversionName = '')
+ * @method string getFirstTemporaryUrl(?DateTimeInterface $expiration = null, string $collectionName = 'default', string $conversionName = '')
+ * @method string getLastTemporaryUrl(?DateTimeInterface $expiration = null, string $collectionName = 'default', string $conversionName = '')
+ * @method string getFirstMediaPath(string $collectionName = 'default', string $conversionName = '')
+ * @method string getLastMediaPath(string $collectionName = 'default', string $conversionName = '')
+ * @method string getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = '')
+ * @method string getFallbackMediaPath(string $collectionName = 'default', string $conversionName = '')
+ * @method Collection getRegisteredMediaCollections()
+ * @method MediaCollection addMediaCollection(string $name)
+ * @method Collection updateMedia(array $newMediaArray, string $collectionName = 'default')
+ * @method void deleteMedia(int|string|Media $mediaId)
+ * @method static deleteAllMedia()
+ * @method bool deletePreservingMedia()
  *
  * @property bool $registerMediaConversionsUsingModelInstance
  * @property ?MediaCollection $mediaCollections

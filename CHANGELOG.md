@@ -2,6 +2,113 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.10 - 2026-10-19
+
+### What’s Changed
+
+* Clean up temporary directories when conversions or responsive-image generation fail or return early, while preserving the original media files and propagating exceptions. Fixes #3966 via #3968 by @littfed.
+* Strengthen regression coverage for empty/missing files, copy and conversion failures, and responsive-image placeholder failures.
+* Update test tooling to the latest compatible Pest majors and PHP 8.2–8.5 / Laravel 12–13 coverage. Add PHPStan and read-only Pint checks to fork pull requests.
+
+#### Requirements
+
+PHP 8.2+ remains supported. End-of-life Laravel 10 and 11 are no longer supported; Laravel 12+ is now required.
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.9...11.23.10
+
+## 11.23.9 - 2026-10-05
+
+### What's Changed
+
+* Replace all Unicode space separators in the default file name sanitizer by @chengkangzai in https://github.com/spatie/laravel-medialibrary/pull/3965
+
+### New Contributors
+
+* @chengkangzai made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3965
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.8...11.23.9
+
+## 11.23.8 - 2026-09-14
+
+### What's Changed
+
+* Fix `keepOriginalImageFormat()` encoding conversions as JPEG when the original file has an uppercase extension by @moemadeldin in https://github.com/spatie/laravel-medialibrary/pull/3964
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.7...11.23.8
+
+## 11.23.7 - 2026-09-03
+
+### What's Changed
+
+* Fix media-library:clean ignoring custom PathGenerator for orphaned directories by @nikolauspschuetz in https://github.com/spatie/laravel-medialibrary/pull/3948
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.6...11.23.7
+
+## 11.23.6 - 2026-09-01
+
+### What's Changed
+
+* Document the `addMediaFrom*` and `getFirstMedia`/`getLastMedia` methods on the `HasMedia` interface with `@method`, so calls on a `Model&HasMedia` intersection type no longer trip up static analysis by @freekmurze in https://github.com/spatie/laravel-medialibrary/issues/3962
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.5...11.23.6
+
+## 11.23.5 - 2026-08-10
+
+### What's Changed
+
+* Decode remote url path before stripping directory in addMediaFromUrl by @bunlongheng in https://github.com/spatie/laravel-medialibrary/pull/3961
+
+### New Contributors
+
+* @bunlongheng made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3961
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.4...11.23.5
+
+## 11.23.4 - 2026-08-07
+
+### What's Changed
+
+* docs: fix HasMedia interface import in custom image generator by @latent-9 in https://github.com/spatie/laravel-medialibrary/pull/3960
+* docs: fix outdated class namespaces in consuming events guide by @latent-9 in https://github.com/spatie/laravel-medialibrary/pull/3959
+* Fix media-library:clean when conversions live on a separate disk by @AdzerKI in https://github.com/spatie/laravel-medialibrary/pull/3958
+
+### New Contributors
+
+* @latent-9 made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3960
+* @AdzerKI made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3958
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.3...11.23.4
+
+## 11.23.3 - 2026-07-22
+
+### What's Changed
+
+* Remove period from the command description by @kminek in https://github.com/spatie/laravel-medialibrary/pull/3953
+* Keep the just-added media when enforcing a collection size limit by @freekmurze in https://github.com/spatie/laravel-medialibrary/pull/3955
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.2...11.23.3
+
+## 11.23.2 - 2026-07-09
+
+### What's Changed
+
+* Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/spatie/laravel-medialibrary/pull/3946
+* test: remove real sleep(1) from regenerate command tests by @nikolauspschuetz in https://github.com/spatie/laravel-medialibrary/pull/3951
+* Fix double URL encoding for getTemporaryUrl() with non-ASCII filenames on local disk by @maeandrew in https://github.com/spatie/laravel-medialibrary/pull/3950
+
+### New Contributors
+
+* @nikolauspschuetz made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3951
+* @maeandrew made their first contribution in https://github.com/spatie/laravel-medialibrary/pull/3950
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.1...11.23.2
+
+## 11.23.1 - 2026-06-24
+
+### Fixed
+
+- Strip path-traversal (`..`) segments from the `zip_filename_prefix` custom property so `MediaStream` can no longer emit ZIP archives with traversal entries (zip-slip defense-in-depth) #3947
+
 ## 11.23.0 - 2026-05-28
 
 ### What's Changed

@@ -6,6 +6,7 @@ use Spatie\MediaLibrary\MediaCollections\Exceptions\DiskDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Support\UrlGenerator\DefaultUrlGenerator;
 use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
+use Spatie\MediaLibrary\Tests\Support\PathGenerator\SeparatedPathGenerator;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
 use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\MediaLibrary\Tests\TestSupport\TestPathGenerators\TestPathGeneratorConversionsInOriginalImageDirectory;
@@ -86,6 +87,49 @@ test('generated conversion are cleared after cleanup', function () {
     expect($media->hasGeneratedConversion('test.deprecated'))->toBeFalse();
 });
 
+test('a live conversion keeps its generated flag when a deprecated file shares its name', function () {
+    /** @var Media $media */
+    $media = $this->media['model2']['collection1'];
+
+    expect($media->refresh()->hasGeneratedConversion('thumb'))->toBeTrue();
+
+    $liveConversion = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+    $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.png");
+
+    touch($deprecatedImage);
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($liveConversion)->toBeFile();
+    expect($media->refresh()->hasGeneratedConversion('thumb'))->toBeTrue();
+});
+
+test('a live conversion that changes the file format keeps its generated flag', function () {
+    $testModelClass = new class extends TestModel
+    {
+        public function registerMediaConversions(?Media $media = null): void
+        {
+            $this->addMediaConversion('thumb')->width(50)->format('webp')->nonQueued();
+        }
+    };
+
+    $media = $testModelClass::create(['name' => 'test'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    $deprecatedImage = $this->getMediaDirectory("{$media->id}/conversions/test-thumb.jpg");
+
+    touch($deprecatedImage);
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect($this->getMediaDirectory("{$media->id}/conversions/test-thumb.webp"))->toBeFile();
+    expect($media->refresh()->hasGeneratedConversion('thumb'))->toBeTrue();
+});
+
 it('can clean deprecated conversion files from a specific model type', function () {
     $media1 = $this->media['model1']['collection1'];
     $media2 = $this->media['model2']['collection1'];
@@ -160,6 +204,80 @@ it('can clean orphan files using `registerMediaConversionsUsingModelInstance` in
     $this->artisan('media-library:clean');
 
     $this->assertFileDoesNotExist($this->getMediaDirectory($this->media['model3']['collection1']->id));
+});
+
+it('can clean orphaned directories when using a custom path generator', function () {
+    config()->set('media-library.path_generator', CustomPathGenerator::class);
+
+    $media = TestModel::create(['name' => 'test.jpg'])
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection('collection1');
+
+    $liveDirectory = $this->getMediaDirectory(md5($media->id));
+    expect("{$liveDirectory}/test.jpg")->toBeFile();
+
+    // Simulate a leftover directory whose media record no longer exists. Its
+    // name follows the custom (non-numeric) layout, so the old ID-based
+    // cleanup would never match it.
+    $orphanDirectory = $this->getMediaDirectory(md5('orphan'));
+    mkdir($orphanDirectory);
+    touch("{$orphanDirectory}/test.jpg");
+    expect($orphanDirectory)->toBeDirectory();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertDirectoryDoesNotExist($orphanDirectory);
+    expect($liveDirectory)->toBeDirectory();
+    expect("{$liveDirectory}/test.jpg")->toBeFile();
+});
+
+it('keeps cleaning orphaned directories for the default numeric path generator', function () {
+    DB::table('media')->delete($this->media['model1']['collection1']->id);
+
+    $orphanDirectory = $this->getMediaDirectory($this->media['model1']['collection1']->id);
+    expect($orphanDirectory)->toBeDirectory();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertDirectoryDoesNotExist($orphanDirectory);
+    expect($this->getMediaDirectory($this->media['model1']['collection2']->id))->toBeDirectory();
+});
+
+it('keeps every live custom directory on its storage disk', function () {
+    $testModel = new class extends TestModelWithConversion {};
+    $testModel->name = 'test';
+    $testModel->save();
+
+    config()->set('media-library.custom_path_generators', [
+        $testModel::class => SeparatedPathGenerator::class,
+    ]);
+    config()->set('media-library.prefix', 'media');
+
+    $media = $testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $originalDirectory = $this->getMediaDirectory("media/0/{$media->id}");
+    $conversionDirectory = $this->getTempDirectory("media2/media/conversions/{$media->id}");
+    $responsiveImagesDirectory = $this->getTempDirectory("media2/media/responsive-images/{$media->id}");
+    mkdir($responsiveImagesDirectory, recursive: true);
+    touch("{$responsiveImagesDirectory}/responsive.jpg");
+
+    $unusedConversionsDirectory = $this->getMediaDirectory('media/conversions');
+    mkdir($unusedConversionsDirectory);
+
+    $this->artisan('media-library:clean');
+
+    expect($originalDirectory)->toBeDirectory();
+    expect("{$originalDirectory}/test.jpg")->toBeFile();
+    expect($conversionDirectory)->toBeDirectory();
+    expect("{$conversionDirectory}/test-thumb.jpg")->toBeFile();
+    expect($responsiveImagesDirectory)->toBeDirectory();
+    expect("{$responsiveImagesDirectory}/responsive.jpg")->toBeFile();
+    $this->assertDirectoryDoesNotExist($unusedConversionsDirectory);
 });
 
 it('can clean responsive images for deprecated conversions', function () {
@@ -385,6 +503,78 @@ it('will not clean orphaned media items when disabled', function () {
     $this->assertDatabaseHas('media', [
         'id' => $media->id,
     ]);
+});
+
+it('can clean deprecated conversion files stored on a separate conversions disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $conversionsDirectory = $this->getTempDirectory("media2/{$media->id}/conversions");
+    $deprecatedImage = "{$conversionsDirectory}/test-deprecated.jpg";
+
+    touch($deprecatedImage);
+    expect($deprecatedImage)->toBeFile();
+
+    $this->artisan('media-library:clean');
+
+    $this->assertFileDoesNotExist($deprecatedImage);
+    expect("{$conversionsDirectory}/test-thumb.jpg")->toBeFile();
+});
+
+it('will not touch the original disk when looking for deprecated conversions on a separate disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $conversionsDirectoryOnOriginalDisk = $this->getMediaDirectory("{$media->id}/conversions");
+    mkdir($conversionsDirectoryOnOriginalDisk, 0777, true);
+
+    $strayFileOnOriginalDisk = "{$conversionsDirectoryOnOriginalDisk}/test-deprecated.jpg";
+    touch($strayFileOnOriginalDisk);
+
+    $this->artisan('media-library:clean');
+
+    expect($strayFileOnOriginalDisk)->toBeFile();
+});
+
+it('can clean orphaned directories on the conversions disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $orphanedDirectory = $this->getTempDirectory('media2/9999');
+    mkdir($orphanedDirectory, 0777, true);
+
+    $this->artisan('media-library:clean');
+
+    $this->assertDirectoryDoesNotExist($orphanedDirectory);
+    $this->assertDirectoryExists($this->getTempDirectory("media2/{$media->id}"));
+});
+
+it('only cleans orphaned directories on the given disk when a disk argument is passed', function () {
+    $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection('collection1');
+
+    $orphanedOnPublicDisk = $this->getMediaDirectory('9998');
+    $orphanedOnSecondDisk = $this->getTempDirectory('media2/9999');
+
+    mkdir($orphanedOnPublicDisk, 0777, true);
+    mkdir($orphanedOnSecondDisk, 0777, true);
+
+    $this->artisan('media-library:clean', ['disk' => 'public']);
+
+    $this->assertDirectoryDoesNotExist($orphanedOnPublicDisk);
+    $this->assertDirectoryExists($orphanedOnSecondDisk);
 });
 
 it('will not clean media items on soft deleted models', function () {

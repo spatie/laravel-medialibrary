@@ -1,6 +1,6 @@
 name: Check & fix styling
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   php-cs-fixer:
@@ -8,14 +8,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
 
       - name: Fix styling issues
         uses: aglipanci/laravel-pint-action@v2
+        with:
+          testMode: ${{ github.event_name == 'pull_request' }}
 
       - name: Commit changes
+        if: github.event_name == 'push'
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Fix styling

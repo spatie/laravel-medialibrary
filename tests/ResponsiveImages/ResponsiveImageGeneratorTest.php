@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\File;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
+use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
+use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
 use Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover;
 use Spatie\MediaLibrary\Tests\TestSupport\TestCustomPathGenerator;
 
@@ -23,6 +26,33 @@ it('can generate responsive images', function () {
     expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_284_234.jpg"))->toBeFile();
     expect($this->getTempDirectory("media/1/responsive-images/{$this->fileName}___media_library_original_340_280.jpg"))->toBeFile();
 });
+
+it('cleans up temporary files and propagates responsive image failures', function (bool $forConversion) {
+    $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
+    $temporaryDirectory = $this->getTempDirectory('responsive-temp');
+
+    config(['media-library.temporary_directory_path' => $temporaryDirectory]);
+
+    $exception = new RuntimeException('Placeholder generation failed');
+
+    $this->mock(TinyPlaceholderGenerator::class, function ($mock) use ($exception) {
+        $mock->shouldReceive('generateTinyPlaceholder')->andReturnUsing(function ($originalImagePath, $destinationPath) use ($exception) {
+            file_put_contents($destinationPath, 'partial placeholder');
+
+            throw $exception;
+        });
+    });
+
+    $generator = app(ResponsiveImageGenerator::class);
+
+    expect(fn () => $forConversion
+        ? $generator->generateResponsiveImagesForConversion($media, $this->conversion, $media->getPath())
+        : $generator->generateResponsiveImages($media)
+    )->toThrow($exception);
+
+    expect(File::directories($temporaryDirectory))->toBeEmpty()
+        ->and($media->getPath())->toBeFile();
+})->with([false, true]);
 
 it('will generate responsive images if with responsive images if returns true', function () {
     $this->testModel

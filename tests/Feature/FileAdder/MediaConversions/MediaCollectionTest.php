@@ -235,6 +235,49 @@ test('if the single file method is specified it will delete all other media and 
     expect($model->getMedia('images'))->toHaveCount(1);
 });
 
+test('a single file collection keeps the media that was just added even when it has a lower order column', function () {
+    $testModel = new class extends TestModelWithConversion
+    {
+        public function registerMediaCollections(): void
+        {
+            $this
+                ->addMediaCollection('avatar')
+                ->singleFile();
+        }
+    };
+
+    $bucket = $testModel::create(['name' => 'bucket']);
+
+    $bucketMedia = [];
+    foreach (range(1, 5) as $index) {
+        $bucketMedia[$index] = $bucket
+            ->addMedia($this->getTestJpg())
+            ->preservingOriginal()
+            ->usingFileName("bucket-{$index}.jpg")
+            ->toMediaCollection('incoming');
+    }
+
+    $destination = $testModel::create(['name' => 'destination']);
+    $bucketMedia[5]->copy($destination, 'avatar');
+
+    $bucketMedia[3]->delete();
+    $bucketMedia[4]->delete();
+    $bucketMedia[5]->delete();
+
+    $newBucketMedia = $bucket
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->usingFileName('bucket-new.jpg')
+        ->toMediaCollection('incoming');
+
+    expect($newBucketMedia->order_column)->toBeLessThan(5);
+
+    $newBucketMedia->copy($destination, 'avatar');
+
+    expect($destination->fresh()->getMedia('avatar'))->toHaveCount(1);
+    expect($destination->fresh()->getFirstMedia('avatar')->file_name)->toBe('bucket-new.jpg');
+});
+
 test('if the only keeps latest method is specified it will delete all other media and will only keep the latest n ones', function () {
     $testModel = new class extends TestModelWithConversion
     {

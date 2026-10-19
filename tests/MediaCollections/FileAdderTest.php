@@ -23,6 +23,12 @@ it('sanitizes filenames correctly', function () {
 
     expect($adder->defaultSanitizer('Scan-‎9‎.‎14‎.‎2022-‎7‎.‎23‎.‎28.pdf'))
         ->toEqual('Scan-9.14.2022-7.23.28.pdf');
+
+    expect($adder->defaultSanitizer("Screenshot 2024-08-07 at 5.37.46\u{202F}PM.png"))
+        ->toEqual('Screenshot-2024-08-07-at-5.37.46-PM.png');
+
+    expect($adder->defaultSanitizer("test\u{00A0}one.pdf"))
+        ->toEqual('test-one.pdf');
 });
 
 it('will throw an exception if the sanitized file name is a php file name', function () {

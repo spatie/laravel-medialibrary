@@ -139,6 +139,29 @@ test('media with zip file folder prefix property saved in correct zip folder and
     $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'folder/subfolder/test (1).jpg');
 });
 
+test('path traversal sequences in the zip file prefix property are stripped', function () {
+    $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->withCustomProperties([
+            'zip_filename_prefix' => '../../../etc/cron.d/',
+        ])
+        ->toMediaCollection();
+
+    $zipStreamResponse = MediaStream::create('my-media.zip')->addMedia(Media::all());
+
+    ob_start();
+    @$zipStreamResponse->toResponse(request())->sendContent();
+    $content = ob_get_contents();
+    ob_end_clean();
+
+    $temporaryDirectory = (new TemporaryDirectory)->create();
+    file_put_contents($temporaryDirectory->path('response.zip'), $content);
+
+    $this->assertFileDoesntExistsInZip($temporaryDirectory->path('response.zip'), '../../../etc/cron.d/test.jpg');
+    $this->assertFileExistsInZipRecognizeFolder($temporaryDirectory->path('response.zip'), 'etc/cron.d/test.jpg');
+});
+
 test('media with zip file prefix property saved with correct prefix', function () {
     $this->testModel
         ->addMedia($this->getTestJpg())
