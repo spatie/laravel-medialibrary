@@ -123,8 +123,13 @@ class Filesystem
 
     protected function copyFileOnDisk(string $file, string $destination, string $disk): void
     {
-        $this->filesystem->disk($disk)
+        $success = $this->filesystem
+            ->disk($disk)
             ->copy($file, $destination);
+
+        if (! $success) {
+            throw DiskCannotBeAccessed::create($disk);
+        }
     }
 
     protected function streamFileToDisk($stream, string $destination, string $disk, array $headers): void
