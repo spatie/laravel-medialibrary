@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+packages=(php-cli php-curl php-xml php-mbstring php-zip php-sqlite3 php-gd php-imagick php-intl php-bcmath ghostscript ffmpeg composer)
+missing=()
+
+for package in "${packages[@]}"; do
+    if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'install ok installed'; then
+        missing+=("$package")
+    fi
+done
+
+if ((${#missing[@]})); then
+    sudo apt-get update -qq
+    sudo apt-get install -y "${missing[@]}"
+fi
+
+# The PDF fixtures need Ghostscript decoding; keep all other policy restrictions.
+if [[ -f /etc/ImageMagick-6/policy.xml ]]; then
+    sudo sed -i 's/domain="coder" rights="none" pattern="PDF"/domain="coder" rights="read|write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+fi
+
+composer install --no-interaction --prefer-dist

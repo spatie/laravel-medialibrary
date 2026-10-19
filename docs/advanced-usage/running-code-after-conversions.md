@@ -23,9 +23,13 @@ The `then` callback receives the `Media`. The `catch` callback receives the `Thr
 
 ## Derivatives run on the queue
 
-Using `then()` runs the media's derivatives on the queue, and the callback fires once they finish. This is true even for conversions that would otherwise run inline. It is the same idea as queueing the work and continuing afterwards.
+Using `then()` or `catch()` runs the media's derivatives on the queue, and the success callback fires once they finish. This is true even for conversions that would otherwise run inline.
 
 Because the callback has to fire after everything is done, all of the media item's derivatives run inside a single job, in order. That means `queued()`, `nonQueued()` and `deferred()` on individual conversions do not apply to a media item added with `then()`. Every conversion for that item runs on the queue, inside that one job.
+
+The job uses `media-library.queue_connection_name` and `media-library.queue_name`. Call `onQueue('images')` on the file adder to override the queue. Dispatch respects `queue_conversions_after_database_commit`; a rolled-back transaction does not dispatch its callbacks. A job whose media has since been deleted is discarded.
+
+Configured derivative job classes supply their `handle()` methods, resolved through Laravel's container. They are not separately dispatched: their middleware, retry settings, `failed()` hooks and queue interaction methods do not control this orchestrator. Configure retries and timeouts on the worker processing the callback queue instead.
 
 With the `sync` queue driver the derivatives run inline, and the callback still fires. This makes the feature behave predictably in local development and in tests.
 
@@ -35,13 +39,15 @@ On the `sync` driver the callback runs while `toMediaCollection()` is still exec
 
 ## Media without derivatives
 
-If a media item has no conversions and no responsive images, the `then` callback fires immediately with the media.
+If a media item has no conversions and no responsive images, the same job runs the `then` callback without generating derivatives. It runs inline only with the `sync` queue driver; asynchronous connections still require a worker. Virtual conversions do not generate files and are not fetched before the callback.
 
 ## Failure handling
 
-If a derivative fails to generate, your `catch` callback runs with the throwable, on the queue worker when queued, or inline when using the `sync` driver. The behavior is the same in both cases.
+If a derivative or the `then` callback throws, your `catch` callback runs with the throwable, on the queue worker when queued, or inline when using the `sync` driver. Returning normally from `catch` handles the error: Laravel considers the job successful and does not retry it. Rethrow the exception from `catch` to retain Laravel's retry and failed-job behavior. Timeouts and worker termination cannot reliably invoke `catch`.
 
 If you do not register a `catch` callback, a failing derivative surfaces as a regular failed job (or, on the `sync` driver, the exception propagates as usual).
+
+Queue delivery is not exactly once. Retries can repeat derivatives and callbacks, so make callback side effects idempotent. Failures while accepting or storing the original file, building conversions, serializing callbacks, or dispatching the job propagate to the caller; `catch` only handles exceptions inside the job.
 
 ## Serialization constraint
 

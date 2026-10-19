@@ -12,3 +12,4 @@ phpunit.xml
 phpstan.neon
 tests/Support/temp/
 .idea/
+/.amp/

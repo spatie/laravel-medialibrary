@@ -47,6 +47,7 @@
         "aws/aws-sdk-php": "^3.293.10",
         "guzzlehttp/guzzle": "^7.8.1",
         "larastan/larastan": "^3.13",
+        "laravel/pint": "^1.24",
         "league/flysystem-aws-s3-v3": "^3.22",
         "mockery/mockery": "^1.6.7",
         "orchestra/testbench": "^10.12|^11.3",
@@ -95,6 +96,8 @@
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "baseline": "vendor/bin/phpstan analyse --generate-baseline",
+        "format": "vendor/bin/pint",
+        "format:check": "vendor/bin/pint --test",
         "test": "vendor/bin/pest"
     }
 }

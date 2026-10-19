@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
+use BackedEnum;
 use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -9,6 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\CollectionName;
 
 class MediaRepository
 {
@@ -21,7 +23,7 @@ class MediaRepository
      */
     public function getCollection(
         HasMedia $model,
-        string $collectionName,
+        BackedEnum|string $collectionName,
         array|callable $filter = []
     ): Collection {
         return $this->applyFilterToMediaCollection($model->loadMedia($collectionName), $filter);
@@ -78,18 +80,18 @@ class MediaRepository
             ->cursor();
     }
 
-    public function getByModelTypeAndCollectionName(string $modelType, string $collectionName): LazyCollection
+    public function getByModelTypeAndCollectionName(string $modelType, BackedEnum|string $collectionName): LazyCollection
     {
         return $this->query()
             ->where('model_type', $modelType)
-            ->where('collection_name', $collectionName)
+            ->where('collection_name', CollectionName::resolve($collectionName))
             ->cursor();
     }
 
-    public function getByCollectionName(string $collectionName): LazyCollection
+    public function getByCollectionName(BackedEnum|string $collectionName): LazyCollection
     {
         return $this->query()
-            ->where('collection_name', $collectionName)
+            ->where('collection_name', CollectionName::resolve($collectionName))
             ->cursor();
     }
 
@@ -99,10 +101,10 @@ class MediaRepository
             ->cursor();
     }
 
-    public function getOrphansByCollectionName(string $collectionName): LazyCollection
+    public function getOrphansByCollectionName(BackedEnum|string $collectionName): LazyCollection
     {
         return $this->orphansQuery()
-            ->where('collection_name', $collectionName)
+            ->where('collection_name', CollectionName::resolve($collectionName))
             ->cursor();
     }
 

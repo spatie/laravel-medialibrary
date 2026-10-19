@@ -2,12 +2,14 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
+use BackedEnum;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\CollectionName;
 
 /**
  * @template TKey of array-key
@@ -34,6 +36,12 @@ class ConversionCollection extends Collection
         $this->items = [];
 
         $this->addConversionsFromRelatedModel($media);
+
+        $this->items = $this
+            ->filter(fn (Conversion $conversion) => $conversion->shouldBePerformedOn($media->collection_name))
+            ->keyBy(fn (Conversion $conversion) => $conversion->getName())
+            ->values()
+            ->all();
 
         $this->addManipulationsFromDb($media);
 
@@ -94,8 +102,10 @@ class ConversionCollection extends Collection
         }
     }
 
-    public function getConversions(string $collectionName = ''): self
+    public function getConversions(BackedEnum|string $collectionName = ''): self
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         if ($collectionName === '') {
             return $this;
         }
@@ -129,7 +139,7 @@ class ConversionCollection extends Collection
         }
     }
 
-    public function getConversionsFiles(string $collectionName = ''): self
+    public function getConversionsFiles(BackedEnum|string $collectionName = ''): self
     {
         return $this
             ->getConversions($collectionName)

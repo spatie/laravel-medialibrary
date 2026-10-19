@@ -34,6 +34,16 @@ it('trims a trailing slash from the configured zone', function () {
         ->toStartWith('https://cf.test/cdn-cgi/image/width=10/');
 });
 
+it('encodes reserved characters in transformation values without changing the source url', function () {
+    $driver = new CloudflareImageDriver(['zone' => 'https://cf.test']);
+    $conversion = ($this->conversion)(static fn (CloudflareImage $image) => $image->background('#ffffff')->width(41));
+
+    $url = $driver->transformationUrl($this->media, $conversion);
+
+    expect($url)->toBe("https://cf.test/cdn-cgi/image/background=%23ffffff,width=41/{$this->media->getFullUrl()}")
+        ->and(parse_url($url, PHP_URL_FRAGMENT))->toBeNull();
+});
+
 it('throws when no zone is configured', function () {
     $driver = new CloudflareImageDriver([]);
 

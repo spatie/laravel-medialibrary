@@ -30,7 +30,7 @@ The `#[MediaCollection]` attribute accepts the following arguments.
 
 | Argument | Type | Description |
 | --- | --- | --- |
-| `name` | `string` or a string-backed enum | The name of the collection. Required. |
+| `name` | `string` or `BackedEnum` | The name of the collection. Required. |
 | `singleFile` | `bool` | Keep only the latest file in the collection. |
 | `onlyKeepLatest` | `?int` | Keep only the latest N files in the collection. Takes precedence over `singleFile`. |
 | `acceptsMimeTypes` | `array` | Restrict the collection to these mime types. |
@@ -47,7 +47,7 @@ The `#[MediaConversion]` attribute accepts the following arguments.
 | Argument | Type | Description |
 | --- | --- | --- |
 | `name` | `string` | The name of the conversion. Required. |
-| `collections` | `array` of strings or string-backed enums | The collections this conversion applies to. When omitted, it applies to all collections. |
+| `collections` | `array` of strings or backed enums | The collections this conversion applies to. When omitted, it applies to all collections. |
 | `width` | `?int` | The desired width. |
 | `height` | `?int` | The desired height. |
 | `fit` | `?Fit` | A `Spatie\Image\Enums\Fit` case. When set, the width and height are passed to the fit. |
@@ -59,7 +59,7 @@ The `#[MediaConversion]` attribute accepts the following arguments.
 
 ## Combining attributes with methods
 
-Attributes and the `registerMediaCollections()` / `registerMediaConversions()` methods can be used together. Attributes are resolved first, then the methods run on top. A collection or conversion declared in a method overrides an attribute declared one with the same name. (A conversion is matched on both its name and the collections it runs on, so a same named method conversion that targets different collections lives alongside the attribute one instead of replacing it.) This lets you cover the common cases with attributes while keeping the methods for anything dynamic.
+Attributes and the `registerMediaCollections()` / `registerMediaConversions()` methods can be used together. Attributes are resolved first, then the methods run on top. A collection declared in a method replaces an attribute collection with the same name; its options are not merged. For each media item, the last applicable conversion with a given name wins. Same-named conversions for disjoint collections coexist. When collection scopes overlap, including an unscoped conversion, only the last applicable declaration generates a file and supplies its URL. This lets you cover the common cases with attributes while keeping the methods for anything dynamic.
 
 ```php
 #[MediaCollection(name: 'images')]
@@ -85,6 +85,8 @@ The attributes are validated when the media collections and conversions are regi
 ## Using enums for collection names
 
 Anywhere a collection name is accepted you can pass a string-backed enum instead of a string. This applies to the attributes shown above and to the rest of the API (`addMediaCollection()`, `toMediaCollection()`, `getMedia()`, `getFirstMedia()`, `clearMediaCollection()`, and so on). The enum is resolved to its value, so an enum case backed by `'avatar'` behaves exactly like the string `'avatar'`.
+
+Integer-backed enums are also accepted and converted to strings: a case backed by `12` names the collection `'12'`. Pure enums without backing values are not supported. Conversion names remain strings.
 
 ```php
 enum MediaCollectionName: string

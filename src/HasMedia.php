@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary;
 
+use BackedEnum;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -24,19 +25,20 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @method FileAdder addMediaFromStream(mixed $stream)
  * @method Collection addMultipleMediaFromRequest(array $keys)
  * @method Collection addAllMediaFromRequest()
- * @method ?Media getFirstMedia(string $collectionName = 'default', array|callable $filters = [])
- * @method ?Media getLastMedia(string $collectionName = 'default', array|callable $filters = [])
- * @method string getFirstMediaUrl(string $collectionName = 'default', string $conversionName = '')
- * @method string getLastMediaUrl(string $collectionName = 'default', string $conversionName = '')
- * @method string getFirstTemporaryUrl(?DateTimeInterface $expiration = null, string $collectionName = 'default', string $conversionName = '')
- * @method string getLastTemporaryUrl(?DateTimeInterface $expiration = null, string $collectionName = 'default', string $conversionName = '')
- * @method string getFirstMediaPath(string $collectionName = 'default', string $conversionName = '')
- * @method string getLastMediaPath(string $collectionName = 'default', string $conversionName = '')
- * @method string getFallbackMediaUrl(string $collectionName = 'default', string $conversionName = '')
- * @method string getFallbackMediaPath(string $collectionName = 'default', string $conversionName = '')
+ * @method ?Media getFirstMedia(BackedEnum|string $collectionName = 'default', array|callable $filters = [])
+ * @method ?Media getLastMedia(BackedEnum|string $collectionName = 'default', array|callable $filters = [])
+ * @method string getFirstMediaUrl(BackedEnum|string $collectionName = 'default', string $conversionName = '')
+ * @method string getLastMediaUrl(BackedEnum|string $collectionName = 'default', string $conversionName = '')
+ * @method string getFirstTemporaryUrl(?DateTimeInterface $expiration = null, BackedEnum|string $collectionName = 'default', string $conversionName = '')
+ * @method string getLastTemporaryUrl(?DateTimeInterface $expiration = null, BackedEnum|string $collectionName = 'default', string $conversionName = '')
+ * @method string getFirstMediaPath(BackedEnum|string $collectionName = 'default', string $conversionName = '')
+ * @method string getLastMediaPath(BackedEnum|string $collectionName = 'default', string $conversionName = '')
+ * @method string getFallbackMediaUrl(BackedEnum|string $collectionName = 'default', string $conversionName = '')
+ * @method string getFallbackMediaPath(BackedEnum|string $collectionName = 'default', string $conversionName = '')
  * @method Collection getRegisteredMediaCollections()
- * @method MediaCollection addMediaCollection(string $name)
- * @method Collection updateMedia(array $newMediaArray, string $collectionName = 'default')
+ * @method void registerAllMediaCollections()
+ * @method MediaCollection addMediaCollection(BackedEnum|string $name)
+ * @method Collection updateMedia(array $newMediaArray, BackedEnum|string $collectionName = 'default')
  * @method void deleteMedia(int|string|Media $mediaId)
  * @method static deleteAllMedia()
  * @method bool deletePreservingMedia()
@@ -52,17 +54,17 @@ interface HasMedia
 
     public function copyMedia(string|UploadedFile $file): FileAdder;
 
-    public function hasMedia(string $collectionName = ''): bool;
+    public function hasMedia(BackedEnum|string $collectionName = ''): bool;
 
-    public function getMedia(string $collectionName = 'default', array|callable $filters = []): Collection;
+    public function getMedia(BackedEnum|string $collectionName = 'default', array|callable $filters = []): Collection;
 
-    public function clearMediaCollection(string $collectionName = 'default'): HasMedia;
+    public function clearMediaCollection(BackedEnum|string $collectionName = 'default'): HasMedia;
 
-    public function clearMediaCollectionExcept(string $collectionName = 'default', array|Collection $excludedMedia = []): HasMedia;
+    public function clearMediaCollectionExcept(BackedEnum|string $collectionName = 'default', array|Collection $excludedMedia = []): HasMedia;
 
     public function shouldDeletePreservingMedia(): bool;
 
-    public function loadMedia(string $collectionName);
+    public function loadMedia(BackedEnum|string $collectionName);
 
     public function addMediaConversion(string $name): Conversion;
 
@@ -72,7 +74,7 @@ interface HasMedia
 
     public function registerAllMediaConversions(): void;
 
-    public function getMediaCollection(string $collectionName = 'default'): ?MediaCollection;
+    public function getMediaCollection(BackedEnum|string $collectionName = 'default'): ?MediaCollection;
 
     public function getMediaModel(): string;
 }

@@ -2,8 +2,10 @@
 
 namespace Spatie\MediaLibrary\MediaCollections;
 
+use BackedEnum;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
+use Spatie\MediaLibrary\Support\CollectionName;
 
 class MediaCollection
 {
@@ -34,9 +36,13 @@ class MediaCollection
     /** @var array<string, string> */
     public array $fallbackPaths = [];
 
+    public string $name;
+
     public function __construct(
-        public string $name
+        BackedEnum|string $name
     ) {
+        $this->name = CollectionName::resolve($name);
+
         $this->mediaConversionRegistrations = function () {};
 
         $this->acceptsFile = fn () => true;

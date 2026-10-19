@@ -91,3 +91,13 @@ it('does not treat a file generating driver as virtual', function () {
 
     expect($this->manager->isVirtual($conversion))->toBeFalse();
 });
+
+it('reselects the inferred driver when a conversion receives a different manipulation closure', function () {
+    $conversion = Conversion::create('thumb')->manipulate(static fn (ImageDriver $image) => $image->width(50));
+
+    expect($this->manager->forConversion($conversion))->toBeInstanceOf(SpatieImageDriver::class);
+
+    $conversion->manipulate(static fn (CloudflareImage $image) => $image->width(90));
+
+    expect($this->manager->forConversion($conversion))->toBeInstanceOf(CloudflareImageDriver::class);
+});

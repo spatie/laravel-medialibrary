@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Models;
 
+use BackedEnum;
 use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Mail\Attachable;
@@ -91,11 +92,6 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     ];
 
     protected int $streamChunkSize = (1024 * 1024); // default to 1MB chunks.
-
-    protected ?ConversionCollection $memoizedConversions = null;
-
-    /** @var array<string, array<int, string>> */
-    protected static array $virtualConversionNames = [];
 
     /** @var array{then: ?SerializableClosure, catch: ?SerializableClosure, responsiveImages: bool, queue: ?string}|null */
     public ?array $mediaDerivativeCallbacks = null;
@@ -422,58 +418,13 @@ class Media extends Model implements Attachable, Htmlable, Responsable
             return null;
         }
 
-        if (! in_array($conversionName, $this->virtualConversionNames(), true)) {
-            return null;
-        }
-
         try {
-            $conversion = $this->resolvedConversions()->getByName($conversionName);
+            $conversion = ConversionCollection::createForMedia($this)->getByName($conversionName);
         } catch (InvalidConversion) {
             return null;
         }
 
         return $conversion->isVirtual() ? $conversion : null;
-    }
-
-    /**
-     * The names of the conversions for this media that are delivered by url.
-     *
-     * Asking whether a conversion exists happens on every url and on every
-     * serialization (`preview_url` is appended), while building the conversion
-     * collection instantiates the model and registers every conversion. Almost
-     * no application has virtual conversions at all, so the answer is cached
-     * per model and collection for the rest of the request.
-     *
-     * @return array<int, string>
-     */
-    protected function virtualConversionNames(): array
-    {
-        $cacheKey = "{$this->model_type}|{$this->collection_name}";
-
-        return static::$virtualConversionNames[$cacheKey] ??= $this->resolvedConversions()
-            ->filter(fn (Conversion $conversion) => $conversion->isVirtual())
-            ->map(fn (Conversion $conversion) => $conversion->getName())
-            ->values()
-            ->all();
-    }
-
-    /**
-     * Forget the cached virtual conversion names. Only needed when conversions
-     * are registered differently within a single process, as tests do.
-     */
-    public static function forgetVirtualConversions(): void
-    {
-        static::$virtualConversionNames = [];
-    }
-
-    /**
-     * The conversions registered for this media. Memoized on the instance so a
-     * single request that serializes or resolves urls for this media (which
-     * repeatedly asks whether a conversion exists) builds the collection once.
-     */
-    protected function resolvedConversions(): ConversionCollection
-    {
-        return $this->memoizedConversions ??= ConversionCollection::createForMedia($this);
     }
 
     /**
@@ -619,7 +570,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return Attribute::get(fn () => $this->getUrl());
     }
 
-    /** @param  string  $collectionName */
+    /** @param  BackedEnum|string  $collectionName */
     public function move(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
     {
         $newMedia = $this->copy($model, $collectionName, $diskName, $fileName);
@@ -634,7 +585,7 @@ class Media extends Model implements Attachable, Htmlable, Responsable
      */
     public function copy(
         HasMedia $model,
-        string $collectionName = 'default',
+        BackedEnum|string $collectionName = 'default',
         string $diskName = '',
         string $fileName = '',
         ?Closure $fileAdderCallback = null

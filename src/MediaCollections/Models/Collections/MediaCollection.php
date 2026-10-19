@@ -2,9 +2,11 @@
 
 namespace Spatie\MediaLibrary\MediaCollections\Models\Collections;
 
+use BackedEnum;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\CollectionName;
 
 /**
  * @template TKey of array-key
@@ -21,9 +23,9 @@ class MediaCollection extends Collection implements Htmlable
     /**
      * @return $this
      */
-    public function collectionName(string $collectionName): self
+    public function collectionName(BackedEnum|string $collectionName): self
     {
-        $this->collectionName = $collectionName;
+        $this->collectionName = CollectionName::resolve($collectionName);
 
         return $this;
     }

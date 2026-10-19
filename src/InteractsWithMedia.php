@@ -760,7 +760,7 @@ trait InteractsWithMedia
 
     protected function guardAgainstAttributeConversionsForUnknownCollections(): void
     {
-        $validCollectionNames = [...array_keys($this->mediaCollections), 'default'];
+        $validCollectionNames = [...array_map(strval(...), array_keys($this->mediaCollections)), 'default'];
 
         foreach ($this->mediaAttributeResolver()->conversionAttributes() as $conversionAttribute) {
             foreach ($conversionAttribute->collections as $collectionName) {
@@ -787,9 +787,10 @@ trait InteractsWithMedia
             $performOnCollections = $conversion->getPerformOnCollections();
             sort($performOnCollections);
 
-            $collections = implode(',', $performOnCollections);
+            $key = serialize([$conversion->getName(), array_values(array_unique($performOnCollections))]);
 
-            $deduped["{$conversion->getName()}|{$collections}"] = $conversion;
+            unset($deduped[$key]);
+            $deduped[$key] = $conversion;
         }
 
         return array_values($deduped);

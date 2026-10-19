@@ -2,6 +2,7 @@
 
 namespace Spatie\MediaLibrary\Conversions;
 
+use BackedEnum;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
@@ -137,6 +138,7 @@ class Conversion
     public function manipulate(Closure $manipulations): self
     {
         $this->manipulationClosure = new SerializableClosure($manipulations);
+        $this->inferredImageDriverName = null;
 
         return $this;
     }
@@ -214,8 +216,10 @@ class Conversion
         return $this;
     }
 
-    public function shouldBePerformedOn(string $collectionName): bool
+    public function shouldBePerformedOn(BackedEnum|string $collectionName): bool
     {
+        $collectionName = CollectionName::resolve($collectionName);
+
         // if no collections were specified, perform conversion on all collections
         if (! count($this->performOnCollections)) {
             return true;

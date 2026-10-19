@@ -655,6 +655,7 @@ class FileAdder
         }
 
         $model->media()->save($media);
+        $model->unsetRelation('media');
 
         if ($fileAdder->file instanceof RemoteFile) {
             $addedMediaSuccessfully = $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);

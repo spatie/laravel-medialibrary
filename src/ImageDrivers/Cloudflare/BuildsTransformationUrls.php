@@ -51,7 +51,7 @@ trait BuildsTransformationUrls
         }
 
         $parameterString = collect($parameters)
-            ->map(fn (string|int|float $value, string $name) => "{$name}={$value}")
+            ->map(fn (string|int|float $value, string $name) => rawurlencode($name).'='.rawurlencode((string) $value))
             ->implode(',');
 
         return "{$zone}/cdn-cgi/image/{$parameterString}/{$sourceUrl}";

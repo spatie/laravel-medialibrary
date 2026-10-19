@@ -6,6 +6,10 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 This section is a work in progress while the next major version is being developed.
 
+### Requirements
+
+The branch follows the current package baseline: PHP 8.2 or higher with Laravel 12, or PHP 8.3 or higher with Laravel 13. Laravel 10 and 11 are no longer supported. Callback and manipulation closures require `laravel/serializable-closure` 2.x.
+
 ### Configuring collections and conversions with attributes
 
 You can now declare media collections and conversions with the `#[MediaCollection]` and `#[MediaConversion]` attributes on your model, as an alternative to the `registerMediaCollections()` and `registerMediaConversions()` methods.
@@ -14,13 +18,15 @@ This is additive. The methods keep working, and a collection or conversion decla
 
 ### Same named conversions
 
-Registering the same conversion name twice for the same set of collections now keeps the last registration instead of the first. A child model that calls `parent::registerMediaConversions()` and then registers its own conversion under that name therefore wins, which is what you would expect but is the opposite of v11.
+For each media item, the last applicable registration of a conversion name now wins instead of the first. This also applies when collection scopes overlap or one declaration applies to every collection. Same-named conversions for disjoint collections remain independent. A child model that calls `parent::registerMediaConversions()` and then registers its own conversion under that name therefore wins.
 
 If you relied on the old behavior the generated file name can change, for example when the two registrations use a different `format()`. Regenerate the affected conversions after upgrading.
 
+`ConversionCollection::createForMedia()` now contains only conversions applicable to that media item's collection. Code inspecting registrations for other collections should use the model's `registerAllMediaConversions()` and `mediaConversions` instead.
+
 ### Running code after conversions with `then()` and `catch()`
 
-When adding media you can chain `->then(fn (Media $media) => ...)` and `->catch(fn (Throwable $exception) => ...)` before `toMediaCollection()`. The callbacks run after the media item's derivatives have been generated. Using `then()` runs all of that item's derivatives inside one queued job, so `queued()`, `nonQueued()` and `deferred()` on its conversions no longer apply. See [running code after conversions](https://spatie.be/docs/laravel-medialibrary/v12/advanced-usage/running-code-after-conversions).
+When adding media you can chain `->then(fn (Media $media) => ...)` and `->catch(fn (Throwable $exception) => ...)` before `toMediaCollection()`. Either callback opts all of that item's derivatives into one queued job, so `queued()`, `nonQueued()` and `deferred()` on its conversions no longer apply. Even media without derivatives uses that queue. Returning normally from `catch` handles the failure and prevents retries; rethrow to retain worker retries. Custom derivative jobs run as handlers inside the orchestrator, not with their own queue middleware or lifecycle. See [running code after conversions](https://spatie.be/docs/laravel-medialibrary/v12/advanced-usage/running-code-after-conversions).
 
 ### Pluggable image drivers
 
@@ -34,7 +40,9 @@ If you published the config file, add the new `image_drivers` array (see the pac
 
 Every method that accepts a collection name now also accepts a string-backed enum (for example `toMediaCollection(MyCollections::Avatar)` and `getFirstMediaUrl(MyCollections::Avatar)`).
 
-This is additive for callers, who can keep passing strings. The parameter type on these methods was widened from `string` to `BackedEnum|string`. If you override any of them in a subclass (for example a custom model, a custom media collection, or a custom `FileAdder`), widen the overridden parameter type to `BackedEnum|string` so the signatures stay compatible.
+Integer-backed enum values are converted to strings. Pure enums and enum conversion names are not supported.
+
+This is additive for callers, who can keep passing strings. The parameter type on these methods, including the `HasMedia` interface, was widened from `string` to `BackedEnum|string`. Custom interface implementations and subclasses (for example a custom model, media collection, repository or `FileAdder`) must widen their parameter types accordingly. This also applies to `Media::copy()` and conversion collection filters.
 
 ## From v10 to v11
 
