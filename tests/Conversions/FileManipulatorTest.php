@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Event;
 use Spatie\MediaLibrary\Conversions\Actions\PerformManipulationsAction;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\Conversions\Events\ConversionWillStartEvent;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Filesystem;
 
@@ -24,7 +26,7 @@ it('does not perform manipulations if not necessary', function () {
     expect($conversionTempFile)->toEqual($imageFile);
 });
 
-it('deletes temporary directory if copied file is empty', function () {
+it('deletes temporary directory if copied file is empty or missing', function (bool $createFile) {
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
     $conversionCollection = new ConversionCollection([
@@ -32,21 +34,26 @@ it('deletes temporary directory if copied file is empty', function () {
     ]);
 
     $tempDirectoryPath = null;
-    $this->mock(Filesystem::class, function ($mock) use (&$tempDirectoryPath) {
-        $mock->shouldReceive('copyFromMediaLibrary')->andReturnUsing(function ($media, $path) use (&$tempDirectoryPath) {
+    $this->mock(Filesystem::class, function ($mock) use (&$tempDirectoryPath, $createFile) {
+        $mock->shouldReceive('copyFromMediaLibrary')->andReturnUsing(function ($media, $path) use (&$tempDirectoryPath, $createFile) {
             $tempDirectoryPath = dirname($path);
-            touch($path);
+
+            if ($createFile) {
+                touch($path);
+            }
 
             return $path;
         });
     });
 
-    app(FileManipulator::class)->performConversions($conversionCollection, $media);
+    $fileManipulator = app(FileManipulator::class);
 
-    expect(file_exists($tempDirectoryPath))->toBeFalse();
-});
+    expect($fileManipulator->performConversions($conversionCollection, $media))->toBe($fileManipulator)
+        ->and($tempDirectoryPath)->toBeString()->not->toBeDirectory()
+        ->and($media->getPath())->toBeFile();
+})->with([true, false]);
 
-it('cleans up temporary directory when an exception is thrown during conversions', function () {
+it('cleans up temporary directory and propagates failures when copying or converting', function (bool $failDuringCopy) {
     $media = $this->testModelWithoutMediaConversions->addMedia($this->getTestJpg())->toMediaCollection();
 
     $conversionCollection = new ConversionCollection([
@@ -54,19 +61,30 @@ it('cleans up temporary directory when an exception is thrown during conversions
     ]);
 
     $tempDirectoryPath = null;
-    $this->mock(Filesystem::class, function ($mock) use (&$tempDirectoryPath) {
-        $mock->shouldReceive('copyFromMediaLibrary')->andReturnUsing(function ($media, $path) use (&$tempDirectoryPath) {
+    $exception = new RuntimeException('Conversion failed');
+
+    if (! $failDuringCopy) {
+        Event::listen(ConversionWillStartEvent::class, function () use ($exception) {
+            throw $exception;
+        });
+    }
+
+    $this->mock(Filesystem::class, function ($mock) use (&$tempDirectoryPath, $failDuringCopy, $exception) {
+        $mock->shouldReceive('copyFromMediaLibrary')->andReturnUsing(function ($media, $path) use (&$tempDirectoryPath, $failDuringCopy, $exception) {
             $tempDirectoryPath = dirname($path);
-            file_put_contents($path, 'dummy content');
-            throw new Exception('Conversion failed');
+            copy($media->getPath(), $path);
+
+            if ($failDuringCopy) {
+                throw $exception;
+            }
+
+            return $path;
         });
     });
 
-    try {
-        app(FileManipulator::class)->performConversions($conversionCollection, $media);
-    } catch (Exception $e) {
-        // Expected exception
-    }
+    expect(fn () => app(FileManipulator::class)->performConversions($conversionCollection, $media))
+        ->toThrow($exception);
 
-    expect(file_exists($tempDirectoryPath))->toBeFalse();
-});
+    expect($tempDirectoryPath)->toBeString()->not->toBeDirectory()
+        ->and($media->getPath())->toBeFile();
+})->with([true, false]);
