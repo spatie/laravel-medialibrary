@@ -19,12 +19,21 @@ it('can get the path relative to root with a url generator that only implements 
     expect($media->getPathRelativeToRoot('thumb'))->toEqual($media->id.'/conversions/test-thumb.jpg');
 });
 
-it('can delete media with a url generator that only implements the interface', function () {
-    $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection();
+it('can delete media with a url generator that only implements the interface', function (string $conversionsDisk) {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->storingConversionsOnDisk($conversionsDisk)
+        ->toMediaCollection();
 
-    expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeTrue();
+    $originalPath = $media->getPath();
+    $conversionPath = $media->getPath('thumb');
+
+    expect($originalPath)->toBeFile();
+    expect($conversionPath)->toBeFile();
 
     $media->delete();
 
     expect(File::isDirectory($this->getMediaDirectory($media->id)))->toBeFalse();
-});
+    expect(file_exists($originalPath))->toBeFalse();
+    expect(file_exists($conversionPath))->toBeFalse();
+})->with(['public', 'secondMediaDisk']);

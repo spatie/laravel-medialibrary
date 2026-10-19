@@ -6,6 +6,10 @@ Because there are many breaking changes an upgrade is not that easy. There are m
 
 This section is a work in progress while the next major version is being developed.
 
+### Requirements
+
+PHP 8.3+ and Laravel 12+ are now required. The test suite uses Pest 5 on PHP 8.4+ with Laravel 13, and Pest 4 for PHP 8.3 or Laravel 12.
+
 ### Configuring collections and conversions with attributes
 
 You can now declare media collections and conversions with the `#[MediaCollection]` and `#[MediaConversion]` attributes on your model, as an alternative to the `registerMediaCollections()` and `registerMediaConversions()` methods.
