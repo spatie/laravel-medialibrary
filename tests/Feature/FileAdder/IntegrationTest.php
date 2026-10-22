@@ -679,6 +679,23 @@ it('will throw an exception and revert database when file cannot be added and mo
     expect(Media::count())->toBe(1);
 });
 
+it('will throw an exception, revert database and keep the source file when copying on the same disk fails', function () {
+    Storage::disk('public')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+
+    $disk = Mockery::mock(Storage::disk('public'))->makePartial();
+    $disk->shouldReceive('copy')->andReturnFalse();
+    Storage::set('public', $disk);
+
+    expect(
+        fn () => $this->testModel
+            ->addMediaFromDisk('tmp/test.jpg', 'public')
+            ->toMediaCollection()
+    )->toThrow(DiskCannotBeAccessed::class);
+
+    expect(Media::count())->toBe(0);
+    expect($this->getMediaDirectory('tmp/test.jpg'))->toBeFile();
+});
+
 it('will return null instead of an ImageGeneratorFactory when mimetype is null', function () {
     expect(ImageGeneratorFactory::forMimeType(null))->toBeNull();
 });
