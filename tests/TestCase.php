@@ -307,6 +307,8 @@ abstract class TestCase extends Orchestra
             'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
             'region' => getenv('AWS_DEFAULT_REGION'),
             'bucket' => getenv('AWS_BUCKET'),
+            'endpoint' => getenv('AWS_ENDPOINT') ?: null,
+            'use_path_style_endpoint' => (bool) getenv('AWS_ENDPOINT'),
         ]);
     }
 

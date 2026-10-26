@@ -47,6 +47,10 @@ function getS3BaseTestDirectory(): string
 
 function s3BaseUrl(): string
 {
+    if ($endpoint = getenv('AWS_ENDPOINT')) {
+        return rtrim($endpoint, '/').'/'.getenv('AWS_BUCKET');
+    }
+
     return 'https://laravel-medialibrary-tests.s3.eu-west-1.amazonaws.com';
 }
 
