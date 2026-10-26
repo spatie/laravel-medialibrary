@@ -60,8 +60,10 @@ jobs:
       AWS_ENDPOINT: http://localhost:5000
 
     steps:
-      - name: Update apt
-        run: sudo apt-get update --fix-missing
+      - name: Update apt using Ubuntu archive mirrors
+        run: |
+          sudo sed -i '/azure\.archive\.ubuntu\.com/d' /etc/apt/apt-mirrors.txt
+          sudo apt-get update --fix-missing
 
       - name: Install ffmpeg
         run: sudo apt-get -y install ffmpeg
