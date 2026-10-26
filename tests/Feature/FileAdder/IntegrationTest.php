@@ -299,17 +299,24 @@ it('can add a file from a separate disk to the media library', function () {
     expect($this->getMediaDirectory("{$media->id}/test.jpg"))->toBeFile();
 });
 
-it('can natively copy a remote file from the same disk to the media library', function () {
-    Storage::disk('public')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
+it('can natively copy a remote file from the same disk to the media library', function (bool $preserveOriginal) {
+    $contents = file_get_contents($this->getTestJpg());
+    Storage::disk('public')->put('tmp/test.jpg', $contents);
     expect($this->getMediaDirectory('tmp/test.jpg'))->toBeFile();
 
     $media = $this->testModel
         ->addMediaFromDisk('tmp/test.jpg', 'public')
+        ->preservingOriginal($preserveOriginal)
         ->toMediaCollection();
 
-    expect($this->getMediaDirectory("{$media->id}/test.jpg"))->toBeFile();
-    $this->assertFileDoesNotExist($this->getMediaDirectory('tmp/test.jpg'));
-});
+    expect(Media::count())->toBe(1);
+    expect(Storage::disk('public')->get("{$media->id}/test.jpg"))->toBe($contents);
+    expect(Storage::disk('public')->exists('tmp/test.jpg'))->toBe($preserveOriginal);
+
+    if ($preserveOriginal) {
+        expect(Storage::disk('public')->get('tmp/test.jpg'))->toBe($contents);
+    }
+})->with([false, true]);
 
 it('can add a remote file with a space in the name to the media library', function () {
     $url = 'http://spatie.github.io/laravel-medialibrary/tests/TestSupport/testfiles/test%20with%20space.jpg';
@@ -679,22 +686,29 @@ it('will throw an exception and revert database when file cannot be added and mo
     expect(Media::count())->toBe(1);
 });
 
-it('will throw an exception, revert database and keep the source file when copying on the same disk fails', function () {
-    Storage::disk('public')->put('tmp/test.jpg', file_get_contents($this->getTestJpg()));
-
-    $disk = Mockery::mock(Storage::disk('public'))->makePartial();
-    $disk->shouldReceive('copy')->andReturnFalse();
-    Storage::set('public', $disk);
+it('will throw an exception, revert database and keep the source file when copying on the same disk fails', function (bool $preserveOriginal) {
+    $existingMedia = $this->testModel->addMedia($this->getTestPng())->toMediaCollection();
+    $existingContents = Storage::disk('public')->get($existingMedia->getPathRelativeToRoot());
+    $contents = file_get_contents($this->getTestJpg());
+    $disk = Storage::disk('public');
+    $disk->put('tmp/test.jpg', $contents);
+    $disk->makeDirectory(($existingMedia->id + 1).'/test.jpg');
 
     expect(
         fn () => $this->testModel
             ->addMediaFromDisk('tmp/test.jpg', 'public')
+            ->preservingOriginal($preserveOriginal)
             ->toMediaCollection()
     )->toThrow(DiskCannotBeAccessed::class);
 
-    expect(Media::count())->toBe(0);
-    expect($this->getMediaDirectory('tmp/test.jpg'))->toBeFile();
-});
+    expect(Media::pluck('id')->all())->toBe([$existingMedia->id]);
+    expect($disk->get('tmp/test.jpg'))->toBe($contents);
+    expect($disk->get($existingMedia->getPathRelativeToRoot()))->toBe($existingContents);
+    expect($disk->allFiles())->toEqualCanonicalizing([
+        $existingMedia->getPathRelativeToRoot(),
+        'tmp/test.jpg',
+    ]);
+})->with([false, true]);
 
 it('will return null instead of an ImageGeneratorFactory when mimetype is null', function () {
     expect(ImageGeneratorFactory::forMimeType(null))->toBeNull();
