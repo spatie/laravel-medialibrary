@@ -41,6 +41,24 @@ jobs:
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
+    services:
+      s3:
+        image: motoserver/moto:5.2.4
+        ports:
+          - 5000:5000
+        options: >-
+          --health-cmd "curl --fail http://localhost:5000/"
+          --health-interval 5s
+          --health-timeout 2s
+          --health-retries 10
+
+    env:
+      AWS_ACCESS_KEY_ID: testing
+      AWS_SECRET_ACCESS_KEY: testing
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_BUCKET: media-library-tests
+      AWS_ENDPOINT: http://localhost:5000
+
     steps:
       - name: Update apt
         run: sudo apt-get update --fix-missing
@@ -76,10 +94,12 @@ jobs:
           composer remove "larastan/larastan" --dev --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
+      - name: Create S3 test bucket
+        run: |
+          curl --fail --request PUT "${AWS_ENDPOINT}/${AWS_BUCKET}"
+          curl --fail --request PUT "${AWS_ENDPOINT}/${AWS_BUCKET}?policy" --header 'Content-Type: application/json' --data @- <<JSON
+          {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":"*","Action":"s3:GetObject","Resource":"arn:aws:s3:::${AWS_BUCKET}/*"}]}
+          JSON
+
       - name: Execute tests
         run: vendor/bin/pest
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          AWS_BUCKET: ${{ secrets.AWS_BUCKET }}
