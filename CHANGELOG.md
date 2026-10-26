@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.11 - 2026-10-26
+
+### What's Changed
+
+* Fix `addMediaFromDisk()` losing the source file when a same-disk copy returns `false`. Failed copies now throw `DiskCannotBeAccessed`, remove the failed media record, and retain the source file. By @kinsflow in https://github.com/spatie/laravel-medialibrary/pull/3969.
+* Verify failed and successful same-disk copies against real local storage, including source bytes, stored files, existing media, and `preservingOriginal()` behavior.
+* Repair ImageMagick policy discovery on newer CI runners and allow slow package downloads to finish without reducing the PHP 8.2–8.5 / Laravel 12–13 test matrix.
+
+PHP and Laravel requirements are unchanged. The separate, pre-existing orphan-record issue with filesystem `throw=true` is not changed by this release; that mode already preserves the source file.
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.10...11.23.11
+
 ## 11.23.10 - 2026-10-19
 
 ### What’s Changed
