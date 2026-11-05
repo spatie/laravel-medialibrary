@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.5, 8.4, 8.3, 8.2]
+        php: [8.6, 8.5, 8.4, 8.3, 8.2]
         laravel: ['12.*', '13.*']
         dependency-version: [prefer-lowest, prefer-stable]
         include:
@@ -25,6 +25,8 @@ jobs:
             pest: ^4.7.8
           - php: 8.5
             pest: ^4.7.8
+          - php: 8.6
+            pest: ^5.3.3
           - laravel: 12.*
             testbench: ^10.12
           - laravel: 13.*
@@ -38,6 +40,9 @@ jobs:
         exclude:
           - laravel: 13.*
             php: 8.2
+          # Testbench 10 cannot use Pest 5's PHPUnit; Pest 4's ParaTest does not support PHP 8.6.
+          - laravel: 12.*
+            php: 8.6
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
@@ -80,6 +85,11 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
+
+      - name: Verify PHP version
+        run: |
+          php --version
+          php -r 'exit(PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION === "${{ matrix.php }}" ? 0 : 1);'
 
       - name: Setup Problem Matches
         run: |
