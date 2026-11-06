@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.12 - 2026-11-06
+
+### What’s Changed
+
+* Use the conversion MIME type for streamed attachment and inline responses instead of the original file MIME type. Includes regression coverage for separate conversion storage and unavailable MIME metadata. By @AleksandrSpicyn in https://github.com/spatie/laravel-medialibrary/pull/3974.
+* Fix `media-library:regenerate --only-missing` checking the original disk instead of the conversions disk. Existing conversions are now preserved while missing conversions are regenerated when stored on a separate disk. Fixes #3975. By @x-adam in https://github.com/spatie/laravel-medialibrary/pull/3976.
+* CI maintenance since the previous release: exercise S3 integration tests against isolated Moto storage and add verified PHP 8.6 test coverage (#3971, #3973).
+
+PHP and Laravel requirements are unchanged. Both fixes passed the full 16-job PHP/Laravel dependency matrix, PHPStan, and formatting checks, followed by green combined-main checks.
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.11...11.23.12
+
 ## 11.23.11 - 2026-10-26
 
 ### What's Changed
