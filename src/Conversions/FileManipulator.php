@@ -68,13 +68,15 @@ class FileManipulator
             ->when(
                 $onlyMissing,
                 fn (ConversionCollection $conversions) => $conversions->reject(function (Conversion $conversion) use ($media) {
+                    $diskName = $media->conversions_disk ?: $media->disk;
+
                     $relativePath = $media->getPath($conversion->getName());
 
-                    if ($rootPath = config("filesystems.disks.{$media->disk}.root")) {
+                    if ($rootPath = config("filesystems.disks.{$diskName}.root")) {
                         $relativePath = str_replace($rootPath, '', $relativePath);
                     }
 
-                    return Storage::disk($media->disk)->exists($relativePath);
+                    return Storage::disk($diskName)->exists($relativePath);
                 })
             );
 

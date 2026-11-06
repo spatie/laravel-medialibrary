@@ -60,6 +60,44 @@ it('can regenerate only missing files', function () {
     expect(filemtime($derivedMissingImage))->toBeGreaterThan($missingCreatedAt);
 });
 
+it('can regenerate only missing files when conversions are stored on another disk', function () {
+    $mediaExists = $this
+        ->testModelWithConversionsOnOtherDisk
+        ->addMedia($this->getTestFilesDirectory('test.jpg'))
+        ->toMediaCollection('thumb');
+
+    $mediaMissing = $this
+        ->testModelWithConversionsOnOtherDisk
+        ->addMedia($this->getTestFilesDirectory('test.png'))
+        ->toMediaCollection('thumb');
+
+    $derivedImageExists = $this->getTempDirectory("media2/{$mediaExists->id}/conversions/test-thumb.jpg");
+
+    $derivedMissingImage = $this->getTempDirectory("media2/{$mediaMissing->id}/conversions/test-thumb.jpg");
+
+    // Backdate both conversions so a regenerated file is guaranteed a newer
+    // mtime, without waiting out filemtime()'s one-second granularity.
+    touch($derivedImageExists, time() - 5);
+    $existsCreatedAt = filemtime($derivedImageExists);
+
+    touch($derivedMissingImage, time() - 5);
+    $missingCreatedAt = filemtime($derivedMissingImage);
+
+    unlink($derivedMissingImage);
+
+    $this->assertFileDoesNotExist($derivedMissingImage);
+
+    $this->artisan('media-library:regenerate', [
+        '--only-missing' => true,
+    ]);
+
+    expect($derivedMissingImage)->toBeFile();
+
+    expect(filemtime($derivedImageExists))->toBe($existsCreatedAt);
+
+    expect(filemtime($derivedMissingImage))->toBeGreaterThan($missingCreatedAt);
+});
+
 it('can regenerate missing files queued', function () {
     $mediaExists = $this
         ->testModelWithConversionQueued
