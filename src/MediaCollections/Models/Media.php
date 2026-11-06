@@ -400,13 +400,19 @@ class Media extends Model implements Attachable, Htmlable, Responsable
     {
         $filename = str_replace('"', '\'', Str::ascii($this->getDownloadFilename()));
 
-        $size = $conversion !== ''
-            ? Storage::disk($this->conversions_disk)->size($this->getPathRelativeToRoot($conversion))
-            : $this->size;
+        $size = $this->size;
+        $mimeType = $this->mime_type;
+
+        if ($conversion !== '') {
+            $disk = Storage::disk($this->conversions_disk);
+            $path = $this->getPathRelativeToRoot($conversion);
+            $size = $disk->size($path);
+            $mimeType = $disk->mimeType($path) ?: 'application/octet-stream';
+        }
 
         $downloadHeaders = [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Content-Type' => $this->mime_type,
+            'Content-Type' => $mimeType,
             'Content-Length' => $size,
             'Content-Disposition' => $contentDispositionType.'; filename="'.$filename.'"',
             'Pragma' => 'public',
