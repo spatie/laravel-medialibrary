@@ -710,6 +710,40 @@ it('will throw an exception, revert database and keep the source file when copyi
     ]);
 })->with([false, true]);
 
+it('will throw an exception, revert database and keep the source file when storing the file throws', function (string $source, bool $diskThrows) {
+    $existingMedia = $this->testModel->addMedia($this->getTestPng())->toMediaCollection();
+    $existingContents = Storage::disk('public')->get($existingMedia->getPathRelativeToRoot());
+    $contents = file_get_contents($this->getTestJpg());
+    $localFile = $this->getTempDirectory('test.jpg');
+    file_put_contents($localFile, $contents);
+    Storage::disk('public')->put('tmp/test.jpg', $contents);
+    Storage::disk('secondMediaDisk')->put('tmp/test.jpg', $contents);
+    Storage::disk('public')->makeDirectory(($existingMedia->id + 1).'/test.jpg');
+
+    config()->set('filesystems.disks.public.throw', $diskThrows);
+    Storage::forgetDisk('public');
+
+    $fileAdder = $source === 'local'
+        ? $this->testModel->addMedia($localFile)
+        : $this->testModel->addMediaFromDisk('tmp/test.jpg', $source);
+
+    expect(fn () => $fileAdder->toMediaCollection())->toThrow(DiskCannotBeAccessed::class);
+
+    expect(Media::pluck('id')->all())->toBe([$existingMedia->id]);
+    expect(file_get_contents($localFile))->toBe($contents);
+    expect(Storage::disk('public')->get('tmp/test.jpg'))->toBe($contents);
+    expect(Storage::disk('secondMediaDisk')->get('tmp/test.jpg'))->toBe($contents);
+    expect(Storage::disk('public')->get($existingMedia->getPathRelativeToRoot()))->toBe($existingContents);
+    expect(Storage::disk('public')->allFiles())->toEqualCanonicalizing([
+        $existingMedia->getPathRelativeToRoot(),
+        'tmp/test.jpg',
+    ]);
+})->with([
+    'local file on a disk that throws' => ['local', true],
+    'same disk that throws' => ['public', true],
+    'separate disk' => ['secondMediaDisk', false],
+]);
+
 it('will return null instead of an ImageGeneratorFactory when mimetype is null', function () {
     expect(ImageGeneratorFactory::forMimeType(null))->toBeNull();
 });

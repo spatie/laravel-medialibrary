@@ -5,6 +5,7 @@ namespace Spatie\MediaLibrary\MediaCollections;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use League\Flysystem\FilesystemException;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
@@ -31,6 +32,10 @@ class Filesystem
             $this->copyToMediaLibrary($file, $media, null, $targetFileName);
         } catch (DiskCannotBeAccessed $exception) {
             return false;
+        } catch (FilesystemException $exception) {
+            report($exception);
+
+            return false;
         }
 
         event(new MediaHasBeenAddedEvent($media));
@@ -45,6 +50,10 @@ class Filesystem
         try {
             $this->copyToMediaLibraryFromRemote($file, $media, null, $targetFileName);
         } catch (DiskCannotBeAccessed $exception) {
+            return false;
+        } catch (FilesystemException $exception) {
+            report($exception);
+
             return false;
         }
 
