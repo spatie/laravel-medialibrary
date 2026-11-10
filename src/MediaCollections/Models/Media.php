@@ -459,10 +459,18 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return Attribute::get(fn () => $this->getUrl());
     }
 
-    /** @param  string  $collectionName */
-    public function move(HasMedia $model, $collectionName = 'default', string $diskName = '', string $fileName = ''): self
-    {
-        $newMedia = $this->copy($model, $collectionName, $diskName, $fileName);
+    /**
+     * @param  string  $collectionName
+     * @param  null|Closure(FileAdder): FileAdder  $fileAdderCallback
+     */
+    public function move(
+        HasMedia $model,
+        $collectionName = 'default',
+        string $diskName = '',
+        string $fileName = '',
+        ?Closure $fileAdderCallback = null
+    ): self {
+        $newMedia = $this->copy($model, $collectionName, $diskName, $fileName, $fileAdderCallback);
 
         $this->forceDelete();
 
