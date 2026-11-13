@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.13 - 2026-11-13
+
+### What changed
+
+* Remove orphaned media records when storing an original file throws a Flysystem exception. Covers local uploads, same-disk copies and cross-disk streams. By @kinsflow in https://github.com/spatie/laravel-medialibrary/pull/3977.
+* Preserve the original Flysystem exception so existing catch blocks keep working. Source files and existing media remain intact after failed additions.
+* Keep valid original media when only a conversion write fails, with regression coverage for this boundary.
+
+PHP and Laravel requirements are unchanged. All 16 PHP/Laravel dependency-matrix jobs, Pint and PHPStan passed on both the PR head and the merged commit.
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.12...11.23.13
+
 ## 11.23.12 - 2026-11-06
 
 ### What’s Changed
