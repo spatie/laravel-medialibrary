@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Defer\DeferredCallbackCollection;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\UnableToWriteFile;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -20,6 +22,21 @@ it('can create a derived version of an image', function () {
     $media = $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection('images');
 
     $this->assertFileExists($this->getMediaDirectory($media->id.'/conversions/test-thumb.jpg'));
+});
+
+it('keeps the media record and original file when storing a conversion throws', function () {
+    config()->set('filesystems.disks.public.throw', true);
+    Storage::disk('public')->makeDirectory('1/conversions/test-thumb.jpg');
+    $contents = file_get_contents($this->getTestJpg());
+
+    expect(
+        fn () => $this->testModelWithConversion->addMedia($this->getTestJpg())->toMediaCollection()
+    )->toThrow(UnableToWriteFile::class);
+
+    $media = Media::sole();
+
+    expect(Storage::disk('public')->get($media->getPathRelativeToRoot()))->toBe($contents);
+    expect(file_get_contents($this->getTestJpg()))->toBe($contents);
 });
 
 it('will not create a derived version for non registered collections', function () {

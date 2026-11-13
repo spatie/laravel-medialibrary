@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\UnableToCopyFile;
@@ -713,7 +712,7 @@ it('will throw an exception, revert database and keep the source file when copyi
     ]);
 })->with([false, true]);
 
-it('will throw an exception, revert database and keep the source file when storing the file throws', function (string $source, bool $diskThrows, string $reportedException) {
+it('will rethrow the storage exception, revert database and keep the source file when storing the file throws', function (string $source, bool $diskThrows, string $exceptionClass) {
     $existingMedia = $this->testModel->addMedia($this->getTestPng())->toMediaCollection();
     $existingContents = Storage::disk('public')->get($existingMedia->getPathRelativeToRoot());
     $contents = file_get_contents($this->getTestJpg());
@@ -726,15 +725,12 @@ it('will throw an exception, revert database and keep the source file when stori
     config()->set('filesystems.disks.public.throw', $diskThrows);
     Storage::forgetDisk('public');
 
-    Exceptions::fake();
-
     $fileAdder = $source === 'local'
         ? $this->testModel->addMedia($localFile)
         : $this->testModel->addMediaFromDisk('tmp/test.jpg', $source);
 
-    expect(fn () => $fileAdder->toMediaCollection())->toThrow(DiskCannotBeAccessed::class);
+    expect(fn () => $fileAdder->toMediaCollection())->toThrow($exceptionClass);
 
-    Exceptions::assertReported($reportedException);
     expect(Media::pluck('id')->all())->toBe([$existingMedia->id]);
     expect(file_get_contents($localFile))->toBe($contents);
     expect(Storage::disk('public')->get('tmp/test.jpg'))->toBe($contents);
@@ -748,6 +744,7 @@ it('will throw an exception, revert database and keep the source file when stori
     'local file on a disk that throws' => ['local', true, UnableToWriteFile::class],
     'same disk that throws' => ['public', true, UnableToCopyFile::class],
     'separate disk' => ['secondMediaDisk', false, UnableToWriteFile::class],
+    'separate disk that throws' => ['secondMediaDisk', true, UnableToWriteFile::class],
 ]);
 
 it('will return null instead of an ImageGeneratorFactory when mimetype is null', function () {

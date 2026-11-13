@@ -33,9 +33,9 @@ class Filesystem
         } catch (DiskCannotBeAccessed $exception) {
             return false;
         } catch (FilesystemException $exception) {
-            report($exception);
+            $media->forceDelete();
 
-            return false;
+            throw $exception;
         }
 
         event(new MediaHasBeenAddedEvent($media));
@@ -52,9 +52,9 @@ class Filesystem
         } catch (DiskCannotBeAccessed $exception) {
             return false;
         } catch (FilesystemException $exception) {
-            report($exception);
+            $media->forceDelete();
 
-            return false;
+            throw $exception;
         }
 
         event(new MediaHasBeenAddedEvent($media));
