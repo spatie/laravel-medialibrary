@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+
 beforeEach(function () {
     $this->testModel->addMedia($this->getTestJpg())->usingName('test1')->preservingOriginal()->toMediaCollection();
     $this->testModel->addMedia($this->getTestJpg())->usingName('test2')->preservingOriginal()->toMediaCollection();
@@ -63,4 +66,23 @@ it('reorders media items', function () {
 
     expect($orderedMedia[1]->order_column)->toEqual($mediaArray[0]['order_column']);
     expect($orderedMedia[0]->order_column)->toEqual($mediaArray[1]['order_column']);
+});
+
+it('does not update media that belongs to another model', function () {
+    $otherModel = TestModel::create(['name' => 'other']);
+    $otherMedia = $otherModel->addMedia($this->getTestJpg())->usingName('other')->preservingOriginal()->toMediaCollection();
+
+    expect(fn () => $this->testModel->updateMedia([['id' => $otherMedia->id, 'name' => 'changed']]))
+        ->toThrow(ModelNotFoundException::class);
+
+    expect($otherMedia->fresh()->name)->toEqual('other');
+    expect($this->testModel->media()->count())->toBe(2);
+});
+
+it('does not delete media when the update array contains an invalid id', function () {
+    expect(fn () => $this->testModel->updateMedia([['id' => 999]]))
+        ->toThrow(ModelNotFoundException::class);
+
+    expect($this->testModel->media()->count())->toBe(2);
+    $this->testModel->media->each(fn ($media) => expect($media->getPath())->toBeFile());
 });

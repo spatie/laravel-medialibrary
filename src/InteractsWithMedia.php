@@ -481,21 +481,28 @@ trait InteractsWithMedia
      */
     public function updateMedia(array $newMediaArray, string $collectionName = 'default'): Collection
     {
-        $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
-
         $mediaClass = $this->getMediaModel();
         $mediaInstance = new $mediaClass;
         $keyName = $mediaInstance->getKeyName();
 
-        return collect($newMediaArray)
-            ->map(function (array $newMediaItem) use ($collectionName, $mediaClass, $keyName) {
-                static $orderColumn = 1;
-
-                $currentMedia = $mediaClass::findOrFail($newMediaItem[$keyName]);
+        $currentMediaItems = collect($newMediaArray)
+            ->map(function (array $newMediaItem) use ($collectionName, $keyName) {
+                $currentMedia = $this->media()->findOrFail($newMediaItem[$keyName]);
 
                 if ($currentMedia->collection_name !== $collectionName) {
                     throw MediaCannotBeUpdated::doesNotBelongToCollection($collectionName, $currentMedia);
                 }
+
+                return $currentMedia;
+            });
+
+        $this->removeMediaItemsNotPresentInArray($newMediaArray, $collectionName);
+
+        return collect($newMediaArray)
+            ->map(function (array $newMediaItem, $key) use ($currentMediaItems) {
+                static $orderColumn = 1;
+
+                $currentMedia = $currentMediaItems[$key];
 
                 if (array_key_exists('name', $newMediaItem)) {
                     $currentMedia->name = $newMediaItem['name'];
