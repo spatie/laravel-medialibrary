@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent;
 use Spatie\MediaLibrary\ResponsiveImages\ResponsiveImageGenerator;
@@ -202,4 +203,24 @@ it('will not delete responsive images of images with similar names saved on the 
     expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-small")))->toBeFalse();
     expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-medium")))->toBeFalse();
     expect(File::exists($this->getTempDirectory("media/some_user/1/custom_conversions/{$this->fileNameWithUnderscore}-large")))->toBeFalse();
+});
+
+it('removes old responsive images from the conversions disk when regenerating', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->withResponsiveImages()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
+
+    $responsiveImages = Storage::disk('secondMediaDisk')->allFiles();
+    Storage::disk('secondMediaDisk')->put("{$media->id}/responsive-images/{$this->fileName}___media_library_original_999_823.jpg", 'old');
+    Storage::disk('secondMediaDisk')->put("{$media->id}/responsive-images/other___media_library_original_999_823.jpg", 'other');
+
+    $this->artisan('media-library:regenerate', ['--with-responsive-images' => true]);
+
+    expect(Storage::disk('secondMediaDisk')->allFiles())->toEqualCanonicalizing([
+        ...$responsiveImages,
+        "{$media->id}/responsive-images/other___media_library_original_999_823.jpg",
+    ]);
+    expect(Storage::disk('public')->allFiles())->toBe(["{$media->id}/{$this->fileName}.jpg"]);
 });

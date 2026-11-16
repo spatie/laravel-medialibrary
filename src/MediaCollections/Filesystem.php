@@ -273,14 +273,16 @@ class Filesystem
 
         $responsiveImagesDirectory = $this->getResponsiveImagesDirectory($media);
 
-        $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
+        $disk = $this->filesystem->disk($media->conversions_disk ?: $media->disk);
+
+        $allFilePaths = $disk->allFiles($responsiveImagesDirectory);
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
             static fn (string $path) => Str::contains($path, $mediaFilename.'___'.$conversionName)
         );
 
-        $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
+        $disk->delete($responsiveImagePaths);
     }
 
     public function syncFileNames(Media $media): void

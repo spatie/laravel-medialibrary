@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\Support\FileRemover\DefaultFileRemover;
 use Spatie\MediaLibrary\Support\FileRemover\FileBaseFileRemover;
 use Spatie\MediaLibrary\Support\PathGenerator\DefaultPathGenerator;
 use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomDirectoryStructurePathGenerator;
@@ -107,6 +108,39 @@ it('will remove converted files and responsive images when deleting a media obje
     expect(File::exists($media->getPath()))->toBeFalse();
     expect(Storage::disk($media->disk)->exists($pathGenerator->getPathForResponsiveImages($media).'test___thumb_50_63.jpg'))->toBeFalse();
 
+});
+
+it('will remove responsive images from the conversions disk when deleting a media object with the file based removal class', function () {
+    config(['media-library.file_remover_class' => FileBaseFileRemover::class]);
+
+    $media = $this->testModelWithResponsiveImages
+        ->addMedia($this->getTestJpg())
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
+
+    expect(Storage::disk('secondMediaDisk')->allFiles("{$media->id}/responsive-images"))->not->toBeEmpty();
+
+    $media->delete();
+
+    expect(Storage::disk('secondMediaDisk')->allFiles())->toBe([]);
+    expect(Storage::disk('public')->allFiles())->toBe([]);
+});
+
+it('will remove responsive images of a conversion from the conversions disk with the default removal class', function () {
+    $media = $this->testModelWithResponsiveImages
+        ->addMedia($this->getTestJpg())
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
+
+    $responsiveImages = Storage::disk('secondMediaDisk')->allFiles("{$media->id}/responsive-images");
+
+    expect($responsiveImages)->toContain("{$media->id}/responsive-images/test___thumb_50_41.jpg");
+
+    app(DefaultFileRemover::class)->removeResponsiveImages($media, 'thumb');
+
+    expect(Storage::disk('secondMediaDisk')->allFiles("{$media->id}/responsive-images"))->toEqualCanonicalizing(
+        array_values(array_diff($responsiveImages, ["{$media->id}/responsive-images/test___thumb_50_41.jpg"]))
+    );
 });
 
 it('will NOT remove other files within the same folder when deleting a media object with a custom path and directory generator', function () {
