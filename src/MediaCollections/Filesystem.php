@@ -305,19 +305,35 @@ class Filesystem
             return;
         }
 
-        // If the media is stored on S3, we need to move all files in the directory
-        if ($media->getDiskDriverName() === 's3') {
-            $allFiles = $this->filesystem->disk($media->disk)->allFiles($oldPath);
+        $this->moveDirectory($media->disk, $media->getDiskDriverName(), $oldPath, $newPath);
 
-            foreach ($allFiles as $file) {
-                $newFilePath = str_replace($oldPath, $newPath, $file);
-                $this->filesystem->disk($media->disk)->move($file, $newFilePath);
+        $conversionsDiskName = $media->conversions_disk ?: $media->disk;
+
+        if ($conversionsDiskName === $media->disk) {
+            return;
+        }
+
+        if (! $this->filesystem->disk($conversionsDiskName)->directoryExists($oldPath)) {
+            return;
+        }
+
+        $this->moveDirectory($conversionsDiskName, $media->getConversionsDiskDriverName(), $oldPath, $newPath);
+    }
+
+    protected function moveDirectory(string $diskName, string $diskDriverName, string $oldPath, string $newPath): void
+    {
+        $disk = $this->filesystem->disk($diskName);
+
+        // If the media is stored on S3, we need to move all files in the directory
+        if ($diskDriverName === 's3') {
+            foreach ($disk->allFiles($oldPath) as $file) {
+                $disk->move($file, str_replace($oldPath, $newPath, $file));
             }
 
             return;
         }
 
-        $this->filesystem->disk($media->disk)->move($oldPath, $newPath);
+        $disk->move($oldPath, $newPath);
     }
 
     protected function renameMediaFile(Media $media): void

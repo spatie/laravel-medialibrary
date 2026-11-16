@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -81,4 +82,27 @@ it('moves media on change', function () {
     $this->assertNotEquals($oldMediaPath, $mediaItem->getPath());
     $this->assertFileDoesNotExist($oldMediaPath);
     expect($mediaItem->getPath())->toBeFile();
+});
+
+it('moves conversions stored on the conversions disk on change', function () {
+    config([
+        'media-library.path_generator' => TestUuidPathGenerator::class,
+        'media-library.moves_media_on_update' => true,
+    ]);
+
+    $mediaItem = $this
+        ->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
+
+    $oldUuid = $mediaItem->uuid;
+    $conversionContents = Storage::disk('secondMediaDisk')->get($mediaItem->getPathRelativeToRoot('thumb'));
+
+    $mediaItem->update(['uuid' => Str::uuid()]);
+
+    expect(Storage::disk('secondMediaDisk')->allFiles($oldUuid))->toBe([]);
+    expect(Storage::disk('secondMediaDisk')->get($mediaItem->getPathRelativeToRoot('thumb')))->toBe($conversionContents);
+    expect($mediaItem->getUrl('thumb'))->toStartWith("/media2/{$mediaItem->uuid}/");
 });
