@@ -2,6 +2,7 @@
 
 use Illuminate\Mail\Attachment;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\InvalidConversion;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\Tests\TestSupport\Mail\AttachmentMail;
@@ -42,6 +43,25 @@ it('can send a mail with conversion attached', function () {
 
     // assert no exceptions thrown
     expect(true)->toBeTrue();
+});
+
+it('attaches a conversion stored on the conversions disk', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestPng())
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
+
+    Mail::mailer('array')->send(new MediaConversionAttachmentMail($media));
+
+    $attachments = Mail::mailer('array')
+        ->getSymfonyTransport()
+        ->messages()
+        ->first()
+        ->getOriginalMessage()
+        ->getAttachments();
+
+    expect($attachments)->toHaveCount(1);
+    expect($attachments[0]->getBody())->toBe(Storage::disk('secondMediaDisk')->get($media->getPathRelativeToRoot('thumb')));
 });
 
 it('will throw an exception when attaching a media specifying a non-existing conversion', function () {

@@ -1,6 +1,8 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 beforeEach(function () {
     $this->fileName = 'test';
@@ -143,3 +145,23 @@ it('can handle file names with underscore', function () {
 
     expect($media->getResponsiveImageUrls('non-existing-conversion'))->toBe([]);
 });
+
+it('generates responsive image urls on the conversions disk', function (string $conversionName) {
+    $media = $this->testModelWithResponsiveImages
+        ->addMedia($this->getTestJpg())
+        ->withResponsiveImages()
+        ->storingConversionsOnDisk('secondMediaDisk')
+        ->toMediaCollection();
+
+    $urls = $media->fresh()->getResponsiveImageUrls($conversionName);
+
+    expect($urls)->not->toBeEmpty();
+
+    foreach ($urls as $url) {
+        expect($url)->toStartWith('/media2/');
+        expect(Storage::disk('secondMediaDisk')->exists(Str::after($url, '/media2/')))->toBeTrue();
+    }
+})->with([
+    'original' => '',
+    'conversion' => 'thumb',
+]);
