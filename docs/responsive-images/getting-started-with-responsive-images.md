@@ -138,7 +138,7 @@ class YourModel extends Model implements HasMedia
 }
 ```
 
-To generate the converted greyscale file with its [quality](https://docs.spatie.be/image/v1/usage/saving-images/#changing-jpeg-quality) slightly reduced, and the responsive images, simply add a file:
+To generate the converted greyscale file with its [quality](https://spatie.be/docs/image/v3/usage/saving-images#content-changing-jpeg-quality) slightly reduced, and the responsive images, simply add a file:
 
 
 ```php
