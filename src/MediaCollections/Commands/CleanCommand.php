@@ -195,7 +195,7 @@ class CleanCommand extends Command
         }
 
         /** @var HasMedia $model */
-        $model = new $modelName;
+        $model = app($modelName);
 
         $collection = $model->getMediaCollection($media->collection_name);
 

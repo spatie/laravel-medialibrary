@@ -1,6 +1,8 @@
 <?php
 
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModel;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 
 beforeEach(function () {
     $media = $this->testModelWithConversion
@@ -140,4 +142,22 @@ it('will apply the manipulation on the equally named conversion of every model',
     }
 
     expect($manipulations[1])->toEqual($manipulations[0]);
+});
+
+it('resolves the related model through the container', function () {
+    $media = $this->testModel
+        ->addMedia($this->getTestJpg())
+        ->preservingOriginal()
+        ->toMediaCollection();
+
+    expect(ConversionCollection::createForMedia($media)->getConversions())->toBeEmpty();
+
+    app()->bind(TestModel::class, TestModelWithConversion::class);
+
+    $conversionNames = ConversionCollection::createForMedia($media)
+        ->getConversions()
+        ->map(fn ($conversion) => $conversion->getName())
+        ->all();
+
+    expect($conversionNames)->toBe(['thumb', 'keep_original_format']);
 });
