@@ -60,7 +60,7 @@ class ConversionCollection extends Collection
         }
 
         /** @var HasMedia $model */
-        $model = new $modelName;
+        $model = app($modelName);
 
         /*
          * In some cases the user might want to get the actual model
