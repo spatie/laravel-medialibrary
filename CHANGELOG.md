@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-medialibrary` will be documented in this file
 
+## 11.23.14 - 2026-11-23
+
+### What changed
+
+* Resolve the related model through Laravel’s container when collecting conversions and cleaning original responsive images, so model bindings to subclasses are respected. Includes a regression test for bound model conversions. By @patrickweh in https://github.com/spatie/laravel-medialibrary/pull/3984.
+* Scope `updateMedia()` to the current model’s own media and validate submitted IDs before deleting omitted media, preventing cross-model updates and file loss on invalid input. Includes regression coverage in https://github.com/spatie/laravel-medialibrary/pull/3979.
+
+PHP and Laravel requirements are unchanged. All 16 PHP/Laravel dependency-matrix jobs, formatting, and PHPStan passed on the PR head. The merged commit has identical file contents. The binding regression test was verified to fail without the fix; all 38 targeted conversion, cleanup, and updateMedia tests pass locally.
+
+**Full Changelog**: https://github.com/spatie/laravel-medialibrary/compare/11.23.13...11.23.14
+
 ## 11.23.13 - 2026-11-13
 
 ### What changed
