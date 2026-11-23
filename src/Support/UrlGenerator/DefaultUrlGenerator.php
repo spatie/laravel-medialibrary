@@ -3,6 +3,7 @@
 namespace Spatie\MediaLibrary\Support\UrlGenerator;
 
 use DateTimeInterface;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class DefaultUrlGenerator extends BaseUrlGenerator
@@ -33,7 +34,9 @@ class DefaultUrlGenerator extends BaseUrlGenerator
     {
         $path = $this->pathGenerator->getPathForResponsiveImages($this->media);
 
-        return Str::finish($this->getDisk()->url($path), '/');
+        $diskName = $this->media->conversions_disk ?: $this->media->disk;
+
+        return Str::finish(Storage::disk($diskName)->url($path), '/');
     }
 
     protected function getRootOfDisk(): string

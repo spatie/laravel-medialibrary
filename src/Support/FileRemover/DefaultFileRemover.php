@@ -126,14 +126,16 @@ class DefaultFileRemover implements FileRemover
     {
         $responsiveImagesDirectory = $this->mediaFileSystem->getResponsiveImagesDirectory($media);
 
-        $allFilePaths = $this->filesystem->disk($media->disk)->allFiles($responsiveImagesDirectory);
+        $disk = $this->filesystem->disk($media->conversions_disk ?: $media->disk);
+
+        $allFilePaths = $disk->allFiles($responsiveImagesDirectory);
 
         $responsiveImagePaths = array_filter(
             $allFilePaths,
             fn (string $path) => Str::contains($path, $conversionName)
         );
 
-        $this->filesystem->disk($media->disk)->delete($responsiveImagePaths);
+        $disk->delete($responsiveImagePaths);
     }
 
     public function removeFile(string $path, string $disk): void
