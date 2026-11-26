@@ -62,6 +62,8 @@ class FileAdder
 
     protected bool $generateResponsiveImages = false;
 
+    protected ?Media $copyConversionsFrom = null;
+
     protected array $customHeaders = [];
 
     public ?int $order = null;
@@ -269,6 +271,18 @@ class FileAdder
     public function withResponsiveImagesIf($condition): self
     {
         $this->generateResponsiveImages = (bool) (is_callable($condition) ? $condition() : $condition);
+
+        return $this;
+    }
+
+    /**
+     * @internal
+     *
+     * @return $this
+     */
+    public function copyingConversionsFrom(Media $media): self
+    {
+        $this->copyConversionsFrom = $media;
 
         return $this;
     }
@@ -608,6 +622,8 @@ class FileAdder
 
         if ($fileAdder->file instanceof RemoteFile) {
             $addedMediaSuccessfully = $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);
+        } elseif ($fileAdder->copyConversionsFrom) {
+            $addedMediaSuccessfully = $this->filesystem->addCopy($fileAdder->pathToFile, $media, $fileAdder->copyConversionsFrom, $this->generateResponsiveImages, $fileAdder->fileName);
         } else {
             $addedMediaSuccessfully = $this->filesystem->add($fileAdder->pathToFile, $media, $fileAdder->fileName);
         }
@@ -628,7 +644,7 @@ class FileAdder
             }
         }
 
-        if ($this->generateResponsiveImages && (new ImageGenerator)->canConvert($media)) {
+        if ($this->generateResponsiveImages && ! ($fileAdder->copyConversionsFrom && $media->hasResponsiveImages()) && (new ImageGenerator)->canConvert($media)) {
             $generateResponsiveImagesJobClass = config('media-library.jobs.generate_responsive_images', GenerateResponsiveImagesJob::class);
 
             $job = new $generateResponsiveImagesJobClass($media);

@@ -3,9 +3,12 @@
 namespace Spatie\MediaLibrary\MediaCollections;
 
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Filesystem\AwsS3V3Adapter;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use League\Flysystem\FilesystemException;
+use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ConversionCollection;
 use Spatie\MediaLibrary\Conversions\FileManipulator;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
@@ -17,6 +20,7 @@ use Spatie\MediaLibrary\Support\FileNamer\FileNamer;
 use Spatie\MediaLibrary\Support\FileRemover\FileRemoverFactory;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
 use Spatie\MediaLibrary\Support\RemoteFile;
+use Spatie\MediaLibrary\Support\S3FileCopier;
 
 class Filesystem
 {
@@ -62,6 +66,124 @@ class Filesystem
         app(FileManipulator::class)->createDerivedFiles($media);
 
         return true;
+    }
+
+    public function addCopy(string $file, Media $media, Media $source, bool $copyOriginalResponsiveImages, ?string $targetFileName = null): bool
+    {
+        try {
+            $this->copyToMediaLibrary($file, $media, null, $targetFileName);
+        } catch (DiskCannotBeAccessed $exception) {
+            return false;
+        } catch (FilesystemException $exception) {
+            $media->forceDelete();
+
+            throw $exception;
+        }
+
+        $copiedConversionNames = $this->copyConversions($source, $media, $copyOriginalResponsiveImages);
+
+        event(new MediaHasBeenAddedEvent($media));
+
+        $missingConversionNames = array_diff($media->getMediaConversionNames(), $copiedConversionNames);
+
+        if (count($missingConversionNames) > 0) {
+            app(FileManipulator::class)->createDerivedFiles($media, $missingConversionNames);
+        }
+
+        return true;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function copyConversions(Media $source, Media $media, bool $copyOriginalResponsiveImages): array
+    {
+        if (($source->conversions_disk ?: $source->disk) !== $media->conversions_disk) {
+            return [];
+        }
+
+        $sourceConversions = ConversionCollection::createForMedia($source)->keyBy(fn (Conversion $conversion) => $conversion->getName());
+        $sourceResponsiveImages = $source->responsive_images ?? [];
+
+        $filesByName = [];
+        $namesWithResponsiveImages = [];
+
+        foreach (ConversionCollection::createForMedia($media)->getConversions($media->collection_name) as $conversion) {
+            $name = $conversion->getName();
+            $sourceFile = $sourceConversions->get($name)?->getConversionFile($source);
+            $file = $conversion->getConversionFile($media);
+
+            if (! $source->hasGeneratedConversion($name) || $sourceFile === null) {
+                continue;
+            }
+
+            if (pathinfo($sourceFile, PATHINFO_EXTENSION) !== pathinfo($file, PATHINFO_EXTENSION)) {
+                continue;
+            }
+
+            if ($conversion->shouldGenerateResponsiveImages() && ! isset($sourceResponsiveImages[$name])) {
+                continue;
+            }
+
+            $filesByName[$name] = [$this->getConversionDirectory($source).$sourceFile => $this->getConversionDirectory($media).$file];
+
+            if ($conversion->shouldGenerateResponsiveImages()) {
+                $namesWithResponsiveImages[] = $name;
+            }
+        }
+
+        if ($copyOriginalResponsiveImages && $source->file_name === $media->file_name && isset($sourceResponsiveImages['media_library_original'])) {
+            $filesByName['media_library_original'] = [];
+            $namesWithResponsiveImages[] = 'media_library_original';
+        }
+
+        foreach ($namesWithResponsiveImages as $name) {
+            foreach ($sourceResponsiveImages[$name]['urls'] ?? [] as $fileName) {
+                $filesByName[$name][$this->getResponsiveImagesDirectory($source).$fileName] = $this->getResponsiveImagesDirectory($media).$fileName;
+            }
+        }
+
+        $failedFiles = $this->copyFilesOnDisk(array_merge(...array_values($filesByName)), $media);
+
+        $copiedNames = array_keys(array_filter(
+            $filesByName,
+            fn (array $files) => count(array_intersect(array_keys($files), $failedFiles)) === 0,
+        ));
+
+        $copiedConversionNames = array_values(array_diff($copiedNames, ['media_library_original']));
+
+        $media->generated_conversions = array_fill_keys($copiedConversionNames, true);
+        $media->responsive_images = Arr::only($sourceResponsiveImages, array_intersect($namesWithResponsiveImages, $copiedNames));
+        $media->save();
+
+        return $copiedConversionNames;
+    }
+
+    /**
+     * @param  array<string, string>  $destinationsByFile
+     * @return array<int, string>
+     */
+    protected function copyFilesOnDisk(array $destinationsByFile, Media $media): array
+    {
+        $disk = $this->filesystem->disk($media->conversions_disk);
+
+        if ($disk instanceof AwsS3V3Adapter) {
+            $headers = $this->getRemoteHeadersForFile($media->file_name, $media->getCustomHeaders(), $media->mime_type);
+
+            return app(S3FileCopier::class)->copy($disk, $destinationsByFile, $headers['ACL'] ?? null);
+        }
+
+        $failedFiles = [];
+
+        foreach ($destinationsByFile as $file => $destination) {
+            try {
+                $this->copyFileOnDisk($file, $destination, $media->conversions_disk);
+            } catch (DiskCannotBeAccessed|FilesystemException) {
+                $failedFiles[] = $file;
+            }
+        }
+
+        return $failedFiles;
     }
 
     public function prepareCopyFileOnDisk(RemoteFile $file, Media $media, string $destination): void

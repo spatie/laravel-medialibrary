@@ -510,6 +510,21 @@ class Media extends Model implements Attachable, Htmlable, Responsable
         return $newMedia;
     }
 
+    public function copyWithConversions(
+        HasMedia $model,
+        string $collectionName = 'default',
+        string $diskName = '',
+        string $fileName = ''
+    ): self {
+        return $this->copy(
+            $model,
+            $collectionName,
+            $diskName,
+            $fileName,
+            fn (FileAdder $fileAdder) => $fileAdder->copyingConversionsFrom($this),
+        );
+    }
+
     public function responsiveImages(string $conversionName = ''): RegisteredResponsiveImages
     {
         return new RegisteredResponsiveImages($this, $conversionName);
