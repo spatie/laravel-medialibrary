@@ -3,63 +3,76 @@ title: Optimizing converted images
 weight: 3
 ---
 
-The media library will shave off some kilobytes of the converted images by running them through a chain of various image optimization tools.
+Media Library automatically shrinks converted images by running them through a chain of image optimization binaries.
 
-The optimization will only be applied on converted images, the package will not modify your original files. If you want to avoid optimization of a conversion just tack `nonOptimized` to the  conversion.
+Optimization only applies to converted images; your original files are left untouched. To skip optimization for a specific conversion, chain `nonOptimized()`:
 
 ```php
-public function registerMediaConversions(Media $media = null): void
+public function registerMediaConversions(?Media $media = null): void
 {
-   $this->addMediaConversion('thumb')
-      ->width(368)
-      ->height(232)
-      ->sharpen(10)
-      ->nonOptimized();
+    $this->addMediaConversion('thumb')
+        ->width(368)
+        ->height(232)
+        ->sharpen(10)
+        ->nonOptimized();
 }
 ```
 
-The package will use these optimizers if they are present on your system:
+The package uses these optimizers when they are available on your server:
 
-- [JpegOptim](http://freecode.com/projects/jpegoptim)
+- [JpegOptim](https://github.com/tjko/jpegoptim)
 - [Optipng](http://optipng.sourceforge.net/)
 - [Pngquant 2](https://pngquant.org/)
 - [SVGO](https://github.com/svg/svgo)
 - [Gifsicle](http://www.lcdf.org/gifsicle/)
+- [cwebp](https://developers.google.com/speed/webp/docs/cwebp)
 - [Avifenc](https://github.com/AOMediaCodec/libavif/blob/main/doc/avifenc.1.md)
 
-Head over to [the installation page](https://spatie.be/docs/laravel-medialibrary/v11/installation-setup#content-setting-up-optimization-tools) to learn how to install these.
+See [the installation page](/docs/laravel-medialibrary/v11/installation-setup#content-setting-up-optimization-tools) for how to install them.
 
 ## Are you a visual learner?
 
-Here's a video that shows how to optimize images
+Here's a video that shows how to optimize images.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/5Ftv0QnTbwo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
 
-## Which tools will do what?
+## Which tools do what?
 
-The package will automatically decide which tools to use on a particular image.
+Media Library picks the right optimizer for each image format automatically. You can customize any of these arguments under `image_optimizers` in `config/media-library.php`.
 
 ### JPGs
 
-JPGs will be made smaller by running them through [JpegOptim](http://freecode.com/projects/jpegoptim). These options are used:
-- `--strip-all`: this strips out all text information such as comments and EXIF data
-- `--all-progressive`: this will make sure the resulting image is a progressive one, meaning it can be downloaded using multiple passes of progressively higher details.
+JPGs run through [JpegOptim](https://github.com/tjko/jpegoptim) with:
+
+- `-m85`: sets the maximum quality to 85%
+- `--force`: ensures progressive encoding runs even if the output is slightly larger
+- `--strip-all`: strips metadata such as comments and EXIF data
+- `--all-progressive`: produces a progressive JPEG
 
 ### PNGs
 
-PNGs will be made smaller by running them through two tools. The first one is [Pngquant 2](https://pngquant.org/), a lossy PNG compressor. We set no extra options, their defaults are used. After that we run the image through a second one: [Optipng](http://optipng.sourceforge.net/). These options are used:
-- `-i0`: this will result in a non-interlaced, progressive scanned image
-- `-o2`: this set the optimization level to two (multiple IDAT compression trials)
+PNGs run through two tools in sequence. First, [Pngquant 2](https://pngquant.org/) (a lossy compressor) runs with `--force`. Then [Optipng](http://optipng.sourceforge.net/) runs with:
+
+- `-i0`: produces a non-interlaced image
+- `-o2`: sets optimization level 2
+- `-quiet`: suppresses output
 
 ### SVGs
 
-SVGs will be minified by [SVGO](https://github.com/svg/svgo). SVGO's default configuration will be used, with the omission of the `cleanupIDs` plugin because that one is known to cause troubles when displaying multiple optimized SVGs on one page.
+SVGs are minified with [SVGO](https://github.com/svg/svgo) using its defaults, except `--disable=cleanupIDs` because stripping IDs can break pages that render multiple SVGs.
 
-Please be aware that SVGO can break your svg. You'll find more info on that in this [excellent blogpost](https://www.sarasoueidan.com/blog/svgo-tools/) by [Sara Soueidan](https://twitter.com/SaraSoueidan).
+Note that SVGO can occasionally break complex SVGs. Sara Soueidan has a [great write-up on SVGO](https://www.sarasoueidan.com/blog/svgo-tools/) if you run into issues.
 
 ### GIFs
 
-GIFs will be optimized by [Gifsicle](http://www.lcdf.org/gifsicle/). These options will be used:
-- `-O3`: this sets the optimization level to Gifsicle's maximum, which produces the slowest but best results.
+GIFs are optimized with [Gifsicle](http://www.lcdf.org/gifsicle/) using `-b` (modify in place) and `-O3` (maximum compression).
+
+### WebP
+
+WebP images are optimized with [cwebp](https://developers.google.com/speed/webp/docs/cwebp) using `-m 6 -pass 10 -mt -q 90`.
+
+### AVIF
+
+AVIF images are optimized with [Avifenc](https://github.com/AOMediaCodec/libavif/blob/main/doc/avifenc.1.md) using constant quality (`-a cq-level=23 -a end-usage=q`), SSIM tuning (`-a tune=ssim`), and all available CPU cores (`-j all`).

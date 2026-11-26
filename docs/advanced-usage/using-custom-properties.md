@@ -3,7 +3,7 @@ title: Using custom properties
 weight: 2
 ---
 
-When adding a file to the media library you can pass an array with custom properties:
+You can attach arbitrary metadata to a media item using `withCustomProperties()`:
 
 ```php
 $mediaItem = $yourModel
@@ -12,84 +12,78 @@ $mediaItem = $yourModel
     ->toMediaCollection();
 ```
 
-There are some methods to work with custom properties:
+Work with custom properties on any `Media` instance using these helpers:
 
 ```php
-$mediaItem->hasCustomProperty('primaryColor'); // returns true
-$mediaItem->getCustomProperty('primaryColor'); // returns 'red'
+$mediaItem->hasCustomProperty('primaryColor'); // true
+$mediaItem->getCustomProperty('primaryColor'); // 'red'
 
-$mediaItem->hasCustomProperty('does not exist'); // returns false
-$mediaItem->getCustomProperty('does not exist'); // returns null
+$mediaItem->hasCustomProperty('does not exist'); // false
+$mediaItem->getCustomProperty('does not exist'); // null
 
-$mediaItem->setCustomProperty('name', 'value'); // adds a new custom property
-$mediaItem->forgetCustomProperty('name'); // removes a custom property
+$mediaItem->setCustomProperty('name', 'value'); // adds or updates a property
+$mediaItem->forgetCustomProperty('name'); // removes a property
 ```
 
-It is also possible to filter a collection by a custom property using filters. These can either be a simple key value array or a callback to allow for more control:
-
-```php
-$filteredCollection = $this->model->getMedia('images', ['primaryColor' => 'red']);
-
-$filteredCollection = $this->model->getMedia('images', function (Media $media) {
-    return isset($media->custom_properties['primaryColor']);
-});
-
-```
-
-If you are setting or removing custom properties outside the process of adding media then you will need to persist/save these changes:
-
-```php
-$mediaItem = Media::find($id);
-
-$mediaItem->setCustomProperty('name', 'value'); // adds a new custom property or updates an existing one
-$mediaItem->forgetCustomProperty('name'); // removes a custom property
-
-$mediaItem->save();
-```
-
-You can also specify a default value when retrieving a custom property.
+You can also pass a default value to `getCustomProperty()`:
 
 ```php
 $mediaItem->getCustomProperty('isPublic', false);
 ```
 
-If you're dealing with nested custom properties, you can use dot notation.
+When modifying custom properties on an existing `Media` instance, remember to save the model:
+
+```php
+$mediaItem = Media::find($id);
+
+$mediaItem->setCustomProperty('name', 'value');
+$mediaItem->forgetCustomProperty('name');
+
+$mediaItem->save();
+```
+
+## Nested properties
+
+Dot notation works for nested arrays:
 
 ```php
 $mediaItem = $yourModel
     ->addMedia($pathToFile)
     ->withCustomProperties([
-        'group' => ['primaryColor' => 'red']
+        'group' => ['primaryColor' => 'red'],
     ])
     ->toMediaCollection();
 
-$mediaItem->hasCustomProperty('group.primaryColor'); // returns true
-$mediaItem->getCustomProperty('group.primaryColor'); // returns 'red'
+$mediaItem->hasCustomProperty('group.primaryColor'); // true
+$mediaItem->getCustomProperty('group.primaryColor'); // 'red'
 
-$mediaItem->hasCustomProperty('nested.does-not-exist'); // returns false
-$mediaItem->getCustomProperty('nested.does-not-exist'); // returns null
+$mediaItem->hasCustomProperty('nested.does-not-exist'); // false
+$mediaItem->getCustomProperty('nested.does-not-exist'); // null
 ```
 
----
-title: Special custom properties
-weight: 2
----
+## Filtering collections by custom properties
 
-## ZIP File Folders
+Pass either a key-value array or a closure as the second argument to `getMedia()`:
 
-The ZIP export stores all media files in the root folder of the ZIP file.
+```php
+$filteredCollection = $yourModel->getMedia('images', ['primaryColor' => 'red']);
 
-If you want to save media in subfolders, you can do this with the help of the special custom property 'zip_filename_prefix'.
+$filteredCollection = $yourModel->getMedia('images', function (Media $media) {
+    return isset($media->custom_properties['primaryColor']);
+});
+```
 
-Each media can be assigned to a subfolder.
+## Special custom properties
+
+### ZIP file folders
+
+By default, `MediaStream` places every file in the root of the downloaded zip archive. To group files into subfolders inside the zip, set the `zip_filename_prefix` custom property:
 
 ```php
 $mediaItem = Media::find($id);
 
-$mediaItem->setCustomProperty('zip_filename_prefix', 'folder/subfolder/'); // stores $mediaItem in Subfolder
-
+$mediaItem->setCustomProperty('zip_filename_prefix', 'folder/subfolder/');
 $mediaItem->save();
 
-$mediaStream =  MediaStream::create('export.zip');
-$mediaStream->addMedia($mediaItem);
+$mediaStream = MediaStream::create('export.zip')->addMedia($mediaItem);
 ```

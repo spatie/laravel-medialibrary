@@ -3,31 +3,31 @@ title: Introduction
 weight: 1
 ---
 
-This package can associate all sorts of files with Eloquent models. It provides a simple, fluent API to work with. The [Pro version of the package](https://medialibrary.pro) offers Blade, Vue and React components to handle uploads to the media library and to administer the content of a medialibrary collection.
+This package associates files of any kind with Eloquent models through a fluent API. The [Pro version of the package](https://medialibrary.pro) also offers Blade, Vue, and React components for handling uploads and managing media collections.
 
-Here are some quick code examples:
+Here are a few quick examples:
 
 ```php
 $yourModel = YourModel::find(1);
 $yourModel->addMedia($pathToFile)->toMediaCollection('images');
 ```
 
-It can also directly handle your uploads:
+It can also handle uploads straight from a request:
 
 ```php
 $yourModel->addMediaFromRequest('image')->toMediaCollection('images');
 ```
 
-Want to store some large files on another filesystem? No problem:
+Want to store large files on another filesystem? No problem:
 
 ```php
 $yourModel->addMedia($smallFile)->toMediaCollection('downloads', 'local');
 $yourModel->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
-The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/12.x/filesystem), so you can plug in any compatible filesystem.
+File storage is handled by [Laravel's Filesystem](https://laravel.com/docs/filesystem), so you can plug in any disk you've configured.
 
-The package can also generate derived images such as thumbnails for images, videos and PDFs. Once you've [set up your model](/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model), they're easily accessible:
+The package can also generate derived images such as thumbnails for images, videos, and PDFs. Once you've [prepared your model](/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model), you can fetch them like this:
 
 ```php
 $yourModel->getMedia('images')->first()->getUrl('thumb');
@@ -35,7 +35,7 @@ $yourModel->getMedia('images')->first()->getUrl('thumb');
 
 ## Are you a visual learner?
 
-We've recorded [a video course](https://spatie.be/courses/discovering-laravel-media-library) on how to use this package. It's the best way to get started using media library
+We've recorded [a video course](https://spatie.be/courses/discovering-laravel-media-library) on how to use this package. It's the quickest way to get started with Media Library.
 
 [![video course](/docs/laravel-medialibrary/v11/images/video-course.jpg)](https://spatie.be/courses/discovering-laravel-media-library/introducing-laravel-media-library)
 
@@ -43,8 +43,7 @@ We've recorded [a video course](https://spatie.be/courses/discovering-laravel-me
 
 <section class="article_badges">
     <a href="https://github.com/spatie/laravel-medialibrary/releases"><img src="https://img.shields.io/github/release/spatie/laravel-medialibrary.svg?style=flat-square" alt="Latest Version"></a>
-    <a href="https://github.com/spatie/laravel-medialibrary/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></a>
-    <a href="https://travis-ci.org/spatie/laravel-medialibrary"><img src="https://img.shields.io/travis/spatie/laravel-medialibrary/master.svg?style=flat-square" alt="Build Status"></a>
-    <a href="https://scrutinizer-ci.com/g/spatie/laravel-medialibrary"><img src="https://img.shields.io/scrutinizer/g/spatie/laravel-medialibrary.svg?style=flat-square" alt="Quality Score"></a>
+    <a href="https://github.com/spatie/laravel-medialibrary/blob/main/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></a>
+    <a href="https://github.com/spatie/laravel-medialibrary/actions/workflows/run-tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/spatie/laravel-medialibrary/run-tests.yml?branch=main&label=tests&style=flat-square" alt="Tests"></a>
     <a href="https://packagist.org/packages/spatie/laravel-medialibrary"><img src="https://img.shields.io/packagist/dt/spatie/laravel-medialibrary.svg?style=flat-square" alt="Total Downloads"></a>
 </section>

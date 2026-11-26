@@ -7,4 +7,4 @@ Find yourself stuck using the package? Found a bug? Do you have general question
 
 For issues regarding Media Library Pro, please use the issue tracker at [the medialibrary-pro-repo](https://github.com/spatie/laravel-medialibrary-pro).
 
-If you've found a bug regarding security please mail [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
+If you've found a security vulnerability, please email [security@spatie.be](mailto:security@spatie.be) instead of using the issue tracker.

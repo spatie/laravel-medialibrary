@@ -3,25 +3,38 @@ title: Troubleshooting
 weight: 8
 ---
 
+Here are a few common issues and how to solve them.
 
-Here are some common problems and how to solve them.
+## Images return 404 on the local `public` disk
 
-## Cannot find module '@babel/compat-data/corejs3-shipped-proposals'
+By default, Media Library stores files on Laravel's `public` disk (`storage/app/public`). Make sure you've created the symbolic link from `public/storage` to `storage/app/public`:
 
-This is caused by a compatibility issue between a version of `@babel/preset-env` that an older release of Laravel Mix required, and certain versions of node.
-
-### Fix
-
-```
-yarn upgrade laravel-mix
+```bash
+php artisan storage:link
 ```
 
-This will upgrade your installation of `laravel-mix` to a version that requires `@babel/preset-env: ^7.9`. You shouldn't have to change anything else, since this upgrade is a non-breaking change.
+Also double-check that `APP_URL` in `.env` matches the URL your browser uses to load the app.
 
-## Cannot find name 'describe' / Cannot find name 'test'
+## A converted image returns 404 right after upload
 
-This is your TypeScript checker finding methods that it does not have types for.
+Conversions are queued by default. Until your queue worker finishes processing the job, `$media->getUrl('thumb')` returns the URL where the file *will* live, which will 404.
 
-### Fix
+- If you want an automatic fallback to the original image until the conversion exists, use `$model->getFirstMediaUrl('images', 'thumb')` or `$media->getAvailableUrl(['thumb'])`.
+- If the conversion must be ready immediately, chain `->nonQueued()` (or `->deferred()` to run it right after the HTTP response) on the conversion definition.
+- Make sure a queue worker is actually running if `QUEUE_CONNECTION` is set to something other than `sync`.
 
-You should add `"include": ["resources/**/*"]` to your tsconfig.json (edit the path to where you manage your JS), or add `"exclude": ["vendor"]`. This doesn't normally happen with other libraries because `node_modules` is excluded from type checking by default.
+## Original files disappear after `addMedia()` or `addMediaFromDisk()`
+
+By default, Media Library moves the source file into its own storage location and deletes the original (including files on remote disks like S3 when using `addMediaFromDisk()`).
+
+Chain `->preservingOriginal()` (or use `copyMedia()`) if you want to keep the source file intact.
+
+## Returning `$model->getMedia()` from a JSON API returns an unexpected format
+
+By default, `MediaCollection` serializes in the UUID-keyed format expected by Media Library Pro components (and serializes as `[]` if `collectionName` isn't set).
+
+If you don't use Media Library Pro and want standard Laravel collection serialization in JSON responses, set `use_default_collection_serialization` to `true` in `config/media-library.php`.
+
+## PDF thumbnails fail with Ghostscript errors
+
+ImageMagick often ships with a restrictive `policy.xml` that blocks PDF rendering. Check the [Ghostscript troubleshooting guide](https://github.com/spatie/pdf-to-image/blob/main/README.md#issues-regarding-ghostscript) in `spatie/pdf-to-image`.

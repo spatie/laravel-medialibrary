@@ -3,23 +3,20 @@ title: Disable CDN
 weight: 12
 ---
 
-Media Library Pro uses a CDN to load the [Sortable](https://github.com/SortableJS/Sortable) library. Sortable provides the drag-and-drop-ability inside a Media Library Pro component.
+Media Library Pro loads [Sortable](https://github.com/SortableJS/Sortable) from a CDN to power drag-and-drop sorting in its components.
 
-If you would like to disable the loading via CDN and want to take care by yourself of including Sortable you will need to add the following option to your `media-library.php` config file.
+If you'd rather bundle Sortable yourself, add `include_sortable_cdn_script` set to `false` in `config/media-library.php`:
 
 ```php
-    ...
-    /*
-     * When disabling this option, Media Library Pro don't include a script tag to load the Sortable library via a CDN.
-     * You have to include the Sortable library by yourself!
-     */
-    'include_sortable_cdn_script' => false,
-    ...
+// config/media-library.php
+
+'include_sortable_cdn_script' => false,
 ```
-You can install Sortable within your project dependencies and include it in your `app.js`.
+
+Then install `sortablejs` via npm and expose it on `window` in your `app.js`:
 
 ```js
-import Sortable from 'sortablejs'
+import Sortable from 'sortablejs';
 
-window.Sortable = Sortable
+window.Sortable = Sortable;
 ```

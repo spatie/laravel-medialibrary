@@ -3,152 +3,156 @@ title: Retrieving media
 weight: 3
 ---
 
-To retrieve files you can use the `getMedia`-method:
+To retrieve files from the default collection, use `getMedia()`:
 
 ```php
 $mediaItems = $yourModel->getMedia();
 ```
 
-To retrieve files from all collections you can use the `getMedia`-method with `*`:
+Pass `*` to retrieve files across all collections:
 
 ```php
-$mediaItems = $yourModel->getMedia("*");
+$mediaItems = $yourModel->getMedia('*');
 ```
 
-The method returns a collection of `Media`-objects.
+Both return a collection of `Media` models. To check whether a model has any media in a collection, use `hasMedia()`:
 
-You can retrieve the URL and path to the file associated with the `Media`-object using  `getUrl`, `getTemporaryUrl` (for S3 only) and `getPath`:
+```php
+$yourModel->hasMedia(); // checks the 'default' collection
+$yourModel->hasMedia('images');
+```
+
+## URLs and paths
+
+You can get the URL or disk path of a `Media` model with `getUrl()`, `getFullUrl()`, `getTemporaryUrl()`, and `getPath()`:
 
 ```php
 $publicUrl = $mediaItems[0]->getUrl();
 $publicFullUrl = $mediaItems[0]->getFullUrl(); // URL including domain
 $fullPathOnDisk = $mediaItems[0]->getPath();
-$temporaryS3Url = $mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5)); // Temporary S3 url (Keep first parameter null to use default expiration time)
+$temporaryUrl = $mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5)); // Pass null to use temporary_url_default_lifetime
 ```
 
-If you want to retrieve versioned media URLs, for example when needing cache busting, you can enable versioning by setting the `version_urls` config value to `true` in your `media-library.php` config file. The `getUrl()` and `getFullUrl()` functions will return the URL with a version string based on the `updated_at` column of the media model.
+`getTemporaryUrl()` works with any disk that supports temporary URLs in Laravel (such as S3, GCS, or a local disk with `'serve' => true`).
 
-Since retrieving the first media and the URL for the first media for an object is such a common scenario, the `getFirstMedia` and `getFirstMediaUrl` convenience-methods are also provided:
+If you want cache-busting query strings (`?v=...` based on `updated_at`), set `version_urls` to `true` in `config/media-library.php`.
+
+Since grabbing the first or last item is so common, there are shortcuts on your model:
 
 ```php
-$media = $yourModel->getFirstMedia();
-$url = $yourModel->getFirstMediaUrl();
+$firstMedia = $yourModel->getFirstMedia();
+$firstUrl = $yourModel->getFirstMediaUrl();
+
+$lastMedia = $yourModel->getLastMedia();
+$lastUrl = $yourModel->getLastMediaUrl();
 ```
 
-You can also retrieve the last media by using similar convenience-methods:
+## Names and filenames
+
+Every `Media` model has a `name` (by default the original filename without its extension) and a `file_name` (the actual filename stored on disk).
 
 ```php
-$media = $yourModel->getLastMedia();
-$url = $yourModel->getLastMediaUrl();
-```
-
-An instance of `Media` also has a name, by default its filename:
-
-```php
-echo $mediaItems[0]->name; // Display the name
+echo $mediaItems[0]->name;
 
 $mediaItems[0]->name = 'new name';
-$mediaItems[0]->save(); // The new name gets saved.
+$mediaItems[0]->save();
 ```
 
-The name of a `Media` instance can be changed when it's added to the media library:
+You can set the name when adding a file:
 
 ```php
 $yourModel
-   ->addMedia($pathToFile)
-   ->usingName('new name')
-   ->toMediaCollection();
+    ->addMedia($pathToFile)
+    ->usingName('new name')
+    ->toMediaCollection();
 ```
 
-The name of the uploaded file can be changed via the media-object:
+Changing `file_name` on an existing `Media` model also renames the file on disk when you save:
 
 ```php
 $mediaItems[0]->file_name = 'newFileName.jpg';
-$mediaItems[0]->save(); // Saving will also rename the file on the filesystem.
+$mediaItems[0]->save();
 ```
 
-The name of the uploaded file can also be changed when it gets added to the media-library:
+Or set the filename upfront when adding the file:
 
 ```php
 $yourModel
-   ->addMedia($pathToFile)
-   ->usingFileName('otherFileName.txt')
-   ->toMediaCollection();
+    ->addMedia($pathToFile)
+    ->usingFileName('otherFileName.txt')
+    ->toMediaCollection();
 ```
 
-You can sanitize the filename using a callable:
+You can also customize filename sanitization with a callable:
 
 ```php
 $yourModel
-   ->addMedia($pathToFile)
-   ->sanitizingFileName(function($fileName) {
-      return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
-   })
-   ->toMediaCollection();
+    ->addMedia($pathToFile)
+    ->sanitizingFileName(function ($fileName) {
+        return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
+    })
+    ->toMediaCollection();
 ```
 
-**Security note.** By default, Media Library rejects uploads whose file name contains a potentially executable extension such as `.php` or `.phtml`. The check looks at every extension segment in the name, so `malicious.php.jpg` is blocked too. Passing your own callable to `sanitizingFileName` fully replaces the default sanitizer (including this protection), so make sure your callable does not let dangerous file names through.
+Keep in mind that Media Library's default sanitizer blocks uploads with executable extensions like `.php` or `.phtml` anywhere in the filename (so `malicious.php.jpg` is rejected too). Passing your own callable to `sanitizingFileName()` replaces the default sanitizer completely, so make sure your callback doesn't let unsafe filenames through.
 
-The blocked extensions can be configured (and an opt-in allowlist enabled) in `config/media-library.php`:
+You can customize the blocked extensions, or opt in to an allowlist, in `config/media-library.php`:
 
 ```php
-// Reject these extensions anywhere in the file name.
+// Reject these extensions anywhere in the filename.
 'disallowed_extensions' => ['php', 'phtml', 'phar', 'htaccess', /* ... */],
 
 // When set, only accept uploads whose final extension is in this list.
 'allowed_extensions' => ['jpg', 'jpeg', 'png', 'pdf'],
 ```
 
-You can also retrieve the size of the file via  `size` and `human_readable_size` :
+## Size and MIME type
 
 ```php
-$mediaItems[0]->size; // Returns the size in bytes
-$mediaItems[0]->human_readable_size; // Returns the size in a human readable format (eg. 1,5 MB)
+$mediaItems[0]->size; // Size in bytes
+$mediaItems[0]->human_readable_size; // Human-readable size (e.g. "1.5 MB")
+$mediaItems[0]->mime_type; // MIME type (e.g. "image/jpeg")
 ```
 
-An instance of `Media` also contains the mime type of the file.
+## Deleting media
 
-```php
-$mediaItems[0]->mime_type; // Returns the mime type
-```
-
-You can remove something from the library by simply calling `delete` on an instance of `Media`:
+Delete a single media item by calling `delete()` on it. All related files (the original, conversions, and responsive images) are removed from disk as well:
 
 ```php
 $mediaItems[0]->delete();
 ```
 
-When a `Media` instance gets deleted all related files will be removed from the filesystem.
-
-Deleting a model with associated media will also delete all associated files. If you use soft deletes, the associated files won't be deleted.
+Deleting a model deletes all of its associated media too:
 
 ```php
-$yourModel->delete(); // all associated files will be deleted as well
+$yourModel->delete(); // deletes associated files as well
 ```
 
-You may delete a model without removing associated media by calling the `deletePreservingMedia` method instead of `delete`.
+If your model uses Laravel's `SoftDeletes` trait, calling `delete()` leaves associated files alone, while `forceDelete()` removes them.
+
+To delete a model while keeping its media records and files, call `deletePreservingMedia()`:
 
 ```php
-$yourModel->deletePreservingMedia(); // all associated files will be preserved 
+$yourModel->deletePreservingMedia();
 ```
 
-If you want to remove all associated media in a specific collection you can use the `clearMediaCollection` method. It also accepts the collection name as an optional parameter:
+To delete every file in a collection, use `clearMediaCollection()`:
 
 ```php
-$yourModel->clearMediaCollection(); // all media in the "default" collection will be deleted
+$yourModel->clearMediaCollection(); // clears the 'default' collection
 
-$yourModel->clearMediaCollection('images'); // all media in the images collection will be deleted
+$yourModel->clearMediaCollection('images'); // clears the 'images' collection
 ```
 
-Also, there is a `clearMediaCollectionExcept` method which can be useful if you want to remove only few or some selected media in a collection. It accepts the collection name as the first argument and the media instance or collection of media instances which should not be removed as the second argument:
+To delete everything in a collection except one or more items, use `clearMediaCollectionExcept()`:
 
 ```php
-$yourModel->clearMediaCollectionExcept('images', $yourModel->getFirstMedia()); // This will remove all associated media in the 'images' collection except the first media
+$yourModel->clearMediaCollectionExcept('images', $yourModel->getFirstMedia('images'));
 ```
 
 ## Are you a visual learner?
 
-Here's are a couple of videos on adding and retrieving media.
+Here are a few videos on adding and retrieving media.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/ffcB3Anq634" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

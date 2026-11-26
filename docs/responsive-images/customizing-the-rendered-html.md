@@ -3,15 +3,17 @@ title: Customizing the rendered HTML
 weight: 3
 ---
 
-Whenever you use a `$media` instance as output in a Blade view the medialibrary will generate a `img` tag with the necessary `src`, `srcset` and `alt` attributes. You can customize the rendered output by publishing the `views` with:
+Whenever you output a `Media` instance in a Blade view, Media Library renders an `<img>` tag with `src`, `srcset`, and `alt` attributes. You can customize those views by publishing them:
 
 ```bash
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="media-library-views"
 ```
 
-The following files will be published in the `resources/views/vendor/media-library` directory:
-- `image.blade.php`: will be used to render media without responsive images
-- `responsiveImage.blade.php`: will be used to render media with responsive images without a tiny placeholder
-- `responsiveImageWithPlaceholder.blade.php`: will be used to render media with responsive images including a tiny placeholder.
+This publishes four Blade files to `resources/views/vendor/media-library`:
 
-You may modify these published views to your heart's content.
+- `image.blade.php`: renders media without responsive images
+- `responsiveImage.blade.php`: renders media with responsive images and no tiny placeholder
+- `responsiveImageWithPlaceholder.blade.php`: renders media with responsive images and a tiny placeholder
+- `placeholderSvg.blade.php`: renders the inline base64 SVG wrapper used for the tiny placeholder
+
+Edit these published views to your heart's content.

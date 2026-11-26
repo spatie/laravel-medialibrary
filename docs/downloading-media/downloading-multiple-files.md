@@ -3,56 +3,44 @@ title: Downloading multiple files
 weight: 2
 ---
 
-You might want to let users be able to download multiple files at once. Traditionally you'd have to create a zip archive that contains the requested files.
-
-The media library is able to zip stream multiple files on the fly. So you don't need to create a zip archive on your server.
-
-The provided `MediaStream` class that allows you to respond with a stream. Files will be zipped on the fly and you can even include files from multiple filesystems.
-
-Here's an example on how it can be used:
+Want to let users download multiple files at once without building a zip archive on disk first? `MediaStream` streams a zip archive on the fly, even when the files live on different disks:
 
 ```php
 use Spatie\MediaLibrary\Support\MediaStream;
 
 class DownloadMediaController
 {
-   public function download(YourModel $yourModel)
-   {
-        // Let's get some media.
+    public function download(YourModel $yourModel)
+    {
         $downloads = $yourModel->getMedia('downloads');
 
-        // Download the files associated with the media in a streamed way.
-        // No prob if your files are very large.
+        // Streams the files directly into a zip download without buffering everything in memory.
         return MediaStream::create('my-files.zip')->addMedia($downloads);
-   }
+    }
 }
 ```
 
-You can also pass any custom options to the `ZipStream` instance using the `useZipOptions` method.
+If two files in the stream share the same filename, `MediaStream` appends a numeric suffix (`file (1).jpg`, `file (2).jpg`) automatically. To organize files into subfolders inside the zip, set the [`zip_filename_prefix` custom property](/docs/laravel-medialibrary/v11/advanced-usage/using-custom-properties#zip-file-folders) on each media item.
 
-All the available options are listed on the [ZipStream-PHP guide](https://maennchen.dev/ZipStream-PHP/guide/Options.html).
+## Customizing ZipStream options
 
-Here's an example on how it can be used:
+You can pass custom options to the underlying `ZipStream` instance with `useZipOptions()`. See the [ZipStream-PHP options guide](https://maennchen.dev/ZipStream-PHP/guide/Options.html) for everything you can configure.
 
 ```php
 use Spatie\MediaLibrary\Support\MediaStream;
 
 class DownloadMediaController
 {
-   public function download(YourModel $yourModel)
-   {
-        // Let's get some media.
+    public function download(YourModel $yourModel)
+    {
         $downloads = $yourModel->getMedia('downloads');
 
-        // Download the files associated with the media in a streamed way.
-        // No prob if your files are very large.
         return MediaStream::create('my-files.zip')
-            ->useZipOptions(function (&$zipOptions) {
-                // ZipStream ^3.0 uses array                    
+            ->useZipOptions(function (array &$zipOptions) {
                 $zipOptions['defaultEnableZeroHeader'] = true;
             })
             ->addMedia($downloads);
-   }
+    }
 }
 ```
 

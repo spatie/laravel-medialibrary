@@ -3,58 +3,108 @@ title: Defining conversions
 weight: 2
 ---
 
-A media conversion can be added to your model in the `registerMediaConversions`-function. It should start with a call to `addMediaConversion`. From there on you can use any of the methods available in the API. They are all chainable.
+Define conversions inside your model's `registerMediaConversions()` method by starting with `addMediaConversion()` and chaining any of the methods below (plus any manipulation from `spatie/image`).
 
-Take a look in the [Defining conversions section](/docs/laravel-medialibrary/v11/converting-images/defining-conversions/)
-for more details.
+See [defining conversions](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) for full usage examples.
 
 ## General methods
 
-### addMediaConversion
+### `addMediaConversion`
+
+Registers a new conversion on the model.
 
 ```php
-/*
- * Add a conversion.
- */
-public function addMediaConversion(string $name): \Spatie\MediaLibrary\Conversions\Conversion
+public function addMediaConversion(string $name): Conversion
 ```
 
-### performOnCollections
+### `performOnCollections`
+
+Limits the conversion to one or more named collections.
 
 ```php
-/*
- * Set the collection names on which this conversion must be performed.
- *
- * @param string $collectionNames,...
- */
-public function performOnCollections($collectionNames): self
-``` 
-
-### queued
-
-```php 
-/*
- * Mark this conversion as one that should be queued.
- */
- public function queued(): self
+public function performOnCollections(string ...$collectionNames): self
 ```
 
-### nonQueued
+### `queued`
 
-```php 
-/*
- * Mark this conversion as one that should not be queued.
- */
+Marks the conversion to run on the configured queue.
+
+```php
+public function queued(): self
+```
+
+### `nonQueued`
+
+Runs the conversion synchronously during the current request.
+
+```php
 public function nonQueued(): self
 ```
 
-### useLoadingAttributeValue
+### `deferred`
 
-This is the value that, when this conversation is converted to HTML, will be used in the `loading` attribute. The loading attribute is a standardised attribute that controls lazy loading behaviour of the browser. Possible values are `lazy`, `eager`, `auto` or null if you don't want to set any loading instruction.
+Schedules the conversion to run right after the HTTP response is sent using Laravel's `defer()` helper.
 
-You can learn more on native lazy loading [in this post on css-tricks](https://css-tricks.com/native-lazy-loading/).
+```php
+public function deferred(): self
+```
+
+### `keepOriginalImageFormat`
+
+Keeps the source image's format instead of converting the output to `jpg`.
+
+```php
+public function keepOriginalImageFormat(): self
+```
+
+### `nonOptimized`
+
+Skips running image optimizers on the converted file.
+
+```php
+public function nonOptimized(): self
+```
+
+### `withResponsiveImages`
+
+Generates responsive image variations for this conversion.
+
+```php
+public function withResponsiveImages(bool $withResponsiveImages = true): self
+```
+
+### `withWidthCalculator`
+
+Uses a custom `WidthCalculator` for this conversion's responsive images.
+
+```php
+public function withWidthCalculator(WidthCalculator $widthCalculator): self
+```
+
+### `pdfPageNumber`
+
+Chooses which page of a PDF (1-indexed) to render when generating a thumbnail.
+
+```php
+public function pdfPageNumber(int $pageNumber): self
+```
+
+### `extractVideoFrameAtSecond`
+
+Chooses the timestamp (in seconds) to capture when generating a video thumbnail.
+
+```php
+public function extractVideoFrameAtSecond(float $timeCode): self
+```
+
+### `useLoadingAttributeValue`
+
+Sets the `loading` attribute used when this conversion is rendered as an `<img>` tag (for example `'lazy'` or `'eager'`).
+
+```php
+public function useLoadingAttributeValue(string $value): self
+```
 
 ## Image manipulations
 
-You may add any call to one of [the manipulation functions](https://spatie.be/docs/image) available on [the spatie/image package](https://github.com/spatie/image).
-
+You can also chain any [manipulation method from `spatie/image`](https://spatie.be/docs/image/v3).

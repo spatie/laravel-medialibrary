@@ -3,7 +3,7 @@ title: Preparing your model
 weight: 1
 ---
 
-To associate media with a model, the model must implement the following interface and trait:
+To associate media with a model, implement the `HasMedia` interface and use the `InteractsWithMedia` trait:
 
 ```php
 namespace App\Models;
@@ -18,9 +18,11 @@ class YourModel extends Model implements HasMedia
 }
 ```
 
-The `Collection` component will show a preview thumbnail for items in the collection it is showing.
+That's all you need to start attaching files to your model.
 
-To generate that thumbnail, you must add a conversion like this one to your model.
+## Preview thumbnails for Media Library Pro
+
+If you use [Media Library Pro](https://medialibrary.pro)'s `Collection` component (or read `$media->preview_url`), add a `preview` conversion to your model so it can show a thumbnail for each item:
 
 ```php
 use Spatie\Image\Enums\Fit;

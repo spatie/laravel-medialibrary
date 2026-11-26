@@ -3,13 +3,22 @@ title: Using your own width calculator
 weight: 2
 ---
 
-When generating images to be used in a `srcset`, the media library will calculate a set of target widths. The class responsible for generating the target widths can be specified in the `responsive_images.width_calculator` key of the `medialibrary` config file.
+When generating responsive images for a `srcset`, Media Library calculates a set of target widths first. You can configure the class that chooses those widths under `responsive_images.width_calculator` in `config/media-library.php`.
 
-### The default calculator
+## The default calculator
 
-The default width calculator shipped with the media library is named `FileSizeOptimizedWidthCalculator`. This class uses an algorithm which produces widths of which it is predicted that each one results in a file being ±70% of the filesize of the previous variation. The class will keep generating variations until the predicted file size is lower than 10 Kb or the target width is less than 20 pixels.  So for an image with large dimensions the medialibrary will generate more variations than for an image with smaller dimensions.
+By default, Media Library uses `FileSizeOptimizedWidthCalculator`. It picks target widths so each variation is roughly 70% the file size of the previous one, stopping once the predicted file size drops below 10 KB or the width goes under 20 pixels. Larger images naturally end up with more variations than smaller ones.
 
-### Using your own width calculator
+## Using your own width calculator
 
-In most cases the default `FileSizeOptimizedWidthCalculator` will generate pretty good results. But if for some reason you need to customize the behaviour you can specify your own class  in the `responsive_images.width_calculator` of the `media-library` config file. A valid width calculator is any class that implements the `Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator` interface. Both the `calculateWidthsFromFile` and `calculateWidths` should return a `Collection` that contains the desired widths the responsive images should have.
+In most apps, `FileSizeOptimizedWidthCalculator` gives great results out of the box. If you need fixed breakpoints or your own formula, implement `Spatie\MediaLibrary\ResponsiveImages\WidthCalculator\WidthCalculator` and register it under `responsive_images.width_calculator` in `config/media-library.php`.
 
+Both `calculateWidthsFromFile()` and `calculateWidths()` should return an `Illuminate\Support\Collection` containing the target widths in pixels.
+
+You can also override the width calculator for a single conversion with `withWidthCalculator()`:
+
+```php
+$this->addMediaConversion('hero')
+    ->withResponsiveImages()
+    ->withWidthCalculator(new CustomWidthCalculator());
+```

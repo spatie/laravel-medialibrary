@@ -3,30 +3,29 @@ title: Using a custom directory structure
 weight: 5
 ---
 
-By default, files will be stored inside a directory that uses the `id` of its `Media`-object as a name. Converted images will be stored inside a directory named `conversions`.
+By default, each media item is stored in its own directory named after its `id`, with conversions placed in a `conversions` subdirectory:
 
-```
+```text
 media
----- 1
------- file.jpg
------- conversions
---------- small.jpg
---------- medium.jpg
---------- big.jpg
----- 2
------- file.jpg
------- conversions
---------- small.jpg
---------- medium.jpg
---------- big.jpg
-...
+├── 1
+│   ├── file.jpg
+│   └── conversions
+│       ├── file-small.jpg
+│       ├── file-medium.jpg
+│       └── file-big.jpg
+└── 2
+    ├── file.jpg
+    └── conversions
+        ├── file-small.jpg
+        ├── file-medium.jpg
+        └── file-big.jpg
 ```
 
-Putting files inside their own folders guarantees that files with the same name can be added without any problems.
+Giving each media item its own directory guarantees that two files with the same name never collide.
 
-To override this default folder structure, a class that conforms to the `PathGenerator`-interface can be specified as the `path_generator` in the config file. The given class will be loaded through the Laravel [Service Container](https://laravel.com/docs/container), so feel free to type-hint any dependencies in the constructor.
+## Writing a custom `PathGenerator`
 
-Let's take a look at the interface:
+To change this directory layout, create a class that implements `Spatie\MediaLibrary\Support\PathGenerator\PathGenerator` and register it under `path_generator` in `config/media-library.php`. The class is resolved through Laravel's [service container](https://laravel.com/docs/container), so you can type-hint constructor dependencies.
 
 ```php
 namespace Spatie\MediaLibrary\Support\PathGenerator;
@@ -50,19 +49,32 @@ interface PathGenerator
      */
     public function getPathForResponsiveImages(Media $media): string;
 }
-
 ```
 
-There aren't any restrictions on how the directories can be named. When a `Media`-object gets deleted the package will delete its entire associated directory. To avoid tears or worse, make sure that every media gets stored its own unique directory.
+Give every media item its own unique directory if you can. If your custom path generator stores multiple media items inside a shared directory (like `2026/11/`), consider switching to [`FileBaseFileRemover`](/docs/laravel-medialibrary/v11/advanced-usage/using-a-custom-file-removal-strategy) so deleting one item doesn't scan shared folders unnecessarily.
 
-The `media-library:clean` command treats every top-level directory below the configured media prefix that is not used by a current media path as orphaned. Use a dedicated disk or prefix for media, and run the command with `--dry-run` before deleting files when introducing a custom path generator.
+> **Heads up about `media-library:clean`:** The `media-library:clean` command treats every top-level directory below your configured `prefix` that isn't used by a current media path as orphaned. Use a dedicated disk or `prefix` for media, and always preview with `--dry-run` when introducing a custom path generator.
 
-### Model-specific Custom Path Generators
-In addition to setting a global path generator in the config file, You can also define a `CustomPathGenerator` class for specific models directly inside the model's `booting()` method or within a service provider:
+## Model-specific path generators
+
+You can use a different `PathGenerator` per model without changing the global default. Either map models (or morph map aliases) in `config/media-library.php`:
 
 ```php
+// config/media-library.php
+
+'custom_path_generators' => [
+    App\Models\YourModel::class => App\Support\PathGenerator\CustomPathGenerator::class,
+    // or using a morph map alias:
+    // 'your_model' => App\Support\PathGenerator\CustomPathGenerator::class,
+],
+```
+
+Or register it dynamically in a model's `booting()` method or a service provider (which takes precedence over the config file):
+
+```php
+use App\Support\PathGenerator\CustomPathGenerator;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\Support\PathGenerator\PathGeneratorFactory;
-use Spatie\MediaLibrary\Tests\Support\PathGenerator\CustomPathGenerator;
 
 class YourModel extends Model
 {
@@ -73,18 +85,13 @@ class YourModel extends Model
 }
 ```
 
-This allows you to customize the directory structure on a per-model basis.
+## Moving files when a `Media` model is updated
 
-Keep in mind that path generators set in the model override those defined in the config file.
-
-
-### Defining a Custom Path Generator Inside a Model or Service Provider
-
- This approach allows for fine-grained control over the media directory structure on a per-model basis, without affecting global configuration.
+If your custom `PathGenerator` builds paths from attributes that can change after upload (such as `collection_name`, `uuid`, or a custom property), set `moves_media_on_update` to `true` in `config/media-library.php` so Media Library moves the stored files when the path changes.
 
 ## Are you a visual learner?
 
-Here's a video that shows custom paths:
+Here's a video that shows custom paths.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/hCXtDyGcPSo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 

@@ -3,154 +3,91 @@ title: Adding files
 weight: 1
 ---
 
-Adding a file to the media library is easy. Just pick one of the starting methods, optionally add some of the middle methods
-and finish with a finishing method. All start and middle methods are chainable.
-
-For example:
+Adding a file to Media Library follows a simple three-step chain: pick a **starting method**, chain any **middle methods** you need, and end with a **finishing method**.
 
 ```php
 $yourModel
-    ->addMedia($pathToFile) //starting method
-    ->withCustomProperties(['mime-type' => 'image/jpeg']) //middle method
-    ->preservingOriginal() //middle method
-    ->toMediaCollection(); //finishing method
+    ->addMedia($pathToFile) // starting method
+    ->withCustomProperties(['primaryColor' => 'red']) // middle method
+    ->preservingOriginal() // middle method
+    ->toMediaCollection(); // finishing method
 ```
 
 ## Starting methods
 
-### addMedia
+### `addMedia`
+
+Adds a local file path or `UploadedFile` to Media Library. By default, the source file is moved (deleted from its original location).
 
 ```php
-/**
- * Add a file to the media library. The file will be removed from
- * its original location.
- *
- * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
- *
- * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
- */
-public function addMedia($file)
+public function addMedia(string|UploadedFile $file): FileAdder
 ```
 
-### addMediaFromUrl
+### `addMediaFromUrl`
 
-This method only accepts URLs that start with `http://` or `https://`
+Downloads a remote file from an `http://` or `https://` URL. Optionally pass allowed MIME types as extra arguments.
 
 ```php
-/**
- * Add a remote file to the media library.
- *
- * @param string $url
- *
- * @return mixed
- *
- * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
- */
-public function addMediaFromUrl(string $url)
+public function addMediaFromUrl(string $url, array|string ...$allowedMimeTypes): FileAdder
 ```
 
-**Security note.** `addMediaFromUrl` fetches whatever URL you pass to it from your server. It validates only that the URL starts with `http://` or `https://`, not that the destination is safe to reach. Passing user supplied URLs directly therefore exposes your application to server side request forgery (SSRF), letting an attacker make requests to internal hosts, RFC 1918 ranges, loopback, or cloud metadata endpoints (such as `http://169.254.169.254/`). Only call `addMediaFromUrl` with URLs you control, or that you have validated against an allowlist of hosts.
+> **Security note:** `addMediaFromUrl` fetches whatever URL you pass to it from your server and only checks that it starts with `http://` or `https://`. Passing user-supplied URLs directly exposes your app to SSRF (attackers can target internal hosts, private IP ranges, loopback, or cloud metadata endpoints like `http://169.254.169.254/`). Only pass URLs you control or have validated against a strict host allowlist.
 
-### addMediaFromDisk
+### `addMediaFromDisk`
+
+Copies a file that already exists on one of your Laravel storage disks into Media Library. Unless you chain `preservingOriginal()`, the source file on that disk is deleted afterward.
 
 ```php
-/**
- * Add a file from the given disk.
- *
- * @param string $key
- * @param string $disk
- *
- * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
- */
-public function addMediaFromDisk(string $key, string $disk = null): FileAdder
+public function addMediaFromDisk(string $key, ?string $disk = null): FileAdder
 ```
 
-### addMediaFromRequest
+### `addMediaFromRequest`
+
+Adds a single uploaded file from the current HTTP request by form field name.
 
 ```php
-/**
- * Add file from the current request to the media library.
- *
- * @param string $keyName
- *
- * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
- *
- * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
- */
-public function addMediaFromRequest(string $keyName): FileAdder
+public function addMediaFromRequest(string $key): FileAdder
 ```
 
-### addMultipleMediaFromRequest
+### `addMultipleMediaFromRequest`
+
+Adds several uploaded files from the current request. Returns a `Collection` of `FileAdder` instances, so iterate over them to call middle and finishing methods:
 
 ```php
-/**
- * Add multiple files from the current request to the media library.
- *
- * @param string[] $keys
- *
- * @return Collection
- *
- * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
- */
-public function addMultipleMediaFromRequest(array $keyNames): Collection
+public function addMultipleMediaFromRequest(array $keys): Collection
 ```
 
-Please note the return type of `addMultipleMediaFromRequest` is a collection of `FileAdder`s. This means you'll have to loop over every `FileAdder` to use any of the middle methods. For example:
-
 ```php
-$fileAdders = $this->model
+$this->model
     ->addMultipleMediaFromRequest(['file-one', 'file-two'])
-    ->each(function ($fileAdder) {
+    ->each(function (FileAdder $fileAdder) {
         $fileAdder->toMediaCollection();
     });
 ```
 
-### addAllMediaFromRequest
+### `addAllMediaFromRequest`
+
+Adds every uploaded file in the current request. Like `addMultipleMediaFromRequest()`, this returns a `Collection` of `FileAdder` instances.
 
 ```php
-/**
- * Add all files from the current request to the media library.
- *
- * @return Collection
- *
- * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
- */
 public function addAllMediaFromRequest(): Collection
 ```
 
-Please note the return type of `addAllMediaFromRequest` is a Collection of `FileAdder`s. This means you'll have to loop over every `FileAdder` to use any of the middle methods. See the `addMultipleMediaFromRequest` method above for an example.
+### `addMediaFromBase64`
 
-### addMediaFromBase64
-
-```php
-/**
- * Add a base64 encoded file to the media library.
- *
- * @param string $base64data
- * @param string|array ...$allowedMimeTypes
- *
- * @throws InvalidBase64Data
- * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
- *
- * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
- */
- public function addMediaFromBase64(string $base64data, ...$allowedMimeTypes): FileAdder
-```
-
-### addMediaFromString
+Decodes a base64-encoded string (or data URI) and adds it as a file. Optionally pass allowed MIME types as extra arguments.
 
 ```php
-/**
- * Add a file to the media library that contains the given string.
- *
- * @param string string
- *
- * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
- */
- public function addMediaFromString(string $string): FileAdder
+public function addMediaFromBase64(string $base64data, array|string ...$allowedMimeTypes): FileAdder
 ```
 
-The file will be named 'text.txt' by default. A specific file name can be set using `usingFileName`
+### `addMediaFromString`
+
+Creates a file containing the given string. The default filename is `text.txt`, which you can override with `usingFileName()`.
+
+```php
+public function addMediaFromString(string $text): FileAdder
+```
 
 ```php
 $model
@@ -159,20 +96,13 @@ $model
     ->toMediaCollection();
 ```
 
-### addMediaFromStream
+### `addMediaFromStream`
+
+Creates a file from a PHP stream resource. The default filename is `text.txt`, which you can override with `usingFileName()`.
 
 ```php
-/**
- * Add a file to the media library from a stream.
- *
- * @param $stream
- *
- * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
- */
- public function addMediaFromStream($stream): FileAdder
+public function addMediaFromStream($stream): FileAdder
 ```
-
-The file will be named 'text.txt' by default. A specific file name can be set using `usingFileName`
 
 ```php
 $model
@@ -181,111 +111,128 @@ $model
     ->toMediaCollection();
 ```
 
-### copyMedia
+### `copyMedia`
+
+Shortcut for `addMedia($file)->preservingOriginal()`.
 
 ```php
-/**
- * Copy a file to the media library.
- *
- * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
- *
- * @return \Spatie\MediaLibrary\MediaCollections\FileAdder
- */
-public function copyMedia($file)
+public function copyMedia(string|UploadedFile $file): FileAdder
 ```
 
 ## Middle methods
 
-### preserveOriginal
+### `preservingOriginal`
+
+Keeps the original file in place instead of deleting it after storing.
 
 ```php
-/**
- * When adding the file to the media library, the original file
- * will be preserved.
- *
- * @return $this
- */
-public function preservingOriginal()
+public function preservingOriginal(bool $preserveOriginal = true): self
 ```
 
-### usingName
+### `usingName` / `setName`
+
+Sets the `name` attribute on the `Media` model (defaults to the filename without its extension). `setName()` is an alias for `usingName()`.
 
 ```php
-/**
- * Set the name of the media object.
- *
- * @param $name
- *
- * @return $this
- */
-public function usingName($name)
+public function usingName(string $name): self
 ```
 
-### setName
+### `usingFileName` / `setFileName`
 
-This is an alias for `usingName`
-
-### usingFileName
+Sets the filename stored on disk. `setFileName()` is an alias for `usingFileName()`.
 
 ```php
-/**
- * Set the name of the file that is stored on disk.
- *
- * @param $fileName
- *
- * @return $this
- */
-public function usingFileName($fileName)
+public function usingFileName(string $fileName): self
 ```
 
-### setFileName
+### `sanitizingFileName`
 
-This is an alias for `usingFileName`
-
-### withCustomProperties
+Replaces the default filename sanitizer with your own callable. Note that this also replaces the built-in `disallowed_extensions` check.
 
 ```php
-/**
- * Set the metadata.
- *
- * @param array $customProperties
- *
- * @return $this
- */
-public function withCustomProperties(array $customProperties)
+public function sanitizingFileName(callable $fileNameSanitizer): self
+```
+
+### `withCustomProperties`
+
+Attaches custom metadata stored in the `custom_properties` JSON column.
+
+```php
+public function withCustomProperties(array $customProperties): self
+```
+
+### `withManipulations`
+
+Sets media-specific manipulations applied before each conversion's own manipulations.
+
+```php
+public function withManipulations(array $manipulations): self
+```
+
+### `withResponsiveImages` / `withResponsiveImagesIf`
+
+Generates responsive image variations for this media item (or conditionally based on a boolean or closure).
+
+```php
+public function withResponsiveImages(): self
+public function withResponsiveImagesIf(bool|callable $condition): self
+```
+
+### `storingConversionsOnDisk`
+
+Stores conversions and responsive images for this upload on a different disk than the original file.
+
+```php
+public function storingConversionsOnDisk(string $diskName): self
+```
+
+### `addCustomHeaders`
+
+Merges extra upload headers (such as S3 `CacheControl` or `ACL`) with `remote.extra_headers` from `config/media-library.php`.
+
+```php
+public function addCustomHeaders(array $customRemoteHeaders): self
+```
+
+### `setOrder`
+
+Sets an explicit `order_column` value on the `Media` model.
+
+```php
+public function setOrder(?int $order): self
+```
+
+### `withProperties` / `withAttributes`
+
+Sets raw attributes directly on the `Media` Eloquent model before saving.
+
+```php
+public function withProperties(array $properties): self
+public function withAttributes(array $properties): self
+```
+
+### `onQueue`
+
+Overrides the queue name used for `GenerateResponsiveImagesJob` on this upload.
+
+```php
+public function onQueue(?string $queue = null): self
 ```
 
 ## Finishing methods
 
-### toMediaCollection
+### `toMediaCollection`
+
+Saves the `Media` record, moves (or copies) the file to the target disk, and triggers conversions.
 
 ```php
-/**
- * Set the target media collection to default.
- * Will also start the import process.
- *
- * @param string $collectionName
- * @param string $diskName
- *
- * @return Media
- *
- * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
- */
-public function toMediaCollection($collectionName = 'default', $diskName = '')
+public function toMediaCollection(string $collectionName = 'default', string $diskName = ''): Media
 ```
 
-### toMediaCollectionOnCloudDisk
+### `toMediaCollectionOnCloudDisk`
 
-This function does almost the same as `toMediaCollection`. It'll store all media on the disk configured in the `cloud` key of `config/filesystems.php`
+Stores the media on the disk configured under `filesystems.cloud` in `config/filesystems.php`. Make sure you have defined a `'cloud'` key in `config/filesystems.php` before using this method (Laravel 12+ doesn't include one by default).
 
 ```php
- /**
-  * @param string $collectionName
-  *
-  * @return \Spatie\MediaLibrary\MediaCollections\Models\Media
-  *
-  * @throws FileCannotBeAdded
-  * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileCannotBeAdded
-  */
- public function toMediaCollectionOnCloudDisk(string $collectionName = 'default')
+public function toMediaCollectionOnCloudDisk(string $collectionName = 'default'): Media
 ```

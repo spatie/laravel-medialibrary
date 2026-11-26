@@ -3,7 +3,7 @@ title: Simple media collections
 weight: 1
 ---
 
-If you have different types of files that you want to associate, you can put them in their own collection.
+When a model holds different kinds of files, you can group them into separate collections:
 
 ```php
 $yourModel = YourModel::find(1);
@@ -13,28 +13,28 @@ $yourModel->addMedia($pathToPdfFile)->toMediaCollection('downloads');
 $yourModel->addMedia($pathToAnExcelFile)->toMediaCollection('downloads');
 ```
 
-All media in a specific collection can be retrieved like this:
+Retrieve all media in a specific collection by passing its name to `getMedia()`:
 
 ```php
-// will return media instances for all files in the images collection
+// returns all media in the 'images' collection
 $yourModel->getMedia('images');
 
-// will returns media instance for all files in the downloads collection
+// returns all media in the 'downloads' collection
 $yourModel->getMedia('downloads');
 ```
 
-A collection can have any name you want. If you don't specify a name, the file will be added to a collection named `default`.
+A collection can have any name you like. If you omit the name, the file goes into the `default` collection.
 
-You can clear out a specific collection by passing the name to `clearMediaCollection`:
+To delete every file in a collection, call `clearMediaCollection()`:
 
 ```php
 $yourModel->clearMediaCollection('images');
 ```
 
-Also, there is a `clearMediaCollectionExcept` method which can be useful if you want to remove only few or some selected media in a collection. It accepts the collection name as the first argument and the media instance or collection of media instances which should not be removed as the second argument:
+To delete everything in a collection except one or more items, use `clearMediaCollectionExcept()`:
 
 ```php
-$yourModel->clearMediaCollectionExcept('images', $yourModel->getFirstMedia()); // This will remove all associated media in the 'images' collection except the first media
+$yourModel->clearMediaCollectionExcept('images', $yourModel->getFirstMedia('images'));
 ```
 
 ## Are you a visual learner?

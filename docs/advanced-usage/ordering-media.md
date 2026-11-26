@@ -3,28 +3,28 @@ title: Ordering media
 weight: 6
 ---
 
-This package has a built-in feature to help you order the media in your project. By default, all inserted media items are arranged in order by their time of creation (from the oldest to the newest) using the `order_column` column of the `media` table.
+Media Library tracks item order automatically using the `order_column` column on the `media` table. New items are appended to the end by default (oldest to newest).
 
-You can easily reorder a list of media by calling  ̀Media::setNewOrder`:
+To reorder existing media items, pass their IDs in the desired order to `Media::setNewOrder()`:
 
 ```php
- /**
-  * This function reorders the records: the record with the first id in the array
-  * will get the starting order (defaults to 1), the record with the second id
-  * will get the starting order + 1, and so on.
-  *
-  * A starting order number can be optionally supplied.
-  *
-  * @param array $ids
-  * @param int $startOrder
-  */
+// Assigns order_column = 1 to ID 11, 2 to ID 2, and 3 to ID 26.
+// You can pass a custom starting order as the second argument.
 Media::setNewOrder([11, 2, 26]);
 ```
 
-Of course, you can also manually change the value of the `order_column`.
+You can also set an item's order when adding it with `setOrder()`:
+
+```php
+$yourModel
+    ->addMedia($pathToFile)
+    ->setOrder(1)
+    ->toMediaCollection();
+```
+
+Or update `order_column` directly on a `Media` model:
 
 ```php
 $media->order_column = 10;
-
 $media->save();
 ```

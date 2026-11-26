@@ -38,8 +38,8 @@ $newsItem->addMedia($bigFile)->toMediaCollection('downloads', 's3');
 ```
 
 The storage of the files is handled by [Laravel's Filesystem](https://laravel.com/docs/filesystem),
-so you can use any filesystem you like. Additionally, the package can create image manipulations
-on images and pdfs that have been added in the media library.
+so you can use any filesystem you like. The package can also generate derived images
+such as thumbnails for images, videos, and PDFs.
 
 Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
@@ -75,19 +75,19 @@ act -j run-tests
 
 To run tests for a specific PHP/Laravel version, run:
 
-```
-act -j run-tests --matrix php:8.3 --matrix laravel:"11.*" --matrix dependency-version:prefer-stable 
+```bash
+act -j run-tests --matrix php:8.3 --matrix laravel:"12.*" --matrix dependency-version:prefer-stable
 ```
 
-Available `matrix` options are available in the [workflow file](.github/workflows/run-tests.yml).
+You can find the full matrix in the [workflow file](.github/workflows/run-tests.yml).
 
 ## Upgrading
 
 Please see [UPGRADING](UPGRADING.md) for details.
 
-### Changelog
+## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 
