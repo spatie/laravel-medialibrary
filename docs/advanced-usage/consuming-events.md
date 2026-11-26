@@ -3,64 +3,80 @@ title: Consuming events
 weight: 8
 ---
 
-The media library will fire the following events that your handlers can listen for:
+Media Library dispatches five events you can listen for in your application.
 
-### MediaHasBeenAddedEvent
-This event is fired after a file has been saved to disk.
+### `MediaHasBeenAddedEvent`
 
-The event has a property `media` that holds the `\Spatie\MediaLibrary\MediaCollections\Models\Media`-object of which the file has been stored.
+`Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent`
 
-### ConversionWillStartEvent
-This event is fired right before a conversion will start.
+Dispatched after a media file has been saved to disk.
 
-The event has two public properties:
+- `$event->media`: the `Media` model that was stored
 
-- `media`: the `\Spatie\MediaLibrary\MediaCollections\Models\Media`-object of which a conversion will be started
-- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversions\Conversion`) that will start
+### `ConversionWillStartEvent`
 
-### ConversionHasBeenCompletedEvent
-This event is fired when a conversion has been completed.
+`Spatie\MediaLibrary\Conversions\Events\ConversionWillStartEvent`
 
-The event has two public properties:
+Dispatched right before a conversion starts.
 
-- `media`: the `\Spatie\MediaLibrary\MediaCollections\Models\Media`-object of which a conversion has been completed
-- `conversion`: the conversion (an instance of `\Spatie\MediaLibrary\Conversions\Conversion`) that has just been completed
+- `$event->media`: the `Media` model being converted
+- `$event->conversion`: the `Conversion` instance about to run
+- `$event->copiedOriginalFile`: local temporary path to the source file
 
-### CollectionHasBeenClearedEvent
-This event will be fired after a collection has been cleared.
+### `ConversionHasBeenCompletedEvent`
 
-The event has two public properties:
+`Spatie\MediaLibrary\Conversions\Events\ConversionHasBeenCompletedEvent`
 
-- `model`:  the object that conforms to `\Spatie\MediaLibrary\HasMedia` of which a collection has just been cleared.
-- `collectionName`: the name of the collection that has just been cleared
+Dispatched after a conversion finishes.
 
-## Sample usage
+- `$event->media`: the `Media` model that was converted
+- `$event->conversion`: the `Conversion` instance that completed
 
-First you must create a listener class. Here's one that will log the paths of added media.
+### `ResponsiveImagesGeneratedEvent`
+
+`Spatie\MediaLibrary\ResponsiveImages\Events\ResponsiveImagesGeneratedEvent`
+
+Dispatched after responsive images have been generated for a media item.
+
+- `$event->media`: the `Media` model whose responsive images were generated
+
+### `CollectionHasBeenClearedEvent`
+
+`Spatie\MediaLibrary\MediaCollections\Events\CollectionHasBeenClearedEvent`
+
+Dispatched after a collection is cleared via `clearMediaCollection()`.
+
+- `$event->model`: the `HasMedia` model whose collection was cleared
+- `$event->collectionName`: the name of the cleared collection
+
+## Listening for events
+
+Create a listener class in `app/Listeners`:
 
 ```php
 namespace App\Listeners;
 
-use Log;
+use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
 class MediaLogger
 {
-    public function handle(MediaHasBeenAddedEvent $event)
+    public function handle(MediaHasBeenAddedEvent $event): void
     {
         $media = $event->media;
         $path = $media->getPath();
-        Log::info("file {$path} has been saved for media {$media->id}");
+
+        Log::info("File {$path} has been saved for media {$media->id}");
     }
 }
 ```
 
-Hook it up in `app/Providers/EventServiceProvider.php` to let Laravel know that your handler should be called when the event is fired:
+In Laravel 12+, listeners inside `app/Listeners` with a type-hinted event parameter on `handle()` are discovered automatically. If you prefer registering listeners manually, use `Event::listen()` in your `AppServiceProvider::boot()` method:
 
 ```php
-protected $listen = [
-    Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent::class => [
-        App\Listeners\MediaLogger::class
-    ],
-];
+use App\Listeners\MediaLogger;
+use Illuminate\Support\Facades\Event;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
+
+Event::listen(MediaHasBeenAddedEvent::class, MediaLogger::class);
 ```

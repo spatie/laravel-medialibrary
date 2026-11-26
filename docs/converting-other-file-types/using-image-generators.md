@@ -3,69 +3,68 @@ title: Using image generators
 weight: 1
 ---
 
-The media library has built-in support to convert images. To generate conversions of other media types – most notably PDFs and videos – the medialibrary uses image generators to create a derived image file of the media. 
+Media Library converts standard images out of the box. For other file types like PDFs, SVGs, and videos, it uses **image generators** to extract a base image first, then runs your normal conversions on it.
 
-Conversion of specific file type are defined in the exact same way as images:
+You define conversions for these file types the exact same way as for regular images:
 
 ```php
 $this->addMediaConversion('thumb')
-     ->width(368)
-     ->height(232)
-     ->performOnCollections('videos');
+    ->width(368)
+    ->height(232)
+    ->performOnCollections('videos');
 ```
 
-The media library includes image generators for the following file types:
+The package ships with image generators for:
 
 - [PDF](/docs/laravel-medialibrary/v11/converting-other-file-types/using-image-generators#pdf)
 - [SVG](/docs/laravel-medialibrary/v11/converting-other-file-types/using-image-generators#svg)
 - [Video](/docs/laravel-medialibrary/v11/converting-other-file-types/using-image-generators#video)
+- WebP and AVIF (enabled automatically when your PHP/GD or Imagick build supports them)
 
 ## PDF
 
-The PDF generator requires [Imagick](http://php.net/manual/en/imagick.setresolution.php), [Ghostscript](https://www.ghostscript.com/), and [Spatie Pdf to Image](https://github.com/spatie/pdf-to-image). If you're running into issues with Ghostscript have a look at [issues regarding Ghostscript](https://github.com/spatie/pdf-to-image/blob/master/README.md#issues-regarding-ghostscript).
+The PDF generator requires [Imagick](https://www.php.net/manual/en/imagick.setresolution.php), [Ghostscript](https://www.ghostscript.com/), and [spatie/pdf-to-image](https://github.com/spatie/pdf-to-image). If you hit Ghostscript errors, check [issues regarding Ghostscript](https://github.com/spatie/pdf-to-image/blob/main/README.md#issues-regarding-ghostscript).
 
-The pdf image generator allows you to choose at which page of the pdf, the thumbnail should be created using the `pdfPageNumber` on the conversion.
-
-If the `pdfPageNumber` is not set on the conversion, the default value will be the first page of the pdf.
+By default, Media Library generates the thumbnail from the first page. Use `pdfPageNumber()` on your conversion to pick a different page:
 
 ```php
 $this->addMediaConversion('thumb')
-     ->width(368)
-     ->height(232)
-     ->pdfPageNumber(2);
+    ->width(368)
+    ->height(232)
+    ->pdfPageNumber(2);
 ```
 
 ## SVG
 
-The only requirement to perform a conversion of a SVG file is [Imagick](http://php.net/manual/en/imagick.setresolution.php).
+Converting SVG files only requires [Imagick](https://www.php.net/manual/en/imagick.setresolution.php).
 
-**Security note.** SVG files are XML documents. When Imagick renders an SVG it can, depending on your ImageMagick build and delegate configuration, resolve external entities or remote references contained in the file. If you accept SVG uploads from untrusted users, harden your ImageMagick `policy.xml` (for example, by disabling the `SVG`, `URL`, and `HTTPS` coders), keep ImageMagick and its delegates up to date, and consider sanitizing or rejecting SVG uploads at the application layer. See the [ImageMagick security policy documentation](https://imagemagick.org/script/security-policy.php) for details.
+Be careful if you let users upload SVGs. Because SVGs are XML, Imagick may try to load external references inside them depending on your server's ImageMagick configuration. If you accept untrusted SVGs, harden your ImageMagick `policy.xml` (for example, by disabling the `SVG`, `URL`, and `HTTPS` coders), keep ImageMagick and its delegates up to date, or sanitize/reject SVGs before storing them. See the [ImageMagick security policy documentation](https://imagemagick.org/script/security-policy.php) for details.
 
 ## Video
 
-The video image generator uses the [PHP-FFMpeg](https://github.com/PHP-FFMpeg/PHP-FFMpeg) package that you can install via Composer:
+The video generator uses [PHP-FFMpeg](https://github.com/PHP-FFMpeg/PHP-FFMpeg):
 
 ```bash
 composer require php-ffmpeg/php-ffmpeg
 ```
 
-You'll also need to follow `FFmpeg` installation instructions on their [official website](https://ffmpeg.org/download.html).
+You also need `ffmpeg` and `ffprobe` installed on your server (see [FFmpeg's download page](https://ffmpeg.org/download.html)). You can configure binary paths, timeouts, and thread limits via `ffmpeg_path`, `ffprobe_path`, `ffmpeg_timeout`, and `ffmpeg_threads` in `config/media-library.php`.
 
-The video image generator allows you to choose at which time of the video the derived file should be created using the `setExtractVideoFrameAtSecond` on the conversion.
+Use `extractVideoFrameAtSecond()` to pick which timestamp to capture (defaults to `0`, supports floats):
 
 ```php
 $this->addMediaConversion('thumb')
-     ->width(368)
-     ->height(232)
-     ->extractVideoFrameAtSecond(20)
-     ->performOnCollections('videos');
+    ->width(368)
+    ->height(232)
+    ->extractVideoFrameAtSecond(20)
+    ->performOnCollections('videos');
 ```
 
-Once the conversion is created you can easily use the thumbnail in a html `video` tag for example:
+Once generated, you can use the thumbnail as a `poster` on a `<video>` tag:
 
 ```html
 <video controls poster="{{ $video->getUrl('thumb') }}">
-  <source src="{{ $video->getUrl() }}" type="video/mp4">
-  Your browser does not support the video tag.
+    <source src="{{ $video->getUrl() }}" type="video/mp4">
+    Your browser does not support the video tag.
 </video>
 ```

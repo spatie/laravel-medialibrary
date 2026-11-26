@@ -3,28 +3,31 @@ title: Generating your own tiny placeholder
 weight: 4
 ---
 
-When generating responsive images, the media library will generate a tiny version of your image which will be used for [progressive image loading](/docs/laravel-medialibrary/v11/responsive-images/getting-started-with-responsive-images#progressive-image-loading). By default, this tiny version will be a blurred version of the original.
+When generating responsive images, Media Library creates a tiny blurred version of your image for [progressive image loading](/docs/laravel-medialibrary/v11/responsive-images/getting-started-with-responsive-images#progressive-image-loading).
 
-You can customize how the tiny version of the image should be generated. Maybe you want to just use the dominant color instead of blur. In the  `responsive_images.tiny_placeholder_generator` of the `media-library` config file you can specify a class that implements `Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator`. This interface only requires you to implement one function:
+If you'd rather generate a different placeholder (for example, a solid dominant color instead of a blur), implement `Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator` and register it under `responsive_images.tiny_placeholder_generator` in `config/media-library.php`.
+
+The interface has a single method:
 
 ```php
-public function generateTinyPlaceholder(string $sourceImagePath, string $tinyImageDestinationPath);
+public function generateTinyPlaceholder(string $sourceImagePath, string $tinyImageDestinationPath): void;
 ```
 
-`$sourceImagePath` contains the path of the image where you should generate a tiny representation for. The generated tiny image should be saved at `$tinyImageDestinationPath`. This tiny image should be a `jpg`.
+Read the source image at `$sourceImagePath` and write a tiny `jpg` placeholder to `$tinyImageDestinationPath`.
 
-Here's an example implementation that generates a blurred version:
+Here's the default blurred implementation for reference:
 
 ```php
-namespace App;
+namespace App\Support;
 
-use Spatie\Image\Image;
+use Spatie\MediaLibrary\ResponsiveImages\TinyPlaceholderGenerator\TinyPlaceholderGenerator;
+use Spatie\MediaLibrary\Support\ImageFactory;
 
 class Blurred implements TinyPlaceholderGenerator
 {
-    public function generateTinyPlaceholder(string $sourceImagePath, string $tinyImageDestinationPath)
+    public function generateTinyPlaceholder(string $sourceImagePath, string $tinyImageDestinationPath): void
     {
-        $sourceImage = Image::load($sourceImagePath);
+        $sourceImage = ImageFactory::load($sourceImagePath);
 
         $sourceImage->width(32)->blur(5)->save($tinyImageDestinationPath);
     }

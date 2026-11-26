@@ -1,71 +1,84 @@
 ---
-title: Storing media specific manipulations
+title: Storing media-specific manipulations
 weight: 3
 ---
 
-Imagine you need to apply a 90 degree rotation to a single image. So the rotation should be applied to one specific `Media` and not to all media linked to the given `$yourModel`.
+Sometimes you only want to tweak a single image rather than every image on a model. For example, one uploaded photo might be sideways and need a 90-degree rotation.
 
-When adding an image to the media library, you can use `withManipulations` to set any media specific manipulations.
-
-Here's a quick example:
+You can attach media-specific manipulations when adding a file with `withManipulations()`. Each key is a conversion name, and each manipulation maps to an array of arguments matching [`spatie/image` v3](https://spatie.be/docs/image/v3):
 
 ```php
+use Spatie\Image\Enums\Orientation;
+
 $yourModel
-   ->addMedia($pathToFile)
-   ->withManipulations([
-      'thumb' => ['orientation' => '90'],
-   ]);
+    ->addMedia($pathToFile)
+    ->withManipulations([
+        'thumb' => [
+            'orientation' => ['orientation' => Orientation::Rotate90],
+        ],
+    ])
+    ->toMediaCollection();
 ```
 
-The package will regenerate all files (conversions) using the saved manipulation as the first manipulation when creating each derived image.
+Media Library runs your media-specific manipulations *first*, then applies the rest of the manipulations defined on that conversion.
 
-You can also apply media specific manipulations to an existing `Media` instance.
+You can also set or update manipulations on an existing `Media` model. Saving the model automatically triggers conversion regeneration:
 
 ```php
-$mediaItems = $yourModel->getMedia('images');
-$mediaItems[0]->manipulations = [
-   'thumb' => ['orientation' => '90'],
+use Spatie\Image\Enums\Orientation;
+
+$mediaItem = $yourModel->getFirstMedia('images');
+$mediaItem->manipulations = [
+    'thumb' => [
+        'orientation' => ['orientation' => Orientation::Rotate90],
+    ],
 ];
 
-// This will cause the thumb conversions to be regenerated.
-$mediaItems[0]->save();
+// Saving regenerates the affected conversions.
+$mediaItem->save();
 ```
 
-First the rotation will be applied for this specific `$mediaItem`, then the other manipulations you specified in the `thumb` conversion.
+## Targeting multiple conversions
 
-Of course you can also set media specific manipulations for multiple conversions in one go:
+You can specify manipulations for several conversions at once:
 
 ```php
+use Spatie\Image\Enums\Orientation;
+
 $yourModel
-   ->addMedia($pathToFile)
-   ->withManipulations([
-      'thumb' => ['orientation' => '90'],
-      'otherConversion' => ['orientation' => '90'],
-   ]);
+    ->addMedia($pathToFile)
+    ->withManipulations([
+        'thumb' => ['orientation' => ['orientation' => Orientation::Rotate90]],
+        'otherConversion' => ['orientation' => ['orientation' => Orientation::Rotate90]],
+    ])
+    ->toMediaCollection();
 ```
 
-Lets take the example again of this one image `$mediaItem` that needs to be rotated and was linked to `$yourModel`. Imagine we have a lot of conversions for all the media: `thumb`, `small` for web, `cmyk` for print in full resolution.
-Having to add all these manipulation keys with `orientation 90` would be a pain. 
+## Applying manipulations to all conversions with `*`
 
-You can avoid this pain by using a wildcard. Manipulations of the wildcard will be added to each conversion of the media.
-
-Here's an example:
+If your model defines lots of conversions (`thumb`, `small`, `banner`, `print`), repeating the same rotation under every key gets tedious fast. Use `*` to apply manipulations to every conversion on that media item:
 
 ```php
+use Spatie\Image\Enums\Orientation;
+
 $yourModel
-   ->addMedia($pathToFile)
-   ->withManipulations([
-      '*' => ['orientation' => '90'],
-   ]);
+    ->addMedia($pathToFile)
+    ->withManipulations([
+        '*' => ['orientation' => ['orientation' => Orientation::Rotate90]],
+    ])
+    ->toMediaCollection();
 ```
 
-You can also combine wildcard manipulations with one for a specific collection. The wildcard manipulations will always be performed before the collection specific ones.
+You can combine `*` with conversion-specific entries. Wildcard manipulations always run before conversion-specific ones:
 
 ```php
+use Spatie\Image\Enums\Orientation;
+
 $yourModel
-   ->addMedia($pathToFile)
-   ->withManipulations([
-      '*' => ['orientation' => '90'],
-      'thumb' => ['filter' => 'greyscale'],
-   ]);
+    ->addMedia($pathToFile)
+    ->withManipulations([
+        '*' => ['orientation' => ['orientation' => Orientation::Rotate90]],
+        'thumb' => ['greyscale' => []],
+    ])
+    ->toMediaCollection();
 ```

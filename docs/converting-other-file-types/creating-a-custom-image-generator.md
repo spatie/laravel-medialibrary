@@ -3,17 +3,19 @@ title: Creating a custom image generator
 weight: 2
 ---
 
-If you want to generate a conversion for a file type that is not covered out of the box you can easily create your own  media generator.
+If you want thumbnails for a file type that isn't supported out of the box, you can write your own image generator.
 
-Generators can only be used to generate images, intended to be used as a thumbnail representation of files. Converting to any other file format other than images is unsupported.
+Image generators only produce image representations (such as thumbnails) of a file; converting files into non-image formats isn't supported.
 
-In the following example we'll create a custom generator that can convert a Powerpoint to an image.
+In this example, we'll create a generator that converts PowerPoint presentations into images.
 
-## Creating a custom image generator
+## Writing the generator
 
-The first step for creating a custom generator is to create a class that extends `Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator`:
+Extend `Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator` and implement the required methods:
 
 ```php
+namespace App\ImageGenerators;
+
 use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\Conversions\Conversion;
 use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
@@ -21,96 +23,84 @@ use Spatie\MediaLibrary\Conversions\ImageGenerators\ImageGenerator;
 class PowerPoint extends ImageGenerator
 {
     /**
-    * This function should return a path to an image representation of the given file.
-    */
-    public function convert(string $file, Conversion $conversion = null) : string
+     * Return a path to an image representation of the given file.
+     */
+    public function convert(string $file, ?Conversion $conversion = null): string
     {
         $pathToImageFile = pathinfo($file, PATHINFO_DIRNAME).'/'.pathinfo($file, PATHINFO_FILENAME).'.jpg';
 
-        // Here you should convert the file to an image and return generated conversion path.
+        // Convert the file to an image and save it to $pathToImageFile.
         \PowerPoint::convertFileToImage($file)->store($pathToImageFile);
 
         return $pathToImageFile;
     }
 
-    public function requirementsAreInstalled() : bool
+    public function requirementsAreInstalled(): bool
     {
         return true;
     }
 
-    public function supportedExtensions() : Collection
+    public function supportedExtensions(): Collection
     {
         return collect(['ppt', 'pptx']);
     }
 
-    public function supportedMimeTypes() : Collection
+    public function supportedMimeTypes(): Collection
     {
         return collect([
             'application/vnd.ms-powerpoint',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         ]);
     }
 }
 ```
 
-## Registering the custom generator
-
-After creating your custom image generator, you should add the class name to the `image_generators` key of the `media-library` config file.
+By default, a generator matches a file if **either** its extension or its MIME type matches. If you want to require **both** to match (useful when handling untrusted uploads), override `shouldMatchBothExtensionsAndMimeTypes()`:
 
 ```php
-// in config/laravel-medialibrary.php
-'image_generators' => [
-    // ...
-    YourImageGenerator::class,
-], 
-```
-
-## Passing configuration to a custom image generator
-
-When registering a custom image generator in the `media-library` config file, you can pass values like this
-
-```php
-// in config/laravel-medialibrary.php
-'image_generators' => [
-    // ...
-    YourImageGenerator::class => ['myArgument' => 'value', 'myOtherArgument' => 'otherValue'],
-], 
-```
-
-In your custom image generator you can accept those arguments in the constructor.
-
-```php
-class YourImageGenerator
+public function shouldMatchBothExtensionsAndMimeTypes(): bool
 {
-    public function __construct(string $myArgument, string $myOtherArgument)
-    {
-        // do something with these arguments
-    }
+    return true;
 }
 ```
 
-## Only using a custom image generator a specific model
+## Registering your generator
 
-If the generator only needs to be applied to one of your models you can override the `getImageGenerators` in that model like this:
+Add your generator class to the `image_generators` array in `config/media-library.php`:
 
 ```php
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\HasMedia;
-
-class News extends Model implements HasMedia
-{
-   ...
-
-   /**
-    * Collection of all ImageGenerator drivers.
-    */
-   public function getImageGenerators() : Collection
-   {
-       return parent::getImageGenerators()->push(\App\ImageGenerators\PowerPoint::class);
-   }
-}
+// config/media-library.php
+'image_generators' => [
+    // ...
+    App\ImageGenerators\PowerPoint::class,
+],
 ```
 
+## Passing configuration to a custom generator
+
+You can also pass constructor arguments when registering your generator in `config/media-library.php`:
+
+```php
+// config/media-library.php
+'image_generators' => [
+    // ...
+    App\ImageGenerators\PowerPoint::class => [
+        'myArgument' => 'value',
+        'myOtherArgument' => 'otherValue',
+    ],
+],
+```
+
+Accept those arguments in your generator's constructor:
+
+```php
+class PowerPoint extends ImageGenerator
+{
+    public function __construct(
+        protected string $myArgument,
+        protected string $myOtherArgument,
+    ) {}
+
+    // ...
+}
+```

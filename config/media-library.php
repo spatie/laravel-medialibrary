@@ -37,12 +37,11 @@ return [
 
     /*
      * The disk on which to store conversions (thumbnails, etc.) and responsive images
-     * when no disk is specified explicitly on the media collection or via
-     * `storingConversionsOnDisk()`. When left null, conversions are stored on the
-     * same disk as the original media — preserving previous behavior.
+     * when no disk is specified on the media collection or via `storingConversionsOnDisk()`.
+     * Leave this null to store conversions on the same disk as the original media.
      *
-     * This is useful when the originals live on a remote disk (e.g. S3) but the
-     * generated derivatives should stay local for faster access and lower egress.
+     * Useful when originals live on a remote disk like S3, but thumbnails should stay
+     * on a local disk for faster access and lower egress.
      */
     'conversions_disk_name' => env('MEDIA_CONVERSIONS_DISK', null),
 
@@ -92,7 +91,7 @@ return [
     'queue_conversions_by_default' => env('QUEUE_CONVERSIONS_BY_DEFAULT', true),
 
     /*
-     * Should database transactions be run after database commits?
+     * Should queued conversions be dispatched after database transactions have committed?
      */
     'queue_conversions_after_database_commit' => env('QUEUE_CONVERSIONS_AFTER_DB_COMMIT', true),
 
@@ -129,7 +128,7 @@ return [
     'enable_temporary_uploads_session_affinity' => true,
 
     /*
-     * When enabled, Media Library pro will generate thumbnails for uploaded file.
+     * When enabled, Media Library Pro will generate thumbnails for uploaded files.
      */
     'generate_thumbnails_for_temporary_uploads' => true,
 
@@ -216,7 +215,7 @@ return [
             '--minalpha 0', // min quantizer for alpha (0-63).
             '--maxalpha 63', // max quantizer for alpha (0-63).
             '-a end-usage=q', // rate control mode set to Constant Quality mode.
-            '-a tune=ssim', // SSIM as tune the encoder for distortion metric.
+            '-a tune=ssim', // tune the encoder for SSIM distortion metric.
         ],
     ],
 
@@ -275,21 +274,22 @@ return [
 
     /*
      * When using the addMediaFromUrl method you may want to replace the default downloader.
-     * This is particularly useful when the url of the image is behind a firewall and
-     * need to add additional flags, possibly using curl.
+     * This is particularly useful when the URL of the image is behind a firewall and
+     * you need to add additional flags, possibly using curl.
      */
     'media_downloader' => DefaultDownloader::class,
 
     /*
-     * When using the addMediaFromUrl method the SSL is verified by default.
-     * This is option disables SSL verification when downloading remote media.
+     * When using the addMediaFromUrl method, SSL is verified by default.
+     * This option disables SSL verification when downloading remote media.
      * Please note that this is a security risk and should only be false in a local environment.
      */
     'media_downloader_ssl' => env('MEDIA_DOWNLOADER_SSL', true),
 
     /*
-     * The default lifetime in minutes for temporary urls.
-     * This is used when you call the `getLastTemporaryUrl` or `getLastTemporaryUrl` method on a media item.
+     * The default lifetime in minutes for temporary URLs.
+     * This is used when you call `getTemporaryUrl`, `getFirstTemporaryUrl`, or `getLastTemporaryUrl`
+     * without an explicit expiration time.
      */
     'temporary_url_default_lifetime' => env('MEDIA_TEMPORARY_URL_DEFAULT_LIFETIME', 5),
 
@@ -313,7 +313,7 @@ return [
          * images. By default we optimize for filesize and create variations that each are 30%
          * smaller than the previous one. More info in the documentation.
          *
-         * https://docs.spatie.be/laravel-medialibrary/v9/advanced-usage/generating-responsive-images
+         * https://spatie.be/docs/laravel-medialibrary/v11/responsive-images/using-your-own-width-calculator
          */
         'width_calculator' => FileSizeOptimizedWidthCalculator::class,
 
@@ -339,18 +339,18 @@ return [
     'enable_vapor_uploads' => env('ENABLE_MEDIA_LIBRARY_VAPOR_UPLOADS', false),
 
     /*
-     * When converting Media instances to response the media library will add
+     * When rendering Media instances to HTML, the media library will add
      * a `loading` attribute to the `img` tag. Here you can set the default
      * value of that attribute.
      *
-     * Possible values: 'lazy', 'eager', 'auto' or null if you don't want to set any loading instruction.
+     * Possible values: 'lazy', 'eager' or null if you don't want to set any loading instruction.
      *
      * More info: https://css-tricks.com/native-lazy-loading/
      */
     'default_loading_attribute_value' => null,
 
     /*
-     * You can specify a prefix for that is used for storing all media.
+     * You can specify a prefix that is used for storing all media.
      * If you set this to `/my-subdir`, all your media will be stored in a `/my-subdir` directory.
      */
     'prefix' => env('MEDIA_PREFIX', ''),

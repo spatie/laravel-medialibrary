@@ -3,9 +3,9 @@ title: Defining media collections
 weight: 2
 ---
 
-A media collection can be more than [just a name to group files](/docs/laravel-medialibrary/v11/working-with-media-collections/simple-media-collections). By defining a media collection in your model you can add certain behaviour collections.
+A media collection can do more than [group files by name](/docs/laravel-medialibrary/v11/working-with-media-collections/simple-media-collections). By defining collections on your model, you can configure validation rules, dedicated disks, fallbacks, size limits, and conversions per collection.
 
-To get started with media collections add a function called `registerMediaCollections` to [your prepared model](/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model). Inside that function you can use `addMediaCollection` to start  a media collection.
+Add a `registerMediaCollections` method to [your prepared model](/docs/laravel-medialibrary/v11/basic-usage/preparing-your-model) and call `addMediaCollection()` for each collection you want to configure:
 
 ```php
 // in your model
@@ -13,13 +13,11 @@ To get started with media collections add a function called `registerMediaCollec
 public function registerMediaCollections(): void
 {
     $this->addMediaCollection('my-collection')
-        //add options
-        ...
+        // chain options here
 
-    // you can define as many collections as needed
+    // define as many collections as you need
     $this->addMediaCollection('my-other-collection')
-        //add options
-        ...
+        // chain options here
 }
 ```
 
@@ -31,10 +29,9 @@ Here's a video that shows how to work with media collections.
 
 Want to see more videos like this? Check out our [free video course on how to use Laravel Media Library](https://spatie.be/courses/discovering-laravel-media-library).
 
-
 ## Getting registered media collections
 
-To retrieve all registered media collections on your model you can use the `getRegisteredMediaCollections` method.  
+Use `getRegisteredMediaCollections()` to inspect the collections registered on a model:
 
 ```php
 $mediaCollections = $yourModel->getRegisteredMediaCollections();
@@ -44,11 +41,9 @@ This returns a collection of `MediaCollection` objects.
 
 ## Defining a fallback URL or path
 
-If your media collection does not contain any items, calling `getFirstMediaUrl` or `getFirstMediaPath` will return `null`. You can change this by setting a fallback URL and/or path using `useFallbackUrl` and `useFallbackPath`.
+When a collection is empty, `getFirstMediaUrl()` and `getFirstMediaPath()` return an empty string (`''`). You can configure a default fallback with `useFallbackUrl()` and `useFallbackPath()`:
 
 ```php
-use Spatie\MediaLibrary\MediaCollections\File;
-...
 public function registerMediaCollections(): void
 {
     $this
@@ -58,7 +53,7 @@ public function registerMediaCollections(): void
 }
 ```
 
-When you use a fallback URL/path, [conversions](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) will use the default fallback URL/path if the media does not exist. You can pass a conversion name to the second parameter to use fallbacks per conversion.
+By default, [conversions](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) share the collection's fallback URL/path when no media exists. Pass a conversion name as the second argument to set a fallback for a specific conversion:
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -73,12 +68,12 @@ public function registerMediaCollections(): void
         ->useFallbackUrl('/default_avatar_thumb.jpg', 'thumb')
         ->useFallbackPath(public_path('/default_avatar.jpg'))
         ->useFallbackPath(public_path('/default_avatar_thumb.jpg'), 'thumb')
-        ->registerMediaConversions(function (Media $media) {
+        ->registerMediaConversions(function (?Media $media = null) {
             $this
                 ->addMediaConversion('thumb')
                 ->width(50)
                 ->height(50);
-                
+
             $this
                 ->addMediaConversion('thumb_2')
                 ->width(100)
@@ -87,27 +82,29 @@ public function registerMediaCollections(): void
 }
 ```
 
-In this way, the image sizes are always as expected:
+Now each conversion returns the right fallback:
 
 ```php
-$yourModel->getFirstMediaUrl('avatar'); // default_avatar.jpg
-$yourModel->getFirstMediaUrl('avatar', 'thumb'); // default_avatar_thumb.jpg
-$yourModel->getFirstMediaUrl('avatar', 'thumb_2'); // default_avatar.jpg
-
-// ...
+$yourModel->getFirstMediaUrl('avatar'); // /default_avatar.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb'); // /default_avatar_thumb.jpg
+$yourModel->getFirstMediaUrl('avatar', 'thumb_2'); // /default_avatar.jpg
 
 $yourModel->getFirstMediaPath('avatar'); // .../default_avatar.jpg
 $yourModel->getFirstMediaPath('avatar', 'thumb'); // .../default_avatar_thumb.jpg
 $yourModel->getFirstMediaPath('avatar', 'thumb_2'); // .../default_avatar.jpg
 ```
 
-## Only allow certain files in a collection
+## Only allowing certain files in a collection
 
-You can pass a callback to `acceptsFile` that will check if a file is allowed into the collection. In this example we only accept `jpeg` files.
+Pass a callback to `acceptsFile()` to decide whether a file may be added to the collection. The callback receives a `Spatie\MediaLibrary\MediaCollections\File` instance (exposing `$file->name`, `$file->size`, and `$file->mimeType`) and the owning model as an optional second argument.
+
+In this example, we only accept JPEG files:
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\File;
-...
+
+// ...
+
 public function registerMediaCollections(): void
 {
     $this
@@ -118,27 +115,23 @@ public function registerMediaCollections(): void
 }
 ```
 
-This will succeed:
+This succeeds:
 
 ```php
 $yourModel->addMedia('beautiful.jpg')->toMediaCollection('only-jpegs-please');
 ```
 
-This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
+This throws `Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection`:
 
 ```php
 $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
 ```
 
-## Only allow certain mimetypes in a collection
+## Only allowing certain MIME types in a collection
 
-You can defined an array of accepted Mime types using `acceptsMimeTypes` that will check if a file with a certain Mime type is allowed into the collection. In this example we only accept `image/jpeg` files.
+If you only need to check MIME types, `acceptsMimeTypes()` is shorter than writing an `acceptsFile()` callback:
 
 ```php
-use Spatie\MediaLibrary\MediaCollections\File;
-
-// ...
-
 public function registerMediaCollections(): void
 {
     $this
@@ -147,13 +140,13 @@ public function registerMediaCollections(): void
 }
 ```
 
-This will succeed:
+This succeeds:
 
 ```php
 $yourModel->addMedia('beautiful.jpg')->toMediaCollection('only-jpegs-please');
 ```
 
-This will throw a `Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\FileUnacceptableForCollection` exception:
+This throws `Spatie\MediaLibrary\MediaCollections\Exceptions\FileUnacceptableForCollection`:
 
 ```php
 $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
@@ -161,7 +154,7 @@ $yourModel->addMedia('ugly.ppt')->toMediaCollection('only-jpegs-please');
 
 ## Using a specific disk
 
-You can ensure that files added to a collection are automatically added to a certain disk.
+You can tie a collection to a specific disk so files added to it always land there:
 
 ```php
 // in your model
@@ -169,18 +162,18 @@ You can ensure that files added to a collection are automatically added to a cer
 public function registerMediaCollections(): void
 {
     $this
-       ->addMediaCollection('big-files')
-       ->useDisk('s3');
+        ->addMediaCollection('big-files')
+        ->useDisk('s3');
 }
 ```
 
-When adding a file to `big-files` it will be stored on the `s3` disk.
+Files added to `big-files` are now stored on `s3`:
 
 ```php
 $yourModel->addMedia($pathToFile)->toMediaCollection('big-files');
 ```
 
-You can still specify the disk name manually when adding media. In this example the file will be stored on `alternative-disk` instead of `s3`.
+You can still override the disk for a single upload by passing a disk name as the second argument:
 
 ```php
 $yourModel->addMedia($pathToFile)->toMediaCollection('big-files', 'alternative-disk');
@@ -188,7 +181,7 @@ $yourModel->addMedia($pathToFile)->toMediaCollection('big-files', 'alternative-d
 
 ## Single file collections
 
-If you want a collection to hold only one file you can use `singleFile` on the collection. A good use case for this would be an avatar collection on a `User` model. In most cases you'd want to have a user to only have one `avatar`.
+If a collection should only ever hold one file (like a user's avatar), call `singleFile()`:
 
 ```php
 // in your model
@@ -201,30 +194,29 @@ public function registerMediaCollections(): void
 }
 ```
 
-The first time you add a file to the collection it will be stored as usual.
+The first file is stored as usual:
 
 ```php
 $yourModel->addMedia($pathToImage)->toMediaCollection('avatar');
-$yourModel->getMedia('avatar')->count(); // returns 1
-$yourModel->getFirstMediaUrl('avatar'); // will return an URL to the `$pathToImage` file
+$yourModel->getMedia('avatar')->count(); // 1
+$yourModel->getFirstMediaUrl('avatar'); // URL to $pathToImage
 ```
 
-When adding another file to a single file collection the first one will be deleted.
+When you add another file to a single-file collection, the previous file is deleted after the new one is saved:
 
 ```php
-// this will remove other files in the collection
 $yourModel->addMedia($anotherPathToImage)->toMediaCollection('avatar');
-$yourModel->getMedia('avatar')->count(); // returns 1
-$yourModel->getFirstMediaUrl('avatar'); // will return an URL to the `$anotherPathToImage` file
+$yourModel->getMedia('avatar')->count(); // 1
+$yourModel->getFirstMediaUrl('avatar'); // URL to $anotherPathToImage
 ```
 
-This video shows you a demo of a single file collection.
+This video shows a demo of a single-file collection.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/OBj89PI4ho4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Limited file collections
 
-Whenever you want to limit the amount of files inside a collection you can use the `onlyKeepLatest(n)` method. Whenever you add a file to a collection and exceed the given limit, MediaLibrary will delete the oldest file(s) and keep the collection size at `n`.
+To cap how many files a collection keeps, use `onlyKeepLatest($n)`. Once a collection exceeds that limit, Media Library deletes the oldest items (by primary key) after storing the new file:
 
 ```php
 // in your model
@@ -237,25 +229,28 @@ public function registerMediaCollections(): void
 }
 ```
 
-For the first 3 files, nothing strange happens. The files get added to the collection and the collection now holds all 3 files. Whenever you decide to add a 4th file, MediaLibrary deletes the first file and keeps the latest 3.
+The first three files are all kept. When you add a fourth file, the first one is removed:
 
 ```php
 $yourModel->addMedia($firstFile)->toMediaCollection('limited-collection');
-$yourModel->getMedia('avatar')->count(); // returns 1
+$yourModel->getMedia('limited-collection')->count(); // 1
+
 $yourModel->addMedia($secondFile)->toMediaCollection('limited-collection');
-$yourModel->getMedia('avatar')->count(); // returns 2
+$yourModel->getMedia('limited-collection')->count(); // 2
+
 $yourModel->addMedia($thirdFile)->toMediaCollection('limited-collection');
-$yourModel->getMedia('avatar')->count(); // returns 3
+$yourModel->getMedia('limited-collection')->count(); // 3
+
 $yourModel->addMedia($fourthFile)->toMediaCollection('limited-collection');
-$yourModel->getMedia('avatar')->count(); // returns 3
-$yourModel->getFirstMediaUrl('avatar'); // will return an url to the `$secondFile` file
+$yourModel->getMedia('limited-collection')->count(); // 3
+$yourModel->getFirstMediaUrl('limited-collection'); // URL to $secondFile
 ```
 
 ## Registering media conversions
 
-It's recommended that your first read the section on [converting images](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) before reading the following paragraphs.
+If you haven't read [defining conversions](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) yet, start there first.
 
-Normally image conversions are registered inside the `registerMediaConversions` function on your model. However, images conversions can also be registered inside media collections.
+While conversions are usually defined in `registerMediaConversions()` on your model, you can also attach them directly to a media collection:
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -266,7 +261,7 @@ public function registerMediaCollections(): void
 {
     $this
         ->addMediaCollection('my-collection')
-        ->registerMediaConversions(function (Media $media) {
+        ->registerMediaConversions(function (?Media $media = null) {
             $this
                 ->addMediaConversion('thumb')
                 ->width(100)
@@ -275,19 +270,19 @@ public function registerMediaCollections(): void
 }
 ```
 
-When adding an image to `my-collection` a thumbnail that fits inside 100x100 will be created.
+Any image added to `my-collection` now gets a 100x100 `thumb` conversion:
 
 ```php
 $yourModel->addMedia($pathToImage)->toMediaCollection('my-collection');
 
-$yourModel->getFirstMediaUrl('my-collection', 'thumb') // returns an url to a 100x100 version of the added image.
+$yourModel->getFirstMediaUrl('my-collection', 'thumb'); // URL to the 100x100 thumbnail
 ```
 
-Take a look at the [defining conversions section](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) to learn all the functions you can tack on to `addMediaConversion`.
+Check [defining conversions](/docs/laravel-medialibrary/v11/converting-images/defining-conversions) for all the methods you can chain onto `addMediaConversion()`.
 
 ## Generating responsive images
 
-If you want to also generate responsive images for any media added to a collection you defined, you can simply use `withResponsiveImages` while defining it.
+To generate responsive images automatically for every image added to a collection, chain `withResponsiveImages()`:
 
 ```php
 // in your model

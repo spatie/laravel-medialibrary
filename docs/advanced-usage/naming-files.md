@@ -3,26 +3,23 @@ title: Naming generated files
 weight: 11
 ---
 
-### Naming original and conversion files
+## Naming original and conversion files
 
+By default, original files keep their filename, and conversions are named like this:
 
-By default, all original files will retain the original name. All converted files will be named in this format:
-
-```
+```text
 {original-file-name-without-extension}-{name-of-the-conversion}.{extension}
 ```
 
-If you want to use a different formatting to name your original or converted file(s),
-you can specify the class name of your own `FileNamer` under the `file_namer` key
-within the `media-library.php` config file.
+To customize how files are named, extend `Spatie\MediaLibrary\Support\FileNamer\FileNamer` and register your class under `file_namer` in `config/media-library.php`.
 
-The only requirement is that your class extends `Spatie\MediaLibrary\Support\FileNamer\FileNamer`.
-In your class you should implement 3 methods:
-1. `originalFileName` should return the name you'd like for the original file. Return the name without the extension.
-2. `conversionFileName` should return the media file name combined with the conversion name
-3. `responsiveFileName` should return the media file name
+Your subclass must implement two abstract methods (and may optionally override `originalFileName()`):
 
-Here is the implementation of `Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer`
+1. `conversionFileName(string $fileName, Conversion $conversion): string`: returns the conversion filename without its extension.
+2. `responsiveFileName(string $fileName): string`: returns the base filename prefix for responsive images without its extension.
+3. `originalFileName(string $fileName): string` *(optional)*: returns the original filename without its extension. `FileNamer` already provides a default implementation that preserves dots inside filenames (e.g. `archive.tar.gz` becomes `archive.tar`).
+
+Here is the built-in `DefaultFileNamer` for reference:
 
 ```php
 namespace Spatie\MediaLibrary\Support\FileNamer;
@@ -31,11 +28,6 @@ use Spatie\MediaLibrary\Conversions\Conversion;
 
 class DefaultFileNamer extends FileNamer
 {
-    public function originalFileName(string $fileName): string
-    {
-        return pathinfo($fileName, PATHINFO_FILENAME);
-    }
-
     public function conversionFileName(string $fileName, Conversion $conversion): string
     {
         $strippedFileName = pathinfo($fileName, PATHINFO_FILENAME);
@@ -50,13 +42,12 @@ class DefaultFileNamer extends FileNamer
 }
 ```
 
-### Naming responsive image files
+## Naming responsive image files
 
-By default, all responsive image files will be named in this format:
+By default, responsive images are named in this format:
 
-```
+```text
 {original-file-name-without-extension}___{name-of-the-conversion}_{width}_{height}.{extension}
 ```
 
-Just like the naming of converted files, you can use another format for naming your files
-by using your own `FileNamer` class. It is only possible to prefix the name, because other parts are needed in processing responsive images.
+With a custom `FileNamer`, `responsiveFileName()` lets you change the filename prefix before `___`. The rest of the filename is fixed because Media Library parses the conversion name and dimensions from it.

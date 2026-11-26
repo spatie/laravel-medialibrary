@@ -3,28 +3,24 @@ title: Attaching media in mails
 weight: 9
 ---
 
-Laravel allows [to attach all sorts of classes](https://laravel.com/docs/10.x/mail#attachable-objects) in mails. The `Media` model implements Laravel's `Attachable` interface, so you can attach `Media` models directly in mails.
-
+`Media` implements Laravel's [`Attachable` interface](https://laravel.com/docs/mail#attachable-objects), so you can pass a `Media` model straight to `attach()` in a Mailable:
 
 ```php
-namespace App\Mails;
+namespace App\Mail;
 
+use App\Models\Order;
 use Illuminate\Mail\Mailable;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use App\Models\Order;
 
 class OrderConfirmationMail extends Mailable
 {
-    public function __construct(public Order $order)
-    {
-
-    }
+    public function __construct(public Order $order) {}
 
     public function build()
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $invoice */
-        $invoice = $this->order->getFirstMedia('invoice')
-    
+        /** @var Media $invoice */
+        $invoice = $this->order->getFirstMedia('invoice');
+
         return $this
             ->view('invoice')
             ->attach($invoice);
@@ -32,34 +28,30 @@ class OrderConfirmationMail extends Mailable
 }
 ```
 
-## Using conversions as attachments
+## Attaching a conversion
 
-You can call  `mailAttachment()` on a `Media` model to get back an `Attachment` that you can use in a Mailable. You can pass the name of a conversion to `mailAttachment()` to get an attachable conversion back.
+To attach a specific conversion instead of the original file, call `mailAttachment()` with the conversion name:
 
 ```php
-namespace App\Mails;
+namespace App\Mail;
 
+use App\Models\BlogPost;
 use Illuminate\Mail\Mailable;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use App\Models\BlogPost;
 
 class BlogPostThumbnailMail extends Mailable
 {
-    public function __construct(public BlogPost $blogPost)
-    {
-
-    }
+    public function __construct(public BlogPost $blogPost) {}
 
     public function build()
     {
-        /** @var \Spatie\MediaLibrary\MediaCollections\Models\Media $mediaItem */
+        /** @var Media $mediaItem */
         $mediaItem = $this->blogPost->getFirstMedia();
-        
-        // pass the conversion name
+
         $thumbnailAttachment = $mediaItem->mailAttachment('thumbnail');
-    
+
         return $this
-            ->view('mails/blogpostThumbnail')
+            ->view('mails.blogpostThumbnail')
             ->attach($thumbnailAttachment);
     }
 }
@@ -67,6 +59,4 @@ class BlogPostThumbnailMail extends Mailable
 
 ## Customizing the attachment
 
-By default, the attachment will use the `file_name` and `mime_type` properties to configure Laravel's `Attachment` class. To override how `Attachments` are made, [use a custom media model](/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model), and override the `toMailAttachment` method.
-
-
+By default, the attachment uses the media item's `file_name` and `mime_type`. To customize how attachments are built, [use a custom `Media` model](/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model) and override `toMailAttachment()` or `mailAttachment()`.

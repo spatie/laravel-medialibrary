@@ -1,51 +1,45 @@
 ---
-title: Customising Database Connections
+title: Customising database connections
 weight: 13
 ---
 
-### Media model connection
+## Media model connection
 
-The built-in model (`Spatie\MediaLibrary\MediaCollections\Models\Media`) will use the default database connection set for your application.
+By default, `Spatie\MediaLibrary\MediaCollections\Models\Media` uses your application's default database connection.
 
-If you need to change this database connection, you can create a custom model and set the `$connection` property (https://laravel.com/docs/10.x/eloquent#database-connections). See <a href="/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model">Using your own model</a> for more information.
+To store media records on another connection, [create a custom `Media` model](/docs/laravel-medialibrary/v11/advanced-usage/using-your-own-model) and set its [`$connection` property](https://laravel.com/docs/eloquent#database-connections):
 
 ```php
-<?php
-
 namespace App\Models;
 
 use Spatie\MediaLibrary\MediaCollections\Models\Media as BaseMedia;
 
-class Media extends BaseMedia {
-
+class Media extends BaseMedia
+{
     protected $connection = 'tenant';
-
 }
 ```
 
-### Parent model connection
+## Parent model connection
 
-The `Spatie\MediaLibrary\InteractsWithMedia` trait defines a `MorphMany` relationship to the media model. Eloquent automatically uses the database connection of your parent model when querying the database. In the example below, the user media results will use the `tenant` database connection rather than the application's default connection.
+The `InteractsWithMedia` trait defines a `MorphMany` relationship to the media model, so Eloquent automatically uses the parent model's database connection when querying media. In the example below, user media queries use the `tenant` connection instead of the application default:
 
 ```php
-<?php
-
 namespace App\Models;
 
-use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Model implements HasMedia {
-
+class User extends Model implements HasMedia
+{
     use InteractsWithMedia;
 
     protected $connection = 'tenant';
-
 }
 ```
 
-When you save files using the code below, the `Spatie\MediaLibrary\MediaCollections\FileAdder` will also automatically use the parent model's database connection if that is set.
+When you attach files to that model, `FileAdder` also uses the parent model's database connection automatically:
 
 ```php
 $model
@@ -53,4 +47,4 @@ $model
     ->toMediaCollection();
 ```
 
-If you need to customise the database connection further before fetching or adding media, use you can do `$model->setConnection('landlord')`.
+If you need to switch connections dynamically before fetching or adding media, call `$model->setConnection('landlord')`.

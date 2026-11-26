@@ -3,13 +3,13 @@ title: Defining conversions
 weight: 1
 ---
 
-When adding files to the media library it can automatically create derived versions such as thumbnails and banners.
+When you add files to Media Library, it can automatically create derived versions such as thumbnails and banners.
 
-Media conversions will be executed whenever  a `jpg`, `png`, `svg`, `webp`, `avif`, `pdf`, `mp4 `, `mov` or `webm` file is added to the media library. By default, the conversions will be saved as a `jpg` files. This can be overwritten using the `format()` or `keepOriginalImageFormat()` methods.
+Conversions run automatically for `jpg`, `png`, `gif`, `svg`, `webp`, `avif`, `pdf`, `mp4`, `m4v`, `mov`, and `webm` files (plus `tiff`, `heic`, and `heif` when using the `imagick` driver). By default, converted images are saved as `jpg`. You can change the output format with `format()` or preserve the source image's format with `keepOriginalImageFormat()`.
 
-Internally, [spatie/image](https://spatie.be/docs/image/v3) is used to manipulate the images. You can use [any manipulation function](https://spatie.be/docs/image) from that package.
+Under the hood, Media Library uses [spatie/image](https://spatie.be/docs/image/v3) for manipulations, so you can chain [any manipulation method](https://spatie.be/docs/image/v3) from that package.
 
-Please check [the image generator docs](/docs/laravel-medialibrary/v11/converting-other-file-types/using-image-generators) for additional installation requirements when working with PDF, SVG or video formats.
+Check [the image generator docs](/docs/laravel-medialibrary/v11/converting-other-file-types/using-image-generators) for extra requirements when generating thumbnails from PDFs, SVGs, or videos.
 
 ## Are you a visual learner?
 
@@ -21,13 +21,13 @@ Want to see more videos like this? Check out our [free video course on how to us
 
 ## A single conversion
 
-You should add a method called `registerMediaConversions` to your model. In that model you can define the media conversion. Here's an example:
+Add a `registerMediaConversions()` method to your model and define your conversion inside it:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class YourModel extends Model implements HasMedia
 {
@@ -36,93 +36,104 @@ class YourModel extends Model implements HasMedia
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-              ->width(368)
-              ->height(232)
-              ->sharpen(10);
+            ->width(368)
+            ->height(232)
+            ->sharpen(10);
     }
 }
 ```
 
-Let's add an image to the media library.
+Now add an image:
 
 ```php
 $media = YourModel::first()->addMedia($pathToImage)->toMediaCollection();
 ```
 
-Besides storing the original item, the media library also has created a derived image.
+Alongside the original file, Media Library creates the `thumb` conversion:
 
 ```php
-$media->getPath();  // the path to where the original image is stored
-$media->getPath('thumb'); // the path to the converted image with dimensions 368x232
+$media->getPath(); // path to the original image
+$media->getPath('thumb'); // path to the converted 368x232 image
 
-$media->getUrl();  // the url to where the original image is stored
-$media->getUrl('thumb'); // the url to the converted image with dimensions 368x232
+$media->getUrl(); // URL to the original image
+$media->getUrl('thumb'); // URL to the converted 368x232 image
+```
+
+To keep the source image's format instead of converting to `jpg`, chain `keepOriginalImageFormat()` (or pass a specific format to `format('webp')`):
+
+```php
+$this->addMediaConversion('thumb')
+    ->width(368)
+    ->height(232)
+    ->keepOriginalImageFormat();
 ```
 
 ## Using multiple conversions
 
-You can register as many media conversions as you want
+You can register as many conversions as you need:
 
 ```php
 // in your model
 use Spatie\Image\Enums\BorderType;
 use Spatie\Image\Enums\CropPosition;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // ...
 
-    public function registerMediaConversions(?Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-              ->width(368)
-              ->height(232)
-              ->sharpen(10);
+public function registerMediaConversions(?Media $media = null): void
+{
+    $this->addMediaConversion('thumb')
+        ->width(368)
+        ->height(232)
+        ->sharpen(10);
 
-        $this->addMediaConversion('old-picture')
-              ->sepia()
-              ->border(10, BorderType::Overlay, 'black');
-              
-        $this->addMediaConversion('thumb-cropped')
-            ->crop(400, 400, CropPosition::Center); // Trim or crop the image to the center for specified width and height.
-    }
+    $this->addMediaConversion('old-picture')
+        ->sepia()
+        ->border(10, BorderType::Overlay, 'black');
+
+    $this->addMediaConversion('thumb-cropped')
+        ->crop(400, 400, CropPosition::Center);
+}
 ```
 
-Use the conversions like this:
+Retrieve each conversion by name:
 
 ```php
-$media->getUrl('thumb') // the url to the thumbnail
-$media->getUrl('old-picture') // the url to the sepia, bordered version
+$media->getUrl('thumb'); // URL to the thumbnail
+$media->getUrl('old-picture'); // URL to the sepia, bordered version
 ```
 
 ## Performing conversions on specific collections
 
-By default a conversion will be performed on all files regardless of which [collection](/docs/laravel-medialibrary/v11/working-with-media-collections/simple-media-collections) is used. Conversions can also be performed on specific collections by adding a call to `performOnCollections`.
-
-This is how that looks like in the model:
+By default, a conversion runs on files in every [collection](/docs/laravel-medialibrary/v11/working-with-media-collections/simple-media-collections). To restrict a conversion to specific collections, chain `performOnCollections()`:
 
 ```php
 // in your model
 public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
-          ->performOnCollections('images', 'downloads')
-          ->width(368)
-          ->height(232);
+        ->performOnCollections('images', 'downloads')
+        ->width(368)
+        ->height(232);
 }
 ```
 
-
 ```php
-// a thumbnail will be generated for this media item
+// a thumbnail is generated for this media item
 $media = $yourModel->addMedia($pathToImage)->toMediaCollection('images');
-$media->getUrl('thumb') // the url to the thumbnail
+$media->hasGeneratedConversion('thumb'); // true (once processed)
+$media->getUrl('thumb'); // URL to the thumbnail
 
-//but not for this one
-$media = $yourModel->addMedia($pathToImage)->toMediaCollection('other collection');
-$media->getUrl('thumb') // returns ''
+// no thumbnail is generated for this collection
+$media = $yourModel->addMedia($pathToImage)->toMediaCollection('other-collection');
+$media->hasGeneratedConversion('thumb'); // false
 ```
 
+Note that `$media->getUrl('thumb')` does not check whether a conversion was generated. If you need a safe fallback to the original file, use `$media->getAvailableUrl(['thumb'])` or `$yourModel->getFirstMediaUrl('other-collection', 'thumb')`.
+
 ## Using a specific disk
-You can ensure that conversions added to a collection are automatically added to a certain disk.
+
+You can store a collection's conversions on a different disk than its originals:
 
 ```php
 public function registerMediaCollections(): void
@@ -136,74 +147,68 @@ public function registerMediaCollections(): void
 
 ## Queuing conversions
 
-By default, a conversion will be added to the connection and queue that you've [specified in the configuration](/docs/laravel-medialibrary/v11/installation-setup). If you want your image to be created directly (and not on a queue) use `nonQueued` on a conversion.
+By default, conversions run on the queue connection and queue name configured in [`config/media-library.php`](/docs/laravel-medialibrary/v11/installation-setup). If you want a conversion to run immediately during the request, chain `nonQueued()`:
 
 ```php
 // in your model
 public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
-            ->width(368)
-            ->height(232)
-            ->nonQueued();
+        ->width(368)
+        ->height(232)
+        ->nonQueued();
 }
 ```
 
-If you have set `queue_conversions_by_default` in the `media-library` config file to `false`, all conversions will all be generated synchronously. If you want to generate a conversion on a queue, while `queue_conversions_by_default` is set to `false`, use the `queued` method.
+If you set `queue_conversions_by_default` to `false` in `config/media-library.php`, all conversions run synchronously by default. You can still opt individual conversions back onto the queue with `queued()`:
 
 ```php
 // in your model
 public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
-            ->width(368)
-            ->height(232)
-            ->queued();
+        ->width(368)
+        ->height(232)
+        ->queued();
 }
 ```
 
-The default behaviour is that queued conversions will run **after all database transactions have been committed**. \
-This prevents unexpected behaviour where the model does not yet exist in the database and the conversion is disregarded.
-If you need the conversions to run within your transaction, you can set the `queue_conversions_after_database_commit`
-in the `media-library` config file to `false`.
+By default, queued conversions are dispatched **after all database transactions commit**. This avoids race conditions where a queue worker tries to fetch a media record before the surrounding transaction finishes. If you want conversions dispatched immediately inside a transaction, set `queue_conversions_after_database_commit` to `false` in `config/media-library.php`.
 
 ## Deferred conversions
 
-Instead of processing a conversion synchronously or dispatching it to a queue, you can use `deferred()` to schedule the conversion to run after the HTTP response has been sent to the browser. This uses Laravel's [`defer()` helper](https://laravel.com/docs/13.x/helpers#deferred-functions) under the hood.
+Instead of running a conversion synchronously or sending it to a queue, you can chain `deferred()` to run it right after the HTTP response is sent to the browser. Under the hood, this uses Laravel's [`defer()` helper](https://laravel.com/docs/helpers#deferred-functions).
 
-Deferred conversions are useful when you need a conversion to happen promptly after upload without blocking the upload request itself. A common case is generating an avatar thumbnail that should be available quickly, but doesn't need to delay the response.
+Deferred conversions are handy when you want a thumbnail ready quickly without slowing down the upload request (like a user avatar).
 
 ```php
 // in your model
 public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
-            ->width(368)
-            ->height(232)
-            ->deferred();
+        ->width(368)
+        ->height(232)
+        ->deferred();
 }
 ```
 
-Deferred conversions run inline in the same PHP process after the response is flushed, so they keep the worker busy until they finish. For slow conversions, or models with many conversions, prefer `queued()` so the work runs on a queue worker instead.
-
-Deferred conversions require Laravel 11.23 or higher (the version that introduced the `defer()` helper). On older versions, use `queued()` or `nonQueued()`.
+Deferred conversions still run in the same PHP process after the response flushes, so they keep that worker busy until they finish. For heavy conversions or models with many conversions, stick with `queued()` so a queue worker handles them.
 
 ## Using model properties in a conversion
 
-When registering conversions inside the `registerMediaConversions` function you won't have access to your model properties by default. If you want to use a property of your model as input for defining a conversion you must set `registerMediaConversionsUsingModelInstance` to `
-true` on your model.
+Inside `registerMediaConversions()`, you don't have access to your model's attributes by default because Media Library instantiates an empty model to collect conversion definitions. If your conversion needs properties from the actual model instance, set `$registerMediaConversionsUsingModelInstance = true` on your model:
 
 ```php
 // in your model
-public $registerMediaConversionsUsingModelInstance = true;
+public bool $registerMediaConversionsUsingModelInstance = true;
 
 public function registerMediaConversions(?Media $media = null): void
 {
     $this->addMediaConversion('thumb')
-          ->performOnCollections('images', 'downloads')
-          ->width($this->width)
-          ->height($this->height);
+        ->performOnCollections('images', 'downloads')
+        ->width($this->width)
+        ->height($this->height);
 }
 ```
 
-Be aware that this can lead to a hit in performance. When processing media the media library has to perform queries to fetch each separate model.
+Keep in mind that this adds extra database queries, because Media Library has to load the owning model for each media item it processes.

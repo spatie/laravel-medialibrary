@@ -3,31 +3,33 @@ title: Downloading a single file
 weight: 1
 ---
 
-`Media` implements the `Responsable` interface. This means that you can just return a media object to download the associated file in your browser.
+`Media` implements Laravel's `Responsable` interface, so you can return a `Media` instance straight from a controller to stream it as a download:
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DownloadMediaController
 {
-   public function show(Media $mediaItem)
-   {
-      return $mediaItem;
-   }
+    public function show(Media $mediaItem)
+    {
+        return $mediaItem;
+    }
 }
 ```
 
-If you need more control you could also do the above more verbose:
+If you want to render the file inline in the browser (for example, opening a PDF in a tab) or stream a specific conversion, see [outputting media](/docs/laravel-medialibrary/v11/advanced-usage/outputting-media).
+
+For full control over a local file response, you can also return Laravel's download helper directly:
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class DownloadMediaController
 {
-   public function show(Media $mediaItem)
-   {
-       return response()->download($mediaItem->getPath(), $mediaItem->file_name);
-   }
+    public function show(Media $mediaItem)
+    {
+        return response()->download($mediaItem->getPath(), $mediaItem->file_name);
+    }
 }
 ```
 

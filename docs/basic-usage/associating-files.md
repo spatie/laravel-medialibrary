@@ -8,39 +8,49 @@ You can associate a file with a model like this:
 ```php
 $yourModel = YourModel::find(1);
 $yourModel
-   ->addMedia($pathToFile)
-   ->toMediaCollection();
+    ->addMedia($pathToFile)
+    ->toMediaCollection();
 ```
 
-The file will now be associated with the `YourModel` instance and will be moved to the disk you've configured.
+The file is now associated with `$yourModel` and **moved** to the configured disk, which deletes the original file at `$pathToFile`.
 
-If you want to copy the original file rather than move it, you can call `preservingOriginal`:
+If you want to keep the original file in place instead of moving it, chain `preservingOriginal()` (or use `copyMedia($pathToFile)`):
 
 ```php
 $yourModel
-   ->addMedia($pathToFile)
-   ->preservingOriginal()
-   ->toMediaCollection();
+    ->addMedia($pathToFile)
+    ->preservingOriginal()
+    ->toMediaCollection();
 ```
 
-You can also add a remote file to the media library:
+You can also add a remote file by URL:
 
 ```php
-$url = 'http://medialibrary.spatie.be/assets/images/mountain.jpg';
+$url = 'https://example.com/images/mountain.jpg';
 $yourModel
-   ->addMediaFromUrl($url)
-   ->toMediaCollection();
+    ->addMediaFromUrl($url)
+    ->toMediaCollection();
 ```
 
-If a file already exists on a storage disk, you can also add it to the media library:
+If a file already lives on one of your Laravel storage disks, add it with `addMediaFromDisk()`:
 
 ```php
 $yourModel
-   ->addMediaFromDisk('/path/to/file', 's3')
-   ->toMediaCollection();
+    ->addMediaFromDisk('/path/to/file', 's3')
+    ->toMediaCollection();
 ```
 
-The media library does not restrict what kinds of files may be uploaded or associated with models. If you are accepting file uploads from users, you should take steps to validate those uploads, to ensure you don't introduce security vulnerabilities into your project. Laravel has [a rule to validate uploads based on MIME type or file extension](https://laravel.com/docs/validation).
+Just like `addMedia()`, `addMediaFromDisk()` deletes the source file on that disk after copying it unless you chain `preservingOriginal()`.
+
+## Attaching media to an unsaved model
+
+You can also call `addMedia()->toMediaCollection()` on a model that hasn't been saved yet. Media Library holds on to the pending attachment and stores the file once you call `$yourModel->save()`.
+
+## Validating uploads
+
+By default, Media Library blocks filenames that contain potentially executable extensions such as `.php`, `.phtml`, `.phar`, or `.htaccess` (configured via `disallowed_extensions` in `config/media-library.php`). You can also enable a strict extension allowlist with `allowed_extensions`, or restrict a collection by MIME type with `acceptsMimeTypes()` or `acceptsFile()`.
+
+Still, whenever you accept file uploads from users, validate them in your request first using [Laravel's file validation rules](https://laravel.com/docs/validation#rule-mimes) before passing them to Media Library.
 
 ## Are you a visual learner?
 

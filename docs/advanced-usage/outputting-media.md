@@ -3,7 +3,7 @@ title: Outputting media
 weight: 5
 ---
 
-If you want to output your `$media` instance to the browser, you may use the `toResponse` & `toInlineResponse` methods.
+To stream a `Media` file to the browser with low memory usage, call `toResponse()` (download) or `toInlineResponse()` (render in the browser, such as a PDF or image):
 
 ```php
 use Illuminate\Http\Request;
@@ -13,51 +13,33 @@ public function download(Request $request, Media $media)
 {
     return $media->toResponse($request);
 }
-```
 
-By using `toResponse`, your browser is instructed to download the file with the `attachment` Content-Disposition.
-
-If you want to output your `$media` instance to your browser, but want to inline render it, you may use
-`toInlineResponse`
-
-```php
-use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-public function download(Request $request, Media $media)
+public function preview(Request $request, Media $media)
 {
     return $media->toInlineResponse($request);
 }
 ```
 
-The `toInlineResponse` method instructs your browser to inline render the file by setting the Content-Disposition to
-`inline`.
+`toResponse()` sets `Content-Disposition: attachment`, while `toInlineResponse()` sets `Content-Disposition: inline`.
 
-Both methods use a streaming adapter to ensure low memory usage.
-
-If you want to output a conversion of the media, both methods accept an optional argument `$conversion`.
+Both methods accept an optional `$conversion` name as their second argument:
 
 ```php
-use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
-public function download(Request $request, Media $media)
+public function preview(Request $request, Media $media)
 {
     return $media->toInlineResponse($request, 'thumb');
 }
 ```
 
-If a conversion does not exist, you might want to fall back to another conversion or even the original file. This can be
-achieved using the `toAvailableResponse` or `toAvailableInlineResponse` method. Each of these methods accepts an
-array of conversion names. It will stream the content of the first conversion that has been generated and is
-available. If none of the provided conversions have been generated yet, then it will use the original file.
+## Falling back when a conversion isn't ready
+
+If a conversion might not exist yet, use `toAvailableResponse()` or `toAvailableInlineResponse()` with an ordered list of conversion names. Media Library streams the first conversion that has been generated, or falls back to the original file if none are ready:
 
 ```php
-use Illuminate\Http\Request;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
 public function download(Request $request, Media $media)
 {
     return $media->toAvailableResponse($request, ['thumb', 'small']);
 }
 ```
+
+You can adjust the streaming chunk size (in bytes) with `$media->setStreamChunkSize(1024 * 1024)`, or override `getDownloadFilename()` on a custom `Media` model to customize the filename sent to the browser.

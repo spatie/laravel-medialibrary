@@ -3,35 +3,49 @@ title: Retrieving converted images
 weight: 2
 ---
 
-You can retrieve the url or path to a converted image by specifying the conversion name in the `getUrl`, `getTemporaryUrl` (only available when using an S3 disk) and `getPath` functions:
+Pass a conversion name to `getUrl()`, `getFullUrl()`, `getTemporaryUrl()`, or `getPath()` on a `Media` model to retrieve the converted image:
 
 ```php
 $mediaItems = $yourModel->getMedia('images');
 $mediaItems[0]->getUrl('thumb');
+$mediaItems[0]->getFullUrl('thumb'); // URL including domain
 $mediaItems[0]->getPath('thumb'); // Absolute path on its disk
-$mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb'); // Temporary S3 url (Keep first parameter null to use default expiration time)
+$mediaItems[0]->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb'); // Pass null as the first argument to use the default lifetime
 ```
 
-Because retrieving an url for the first media item in a collection is such a common scenario, the `getFirstMediaUrl` convenience-method is provided. The first parameter is the name of the collection, the second is the name of a conversion. There's also a `getFirstMediaPath`-variant that returns the absolute path on its disk and a `getFirstTemporaryURL`-variant which returns an temporary S3 url.
+`getTemporaryUrl()` works on any disk that supports temporary URLs in Laravel (such as S3, GCS, or a local disk with `'serve' => true`).
+
+You can also fetch the first or last converted item directly from your model:
 
 ```php
 $urlToFirstListImage = $yourModel->getFirstMediaUrl('images', 'thumb');
-$urlToFirstTemporaryListImage = $yourModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb'); // Temporary S3 url (Keep first parameter null to use default expiration time)
+$urlToFirstTemporaryListImage = $yourModel->getFirstTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
 $fullPathToFirstListImage = $yourModel->getFirstMediaPath('images', 'thumb');
+
+$urlToLastListImage = $yourModel->getLastMediaUrl('images', 'thumb');
+$urlToLastTemporaryListImage = $yourModel->getLastTemporaryUrl(Carbon::now()->addMinutes(5), 'images', 'thumb');
+$fullPathToLastListImage = $yourModel->getLastMediaPath('images', 'thumb');
 ```
 
-If a conversion is queued, a file may not exist yet on the generated url. You can check if the conversion has been created using the `hasGeneratedConversion`-method on a media item.
+## Checking whether a queued conversion is ready
+
+When conversions are queued, the converted file might not exist yet right after upload. Check whether it has finished with `hasGeneratedConversion()`:
 
 ```php
-$yourModel->getMedia('images')[0]->hasGeneratedConversion('thumb'); // returns true or false
+$yourModel->getMedia('images')[0]->hasGeneratedConversion('thumb'); // true or false
 ```
 
-If a conversion does not exist, you might want to fallback to an other conversion or even the original file. This can be achieved using the `getAvailableUrl`, `getAvailableFullUrl`, `getAvailablePath` or `getAvailableTemporaryUrl` method. Each of these methods accepts an array of conversion names. It will return the url or path of the first conversion that has been generated and is available. If none of the provided conversions have been generated yet, then it will use the url or path of the original file. The `getAvailableTemporaryUrl` method is only available when using an S3 disk.
+There is an important difference between calling URL helpers on your **model** versus on a **`Media` instance**:
+
+- `$yourModel->getFirstMediaUrl('images', 'thumb')` checks `hasGeneratedConversion('thumb')` automatically and falls back to the original file URL if the conversion isn't ready yet.
+- `$media->getUrl('thumb')` does **not** check whether the conversion exists and will return a URL that 404s until the job completes.
+
+When working directly with a `Media` instance, use `getAvailableUrl()`, `getAvailableFullUrl()`, `getAvailablePath()`, or `getAvailableTemporaryUrl()` to fall back cleanly. Each method accepts an array of conversion names and returns the first one that has been generated, or falls back to the original file if none are ready yet:
 
 ```php
 $mediaItems = $yourModel->getMedia('images');
 $mediaItems[0]->getAvailableUrl(['small', 'medium', 'large']);
 $mediaItems[0]->getAvailableFullUrl(['small', 'medium', 'large']);
 $mediaItems[0]->getAvailablePath(['small', 'medium', 'large']);
-$mediaItems[0]->getAvailableTemporaryUrl(['small', 'medium', 'large'], Carbon::now()->addMinutes(5)); // Temporary S3 url (Keep second parameter null to use default expiration time)
+$mediaItems[0]->getAvailableTemporaryUrl(['small', 'medium', 'large'], Carbon::now()->addMinutes(5));
 ```
