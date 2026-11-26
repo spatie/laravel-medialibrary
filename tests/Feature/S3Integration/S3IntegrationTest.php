@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\Support\MediaStream;
 use Spatie\MediaLibrary\Tests\Feature\S3Integration\S3TestPathGenerator;
+use Spatie\MediaLibrary\Tests\TestSupport\TestModels\TestModelWithConversion;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 beforeEach(function () {
@@ -55,6 +56,56 @@ it('can store a file and its conversion on s3', function () {
 
     assertS3FileExists("{$this->s3BaseDirectory}/{$media->id}/test.jpg");
     assertS3FileExists("{$this->s3BaseDirectory}/{$media->id}/conversions/test-thumb.jpg");
+});
+
+it('can copy media with its conversions on s3', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('default', 's3_disk');
+
+    Storage::disk('s3_disk')->put($media->getPathRelativeToRoot('thumb'), 'already generated');
+
+    $copiedMedia = $media->copyWithConversions(
+        TestModelWithConversion::create(['name' => 'another-test']),
+        'default',
+        's3_disk',
+    );
+
+    assertS3FileExists("{$this->s3BaseDirectory}/{$copiedMedia->id}/test.jpg");
+    expect(Storage::disk('s3_disk')->get("{$this->s3BaseDirectory}/{$copiedMedia->id}/conversions/test-thumb.jpg"))->toBe('already generated');
+});
+
+it('gives copied conversions the acl from the extra headers on s3', function () {
+    config()->set('media-library.remote.extra_headers', ['ACL' => 'public-read']);
+
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('default', 's3_disk');
+
+    $copiedMedia = $media->copyWithConversions(
+        TestModelWithConversion::create(['name' => 'another-test']),
+        'default',
+        's3_disk',
+    );
+
+    expect(Storage::disk('s3_disk')->getVisibility($copiedMedia->getPathRelativeToRoot('thumb')))->toBe('public');
+});
+
+it('generates a conversion again when it cannot be copied on s3', function () {
+    $media = $this->testModelWithConversion
+        ->addMedia($this->getTestJpg())
+        ->toMediaCollection('default', 's3_disk');
+
+    Storage::disk('s3_disk')->delete($media->getPathRelativeToRoot('thumb'));
+
+    $copiedMedia = $media->copyWithConversions(
+        TestModelWithConversion::create(['name' => 'another-test']),
+        'default',
+        's3_disk',
+    );
+
+    assertS3FileExists("{$this->s3BaseDirectory}/{$copiedMedia->id}/conversions/test-thumb.jpg");
+    assertS3FileExists("{$this->s3BaseDirectory}/{$copiedMedia->id}/conversions/test-keep_original_format.jpg");
 });
 
 it('can delete a file on s3', function () {

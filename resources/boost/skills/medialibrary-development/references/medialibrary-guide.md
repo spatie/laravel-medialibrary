@@ -398,6 +398,7 @@ Media::setNewOrder([3, 1, 2]); // media IDs in desired order
 ```php
 $media->move($otherModel, 'images');
 $media->copy($otherModel, 'images');
+$media->copyWithConversions($otherModel, 'images'); // copies generated conversions instead of regenerating them
 ```
 
 ## Events
